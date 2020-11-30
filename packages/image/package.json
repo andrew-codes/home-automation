@@ -1,0 +1,14 @@
+{
+    "private": true,
+    "name": "@andrew-codes/home-automation-image",
+    "version": "0.0.1",
+    "main": "src/index.js",
+    "bin": {
+        "image-master-node": "bin/image-master-node.js"
+    },
+    "license": "MIT",
+    "scripts": {},
+    "dependencies": {
+        "shelljs": "^0.8.4"
+    }
+}
