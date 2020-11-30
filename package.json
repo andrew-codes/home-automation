@@ -1,0 +1,21 @@
+{
+    "private": true,
+    "name": "@andrew-codes/home-automation",
+    "version": "0.0.1",
+    "repository": "git@github.com:andrew-codes/home-automation.git",
+    "author": "Andrew Smith <andrew@andrew.codes>",
+    "license": "MIT",
+    "engines": {
+      "node": ">=14.3.0",
+      "yarn": ">=1.22.4"
+    },
+    "scripts": {
+    },
+    "workspaces": {
+      "packages": [
+      ]
+    },
+    "dependencies": {
+    }
+  }
+  
