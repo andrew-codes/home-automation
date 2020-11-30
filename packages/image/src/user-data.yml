@@ -1,0 +1,30 @@
+#cloud-config
+
+# This is the user-data configuration file for cloud-init. By default this sets
+# up an initial user called "ubuntu" with password "ubuntu", which must be
+# changed at first login. However, many additional actions can be initiated on
+# first boot from this file. The cloud-init documentation has more details:
+#
+# https://cloudinit.readthedocs.io/
+#
+# Some additional examples are provided in comments below the default
+# configuration.
+
+# Disable password authentication with the SSH daemon
+ssh_pwauth: false
+package_update: true
+package_upgrade: true
+users:
+  - name: hl
+    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+    groups:
+      - sudo
+      - docker
+    shell: /bin/bash
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQChzFWUn9mAkQYbcbPfSMtBmzEzvrH6DSb3BLhXL9BpWiObrNxT9GH5et911AUbg62K6yNoccIH23I4BHFUpRrlwkokemJ40Nm/0QwoSSQjWpoS7Qpz65iZzfq59i1CG/a8xl4ERGf9y9liM9ceWbq74nKF809uIqAsF2bsVVMg3Bx2uB4UZotEpC+8S0OzZsfuX6JQwerlEsWPeg+8ywjm0DwcbTA69UiTndydj1AeWcf2iqtO0xMUisjfQNE7+amY6yMxN8f7y5rnfQYKVmZV3sdDHoJp7ohA2c6u8Ww5iJDUCM/BkzlhZlb6wBQio7QQ6Z/JW51bQHx4bv9YpMxef8U/SPKhv4aCbhtt0ifEvoHqlI3dKOCh0Djee0/KpiUVCaFKRQTXvgL2+8St1MphQswgdtrPnMqoVaRKxEmaRse7sFG6T/GAypA4Jslkru7MIPImNebk4ObAm3oQbWGI8kw/Wwdjqz6NgGPKtAIkewqLQEHMKbqJSYgrwCnPISM= andrew@andrew.codes
+write_files:
+  - path: /boot/firmware/cmdline.txt
+    content: |
+      net.ifnames=0 dwc_otg.lpm_enable=0 console=serial0,115200 console=tty1 root=LABEL=writable rootfstype=ext4 elevator=deadline rootwait fixrtc cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memorycgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory
+hostname: "my-test"
