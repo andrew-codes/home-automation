@@ -1,6 +1,6 @@
 # Overview
 
-A CLI utility to create installation media which will install Ubuntu Server and necessary software for the Kubernetes cluster.
+CLI to automate burning ISO installation images to USB drives.
 
 # Usage
 
@@ -8,17 +8,17 @@ A CLI utility to create installation media which will install Ubuntu Server and 
 
 ## Imaging the USB
 
-1. The `image-node` variant CLI commands all require the same 3 arguments;
+1. The `yarn burn-image`
    - path to the USB drive
-   - path to the Ubuntu ISO image
+   - path to the ISO image
 
 > All usage scenarios require root access (in order to burn drive).
 
 ```shell
 # x86 CPUs
-sudo image-node-amd64 /dev/disk2 ~/Downloads/ubuntu-20.04.1-live-server-amd64.iso
+sudo burn-image /dev/disk2 ~/Downloads/ubuntu-20.04.1-live-server-amd64.iso
 ```
 
 # Running Tests
 
-Via CLI: `yarn test`
+`yarn test`

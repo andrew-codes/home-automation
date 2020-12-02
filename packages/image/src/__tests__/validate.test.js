@@ -26,16 +26,6 @@ describe("validateIsoPath", () => {
       )
     }
   })
-
-  test("existing isoPath to a non `.iso` file throws an exception", async () => {
-    fs.access.mockResolvedValue()
-    fs.access.mockResolvedValue()
-    try {
-      await sut.validateIsoPath("/invalid-ISO-Path")
-    } catch (e) {
-      expect(e.message).toEqual("`isoPath` must be a path to an .iso file.")
-    }
-  })
 })
 
 describe("validateOS", () => {
@@ -78,6 +68,17 @@ describe("validateHostname", () => {
       sut.validateHostname("not a valid hostname")
     } catch (e) {
       expect(e.message).toEqual("`hostname` must be a valid network hostname.")
+    }
+  })
+})
+
+describe("validateRootUser", () => {
+  test("validates user is root", async () => {
+    sh.exec.mockReturnValue({ stdout: "1" })
+    try {
+      await sut.validateRootUser()
+    } catch (e) {
+      expect(e.message).toEqual("Must run as root user.")
     }
   })
 })
