@@ -1,0 +1,4 @@
+---
+- import_playbook: playbooks/setup.yml
+- import_playbook: playbooks/setup_nodes.yml
+- import_playbook: playbooks/setup_main_nodes.yml

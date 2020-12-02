@@ -1,0 +1,7 @@
+all:
+  vars:
+    ansible_user: hl
+  children:
+      mains:
+        hosts:
+          192.168.1.45:
