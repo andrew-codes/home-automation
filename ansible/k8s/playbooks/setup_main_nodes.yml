@@ -79,6 +79,12 @@
         owner: hl
         mode: "0644"
 
+    - name: Install Arkade
+      become_user: root
+      become_method: sudo
+      become: yes
+      shell: curl -sLS https://dl.get-arkade.dev | sh
+
     - name: Install helm
       become_user: root
       become_method: sudo
@@ -88,19 +94,6 @@
         - curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
         - chmod 700 get_helm.sh
         - ./get_helm.sh
-        # - kubectl -n kube-system create sa tiller
-        # - kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
-
-    - name: Azure CLI installation and login
-      become_user: root
-      become_method: sudo
-      become: yes
-      command: "{{ item }}"
-      with_items:
-        - mkdir -p /home/{{ ansible_user }}/.secrets
-        - curl -sL https://aka.ms/InstallAzureCLIDeb | bash
-        - az login -u {{ azure_username }} -p {{ azure_password }} --allow-no-subscriptions
-        - az ad sp create-for-rbac --sdk-auth --name home-automation > /home/{{ ansible_user }}/.secrets/azure_client_credentials.json.tmp
 
     - name: Allow pods on main node
       become_user: hl
@@ -135,13 +128,16 @@
         - rm -f /home/{{ ansible_user }}/.secrets/azure_client_credentials.json.tmp
         - helm repo add inlets https://inlets.github.io/inlets-operator/
         - helm repo update
-        - helm upgrade inlets-operator inlets/inlets-operator --set provider=azure,region=eastus,subscriptionID={{ azure_subscription_id }},inletsProLicense={{ inlets_pro_license }}
+        - helm install inlets-operator inlets/inlets-operator --set provider=azure,region=eastus,subscriptionID={{ azure_subscription_id }},inletsProLicense={{ inlets_pro_license }}
+        - ark install nginx-ingress
+        - ark install cert-manager
+        - kubectl apply -f /home/{{ ansible_user }}/lets-encrypt-cert-issuers.yml
 
-        # kubectl apply -f /home/{{ ansible_user }}/inlets-namespace.yml
-        # - ark install inlets-operator --namespace inlets --provider digitalocean --region nyc1 --token {{ digital_ocean_token }} --license-file /home/{{ ansible_user }}/.secrets/inlets-pro-license
-        # - ark install nginx-ingress
-        # - ark install cert-manager
-        # - kubectl apply -f /home/{{ ansible_user }}/lets-encrypt-cert-issuers.yml
-        # - helm repo add stable https://charts.helm.sh/stable --force-update
-        # - ark install docker-registry --username {{ docker_registry_username }} --password {{ docker_registry_password }}
-        # - ark install docker-registry-ingress --email andrew@andrew.codes --domain docker.smith-simms.family
+    - name: Docker Registry
+      become_user: hl
+      become_method: sudo
+      become: yes
+      command: "{{ item }}"
+      with_items:
+        - ark install docker-registry --username {{ docker_registry_username }} --password {{ docker_registry_password }}
+        - ark install docker-registry-ingress --email {{ docker_registry_ingress_email }} --domain {{ docker_registry_ingress_domain }}

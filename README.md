@@ -40,23 +40,38 @@ allow_password_ssh_access: false
 
 > Note the password, this will be used later.
 
-#### Provision Main for Kubernetes
+#### Provision Kubernetes
 
-1. `cd ansible/k8s`
-1. Update `./hosts` with the IP address of the new Ubuntu Server machine
-   - add it to either the `mains` group
-1. `ansible-playbook install_k8s.yml -K`
-   - `-K` CLI parameter will prompt you for your `hl` user's password from above
-   - you will be prompted for the network CIDR
+Provisioning the Kubernetes cluster will do the following:
 
-> Once complete, it will create a file in the `ansible/k8s` directory named `kubernetes_join_command`. This will be used to provision worker nodes.
+1. Install Kubernetes
+1. Install Calico for networking
+1. Install helm on main nodes
+1. Setup sealed-secrets, dashboard, inlets-pro, and a private docker registry on main nodes
 
-##### Provision Worker Nodes in Kubernetes
+Due to the last item, there are some secrets we need to provide to the provision mechanism. This can be done with the following. The docker registry information will be what the username and password will be.
 
-> WIP
+```shell
+mkdir -p ansible/k8s/.secrets
+cat > ansible/k8s/.secrets/setup_k8s.yml <<EOL
+---
+docker_registry_username:
+docker_registry_password:
+docker_registry_ingress_email:
+docker_registry_ingress_domain:
 
-1. `cd ansible/k8s`
-1. Update `./hosts` with the IP address of the new Ubuntu Server machine
-   - add it to either the `workers` group
-1. `ansible-playbook install_k8s.yml -K`
-   - `-K` CLI parameter will prompt you for your `hl` user's password from above
+azure_subscription_id:
+
+inlets_pro_license:
+
+pod_network_cidr: "192.168.100.0/24"
+EOL
+```
+
+##### Running the Provision Script
+
+1. Update `./ansible/hosts` with the IP address of the new Ubuntu Server machine
+   - add it to either the `mains` group for main nodes
+   - add it to `workers` for secondary nodes
+1. Add your password to hl user in Ubuntu Server: `mkdir -p .secrets && echo 'export MACHINE_PASSWORD="{{ your password }}"' > .secrets/install_k8s.vars.sh`
+1. Run `./install_k8s.sh`
