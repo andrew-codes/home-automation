@@ -1,5 +1,5 @@
 ---
-- hosts: main, workers
+- hosts: mains, workers
   become: yes
   become_method: sudo
   become_user: root
