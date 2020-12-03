@@ -1,0 +1,14 @@
+- hosts: mains
+  remote_user: hl
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+
+  tasks:
+    - name: Fetch kubeconfig
+      fetch:
+        dest: ~/.kube/
+        flat: yes
+        src: /home/{{ ansible_user }}/.kube/config
