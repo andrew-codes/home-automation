@@ -14,7 +14,7 @@
           - ca-certificates
           - curl
           - gnupg-agent
-          - vim
+          - jq
           - software-properties-common
         state: present
 
