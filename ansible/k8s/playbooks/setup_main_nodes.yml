@@ -61,8 +61,7 @@
       with_items:
         - kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
         - kubectl create -f https://docs.projectcalico.org/manifests/custom-resources.yaml
-        - kubectl apply -f https://docs.projectcalico.org/v3.16/manifests/calico.yaml
-        - kubectl apply -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/installation/hosted/rbac-kdd.yaml
+        - kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
 
     - pause: seconds=30
 
