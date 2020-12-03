@@ -6,13 +6,33 @@
   gather_facts: yes
   connection: ssh
   remote_user: hl
+  vars_files:
+    - .secrets/setup_k8s.yml
+
   tasks:
-    - name: Copy dashboard admin user definition
+    - name: Copy definitions
       copy:
-        src: ../../k8s/dashboard/admin-user.yml
-        dest: /home/{{ ansible_user }}/dashboard-admin-user.yml
+        src: ../../k8s/setup/
+        dest: /home/{{ ansible_user }}/
         owner: hl
         mode: "0644"
+
+    - name: Install Arkade
+      become_user: root
+      become_method: sudo
+      become: yes
+      shell: curl -sLS https://dl.get-arkade.dev | sh
+
+    - name: Install helm
+      become_user: root
+      become_method: sudo
+      become: yes
+      command: "{{ item }}"
+      with_items:
+        - curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+        - chmod 700 get_helm.sh
+        - ./get_helm.sh
+
     - name: Setup K8s
       become_user: hl
       become_method: sudo
@@ -25,3 +45,11 @@
         - kubectl apply -f /home/{{ ansible_user }}/dashboard-admin-user.yml
         - kubectl -n kube-system create sa tiller
         - kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+        - kubectl apply -f /home/{{ ansible_user }}/inlets-namespace.yml
+        - ark install inlets-operator --namespace inlets --provider digitalocean --region nyc1 --token {{ digital_ocean_token }} --license-file /home/{{ ansible_user }}/.secrets/inlets-pro-license
+        - ark install nginx-ingress
+        - ark install cert-manager
+        - kubectl apply -f /home/{{ ansible_user }}/lets-encrypt-cert-issuers.yml
+        - helm repo add stable https://charts.helm.sh/stable --force-update
+        - ark install docker-registry --username {{ docker_registry_username }} --password {{ docker_registry_password }}
+        - ark install docker-registry-ingress --email andrew@andrew.codes --domain docker.smith-simms.family

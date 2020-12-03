@@ -14,7 +14,7 @@
 
   tasks:
     - name: Intializing Kubernetes Cluster
-      command: kubeadm init --pod-network-cidr "{{ pod_network_cidr }}"  --apiserver-advertise-address "{{ ansible_default_ipv4.address }}"
+      command: kubeadm init --pod-network-cidr "{{ pod_network_cidr }}" --apiserver-advertise-address "{{ ansible_default_ipv4.address }}"
       run_once: true
       delegate_to: "{{ ansible_default_ipv4.address }}"
 
