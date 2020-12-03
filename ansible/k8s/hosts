@@ -5,5 +5,5 @@ all:
       mains:
         hosts:
           192.168.1.45:
-      nodes:
+      workers:
         hosts:

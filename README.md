@@ -49,14 +49,14 @@ allow_password_ssh_access: false
    - `-K` CLI parameter will prompt you for your `hl` user's password from above
    - you will be prompted for the network CIDR
 
-> Once complete, it will create a file in the `ansible/k8s` directory named `kubernetes_join_command`. This will be used to provision secondary nodes.
+> Once complete, it will create a file in the `ansible/k8s` directory named `kubernetes_join_command`. This will be used to provision worker nodes.
 
-##### Provision Secondary Nodes in Kubernetes
+##### Provision Worker Nodes in Kubernetes
 
 > WIP
 
 1. `cd ansible/k8s`
 1. Update `./hosts` with the IP address of the new Ubuntu Server machine
-   - add it to either the `nodes` group
+   - add it to either the `workers` group
 1. `ansible-playbook install_k8s.yml -K`
    - `-K` CLI parameter will prompt you for your `hl` user's password from above
