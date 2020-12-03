@@ -9,11 +9,17 @@
     "node": ">=14.3.0",
     "yarn": ">=1.22.4"
   },
-  "scripts": {},
+  "scripts": {
+    "deploy": "lerna run deploy",
+    "dashboard": "kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}') && kubectl proxy"
+  },
   "workspaces": {
     "packages": [
-      "packages/*"
+      "packages/*",
+      "k8s/*"
     ]
   },
-  "dependencies": {}
+  "dependencies": {
+    "lerna": "^3.22.1"
+  }
 }
