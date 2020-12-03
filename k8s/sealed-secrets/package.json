@@ -1,9 +1,0 @@
-{
-  "private": true,
-  "name": "@andrew-codes/home-automation-sealed-secrets",
-  "version": "0.0.1",
-  "license": "MIT",
-  "scripts": {
-    "deploy": "kubectl apply -f sealed-secrets.yml"
-  }
-}
