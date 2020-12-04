@@ -72,4 +72,4 @@ export POD_NETWORK_CIDR="192.168.100.0/24"
 1. Update `./ansible/hosts` with the IP address of the new Ubuntu Server machine
    - add it to either the `mains` group for main nodes
    - add it to `workers` for secondary nodes
-1. Run `./k8s_install.sh`
+1. Run `./ansible.sh ansible/k8s/install.yml`
