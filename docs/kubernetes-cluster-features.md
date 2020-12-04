@@ -1,6 +1,6 @@
 # Kubernetes Cluster
 
-> For installation instructions, see the [kubernetes installation doc](./docs/kubernetes-cluster-setup.md).
+> For installation instructions, see the [kubernetes installation doc](./kubernetes-cluster-setup.md).
 
 ## What is Provisioned by Default?
 
