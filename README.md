@@ -48,14 +48,15 @@ allow_password_ssh_access: false
 # Ubuntu server hl user password
 export MACHINE_PASSWORD=""
 
+# Your email
+export EMAIL=""
+
 # API token to create droplets in Digital Ocean
 export DIGITALOCEAN_TOKEN=""
 
 # These will be the credentials you set the private docker registry
 export DOCKER_REGISTRY_USERNAME =""
 export DOCKER_REGISTRY_PASSWORD=""
-# Your email
-export DOCKER_REGISTRY_INGRESS_EMAIL=""
 # Docker registry domain; e.g. docker.yourdomain.com
 export DOCKER_REGISTRY_INGRESS_DOMAIN=""
 

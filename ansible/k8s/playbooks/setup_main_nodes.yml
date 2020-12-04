@@ -118,38 +118,43 @@
         - kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
         - kubectl apply -f /home/{{ ansible_user }}/dashboard-admin-user.yml
 
-    # - name: Inlets
-    #   become_user: hl
-    #   become_method: sudo
-    #   become: yes
-    #   command: "{{ item }}"
-    #   with_items:
-    #     - kubectl create secret generic inlets-access-key --from-file=inlets-access-key=/home/{{ ansible_user }}/.secrets/azure_client_credentials.json.tmp
-    #     - rm -f /home/{{ ansible_user }}/.secrets/azure_client_credentials.json.tmp
-    #     - helm repo add inlets https://inlets.github.io/inlets-operator/
-    #     - helm repo update
-    #     - helm install inlets-operator inlets/inlets-operator --set provider=azure,region=eastus,subscriptionID={{ azure_subscription_id }},inletsProLicense={{ inlets_pro_license }}
-
-    - name: Ingress
+    - name: Inlets for DigitalOcean
       become_user: hl
       become_method: sudo
       become: yes
       command: "{{ item }}"
       with_items:
-        # - ark install nginx-ingress
-        - kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.41.2/deploy/static/provider/baremetal/deploy.yaml
-        - kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
+        - arkade install inlets-operator --provider digitalocean --region nyc1 --token "{{ digitalocean_token }}" --license-file "/home/{{ ansible_user }}/.secrets/inlets-pro.license"
+
+    - name: nginx Ingress
+      become_user: hl
+      become_method: sudo
+      become: yes
+      command: "{{ item }}"
+      with_items:
+        - ark install nginx-ingress
+
+    - name: Cert Manager
+      become_user: hl
+      become_method: sudo
+      become: yes
+      command: "{{ item }}"
+      with_items:
+        - ark install cert-manager
+        # - kubectl apply -f lets-encrypt-cert-issuers.yml
+        # - kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.41.2/deploy/static/provider/baremetal/deploy.yaml
+        # - kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
         # - helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
         # - helm repo update
         # - helm install ingress-nginx ingress-nginx/ingress-nginx
         # - ark install cert-manager
         # - kubectl apply -f /home/{{ ansible_user }}/lets-encrypt-cert-issuers.yml
 
-    - name: Docker Registry
-      become_user: hl
-      become_method: sudo
-      become: yes
-      command: "{{ item }}"
-      with_items:
-        - kubectl apply -f /home/{{ ansible_user }}/docker-registry.yml
-        # - ark install docker-registry-ingress --email {{ docker_registry_ingress_email }} --domain {{ docker_registry_ingress_domain }}
+    # - name: Docker Registry
+    #   become_user: hl
+    #   become_method: sudo
+    #   become: yes
+    #   command: "{{ item }}"
+    #   with_items:
+    #     - kubectl apply -f /home/{{ ansible_user }}/docker-registry.yml
+    # - ark install docker-registry-ingress --email {{ docker_registry_ingress_email }} --domain {{ docker_registry_ingress_domain }}
