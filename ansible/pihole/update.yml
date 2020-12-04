@@ -1,0 +1,9 @@
+---
+- hosts: pihole
+  become: yes
+  tasks:
+    - name: Update pihole
+      become_user: root
+      become_method: sudo
+      become: yes
+      shell: pihole update
