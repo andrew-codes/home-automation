@@ -14,7 +14,7 @@ CLI to automate burning ISO installation images to USB drives.
 
 > All usage scenarios require root access (in order to burn drive).
 
-```shell
+```bash
 # x86 CPUs
 sudo burn-image /dev/disk2 ~/Downloads/ubuntu-20.04.1-live-server-amd64.iso
 ```
