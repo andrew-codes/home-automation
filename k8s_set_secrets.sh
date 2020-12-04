@@ -53,5 +53,40 @@ spec:
         http01:
           ingress:
             class: nginx
+EOL
 
+cat > k8s/setup/.secrets/backup-cloud-credentials.ini << EOL
+[default]
+aws_access_key_id=$SPACES_ACCESS_KEY
+aws_secret_access_key=$SPACES_ACCESS_SECRET_KEY
+EOL
+
+cat > k8s/setup/.secrets/k8s-digitalocean-secret-token.yml << EOL
+---
+apiVersion: v1
+kind: Secret
+stringData:
+  digitalocean_token: $DIGITALOCEAN_TOKEN
+type: Opaque
+EOL
+
+cat > k8s/setup/.secrets/k8s-velero-patch-deployment.yml << EOL
+---
+apiVersion: v1
+kind: Deployment
+spec:
+  template:
+    spec:
+      containers:
+      - args:
+        - server
+        command:
+        - /velero
+        env:
+        - name: DIGITALOCEAN_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: digitalocean_token
+              name: cloud-credentials
+        name: velero
 EOL

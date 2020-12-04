@@ -64,6 +64,10 @@ export DOCKER_REGISTRY_INGRESS_DOMAIN=""
 export INLETS_PRO_LICENSE=""
 export POD_NETWORK_CIDR="192.168.100.0/24"
 
+# Digital Ocean Spaces (for backup)
+export SPACES_ACCESS_KEY=""
+export SPACES_ACCESS_SECRET_KEY=""
+
 ./k8s_set_secrets.sh
 ```
 
