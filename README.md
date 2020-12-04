@@ -42,30 +42,28 @@ allow_password_ssh_access: false
 
 #### Provision Kubernetes
 
-Provisioning the Kubernetes cluster will do the following:
-
-1. Install Kubernetes
-1. Install Calico for networking
-1. Install helm on main nodes
-1. Setup sealed-secrets, dashboard, inlets-pro, and a private docker registry on main nodes
-
-Due to the last item, there are some secrets we need to provide to the provision mechanism. This can be done with the following. The docker registry information will be what the username and password will be.
+##### Setup Kubernetes Secrets
 
 ```shell
-mkdir -p ansible/k8s/.secrets
-cat > ansible/k8s/.secrets/setup_k8s.yml <<EOL
----
-docker_registry_username:
-docker_registry_password:
-docker_registry_ingress_email:
-docker_registry_ingress_domain:
+# Ubuntu server hl user password
+export MACHINE_PASSWORD=""
 
-azure_subscription_id:
+# API token to create droplets in Digital Ocean
+export DIGITALOCEAN_TOKEN=""
 
-inlets_pro_license:
+# These will be the credentials you set the private docker registry
+export DOCKER_REGISTRY_USERNAME =""
+export DOCKER_REGISTRY_PASSWORD=""
+# Your email
+export DOCKER_REGISTRY_INGRESS_EMAIL=""
+# Docker registry domain; e.g. docker.yourdomain.com
+export DOCKER_REGISTRY_INGRESS_DOMAIN=""
 
-pod_network_cidr: "192.168.100.0/24"
-EOL
+# Inlets pro license value
+export INLETS_PRO_LICENSE=""
+export POD_NETWORK_CIDR="192.168.100.0/24"
+
+./k8s_set_secrets.sh
 ```
 
 ##### Running the Provision Script
@@ -73,5 +71,4 @@ EOL
 1. Update `./ansible/hosts` with the IP address of the new Ubuntu Server machine
    - add it to either the `mains` group for main nodes
    - add it to `workers` for secondary nodes
-1. Add your password to hl user in Ubuntu Server: `mkdir -p .secrets && echo 'export MACHINE_PASSWORD="{{ your password }}"' > .secrets/install_k8s.vars.sh`
-1. Run `./install_k8s.sh`
+1. Run `./k8s_install.sh`
