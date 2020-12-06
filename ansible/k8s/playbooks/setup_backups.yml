@@ -51,5 +51,5 @@
       with_items:
         - velero install --provider velero.io/aws --bucket backups.smith-simms.family --plugins velero/velero-plugin-for-aws:v1.0.0,digitalocean/velero-plugin:v1.0.0 --backup-location-config s3Url=https://smith-simms-family-k8s-backups.nyc3.digitaloceanspaces.com,region=nyc3 --use-volume-snapshots=false --secret-file=.secrets/backup-cloud-credentials.ini
         - velero snapshot-location create default --provider digitalocean.com/velero
-        - kubectl patch secret cloud-credentials -p "{{ digitalocean_secret_token_patch }}" --namespace velero
-        - kubectl patch deployment velero -p "{{ velero_deployment_patch }}" --namespace velero
+        - kubectl patch secret cloud-credentials -p "{{ digitalocean_secret_token_patch.stdout }}" --namespace velero
+        - kubectl patch deployment velero -p "{{ velero_deployment_patch.stdout }}" --namespace velero
