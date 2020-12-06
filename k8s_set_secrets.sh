@@ -7,7 +7,7 @@ digitalocean_token: "$DIGITALOCEAN_TOKEN"
 docker_registry_username: "$DOCKER_REGISTRY_USERNAME "
 docker_registry_password: "$DOCKER_REGISTRY_PASSWORD"
 docker_registry_ingress_email: "$EMAIL"
-docker_registry_ingress_domain: "$DOCKER_REGISTRY_INGRESS_DOMAIN"
+docker_registry_domain: "$DOCKER_REGISTRY_DOMAIN"
 
 inlets_pro_license: "$INLETS_PRO_LICENSE"
 
@@ -31,7 +31,7 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
-      - selector: {}
+      - selector:
         http01:
           ingress:
             class: nginx
@@ -49,7 +49,7 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-prod
     solvers:
-      - selector: {}
+      - selector:
         http01:
           ingress:
             class: nginx
@@ -70,23 +70,61 @@ stringData:
 type: Opaque
 EOL
 
-cat > k8s/setup/.secrets/k8s-velero-patch-deployment.yml << EOL
+mkdir -p k8s/docker-registry/.secrets
+cat > k8s/docker-registry/.secrets/ingress-staging.yml << EOL
 ---
-apiVersion: v1
-kind: Deployment
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+  name: docker-registry
+  namespace: docker-registry
 spec:
-  template:
-    spec:
-      containers:
-      - args:
-        - server
-        command:
-        - /velero
-        env:
-        - name: DIGITALOCEAN_TOKEN
-          valueFrom:
-            secretKeyRef:
-              key: digitalocean_token
-              name: cloud-credentials
-        name: velero
+  tls:
+    - hosts:
+        - $DOCKER_REGISTRY_DOMAIN
+      secretName: docker-tls
+  rules:
+    - host: $DOCKER_REGISTRY_DOMAIN
+      http:
+        paths:
+          - backend:
+              serviceName: docker-registry
+              servicePort: 5000
+            path: /
+EOL
+
+cat > k8s/docker-registry/.secrets/ingress-production.yml << EOL
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  name: docker-registry
+  namespace: docker-registry
+spec:
+  tls:
+    - hosts:
+        - $DOCKER_REGISTRY_DOMAIN
+      secretName: docker-tls
+  rules:
+    - host: $DOCKER_REGISTRY_DOMAIN
+      http:
+        paths:
+          - backend:
+              serviceName: docker-registry
+              servicePort: 5000
+            path: /
 EOL

@@ -5,6 +5,7 @@
 - [node](https://nodejs.org/en/download/)
 - [classic yarn](https://classic.yarnpkg.com/en/docs/install/#mac-stable)
 - [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 
 ## Before you Begin
 
@@ -90,11 +91,8 @@ export EMAIL=""
 # API token to create droplets in Digital Ocean
 export DIGITALOCEAN_TOKEN=""
 
-# These will be the credentials you set the private docker registry
-export DOCKER_REGISTRY_USERNAME =""
-export DOCKER_REGISTRY_PASSWORD=""
 # Docker registry domain; e.g. docker.yourdomain.com
-export DOCKER_REGISTRY_INGRESS_DOMAIN=""
+export DOCKER_REGISTRY_DOMAIN="docker.smith-simms.family"
 
 # Inlets pro license value
 export INLETS_PRO_LICENSE=""
@@ -111,4 +109,5 @@ export SPACES_ACCESS_SECRET_KEY=""
 
 ```shell
 ./ansible.sh ansible/k8s/install.yml
+kubectl apply -f k8s/setup/.secrets/lets-encrypt-cert-issuers.yml
 ```
