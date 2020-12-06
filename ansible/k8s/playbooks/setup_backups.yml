@@ -27,6 +27,14 @@
         owner: hl
         mode: "0644"
 
+    - name: Get Digital Ocean secret token patch contents
+      shell: cat .secrets/k8s-digitalocean-secret-token.yml
+      register: digitalocean_secret_token_patch
+
+    - name: Get Velero patch deployment contents
+      shell: cat .secrets/k8s-velero-patch-deployment.yml
+      register: velero_deployment_patch
+
     - name: Create namespace
       become_user: hl
       become_method: sudo
@@ -43,5 +51,5 @@
       with_items:
         - velero install --provider velero.io/aws --bucket backups.smith-simms.family --plugins velero/velero-plugin-for-aws:v1.0.0,digitalocean/velero-plugin:v1.0.0 --backup-location-config s3Url=https://smith-simms-family-k8s-backups.nyc3.digitaloceanspaces.com,region=nyc3 --use-volume-snapshots=false --secret-file=.secrets/backup-cloud-credentials.ini
         - velero snapshot-location create default --provider digitalocean.com/velero
-        - kubectl patch secret cloud-credentials -p "$(cat .secrets/k8s-digitalocean-secret-token.yml)" --namespace velero
-        - kubectl patch deployment velero -p "$(cat .secrets/k8s-velero-patch-deployment.yml)" --namespace velero
+        - kubectl patch secret cloud-credentials -p "{{ digitalocean_secret_token_patch }}" --namespace velero
+        - kubectl patch deployment velero -p "{{ velero_deployment_patch }}" --namespace velero
