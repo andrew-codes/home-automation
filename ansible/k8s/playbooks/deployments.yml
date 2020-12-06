@@ -42,4 +42,3 @@
 - import_playbook: deployments/dashboard.yml
 - import_playbook: deployments/inlets.yml
 - import_playbook: deployments/nginx.yml
-- import_playbook: deployments/docker_registry.yml
