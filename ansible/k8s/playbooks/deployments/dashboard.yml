@@ -8,6 +8,13 @@
   remote_user: hl
 
   tasks:
+    - name: Copy manifests
+      copy:
+        src: ./../../../../k8s/setup/dashboard-admin-user.yml
+        dest: /home/{{ ansible_user }}/dashboard-admin-user.yml
+        owner: hl
+        mode: "0644"
+
     - name: Dashboard
       become_user: hl
       become_method: sudo

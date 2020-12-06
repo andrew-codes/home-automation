@@ -23,4 +23,3 @@
       command: "{{ item }}"
       with_items:
         - ark install cert-manager
-        # - kubectl apply -f /home/{{ ansible_user }}/.secrets/lets-encrypt-cert-issuers.yml

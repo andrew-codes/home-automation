@@ -18,19 +18,26 @@
         - tar -xvf velero.tar.gz
         - mv velero-v1.5.2-linux-amd64/velero /usr/local/bin
 
-    - name: Copy initial setup manifests
+    - name: Copy secrets
       copy:
-        src: ./../../../../k8s/setup/
-        dest: /home/{{ ansible_user }}/
+        src: ./../../../../k8s/setup/.secrets/k8s-digitalocean-secret-token.yml
+        dest: /home/{{ ansible_user }}/.secrets/k8s-digitalocean-secret-token.yml
+        owner: hl
+        mode: "0644"
+
+    - name: Copy manifests
+      copy:
+        src: ./../../../../k8s/setup/k8s-velero-patch-deployment.yml
+        dest: /home/{{ ansible_user }}/k8s-velero-patch-deployment.yml
         owner: hl
         mode: "0644"
 
     - name: Get Digital Ocean secret token patch contents
-      shell: cat .secrets/k8s-digitalocean-secret-token.yml
+      shell: cat  /home/{{ ansible_user }}/.secrets/k8s-digitalocean-secret-token.yml
       register: digitalocean_secret_token_patch
 
     - name: Get Velero patch deployment contents
-      shell: cat .secrets/k8s-velero-patch-deployment.yml
+      shell: cat  /home/{{ ansible_user }}/k8s-velero-patch-deployment.yml
       register: velero_deployment_patch
 
     - name: Create namespace
@@ -51,3 +58,9 @@
         - velero snapshot-location create default --provider digitalocean.com/velero
         - kubectl patch secret cloud-credentials -p "{{ digitalocean_secret_token_patch.stdout }}" --namespace velero
         - kubectl patch deployment velero -p "{{ velero_deployment_patch.stdout }}" --namespace velero
+
+    - name: Delete secrets
+      become_user: hl
+      become_method: sudo
+      become: yes
+      shell: rm -rf /home/{{ ansible_user }}/.secrets/k8s-digitalocean-secret-token.yml
