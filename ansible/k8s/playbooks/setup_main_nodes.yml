@@ -124,7 +124,7 @@
       become: yes
       command: "{{ item }}"
       with_items:
-        - arkade install inlets-operator --provider digitalocean --region nyc1 --token "{{ digitalocean_token }}" --license-file "/home/{{ ansible_user }}/.secrets/inlets-pro.license"
+        - arkade install inlets-operator --provider digitalocean --region nyc3 --token "{{ digitalocean_token }}" --license-file "/home/{{ ansible_user }}/.secrets/inlets-pro.license"
 
     - name: nginx Ingress
       become_user: hl
