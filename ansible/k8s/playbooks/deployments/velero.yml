@@ -1,13 +1,11 @@
 ---
-- hosts: mains
+- hosts: cluster_primary
   become: yes
   become_method: sudo
   become_user: root
   gather_facts: yes
   connection: ssh
   remote_user: hl
-  vars_files:
-    - ../.secrets/setup_k8s.yml
 
   tasks:
     - name: Install Velero
@@ -22,7 +20,7 @@
 
     - name: Copy initial setup manifests
       copy:
-        src: ./../../../k8s/setup/
+        src: ./../../../../k8s/setup/
         dest: /home/{{ ansible_user }}/
         owner: hl
         mode: "0644"

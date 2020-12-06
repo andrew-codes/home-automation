@@ -55,6 +55,7 @@ allow_password_ssh_access: false
 1. Update `./ansible/hosts.yml` with the IP addresses of your machines
    - Add a machine's IP address to `mains` group for master nodes
    - Add a machine's IP address to `workers` for secondary nodes
+   - Add a single primary node's IP address as the `cluster_primary`
 
 ### Example
 
@@ -63,6 +64,9 @@ all:
   vars:
     ansible_user: hl # user from ubuntu machine setup
   children:
+    cluster_primary:
+      hosts:
+        192.168.1.100: # any primary node; but only one
     mains:
       hosts:
         192.168.1.100: # primary node

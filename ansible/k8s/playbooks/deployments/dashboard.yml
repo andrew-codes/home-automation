@@ -1,0 +1,18 @@
+---
+- hosts: cluster_primary
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+  remote_user: hl
+
+  tasks:
+    - name: Dashboard
+      become_user: hl
+      become_method: sudo
+      become: yes
+      command: "{{ item }}"
+      with_items:
+        - kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
+        - kubectl apply -f /home/{{ ansible_user }}/dashboard-admin-user.yml
