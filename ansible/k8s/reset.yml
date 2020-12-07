@@ -10,3 +10,4 @@
   tasks:
     - name: Reset cluster
       command: kubeadm reset --force
+- import_playbook: install.yml

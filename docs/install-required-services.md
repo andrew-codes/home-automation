@@ -1,13 +1,14 @@
 # Installing Required Services
 
-All home automation images are stored in a private docker registry. For this reason, we need to ensure it is up and running before proceeding.
+## Let's Encrypt Cert Issuers
+
+```bash
+kubectl apply -f k8s/setup/.secrets/lets-encrypt-cert-issuers.yml
+```
 
 ## Installing the Docker Registry
 
-> Note that the file, `k8s/setup/.secrets/lets-encrypt-cert-issuers.yml` was automatically generated when you ran the `./k8s_set_secrets.sh` command when going through the [install kubernertes guide](./kubernetes-cluster-setup.md)
-
-```
-kubectl apply -f k8s/setup/.secrets/lets-encrypt-cert-issuers.yml
+```bash
 kubectl apply -f k8s/docker-registry/index.yml
 ```
 

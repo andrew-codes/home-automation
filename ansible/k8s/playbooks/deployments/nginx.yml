@@ -8,13 +8,6 @@
   remote_user: hl
 
   tasks:
-    - name: Copy manifests
-      copy:
-        src: ./../../../../k8s/setup/cert-manager-namespace.yml
-        dest: /home/{{ ansible_user }}/cert-manager-namespace.yml
-        owner: hl
-        mode: "0644"
-
     - name: nginx Ingress
       become_user: hl
       become_method: sudo
@@ -30,3 +23,9 @@
       command: "{{ item }}"
       with_items:
         - kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml
+
+    - name: Delete secrets
+      become_user: hl
+      become_method: sudo
+      become: yes
+      shell: rm -rf /home/{{ ansible_user }}/.secrets/*

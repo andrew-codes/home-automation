@@ -12,7 +12,7 @@
   tasks:
     - name: Copy manifests
       copy:
-        src: ./../../../../k8s/setup/.secrets/inlets-pro.license
+        src: ./../../.secrets/inlets-pro.license
         dest: /home/{{ ansible_user }}/.secrets/inlets-pro.license
         owner: hl
         mode: "0644"

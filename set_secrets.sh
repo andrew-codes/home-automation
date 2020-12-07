@@ -1,24 +1,19 @@
-mkdir -p .secrets && echo "export MACHINE_PASSWORD='$MACHINE_PASSWORD'" > .secrets/install_k8s.vars.sh
 mkdir -p ansible/k8s/.secrets
-cat > ansible/k8s/.secrets/setup_k8s.yml <<EOL
+mkdir -p k8s/setup/.secrets
+cat >ansible/k8s/.secrets/setup_k8s.yml <<EOL
 ---
 digitalocean_token: "$DIGITALOCEAN_TOKEN"
-
-docker_registry_username: "$DOCKER_REGISTRY_USERNAME "
-docker_registry_password: "$DOCKER_REGISTRY_PASSWORD"
-docker_registry_ingress_email: "$EMAIL"
-docker_registry_domain: "$DOCKER_REGISTRY_DOMAIN"
-
+backup_bucket: "$BACKUP_BUCKET"
+backup_uri: "$BACKUP_URI"
 inlets_pro_license: "$INLETS_PRO_LICENSE"
-
 pod_network_cidr: "$POD_NETWORK_CIDR"
 EOL
-mkdir -p k8s/setup/.secrets
-cat > k8s/setup/.secrets/inlets-pro.license <<EOL
+
+cat >ansible/k8s/.secrets/inlets-pro.license <<EOL
 $INLETS_PRO_LICENSE
 EOL
 
-cat > k8s/setup/.secrets/lets-encrypt-cert-issuers.yml << EOL
+cat >k8s/setup/.secrets/lets-encrypt-cert-issuers.yml <<EOL
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -53,13 +48,13 @@ spec:
             class: nginx
 EOL
 
-cat > k8s/setup/.secrets/backup-cloud-credentials.ini << EOL
+cat >ansible/k8s/.secrets/backup-cloud-credentials.ini <<EOL
 [default]
 aws_access_key_id=$SPACES_ACCESS_KEY
 aws_secret_access_key=$SPACES_ACCESS_SECRET_KEY
 EOL
 
-cat > k8s/setup/.secrets/k8s-digitalocean-secret-token.yml << EOL
+cat >ansible/k8s/.secrets/k8s-digitalocean-secret-token.yml <<EOL
 ---
 apiVersion: v1
 kind: Secret
@@ -69,7 +64,7 @@ type: Opaque
 EOL
 
 mkdir -p k8s/docker-registry/.secrets
-cat > k8s/docker-registry/.secrets/ingress-staging.yml << EOL
+cat >k8s/docker-registry/.secrets/ingress-staging.yml <<EOL
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
@@ -98,7 +93,7 @@ spec:
             path: /
 EOL
 
-cat > k8s/docker-registry/.secrets/ingress-production.yml << EOL
+cat >k8s/docker-registry/.secrets/ingress-production.yml <<EOL
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress

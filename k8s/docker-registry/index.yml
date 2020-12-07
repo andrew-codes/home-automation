@@ -52,14 +52,12 @@ spec:
     spec:
       containers:
         - name: docker-registry
-          image: registry:2.6.2
+          image: registry:2.7.1
           env:
             - name: REGISTRY_HTTP_ADDR
               value: ":5000"
             - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
               value: "/var/lib/registry"
-            - name: REGISTRY_HTTP_SECRET
-              value: testing-password-value
           ports:
             - name: http
               containerPort: 5000

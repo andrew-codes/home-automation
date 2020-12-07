@@ -5,14 +5,14 @@ spec:
   template:
     spec:
       containers:
-      - args:
-        - server
-        command:
-        - /velero
-        env:
-        - name: DIGITALOCEAN_TOKEN
-          valueFrom:
-            secretKeyRef:
-              key: digitalocean_token
-              name: cloud-credentials
-        name: velero
+        - args:
+            - server
+          command:
+            - /velero
+          env:
+            - name: DIGITALOCEAN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: digitalocean_token
+                  name: cloud-credentials
+          name: velero

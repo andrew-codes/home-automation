@@ -71,3 +71,26 @@
 
     - name: Copy join command to local file.
       local_action: copy content="{{ kubernetes_join_command.stdout_lines[0] }}" dest="{{ playbook_dir }}/kubernetes_join_command" mode=0777
+
+- hosts: cluster_primary
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+  remote_user: hl
+
+  tasks:
+    - name: Allow pods on main node
+      become_user: hl
+      become_method: sudo
+      become: yes
+      shell: kubectl taint nodes --all node-role.kubernetes.io/master-
+
+    - name: Sealed Secrets
+      become_user: hl
+      become_method: sudo
+      become: yes
+      command: "{{ item }}"
+      with_items:
+        - kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.13.1/controller.yaml

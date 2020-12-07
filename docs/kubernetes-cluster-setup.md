@@ -77,37 +77,51 @@ all:
         192.168.1.111: # worker node
 ```
 
-## Generating Secrets
-
-Fill in your secrets and run the following:
+## Setting Initial Secrets
 
 ```bash
+# Execute this with your secrets filled in.
+cat > secrets.sh <<EOL
 # Ubuntu server hl user password
-export MACHINE_PASSWORD=""
+export MACHINE_PASSWORD=''
 
 # Your email
 export EMAIL=""
 
 # API token to create droplets in Digital Ocean
 export DIGITALOCEAN_TOKEN=""
+# Digital Ocean Spaces (for backup)
+export SPACES_ACCESS_KEY=""
+export SPACES_ACCESS_SECRET_KEY=""
+export BACKUP_BUCKET=""
+export BACKUP_URI=""
 
 # Docker registry domain; e.g. docker.yourdomain.com
-export DOCKER_REGISTRY_DOMAIN="docker.smith-simms.family"
+export DOCKER_REGISTRY_DOMAIN=""
 
 # Inlets pro license value
 export INLETS_PRO_LICENSE=""
 export POD_NETWORK_CIDR="192.168.100.0/24"
+EOL
 
-# Digital Ocean Spaces (for backups)
-export SPACES_ACCESS_KEY=""
-export SPACES_ACCESS_SECRET_KEY=""
-
-./k8s_set_secrets.sh
+./set_secrets.sh
 ```
 
 ## Provision Kubernetes
 
-```shell
-./ansible.sh ansible/k8s/install.yml
-kubectl apply -f k8s/setup/.secrets/lets-encrypt-cert-issuers.yml
+```bash
+./ansible.sh ansible/k8s/all.yml
+```
+
+## Troubleshooting
+
+If you want to reset the Kubernetes cluster, you can run the following:
+
+> This will not automatically re-install the deployment services.
+
+```bash
+./ansible.sh ansible/k8s/reset.yml
+
+# Then re-install deployments.
+# ./ansible.sh ansible/k8s/deployments.yml
 ```

@@ -6,9 +6,11 @@
   gather_facts: yes
   connection: ssh
   remote_user: hl
+  vars_files:
+    - ../../.secrets/setup_k8s.yml
 
   tasks:
-    - name: Install Velero
+    - name: Install Velero CLI
       become_user: root
       become_method: sudo
       become: yes
@@ -20,8 +22,15 @@
 
     - name: Copy secrets
       copy:
-        src: ./../../../../k8s/setup/.secrets/k8s-digitalocean-secret-token.yml
+        src: ./../../.secrets/k8s-digitalocean-secret-token.yml
         dest: /home/{{ ansible_user }}/.secrets/k8s-digitalocean-secret-token.yml
+        owner: hl
+        mode: "0644"
+
+    - name: Copy cloud_credentials.ini
+      copy:
+        src: ./../../.secrets/backup-cloud-credentials.ini
+        dest: /home/{{ ansible_user }}/.secrets/backup-cloud-credentials.ini
         owner: hl
         mode: "0644"
 
@@ -48,13 +57,13 @@
       with_items:
         - kubectl apply -f velero-namespace.yml
 
-    - name: Install for Digital Ocean
+    - name: Install Velero for Digital Ocean
       become_user: hl
       become_method: sudo
       become: yes
       command: "{{ item }}"
       with_items:
-        - velero install --provider velero.io/aws --bucket backups.smith-simms.family --plugins velero/velero-plugin-for-aws:v1.0.0,digitalocean/velero-plugin:v1.0.0 --backup-location-config s3Url=https://smith-simms-family-k8s-backups.nyc3.digitaloceanspaces.com,region=nyc3 --use-volume-snapshots=false --secret-file=.secrets/backup-cloud-credentials.ini
+        - velero install --provider velero.io/aws --bucket {{ backup_bucket }} --plugins velero/velero-plugin-for-aws:v1.0.0,digitalocean/velero-plugin:v1.0.0 --backup-location-config s3Url={{ backup_uri }} --use-volume-snapshots=false --secret-file=.secrets/backup-cloud-credentials.ini
         - velero snapshot-location create default --provider digitalocean.com/velero
         - kubectl patch secret cloud-credentials -p "{{ digitalocean_secret_token_patch.stdout }}" --namespace velero
         - kubectl patch deployment velero -p "{{ velero_deployment_patch.stdout }}" --namespace velero
@@ -63,4 +72,4 @@
       become_user: hl
       become_method: sudo
       become: yes
-      shell: rm -rf /home/{{ ansible_user }}/.secrets/k8s-digitalocean-secret-token.yml
+      shell: rm -rf /home/{{ ansible_user }}/.secrets/*
