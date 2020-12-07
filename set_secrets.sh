@@ -1,5 +1,6 @@
+#!/usr/bin/env bash
+
 mkdir -p ansible/k8s/.secrets
-mkdir -p k8s/setup/.secrets
 cat >ansible/k8s/.secrets/setup_k8s.yml <<EOL
 ---
 digitalocean_token: "$DIGITALOCEAN_TOKEN"
@@ -13,7 +14,8 @@ cat >ansible/k8s/.secrets/inlets-pro.license <<EOL
 $INLETS_PRO_LICENSE
 EOL
 
-cat >k8s/setup/.secrets/lets-encrypt-cert-issuers.yml <<EOL
+mkdir -p k8s/lets-encrypt/.secrets
+cat >k8s/lets-encrypt/.secrets/issuers.yml <<EOL
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:

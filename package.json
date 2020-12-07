@@ -10,8 +10,9 @@
     "yarn": ">=1.22.4"
   },
   "scripts": {
+    "dashboard": "kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}') && kubectl proxy",
     "deploy": "lerna run deploy",
-    "dashboard": "kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}') && kubectl proxy"
+    "seal": "lerna run seal"
   },
   "workspaces": {
     "packages": [

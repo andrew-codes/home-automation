@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@andrew-codes/home-automation-image",
+  "name": "@ha/image",
   "version": "0.0.1",
   "main": "src/index.js",
   "bin": {

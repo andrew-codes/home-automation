@@ -4,3 +4,4 @@ tmp
 kubernetes_join_command
 .secrets
 secrets.sh
+*.log
