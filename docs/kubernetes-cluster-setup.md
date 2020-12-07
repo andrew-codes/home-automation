@@ -6,6 +6,7 @@
 - [classic yarn](https://classic.yarnpkg.com/en/docs/install/#mac-stable)
 - [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+- [docker](https://docs.docker.com/get-docker/)
 
 ## Before you Begin
 

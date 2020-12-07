@@ -12,7 +12,9 @@
   "scripts": {
     "dashboard": "kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}') && kubectl proxy",
     "deploy": "lerna run deploy",
-    "seal": "lerna run seal"
+    "seal": "lerna run seal",
+    "ingress/prod": "lerna run ingress/prod",
+    "ingress/stage": "lerna run ingress/prod"
   },
   "workspaces": {
     "packages": [

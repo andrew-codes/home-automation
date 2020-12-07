@@ -53,13 +53,25 @@ spec:
               value: ":5000"
             - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
               value: "/var/lib/registry"
+            - name: REGISTRY_AUTH
+              value: htpasswd
+            - name: REGISTRY_AUTH_HTPASSWD_REALM
+              value: Registry Realm
+            - name: REGISTRY_AUTH_HTPASSWD_PATH
+              value: /htpasswd_storage/htpasswd
           ports:
             - name: http
               containerPort: 5000
           volumeMounts:
             - name: image-store
               mountPath: "/var/lib/registry"
+            - name: htpasswd
+              mountPath: /htpasswd_storage/htpasswd
+              subPath: htpasswd
       volumes:
+        - name: htpasswd
+          secret:
+            secretName: htpasswd
         - name: image-store
           persistentVolumeClaim:
             claimName: docker-registry-pv-claim

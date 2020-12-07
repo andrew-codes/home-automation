@@ -5,8 +5,9 @@
   "license": "MIT",
   "scripts": {
     "deploy": "scripts/bin/deploy.sh",
+    "ingress/prod": "scripts/bin/ingress.sh ingress-prod.yml",
+    "ingress/stage": "scripts/bin/ingress.sh ingress-staging.yml",
     "seal": "scripts/bin/seal.sh"
-
   },
   "dependencies": {
     "@ha/lets-encrypt": "^0.0.1"

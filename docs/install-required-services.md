@@ -1,15 +1,9 @@
 # Installing Required Services
 
-## Let's Encrypt Cert Issuers
-
-```bash
-kubectl apply -f k8s/setup/.secrets/lets-encrypt-cert-issuers.yml
-```
-
 ## Installing the Docker Registry
 
 ```bash
-kubectl apply -f k8s/docker-registry/index.yml
+yarn deploy --scope @ha/docker-registry
 ```
 
 ## Point Domain to IP
@@ -23,9 +17,7 @@ Before creating an ingress to access the registry, point your docker domain to t
 ## Testing Docker Registry
 
 ```bash
-# This will use lets encrypt's staging API.
-# Use this for testing.
-kubectl apply -f k8s/docker-registry/.secrets/ingress-staging.yml
+yarn ingress/stage
 
 # View pending certificates
 kubectl get certs --all-namespaces
@@ -36,7 +28,7 @@ Then, navigate to `https://$DOCKER_REGISTRY_DOMAIN`. Ensure the page is accessib
 ## Migrating to Production
 
 ```bash
-kubectl apply -f k8s/docker-registry/.secrets/ingress-production.yml
+yarn ingress/prod
 
 # View pending certificates
 kubectl get certs --all-namespaces
