@@ -20,10 +20,9 @@ EOL
 
 cat > k8s/setup/.secrets/lets-encrypt-cert-issuers.yml << EOL
 apiVersion: cert-manager.io/v1
-kind: Issuer
+kind: ClusterIssuer
 metadata:
   name: letsencrypt-staging
-  namespace: default
 spec:
   acme:
     server: https://acme-staging-v02.api.letsencrypt.org/directory
@@ -38,10 +37,9 @@ spec:
 
 ---
 apiVersion: cert-manager.io/v1
-kind: Issuer
+kind: ClusterIssuer
 metadata:
   name: letsencrypt-prod
-  namespace: default
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory

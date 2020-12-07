@@ -13,7 +13,7 @@ kubectl apply -f k8s/docker-registry/index.yml
 
 ## Point Domain to IP
 
-Before creating an ingress to access the registry, point your docker domain to the public IP of your Digital Ocean droplet. The droplet is automatically created via inlets and already tunnelling securely to the cluster.
+Before creating an ingress to access the registry, point your docker domain to the public IP of your Digital Ocean droplet. The droplet is automatically created via inlets and already tunneling securely to the cluster.
 
 > It is important to point your docker domain to the droplet's public IP before proceeding!
 
