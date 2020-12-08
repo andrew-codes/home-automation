@@ -10,7 +10,7 @@ jobs:
     name: Deploy amd64 Apps
     runs-on: amd64-runner
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2.3.2
         with:
           fetch-depth: 0
       - name: Read .nvmrc
