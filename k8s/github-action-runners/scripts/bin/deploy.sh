@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ../../secrets.sh
-
-kubectl apply -f namespace.yml -f secrets
-kubectl apply -f operator.yml -f runners.yml
+kubectl apply -f namespace.yml
+kubectl apply -f secrets
+kubectl apply -f operator.yml
+kubectl apply -f runners.yml

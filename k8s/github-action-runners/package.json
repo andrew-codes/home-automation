@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "deploy": "scripts/bin/deploy.sh",
-    "postdeploy": "kubectl rollout restart deployment github-action-runners --namespace actions-runner-system",
+    "postdeploy": "kubectl rollout restart deployment controller-manager --namespace actions-runner-system",
     "seal": "scripts/bin/seal.sh"
   },
   "dependencies": {
