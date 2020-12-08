@@ -45,7 +45,7 @@ RUN echo "%sudo   ALL=(ALL:ALL) NOPASSWD:ALL" >/etc/sudoers
 
 RUN mkdir -p /runner
 WORKDIR /runner
-RUN curl -L -o runner.tar.gz https://github.com/actions/runner/releases/download/v2.273.1/actions-runner-linux-x64-2.273.1.tar.gz
+RUN curl -L -o runner.tar.gz https://github.com/actions/runner/releases/download/v2.274.2/actions-runner-linux-x64-2.274.2.tar.gz
 RUN tar xzf ./runner.tar.gz
 RUN rm runner.tar.gz
 RUN ./bin/installdependencies.sh
