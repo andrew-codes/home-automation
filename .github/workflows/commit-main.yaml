@@ -27,4 +27,4 @@ jobs:
       - name: Compile changed apps
         run: yarn lerna run compile --stream --since "${{ steps.tag_sha.outputs.TAG_SHA }}"
       - name: Deploy
-        run: lerna run deploy --stream --ignore --since "${{ steps.tag_sha.outputs.TAG_SHA }}"
+        run: lerna run deploy --stream --since "${{ steps.tag_sha.outputs.TAG_SHA }}"
