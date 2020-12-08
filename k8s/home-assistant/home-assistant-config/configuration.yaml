@@ -6,10 +6,6 @@ python_script:
 
 # # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 http:
-#   cors_allowed_origins:
-#     - https://cast.home-assistant.io
-# ssl_certificate: /ssl/fullchain.pem
-# ssl_key: /ssl/privkey.pem
 websocket_api:
 
 discovery:
