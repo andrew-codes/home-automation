@@ -116,7 +116,12 @@ export INLETS_PRO_LICENSE=""
 export POD_NETWORK_CIDR="192.168.100.0/24"
 
 export HOME_ASSISTANT_REPO_URL="" # this repo's SSH clone URL
-export HOME_ASSISTANT_ID_RSA="" # SSH key that has access to GitHub
+export HOME_ASSISTANT_ID_RSA=$(
+    cat <<EOF
+-----BEGIN OPENSSH PRIVATE KEY-----
+-----END OPENSSH PRIVATE KEY-----
+EOF
+) # **passphrase-less**, private SSH key that has access to GitHub
 EOL
 
 ./set_secrets.sh

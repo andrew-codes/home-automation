@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "deploy": "scripts/bin/deploy.sh",
+    "postdeploy": "kubectl rollout restart deployment home-assistant --namespace home-automation",
     "ingress/prod": "scripts/bin/ingress.sh ingress-prod.yml",
     "ingress/stage": "scripts/bin/ingress.sh ingress-staging.yml",
     "seal": "scripts/bin/seal.sh"

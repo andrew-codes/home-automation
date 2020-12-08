@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "deploy": "scripts/bin/deploy.sh",
+    "postdeploy": "kubectl rollout restart deployment docker-registry --namespace docker-registry",
     "seal": "scripts/bin/seal.sh"
   },
   "dependencies": {
