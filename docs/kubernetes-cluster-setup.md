@@ -10,7 +10,7 @@
 
 ## Before you Begin
 
-Much of this process is automated, but it still is lengthy and can be time consuming. As an overview, the process is broken down into these primary steps:
+Much of this process is automated, but it still is lengthy and can be time-consuming. As an overview, the process is broken down into these primary steps:
 
 1. Install project dependencies
 1. Installing Ubuntu Server on machines that will be in the cluster
@@ -41,7 +41,7 @@ yarn
    - When prompted, provide the following information to the installer
    - Note the user's password, this will be used later
      > Use the same username and password for each machine
-1. Repeat for any other machines that will start in your cluser
+1. Repeat for any other machines that will start in your cluster
 
 ```yaml
 name: hl
@@ -87,6 +87,8 @@ all:
 cat > secrets.sh <<EOL
 #!/usr/bin/env bash
 
+export CLUSTER_IP=""
+
 # Ubuntu server hl user password
 export MACHINE_PASSWORD=''
 
@@ -112,6 +114,9 @@ export DOCKER_REGISTRY_CERT_ORG=""
 # Inlets pro license value
 export INLETS_PRO_LICENSE=""
 export POD_NETWORK_CIDR="192.168.100.0/24"
+
+export HOME_ASSISTANT_REPO_URL="" # this repo's SSH clone URL
+export HOME_ASSISTANT_ID_RSA="" # SSH key that has access to GitHub
 EOL
 
 ./set_secrets.sh

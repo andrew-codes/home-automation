@@ -87,6 +87,28 @@ spec:
     spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
+      imagePullSecrets:
+        - name: regcred
+      initContainers:
+        - name: home-assistant-config-applicator
+          image: docker.smith-simms.family:5000/home-assistant-config-applicator:latest
+          imagePullPolicy: Always
+          env:
+            - name: GIT_BRANCH
+              value: main
+            - name: REPOSITORY
+              valueFrom:
+                secretKeyRef:
+                  key: value
+                  name: repo-url
+            - name: CHECKOUT_PATH
+              value: k8s/home-assistant/home-assistant-config
+          volumeMounts:
+            - name: home-assistant-config-volume
+              mountPath: /config
+            - name: ssh-secrets-volume
+              mountPath: /root/.ssh/id_rsa
+              subPath: id_rsa
       containers:
         - name: home-assistant
           image: homeassistant/home-assistant:0.118.4
@@ -126,11 +148,9 @@ spec:
           volumeMounts:
             - name: home-assistant-config-volume
               mountPath: /home-assistant/config
-            # - name: ha-secrets-volume
-            #   mountPath: /home-automation/k8s/home-automation/home-assistant-config/secrets.yaml
-            #   subPath: ha-secrets
-            # - mountPath: /dev/ttyACM0 # z-wave
-            #   name: ttyacm
+            - name: ha-secrets-volume
+              mountPath: /home-assistant/config/secrets.yaml
+              subPath: yml
           securityContext:
             privileged: true
             allowPrivilegeEscalation: true
@@ -164,13 +184,13 @@ spec:
         - name: app-daemon-config-volume
           persistentVolumeClaim:
             claimName: app-daemon-pv-claim
-        # - name: ha-secrets-volume
-        #   secret:
-        #     secretName: secrets
-        # - name: ssh-secrets-volume
-        #   secret:
-        #     secretName: secrets
-        #     defaultMode: 0600
+        - name: ha-secrets-volume
+          secret:
+            secretName: secrets
+        - name: ssh-secrets-volume
+          secret:
+            secretName: ssh
+            defaultMode: 0600
         - name: home-assistant-config-volume
           persistentVolumeClaim:
             claimName: home-assistant-pv-claim
@@ -209,26 +229,3 @@ spec:
       targetPort: api
   selector:
     app.kubernetes.io/name: home-assistant
-
----
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  name: home-assistant
-  namespace: home-automation
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: letsencrypt-staging
-spec:
-  tls:
-    - hosts:
-        - ha.smith-simms.family
-      secretName: ha-tls
-  rules:
-    - host: ha.smith-simms.family
-      http:
-        paths:
-          - path:
-            backend:
-              serviceName: home-assistant
-              servicePort: 8123

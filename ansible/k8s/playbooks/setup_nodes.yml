@@ -83,6 +83,13 @@
         name: kubelet
         enabled: yes
 
+    - name: Setup private registry access for nodes.
+      command: "{{ item }}"
+      with_items:
+        - 'echo '{ "insecure-registries": ["{{ docker_registry_domain }}:5000", "{{ docker_registry_domain }}"] }' > /etc/docker/daemon.json'
+        - systemctl daemon-reload
+        - systemctl restart docker
+
     - name: Reboot all the kubernetes nodes.
       reboot:
         post_reboot_delay: 10

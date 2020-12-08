@@ -1,0 +1,32 @@
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+browser:
+api:
+python_script:
+
+# # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+http:
+#   cors_allowed_origins:
+#     - https://cast.home-assistant.io
+# ssl_certificate: /ssl/fullchain.pem
+# ssl_key: /ssl/privkey.pem
+websocket_api:
+
+discovery:
+ios:
+
+recorder:
+  purge_keep_days: 7
+
+logger:
+  default: info
+
+homeassistant:
+  time_zone: !secret time_zone
+  latitude: !secret latitude
+  longitude: !secret longitude
+  unit_system: !secret unit_system
+  packages: !include_dir_merge_named packages
+frontend:
+  javascript_version: latest
+  themes: !include_dir_merge_named themes

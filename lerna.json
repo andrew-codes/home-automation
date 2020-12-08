@@ -1,5 +1,5 @@
 {
-  "packages": ["packages/*", "k8s/*"],
+  "packages": ["apps/*", "k8s/*", "packages/*"],
   "version": "0.0.1",
   "npmClient": "yarn",
   "useWorkspaces": true

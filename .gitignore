@@ -6,3 +6,5 @@ kubernetes_join_command
 secrets.sh
 *.log
 *.ignored
+dist
+secrets.yml
