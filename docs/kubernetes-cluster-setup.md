@@ -114,7 +114,10 @@ export DOCKER_REGISTRY_CERT_ORG=""
 # Inlets pro license value
 export INLETS_PRO_LICENSE=""
 export POD_NETWORK_CIDR="192.168.100.0/24"
+# Digital Ocean droplet IP; you will only know this after running through the setup
+export INLETS_IP=""
 
+# Home Assistant
 export HOME_ASSISTANT_REPO_URL="" # this repo's SSH clone URL
 export HOME_ASSISTANT_ID_RSA=$(
     cat <<EOF
@@ -122,6 +125,10 @@ export HOME_ASSISTANT_ID_RSA=$(
 -----END OPENSSH PRIVATE KEY-----
 EOF
 ) # **passphrase-less**, private SSH key that has access to GitHub
+
+export HOME_ASSISTANT_DNS_USERNAME=""
+export HOME_ASSISTANT_DNS_PASSWORD=""
+export HOME_ASSISTANT_DOMAIN=""
 EOL
 
 ./set_secrets.sh
