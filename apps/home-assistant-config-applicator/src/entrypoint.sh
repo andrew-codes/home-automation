@@ -57,48 +57,48 @@ function git-synchronize() {
 
         # Is the local repo set to the correct origin?
         CURRENTGITREMOTEURL=$(git remote get-url --all "$GIT_REMOTE" | head -n 1)
-        if [ "$CURRENTGITREMOTEURL" = "$REPOSITORY" ]; then
-            echo "[Info] Git origin is correctly set to $REPOSITORY"
-            OLD_COMMIT=$(git rev-parse HEAD)
+        # if [ "$CURRENTGITREMOTEURL" = "$REPOSITORY" ]; then
+        echo "[Info] Git origin is correctly set to $REPOSITORY"
+        OLD_COMMIT=$(git rev-parse HEAD)
 
-            # Always do a fetch to update repos
-            echo "[Info] Start git fetch..."
-            git fetch "$GIT_REMOTE" || {
-                echo "[Error] Git fetch failed"
+        # Always do a fetch to update repos
+        echo "[Info] Start git fetch..."
+        git fetch "$GIT_REMOTE" || {
+            echo "[Error] Git fetch failed"
+            return 1
+        }
+
+        # Prune if configured
+        if [ "$GIT_PRUNE" == "true" ]; then
+            echo "[Info] Start git prune..."
+            git prune || {
+                echo "[Error] Git prune failed"
                 return 1
             }
-
-            # Prune if configured
-            if [ "$GIT_PRUNE" == "true" ]; then
-                echo "[Info] Start git prune..."
-                git prune || {
-                    echo "[Error] Git prune failed"
-                    return 1
-                }
-            fi
-
-            # Do we switch branches?
-            GIT_CURRENT_BRANCH=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
-            if [ -z "$GIT_BRANCH" ] || [ "$GIT_BRANCH" == "$GIT_CURRENT_BRANCH" ]; then
-                echo "[Info] Staying on currently checked out branch: $GIT_CURRENT_BRANCH..."
-            else
-                echo "[Info] Switching branches - start git checkout of branch $GIT_BRANCH..."
-                git checkout "$GIT_BRANCH" || {
-                    echo "[Error] Git checkout failed"
-                    exit 1
-                }
-                GIT_CURRENT_BRANCH=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
-            fi
-
-            echo "[Info] Start git pull..."
-            git pull || {
-                echo "[Error] Git pull in /home-automation failed"
-                return 1
-            }
-        else
-            echo "[Error] git origin does not match $REPOSITORY!"
-            exit 1
         fi
+
+        # Do we switch branches?
+        GIT_CURRENT_BRANCH=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
+        if [ -z "$GIT_BRANCH" ] || [ "$GIT_BRANCH" == "$GIT_CURRENT_BRANCH" ]; then
+            echo "[Info] Staying on currently checked out branch: $GIT_CURRENT_BRANCH..."
+        else
+            echo "[Info] Switching branches - start git checkout of branch $GIT_BRANCH..."
+            git checkout "$GIT_BRANCH" || {
+                echo "[Error] Git checkout failed"
+                exit 1
+            }
+            GIT_CURRENT_BRANCH=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
+        fi
+
+        echo "[Info] Start git pull..."
+        git pull || {
+            echo "[Error] Git pull in /home-automation failed"
+            return 1
+        }
+        # else
+        #     echo "[Error] git origin does not match $REPOSITORY!"
+        #     exit 1
+        # fi
 
     else
         echo "[Warn] Git repostory doesn't exist"
