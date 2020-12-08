@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "@ha/github-action-runners",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "deploy": "scripts/bin/deploy.sh",
+    "postdeploy": "kubectl rollout restart deployment github-action-runners --namespace actions-runner-system",
+    "seal": "scripts/bin/seal.sh"
+  },
+  "dependencies": {
+    "@ha/github-action-runner-amd64": "^0.0.1"
+  }
+}

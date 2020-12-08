@@ -1,0 +1,42 @@
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: github-action-runners
+  namespace: actions-runner-system
+spec:
+  minReplicas: 3
+  maxReplicas: 6
+  replicas: 3
+  template:
+    spec:
+      labels:
+        - amd64-runner
+        - nodejs-runner
+      repository: andrew-codes/home-automation
+      imagePullSecrets:
+        - name: regcred
+      image: docker.smith-simms.family/github-action-runner-node:latest
+      imagePullPolicy: Always
+      volumeMounts:
+        - name: docker-config-volume
+          mountPath: /home/runner/.docker/config.json
+          subPath: .dockerconfigjson
+        - name: kubectl-config-volume
+          mountPath: /home/runner/.kube/config
+          subPath: kubectl-config
+      volumes:
+        - name: docker-config-volume
+          secret:
+            secretName: regcred
+        - name: kubectl-config-volume
+          secret:
+            secretName: kubectl-config
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                      - amd64
