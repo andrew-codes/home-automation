@@ -30,7 +30,7 @@ function git-clone() {
 
     # git clone
     echo "[Info] Start git clone"
-    git clone --depth 1 --filter=blob:none --no-checkout $REPOSITORY /config {
+    git clone --depth 1 --filter=blob:none --no-checkout $REPOSITORY /config || {
         echo "[Error] Git clone failed"
         exit 1
     }
