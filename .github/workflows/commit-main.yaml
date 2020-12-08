@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy_amd64_apps:
-    name: Compile Apps
+    name: Deploy amd64 Apps
     runs-on: amd64-runner
     steps:
       - uses: actions/checkout@v2
