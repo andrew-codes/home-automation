@@ -15,7 +15,7 @@ spec:
   tls:
     - hosts:
         - $HOME_ASSISTANT_DOMAIN
-      secretName: docker-tls
+      secretName: home-assistant-tls
   rules:
     - host: $HOME_ASSISTANT_DOMAIN
       http:
