@@ -18,7 +18,7 @@ rm -rf .secrets/kubectl-config
 rm -rf .secrets/kubectl-config.json
 
 # GitHub token
-echo "$GITHUB_RUNNER_TOKEN" >.secrets/github_token
+echo -n "$GITHUB_RUNNER_TOKEN" >.secrets/github_token
 kubectl create secret generic controller-manager --dry-run=client --namespace="actions-runner-system" --from-file=github_token=".secrets/github_token" -o json >".secrets/github_token.json"
 kubeseal --namespace "actions-runner-system" <".secrets/github_token.json" >"secrets/github_token.json"
 rm -rf .secrets/github_token
