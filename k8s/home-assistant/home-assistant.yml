@@ -117,7 +117,7 @@ spec:
             - "sh"
           args:
             - "-c"
-            - "hass --config /home-assistant/config"
+            - "hass --config /home-automation/k8s/home-assistant/home-assistant-config"
           ports:
             - name: api
               containerPort: 8123
@@ -147,9 +147,9 @@ spec:
             periodSeconds: 10
           volumeMounts:
             - name: home-assistant-config-volume
-              mountPath: /home-assistant/config
+              mountPath: /home-automation
             - name: ha-secrets-volume
-              mountPath: /home-assistant/config/secrets.yaml
+              mountPath: /home-automation/k8s/home-assistant/home-assistant-config/secrets.yaml
               subPath: yml
           securityContext:
             privileged: true
