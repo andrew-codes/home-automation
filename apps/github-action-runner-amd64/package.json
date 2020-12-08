@@ -6,8 +6,6 @@
   "scripts": {
     "clean": "rm -rf dist",
     "compile": "cp -r src/ dist/",
-    "predeploy": "yarn clean && yarn compile && yarn image/build && yarn image/push",
-    "deploy": "echo ''",
     "image/build": "docker build -t docker.smith-simms.family:5000/github-action-runner-node:latest .",
     "image/push": "docker push docker.smith-simms.family:5000/github-action-runner-node:latest"
   }
