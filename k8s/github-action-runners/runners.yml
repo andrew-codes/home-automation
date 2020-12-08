@@ -4,8 +4,6 @@ metadata:
   name: github-action-runners
   namespace: actions-runner-system
 spec:
-  minReplicas: 3
-  maxReplicas: 6
   replicas: 3
   template:
     spec:
@@ -15,7 +13,7 @@ spec:
       repository: andrew-codes/home-automation
       imagePullSecrets:
         - name: regcred
-      image: docker.smith-simms.family/github-action-runner-node:latest
+      image: docker.smith-simms.family:5000/github-action-runner-node:latest
       imagePullPolicy: Always
       volumeMounts:
         - name: docker-config-volume

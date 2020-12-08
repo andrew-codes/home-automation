@@ -1,0 +1,56 @@
+name: "Deploy"
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  compile_apps:
+    name: Compile Apps
+    runs-on: amd64-runner
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Read .nvmrc
+        run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
+      - name: Get latest tag
+        run: echo "##[set-output name=TAG_SHA;]$(git rev-list --tags --max-count=1)"
+        id: tag_sha
+      - name: Use Node.js (.nvmrc)
+        uses: actions/setup-node@v1
+        with:
+          node-version: "${{ steps.nvm.outputs.NVMRC }}"
+      - name: Install deps
+        run: yarn
+      - name: Compile changed apps
+        run: yarn lerna run compile --stream --since "${{ steps.tag_sha.outputs.TAG_SHA }}"
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: apps
+          path: |
+            package.json
+            !node_modules
+            !**/node_modules
+            !apps/*/src
+            apps/*
+            k8s/*
+
+  deploy_amd64_apps:
+    name: Deploy Changed amd64 Apps
+    runs-on: amd64-runner
+    needs: [compile_apps]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v2
+        with:
+          name: apps
+      - name: Get latest tag
+        run: echo "##[set-output name=TAG_SHA;]$(git rev-list --tags --max-count=1)"
+        id: tag_sha
+      - name: Deploy
+        run: lerna run deploy --stream --ignore --since "${{ steps.tag_sha.outputs.TAG_SHA }}"

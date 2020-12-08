@@ -12,7 +12,7 @@ rm -rf .secrets/regcred.json
 
 # Kube config
 echo "$KUBE_CONFIG" >.secrets/kubectl-config
-kubectl create secret generic ssh --dry-run=client --namespace="actions-runner-system" --from-file=kubectl-config=".secrets/kubectl-config" -o json >".secrets/kubectl-config.json"
+kubectl create secret generic kubectl-config --dry-run=client --namespace="actions-runner-system" --from-file=kubectl-config=".secrets/kubectl-config" -o json >".secrets/kubectl-config.json"
 kubeseal --namespace "actions-runner-system" <".secrets/kubectl-config.json" >"secrets/kubectl-config.json"
 rm -rf .secrets/kubectl-config
 rm -rf .secrets/kubectl-config.json
