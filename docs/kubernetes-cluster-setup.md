@@ -14,6 +14,7 @@ Much of this process is automated, but it still is lengthy and can be time consu
 
 1. Install project dependencies
 1. Installing Ubuntu Server on machines that will be in the cluster
+1. Assign static IPs to machines
 1. Gather the machines' IP addresses for Ansible inventory
 1. Generate Secrets
 1. Provision nodes via Ansible
@@ -54,6 +55,7 @@ allow_password_ssh_access: false
 
 ## Preparing Ansible
 
+1. Assign static IP addresses to each node
 1. Update `./ansible/hosts.yml` with the IP addresses of your machines
    - Add a machine's IP address to `mains` group for master nodes
    - Add a machine's IP address to `workers` for secondary nodes
@@ -101,6 +103,11 @@ export BACKUP_URI=""
 
 # Docker registry domain; e.g. docker.yourdomain.com
 export DOCKER_REGISTRY_DOMAIN=""
+export DOCKER_REGISTRY_USERNAME=""
+export DOCKER_REGISTRY_PASSWORD=""
+export DOCKER_REGISTRY_CERT_STATE=""
+export DOCKER_REGISTRY_CERT_CITY=""
+export DOCKER_REGISTRY_CERT_ORG=""
 
 # Inlets pro license value
 export INLETS_PRO_LICENSE=""
