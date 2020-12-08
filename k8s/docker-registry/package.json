@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "@ha/docker-registry",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "deploy": "scripts/bin/deploy.sh",
+    "seal": "scripts/bin/seal.sh"
+  },
+  "dependencies": {
+    "@ha/lets-encrypt": "^0.0.1"
+  }
+}

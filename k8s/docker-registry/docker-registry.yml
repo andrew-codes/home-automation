@@ -1,0 +1,110 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: docker-registry-pv-volume
+  namespace: docker-registry
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data/docker-registry"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: docker-registry-pv-claim
+  namespace: docker-registry
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docker-registry
+  namespace: docker-registry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: docker-registry
+  template:
+    metadata:
+      labels:
+        app: docker-registry
+    spec:
+      containers:
+        - name: docker-registry
+          image: registry:2.7.1
+          env:
+            - name: REGISTRY_HTTP_ADDR
+              value: ":5000"
+            - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
+              value: "/var/lib/registry"
+            - name: REGISTRY_HTTP_TLS_CERTIFICATE
+              value: /certs/domain.crt
+            - name: REGISTRY_HTTP_TLS_KEY
+              value: /certs/domain.key
+            - name: REGISTRY_AUTH
+              value: htpasswd
+            - name: REGISTRY_AUTH_HTPASSWD_REALM
+              value: Registry Realm
+            - name: REGISTRY_AUTH_HTPASSWD_PATH
+              value: /htpasswd_storage/htpasswd
+          ports:
+            - name: http
+              containerPort: 5000
+          volumeMounts:
+            - name: image-store
+              mountPath: "/var/lib/registry"
+            - name: htpasswd
+              mountPath: /htpasswd_storage/htpasswd
+              subPath: htpasswd
+            - name: cert
+              mountPath: /certs/domain.key
+              subPath: key
+            - name: cert
+              mountPath: /certs/domain.crt
+              subPath: crt
+      volumes:
+        - name: htpasswd
+          secret:
+            secretName: htpasswd
+        - name: cert
+          secret:
+            secretName: cert
+        - name: image-store
+          persistentVolumeClaim:
+            claimName: docker-registry-pv-claim
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: docker-registry-nodeport
+  namespace: docker-registry
+  labels:
+    app: docker-registry
+spec:
+  selector:
+    app: docker-registry
+  type: NodePort
+  externalIPs:
+    - 192.168.1.45
+  ports:
+    - name: http
+      port: 5000
+      targetPort: 5000
+      nodePort: 30500

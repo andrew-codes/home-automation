@@ -1,0 +1,31 @@
+---
+- hosts: cluster_primary
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+  remote_user: hl
+
+  tasks:
+    - name: nginx Ingress
+      become_user: hl
+      become_method: sudo
+      become: yes
+      command: "{{ item }}"
+      with_items:
+        - ark install nginx-ingress
+
+    - name: Cert Manager
+      become_user: hl
+      become_method: sudo
+      become: yes
+      command: "{{ item }}"
+      with_items:
+        - kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml
+
+    - name: Delete secrets
+      become_user: hl
+      become_method: sudo
+      become: yes
+      shell: rm -rf /home/{{ ansible_user }}/.secrets/*

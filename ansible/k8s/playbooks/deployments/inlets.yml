@@ -1,0 +1,26 @@
+---
+- hosts: cluster_primary
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+  remote_user: hl
+  vars_files:
+    - ../../.secrets/setup_k8s.yml
+
+  tasks:
+    - name: Copy manifests
+      copy:
+        src: ./../../.secrets/inlets-pro.license
+        dest: /home/{{ ansible_user }}/.secrets/inlets-pro.license
+        owner: hl
+        mode: "0644"
+
+    - name: Inlets for DigitalOcean
+      become_user: hl
+      become_method: sudo
+      become: yes
+      command: "{{ item }}"
+      with_items:
+        - arkade install inlets-operator --provider digitalocean --region nyc3 --token "{{ digitalocean_token }}" --license-file "/home/{{ ansible_user }}/.secrets/inlets-pro.license"

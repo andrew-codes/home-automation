@@ -1,1 +1,8 @@
 node_modules
+.DS_Store
+tmp
+kubernetes_join_command
+.secrets
+secrets.sh
+*.log
+*.ignored

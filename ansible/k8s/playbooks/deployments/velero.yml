@@ -1,0 +1,75 @@
+---
+- hosts: cluster_primary
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+  remote_user: hl
+  vars_files:
+    - ../../.secrets/setup_k8s.yml
+
+  tasks:
+    - name: Install Velero CLI
+      become_user: root
+      become_method: sudo
+      become: yes
+      command: "{{ item }}"
+      with_items:
+        - curl -fsSL -o velero.tar.gz https://github.com/vmware-tanzu/velero/releases/download/v1.5.2/velero-v1.5.2-linux-amd64.tar.gz
+        - tar -xvf velero.tar.gz
+        - mv velero-v1.5.2-linux-amd64/velero /usr/local/bin
+
+    - name: Copy secrets
+      copy:
+        src: ./../../.secrets/k8s-digitalocean-secret-token.yml
+        dest: /home/{{ ansible_user }}/.secrets/k8s-digitalocean-secret-token.yml
+        owner: hl
+        mode: "0644"
+
+    - name: Copy cloud_credentials.ini
+      copy:
+        src: ./../../.secrets/backup-cloud-credentials.ini
+        dest: /home/{{ ansible_user }}/.secrets/backup-cloud-credentials.ini
+        owner: hl
+        mode: "0644"
+
+    - name: Copy manifests
+      copy:
+        src: ./../../../../k8s/setup/k8s-velero-patch-deployment.yml
+        dest: /home/{{ ansible_user }}/k8s-velero-patch-deployment.yml
+        owner: hl
+        mode: "0644"
+
+    - name: Get Digital Ocean secret token patch contents
+      shell: cat  /home/{{ ansible_user }}/.secrets/k8s-digitalocean-secret-token.yml
+      register: digitalocean_secret_token_patch
+
+    - name: Get Velero patch deployment contents
+      shell: cat  /home/{{ ansible_user }}/k8s-velero-patch-deployment.yml
+      register: velero_deployment_patch
+
+    - name: Create namespace
+      become_user: hl
+      become_method: sudo
+      become: yes
+      command: "{{ item }}"
+      with_items:
+        - kubectl apply -f velero-namespace.yml
+
+    - name: Install Velero for Digital Ocean
+      become_user: hl
+      become_method: sudo
+      become: yes
+      command: "{{ item }}"
+      with_items:
+        - velero install --provider velero.io/aws --bucket {{ backup_bucket }} --plugins velero/velero-plugin-for-aws:v1.0.0,digitalocean/velero-plugin:v1.0.0 --backup-location-config s3Url={{ backup_uri }} --use-volume-snapshots=false --secret-file=.secrets/backup-cloud-credentials.ini
+        - velero snapshot-location create default --provider digitalocean.com/velero
+        - kubectl patch secret cloud-credentials -p "{{ digitalocean_secret_token_patch.stdout }}" --namespace velero
+        - kubectl patch deployment velero -p "{{ velero_deployment_patch.stdout }}" --namespace velero
+
+    - name: Delete secrets
+      become_user: hl
+      become_method: sudo
+      become: yes
+      shell: rm -rf /home/{{ ansible_user }}/.secrets/*

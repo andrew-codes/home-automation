@@ -1,21 +1,28 @@
 {
-    "private": true,
-    "name": "@andrew-codes/home-automation",
-    "version": "0.0.1",
-    "repository": "git@github.com:andrew-codes/home-automation.git",
-    "author": "Andrew Smith <andrew@andrew.codes>",
-    "license": "MIT",
-    "engines": {
-      "node": ">=14.3.0",
-      "yarn": ">=1.22.4"
-    },
-    "scripts": {
-    },
-    "workspaces": {
-      "packages": [
-      ]
-    },
-    "dependencies": {
-    }
+  "private": true,
+  "name": "@andrew-codes/home-automation",
+  "version": "0.0.1",
+  "repository": "git@github.com:andrew-codes/home-automation.git",
+  "author": "Andrew Smith <andrew@andrew.codes>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.3.0",
+    "yarn": ">=1.22.4"
+  },
+  "scripts": {
+    "dashboard": "kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}') && kubectl proxy",
+    "deploy": "lerna run deploy",
+    "seal": "lerna run seal",
+    "ingress/prod": "lerna run ingress/prod",
+    "ingress/stage": "lerna run ingress/prod"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "k8s/*"
+    ]
+  },
+  "dependencies": {
+    "lerna": "^3.22.1"
   }
-  
+}
