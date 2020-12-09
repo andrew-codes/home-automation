@@ -26,6 +26,8 @@ spec:
           subPath: kubectl-config
         - name: docker-sock
           mountPath: /var/run/docker.sock
+      securityContext:
+        privileged: true
       volumes:
         - name: docker-config-volume
           secret:
@@ -36,6 +38,7 @@ spec:
         - name: docker-sock
           hostPath:
             path: /var/run/docker.sock
+            type: Socket
 
       affinity:
         nodeAffinity:
