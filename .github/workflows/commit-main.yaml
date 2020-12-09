@@ -37,6 +37,7 @@ jobs:
   build_push_images:
     name: Build and push images
     runs-on: docker-runner
+    needs: [compile]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -50,6 +51,7 @@ jobs:
   deploy:
     name: Deploy to Kubernetes
     runs-on: amd64-runner
+    needs: [build_push_images]
     steps:
       - uses: actions/checkout@v2
         with:
