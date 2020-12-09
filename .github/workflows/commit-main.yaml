@@ -15,9 +15,6 @@ jobs:
           fetch-depth: 0
       - name: Read .nvmrc
         run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
-      - name: Get latest tag
-        run: echo "##[set-output name=TAG_SHA;]$(git rev-list --tags --max-count=1)"
-        id: tag_sha
       - name: Use Node.js (.nvmrc)
         uses: actions/setup-node@v1
         with:
@@ -25,8 +22,8 @@ jobs:
       - name: Install deps
         run: yarn
       - name: Compile changed apps
-        run: yarn lerna run compile --stream --since "${{ steps.tag_sha.outputs.TAG_SHA }}"
+        run: yarn lerna run compile --stream --since HEAD~
       - name: Build and push images
-        run: yarn lerna run image/push --stream --ignore @ha/github-action-runner-amd64 --since "${{ steps.tag_sha.outputs.TAG_SHA }}"
+        run: yarn lerna run image/push --stream --ignore @ha/github-action-runner-amd64 --since HEAD~
       - name: Build and push images
-        run: yarn lerna run deploy --stream --ignore @ha/github-action-runner-amd64 --ignore @ha/lets-encrypt --since "${{ steps.tag_sha.outputs.TAG_SHA }}"
+        run: yarn lerna run deploy --stream --ignore @ha/github-action-runner-amd64 --ignore @ha/lets-encrypt --since HEAD~
