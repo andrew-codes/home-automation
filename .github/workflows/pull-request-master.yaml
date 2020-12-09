@@ -1,0 +1,26 @@
+name: "Test"
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy_apps:
+    name: Run all unit tests
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+      - name: Read .nvmrc
+        run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
+        id: nvm
+      - name: Save version
+        run: echo "latest" > version
+      - name: Use Node.js (.nvmrc)
+        uses: actions/setup-node@v1
+        with:
+          node-version: "${{ steps.nvm.outputs.NVMRC }}"
+      - name: Install deps
+        run: yarn
+      - name: Run unit tests
+        run: yarn test

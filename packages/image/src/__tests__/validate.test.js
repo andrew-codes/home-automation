@@ -45,9 +45,9 @@ describe("validateMediaPath", () => {
       "ENOENT: no such file or directory, access '/not-found'"
     )
     try {
-      sut.validateMediaPath("/not-found")
+      await sut.validateMediaPath("/not-found")
     } catch (e) {
-      expect(e.message).toEqual(
+      expect(e).toEqual(
         "ENOENT: no such file or directory, access '/not-found'"
       )
     }
