@@ -107,11 +107,6 @@ export BACKUP_URI=""
 
 # Docker registry domain; e.g. docker.yourdomain.com
 export DOCKER_REGISTRY_DOMAIN=""
-export DOCKER_REGISTRY_USERNAME=""
-export DOCKER_REGISTRY_PASSWORD=""
-export DOCKER_REGISTRY_CERT_STATE=""
-export DOCKER_REGISTRY_CERT_CITY=""
-export DOCKER_REGISTRY_CERT_ORG=""
 
 # Inlets pro license value
 export INLETS_PRO_LICENSE=""
