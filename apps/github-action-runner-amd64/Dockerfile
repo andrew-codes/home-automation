@@ -1,4 +1,4 @@
-FROM summerwind/actions-runner:v2.273.5
+FROM summerwind/actions-runner-dind:latest
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN sudo apt update -y

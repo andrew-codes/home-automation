@@ -11,10 +11,11 @@ spec:
         - amd64-runner
         - nodejs-runner
       repository: andrew-codes/home-automation
+      dockerEnabled: true
       dockerdWithinRunnerContainer: true
       imagePullSecrets:
         - name: regcred
-      image: docker.smith-simms.family:5000/github-action-runner-node:latest
+      image: docker.smith-simms.family:5000/github-action-runner:latest
       imagePullPolicy: Always
       volumeMounts:
         - name: docker-config-volume
@@ -23,6 +24,8 @@ spec:
         - name: kubectl-config-volume
           mountPath: /home/runner/.kube/config
           subPath: kubectl-config
+        - name: docker-sock
+          mountPath: /var/run/docker.sock
       volumes:
         - name: docker-config-volume
           secret:
@@ -30,6 +33,10 @@ spec:
         - name: kubectl-config-volume
           secret:
             secretName: kubectl-config
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock
+
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "compile": "cp -r src/ dist/",
-    "image/build": "docker build -t docker.smith-simms.family:5000/github-action-runner-node:latest . --build-arg DOCKER_REGISTRY_DOMAIN=$DOCKER_REGISTRY_DOMAIN",
-    "image/push": "docker push docker.smith-simms.family:5000/github-action-runner-node:latest"
+    "image/build": "docker build -t docker.smith-simms.family:5000/github-action-runner:latest . --build-arg DOCKER_REGISTRY_DOMAIN=$DOCKER_REGISTRY_DOMAIN",
+    "image/push": "docker push docker.smith-simms.family:5000/github-action-runner:latest"
   }
 }
