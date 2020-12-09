@@ -50,4 +50,5 @@ spec:
       repository: andrew-codes/home-automation
       dockerEnabled: true
       dockerdWithinRunnerContainer: false
-      image: summerwind/actions-runner:v2.273.5
+      image: summerwind/actions-runner:latest
+      imagePullPolicy: Always
