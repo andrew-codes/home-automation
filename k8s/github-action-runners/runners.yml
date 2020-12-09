@@ -12,7 +12,7 @@ spec:
         - nodejs-runner
       repository: andrew-codes/home-automation
       dockerEnabled: true
-      dockerdWithinRunnerContainer: true
+      dockerdWithinRunnerContainer: false
       imagePullSecrets:
         - name: regcred
       image: docker.smith-simms.family:5000/github-action-runner:latest
