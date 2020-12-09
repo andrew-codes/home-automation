@@ -53,7 +53,7 @@ yarn image/push --scope @ha/github-action-runner-amd64 --stream
 
 > This will build the runner image and push it to your local registry.
 
-### Deploy the Runner To Kubernets
+### Deploy the Runner To Kubernetes
 
 ```bash
 yarn deploy --scope @ha/github-action-runners --stream
