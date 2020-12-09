@@ -27,8 +27,8 @@ jobs:
       - name: Compile changed apps
         run: yarn lerna run compile --stream --since "${{ steps.tag_sha.outputs.TAG_SHA }}"
       - name: Build images
-        run: yarn lerna run image/build --stream --since "${{ steps.tag_sha.outputs.TAG_SHA }}"
+        run: yarn lerna run image/build --stream --ignore @ha/github-action-runner-amd64 --since "${{ steps.tag_sha.outputs.TAG_SHA }}"
       - name: Push images
-        run: yarn lerna run image/push --stream --since "${{ steps.tag_sha.outputs.TAG_SHA }}"
+        run: yarn lerna run image/push --stream --ignore @ha/github-action-runner-amd64 --since "${{ steps.tag_sha.outputs.TAG_SHA }}"
       - name: Deploy
-        run: lerna run deploy --stream --since "${{ steps.tag_sha.outputs.TAG_SHA }}"
+        run: lerna run deploy --ignore @ha/github-action-runner-amd64 --ignore @ha/github-action-runners --stream --since "${{ steps.tag_sha.outputs.TAG_SHA }}"
