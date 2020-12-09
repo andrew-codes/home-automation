@@ -79,3 +79,7 @@ kubectl get certs -n home-automation
 > Visit the site at: `https://${HOME_ASSISTANT_DOMAIN}`.
 
 > Note that the SSL certificate is recognized as valid by the browser.
+
+# Some Next Steps
+
+[Configure home assistant](./configuration.md) via the configuration directory or see the rest of the [docs](./../README.md)
