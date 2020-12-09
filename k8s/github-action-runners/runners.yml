@@ -11,6 +11,7 @@ spec:
         - amd64-runner
         - nodejs-runner
       repository: andrew-codes/home-automation
+      dockerdWithinRunnerContainer: true
       imagePullSecrets:
         - name: regcred
       image: docker.smith-simms.family:5000/github-action-runner-node:latest

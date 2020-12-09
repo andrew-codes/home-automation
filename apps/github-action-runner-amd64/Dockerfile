@@ -1,4 +1,4 @@
-FROM summerwind/actions-runner:latest
+FROM summerwind/actions-runner:v2.273.5
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN sudo apt update -y
@@ -17,4 +17,4 @@ RUN export KUBECONFIG=/home/runner/.kube/config
 RUN mkdir -p /home/runner/.docker
 RUN sudo yarn global add lerna
 RUN sudo mkdir -p /etc/docker
-RUN echo '{ "insecure-registries": ["{{ $DOCKER_REGISTRY_DOMAIN }}:5000", "{{ $DOCKER_REGISTRY_DOMAIN }}"] }' | sudo tee -a /etc/docker/daemon.json
+RUN echo '{ "insecure-registries": ["$DOCKER_REGISTRY_DOMAIN:5000", "$DOCKER_REGISTRY_DOMAIN"] }' | sudo tee -a /etc/docker/daemon.json
