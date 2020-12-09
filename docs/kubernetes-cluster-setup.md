@@ -86,6 +86,8 @@ all:
 
 Create a file, `./secrets.sh`and paste the following, filling in with your values, abd then running: `./set_secrets.sh`:
 
+> DANGER: This file is ignored. DO NOT COMMIT THIS TO THE REPO!!!
+
 ```bash
 #!/usr/bin/env bash
 
