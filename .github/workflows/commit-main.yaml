@@ -6,8 +6,8 @@ on:
       - main
 
 jobs:
-  compile:
-    name: Compile
+  deploy:
+    name: Compile, Push, Deploy
     runs-on: amd64-runner
     steps:
       - uses: actions/checkout@v2
@@ -26,35 +26,7 @@ jobs:
         run: yarn
       - name: Compile changed apps
         run: yarn lerna run compile --stream --since "${{ steps.tag_sha.outputs.TAG_SHA }}"
-      - uses: actions/upload-artifact@v2
-        with:
-          name: dist
-          path: |
-            !node_modules
-            !**/node_modules
-            **/dist
-
-  build_push_images:
-    name: Build and push images
-    runs-on: docker-runner
-    needs: [compile]
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: actions/download-artifact@v2
-        with:
-          name: dist
       - name: Build and push images
         run: yarn lerna run image/push --stream --ignore @ha/github-action-runner-amd64 --since "${{ steps.tag_sha.outputs.TAG_SHA }}"
-
-  deploy:
-    name: Deploy to Kubernetes
-    runs-on: amd64-runner
-    needs: [build_push_images]
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
       - name: Build and push images
         run: yarn lerna run deploy --stream --ignore @ha/github-action-runner-amd64 --since "${{ steps.tag_sha.outputs.TAG_SHA }}"
