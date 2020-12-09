@@ -44,6 +44,8 @@ yarn seal --scope @ha/github-action-runners --stream
 
 > This should output files in the directory: `./k8s/github-action-runners/secrets`.
 
+> Commit the files found in `./k8s/github-action-runners/secrets`.
+
 ### Build Runner Image
 
 ```bash

@@ -4,7 +4,7 @@ tmp
 kubernetes_join_command
 .secrets
 secrets.sh
+secrets.yaml
 *.log
 *.ignored
 dist
-secrets.yml
