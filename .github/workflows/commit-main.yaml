@@ -29,4 +29,4 @@ jobs:
       - name: Build and push images
         run: yarn lerna run image/push --stream --ignore @ha/github-action-runner-amd64 --since "${{ steps.tag_sha.outputs.TAG_SHA }}"
       - name: Build and push images
-        run: yarn lerna run deploy --stream --ignore @ha/github-action-runner-amd64 --since "${{ steps.tag_sha.outputs.TAG_SHA }}"
+        run: yarn lerna run deploy --stream --ignore @ha/github-action-runner-amd64 --ignore @ha/lets-encrypt --since "${{ steps.tag_sha.outputs.TAG_SHA }}"
