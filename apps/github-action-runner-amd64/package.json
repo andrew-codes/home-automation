@@ -4,9 +4,6 @@
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
-    "clean": "rm -rf dist",
-    "compile": "cp -r src/ dist/",
-    "image/build": "docker build -t docker.smith-simms.family:5000/github-action-runner:latest . --build-arg DOCKER_REGISTRY_DOMAIN=$DOCKER_REGISTRY_DOMAIN",
-    "image/push": "docker push docker.smith-simms.family:5000/github-action-runner:latest"
+    "image/push": "docker run -v $(PWD):/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"$DOCKER_REGISTRY_DOMAIN:5000/github-action-runner:latest\" --context dir:///workspace/ --insecure"
   }
 }

@@ -1,4 +1,4 @@
-FROM summerwind/actions-runner-dind:latest
+FROM summerwind/actions-runner:v2.273.5
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN sudo apt update -y
@@ -7,15 +7,15 @@ RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key
 RUN echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+RUN curl -sS https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+RUN echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable" | sudo tee -a /etc/apt/sources.list.d/docker.list
 RUN sudo apt update -y
 RUN sudo apt-get install -y \
   nodejs \
   yarn \
+  docker.io \
   apt-transport-https gnupg2 kubectl \
   lxc ca-certificates iptables
 RUN export KUBECONFIG=/home/runner/.kube/config
 RUN mkdir -p /home/runner/.docker
 RUN sudo yarn global add lerna
-RUN sudo mkdir -p /etc/docker
-RUN echo '{ "insecure-registries": ["$DOCKER_REGISTRY_DOMAIN:5000", "$DOCKER_REGISTRY_DOMAIN"] }' | sudo tee -a /etc/docker/daemon.json
-USER root

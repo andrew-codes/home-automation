@@ -16,7 +16,8 @@
     "image/build": "lerna run image/build --include-filtered-dependencies",
     "image/push": "lerna run image/push --include-filtered-dependencies",
     "ingress/prod": "lerna run ingress/prod --include-filtered-dependencies",
-    "ingress/stage": "lerna run ingress/stage --include-filtered-dependencies"
+    "ingress/stage": "lerna run ingress/stage --include-filtered-dependencies",
+    "test": "lerna run test"
   },
   "workspaces": {
     "packages": [

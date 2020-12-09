@@ -18,28 +18,13 @@ spec:
       image: docker.smith-simms.family:5000/github-action-runner:latest
       imagePullPolicy: Always
       volumeMounts:
-        - name: docker-config-volume
-          mountPath: /home/runner/.docker/config.json
-          subPath: .dockerconfigjson
         - name: kubectl-config-volume
           mountPath: /home/runner/.kube/config
           subPath: kubectl-config
-        - name: docker-sock
-          mountPath: /var/run/docker.sock
-      securityContext:
-        privileged: true
       volumes:
-        - name: docker-config-volume
-          secret:
-            secretName: regcred
         - name: kubectl-config-volume
           secret:
             secretName: kubectl-config
-        - name: docker-sock
-          hostPath:
-            path: /var/run/docker.sock
-            type: Socket
-
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -49,3 +34,20 @@ spec:
                     operator: In
                     values:
                       - amd64
+
+---
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: github-action-runners-docker
+  namespace: actions-runner-system
+spec:
+  replicas: 1
+  template:
+    spec:
+      labels:
+        - docker-runner
+      repository: andrew-codes/home-automation
+      dockerEnabled: true
+      dockerdWithinRunnerContainer: false
+      image: summerwind/actions-runner:v2.273.5
