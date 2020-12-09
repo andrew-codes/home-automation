@@ -1,5 +1,7 @@
 # Setting up the Kubernetes Cluster
 
+Here is a [list of capabilities](./kubernetes-cluster-features.md) of the cluster once this guide is complete.
+
 ## Prerequisite Software
 
 - [node](https://nodejs.org/en/download/)
@@ -82,9 +84,9 @@ all:
 
 ## Setting Initial Secrets
 
+Create a file, `./secrets.sh`and paste the following, filling in with your values, abd then running: `./set_secrets.sh`:
+
 ```bash
-# Execute this with your secrets filled in.
-cat > secrets.sh <<EOL
 #!/usr/bin/env bash
 
 export CLUSTER_IP=""
@@ -114,23 +116,11 @@ export DOCKER_REGISTRY_CERT_ORG=""
 # Inlets pro license value
 export INLETS_PRO_LICENSE=""
 export POD_NETWORK_CIDR="192.168.100.0/24"
-# Digital Ocean droplet IP; you will only know this after running through the setup
-export INLETS_IP=""
+```
 
-# Home Assistant
-export HOME_ASSISTANT_REPO_URL="" # this repo's SSH clone URL
-export HOME_ASSISTANT_ID_RSA=$(
-    cat <<EOF
------BEGIN OPENSSH PRIVATE KEY-----
------END OPENSSH PRIVATE KEY-----
-EOF
-) # **passphrase-less**, private SSH key that has access to GitHub
+Run the following:
 
-export HOME_ASSISTANT_DNS_USERNAME=""
-export HOME_ASSISTANT_DNS_PASSWORD=""
-export HOME_ASSISTANT_DOMAIN=""
-EOL
-
+```bash
 ./set_secrets.sh
 ```
 

@@ -8,4 +8,5 @@ My home automation and, all related services, run in a local Kubernetes cluster.
 
 1. [Install and provision kubernetes cluster](./docs/kubernetes-cluster-setup.md)
    - [Kubernetes cluster default features; what is installed?](./docs/kubernetes-cluster-features.md)
-1. [Install required services](./docs/install-required-services.md)
+1. [Setup the private Docker Registry](./docs/install-required-services.md)
+1. [Enable Automated Deploys](./docs/automate-deploys-with-github-actions.md)
