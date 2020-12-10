@@ -90,9 +90,9 @@ function git-synchronize() {
             GIT_CURRENT_BRANCH=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
         fi
 
-        echo "[Info] Start git pull..."
+        echo "[Info] Start git reset to $GIT_REMOTE on branch $GIT_BRANCH..."
         git reset --hard "$GIT_REMOTE" "$GIT_BRANCH" || {
-            echo "[Error] Git pull in /home-automation failed"
+            echo "[Error] Git reset --hard in /home-automation failed"
             return 1
         }
         # else
