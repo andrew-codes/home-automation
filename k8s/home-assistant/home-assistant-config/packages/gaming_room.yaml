@@ -308,8 +308,9 @@ gaming_room:
             entity_id: media_player.gaming_room_tv
         - service: media_player.select_sound_mode
           data:
-            entity_id: media_player.gaming_theater_avr
+            entity_id: media_player.gaming_room_avr
             sound_mode: DOLBY DIGITAL
+
     - alias: Start a game room activity while Andrew is not home
       trigger:
         platform: state
@@ -322,5 +323,15 @@ gaming_room:
       action:
         - service: media_player.select_sound_mode
           data:
-            entity_id: media_player.gaming_theater_avr
+            entity_id: media_player.gaming_room_avr
             sound_mode: DOLBY DIGITAL
+
+    - alias: Start a game room activity (always)
+      trigger:
+        platform: state
+        entity_id: media_player.gaming_room_media_player
+        to: "on"
+      action:
+        - service: media_player.turn_on
+          data:
+            entity_id: media_player.gaming_room_avr
