@@ -6,7 +6,7 @@ metadata:
 data:
   mosquitto.conf: |
     allow_anonymous true
-    # password_file /mosquitto/passwd
+    password_file /mosquitto/passwd
     allow_duplicate_messages false
     listener 1883
 
