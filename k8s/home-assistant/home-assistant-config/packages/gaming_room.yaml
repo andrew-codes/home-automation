@@ -245,6 +245,7 @@ gaming_room:
         source: Media Player
         source_list: media_player.gaming_room_avr|source_list
     - name: Gaming Room Media Player
+      platform: universal
       children:
         - gaming_room_universal_gaming_pc
         - gaming_room_universal_playstation_pro
