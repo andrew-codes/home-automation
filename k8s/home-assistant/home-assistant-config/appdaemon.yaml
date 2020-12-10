@@ -12,7 +12,7 @@ appdaemon:
       type: mqtt
       namespace: mqtt
       verbose: True
-      client_host: 192.168.1.45
+      client_host: mqtt
       client_user: !secret mqtt_username
       client_password: !secret mqtt_password
       client_qos: 2
