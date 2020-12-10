@@ -1,0 +1,10 @@
+gaming_room:
+  wake_on_lan:
+  
+  webostv:
+    host: !secret gaming_room_tv_ip
+    name: Gaming TV
+    turn_on_action:
+      service: wake_on_lan.send_magic_packet
+      data:
+        mac: !secret gaming_room_tv_mac
