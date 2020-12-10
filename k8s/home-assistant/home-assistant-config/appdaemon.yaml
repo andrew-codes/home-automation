@@ -1,18 +1,15 @@
 appdaemon:
-  secrets: /conf/secrets.yaml
+  time_zone: !secret time_zone
+  latitude: !secret latitude
+  longitude: !secret longitude
+  elevation: !secret elevation
   plugins:
     HASS:
       type: hass
       ha_url: !secret ha_url
       token: !secret ha_token
-  time_zone: !secret time_zone
-  latitude: !secret latitude
-  longitude: !secret longitude
-  elevation: !secret elevation
-  http:
-    url: !secret appdaemon_url
-    password: !secret appdaemon_password
-  admin:
-  hadashboard:
-    dashboard_dir: /conf/dashboards
-  
+
+http:
+  url: !secret appdaemon_url
+  password: !secret appdaemon_password
+admin:
