@@ -1,5 +1,5 @@
 bandwidth_usage:
-  sensors:
+  sensor:
     - platform: snmp
       name: "USG WAN in"
       host: !secret router_ip
