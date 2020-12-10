@@ -248,8 +248,8 @@ gaming_room:
       platform: universal
       children:
         - gaming_room_universal_gaming_pc
-        - gaming_room_universal_playstation_pro
-        - gaming_room_universal_nitendo_switch
+        - gaming_room_universal_playstation_4_pro
+        - gaming_room_universal_nintendo_switch
         - gaming_room_universal_media_player
       commands:
         turn_off:
