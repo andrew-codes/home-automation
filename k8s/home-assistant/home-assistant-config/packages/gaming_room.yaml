@@ -86,7 +86,7 @@ gaming_room:
         volume_level: media_player.gaming_room_avr|volume_level
         source: media_player.home_theater_playstation_4|source
         source_list: media_player.home_theater_playstation_4|source_list
-    - name: Gaming Room Gaming PC
+    - name: Gaming Room Universal Gaming PC
       platform: universal
       children:
         - media_player.gaming_room_avr
@@ -132,7 +132,7 @@ gaming_room:
         is_volume_muted: media_player.gaming_room_avr|is_volume_muted
         volume_level: media_player.gaming_room_avr|volume_level
         source: PC
-    - name: Gaming Room Nintendo Switch
+    - name: Gaming Room Universal Nintendo Switch
       platform: universal
       children:
         - media_player.gaming_room_avr
@@ -178,7 +178,7 @@ gaming_room:
         volume_level: media_player.gaming_room_avr|volume_level
         source: SWITCH
         source_list: media_player.gaming_room_avr|source_list
-    - name: Gaming Room Media Player
+    - name: Gaming Room Universal Media Player
       platform: universal
       children:
         - media_player.gaming_room_nvidia_shield
