@@ -91,7 +91,7 @@ function git-synchronize() {
         fi
 
         echo "[Info] Start git pull..."
-        git pull || {
+        git reset --hard "$GIT_REMOTE" "$GIT_BRANCH" || {
             echo "[Error] Git pull in /home-automation failed"
             return 1
         }
