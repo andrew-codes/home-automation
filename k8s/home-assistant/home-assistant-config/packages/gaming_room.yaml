@@ -2,16 +2,26 @@ gaming_room:
   wake_on_lan:
 
   webostv:
+    name: Gaming Room TV
     host: !secret gaming_room_tv_ip
-    name: Gaming TV
     turn_on_action:
       service: wake_on_lan.send_magic_packet
       data:
         mac: !secret gaming_room_tv_mac
 
+  input_boolean:
+    gaming_room_gaming_pc:
+      name: Gaming Room Gaming PC Power State
+      initial: off
+      icon: mdi:desktop-tower
+    gaming_room_nintendo_switch_power_state:
+      name: Gaming Room Nintendo Switch Power State
+      initial: off
+      icon: mdi:nintendo-switch
+
   media_player:
-    - platform: androidtv
-      name: Gaming Room NVIDIA Shield
+    - name: Gaming Room NVIDIA Shield Pro
+      platform: androidtv
       host: !secret gaming_room_nvidia_shield_ip
       exclude_unnamed_apps: true
       apps:
@@ -21,3 +31,197 @@ gaming_room:
         com.netflix.ninja: Netflix
         com.nvidia.tegrazone3: GameStream
         com.waxrain.airplaydmr3: AirPlay
+    - name: Gaming Room Universal Playstation 4 Pro
+      platform: universal
+      children:
+        - media_player.gaming_room_playstation_4_pro
+        - media_player.gaming_room_avr
+        - media_player.gaming_room_tv
+      state_template: >
+        {% if is_state('media_player.gaming_room_playstation_4_pro', 'standby') %}
+        off
+        {% elif is_state('media_player.gaming_room_playstation_4_pro', 'idle') %}
+        on
+        {% else %}      
+        {{ states('media_player.gaming_room_playstation_4_pro') }}
+        {% endif %}
+      commands:
+        turn_on:
+          service: media_player.turn_on
+          data:
+            entity_id: media_player.gaming_room_playstation_4_pro
+        turn_off:
+          service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_playstation_4_pro
+        volume_set:
+          service: media_player.volume_set
+          data:
+            entity_id: media_player.gaming_room_avr
+          data_template:
+            volume_level: "{{ volume_level }}"
+        volume_up:
+          service: media_player.volume_up
+          data:
+            entity_id: media_player.gaming_room_avr
+        volume_down:
+          service: media_player.volume_down
+          data:
+            entity_id: media_player.gaming_room_avr
+        volume_mute:
+          service: media_player.volume_mute
+          data:
+            entity_id: media_player.gaming_room_avr
+          data_template:
+            is_volume_muted: "{{ is_volume_muted }}"
+        select_source:
+          service: media_player.select_source
+          data:
+            entity_id: media_player.home_theater_playstation_4
+          data_template:
+            source: "{{ source }}"
+      attributes:
+        state: media_player.home_theater_playstation_4
+        is_volume_muted: media_player.gaming_room_avr|is_volume_muted
+        volume_level: media_player.gaming_room_avr|volume_level
+        source: media_player.home_theater_playstation_4|source
+        source_list: media_player.home_theater_playstation_4|source_list
+    - name: Gaming Room Gaming PC
+      platform: universal
+      children:
+        - media_player.gaming_room_avr
+        - media_player.gaming_room_tv
+      state_template: >
+        {{ states('input_boolean.gaming_room_gaming_pc') }}
+      commands:
+        turn_on:
+          service: input_boolean.turn_on
+          data:
+            entity_id: input_boolean.gaming_room_gaming_pc
+        turn_off:
+          service: input_boolean.turn_off
+          data:
+            entity_id: input_boolean.gaming_room_gaming_pc
+        volume_set:
+          service: media_player.volume_set
+          data:
+            entity_id: media_player.gaming_room_avr
+          data_template:
+            volume_level: "{{ volume_level }}"
+        volume_up:
+          service: media_player.volume_up
+          data:
+            entity_id: media_player.gaming_room_avr
+        volume_down:
+          service: media_player.volume_down
+          data:
+            entity_id: media_player.gaming_room_avr
+        volume_mute:
+          service: media_player.volume_mute
+          data:
+            entity_id: media_player.gaming_room_avr
+          data_template:
+            is_volume_muted: "{{ is_volume_muted }}"
+        select_source:
+          service: mqtt.publish
+          data_template:
+            topic: "/homeassistant/games/play/pc"
+            qos: 2
+            payload: "{{ source }}"
+      attributes:
+        is_volume_muted: media_player.gaming_room_avr|is_volume_muted
+        volume_level: media_player.gaming_room_avr|volume_level
+        source: PC
+    - name: Gaming Room Nintendo Switch
+      platform: universal
+      children:
+        - media_player.gaming_room_avr
+        - media_player.gaming_room_tv
+      state_template: >
+        {{ states('input_boolean.gaming_room_nintendo_switch_power_state') }}
+      commands:
+        turn_on:
+          service: input_boolean.turn_on
+          data:
+            entity_id: input_boolean.gaming_room_nintendo_switch_power_state
+        turn_off:
+          service: input_boolean.turn_off
+          data:
+            entity_id: input_boolean.gaming_room_nintendo_switch_power_state
+        volume_set:
+          service: media_player.volume_set
+          data:
+            entity_id: media_player.gaming_room_avr
+          data_template:
+            volume_level: "{{ volume_level }}"
+        volume_up:
+          service: media_player.volume_up
+          data:
+            entity_id: media_player.gaming_room_avr
+        volume_down:
+          service: media_player.volume_down
+          data:
+            entity_id: media_player.gaming_room_avr
+        volume_mute:
+          service: media_player.volume_mute
+          data:
+            entity_id: media_player.gaming_room_avr
+          data_template:
+            is_volume_muted: "{{ is_volume_muted }}"
+        select_source:
+          service: media_player.select_source
+          data:
+            entity_id: media_player.gaming_room_avr
+            source: SWITCH
+      attributes:
+        is_volume_muted: media_player.gaming_room_avr|is_volume_muted
+        volume_level: media_player.gaming_room_avr|volume_level
+        source: SWITCH
+        source_list: media_player.gaming_room_avr|source_list
+    - name: Gaming Room Media Player
+      platform: universal
+      children:
+        - media_player.gaming_room_nvidia_shield
+        - media_player.gaming_room_avr
+        - media_player.gaming_room_tv
+      state_template: >
+        {{ states('media_player.gaming_room_nvidia_shield_pro') }}
+      commands:
+        turn_on:
+          service: media_player.turn_on
+          data:
+            entity_id: media_player.gaming_room_nvidia_shield_pro
+        turn_off:
+          service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_nvidia_shield_pro
+        volume_set:
+          service: media_player.volume_set
+          data:
+            entity_id: media_player.gaming_room_avr
+          data_template:
+            volume_level: "{{ volume_level }}"
+        volume_up:
+          service: media_player.volume_up
+          data:
+            entity_id: media_player.gaming_room_avr
+        volume_down:
+          service: media_player.volume_down
+          data:
+            entity_id: media_player.gaming_room_avr
+        volume_mute:
+          service: media_player.volume_mute
+          data:
+            entity_id: media_player.gaming_room_avr
+          data_template:
+            is_volume_muted: "{{ is_volume_muted }}"
+        select_source:
+          service: media_player.select_source
+          data:
+            entity_id: media_player.gaming_room_avr
+            source: Media Player
+      attributes:
+        is_volume_muted: media_player.gaming_room_avr|is_volume_muted
+        volume_level: media_player.gaming_room_avr|volume_level
+        source: Media Player
+        source_list: media_player.gaming_room_avr|source_list
