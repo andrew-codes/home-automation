@@ -15,6 +15,8 @@ logger:
   default: info
 
 homeassistant:
+  external_url: !secret ha_url
+  internal_url: !secret ha_url
   time_zone: !secret time_zone
   latitude: !secret latitude
   longitude: !secret longitude

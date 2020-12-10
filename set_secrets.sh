@@ -44,4 +44,6 @@ mqtt_username: $MQTT_USERNAME
 mqtt_password: $MQTT_PASSWORD
 appdaemon_url: $APPDAEMON_URL
 appdaemon_password: $APPDAEMON_PASSWORD
+withings_client_id: $WITHINGS_CLIENT_ID
+withings_client_secret: $WITHINGS_CLIENT_SECRET
 EOL
