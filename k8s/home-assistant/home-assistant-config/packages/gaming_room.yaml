@@ -336,7 +336,7 @@ gaming_room:
           data:
             entity_id: media_player.gaming_room_avr
 
-    - alias: Turn on gaming PC
+    - alias: Turning on gaming PC from input_boolean
       trigger:
         - platform: state
           entity_id: input_boolean.gaming_room_gaming_pc
