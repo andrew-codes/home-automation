@@ -51,4 +51,5 @@ gaming_room_tv_mac: $GAMING_ROOM_TV_MAC
 gaming_room_nvidia_shield_ip: $GAMING_ROOM_NVIDIA_SHIELD_IP
 gaming_room_gaming_pc_mac: $GAMING_ROOM_GAMING_PC_MAC
 gaming_room_gaming_pc_ip: $GAMING_ROOM_GAMING_PC_IP
+router_ip: $ROUTER_IP
 EOL
