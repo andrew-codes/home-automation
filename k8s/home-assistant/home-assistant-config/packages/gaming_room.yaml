@@ -43,10 +43,10 @@ gaming_room:
     - name: Gaming Room Media Player
       platform: universal
       children:
-        - gaming_room_universal_gaming_pc
-        - gaming_room_universal_playstation_4_pro
-        - gaming_room_universal_nintendo_switch
-        - gaming_room_universal_media_player
+        - media_player.gaming_room_universal_gaming_pc
+        - media_player.gaming_room_universal_playstation_4_pro
+        - media_player.gaming_room_universal_nintendo_switch
+        - media_player.gaming_room_universal_media_player
       commands:
         turn_off:
           service: script.turn_on
