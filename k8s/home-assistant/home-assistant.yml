@@ -35,37 +35,6 @@ spec:
       storage: 10Gi
 
 ---
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: app-daemon-pv-volume
-  namespace: home-automation
-  labels:
-    type: local
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 5Gi
-  accessModes:
-    - ReadWriteMany
-  hostPath:
-    path: "/mnt/data/home-assistant/appdaemon"
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: app-daemon-pv-claim
-  namespace: home-automation
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 5Gi
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -162,25 +131,19 @@ spec:
             - sh
           args:
             - "-c"
-            - "ln -s  /home-automation/k8s/home-automation/home-assistant-config /conf && ./dockerStart.sh"
+            - "ln -s /home-automation/k8s/home-assistant/home-assistant-config /conf && ./dockerStart.sh"
           ports:
             - name: appdaemon
               containerPort: 5050
               protocol: TCP
           volumeMounts:
-            #     - name: app-daemon-config-volume
-            #       mountPath: /home-automation
-            #     - name: ha-secrets-volume
-            #       mountPath: /config/secrets.yaml
-            #       subPath: ha-secrets
+            - name: home-assistant-config-volume
+              mountPath: /home-automation
             - name: ha-secrets-volume
-              mountPath: /conf/secrets.yaml
+              mountPath: /home-automation/k8s/home-assistant/home-assistant-config/secrets.yaml
               subPath: yml
 
       volumes:
-        - name: app-daemon-config-volume
-          persistentVolumeClaim:
-            claimName: app-daemon-pv-claim
         - name: ha-secrets-volume
           secret:
             secretName: secrets
