@@ -53,10 +53,10 @@ gaming_room:
           data:
             entity_id: script.gaming_room_turn_off_all_media_players
         turn_on:
-          - service: media_player.turn_on
-            data_template:
-              entity_id: >
-                {{ state_attr('media_player.gaming_room_media_player', 'active_child') }}
+          service: media_player.turn_on
+          data_template:
+            entity_id: >
+              {{ state_attr('media_player.gaming_room_media_player', 'active_child') }}
         volume_set:
           service: media_player.volume_set
           data_template:
