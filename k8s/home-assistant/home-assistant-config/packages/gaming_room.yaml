@@ -1,6 +1,6 @@
 gaming_room:
   wake_on_lan:
-  
+
   webostv:
     host: !secret gaming_room_tv_ip
     name: Gaming TV
@@ -8,3 +8,8 @@ gaming_room:
       service: wake_on_lan.send_magic_packet
       data:
         mac: !secret gaming_room_tv_mac
+
+  media_player:
+    - platform: androidtv
+      name: Gaming Room NVIDIA Shield
+      host: !secret gaming_room_nvidia_shield_ip
