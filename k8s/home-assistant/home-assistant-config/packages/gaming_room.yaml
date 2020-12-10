@@ -448,6 +448,26 @@ gaming_room:
           data:
             entity_id: media_player.gaming_room_universal_gaming_pc
 
+    - alias: Start an activity on the gaming room media player
+      trigger:
+        platform: state
+        entity_id: media_player.gaming_room_universal_media_player
+        to: "on"
+      action:
+        - service: media_player.select_source
+          data:
+            entity_id: media_player.gaming_room_avr
+            source: MEDIA PLAYER
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_playstation_4_pro
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_nintendo_switch
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_gaming_pc
+
     - alias: Stop any activity in the gaming room when Andrew is home
       trigger:
         platform: state
