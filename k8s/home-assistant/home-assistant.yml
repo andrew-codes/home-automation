@@ -125,7 +125,7 @@ spec:
             allowPrivilegeEscalation: true
 
         - name: app-daemon
-          image: acockburn/appdaemon:latest
+          image: acockburn/appdaemon:dev
           imagePullPolicy: Always
           command:
             - sh
