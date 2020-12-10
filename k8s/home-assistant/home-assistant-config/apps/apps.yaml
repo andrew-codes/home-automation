@@ -2,8 +2,8 @@
 guest_tracker:
   module: guest_tracker
   class: GuestTracker
-  mqtt_host: !secret mqtt_host
-  mqtt_port: !secret mqtt_port
+  mqtt_host: localhost
+  mqtt_port: 1883
   mqtt_username: !secret mqtt_username
   mqtt_password: !secret mqtt_password
   topic: /home/guest/track-device
@@ -13,8 +13,8 @@ guest_tracker:
 guest_tracker_other_devies:
   module: guest_tracker
   class: GuestTracker
-  mqtt_host: !secret mqtt_host
-  mqtt_port: !secret mqtt_port
+  mqtt_host: localhost
+  mqtt_port: 1883
   mqtt_username: !secret mqtt_username
   mqtt_password: !secret mqtt_password
   topic: /home/guest/track-other-device
