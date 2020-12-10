@@ -1,4 +1,5 @@
 appdaemon:
+  secrets: /conf/secrets.yaml
   plugins:
     HASS:
       type: hass
@@ -7,3 +8,4 @@ appdaemon:
   time_zone: !secret time_zone
   latitude: !secret latitude
   longitude: !secret longitude
+  elevation: !secret elevation

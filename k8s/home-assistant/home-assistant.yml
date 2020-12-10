@@ -131,7 +131,7 @@ spec:
             - sh
           args:
             - "-c"
-            - "ln -s /home-automation/k8s/home-assistant/home-assistant-config /conf && ./dockerStart.sh"
+            - "ln -s /home-automation/k8s/home-assistant/home-assistant-config/appdaemon.yaml /conf/appdaemon.yaml && ln -s /home-automation/k8s/home-assistant/home-assistant-config/apps /conf/apps && ./dockerStart.sh"
           ports:
             - name: appdaemon
               containerPort: 5050
@@ -140,7 +140,7 @@ spec:
             - name: home-assistant-config-volume
               mountPath: /home-automation
             - name: ha-secrets-volume
-              mountPath: /home-automation/k8s/home-assistant/home-assistant-config/secrets.yaml
+              mountPath: /conf/secrets.yaml
               subPath: yml
 
       volumes:
