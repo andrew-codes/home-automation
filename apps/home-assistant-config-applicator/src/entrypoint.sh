@@ -91,7 +91,7 @@ function git-synchronize() {
         fi
 
         echo "[Info] Start git reset to $GIT_REMOTE on branch $GIT_BRANCH..."
-        git reset --hard "$GIT_REMOTE" "$GIT_BRANCH" || {
+        git reset --hard "$GIT_REMOTE/$GIT_BRANCH" || {
             echo "[Error] Git reset --hard in /home-automation failed"
             return 1
         }
