@@ -335,3 +335,14 @@ gaming_room:
         - service: media_player.turn_on
           data:
             entity_id: media_player.gaming_room_avr
+
+    - alias: Turn on gaming PC
+      trigger:
+        - platform: state
+          entity_id: input_boolean.gaming_room_gaming_pc
+          to: "on"
+      action:
+        - service: wake_on_lan.send_magic_packet
+          data:
+            mac: !secret gaming_room_gaming_pc_mac
+            broadcast_address: !secret gaming_room_pc_ip
