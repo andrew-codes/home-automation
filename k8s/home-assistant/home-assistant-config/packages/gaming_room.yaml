@@ -57,10 +57,6 @@ gaming_room:
             data_template:
               entity_id: >
                 {{ state_attr('media_player.gaming_room_media_player', 'active_child') }}
-          - service: media_player.turn_on
-            entity_id: media_player.gaming_room_avr
-          - service: media_player.turn_on
-            entity_id: media_player.gaming_room_tv
         volume_set:
           service: media_player.volume_set
           data_template:
@@ -295,3 +291,36 @@ gaming_room:
         volume_level: media_player.gaming_room_avr|volume_level
         source: Media Player
         source_list: media_player.gaming_room_avr|source_list
+
+  automation:
+    - alias: Start a game room activity while Andrew is home
+      trigger:
+        platform: state
+        entity_id: media_player.gaming_room_media_player
+        to: "on"
+      condition:
+        - condition: state
+          entity_id: person.andrew_smith
+          state: "home"
+      action:
+        - service: media_player.turn_on
+          data:
+            entity_id: media_player.gaming_room_tv
+        - service: media_player.select_sound_mode
+          data:
+            entity_id: media_player.gaming_theater_avr
+            sound_mode: DOLBY DIGITAL
+    - alias: Start a game room activity while Andrew is not home
+      trigger:
+        platform: state
+        entity_id: media_player.gaming_room_media_player
+        to: "on"
+      condition:
+        - condition: state
+          entity_id: person.andrew_smith
+          state: "not_home"
+      action:
+        - service: media_player.select_sound_mode
+          data:
+            entity_id: media_player.gaming_theater_avr
+            sound_mode: DOLBY DIGITAL
