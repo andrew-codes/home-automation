@@ -9,3 +9,5 @@ appdaemon:
   latitude: !secret latitude
   longitude: !secret longitude
   elevation: !secret elevation
+  http:
+    url: !secret appdaemon_url
