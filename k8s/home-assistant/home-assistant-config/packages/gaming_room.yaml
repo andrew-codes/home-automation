@@ -19,6 +19,25 @@ gaming_room:
       initial: off
       icon: mdi:nintendo-switch
 
+  script:
+    gaming_room_turn_off_all_media_players:
+      sequence:
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_playstation_4_pro
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_gaming_pc
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_media_player
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_nintendo_switch
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_tv
+
   media_player:
     - name: Gaming Room NVIDIA Shield Pro
       platform: androidtv
@@ -77,15 +96,15 @@ gaming_room:
         select_source:
           service: media_player.select_source
           data:
-            entity_id: media_player.home_theater_playstation_4
+            entity_id: media_player.gaming_room_playstation_4_pro
           data_template:
             source: "{{ source }}"
       attributes:
-        state: media_player.home_theater_playstation_4
+        state: media_player.gaming_room_playstation_4_pro
         is_volume_muted: media_player.gaming_room_avr|is_volume_muted
         volume_level: media_player.gaming_room_avr|volume_level
-        source: media_player.home_theater_playstation_4|source
-        source_list: media_player.home_theater_playstation_4|source_list
+        source: media_player.gaming_room_playstation_4_pro|source
+        source_list: media_player.gaming_room_playstation_4_pro|source_list
     - name: Gaming Room Universal Gaming PC
       platform: universal
       children:
@@ -225,3 +244,47 @@ gaming_room:
         volume_level: media_player.gaming_room_avr|volume_level
         source: Media Player
         source_list: media_player.gaming_room_avr|source_list
+    - name: Gaming Room Media Player
+      children:
+        - gaming_room_universal_gaming_pc
+        - gaming_room_universal_playstation_pro
+        - gaming_room_universal_nitendo_switch
+        - gaming_room_universal_media_player
+      commands:
+        turn_off:
+          service: script.turn_on
+          data:
+            entity_id: script.gaming_room_turn_off_all_media_players
+        turn_on:
+          service: media_player.turn_on
+          data_template:
+            entity_id: >
+              {{ state_attr('media_player.gaming_room_media_player', 'active_child') }}
+        volume_set:
+          service: media_player.volume_set
+          data_template:
+            entity_id: >
+              {{ state_attr('media_player.gaming_room_media_player', 'active_child') }}
+            volume_level: "{{ volume_level }}"
+        volume_up:
+          service: media_player.volume_up
+          data_template:
+            entity_id: >
+              {{ state_attr('media_player.gaming_room_media_player', 'active_child') }}
+        volume_down:
+          service: media_player.volume_down
+          data_template:
+            entity_id: >
+              {{ state_attr('media_player.gaming_room_media_player', 'active_child') }}
+        volume_mute:
+          service: media_player.volume_mute
+          data_template:
+            entity_id: >
+              {{ state_attr('media_player.gaming_room_media_player', 'active_child') }}
+            is_volume_muted: "{{ is_volume_muted }}"
+        select_source:
+          service: media_player.select_source
+          data_template:
+            entity_id: >
+              {{ state_attr('media_player.gaming_room_media_player', 'active_child') }}
+            source: "{{ source }}"
