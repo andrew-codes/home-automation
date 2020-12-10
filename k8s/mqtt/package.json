@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "@ha/mqtt",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "deploy": "scripts/bin/deploy.sh",
+    "postdeploy": "kubectl rollout restart deployment mqtt --namespace home-automation",
+    "seal": "scripts/bin/seal.sh"
+  },
+  "dependencies": {}
+}

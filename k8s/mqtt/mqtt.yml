@@ -1,0 +1,149 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mosquitto-config
+  namespace: home-automation
+data:
+  mosquitto.conf: |
+    allow_anonymous true
+    # password_file /mosquitto/passwd
+    allow_duplicate_messages false
+    listener 1883
+
+    listener 9001
+    protocol websockets
+
+    persistence true
+    persistence_location /mosquitto/data/
+    log_dest file /mosquitto/log/mosquitto.log
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mosquitto-generate-password-script
+  namespace: home-automation
+data:
+  set_credentials.sh: |
+    #!/usr/bin env sh
+    echo -n "$MQTT_USERNAME:$MQTT_PASSWORD" > /mosquitto/passwd
+    mosquitto_passwd -U /mosquitto/passwd
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mosquitto-pv-volume
+  namespace: home-automation
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data/mosquitto"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: mosquitto-volume-claim
+  namespace: home-automation
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mqtt
+  namespace: home-automation
+  labels:
+    app: home-automation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: home-automation
+  template:
+    metadata:
+      labels:
+        app: home-automation
+    spec:
+      containers:
+        - name: mosquitto
+          image: eclipse-mosquitto
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: default
+              containerPort: 1883
+            - name: web-socket
+              containerPort: 9001
+          command:
+            - "sh"
+          args:
+            - "-c"
+            - "source /mosquitto/set_credentials.sh && /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf"
+          env:
+            - name: MQTT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-secrets
+                  key: mqtt-username
+            - name: MQTT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-secrets
+                  key: mqtt-password
+          volumeMounts:
+            - name: mosquitto-config
+              mountPath: /mosquitto/config/mosquitto.conf
+              subPath: mosquitto.conf
+            - name: mosquitto-generate-password-script
+              mountPath: /mosquitto/set_credentials.sh
+              subPath: set_credentials.sh
+            - name: mosquitto-data
+              mountPath: /mosquitto/data
+      volumes:
+        - name: mosquitto-config
+          configMap:
+            name: mosquitto-config
+        - name: mosquitto-generate-password-script
+          configMap:
+            name: mosquitto-generate-password-script
+            defaultMode: 0777
+        - name: mosquitto-data
+          persistentVolumeClaim:
+            claimName: mosquitto-volume-claim
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                      - amd64
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mqtt
+  namespace: home-automation
+  labels:
+    app: home-automation
+spec:
+  type: ClusterIP
+  ports:
+    - name: default-port
+      port: 1883
+      targetPort: default
+    - name: web-socket-port
+      port: 9001
+      targetPort: web-socket
+  selector:
+    app: home-automation

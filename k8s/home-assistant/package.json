@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@ha/home-assistant-config-applicator": "^0.0.1",
-    "@ha/lets-encrypt": "^0.0.1"
+    "@ha/lets-encrypt": "^0.0.1",
+    "@ha/mqtt": "^0.0.1"
   }
 }
