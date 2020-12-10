@@ -18,7 +18,7 @@ rm -rf .secrets/id_rsa
 rm -rf .secrets/ssh.json
 
 # HA Secrets
-kubectl create secret generic secrets --dry-run=client --namespace="home-automation" --from-file=yml="home-assistant-config/secrets.yml" -o json >".secrets/secrets.json"
+kubectl create secret generic secrets --dry-run=client --namespace="home-automation" --from-file=yml="home-assistant-config/secrets.yaml" -o json >".secrets/secrets.json"
 kubeseal --namespace "home-automation" <".secrets/secrets.json" >"secrets/secrets.json"
 rm -rf .secrets/secrets.json
 
