@@ -13,3 +13,11 @@ gaming_room:
     - platform: androidtv
       name: Gaming Room NVIDIA Shield
       host: !secret gaming_room_nvidia_shield_ip
+      exclude_unnamed_apps: true
+      apps:
+        com.amazon.amazonvideo.livingroom: Prime
+        com.google.android.youtube.tv: YouTube
+        com.hulu.livingroomplus: Hulu
+        com.netflix.ninja: Netflix
+        com.nvidia.tegrazone3: GameStream
+        com.waxrain.airplaydmr3: AirPlay
