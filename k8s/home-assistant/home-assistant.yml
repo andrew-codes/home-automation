@@ -155,30 +155,27 @@ spec:
             privileged: true
             allowPrivilegeEscalation: true
 
-        # - name: app-daemon
-        #   image: acockburn/appdaemon:latest
-        #   imagePullPolicy: Always
-        #   command:
-        #     - sh
-        #   args:
-        #     - "-c"
-        #     - "ln -s  /home-automation/k8s/home-automation/home-assistant-config /conf && ./dockerStart.sh"
-        #   ports:
-        #     - name: appdaemon
-        #       containerPort: 5050
-        #       protocol: TCP
-        #   volumeMounts:
-        #     - name: app-daemon-config-volume
-        #       mountPath: /home-automation
-        #     - name: ha-secrets-volume
-        #       mountPath: /config/secrets.yaml
-        #       subPath: ha-secrets
-        #     - name: ha-secrets-volume
-        #       mountPath: /conf/secrets.yaml
-        #       subPath: ha-secrets
-        #     - name: ha-secrets-volume
-        #       mountPath: /conf/appdaemon.yaml
-        #       subPath: appdaemon.yaml
+        - name: app-daemon
+          image: acockburn/appdaemon:latest
+          imagePullPolicy: Always
+          command:
+            - sh
+          args:
+            - "-c"
+            - "ln -s  /home-automation/k8s/home-automation/home-assistant-config /conf && ./dockerStart.sh"
+          ports:
+            - name: appdaemon
+              containerPort: 5050
+              protocol: TCP
+          volumeMounts:
+            #     - name: app-daemon-config-volume
+            #       mountPath: /home-automation
+            #     - name: ha-secrets-volume
+            #       mountPath: /config/secrets.yaml
+            #       subPath: ha-secrets
+            - name: ha-secrets-volume
+              mountPath: /conf/secrets.yaml
+              subPath: yml
 
       volumes:
         - name: app-daemon-config-volume

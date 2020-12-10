@@ -1,0 +1,22 @@
+---
+guest_tracker:
+  module: guest_tracker
+  class: GuestTracker
+  mqtt_host: !secret mqtt_host
+  mqtt_port: !secret mqtt_port
+  mqtt_username: !secret mqtt_username
+  mqtt_password: !secret mqtt_password
+  topic: /home/guest/track-device
+  group_name: guests
+  state_file: /guests.txt
+
+guest_tracker_other_devies:
+  module: guest_tracker
+  class: GuestTracker
+  mqtt_host: !secret mqtt_host
+  mqtt_port: !secret mqtt_port
+  mqtt_username: !secret mqtt_username
+  mqtt_password: !secret mqtt_password
+  topic: /home/guest/track-other-device
+  group_name: guests_other_devices
+  state_file: /guests-other.txt
