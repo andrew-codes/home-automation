@@ -345,4 +345,4 @@ gaming_room:
         - service: wake_on_lan.send_magic_packet
           data:
             mac: !secret gaming_room_gaming_pc_mac
-            broadcast_address: !secret gaming_room_pc_ip
+            broadcast_address: !secret gaming_room_gaming_pc_ip
