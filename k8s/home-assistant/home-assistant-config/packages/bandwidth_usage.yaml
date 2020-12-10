@@ -1,41 +1,42 @@
 bandwidth_usage:
-  - platform: snmp
-    name: "USG WAN in"
-    host: !secret router_ip
-    baseoid: 1.3.6.1.2.1.2.2.1.2.2
-    community: "public"
-    version: "2c"
-    scan_interval: 10
+  sensors:
+    - platform: snmp
+      name: "USG WAN in"
+      host: !secret router_ip
+      baseoid: 1.3.6.1.2.1.2.2.1.2.2
+      community: "public"
+      version: "2c"
+      scan_interval: 10
 
-  - platform: snmp
-    name: "USG WAN out"
-    host: !secret router_ip
-    baseoid: 1.3.6.1.2.1.31.1.1.1.10.2
-    community: "public"
-    version: "2c"
-    scan_interval: 10
+    - platform: snmp
+      name: "USG WAN out"
+      host: !secret router_ip
+      baseoid: 1.3.6.1.2.1.31.1.1.1.10.2
+      community: "public"
+      version: "2c"
+      scan_interval: 10
 
-  - platform: statistics
-    name: "USG WAN in Stats"
-    entity_id: sensor.usg_wan_in
-    sampling_size: 4
-    max_age:
-      hours: 24
+    - platform: statistics
+      name: "USG WAN in Stats"
+      entity_id: sensor.usg_wan_in
+      sampling_size: 4
+      max_age:
+        hours: 24
 
-  - platform: statistics
-    name: "USG WAN out Stats"
-    entity_id: sensor.usg_wan_out
-    sampling_size: 4
-    max_age:
-      hours: 24
+    - platform: statistics
+      name: "USG WAN out Stats"
+      entity_id: sensor.usg_wan_out
+      sampling_size: 4
+      max_age:
+        hours: 24
 
-  - platform: template
-    sensors:
-      internet_in_mbps:
-        value_template: "{{ (state_attr('sensor.usg_wan_in_stats','change_rate')|float*8*(state_attr('sensor.usg_wan_in_stats', 'sampling_size')-1)/1000000)|round(2) }}"
-        unit_of_measurement: "MBps"
-        entity_id: sensor.usg_wan_in_stats
-      internet_out_mbps:
-        value_template: "{{ (state_attr('sensor.usg_wan_out_stats','change_rate')|float*8*(state_attr('sensor.usg_wan_out_stats', 'sampling_size')-1)/1000000)|round(2) }}"
-        unit_of_measurement: "MBps"
-        entity_id: sensor.usg_wan_out_stats
+    - platform: template
+      sensors:
+        internet_in_mbps:
+          value_template: "{{ (state_attr('sensor.usg_wan_in_stats','change_rate')|float*8*(state_attr('sensor.usg_wan_in_stats', 'sampling_size')-1)/1000000)|round(2) }}"
+          unit_of_measurement: "MBps"
+          entity_id: sensor.usg_wan_in_stats
+        internet_out_mbps:
+          value_template: "{{ (state_attr('sensor.usg_wan_out_stats','change_rate')|float*8*(state_attr('sensor.usg_wan_out_stats', 'sampling_size')-1)/1000000)|round(2) }}"
+          unit_of_measurement: "MBps"
+          entity_id: sensor.usg_wan_out_stats
