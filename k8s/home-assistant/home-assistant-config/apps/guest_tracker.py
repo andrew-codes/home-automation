@@ -6,14 +6,14 @@ class GuestTracker(hass.Hass):
 
     def initialize(self):
         self.log('Starting Guest Tracker')
-        self.client = mqtt.Client()
-        self.client.username_pw_set(
-            self.args["mqtt_username"], password=self.args["mqtt_password"])
-        self.client.on_connect = self.on_connect
-        self.client.on_message = self.on_message
-
-        self.client.connect(self.args["mqtt_host"], self.args["mqtt_port"], 60)
-        self.client.loop_start()
+        self.log(self.args)
+        # self.client = mqtt.Client()
+        # self.client.username_pw_set(
+        #     self.args["mqtt_username"], password=self.args["mqtt_password"])
+        # self.client.on_connect = self.on_connect
+        # self.client.on_message = self.on_message
+        # self.client.connect(self.args["mqtt_host"], self.args["mqtt_port"], 60)
+        # self.client.loop_start()
 
     def terminate(self):
         self.client.loop_stop()

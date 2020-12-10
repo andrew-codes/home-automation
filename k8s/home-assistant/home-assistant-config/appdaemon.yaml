@@ -13,3 +13,4 @@ http:
   url: !secret appdaemon_url
   password: !secret appdaemon_password
 admin:
+api:
