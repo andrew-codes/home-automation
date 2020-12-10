@@ -24,6 +24,8 @@ jobs:
       - name: Compile changed apps
         run: yarn lerna run compile --stream --since HEAD~
       - name: Build and push images
+        env:
+          DOCKER_REGISTRY_DOMAIN: ${{ secrets.DOCKER_REGISTRY_DOMAIN }}
         run: yarn lerna run image/push --stream --ignore @ha/github-action-runner-amd64 --since HEAD~
       - name: Build and push images
         run: yarn lerna run deploy --stream --ignore @ha/github-action-runner-amd64 --ignore @ha/lets-encrypt --since HEAD~
