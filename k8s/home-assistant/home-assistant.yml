@@ -187,5 +187,9 @@ spec:
       port: 8123
       protocol: TCP
       targetPort: api
+    - name: appdaemon
+      port: 5050
+      protocol: TCP
+      targetPort: appdaemon
   selector:
     app.kubernetes.io/name: home-assistant
