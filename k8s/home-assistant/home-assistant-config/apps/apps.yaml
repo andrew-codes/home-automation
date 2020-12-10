@@ -2,21 +2,13 @@
 guest_tracker:
   module: guest_tracker
   class: GuestTracker
-  mqtt_host: localhost
-  mqtt_port: 1883
-  mqtt_username: !secret mqtt_username
-  mqtt_password: !secret mqtt_password
-  topic: /home/guest/track-device
+  topic: /homeassistant/guest/track-device
   group_name: guests
   state_file: /guests.txt
 
 guest_tracker_other_devies:
   module: guest_tracker
   class: GuestTracker
-  mqtt_host: localhost
-  mqtt_port: 1883
-  mqtt_username: !secret mqtt_username
-  mqtt_password: !secret mqtt_password
-  topic: /home/guest/track-other-device
+  topic: /homeassistant/guest/track-other-device
   group_name: guests_other_devices
   state_file: /guests-other.txt

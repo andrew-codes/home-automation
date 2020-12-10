@@ -1,27 +1,12 @@
-import paho.mqtt.client as mqtt
-import hassapi as hass
+import appdaemon.plugins.hass.hassapi as hass
+import appdaemon.plugins.mqtt.mqttapi as mqtt
 
 
 class GuestTracker(hass.Hass):
 
     def initialize(self):
         self.log('Starting Guest Tracker')
-        self.log(self.args)
-        # self.client = mqtt.Client()
-        # self.client.username_pw_set(
-        #     self.args["mqtt_username"], password=self.args["mqtt_password"])
-        # self.client.on_connect = self.on_connect
-        # self.client.on_message = self.on_message
-        # self.client.connect(self.args["mqtt_host"], self.args["mqtt_port"], 60)
-        # self.client.loop_start()
-
-    def terminate(self):
-        self.client.loop_stop()
-
-    def on_connect(self, client, userdata, flags, rc):
-        self.log("Connected with result code " + str(rc))
-        self.client.publish('/appdaemon/birth', qos=2)
-        self.client.subscribe(self.args["topic"])
+        self.listen_event(self.on_message, 'MQTT_MESSAGE', topic=self.args["topic"], namespace="mqtt")
 
     def on_message(self, client, userdata, msg):
         self.log(msg.topic+" "+msg.payload.decode())

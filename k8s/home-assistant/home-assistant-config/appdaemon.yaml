@@ -8,6 +8,19 @@ appdaemon:
       type: hass
       ha_url: !secret ha_url
       token: !secret ha_token
+    MQTT:
+      type: mqtt
+      namespace: mqtt
+      verbose: True
+      client_host: 192.168.1.45
+      client_user: !secret mqtt_username
+      client_password: !secret mqtt_password
+      client_qos: 2
+      birth_topic: /appdaemon/birth
+      event_name: MQTT_MESSAGE
+      client_topics:
+          - /homeassistant/guest/track-device
+          - /homeassistant/guest/track-other-device
 
 http:
   url: !secret appdaemon_url
