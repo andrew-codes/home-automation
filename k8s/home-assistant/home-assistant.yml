@@ -131,7 +131,7 @@ spec:
             - sh
           args:
             - "-c"
-            - "ln -s /home-automation/k8s/home-assistant/home-assistant-config/appdaemon.yaml /conf/appdaemon.yaml && ln -s /home-automation/k8s/home-assistant/home-assistant-config/apps /conf/apps && ./dockerStart.sh"
+            - "ln -s /home-automation/k8s/home-assistant/home-assistant-config/appdaemon.yaml /conf/appdaemon.yaml && ln -s /home-automation/k8s/home-assistant/home-assistant-config/apps /conf/apps && ln -s /home-automation/k8s/home-assistant/home-assistant-config/dashboards /conf/dashboards && ./dockerStart.sh"
           ports:
             - name: appdaemon
               containerPort: 5050
