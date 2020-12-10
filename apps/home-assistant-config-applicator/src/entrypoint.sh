@@ -83,7 +83,7 @@ function git-synchronize() {
             echo "[Info] Staying on currently checked out branch: $GIT_CURRENT_BRANCH..."
         else
             echo "[Info] Switching branches - start git checkout of branch $GIT_BRANCH..."
-            git checkout "$GIT_BRANCH" -- $CHECKOUT_PATH || {
+            git checkout "$GIT_BRANCH" || {
                 echo "[Error] Git checkout failed"
                 exit 1
             }
@@ -91,7 +91,6 @@ function git-synchronize() {
         fi
 
         echo "[Info] Start git pull..."
-
         git reset --hard "$GIT_REMOTE" "$GIT_BRANCH" || {
             echo "[Error] Git pull in /home-automation failed"
             return 1
