@@ -39,7 +39,7 @@ gaming_room:
             entity_id: media_player.gaming_room_tv
 
   media_player:
-    # This is the primary media player. It provides a single interface for playing content via proxying to the underlying children appropriately.
+    # This is the primary media player for automations.
     - name: Gaming Room Media Player
       platform: universal
       children:
@@ -198,6 +198,7 @@ gaming_room:
         is_volume_muted: media_player.gaming_room_avr|is_volume_muted
         volume_level: media_player.gaming_room_avr|volume_level
         source: PC
+        state: input_boolean.gaming_room_gaming_pc
     - name: Gaming Room Universal Nintendo Switch
       platform: universal
       children:
@@ -336,7 +337,7 @@ gaming_room:
           data:
             entity_id: media_player.gaming_room_avr
 
-    - alias: Turning on gaming PC from input_boolean
+    - alias: Turning on gaming room gaming PC from input_boolean
       trigger:
         - platform: state
           entity_id: input_boolean.gaming_room_gaming_pc
@@ -346,3 +347,129 @@ gaming_room:
           data:
             mac: !secret gaming_room_gaming_pc_mac
             broadcast_address: !secret gaming_room_gaming_pc_ip
+
+    - alias: Start an activity on the gaming room gaming PC while Andrew is home
+      trigger:
+        - platform: state
+          entity_id: media_player.gaming_room_universal_gaming_pc
+          to: "on"
+      condition:
+        - condition: state
+          entity_id: person.andrew_smith
+          state: "home"
+      action:
+        - service: media_player.select_source
+          data:
+            entity_id: PC
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_nintendo_switch
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_media_player
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_playstation_4_pro
+
+    - alias: Start an activity on the gaming room gaming PC while Andrew is not home
+      trigger:
+        - platform: state
+          entity_id: media_player.gaming_room_universal_gaming_pc
+          to: "on"
+      condition:
+        - condition: state
+          entity_id: person.andrew_smith
+          state: "not_home"
+      action:
+        - service: media_player.select_source
+          data:
+            entity_id: PC
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_nintendo_switch
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_media_player
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_playstation_4_pro
+        - service: media_player.volume_set
+          data:
+            entity_id: media_player.gaming_room_universal_gaming_pc
+            volume_level: 0
+
+    - alias: Stop an activity on the gaming room gaming PC
+      trigger:
+        platform: state
+        entity_id: media_player.gaming_room_universal_gaming_pc
+        to: "off"
+      action:
+        - service: input_boolean.turn_off
+          data:
+            entity_id: input_boolean.gaming_room_gaming_pc
+
+    - alias: Start an activity on the gaming room playstation 4 pro
+      trigger:
+        platform: state
+        entity_id: media_player.gaming_room_universal_playstation_4_pro
+        to: "on"
+      action:
+        - service: media_player.select_source
+          data:
+            entity_id: media_player.gaming_room_avr
+            source: PS4
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_nintendo_switch
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_media_player
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_gaming_pc
+
+    - alias: Start an activity on the gaming room nintendo switch
+      trigger:
+        platform: state
+        entity_id: media_player.gaming_room_universal_nintendo_switch
+        to: "on"
+      action:
+        - service: media_player.select_source
+          data:
+            entity_id: media_player.gaming_room_avr
+            source: SWITCH
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_playstation_4_pro
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_media_player
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_gaming_pc
+
+    - alias: Stop any activity in the gaming room when Andrew is home
+      trigger:
+        platform: state
+        entity_id: media_player.gaming_room_media_player
+        to: "off"
+      condition:
+        - condition: state
+          entity_id: person.andrew_smith
+          state: "home"
+      action:
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_tv
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_nintendo_switch
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_playstation_4_pro
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_media_player
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.gaming_room_universal_gaming_pc
