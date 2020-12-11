@@ -84,38 +84,7 @@ all:
 
 ## Setting Initial Secrets
 
-Create a file, `./secrets.sh`and paste the following, filling in with your values, abd then running: `./set_secrets.sh`:
-
-> DANGER: This file is ignored. DO NOT COMMIT THIS TO THE REPO!!!
-
-```bash
-#!/usr/bin/env bash
-
-export CLUSTER_IP=""
-
-# Ubuntu server hl user password
-export MACHINE_PASSWORD=''
-
-# Your email
-export EMAIL=""
-
-# API token to create droplets in Digital Ocean
-export DIGITALOCEAN_TOKEN=""
-# Digital Ocean Spaces (for backup)
-export SPACES_ACCESS_KEY=""
-export SPACES_ACCESS_SECRET_KEY=""
-export BACKUP_BUCKET=""
-export BACKUP_URI=""
-
-# Docker registry domain; e.g. docker.yourdomain.com
-export DOCKER_REGISTRY_DOMAIN=""
-
-# Inlets pro license value
-export INLETS_PRO_LICENSE=""
-export POD_NETWORK_CIDR="192.168.100.0/24"
-```
-
-Run the following:
+See [initial provisioning secrets](./secrets-catalog#initial-provisioning) to setup the required secrets. Set these secrets and then run the following:
 
 ```bash
 ./set_secrets.sh

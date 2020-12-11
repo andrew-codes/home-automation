@@ -31,25 +31,3 @@ stringData:
   digitalocean_token: $DIGITALOCEAN_TOKEN
 type: Opaque
 EOL
-
-cat >k8s/home-assistant/home-assistant-config/secrets.yaml <<EOL
-latitude: $LATITUDE
-longitude: $LONGITUDE
-elevation: $ELEVATION
-time_zone: $TIME_ZONE
-unit_system: $UNIT_SYSTEM
-ha_url: https://$HOME_ASSISTANT_DOMAIN
-ha_token: $HA_TOKEN
-mqtt_username: $MQTT_USERNAME
-mqtt_password: $MQTT_PASSWORD
-appdaemon_url: $APPDAEMON_URL
-appdaemon_password: $APPDAEMON_PASSWORD
-withings_client_id: $WITHINGS_CLIENT_ID
-withings_client_secret: $WITHINGS_CLIENT_SECRET
-gaming_room_tv_ip: $GAMING_ROOM_TV_IP
-gaming_room_tv_mac: $GAMING_ROOM_TV_MAC
-gaming_room_nvidia_shield_ip: $GAMING_ROOM_NVIDIA_SHIELD_IP
-gaming_room_gaming_pc_mac: $GAMING_ROOM_GAMING_PC_MAC
-gaming_room_gaming_pc_ip: $GAMING_ROOM_GAMING_PC_IP
-router_ip: $ROUTER_IP
-EOL
