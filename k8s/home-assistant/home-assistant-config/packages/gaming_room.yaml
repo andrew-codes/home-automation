@@ -38,6 +38,9 @@ gaming_room:
           data:
             entity_id: media_player.gaming_room_tv
 
+  shell_command:
+    turn_off_gaming_room_gaming_pc: !secret turn_off_gaming_room_gaming_pc_command
+
   media_player:
     # This is the primary media player for automations.
     - name: Gaming Room Media Player
@@ -348,6 +351,14 @@ gaming_room:
             mac: !secret gaming_room_gaming_pc_mac
             broadcast_address: !secret gaming_room_gaming_pc_ip
 
+    - alias: Turning off gaming room gaming PC from input_boolean
+      trigger:
+        - platform: state
+          entity_id: input_boolean.gaming_room_gaming_pc
+          to: "off"
+      action:
+        - service: shell_command.turn_off_gaming_room_gaming_pc
+
     - alias: Start an activity on the gaming room gaming PC while Andrew is home
       trigger:
         - platform: state
@@ -360,7 +371,8 @@ gaming_room:
       action:
         - service: media_player.select_source
           data:
-            entity_id: PC
+            entity_id: media_player.gaming_room_avr
+            source: PC
         - service: media_player.turn_off
           data:
             entity_id: media_player.gaming_room_universal_nintendo_switch
