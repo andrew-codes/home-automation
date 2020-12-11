@@ -121,7 +121,7 @@ spec:
               mountPath: /home-automation/k8s/home-assistant/home-assistant-config/secrets.yaml
               subPath: yml
             - name: gaming-pc-ssh-secrets-volume
-              mountPath: /root/.ssh/id_rsa
+              mountPath: /root/.ssh/id_rsa.pub
               subPath: pub
           securityContext:
             privileged: true
