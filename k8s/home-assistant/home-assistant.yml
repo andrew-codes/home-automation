@@ -159,7 +159,7 @@ spec:
             defaultMode: 0600
         - name: gaming-pc-ssh-secrets-volume
           secret:
-            secretName: gaming-pc-public-key
+            secretName: gaming-pc-ssh
             defaultMode: 0600
         - name: home-assistant-config-volume
           persistentVolumeClaim:
