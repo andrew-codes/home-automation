@@ -2,19 +2,14 @@
 # Set-ExecutionPolicy RemoteSigned
 
 $GitHubUserName=""
-(Invoke-WebRequest "https://github.com/$GitHubUserName.keys").Content | Out-File -FilePath "$env:userprofile\.ssh\authorized_keys"
 
-# NOTE: edit the path in this command if needed
-$sshFiles=Get-ChildItem -Path "$env:userprofile\.ssh" -Force
-
-$sshFiles | % {
-  $key = $_
-  & icacls $key /c /t /inheritance:d
-  & icacls $key /c /t /grant  "${echo $env:username}":F
-  & icacls $key /c /t /remove Administrator "Authenticated Users" BUILTIN\Administrators BUILTIN Everyone System Users
-}
-
-# Verify:
-$sshFiles | % {
-  icacls $_
-}
+# ====================
+Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
+(Invoke-WebRequest "https://github.com/$GitHubUserName.keys").Content | Out-File -FilePath "C:\ProgramData\ssh\administrators_authorized_keys"
+$acl = Get-Acl C:\ProgramData\ssh\administrators_authorized_keys
+$acl.SetAccessRuleProtection($true, $false)
+$administratorsRule = New-Object system.security.accesscontrol.filesystemaccessrule("Administrators","FullControl","Allow")
+$systemRule = New-Object system.security.accesscontrol.filesystemaccessrule("SYSTEM","FullControl","Allow")
+$acl.SetAccessRule($administratorsRule)
+$acl.SetAccessRule($systemRule)
+$acl | Set-Acl
