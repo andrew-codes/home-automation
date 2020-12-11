@@ -26,7 +26,7 @@ rm -rf .secrets/gaming-pc.json
 
 # HA Secrets
 
-cat >k8s/home-assistant/.secrets/secrets.yaml <<EOL
+cat >.secrets/secrets.yaml <<EOL
 latitude: $LATITUDE
 longitude: $LONGITUDE
 elevation: $ELEVATION
