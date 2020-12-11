@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 source secrets.sh
 ./set_secrets.sh
 ANSIBLE_CONFIG=./ansible/ansible.cfg
