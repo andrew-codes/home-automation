@@ -123,6 +123,9 @@ spec:
             - name: gaming-pc-ssh-secrets-volume
               mountPath: /root/.ssh/id_rsa.pub
               subPath: pub
+            - name: gaming-pc-ssh-secrets-volume
+              mountPath: /root/.ssh/id_rsa
+              subPath: private
           securityContext:
             privileged: true
             allowPrivilegeEscalation: true
