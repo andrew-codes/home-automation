@@ -1,0 +1,28 @@
+---
+- hosts: gaming_pc
+  gather_facts: yes
+  connection: winrm
+  vars_files:
+    - .secrets/windows.yml
+
+  tasks:
+    - name: Ensure 7-Zip is installed via Chocolatey
+      win_chocolatey:
+        name: 7zip
+        state: present
+    - name: install the Win32-OpenSSH service
+      win_chocolatey:
+        name: openssh
+        package_params: /SSHServerFeature
+        state: present
+    - name: Setup SSH Key
+      win_shell: |
+        New-Item -Path C:\ProgramData\ssh\administrators_authorized_keys -ItemType File
+        echo "{{ ssh_public_key }}" | Out-File -FilePath C:\ProgramData\ssh\administrators_authorized_keys
+        $acl = Get-Acl C:\ProgramData\ssh\administrators_authorized_keys
+        $acl.SetAccessRuleProtection($true, $false)
+        $administratorsRule = New-Object system.security.accesscontrol.filesystemaccessrule("Administrators","FullControl","Allow")
+        $systemRule = New-Object system.security.accesscontrol.filesystemaccessrule("SYSTEM","FullControl","Allow")
+        $acl.SetAccessRule($administratorsRule)
+        $acl.SetAccessRule($systemRule)
+        $acl | Set-Acl

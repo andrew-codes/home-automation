@@ -1,0 +1,13 @@
+---
+- hosts: gaming_pc
+  gather_facts: yes
+  connection: winrm
+  vars_files:
+    - .secrets/gaming_pc.yml
+
+  tasks:
+    - name: Create local user
+      win_user:
+        name: "{{ gaming_room_gaming_pc_username }}"
+        update_password: no
+        password_never_expires: yes

@@ -31,6 +31,6 @@ powershell.exe -ExecutionPolicy ByPass -File $file
 
 $selector_set = @{
     Address = "*"
-    Transport = "HTPT"
+    Transport = "HTTP"
 }
 New-WSManInstance -ResourceURI "winrm/config/Listener" -SelectorSet $selector_set

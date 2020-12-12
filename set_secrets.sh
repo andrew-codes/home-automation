@@ -13,6 +13,17 @@ pod_network_cidr: "$POD_NETWORK_CIDR"
 docker_registry_domain: "$DOCKER_REGISTRY_DOMAIN"
 EOL
 
+mkdir -p ansible/gaming-pc/.secrets
+cat >ansible/gaming-pc/.secrets/gaming_pc.yml <<EOL
+---
+gaming_room_gaming_pc_username: "$GAMING_ROOM_GAMING_PC_USERNAME"
+EOL
+
+cat >ansible/gaming-pc/.secrets/windows.yml <<EOL
+---
+ssh_public_key: "$HOME_AUTOMATION_SSH_PUBLIC_KEY"
+EOL
+
 cat >ansible/k8s/.secrets/inlets-pro.license <<EOL
 $INLETS_PRO_LICENSE
 EOL
