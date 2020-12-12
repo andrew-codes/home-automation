@@ -22,6 +22,7 @@ EOL
 cat >ansible/windows/.secrets/windows.yml <<EOL
 ---
 ssh_public_key: "$HOME_AUTOMATION_SSH_PUBLIC_KEY"
+ssh_private_key: "$HOME_AUTOMATION_SSH_PRIVATE_KEY"
 EOL
 
 cat >ansible/k8s/.secrets/inlets-pro.license <<EOL

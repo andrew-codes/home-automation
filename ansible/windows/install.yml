@@ -10,12 +10,16 @@
       win_chocolatey:
         name: 7zip
         state: present
-    - name: install the Win32-OpenSSH service
+    - name: Install the Win32-OpenSSH service
       win_chocolatey:
         name: openssh
         package_params: /SSHServerFeature
         state: present
-    - name: Setup SSH Key
+    - name: Install nano
+      win_chocolatey:
+        name: nano
+        state: present
+    - name: Setup Admin SSH Key
       win_shell: |
         New-Item -Path C:\ProgramData\ssh\administrators_authorized_keys -ItemType File
         echo "{{ ssh_public_key }}" | Out-File -FilePath C:\ProgramData\ssh\administrators_authorized_keys
@@ -31,3 +35,7 @@
         New-Item -Path C:\Users\{{ ansible_user }}\.ssh\authorized_keys -ItemType File
         echo "{{ ssh_public_key }}" | Out-File -FilePath C:\Users\{{ ansible_user }}\.ssh\authorized_keys
         $ConfirmPreference = 'None'; Repair-AuthorizedKeyPermission C:\Users\{{ ansible_user }}\.ssh\authorized_keys
+        Icacls C:\Users\{{ ansible_user }}\.ssh\authorized_keys /remove “NT SERVICE\sshd”
+    - name: Restart SSH Service
+      win_shell: |
+        Get-Service -Name sshd | Restart-Service

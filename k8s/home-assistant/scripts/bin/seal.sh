@@ -18,8 +18,8 @@ rm -rf .secrets/id_rsa
 rm -rf .secrets/ssh.json
 
 # Gaming PC SSH Public Key
-echo -n "$HOME_AUTOMATION_SSH_PUBLIC_KEY" >.secrets/home-automation-ssh.pub
-echo -n "$HOME_AUTOMATION_SSH_PRIVATE_KEY" >.secrets/home-automation-ssh
+echo "$HOME_AUTOMATION_SSH_PUBLIC_KEY" >.secrets/home-automation-ssh.pub
+echo "$HOME_AUTOMATION_SSH_PRIVATE_KEY" >.secrets/home-automation-ssh
 kubectl create secret generic home-automation-ssh --dry-run=client --namespace="home-automation" --from-file=pub=".secrets/home-automation-ssh.pub" --from-file=private=".secrets/home-automation-ssh" -o json >".secrets/home-automation-ssh.json"
 kubeseal --namespace "home-automation" <".secrets/home-automation-ssh.json" >"secrets/home-automation-ssh-ssh.json"
 rm -rf .secrets/home-automation-ssh.pub
