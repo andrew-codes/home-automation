@@ -19,10 +19,11 @@ cat >ansible/windows/.secrets/gaming_pc.yml <<EOL
 gaming_room_gaming_pc_username: "$GAMING_ROOM_GAMING_PC_USERNAME"
 EOL
 
-cat >ansible/windows/.secrets/windows.yml <<EOL
----
-ssh_public_key: "$HOME_AUTOMATION_SSH_PUBLIC_KEY"
-ssh_private_key: "$HOME_AUTOMATION_SSH_PRIVATE_KEY"
+cat >ansible/windows/.secrets/home-automation-ssh <<EOL
+$HOME_AUTOMATION_SSH_PRIVATE_KEY
+EOL
+cat >ansible/windows/.secrets/home-automation-ssh.pub <<EOL
+$HOME_AUTOMATION_SSH_PUBLIC_KEY
 EOL
 
 cat >ansible/k8s/.secrets/inlets-pro.license <<EOL

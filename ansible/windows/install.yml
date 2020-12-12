@@ -10,19 +10,44 @@
       win_chocolatey:
         name: 7zip
         state: present
+
     - name: Install the Win32-OpenSSH service
       win_chocolatey:
         name: openssh
-        package_params: /SSHServerFeature
+        package_params: /SSHServerFeature /AlsoLogToFile
         state: present
-    - name: Install nano
-      win_chocolatey:
-        name: nano
-        state: present
+
+    - name: Create .ssh directory
+      win_shell: mkdir -p C:\Users\{{ ansible_user }}\.ssh\authorized_key
+      vars:
+        ansible_become_user: "{{ ansible_user }}"
+        ansible_become_password: "{{ ansible_password }}"
+
+    - name: Copy Home Automation Public SSH Key
+      ansible.windows.win_copy:
+        src: .secrets/home-automation-ssh.Public
+        dest: C:\Users\{{ ansible_user }}\.ssh\authorized_key
+      vars:
+        ansible_become_user: "{{ ansible_user }}"
+        ansible_become_password: "{{ ansible_password }}"
+        ansible_remote_tmp: 'C:\tmp'
+    
+    - name: Copy sshd_config
+      ansible.windows.win_copy:
+        src: sshd_config
+        dest: C:\ProgramData\ssh\sshd_config
+      vars:
+        ansible_become_user: BUILTIN\Administrators
+        ansible_become_password: "{{ ansible_password }}"
+        ansible_remote_tmp: 'C:\tmp'
+
+    - name: Restart SSH Service
+      win_shell: |
+        Get-Service -Name sshd | Restart-Service
+
     - name: Setup Admin SSH Key
       win_shell: |
         New-Item -Path C:\ProgramData\ssh\administrators_authorized_keys -ItemType File
-        echo "{{ ssh_public_key }}" | Out-File -FilePath C:\ProgramData\ssh\administrators_authorized_keys
         $acl = Get-Acl C:\ProgramData\ssh\administrators_authorized_keys
         $acl.SetAccessRuleProtection($true, $false)
         $administratorsRule = New-Object system.security.accesscontrol.filesystemaccessrule("Administrators","FullControl","Allow")
@@ -30,12 +55,6 @@
         $acl.SetAccessRule($administratorsRule)
         $acl.SetAccessRule($systemRule)
         $acl | Set-Acl
-    - name: Setup User SSH Key
-      win_shell: |
-        New-Item -Path C:\Users\{{ ansible_user }}\.ssh\authorized_keys -ItemType File
-        echo "{{ ssh_public_key }}" | Out-File -FilePath C:\Users\{{ ansible_user }}\.ssh\authorized_keys
-        $ConfirmPreference = 'None'; Repair-AuthorizedKeyPermission C:\Users\{{ ansible_user }}\.ssh\authorized_keys
-        Icacls C:\Users\{{ ansible_user }}\.ssh\authorized_keys /remove “NT SERVICE\sshd”
     - name: Restart SSH Service
       win_shell: |
         Get-Service -Name sshd | Restart-Service
