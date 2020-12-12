@@ -18,13 +18,13 @@ rm -rf .secrets/id_rsa
 rm -rf .secrets/ssh.json
 
 # Gaming PC SSH Public Key
-echo "$GAMING_ROOM_GAMING_PC_SSH_PUBLIC_KEY" >.secrets/gaming-pc.pub
-echo "$GAMING_ROOM_GAMING_PC_SSH_PRIVATE_KEY" >.secrets/gaming-pc
-kubectl create secret generic gaming-pc-ssh --dry-run=client --namespace="home-automation" --from-file=pub=".secrets/gaming-pc.pub" --from-file=private=".secrets/gaming-pc" -o json >".secrets/gaming-pc.json"
-kubeseal --namespace "home-automation" <".secrets/gaming-pc.json" >"secrets/gaming-pc-ssh.json"
-rm -rf .secrets/gaming-pc.pub
-rm -rf .secrets/gaming-pc
-rm -rf .secrets/gaming-pc.json
+echo "$HOME_AUTOMATION_SSH_PUBLIC_KEY" >.secrets/home-automation-ssh.pub
+echo "$HOME_AUTOMATION_SSH_PRIVATE_KEY" >.secrets/home-automation-ssh
+kubectl create secret generic home-automation-ssh --dry-run=client --namespace="home-automation" --from-file=pub=".secrets/home-automation-ssh.pub" --from-file=private=".secrets/home-automation-ssh" -o json >".secrets/home-automation-ssh.json"
+kubeseal --namespace "home-automation" <".secrets/home-automation-ssh.json" >"secrets/home-automation-ssh-ssh.json"
+rm -rf .secrets/home-automation-ssh.pub
+rm -rf .secrets/home-automation-ssh
+rm -rf .secrets/home-automation-ssh.json
 
 # HA Secrets
 
