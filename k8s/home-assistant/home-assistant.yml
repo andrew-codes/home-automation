@@ -120,10 +120,10 @@ spec:
             - name: ha-secrets-volume
               mountPath: /home-automation/k8s/home-assistant/home-assistant-config/secrets.yaml
               subPath: yml
-            - name: gaming-pc-ssh-secrets-volume
+            - name: home-assistant-ssh
               mountPath: /root/.ssh/id_rsa.pub
               subPath: pub
-            - name: gaming-pc-ssh-secrets-volume
+            - name: home-assistant-ssh
               mountPath: /root/.ssh/id_rsa
               subPath: private
           securityContext:
@@ -157,9 +157,9 @@ spec:
           secret:
             secretName: ssh
             defaultMode: 0600
-        - name: gaming-pc-ssh-secrets-volume
+        - name: home-assistant-ssh
           secret:
-            secretName: gaming-pc-ssh
+            secretName: home-assistant-ssh
             defaultMode: 0600
         - name: home-assistant-config-volume
           persistentVolumeClaim:
