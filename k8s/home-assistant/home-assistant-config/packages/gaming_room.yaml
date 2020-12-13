@@ -313,7 +313,7 @@ gaming_room:
     - alias: Start a game room activity while Andrew is home
       trigger:
         - platform: state
-          entity_id: media_player.gaming_room_playstation_4_pro
+          entity_id: media_player.gaming_room_universal_playstation_4_pro
           to: "on"
         - platform: state
           entity_id: media_player.gaming_room_universal_gaming_pc
@@ -343,7 +343,7 @@ gaming_room:
     - alias: Start a game room activity while Andrew is not home
       trigger:
         - platform: state
-          entity_id: media_player.gaming_room_playstation_4_pro
+          entity_id: media_player.gaming_room_universal_playstation_4_pro
           to: "on"
         - platform: state
           entity_id: media_player.gaming_room_universal_gaming_pc
