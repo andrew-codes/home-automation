@@ -390,7 +390,7 @@ gaming_room:
       trigger:
         - platform: state
           entity_id: media_player.gaming_room_universal_gaming_pc
-          to: "on"
+          from: "off"
       action:
         - service: media_player.select_source
           data:
@@ -410,7 +410,7 @@ gaming_room:
       trigger:
         - platform: state
           entity_id: media_player.gaming_room_universal_gaming_pc
-          to: "on"
+          from: "off"
       condition:
         - condition: state
           entity_id: person.andrew_smith
@@ -425,7 +425,7 @@ gaming_room:
       trigger:
         platform: state
         entity_id: media_player.gaming_room_universal_playstation_4_pro
-        to: "on"
+        from: "off"
       action:
         - service: media_player.select_source
           data:
@@ -445,7 +445,7 @@ gaming_room:
       trigger:
         platform: state
         entity_id: media_player.gaming_room_universal_nintendo_switch
-        to: "on"
+        from: "off"
       action:
         - service: media_player.select_source
           data:
@@ -465,7 +465,7 @@ gaming_room:
       trigger:
         platform: state
         entity_id: media_player.gaming_room_universal_media_player
-        to: "on"
+        from: "off"
       action:
         - service: media_player.select_source
           data:
