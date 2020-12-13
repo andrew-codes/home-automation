@@ -2,3 +2,4 @@
 - import_playbook: playbooks/setup_openssh.yml
 - import_playbook: playbooks/install_windows_software.yml
 - import_playbook: gaming_pc.yml
+- import_playbook: playbooks/install_development_machine.yml

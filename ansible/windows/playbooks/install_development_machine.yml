@@ -1,0 +1,21 @@
+---
+- hosts: windows
+  gather_facts: yes
+  connection: winrm
+
+  tasks:
+    - name: Ensure FireFox is installed
+      win_chocolatey:
+        name: firefox
+        package_params: /NoTaskbarShortcut /NoDesktopShortcut /RemoveDistributionDir
+        state: present
+    
+    - name: Ensure C++ Redist
+      win_chocolatey:
+        name: vcredist140
+        state: present
+    
+    - name: Ensure Python3
+      win_chocolatey:
+        name: python3
+        state: present
