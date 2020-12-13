@@ -22,9 +22,11 @@ EOL
 cat >ansible/windows/.secrets/home-automation-ssh <<EOL
 $HOME_AUTOMATION_SSH_PRIVATE_KEY
 EOL
+chmod 0600 ansible/windows/.secrets/home-automation-ssh
 cat >ansible/windows/.secrets/home-automation-ssh.pub <<EOL
 $HOME_AUTOMATION_SSH_PUBLIC_KEY
 EOL
+chmod 0600 ansible/windows/.secrets/home-automation-ssh.pub
 
 cat >ansible/k8s/.secrets/inlets-pro.license <<EOL
 $INLETS_PRO_LICENSE

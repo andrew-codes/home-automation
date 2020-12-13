@@ -48,7 +48,7 @@ AuthorizedKeysFile      .ssh/authorized_keys
 #IgnoreRhosts yes
 
 # To disable tunneled clear text passwords, change to no here!
-#PasswordAuthentication yes
+PasswordAuthentication no
 PermitEmptyPasswords yes
 
 # GSSAPI options
@@ -84,5 +84,5 @@ Subsystem       sftp    sftp-server.exe
 #       PermitTTY no
 #       ForceCommand cvs server
 
-Match Group administrators
-       AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_keys
+#Match Group administrators
+#       AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_keys
