@@ -16,3 +16,7 @@ My home automation and, all related services, run in a local Kubernetes cluster.
 
 - [MQTT](./k8s/mqtt/README.md)
 - [Home Assistant](./k8s/home-assistant/README.md)
+
+## Automations
+
+See a [list of automations](./docs/automations.md) for regression testing purposes.

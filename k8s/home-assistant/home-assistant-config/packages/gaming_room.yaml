@@ -42,7 +42,7 @@ gaming_room:
     turn_off_gaming_room_gaming_pc: !secret turn_off_gaming_room_gaming_pc_command
 
   media_player:
-    # This is the primary media player for automations.
+      # This is the primary media player for automations.
     - name: Gaming Room Media Player
       platform: universal
       children:
@@ -50,16 +50,25 @@ gaming_room:
         - media_player.gaming_room_universal_playstation_4_pro
         - media_player.gaming_room_universal_nintendo_switch
         - media_player.gaming_room_universal_media_player
+      state_template: >
+        {% if is_state('media_player.gaming_room_playstation_4_pro', 'idle') %}
+        on
+        {% elif is_state('media_player.gaming_room_universal_gaming_pc', 'on') %}
+        on
+        {% elif is_state('media_player.gaming_room_universal_nintendo_switch', 'on') %}
+        on
+        {% elif is_state('media_player.gaming_room_universal_media_player', 'on') %}
+        on
+        {% elif is_state('media_player.gaming_room_universal_media_player', 'playing') %}
+        on
+        {% else %}      
+        {off
+        {% endif %}
       commands:
         turn_off:
           service: script.turn_on
           data:
             entity_id: script.gaming_room_turn_off_all_media_players
-        turn_on:
-          service: media_player.turn_on
-          data_template:
-            entity_id: >
-              {{ state_attr('media_player.gaming_room_media_player', 'active_child') }}
         volume_set:
           service: media_player.volume_set
           data_template:
@@ -88,7 +97,9 @@ gaming_room:
             entity_id: >
               {{ state_attr('media_player.gaming_room_media_player', 'active_child') }}
             source: "{{ source }}"
-    # These are the child media players.
+      attributes:
+        is_volume_muted: media_player.gaming_room_avr|is_volume_muted
+        volume_level: media_player.gaming_room_avr|volume_level
     - name: Gaming Room NVIDIA Shield Pro
       platform: androidtv
       host: !secret gaming_room_nvidia_shield_ip
@@ -299,14 +310,26 @@ gaming_room:
   automation:
     - alias: Start a game room activity while Andrew is home
       trigger:
-        platform: state
-        entity_id: media_player.gaming_room_media_player
-        to: "on"
+        - platform: state
+          entity_id: media_player.gaming_room_playstation_4_pro
+          to: "on"
+        - platform: state
+          entity_id: media_player.gaming_room_universal_gaming_pc
+          to: "on"
+        - platform: state
+          entity_id: media_player.gaming_room_universal_nintendo_switch
+          to: "on"
+        - platform: state
+          entity_id: media_player.gaming_room_universal_media_player
+          to: "on"
       condition:
         - condition: state
           entity_id: person.andrew_smith
           state: "home"
       action:
+        - service: media_player.turn_on
+          data:
+            entity_id: media_player.gaming_room_avr
         - service: media_player.turn_on
           data:
             entity_id: media_player.gaming_room_tv
@@ -317,28 +340,30 @@ gaming_room:
 
     - alias: Start a game room activity while Andrew is not home
       trigger:
-        platform: state
-        entity_id: media_player.gaming_room_media_player
-        to: "on"
+        - platform: state
+          entity_id: media_player.gaming_room_playstation_4_pro
+          to: "on"
+        - platform: state
+          entity_id: media_player.gaming_room_universal_gaming_pc
+          to: "on"
+        - platform: state
+          entity_id: media_player.gaming_room_universal_nintendo_switch
+          to: "on"
+        - platform: state
+          entity_id: media_player.gaming_room_universal_media_player
+          to: "on"
       condition:
         - condition: state
           entity_id: person.andrew_smith
-          state: "not_home"
-      action:
-        - service: media_player.select_sound_mode
-          data:
-            entity_id: media_player.gaming_room_avr
-            sound_mode: DOLBY DIGITAL
-
-    - alias: Start a game room activity (always)
-      trigger:
-        platform: state
-        entity_id: media_player.gaming_room_media_player
-        to: "on"
+          state: "home"
       action:
         - service: media_player.turn_on
           data:
             entity_id: media_player.gaming_room_avr
+        - service: media_player.select_sound_mode
+          data:
+            entity_id: media_player.gaming_room_avr
+            sound_mode: DOLBY DIGITAL
 
     - alias: Turning on gaming room gaming PC from input_boolean
       trigger:
@@ -359,15 +384,11 @@ gaming_room:
       action:
         - service: shell_command.turn_off_gaming_room_gaming_pc
 
-    - alias: Start an activity on the gaming room gaming PC while Andrew is home
+    - alias: Start an activity on the gaming room gaming PC
       trigger:
         - platform: state
           entity_id: media_player.gaming_room_universal_gaming_pc
           to: "on"
-      condition:
-        - condition: state
-          entity_id: person.andrew_smith
-          state: "home"
       action:
         - service: media_player.select_source
           data:
@@ -393,33 +414,10 @@ gaming_room:
           entity_id: person.andrew_smith
           state: "not_home"
       action:
-        - service: media_player.select_source
-          data:
-            entity_id: media_player.gaming_room_avr
-            source: PC
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_nintendo_switch
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_media_player
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_playstation_4_pro
         - service: media_player.volume_set
           data:
             entity_id: media_player.gaming_room_universal_gaming_pc
             volume_level: 0
-
-    - alias: Stop an activity on the gaming room gaming PC
-      trigger:
-        platform: state
-        entity_id: media_player.gaming_room_universal_gaming_pc
-        to: "off"
-      action:
-        - service: input_boolean.turn_off
-          data:
-            entity_id: input_boolean.gaming_room_gaming_pc
 
     - alias: Start an activity on the gaming room playstation 4 pro
       trigger:
@@ -477,32 +475,6 @@ gaming_room:
         - service: media_player.turn_off
           data:
             entity_id: media_player.gaming_room_universal_nintendo_switch
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_gaming_pc
-
-    - alias: Stop any activity in the gaming room when Andrew is home
-      trigger:
-        platform: state
-        entity_id: media_player.gaming_room_media_player
-        to: "off"
-      condition:
-        - condition: state
-          entity_id: person.andrew_smith
-          state: "home"
-      action:
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_tv
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_nintendo_switch
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_playstation_4_pro
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_media_player
         - service: media_player.turn_off
           data:
             entity_id: media_player.gaming_room_universal_gaming_pc
