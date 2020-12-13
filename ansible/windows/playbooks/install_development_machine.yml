@@ -1,5 +1,5 @@
 ---
-- hosts: windows
+- hosts: windows_dev
   gather_facts: yes
   connection: winrm
 
