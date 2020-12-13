@@ -53,7 +53,7 @@ gaming_room:
       state_template: >
         {% if is_state('media_player.gaming_room_universal_playstation_4_pro', 'on') %}
         on
-        {% if is_state('media_player.gaming_room_universal_playstation_4_pro', 'idle') %}
+        {% elif is_state('media_player.gaming_room_universal_playstation_4_pro', 'idle') %}
         on
         {% elif is_state('media_player.gaming_room_universal_gaming_pc', 'on') %}
         on
