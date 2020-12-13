@@ -51,7 +51,9 @@ gaming_room:
         - media_player.gaming_room_universal_nintendo_switch
         - media_player.gaming_room_universal_media_player
       state_template: >
-        {% if is_state('media_player.gaming_room_playstation_4_pro', 'idle') %}
+        {% if is_state('media_player.gaming_room_universal_playstation_4_pro', 'on') %}
+        on
+        {% if is_state('media_player.gaming_room_universal_playstation_4_pro', 'idle') %}
         on
         {% elif is_state('media_player.gaming_room_universal_gaming_pc', 'on') %}
         on
@@ -61,7 +63,7 @@ gaming_room:
         on
         {% elif is_state('media_player.gaming_room_universal_media_player', 'playing') %}
         on
-        {% else %}      
+        {% else %}
         {off
         {% endif %}
       commands:
