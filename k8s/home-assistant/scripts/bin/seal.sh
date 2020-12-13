@@ -48,7 +48,7 @@ gaming_room_nvidia_shield_ip: $GAMING_ROOM_NVIDIA_SHIELD_IP
 gaming_room_gaming_pc_mac: $GAMING_ROOM_GAMING_PC_MAC
 gaming_room_gaming_pc_ip: $GAMING_ROOM_GAMING_PC_IP
 router_ip: $ROUTER_IP
-turn_off_gaming_room_gaming_pc_command: 'ssh -n -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa $MACHINE_USERNAME@$GAMING_ROOM_GAMING_PC_IP cmd.exe "C:\Windows\System32\rundll32.exe powrprof.dll,SetSuspendState Standby"'
+turn_off_gaming_room_gaming_pc_command: ssh -n -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa $MACHINE_USERNAME@$GAMING_ROOM_GAMING_PC_IP cmd.exe "C:\Windows\System32\rundll32.exe powrprof.dll,SetSuspendState Standby"
 EOL
 
 kubectl create secret generic secrets --dry-run=client --namespace="home-automation" --from-file=yml=".secrets/secrets.yaml" -o json >".secrets/secrets.json"
