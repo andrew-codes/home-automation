@@ -11,3 +11,33 @@
         name: "{{ gaming_room_gaming_pc_username }}"
         update_password: no
         password_never_expires: yes
+
+    - name: Ensure Steam is installed
+      win_chocolatey:
+        name: steam
+        state: present
+
+    - name: Ensure Epic is installed
+      win_chocolatey:
+        name: epicgameslauncher
+        state: present
+
+    - name: Ensure GOG is installed
+      win_chocolatey:
+        name: goggalaxy
+        state: present
+
+    - name: Ensure Playnite is installed
+      win_chocolatey:
+        name: playnite
+        state: present
+
+    - name: Ensure Uplay is installed
+      win_chocolatey:
+        name: uplay
+        state: present
+
+    - name: Ensure Nvidia GeForce Experience/drivers are installed
+      win_chocolatey:
+        name: geforce-game-ready-driver
+        state: present
