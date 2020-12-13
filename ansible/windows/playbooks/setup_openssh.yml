@@ -10,6 +10,13 @@
         package_params: /SSHServerFeature /AlsoLogToFile
         state: present
 
+    - name: Remove old .ssh directory
+      win_shell: |
+        Remove-Item -Path C:\Users\{{ ansible_user }}\.ssh -Force -Recurse
+      vars:
+        ansible_become_user: "{{ ansible_user }}"
+        ansible_become_password: "{{ ansible_password }}"
+ 
     - name: Create .ssh directory
       win_shell: |
         New-Item -Force -Path C:\Users\{{ ansible_user }}\.ssh -ItemType Directory
