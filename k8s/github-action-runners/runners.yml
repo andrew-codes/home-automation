@@ -34,21 +34,3 @@ spec:
                     operator: In
                     values:
                       - amd64
-
----
-apiVersion: actions.summerwind.dev/v1alpha1
-kind: RunnerDeployment
-metadata:
-  name: github-action-runners-docker
-  namespace: actions-runner-system
-spec:
-  replicas: 1
-  template:
-    spec:
-      labels:
-        - docker-runner
-      repository: andrew-codes/home-automation
-      dockerEnabled: true
-      dockerdWithinRunnerContainer: false
-      image: summerwind/actions-runner:latest
-      imagePullPolicy: Always
