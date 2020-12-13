@@ -9,7 +9,7 @@
     - name: Create local user
       win_user:
         name: "{{ gaming_room_gaming_pc_username }}"
-        update_password: no
+        update_password: on_create
         password_never_expires: yes
 
     - name: Ensure Steam is installed
