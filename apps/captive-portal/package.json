@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "source ./../../secrets.sh && node src/index.js",
+    "dev": "source ./../../secrets.sh && node -r dotenv/config src/index.js",
     "compile": "ncc build src/index.js -o dist -m",
     "postcompile": "cp -r src/static dist/static",
     "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"$DOCKER_REGISTRY_DOMAIN:5000/captive-portal:latest\" --context dir:///workspace/ --insecure"
@@ -13,6 +13,7 @@
   "dependencies": {
     "async-mqtt": "^2.6.1",
     "debug": "^4.3.1",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "node-unifiapi": "^0.0.54"
   },

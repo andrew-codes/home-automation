@@ -27,3 +27,7 @@ This application is a node expressjs app that serves a registration page to gues
 ## Example Image of Captive Portal
 
 ![Captive Portal Web UI](./docs/captive-portal-web-ui.png)
+
+## Developing
+
+Read [captive-portal app](./../../apps/captive-portal/README.md) for information on developing locally.

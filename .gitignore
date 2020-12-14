@@ -8,3 +8,5 @@ secrets.yaml
 *.log
 *.ignored
 dist
+.env
+*.env
