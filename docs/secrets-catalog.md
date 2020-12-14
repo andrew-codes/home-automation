@@ -93,6 +93,23 @@ export GAMING_ROOM_NVIDIA_SHIELD_IP=""
 export GAMING_ROOM_GAMING_PC_MAC=""
 export GAMING_ROOM_GAMING_PC_IP=""
 export ROUTER_IP=""
+
+# SSH key with NO passphrase
+export HOME_AUTOMATION_SSH_PRIVATE_KEY=$(
+    cat <<EOL
+-----BEGIN OPENSSH PRIVATE KEY-----
+-----END OPENSSH PRIVATE KEY-----
+EOL
+)
+export HOME_AUTOMATION_SSH_PUBLIC_KEY=$(
+    cat <<EOL
+EOL
+)
 # ------------------------------------
 # ====================================
+
+export USG_IP=""
+export USG_PORT=""
+export USG_USERNAME=""
+export USG_PASSWORD=""
 ```
