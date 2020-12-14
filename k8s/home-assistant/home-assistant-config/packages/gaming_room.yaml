@@ -64,7 +64,7 @@ gaming_room:
         {% elif is_state('media_player.gaming_room_universal_media_player', 'playing') %}
         on
         {% else %}
-        {off
+        off
         {% endif %}
       commands:
         turn_off:
