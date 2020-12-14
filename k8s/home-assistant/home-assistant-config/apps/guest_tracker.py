@@ -8,8 +8,9 @@ class GuestTracker(hass.Hass):
         self.log('Starting Guest Tracker')
         self.listen_event(self.on_message, 'MQTT_MESSAGE', topic=self.args["topic"], namespace="mqtt")
 
-    def on_message(self, client, userdata, msg):
-        self.log(msg.topic+" "+msg.payload.decode())
+    def on_message(self, eventName, data):
+        self.log()
+        self.log(eventName+" "+data)
         groupName = self.args["group_name"]
         groupEntityId = "group." + groupName
         all_entities = self.get_state()
@@ -20,7 +21,7 @@ class GuestTracker(hass.Hass):
         entity_of_mac = None
         for key, value in all_entities.items():
             if value['attributes'] and 'mac' in value['attributes']:
-                if str(value['attributes']['mac']) == msg.payload.decode():
+                if str(value['attributes']['mac']) == data:
                     entity_of_mac = value
 
         # Only process if there is an entity registered with provided MAC.
