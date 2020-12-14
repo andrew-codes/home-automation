@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <title>Smith-Simms Wifi</title>
+  </head>
+  <body>
+    <form method="POST" action="/register">
+      <label
+        >This is my main device:
+        <input type="checkbox" name="isPrimaryDevice" />
+      </label>
+      <input type="hidden" value="" name="mac" />
+      <button type="submit">Connect</button>
+    </form>
+    <script>
+      var qs = document.location.search
+        .replace(/^\?/, "")
+        .split("&")
+        .reduce((acc, qsItem) => {
+          var parts = qsItem.split("=");
+          return Object.assign(acc, { [parts[0]]: parts[1] });
+        }, {});
+
+      var macInput = document.querySelector("input[name=mac]");
+      macInput.setAttribute("value", qs.mac);
+    </script>
+  </body>
+</html>

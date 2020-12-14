@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "@ha/captive-portal",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "deploy": "scripts/bin/deploy.sh",
+    "postdeploy": "kubectl rollout restart deployment captive-portal --namespace home-automation"
+  },
+  "dependencies": {
+    "@ha/captive-portal-app": "^0.0.1",
+    "@ha/home-assistant": "^0.0.1"
+  }
+}
