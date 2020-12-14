@@ -1,4 +1,4 @@
-bandwidth_usage:
+bandwidth_usage_package:
   input_number:
     wan_traffic_delta_in:
       min: 0
