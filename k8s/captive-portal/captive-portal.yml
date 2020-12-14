@@ -58,12 +58,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: usg-secrets
-                  key: unifi_username
+                  key: usg_username
             - name: UNIFI_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: usg-secrets
-                  key: unifi_password
+                  key: usg_password
 
 ---
 apiVersion: v1
