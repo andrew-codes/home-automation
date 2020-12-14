@@ -10,7 +10,7 @@ class GuestTracker(hass.Hass):
 
     def on_message(self, eventName, data):
         self.log()
-        self.log(eventName+" "+data)
+        self.log(eventName+" "+data["topic"]+" "+data["payload"])
         groupName = self.args["group_name"]
         groupEntityId = "group." + groupName
         all_entities = self.get_state()
@@ -21,7 +21,7 @@ class GuestTracker(hass.Hass):
         entity_of_mac = None
         for key, value in all_entities.items():
             if value['attributes'] and 'mac' in value['attributes']:
-                if str(value['attributes']['mac']) == data:
+                if str(value['attributes']['mac']) == data["payload"]:
                     entity_of_mac = value
 
         # Only process if there is an entity registered with provided MAC.
