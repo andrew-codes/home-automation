@@ -1,0 +1,5 @@
+{
+    "files.associations": {
+        "k8s/home-assistant/home-assistant-config/**/*.yaml": "home-assistant"
+    }
+}
