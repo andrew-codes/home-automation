@@ -33,12 +33,12 @@ spec:
             - name: MQTT_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: secrets
+                  name: mqtt-secrets
                   key: mqtt-username
             - name: MQTT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: secrets
+                  name: mqtt-secrets
                   key: mqtt-password
             - name: MQTT_HOST
               value: mqtt
