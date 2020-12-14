@@ -14,6 +14,7 @@ const app = express()
 app.use(express.static(path.join(__dirname, "static")))
 app.get("/", async (req, res) => {
   try {
+    console.log("we did it!", req.query)
     const mac = req.query.mac
     if (!mac) {
       throw new Error("No MAC address found in URL")
