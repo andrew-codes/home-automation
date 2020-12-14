@@ -54,10 +54,12 @@ metadata:
   labels:
     app.kubernetes.io/name: captive-portal
 spec:
+  type: NodePort
   ports:
     - name: http
       port: 8081
       protocol: TCP
       targetPort: http
+      nodePort: 30516
   selector:
     app.kubernetes.io/name: captive-portal
