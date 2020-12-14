@@ -108,6 +108,7 @@ EOL
 # ------------------------------------
 # ====================================
 
+# Captive Portal
 export USG_IP=""
 export USG_PORT=""
 export USG_USERNAME=""

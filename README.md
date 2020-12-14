@@ -14,8 +14,11 @@ My home automation and, all related services, run in a local Kubernetes cluster.
 
 ## Applictions
 
+Application documentation is located with its deployment configuration in the `./k8s/*` directories. Application source code is located in the `./apps/*` directories.
+
 - [MQTT](./k8s/mqtt/README.md)
 - [Home Assistant](./k8s/home-assistant/README.md)
+- [Guest Detection: Captive Portal](./k8s/captive-portal/README.md)
 
 ## Automations
 
