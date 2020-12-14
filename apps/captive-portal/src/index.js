@@ -1,6 +1,7 @@
 const debug = require("debug")("@ha/captive-portal/server")
 const express = require("express")
 const path = require("path")
+const cors = require("cors")
 
 const { PORT } = process.env
 
@@ -9,6 +10,11 @@ const thankYouPage = path.join(staticDir, "thank-you.html")
 const registerPage = path.join(staticDir, "register.html")
 
 const app = express()
+app.use(
+  cors({
+    origin: "*",
+  })
+)
 
 // A weekend (3 days) worth of time per authorization.
 app.use(express.static(path.join(__dirname, "static")))
