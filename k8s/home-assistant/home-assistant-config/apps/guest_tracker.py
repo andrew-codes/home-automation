@@ -10,7 +10,7 @@ class GuestTracker(hass.Hass):
 
     def on_message(self, eventName, data, kwargs):
         self.log("here")
-        # self.log(eventName+" "+data["topic"]+" "+data["payload"])
+        self.log(data["topic"]+" "+data["payload"])
         groupName = self.args["group_name"]
         groupEntityId = "group." + groupName
         all_entities = self.get_state()
