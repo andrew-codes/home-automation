@@ -15,13 +15,15 @@ class GuestTracker(hass.Hass):
         all_entities = self.get_state()
         g = all_entities[groupEntityId]
         self.log(g)
+
+        # Find registered entity with provided MAC address
         entity_of_mac = None
         for key, value in all_entities.items():
             if value['attributes'] and 'mac' in value['attributes']:
                 if str(value['attributes']['mac']) == msg.payload.decode():
                     entity_of_mac = value
 
-        self.log(g)
+        # Only process if there is an entity registered with provided MAC.
         if entity_of_mac is None:
             return
 
@@ -34,4 +36,4 @@ class GuestTracker(hass.Hass):
         self.log(new_group_members)
         self.call_service('group/set', object_id=groupName,
                           name=g['attributes']['friendly_name'], entities=new_group_members)
-        self.log('Guest group members updated')
+        self.log('Group members updated')

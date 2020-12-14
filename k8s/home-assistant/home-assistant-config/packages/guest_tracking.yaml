@@ -1,0 +1,6 @@
+guest_tracking_package:
+
+  group:
+    guests:
+      name: Guests
+      entities: []
