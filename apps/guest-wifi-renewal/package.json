@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "name": "@ha/guest-wifi-renewal-app",
+  "version": "0.0.1",
+  "main": "src/index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "source ./../../secrets.sh && node -r dotenv/config src/index.js",
+    "compile": "ncc build src/index.js -o dist -m",
+    "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"$DOCKER_REGISTRY_DOMAIN:5000/guest-wifi-renewal:latest\" --context dir:///workspace/ --insecure"
+  },
+  "dependencies": {
+    "async-mqtt": "^2.6.1",
+    "debug": "^4.3.1",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "@zeit/ncc": "^0.22.3"
+  }
+}
