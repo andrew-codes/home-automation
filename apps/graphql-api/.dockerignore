@@ -4,3 +4,5 @@ src
 .DS_Store
 .env
 nodemon.json
+jest.config
+tsconfig.json
