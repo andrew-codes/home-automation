@@ -113,4 +113,7 @@ export USG_IP=""
 export USG_PORT=""
 export USG_USERNAME=""
 export USG_PASSWORD=""
+
+# GraphQL API Token
+export GRAPHQL_API_TOKEN=""
 ```

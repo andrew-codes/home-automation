@@ -24,7 +24,6 @@
     "express": "^4.17.1",
     "express-graphql": "^0.12.0",
     "graphql": "^15.1.0",
-    "graphql-iso-date": "^3.6.1",
     "homeassistant": "^0.2.0",
     "lodash": "^4.17.20",
     "nexus": "^1.0.0",

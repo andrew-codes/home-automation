@@ -3,11 +3,11 @@ import createDebug from "debug"
 import express from "express"
 import { graphqlHTTP } from "express-graphql"
 import * as bodyParser from "body-parser-graphql"
-import { createDataContext } from "./dataContext.js"
-import { schema } from "./schema/index.js"
+import { createDataContext } from "./dataContext"
+import { schema } from "./schema/index"
 const debug = createDebug("@ha/graphql-api")
 
-const { API_TOKEN, HA_HOST, HA_TOKEN, PORT } = process.env
+const { GRAPHQL_API_TOKEN, HA_HOST, HA_TOKEN, PORT } = process.env
 
 const app = express()
 app.use("/", bodyParser.graphql())
@@ -29,7 +29,7 @@ app.use(
         token = credentials
       }
     }
-    if (!!token && token === API_TOKEN) {
+    if (!!token && token === GRAPHQL_API_TOKEN) {
       return next()
     }
     return next(new Error("Unauthorized"))
