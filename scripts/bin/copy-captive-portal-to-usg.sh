@@ -18,3 +18,5 @@ cat >.secrets/captive-portal.html <<EOL
 EOL
 
 scp .secrets/captive-portal.html "ubnt@$USG_IP:/usr/lib/unifi/data/sites/default/app-unifi-hotspot-portal/index.html"
+
+rm -rf .secrets/captive-portal.html
