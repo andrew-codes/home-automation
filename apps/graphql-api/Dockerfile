@@ -1,5 +1,4 @@
-ARG NODE_VERSION
-FROM node:${NODE_VERSION}-alpine
+FROM node:15.3.0-alpine
 WORKDIR /app
-COPY dist ./
-ENTRYPOINT ["node", "index.js"]
+COPY . .
+ENTRYPOINT ["node", "dist/index.js"]
