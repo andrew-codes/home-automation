@@ -9,7 +9,6 @@ class GuestTracker(hass.Hass):
         self.listen_event(self.on_message, 'MQTT_MESSAGE', topic=self.args["topic"], namespace="mqtt")
 
     def on_message(self, eventName, data, kwargs):
-        self.log("here")
         self.log(data["topic"]+" "+data["payload"])
         groupName = self.args["group_name"]
         groupEntityId = "group." + groupName
