@@ -4,25 +4,19 @@
 
 type HomeAssistantArea implements Node {
   entities: [HomeAssistantEntity]
-
-  """Unique identifier for the resource"""
-  id: String
+  id: ID
   name: String
 }
 
 type HomeAssistantDomain implements Node {
   entities: [HomeAssistantEntity]
-
-  """Unique identifier for the resource"""
-  id: String
+  id: ID
 }
 
-type HomeAssistantEntity implements InterfaceHomeAssistantEntity {
+type HomeAssistantEntity {
   area: HomeAssistantArea
   domain: HomeAssistantDomain
-
-  """Unique identifier for the resource"""
-  id: String
+  id: ID
   name: String
 }
 
@@ -36,30 +30,21 @@ type HomeAssistantEntityStateAttribute {
   value: String
 }
 
-input InputArea {
-  id: String!
-  name: String
-}
-
-input InputAreas {
-  items: [InputArea!]!
-}
-
 input InputEntities {
-  items: [InputEntity!]!
+  items: [InputEntity]
 }
 
 input InputEntity {
   area_id: String
   domain_id: String
-  id: String!
+  id: String
   name: String
 }
 
 input InputServiceCall {
-  id: String!
+  id: String
   payload: [InputServiceCallPayload]
-  service: String!
+  service: String
 }
 
 input InputServiceCallPayload {
@@ -67,26 +52,14 @@ input InputServiceCallPayload {
   value: String
 }
 
-interface InterfaceHomeAssistantEntity {
-  area: HomeAssistantArea
-  domain: HomeAssistantDomain
-
-  """Unique identifier for the resource"""
-  id: String
-  name: String
-}
-
 type Mutation {
-  areas(areas: InputAreas): HomeAssistantArea
   entities(entities: InputEntities): HomeAssistantEntity
 }
 
 interface Node {
-  """Unique identifier for the resource"""
-  id: String
+  id: ID
 }
 
 type Query {
-  area(ids: [String]): [HomeAssistantArea]
   domain(ids: [String]): [HomeAssistantDomain]
 }

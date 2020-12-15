@@ -2,11 +2,12 @@ import createDebug from "debug"
 import {
   arg,
   inputObjectType,
+  list,
   mutationField,
   objectType,
   queryField,
   stringArg,
-} from "@nexus/schema"
+} from "nexus"
 import { Node } from "./node.js"
 // import { Game } from "./game";
 import { HomeAssistantEntity } from "./home_assistant_entity.js"
@@ -20,8 +21,7 @@ export const HomeAssistantArea = objectType({
     t.implements(Node)
     t.string("name")
     t.field("entities", {
-      list: true,
-      type: HomeAssistantEntity,
+      type: list(HomeAssistantEntity),
       resolve(root, args, ctx) {
         return ctx.query({
           from: "home_assistant_entity",
@@ -53,9 +53,8 @@ export const HomeAssistantArea = objectType({
 })
 
 export const HomeAssistantAreaQuery = queryField("area", {
-  list: true,
-  type: HomeAssistantArea,
-  args: { ids: stringArg({ required: false, list: true }) },
+  type: list(HomeAssistantArea),
+  args: { ids: list(stringArg()) },
   resolve(root, args, ctx) {
     return ctx.query({
       from: "home_assistant_area",
@@ -67,14 +66,14 @@ export const HomeAssistantAreaQuery = queryField("area", {
 export const InputArea = inputObjectType({
   name: "InputArea",
   definition(t) {
-    t.string("id", { required: true })
-    t.string("name", { require: true })
+    t.string("id")
+    t.string("name")
   },
 })
 export const InputAreas = inputObjectType({
   name: "InputAreas",
   definition(t) {
-    t.field("items", { type: InputArea, list: true, required: true })
+    t.field("items", { type: list(InputArea) })
   },
 })
 export const MergeAreas = mutationField("areas", {

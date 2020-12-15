@@ -2,6 +2,7 @@
   "verbose": true,
   "ignore": ["*.test.js", "fixtures/*", "*.graphql"],
   "execMap": {
-    "js": "node -r dotenv/config"
+    "js": "ts-node",
+    "ts": "ts-node"
   }
 }

@@ -10,10 +10,13 @@
     "yarn": ">=1.22.4"
   },
   "scripts": {
+    "clean": "lerna run clean --include-filtered-dependencies",
     "compile": "lerna run compile --include-filtered-dependencies",
     "dashboard": "kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}') && kubectl proxy",
     "deploy": "lerna run deploy --include-filtered-dependencies",
     "dev": "lerna run dev --stream  --include-filtered-dependencies",
+    "patch": "patch-package",
+    "postintall": "yarn patch",
     "seal": "lerna run seal",
     "image/push": "lerna run image/push --include-filtered-dependencies",
     "ingress/prod": "lerna run ingress/prod --include-filtered-dependencies",
@@ -29,6 +32,8 @@
     ]
   },
   "dependencies": {
-    "lerna": "^3.22.1"
+    "lerna": "^3.22.1",
+    "patch-package": "^6.2.2",
+    "postinstall-postinstall": "^2.1.0"
   }
 }

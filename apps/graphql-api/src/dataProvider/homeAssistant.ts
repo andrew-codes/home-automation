@@ -66,14 +66,14 @@ const fetchAllAreas = async (ha) => {
 }
 
 const fetchDomains = async (ha, filters) => {
-  const domains = await fetchAllDomains()
+  const domains = await fetchAllDomains(ha)
   return filterResults(filters)(domains)
 }
 
 const fetchEntities = async (ha, filters) => {
   const haEntities = await ha.states.list()
   // debug("ha states", haEntities)
-  const areas = await fetchAllAreas()
+  const areas = await fetchAllAreas(ha)
   const entities = haEntities.map((result) => {
     const area = areas.find((a) => {
       return result.attributes.friendly_name?.includes(a.name)

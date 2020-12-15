@@ -3,9 +3,10 @@ import {
   arg,
   inputObjectType,
   interfaceType,
+  list,
   mutationField,
   objectType,
-} from "@nexus/schema"
+} from "nexus"
 import _ from "lodash"
 import { HomeAssistantArea } from "./home_assistant_area.js"
 import { equality } from "../filter/index.js"
@@ -27,8 +28,7 @@ export const HomeAssistantEntityState = objectType({
   definition(t) {
     t.string("state")
     t.field("attributes", {
-      list: true,
-      type: HomeAssistantEntityStateAttribute,
+      type: list(HomeAssistantEntityStateAttribute),
       resolve(root, args, ctx) {
         return Object.entries(root.attributes).map(([k, v]) => ({
           name: k,
@@ -39,14 +39,10 @@ export const HomeAssistantEntityState = objectType({
   },
 })
 
-export const InterfaceHomeAssistantEntity = interfaceType({
-  name: "InterfaceHomeAssistantEntity",
+export const HomeAssistantEntity = objectType({
+  name: "HomeAssistantEntity",
   definition(t) {
-    t.id("id", {
-      type: "String",
-      description: "Unique identifier for the resource",
-    })
-    t.resolveType(() => null)
+    t.id("id")
     t.string("name")
     t.field("domain", {
       type: HomeAssistantDomain,
@@ -71,27 +67,20 @@ export const InterfaceHomeAssistantEntity = interfaceType({
   },
 })
 
-export const HomeAssistantEntity = objectType({
-  name: "HomeAssistantEntity",
-  definition(t) {
-    t.implements(InterfaceHomeAssistantEntity)
-  },
-})
-
 export const InputEntity = inputObjectType({
   name: "InputEntity",
   definition(t) {
-    t.string("id", { required: true })
-    t.string("name", { require: true })
-    t.string("area_id", { require: true })
-    t.string("domain_id", { require: true })
+    t.string("id")
+    t.string("name")
+    t.string("area_id")
+    t.string("domain_id")
   },
 })
 
 export const InputEntities = inputObjectType({
   name: "InputEntities",
   definition(t) {
-    t.field("items", { type: InputEntity, list: true, required: true })
+    t.field("items", { type: list(InputEntity) })
   },
 })
 
@@ -106,9 +95,9 @@ export const InputServiceCallPayload = inputObjectType({
 export const InputServiceCall = inputObjectType({
   name: "InputServiceCall",
   definition(t) {
-    t.string("id", { required: true })
-    t.string("service", { required: true })
-    t.field("payload", { type: InputServiceCallPayload, list: true })
+    t.string("id")
+    t.string("service")
+    t.field("payload", { type: list(InputServiceCallPayload) })
   },
 })
 
