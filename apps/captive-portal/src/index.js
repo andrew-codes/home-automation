@@ -51,15 +51,15 @@ app.post("/register", async (req, res) => {
     debug("isPrimaryDevice", isPrimaryDevice)
     const unifiClient = unifi({
       baseUrl: `https://${USG_IP}:${USG_PORT}`,
-      USG_USERNAME,
-      USG_PASSWORD,
+      username: USG_USERNAME,
+      password: USG_PASSWORD,
     })
     await unifiClient.authorize_guest(mac, getAuthorizationTime())
 
     if (isPrimaryDevice) {
       const mqttClient = await connectAsync(`tcp://${MQTT_HOST}:${MQTT_PORT}`, {
-        MQTT_USERNAME,
-        MQTT_PASSWORD,
+        username: MQTT_USERNAME,
+        password: MQTT_PASSWORD,
       })
       await mqttClient.publish("/homeassistant/guest/track-device", mac)
     }
