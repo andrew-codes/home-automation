@@ -1,18 +1,14 @@
 import { config } from "dotenv"
 config()
-import _fp from "lodash/fp.js"
+import _fp from "lodash/fp"
 import GraphQLDate from "graphql-iso-date"
 import path from "path"
-import {
-  asNexusMethod,
-  makeSchema,
-  nullabilityGuardPlugin,
-} from "nexus"
+import { asNexusMethod, makeSchema, nullabilityGuardPlugin } from "nexus"
 
 const { concat, flow } = _fp
-import * as area from "./home_assistant_area.js"
-import * as domain from "./home_assistant_domain.js"
-import * as entity from "./home_assistant_entity.js"
+import * as area from "./home_assistant_area"
+import * as domain from "./home_assistant_domain"
+import * as entity from "./home_assistant_entity"
 // import * as game from "./game"
 // import * as light from "./home_assistant_light"
 // import * as media_player from "./home_assistant_media_player"

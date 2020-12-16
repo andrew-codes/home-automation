@@ -1,8 +1,8 @@
 import createDebug from "debug"
 import { list, objectType, queryField, stringArg } from "nexus"
-import { Node } from "./node.js"
-import { HomeAssistantEntity } from "./home_assistant_entity.js"
-import { equality } from "../filter/index.js"
+import { Node } from "./node"
+import { HomeAssistantEntity } from "./home_assistant_entity"
+import { equality } from "../filter"
 
 const debug = createDebug("@ha/graphql-api/home_assistant_entity")
 

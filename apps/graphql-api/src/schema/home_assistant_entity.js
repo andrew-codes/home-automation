@@ -8,9 +8,9 @@ import {
   objectType,
 } from "nexus"
 import _ from "lodash"
-import { HomeAssistantArea } from "./home_assistant_area.js"
-import { equality } from "../filter/index.js"
-import { HomeAssistantDomain } from "./home_assistant_domain.js"
+import { HomeAssistantArea } from "./home_assistant_area"
+import { equality } from "../filter/index"
+import { HomeAssistantDomain } from "./home_assistant_domain"
 
 const debug = createDebug("@ha/graphql-api/home_assistant_entity")
 const { keyBy } = _

@@ -1,6 +1,6 @@
 import createDebug from "debug"
 import HomeAssistant from "homeassistant"
-import { createDataProvider as createHomeAssistantDataProvider } from "./dataProvider/homeAssistant"
+import { createDataProvider as createHomeAssistantDataProvider } from "./dataProvider/homeAssistant/queryEntityDomain"
 const debug = createDebug("@ha/graphql-api/dataContext")
 
 const createDataContext = (haConfig) => {

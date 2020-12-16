@@ -8,10 +8,10 @@ import {
   queryField,
   stringArg,
 } from "nexus"
-import { Node } from "./node.js"
+import { Node } from "./node"
 // import { Game } from "./game";
-import { HomeAssistantEntity } from "./home_assistant_entity.js"
-import { equality } from "../filter/index.js"
+import { HomeAssistantEntity } from "./home_assistant_entity"
+import { equality } from "../filter"
 
 const debug = createDebug("@ha/graphql-api/home_assistant_area")
 
