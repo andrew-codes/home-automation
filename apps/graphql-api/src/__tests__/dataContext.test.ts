@@ -1,35 +1,11 @@
-jest.mock("../dataProvider/aggregate", () => ({
+jest.mock("../dataProvider/aggregateDataProvider", () => ({
   createDataProvider: jest.fn(),
 }))
-jest.mock("../dataProvider/batch", () => ({
-  createDataProvider: jest.fn(),
-}))
-jest.mock("../dataProvider/homeAssistant", () => ({
-  createDataProvider: jest.fn(),
-}))
-jest.mock("../dataProvider/sql", () => ({
-  createDataProvider: jest.fn(),
-}))
-jest.mock("pg", () => {
-  const mockPool = {
-    connect: jest
-      .fn()
-      .mockResolvedValue({ query: jest.fn(), release: jest.fn() }),
-  }
-  return { Pool: jest.fn(() => mockPool) }
-})
-import { Pool } from "pg"
 import { createDataContext } from "../dataContext"
-import { createDataProvider as createAggregateProvider } from "../dataProvider/aggregate"
-import { createDataProvider as createBatchProvider } from "../dataProvider/batch"
-import { createDataProvider as createHaProvider } from "../dataProvider/homeAssistant/homeAssistant"
-import { createDataProvider as createSqlProvider } from "../dataProvider/sql"
+import { createDataProvider as createAggregateProvider } from "../dataProvider/aggregateDataProvider"
 
-let client
 beforeEach(async () => {
-  jest.clearAllMocks()
-  const pool = new Pool()
-  client = await pool.connect()
+  jest.resetAllMocks()
 })
 
 test("batched sql queries and ha queries are aggregated", async () => {

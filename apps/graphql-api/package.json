@@ -6,8 +6,8 @@
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf dist",
-    "dev": "nodemon src/index.js --inspect=0.0.0.0:9230",
-    "compile": "ncc build src/index.js -o dist -m",
+    "dev": "nodemon src/index.ts --inspect=0.0.0.0:9233",
+    "compile": "ncc build src/index.ts -o dist -m",
     "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"$DOCKER_REGISTRY_DOMAIN:5000/graphql-api:latest\" --context dir:///workspace/ --insecure",
     "test": "jest"
   },

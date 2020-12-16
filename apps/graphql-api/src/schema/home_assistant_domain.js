@@ -15,7 +15,7 @@ export const HomeAssistantDomain = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "home_assistant_entity",
-          filters: [equality.filter("domain_id", root.id)],
+          filters: [equality("domainId", root.id)],
         })
       },
     })
@@ -25,10 +25,10 @@ export const HomeAssistantDomain = objectType({
 export const HomeAssistantDomainQuery = queryField("domain", {
   type: list(HomeAssistantDomain),
   args: { ids: list(stringArg()) },
-  resolve(root, args, ctx) {
+  async resolve(root, args, ctx) {
     return ctx.query({
-      from: "home_assistant_domain",
-      filters: !!args.ids ? [equality.filter("id", args.ids)] : undefined,
+      from: "entity_domain",
+      filters: !!args.ids ? [equality("id", args.ids)] : undefined,
     })
   },
 })

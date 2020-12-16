@@ -25,7 +25,7 @@ export const HomeAssistantArea = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "home_assistant_entity",
-          filters: [equality.filter("area_id", root.id)],
+          filters: [equality("areaId", root.id)],
         })
       },
     })
@@ -57,8 +57,8 @@ export const HomeAssistantAreaQuery = queryField("area", {
   args: { ids: list(stringArg()) },
   resolve(root, args, ctx) {
     return ctx.query({
-      from: "home_assistant_area",
-      filters: !!args.ids ? [equality.filter("id", args.ids)] : undefined,
+      from: "area",
+      filters: !!args.ids ? [equality("id", args.ids)] : undefined,
     })
   },
 })

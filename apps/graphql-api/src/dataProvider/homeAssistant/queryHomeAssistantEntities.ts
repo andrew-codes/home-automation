@@ -50,6 +50,7 @@ const createDataProvider = (
       }
       const applyFilters = createFilterApplicator(q.filters)
       const allResults = await fetchEntities(ha, areaDataProvider)
+      // console.log(q.filters)
       return applyFilters(allResults)
     } catch (error) {
       debug(error)

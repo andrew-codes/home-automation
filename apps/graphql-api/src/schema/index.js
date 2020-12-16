@@ -1,7 +1,6 @@
 import { config } from "dotenv"
 config()
 import _fp from "lodash/fp"
-import GraphQLDate from "graphql-iso-date"
 import path from "path"
 import { asNexusMethod, makeSchema, nullabilityGuardPlugin } from "nexus"
 

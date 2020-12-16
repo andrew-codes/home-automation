@@ -13,7 +13,6 @@ import { equality } from "../filter/index"
 import { HomeAssistantDomain } from "./home_assistant_domain"
 
 const debug = createDebug("@ha/graphql-api/home_assistant_entity")
-const { keyBy } = _
 
 export const HomeAssistantEntityStateAttribute = objectType({
   name: "HomeAssistantEntityStateAttribute",
@@ -48,8 +47,8 @@ export const HomeAssistantEntity = objectType({
       type: HomeAssistantDomain,
       async resolve(root, args, ctx) {
         const results = await ctx.query({
-          from: "home_assistant_domain",
-          filters: [equality.filter("id", root.domain_id)],
+          from: "entity_domain",
+          filters: [equality("id", root.domainId)],
         })
         return results[0]
       },
@@ -58,8 +57,8 @@ export const HomeAssistantEntity = objectType({
       type: HomeAssistantArea,
       async resolve(root, args, ctx) {
         const results = await ctx.query({
-          from: "home_assistant_area",
-          filters: [equality.filter("id", root.area_id)],
+          from: "area",
+          filters: [equality("id", root.areaId)],
         })
         return results[0]
       },
