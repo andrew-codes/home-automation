@@ -1,30 +1,21 @@
 jest.mock("homeassistant")
+import HomeAssistant from "homeassistant"
 import { HomeAssistantEntity } from "../../../Domain"
 import { equality } from "../../../filter"
+import { UnsupportedDomainError } from "../../Errors"
 import { createDataProvider } from "../queryHomeAssistantEntities"
 
-let ha
-let areaDataProvider
-
+const ha = { states: { list: jest.fn() } }
 beforeEach(() => {
   jest.resetAllMocks()
-  ha = {
-    states: {
-      list: jest.fn(),
-    },
-  }
 })
 beforeEach(() => {
+  HomeAssistant.mockImplementation(() => ha)
   ha.states.list.mockResolvedValue(homeAssistantEntities())
-  areaDataProvider = { query: jest.fn() }
 })
 
 test("all home assistant entities", async () => {
-  areaDataProvider.query.mockResolvedValue([
-    { id: "area.gaming_room", name: "Gaming Room" },
-    { id: "area.living_room", name: "Living Room" },
-  ])
-  const sut = createDataProvider(ha, areaDataProvider)
+  const sut = createDataProvider()
   const actual = await sut.query({ from: "home_assistant_entity" })
   expect(actual).toMatchObject<Array<HomeAssistantEntity>>([
     {
@@ -61,16 +52,22 @@ test("all home assistant entities", async () => {
   ])
 })
 test("filtered home assistant entities", async () => {
-  areaDataProvider.query.mockResolvedValue([
-    { id: "area.gaming_room", name: "Gaming Room" },
-    { id: "area.living_room", name: "Living Room" },
-  ])
-  const sut = createDataProvider(ha, areaDataProvider)
+  const sut = createDataProvider()
   const actual = await sut.query({
     from: "home_assistant_entity",
-    filters: [equality("areaId", "area.gaming_room", true)],
+    filters: [equality("domainId", "device_tracker", true)],
   })
   expect(actual).toMatchObject<Array<HomeAssistantEntity>>([
+    {
+      id: "media_player.nintendo_switch",
+      domainId: "media_player",
+      state: "off",
+      name: "Nintendo Switch",
+      attributes: {
+        source: "SWITCH",
+        sourceList: ["SWITCH", "PS4"],
+      },
+    },
     {
       id: "media_player.playstation_4",
       domainId: "media_player",
@@ -82,25 +79,19 @@ test("filtered home assistant entities", async () => {
         source: "Nioh 2",
       },
     },
-    {
-      id: "device_tracker.person_1",
-      domainId: "device_tracker",
-      name: "Person 1",
-      state: "home",
-      attributes: {
-        mac: "123",
-      },
-    },
   ])
 })
 
-test("queries for other domains return empty result set", async () => {
-  const sut = createDataProvider(ha, areaDataProvider)
-  const actual = await sut.query({
-    from: "domain",
-    filters: [equality("name", "Gaming Room")],
-  })
-  expect(actual).toMatchObject<Array<HomeAssistantEntity>>([])
+test("queries for other domains throws an error", async () => {
+  const sut = createDataProvider()
+  try {
+    await sut.query({
+      from: "domain",
+      filters: [equality("name", "Gaming Room")],
+    })
+  } catch (e) {
+    expect(e).toMatchObject(new UnsupportedDomainError("domain"))
+  }
 })
 
 // ---

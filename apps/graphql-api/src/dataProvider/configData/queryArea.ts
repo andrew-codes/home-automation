@@ -1,10 +1,11 @@
 import createDebugger from "debug"
 import { get } from "lodash/fp"
 import { isEmpty } from "lodash"
-import { DomainArea, Base } from "../../Domain"
+import { DomainArea } from "../../Domain"
 import { createFilterApplicator } from "../filterApplicators/valueFilterApplicators"
 import { IProvideDomainData } from "../DataProvider"
 import DataLoader from "dataloader"
+import { ItemNotFoundByIdError, UnsupportedDomainError } from "../Errors"
 
 const debug = createDebugger("@ha/graphql-api/dataProvider/homeAssistant/area")
 
@@ -36,7 +37,7 @@ const batchIds = async (ids) => {
   return ids.map((id) => {
     const result = results[id]
     if (!result) {
-      return new Error(`Not Found, ${id}`)
+      return new ItemNotFoundByIdError(id)
     }
     return {
       ...result,
@@ -50,7 +51,7 @@ const createDataProvider = (): IProvideDomainData<DomainArea> => {
   const canExecuteQuery = (q) => q.from === "area"
   const query = async (q) => {
     if (!canExecuteQuery(q)) {
-      throw new Error("Unsupported domain for provider")
+      throw new UnsupportedDomainError(q)
     }
     if (
       !isEmpty(q.filters) &&

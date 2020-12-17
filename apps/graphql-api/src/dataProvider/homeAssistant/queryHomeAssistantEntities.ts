@@ -4,7 +4,7 @@ import createDebugger from "debug"
 import DataLoader from "dataloader"
 import HomeAssistant from "homeassistant"
 import { get } from "lodash/fp"
-import { isEmpty } from "lodash"
+import { isEmpty, lowerCase } from "lodash"
 import { keyBy, trim } from "lodash"
 import { DomainHomeAssistantEntity, DomainQuery } from "../../Domain"
 import { createFilterApplicator } from "../filterApplicators/valueFilterApplicators"
@@ -15,24 +15,36 @@ const debug = createDebugger(
   "@ha/graphql-api/dataProvider/homeAssistant/domain"
 )
 const { HA_HOST, HA_PORT, HA_TOKEN } = process.env
-const ha = new HomeAssistant({
-  host: HA_HOST,
-  port: HA_PORT,
-  token: HA_TOKEN,
-  ignoreCert: true,
-})
-
+let ha
 const getAll = async (): Promise<object> => {
+  ha =
+    ha ||
+    new HomeAssistant({
+      host: HA_HOST,
+      port: HA_PORT,
+      token: HA_TOKEN,
+      ignoreCert: true,
+    })
   const haEntities = await ha.states.list()
+  const extractAreaName = /.*(\(.*\)).*/
+  let areaName = ""
   const entities = haEntities.map((haEntity) => {
+    const area = extractAreaName.exec(haEntity.attributes?.friendly_name)
+    let areaId
+    if (!!area && area.length > 0) {
+      areaName = area[1].replace(/[()]/g, "")
+      areaId = `area.${lowerCase(areaName).replace(/ /g, "_")}`
+    }
     const outResult = {
       id: haEntity.entity_id,
       state: haEntity.state,
+      areaId,
       name:
-        trim(haEntity.attributes?.friendly_name) ||
-        nameFromId(haEntity.entity_id.split(".")[1]),
+        trim(haEntity.attributes?.friendly_name).replace(
+          `(${areaName}) `,
+          ""
+        ) || nameFromId(haEntity.entity_id.split(".")[1]),
       domainId: haEntity.entity_id.split(".")[0],
-      areaId: "area.gaming_room",
       attributes: toCamelCaseProperties(haEntity.attributes),
     }
     return outResult

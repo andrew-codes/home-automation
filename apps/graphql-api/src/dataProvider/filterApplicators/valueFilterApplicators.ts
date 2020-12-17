@@ -1,7 +1,7 @@
 import { isEmpty } from "lodash"
 import { Domain, DomainResults } from "../../Domain"
 import { FilterDefinition } from "../../filter/filter"
-import { UnSupportedFilters } from "../Errors"
+import { UnSupportedFiltersError } from "../Errors"
 
 const filterHandlers = {
   equality: <TDomain extends Domain>(
@@ -31,7 +31,7 @@ const createFilterApplicator = <TDomain extends Domain>(
     }
     const unsupportedFilters = filters.filter((f) => !filterHandlers[f.type])
     if (!isEmpty(unsupportedFilters)) {
-      throw new UnSupportedFilters(
+      throw new UnSupportedFiltersError(
         "Filter(s) is not supported by provider",
         unsupportedFilters
       )

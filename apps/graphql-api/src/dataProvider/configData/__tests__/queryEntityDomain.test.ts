@@ -2,6 +2,7 @@ jest.mock("homeassistant")
 import { createDataProvider } from "../queryEntityDomain"
 import { equality } from "../../../filter"
 import { Base, BaseEntity } from "../../../Domain"
+import { UnsupportedDomainError } from "../../Errors"
 
 beforeEach(() => {
   jest.resetAllMocks()
@@ -32,11 +33,14 @@ test("filtered domains", async () => {
   ])
 })
 
-test("queries for other domains return empty result set", async () => {
+test("queries for other domains to throw an error", async () => {
   const sut = createDataProvider()
-  const actual = await sut.query({
-    from: "area",
-    filters: [equality("name", "Gaming Room")],
-  })
-  expect(actual).toMatchObject<Array<Base>>([])
+  try {
+    await sut.query({
+      from: "area",
+      filters: [equality("name", "Gaming Room")],
+    })
+  } catch (e) {
+    expect(e).toMatchObject(new UnsupportedDomainError("area"))
+  }
 })
