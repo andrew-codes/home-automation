@@ -2,7 +2,7 @@ import { config } from "dotenv"
 config()
 import _fp from "lodash/fp"
 import path from "path"
-import { asNexusMethod, makeSchema, nullabilityGuardPlugin } from "nexus"
+import { makeSchema, nullabilityGuardPlugin } from "nexus"
 
 const { concat, flow } = _fp
 import * as area from "./home_assistant_area"
@@ -19,12 +19,9 @@ import * as entity from "./home_assistant_entity"
 // import * as spotify_playlist from "./spotify_playlist"
 
 const guardPlugin = nullabilityGuardPlugin({
-  onGuarded({ ctx, info }, root) {
-    // This could report to a service like Sentry, or log internally - up to you!
+  onGuarded({ info }) {
     console.error(
-      `Error: Saw a null value for non-null field ${info.parentType.name}.${
-        info.fieldName
-      } ${root ? `(${root.id || root._id})` : ""}`
+      `Error: Saw a null value for non-null field ${info.parentType.name}.${info.fieldName}`
     )
   },
   // A map of `typeNames` to the values we want to replace with if a "null" value
@@ -58,6 +55,12 @@ export const schema = makeSchema({
   types: createTypes(),
   plugins: [guardPlugin],
   outputs: {
-    schema: path.join(__dirname, "../schema.graphql"),
+    schema: path.join(__dirname, "../generated/schema.graphql"),
+    typegen: path.join(__dirname, "../generated/nexusTypes.gen.ts"),
+  },
+  contextType: {
+    export: "DataContext",
+    module: path.join(__dirname, "..", "dataContext.ts"),
+    alias: "ctx",
   },
 })

@@ -5,6 +5,7 @@ import { createDataProvider as createSwitchDataProvider } from "./dataProvider/s
 import { createDataProvider as createHomeAssistantAPIEntityDataProvider } from "./dataProvider/homeAssistant/queryHomeAssistantEntities"
 import { createDataProvider as createAreaConfigDataProvider } from "./dataProvider/configData/queryArea"
 import { createDataProvider as createDomainConfigProvider } from "./dataProvider/configData/queryEntityDomain"
+import { Domain } from "./Domain"
 const debug = createDebug("@ha/graphql-api/dataContext")
 
 export interface DataContext extends IProvideData {
@@ -29,9 +30,9 @@ const createDataContext = (ha): DataContext => {
 
   return {
     ha,
-    query: async (q) => {
+    query: async <TDomain extends Domain>(q) => {
       try {
-        return dataProvider.query(q)
+        return dataProvider.query<TDomain>(q)
       } catch (error) {
         debug(error)
         return []

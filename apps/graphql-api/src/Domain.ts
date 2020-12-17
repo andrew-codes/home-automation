@@ -14,14 +14,15 @@ export type HomeAssistantEntityState =
   | DeviceTrackerState
 
 export interface Base {
-  name: string
   id: string
+  name: string
 }
 
 export interface BaseEntity extends Base {
   areaId?: string
   domainId: string
 }
+
 export interface HomeAssistantEntityWithState<TStateType> extends BaseEntity {
   state: TStateType
 }
@@ -29,8 +30,8 @@ export interface HomeAssistantEntityWithState<TStateType> extends BaseEntity {
 export interface MediaPlayer
   extends HomeAssistantEntityWithState<MediaPlayerState> {
   attributes: {
-    sourceList: Array<string>
     source: string
+    sourceList: Array<string>
   }
 }
 
@@ -41,15 +42,17 @@ export interface DeviceTracker
   }
 }
 
+export interface EntityDomain extends Base {}
+export interface Area extends Base {}
 export type HomeAssistantEntity = MediaPlayer | DeviceTracker
 
 export interface DomainQuery<TDomain extends Domain> {
-  from: TDomain
   filters?: Array<FilterDefinition>
+  from: TDomain
 }
 
 export type DomainResults = {
+  area: Area
+  entity_domain: EntityDomain
   home_assistant_entity: HomeAssistantEntity
-  entity_domain: Base
-  area: Base
 }

@@ -1,4 +1,4 @@
-import { Base } from "../../../Domain"
+import { Area } from "../../../Domain"
 import { equality } from "../../../filter"
 import { UnsupportedDomainError } from "../../Errors"
 import { createDataProvider } from "../queryArea"
@@ -12,7 +12,7 @@ beforeEach(() => {
 test("all areas", async () => {
   const sut = createDataProvider()
   const actual = await sut.query({ from: "area" })
-  expect(actual).toMatchObject<Array<Base>>([
+  expect(actual).toMatchObject<Array<Area>>([
     { id: "area.gaming_room", name: "Gaming Room" },
     { id: "area.andrew_s_office", name: "Andrew's Office" },
     { id: "area.dorri_s_office", name: "Dorri's Office" },
@@ -31,7 +31,7 @@ test("filtered areas", async () => {
     from: "area",
     filters: [equality("name", "Gaming Room")],
   })
-  expect(actual).toMatchObject<Array<Base>>([
+  expect(actual).toMatchObject<Array<Area>>([
     { id: "area.gaming_room", name: "Gaming Room" },
   ])
 })

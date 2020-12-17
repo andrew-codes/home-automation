@@ -4,5 +4,8 @@
   "execMap": {
     "js": "ts-node",
     "ts": "ts-node"
+  },
+  "events": {
+    "restart": "ts-node src/schema/index.ts"
   }
 }

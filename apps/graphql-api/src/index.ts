@@ -9,6 +9,7 @@ import * as bodyParser from "body-parser-graphql"
 import { createDataContext } from "./dataContext"
 import { schema } from "./schema/index"
 import { authorize } from "./middleware/authorize"
+import * as types from "./generated/nexusTypes.gen"
 const debug = createDebug("@ha/graphql-api")
 
 const { GRAPHQL_API_TOKEN, HA_HOST, HA_PORT, HA_TOKEN, PORT } = process.env
@@ -22,16 +23,13 @@ const ha = new HomeAssistant({
 const app = express()
 app.use("/", bodyParser.graphql())
 app.use(cors())
+const options = {
+  schema: schema,
+  graphiql: true,
+  context: createDataContext(ha),
+}
 
-app.use(
-  "/",
-  authorize(GRAPHQL_API_TOKEN as string),
-  graphqlHTTP({
-    schema: schema,
-    graphiql: true,
-    context: createDataContext(ha),
-  })
-)
+app.use("/", authorize(GRAPHQL_API_TOKEN as string), graphqlHTTP(options))
 
 app.listen(PORT, () => debug("listening on port", PORT))
 

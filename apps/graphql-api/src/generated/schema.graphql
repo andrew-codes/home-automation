@@ -20,16 +20,6 @@ type HomeAssistantEntity {
   name: String
 }
 
-type HomeAssistantEntityState {
-  attributes: [HomeAssistantEntityStateAttribute]
-  state: String
-}
-
-type HomeAssistantEntityStateAttribute {
-  name: String
-  value: String
-}
-
 input InputEntities {
   items: [InputEntity]
 }
@@ -50,10 +40,6 @@ input InputServiceCall {
 input InputServiceCallPayload {
   key: String
   value: String
-}
-
-type Mutation {
-  entities(entities: InputEntities): HomeAssistantEntity
 }
 
 interface Node {
