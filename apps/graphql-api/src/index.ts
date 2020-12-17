@@ -12,16 +12,16 @@ import { authorize } from "./middleware/authorize"
 const debug = createDebug("@ha/graphql-api")
 
 const { GRAPHQL_API_TOKEN, HA_HOST, HA_PORT, HA_TOKEN, PORT } = process.env
-
-const app = express()
-app.use("/", bodyParser.graphql())
-app.use(cors())
 const ha = new HomeAssistant({
   host: HA_HOST,
   port: HA_PORT,
   token: HA_TOKEN,
   ignoreCert: true,
 })
+
+const app = express()
+app.use("/", bodyParser.graphql())
+app.use(cors())
 
 app.use(
   "/",

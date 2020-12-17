@@ -1,16 +1,19 @@
 import { merge } from "lodash"
 import { Domain, DomainQuery } from "../Domain"
 import { IProvideData, IProvideDomainData } from "./DataProvider"
-const createDataProvider = (
-  providers: IProvideDomainData<Domain>[]
-): IProvideData => {
-  const query = async (q: DomainQuery<Domain>) => {
-    const queryResults = await Promise.all(
-      providers.map(async (p) => await p.query(q))
-    )
-    return merge([], ...queryResults)
+
+const createDataProvider = <TDomain extends Domain>(
+  providers: IProvideDomainData<TDomain>[]
+): IProvideDomainData<TDomain> => {
+  const canExecuteQuery = (q) => q.from === "entity_domain"
+  const query = async (q: DomainQuery<TDomain>) => {
+    if (!canExecuteQuery(q)) {
+      throw new Error("Not supported domain for query")
+    }
+    const allResults = await Promise.all(providers.map((p) => p.query(q)))
+    return merge([], ...allResults)
   }
-  return { query }
+  return { query, canExecuteQuery }
 }
 
 export { createDataProvider }

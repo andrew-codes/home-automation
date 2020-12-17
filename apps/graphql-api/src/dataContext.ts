@@ -1,7 +1,7 @@
 import createDebug from "debug"
 import { IProvideData } from "./dataProvider/DataProvider"
-import { createDataProvider as batchedDataProvider } from "./dataProvider/batchDataProvider"
-import { createDataProvider as createAggregateDataProvider } from "./dataProvider/aggregateDataProvider"
+// import { createDataProvider as createAggregateDataProvider } from "./dataProvider/aggregateDataProvider"
+import { createDataProvider as createSwitchDataProvider } from "./dataProvider/switchDataProvider"
 import { createDataProvider as createHomeAssistantAPIEntityDataProvider } from "./dataProvider/homeAssistant/queryHomeAssistantEntities"
 import { createDataProvider as createAreaConfigDataProvider } from "./dataProvider/configData/queryArea"
 import { createDataProvider as createDomainConfigProvider } from "./dataProvider/configData/queryEntityDomain"
@@ -13,21 +13,18 @@ export interface DataContext extends IProvideData {
 
 const createDataContext = (ha): DataContext => {
   const areaConfigProvider = createAreaConfigDataProvider()
-  const batchedAreaConfigProvider = batchedDataProvider(areaConfigProvider)
-
-  const haEntityAPIProvider = createHomeAssistantAPIEntityDataProvider(
-    ha,
-    batchedAreaConfigProvider
-  )
-  const batchedHaEntityAPIProvider = batchedDataProvider(haEntityAPIProvider)
-
+  const haEntityAPIProvider = createHomeAssistantAPIEntityDataProvider()
   const domainConfigProvider = createDomainConfigProvider()
-  const batchedDomainConfigProvider = batchedDataProvider(domainConfigProvider)
 
-  const dataProvider = createAggregateDataProvider([
-    batchedAreaConfigProvider,
-    batchedHaEntityAPIProvider,
-    batchedDomainConfigProvider,
+  // For when there are multiple providers for a single domain
+  // const domainProvider = createAggregateDataProvider([
+  //   domainConfigProvider,
+  //   domainConfigProvider,
+  // ])
+  const dataProvider = createSwitchDataProvider([
+    areaConfigProvider,
+    haEntityAPIProvider,
+    domainConfigProvider,
   ])
 
   return {

@@ -18,6 +18,7 @@ type HomeAssistantEntity {
   domain: HomeAssistantDomain
   id: ID
   name: String
+  parent: HomeAssistantEntity
 }
 
 type HomeAssistantEntityState {

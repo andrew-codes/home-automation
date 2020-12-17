@@ -1,47 +1,72 @@
 import createDebugger from "debug"
-import { Base } from "../../Domain"
+import DataLoader from "dataloader"
+import { get } from "lodash/fp"
+import { isEmpty } from "lodash"
+import { DomainEntityDomain } from "../../Domain"
 import { createFilterApplicator } from "../filterApplicators/valueFilterApplicators"
-import { nameFromId } from "../homeAssistant/stringManipulations"
-import { IProvideData } from "../DataProvider"
+import { IProvideDomainData } from "../DataProvider"
 
 const debug = createDebugger(
   "@ha/graphql-api/dataProvider/homeAssistant/domain"
 )
 
-type DomainData = {
-  id: string
-  name?: string
-}
-const fetchAllDomains = async (): Promise<Array<Base>> => {
-  const domains: Array<DomainData> = [
-    { id: "light" },
-    { id: "media_player" },
-    { id: "device_tracker" },
-    { id: "sensor" },
-  ]
-  return domains.map((domain: DomainData) => ({
-    ...domain,
-    name: domain.name || nameFromId(domain.id),
-  }))
+const getAll = () => {
+  return {
+    light: { name: "Light" },
+    media_player: { name: "Media Player" },
+    device_tracker: { name: "Device Tracker" },
+    sensor: { name: "Sensor" },
+  }
 }
 
-const createDataProvider = (): IProvideData => {
-  const query = async (q) => {
-    try {
-      if (q.from !== "entity_domain") {
-        return []
-      }
-      const applyFilters = createFilterApplicator(q.filters)
-      const domains = await fetchAllDomains()
-      return applyFilters(domains)
-    } catch (error) {
-      debug(error)
-      return []
+const batchIds = async (ids) => {
+  const results = getAll()
+  return ids.map((id) => {
+    const result = results[id]
+    if (!result) {
+      return new Error(`Not Found, ${id}`)
     }
+    return {
+      ...result,
+      id: id,
+    }
+  })
+}
+const load = new DataLoader(batchIds)
+
+const filterResults = async (applyFilter) => {
+  const data = getAll()
+  const results = Object.entries(data).map(([key, value]) => ({
+    id: key,
+    ...value,
+  }))
+  return applyFilter(results)
+}
+
+const createDataProvider = (): IProvideDomainData<DomainEntityDomain> => {
+  const canExecuteQuery = (q) => q.from === "entity_domain"
+  const query = async (q) => {
+    if (!canExecuteQuery(q)) {
+      throw new Error("Unsupported domain for provider")
+    }
+    if (
+      !isEmpty(q.filters) &&
+      q.filters?.reduce((acc, filter) => acc && filter.attribute === "id", true)
+    ) {
+      if (q.filters.reduce((acc, f) => acc && !!f.value, true)) {
+        if (q.filters.length > 1) {
+          return load.loadMany(q.filters.map(get("value")))
+        }
+        return load.load(q.filters[0].value)
+      }
+    }
+    const applyFilters = createFilterApplicator(q.filters)
+    return filterResults(applyFilters)
   }
 
   return {
     query,
+    canExecuteQuery,
   }
 }
 

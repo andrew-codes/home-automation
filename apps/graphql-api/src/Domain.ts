@@ -21,6 +21,7 @@ export interface Base {
 export interface BaseEntity extends Base {
   areaId?: string
   domainId: string
+  parentId: string
 }
 export interface HomeAssistantEntityWithState<TStateType> extends BaseEntity {
   state: TStateType

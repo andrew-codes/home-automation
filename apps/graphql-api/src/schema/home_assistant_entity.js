@@ -45,22 +45,20 @@ export const HomeAssistantEntity = objectType({
     t.string("name")
     t.field("domain", {
       type: HomeAssistantDomain,
-      async resolve(root, args, ctx) {
-        const results = await ctx.query({
+      resolve(root, args, ctx) {
+        return ctx.query({
           from: "entity_domain",
           filters: [equality("id", root.domainId)],
         })
-        return results[0]
       },
     })
     t.field("area", {
       type: HomeAssistantArea,
-      async resolve(root, args, ctx) {
-        const results = await ctx.query({
+      resolve(root, args, ctx) {
+        return ctx.query({
           from: "area",
           filters: [equality("id", root.areaId)],
         })
-        return results[0]
       },
     })
   },
