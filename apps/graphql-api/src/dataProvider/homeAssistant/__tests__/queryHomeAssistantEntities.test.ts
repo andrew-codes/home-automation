@@ -1,5 +1,6 @@
 jest.mock("homeassistant")
 import HomeAssistant from "homeassistant"
+import { cache } from "../../../cache"
 import { DomainHomeAssistantEntity, HomeAssistantEntity } from "../../../Domain"
 import { equality } from "../../../filter"
 import { UnsupportedDomainError } from "../../Errors"
@@ -8,6 +9,7 @@ import { createDataProvider } from "../queryHomeAssistantEntities"
 const ha = { states: { list: jest.fn() } }
 beforeEach(() => {
   jest.resetAllMocks()
+  cache.flushAll()
 })
 beforeEach(() => {
   HomeAssistant.mockImplementation(() => ha)
