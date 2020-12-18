@@ -84,7 +84,7 @@ all:
 
 ## Setting Initial Secrets
 
-See [initial provisioning secrets](./secrets-catalog#initial-provisioning) to setup the required secrets. Set these secrets and then run the following:
+See [initial provisioning secrets](./secrets-catalog.md#initial-provisioning) to setup the required secrets. Set these secrets and then run the following:
 
 ```bash
 ./set_secrets.sh
