@@ -10,6 +10,8 @@ import { createFilterApplicator } from "../filterApplicators/valueFilterApplicat
 import { IProvideData } from "../DataProvider"
 import { nameFromId, toCamelCaseProperties } from "./stringManipulations"
 import { UnsupportedDomainError } from "../Errors"
+import { countApiCall } from "../dataSourceBatchPerformance"
+import { cache } from "../../cache"
 
 const debug = createDebugger(
   "@ha/graphql-api/dataProvider/homeAssistant/domain"
@@ -25,7 +27,12 @@ const getAll = async (): Promise<object> => {
       token: HA_TOKEN,
       ignoreCert: true,
     })
-  const haEntities = await ha.states.list()
+  let haEntities = cache.get("ha-entities") as any[]
+  if (!haEntities) {
+    haEntities = await ha.states.list()
+    cache.set("ha-entities", haEntities, 0)
+    countApiCall("home-assistant-api")
+  }
   const extractAreaName = /.*(\(.*\)).*/
   let areaName = ""
   const entities = haEntities.map((haEntity) => {

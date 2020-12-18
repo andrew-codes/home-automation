@@ -10,6 +10,8 @@ import { createDataContext } from "./dataContext"
 import { schema } from "./schema/index"
 import { authorize } from "./middleware/authorize"
 import * as types from "./generated/nexusTypes.gen"
+import { resetCounts } from "./dataProvider/dataSourceBatchPerformance"
+import { cache } from "./cache"
 const debug = createDebug("@ha/graphql-api")
 
 const { GRAPHQL_API_TOKEN, HA_HOST, HA_PORT, HA_TOKEN, PORT } = process.env
@@ -29,7 +31,21 @@ const options = {
   context: createDataContext(ha),
 }
 
-app.use("/", authorize(GRAPHQL_API_TOKEN as string), graphqlHTTP(options))
+app.use(
+  "/",
+  authorize(GRAPHQL_API_TOKEN as string),
+  async (req, resp, next) => {
+    await graphqlHTTP(options)(req, resp)
+    next()
+  },
+  (req, resp, next) => {
+    console.log("Flushing Cache")
+    resetCounts()
+    cache.flushAll()
+    cache.flushStats()
+    next()
+  }
+)
 
 app.listen(PORT, () => debug("listening on port", PORT))
 

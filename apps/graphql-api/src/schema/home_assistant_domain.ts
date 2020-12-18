@@ -10,6 +10,7 @@ import {
   EntityDomain,
   HomeAssistantEntity,
 } from "../Domain"
+import { resetCounts } from "../dataProvider/dataSourceBatchPerformance"
 
 const debug = createDebug("@ha/graphql-api/home_assistant_entity")
 

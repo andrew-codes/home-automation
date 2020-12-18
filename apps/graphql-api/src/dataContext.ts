@@ -32,7 +32,8 @@ const createDataContext = (ha): DataContext => {
     canExecuteQuery: dataProvider.canExecuteQuery,
     query: async (q) => {
       try {
-        return dataProvider.query(q)
+        const results = dataProvider.query(q)
+        return results
       } catch (error) {
         debug(error)
         return []
