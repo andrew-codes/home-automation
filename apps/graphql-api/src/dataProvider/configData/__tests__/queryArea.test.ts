@@ -1,4 +1,4 @@
-import { Area } from "../../../Domain"
+import { Area, DomainArea } from "../../../Domain"
 import { equality } from "../../../filter"
 import { UnsupportedDomainError } from "../../Errors"
 import { createDataProvider } from "../queryArea"
@@ -25,7 +25,7 @@ test("all areas", async () => {
   ])
 })
 
-test("filtered areas", async () => {
+test("filtered areas by non-ID", async () => {
   const sut = createDataProvider()
   const actual = await sut.query({
     from: "area",
@@ -33,6 +33,33 @@ test("filtered areas", async () => {
   })
   expect(actual).toMatchObject<Array<Area>>([
     { id: "area.gaming_room", name: "Gaming Room" },
+  ])
+})
+
+test("filtered areas by ID", async () => {
+  const sut = createDataProvider()
+  const actual = await sut.query({
+    from: "area",
+    filters: [equality<DomainArea>("id", "area.gaming_room")],
+  })
+  expect(actual).toMatchObject<Area>({
+    id: "area.gaming_room",
+    name: "Gaming Room",
+  })
+})
+
+test("filtered areas by multiple IDs", async () => {
+  const sut = createDataProvider()
+  const actual = await sut.query({
+    from: "area",
+    filters: [
+      equality<DomainArea>("id", "area.gaming_room"),
+      equality<DomainArea>("id", "area.guest_bathroom"),
+    ],
+  })
+  expect(actual).toMatchObject<Area[]>([
+    { id: "area.gaming_room", name: "Gaming Room" },
+    { id: "area.guest_bathroom", name: "Guest Bathroom" },
   ])
 })
 

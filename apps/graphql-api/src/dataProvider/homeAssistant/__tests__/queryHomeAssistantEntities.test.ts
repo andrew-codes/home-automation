@@ -1,6 +1,6 @@
 jest.mock("homeassistant")
 import HomeAssistant from "homeassistant"
-import { HomeAssistantEntity } from "../../../Domain"
+import { DomainHomeAssistantEntity, HomeAssistantEntity } from "../../../Domain"
 import { equality } from "../../../filter"
 import { UnsupportedDomainError } from "../../Errors"
 import { createDataProvider } from "../queryHomeAssistantEntities"
@@ -51,13 +51,82 @@ test("all home assistant entities", async () => {
     },
   ])
 })
-test("filtered home assistant entities", async () => {
+
+test("filtered home assistant entities by non-ID", async () => {
   const sut = createDataProvider()
   const actual = await sut.query({
     from: "home_assistant_entity",
-    filters: [equality("domainId", "device_tracker", true)],
+    filters: [
+      equality<DomainHomeAssistantEntity>("domainId", "device_tracker", true),
+    ],
   })
   expect(actual).toMatchObject<Array<HomeAssistantEntity>>([
+    {
+      id: "media_player.nintendo_switch",
+      domainId: "media_player",
+      state: "off",
+      name: "Nintendo Switch",
+      attributes: {
+        source: "SWITCH",
+        sourceList: ["SWITCH", "PS4"],
+      },
+    },
+    {
+      id: "media_player.playstation_4",
+      domainId: "media_player",
+
+      state: "playing",
+      name: "Playstation 4",
+      attributes: {
+        sourceList: ["FF7", "Nioh 2"],
+        source: "Nioh 2",
+      },
+    },
+  ])
+})
+
+test("filtered home assistant entities by ID", async () => {
+  const sut = createDataProvider()
+  const actual = await sut.query({
+    from: "home_assistant_entity",
+    filters: [
+      equality<DomainHomeAssistantEntity>(
+        "id",
+        "media_player.nintendo_switch",
+        true
+      ),
+    ],
+  })
+  expect(actual).toMatchObject<HomeAssistantEntity>({
+    id: "media_player.nintendo_switch",
+    domainId: "media_player",
+    state: "off",
+    name: "Nintendo Switch",
+    attributes: {
+      source: "SWITCH",
+      sourceList: ["SWITCH", "PS4"],
+    },
+  })
+})
+
+test("filtered home assistant entities by multiple IDs", async () => {
+  const sut = createDataProvider()
+  const actual = await sut.query({
+    from: "home_assistant_entity",
+    filters: [
+      equality<DomainHomeAssistantEntity>(
+        "id",
+        "media_player.nintendo_switch",
+        true
+      ),
+      equality<DomainHomeAssistantEntity>(
+        "id",
+        "media_player.playstation_4",
+        true
+      ),
+    ],
+  })
+  expect(actual).toMatchObject<HomeAssistantEntity[]>([
     {
       id: "media_player.nintendo_switch",
       domainId: "media_player",

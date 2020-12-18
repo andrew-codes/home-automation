@@ -1,7 +1,7 @@
 jest.mock("homeassistant")
 import { createDataProvider } from "../queryEntityDomain"
 import { equality } from "../../../filter"
-import { EntityDomain } from "../../../Domain"
+import { DomainEntityDomain, EntityDomain } from "../../../Domain"
 import { UnsupportedDomainError } from "../../Errors"
 
 beforeEach(() => {
@@ -20,12 +20,43 @@ test("all domains", async () => {
   ])
 })
 
-test("filtered domains", async () => {
+test("filtered domains by non-ID", async () => {
   const sut = createDataProvider()
 
   const actual = await sut.query({
     from: "entity_domain",
-    filters: [equality("id", "light"), equality("id", "device_tracker")],
+    filters: [equality<DomainEntityDomain>("name", "Light")],
+  })
+  expect(actual).toMatchObject<EntityDomain[]>([
+    {
+      id: "light",
+      name: "Light",
+    },
+  ])
+})
+
+test("filtered domains by ID", async () => {
+  const sut = createDataProvider()
+
+  const actual = await sut.query({
+    from: "entity_domain",
+    filters: [equality<DomainEntityDomain>("id", "light")],
+  })
+  expect(actual).toMatchObject<EntityDomain>({
+    id: "light",
+    name: "Light",
+  })
+})
+
+test("filtered domains by multiple IDs", async () => {
+  const sut = createDataProvider()
+
+  const actual = await sut.query({
+    from: "entity_domain",
+    filters: [
+      equality<DomainEntityDomain>("id", "light"),
+      equality<DomainEntityDomain>("id", "device_tracker"),
+    ],
   })
   expect(actual).toMatchObject<Array<EntityDomain>>([
     { id: "light", name: "Light" },
