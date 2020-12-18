@@ -5,7 +5,8 @@
 In order to deploy Home Assistant, you will need the following secrets:
 
 1. Git clone repository URL; e.g. `git@github.com:andrew-codes/home-automation.git`
-1. A **passphrasesless** [private SSH key](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key) that has access/been [added to GitHub](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account).
+1. A [private SSH key](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key) that has access/been [added to GitHub](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account).
+   > Ensure the private SSH key does **not have a pass phrase**
 1. The fully qualified domain address for the instance
    > This domain should also point to your `$INLETS_IP` address.
 1. The username and password to the [dynamic DNS from Google Domains](https://support.google.com/domains/answer/6147083?hl=en)

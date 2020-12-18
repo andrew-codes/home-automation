@@ -42,9 +42,6 @@ export POD_NETWORK_CIDR="192.168.100.0/24"
 These are set after the initial provisioning, but in the same file, `./secrets.sh`.
 
 ```bash
-# Docker registry domain; e.g. docker.yourdomain.com
-export DOCKER_REGISTRY_DOMAIN=""
-
 # Public IP of the Digital Ocean droplet created by inlets.
 export INLETS_IP=""
 
@@ -83,6 +80,7 @@ export TIME_ZONE=""
 export UNIT_SYSTEM=""
 # Home Assistant Long Lived Access Token
 export HA_TOKEN=""
+# Home Assistant App Dameon
 export APPDAEMON_URL=""
 export APPDAEMON_PASSWORD=""
 export WITHINGS_CLIENT_ID=""

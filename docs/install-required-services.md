@@ -1,5 +1,7 @@
 # Installing Required Services
 
+> Be sure you review the required [initial secrets](./secrets-catalog.md#initial-provisioning).
+
 ## Installing the Docker Registry
 
 ```bash
@@ -8,7 +10,7 @@ yarn deploy --scope @ha/docker-registry
 
 ### Point Docker Domain to IP
 
-Point your $DOCKER_REGISTRY_DOMAIN to the **IP of the cluster** in a DNS entry. If you do not have a local DNS, use local `/etc/hosts` files.
+Point your `$DOCKER_REGISTRY_DOMAIN` to the **IP of the cluster** in a DNS entry. If you do not have a local DNS, use local `/etc/hosts` files.
 
 > Note: use the local cluster IP! Not an external one; unless you don't care about hitting data caps by ISPs.
 
