@@ -4,7 +4,12 @@ import { list, objectType, queryField, stringArg } from "nexus"
 import { Node } from "./node"
 import { HomeAssistantEntityGraphType } from "./home_assistant_entity"
 import { equality } from "../filter"
-import { EntityDomain, HomeAssistantEntity } from "../Domain"
+import {
+  DomainEntityDomain,
+  DomainHomeAssistantEntity,
+  EntityDomain,
+  HomeAssistantEntity,
+} from "../Domain"
 
 const debug = createDebug("@ha/graphql-api/home_assistant_entity")
 
@@ -21,7 +26,7 @@ export const DomainGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "home_assistant_entity",
-          filters: [equality("domainId", root.id)],
+          filters: [equality<DomainHomeAssistantEntity>("domainId", root.id)],
         }) as Promise<HomeAssistantEntity[]>
       },
     })
@@ -34,7 +39,9 @@ export const DomainQuery = queryField("domain", {
   async resolve(root, args, ctx) {
     return ctx.query({
       from: "entity_domain",
-      filters: !!args.ids ? [equality("id", args.ids)] : undefined,
+      filters: !!args.ids
+        ? [equality<DomainEntityDomain>("id", args.ids)]
+        : undefined,
     }) as Promise<EntityDomain[]>
   },
 })

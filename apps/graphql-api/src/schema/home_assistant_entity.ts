@@ -5,7 +5,7 @@ import _ from "lodash"
 import { AreaGraphType } from "./home_assistant_area"
 import { equality } from "../filter/index"
 import { DomainGraphType } from "./home_assistant_domain"
-import { Area, EntityDomain } from "../Domain"
+import { Area, DomainArea, DomainEntityDomain, EntityDomain } from "../Domain"
 
 const debug = createDebug("@ha/graphql-api/home_assistant_entity")
 
@@ -23,7 +23,7 @@ export const HomeAssistantEntityGraphType = objectType({
       async resolve(root, args, ctx) {
         return ctx.query({
           from: "entity_domain",
-          filters: [equality("id", root.domainId)],
+          filters: [equality<DomainEntityDomain>("id", root.domainId)],
         }) as Promise<EntityDomain>
       },
     })
@@ -32,7 +32,7 @@ export const HomeAssistantEntityGraphType = objectType({
       async resolve(root, args, ctx) {
         return ctx.query({
           from: "area",
-          filters: [equality("id", root.areaId)],
+          filters: [equality<DomainArea>("id", root.areaId)],
         }) as Promise<Area>
       },
     })

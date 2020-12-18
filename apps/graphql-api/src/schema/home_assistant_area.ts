@@ -3,7 +3,11 @@ import { inputObjectType, list, objectType, queryField, stringArg } from "nexus"
 import { Node } from "./node"
 import { HomeAssistantEntityGraphType } from "./home_assistant_entity"
 import { equality } from "../filter"
-import { HomeAssistantEntity } from "../Domain"
+import {
+  DomainArea,
+  DomainHomeAssistantEntity,
+  HomeAssistantEntity,
+} from "../Domain"
 
 const debug = createDebug("@ha/graphql-api/home_assistant_area")
 
@@ -17,7 +21,7 @@ export const AreaGraphType = objectType({
       async resolve(root, args, ctx) {
         return ctx.query({
           from: "home_assistant_entity",
-          filters: [equality("areaId", root.id)],
+          filters: [equality<DomainHomeAssistantEntity>("areaId", root.id)],
         }) as Promise<HomeAssistantEntity[]>
       },
     })
@@ -30,7 +34,7 @@ export const AreaQuery = queryField("area", {
   resolve(root, args, ctx) {
     return ctx.query({
       from: "area",
-      filters: !!args.ids ? [equality("id", args.ids)] : undefined,
+      filters: !!args.ids ? [equality<DomainArea>("id", args.ids)] : undefined,
     })
   },
 })

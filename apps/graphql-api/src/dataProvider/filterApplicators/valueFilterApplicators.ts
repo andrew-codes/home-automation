@@ -5,7 +5,7 @@ import { UnSupportedFiltersError } from "../Errors"
 
 const filterHandlers = {
   equality: <TDomain extends Domain>(
-    f: FilterDefinition,
+    f: FilterDefinition<TDomain>,
     value: DomainResults[TDomain]
   ): boolean => {
     const assetValue = value[f.attribute]
@@ -23,8 +23,8 @@ const filterHandlers = {
 }
 
 const createFilterApplicator = <TDomain extends Domain>(
-  filters: Array<FilterDefinition> | undefined
-) => (items: Array<DomainResults[TDomain]>) =>
+  filters: FilterDefinition<TDomain>[] | undefined
+) => (items: DomainResults[TDomain][]) =>
   items.filter((item) => {
     if (!filters || isEmpty(filters)) {
       return true

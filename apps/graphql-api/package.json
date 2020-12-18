@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "license": "MIT",
   "scripts": {
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist && rm -rf src/generated",
     "predev": "yarn generateTypes",
     "dev": "nodemon src/index.ts --inspect=0.0.0.0:9233",
     "precompile": "rm -rf src/generated yarn generateTypes",

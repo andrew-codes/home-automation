@@ -6,10 +6,10 @@ import HomeAssistant from "homeassistant"
 import { get } from "lodash/fp"
 import { isEmpty, lowerCase } from "lodash"
 import { keyBy, trim } from "lodash"
-import { DomainHomeAssistantEntity, DomainQuery } from "../../Domain"
 import { createFilterApplicator } from "../filterApplicators/valueFilterApplicators"
-import { IProvideDomainData } from "../DataProvider"
+import { IProvideData } from "../DataProvider"
 import { nameFromId, toCamelCaseProperties } from "./stringManipulations"
+import { UnsupportedDomainError } from "../Errors"
 
 const debug = createDebugger(
   "@ha/graphql-api/dataProvider/homeAssistant/domain"
@@ -79,13 +79,13 @@ const filterResults = async (applyFilter) => {
   return output
 }
 
-const createDataProvider = (): IProvideDomainData<DomainHomeAssistantEntity> => {
+const createDataProvider = (): IProvideData => {
   const load = new DataLoader(batchIds)
 
   const canExecuteQuery = (q) => q.from === "home_assistant_entity"
-  const query = async (q: DomainQuery<DomainHomeAssistantEntity>) => {
+  const query = async (q) => {
     if (!canExecuteQuery(q)) {
-      throw new Error("Unsupported domain for provider")
+      throw new UnsupportedDomainError(q)
     }
     if (
       !isEmpty(q.filters) &&

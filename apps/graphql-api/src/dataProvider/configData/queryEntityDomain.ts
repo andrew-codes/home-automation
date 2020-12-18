@@ -2,9 +2,8 @@ import createDebugger from "debug"
 import DataLoader from "dataloader"
 import { get } from "lodash/fp"
 import { isEmpty } from "lodash"
-import { DomainEntityDomain } from "../../Domain"
 import { createFilterApplicator } from "../filterApplicators/valueFilterApplicators"
-import { IProvideDomainData } from "../DataProvider"
+import { IProvideData } from "../DataProvider"
 
 const debug = createDebugger(
   "@ha/graphql-api/dataProvider/homeAssistant/domain"
@@ -43,7 +42,7 @@ const filterResults = async (applyFilter) => {
   return applyFilter(results)
 }
 
-const createDataProvider = (): IProvideDomainData<DomainEntityDomain> => {
+const createDataProvider = (): IProvideData => {
   const canExecuteQuery = (q) => q.from === "entity_domain"
   const query = async (q) => {
     if (!canExecuteQuery(q)) {

@@ -1,9 +1,8 @@
 import createDebugger from "debug"
 import { get } from "lodash/fp"
 import { isEmpty } from "lodash"
-import { DomainArea } from "../../Domain"
 import { createFilterApplicator } from "../filterApplicators/valueFilterApplicators"
-import { IProvideDomainData } from "../DataProvider"
+import { IProvideData } from "../DataProvider"
 import DataLoader from "dataloader"
 import { ItemNotFoundByIdError, UnsupportedDomainError } from "../Errors"
 
@@ -47,7 +46,7 @@ const batchIds = async (ids) => {
 }
 const load = new DataLoader(batchIds)
 
-const createDataProvider = (): IProvideDomainData<DomainArea> => {
+const createDataProvider = (): IProvideData => {
   const canExecuteQuery = (q) => q.from === "area"
   const query = async (q) => {
     if (!canExecuteQuery(q)) {

@@ -1,18 +1,24 @@
-type SupportedFilters = 'equality'
-interface FilterDefinition {
-    type: SupportedFilters,
-    attribute: string,
-    value: any,
-    negation: boolean,
+import { Domain, DomainResults } from "../Domain"
+
+type SupportedFilters = "equality"
+interface FilterDefinition<TDomain extends Domain> {
+  type: SupportedFilters
+  attribute: keyof DomainResults[TDomain]
+  value: any
+  negation: boolean
 }
 
-const filterCreator = (type: SupportedFilters) => (attribute: string, value: any, negation: boolean = false) : FilterDefinition =>{
-    return {
-        type,
-        attribute,
-        value,
-        negation,
-    }
+const filterCreator = (type: SupportedFilters) => <TDomain extends Domain>(
+  attribute: keyof DomainResults[TDomain],
+  value: any,
+  negation: boolean = false
+): FilterDefinition<TDomain> => {
+  return {
+    type,
+    attribute,
+    value,
+    negation,
+  }
 }
 
 export default filterCreator

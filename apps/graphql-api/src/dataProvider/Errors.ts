@@ -12,10 +12,10 @@ export class QueryParseError<TDomain extends Domain> extends Error {
   }
 }
 
-export class UnSupportedFiltersError extends Error {
-  filters: Array<FilterDefinition>
+export class UnSupportedFiltersError<TDomain extends Domain> extends Error {
+  filters: FilterDefinition<TDomain>[]
 
-  constructor(message: string, filters) {
+  constructor(message: string, filters: FilterDefinition<TDomain>[]) {
     super(message)
     this.name = this.constructor.name
     Error.captureStackTrace(this, this.constructor)
