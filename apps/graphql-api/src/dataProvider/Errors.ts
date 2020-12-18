@@ -4,8 +4,8 @@ import { FilterDefinition } from "../filter/filter"
 export class QueryParseError<TDomain extends Domain> extends Error {
   query: DomainQuery<TDomain>
 
-  constructor(message: string, query) {
-    super(message)
+  constructor(query) {
+    super("Query Parse Error")
     this.name = this.constructor.name
     Error.captureStackTrace(this, this.constructor)
     this.query = query
@@ -15,8 +15,8 @@ export class QueryParseError<TDomain extends Domain> extends Error {
 export class UnSupportedFiltersError<TDomain extends Domain> extends Error {
   filters: FilterDefinition<TDomain>[]
 
-  constructor(message: string, filters: FilterDefinition<TDomain>[]) {
-    super(message)
+  constructor(filters: FilterDefinition<TDomain>[]) {
+    super("Unsupported Filter(s)")
     this.name = this.constructor.name
     Error.captureStackTrace(this, this.constructor)
     this.filters = filters
@@ -24,21 +24,21 @@ export class UnSupportedFiltersError<TDomain extends Domain> extends Error {
 }
 
 export class UnsupportedDomainError extends Error {
-  from: Domain
+  domain: Domain
 
   constructor(q) {
     super("Unsupported domain for provider")
     this.name = this.constructor.name
     Error.captureStackTrace(this, this.constructor)
-    this.from = q.domain
+    this.domain = q.from
   }
 }
 
 export class ItemNotFoundByIdError extends Error {
   id: string
 
-  constructor(id, message?: string) {
-    super(message || "Not found")
+  constructor(id) {
+    super("Item not found by ID")
     this.name = this.constructor.name
     Error.captureStackTrace(this, this.constructor)
     this.id = id

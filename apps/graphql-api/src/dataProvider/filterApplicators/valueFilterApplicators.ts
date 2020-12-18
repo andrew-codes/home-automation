@@ -31,10 +31,7 @@ const createFilterApplicator = <TDomain extends Domain>(
     }
     const unsupportedFilters = filters.filter((f) => !filterHandlers[f.type])
     if (!isEmpty(unsupportedFilters)) {
-      throw new UnSupportedFiltersError(
-        "Filter(s) is not supported by provider",
-        unsupportedFilters
-      )
+      throw new UnSupportedFiltersError(unsupportedFilters)
     }
     const matchingFilter = filters.find((f) => {
       const handleFilter = filterHandlers[f.type]
