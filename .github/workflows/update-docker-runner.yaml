@@ -1,12 +1,12 @@
   
-name: Docker
+name: Update GitHub Runners
 on:
   push:
     branches: [ master ]
   schedule:
     - cron:  '0 1 * * *'
 jobs:
-  docker:
+  push_image:
     name: Update docker GitHub action runner image
     runs-on: amd-runner
     steps:
