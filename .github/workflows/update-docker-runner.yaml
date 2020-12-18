@@ -1,0 +1,16 @@
+  
+name: Docker
+on:
+  push:
+    branches: [ master ]
+  schedule:
+    - cron:  '0 1 * * *'
+jobs:
+  docker:
+    name: Update docker GitHub action runner image
+    runs-on: amd-runner
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build/push docker image
+        run: yarn image/push --scope @ha/github-action-runner-amd64
