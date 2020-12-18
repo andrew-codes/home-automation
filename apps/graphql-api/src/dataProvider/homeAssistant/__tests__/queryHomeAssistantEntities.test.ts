@@ -52,6 +52,15 @@ test("all home assistant entities", async () => {
   ])
 })
 
+test("caches API results", async () => {
+  const sut = createDataProvider()
+  await sut.query({ from: "home_assistant_entity" })
+  await sut.query({ from: "home_assistant_entity" })
+  await sut.query({ from: "home_assistant_entity" })
+  await sut.query({ from: "home_assistant_entity" })
+  expect(ha.states.list).toHaveBeenCalledTimes(1)
+})
+
 test("filtered home assistant entities by non-ID", async () => {
   const sut = createDataProvider()
   const actual = await sut.query({
