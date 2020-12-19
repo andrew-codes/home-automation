@@ -55,7 +55,7 @@ const corsOptions = {
       callback(null, true)
       return
     }
-    callback(new Error("Not allowed by CORS"))
+    callback(new Error(`Not allowed by CORS: ${origin}`))
   },
 }
 
