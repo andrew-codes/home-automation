@@ -1,14 +1,6 @@
 import createDebug from "debug"
 import path from "path"
-import {
-  arg,
-  inputObjectType,
-  list,
-  mutationField,
-  objectType,
-  queryField,
-  stringArg,
-} from "nexus"
+import { arg, inputObjectType, list, mutationField, objectType } from "nexus"
 import { keyBy } from "lodash"
 import { AreaGraphType } from "./home_assistant_area"
 import { equality } from "../filter/index"
@@ -119,22 +111,3 @@ export const HomeAssistantServiceCall = mutationField(
     },
   }
 )
-
-export const DomainQuery = queryField("entitiy", {
-  type: list(HomeAssistantEntityGraphType),
-  args: { ids: list(stringArg()) },
-  async resolve(root, args, ctx) {
-    let results = await ctx.query({
-      from: "home_assistant_entity",
-      filters: args.ids?.map((id) =>
-        equality<DomainHomeAssistantEntity>("id", id)
-      ),
-    })
-    if (!Array.isArray(results)) {
-      results = [results]
-    }
-    return (results as Array<HomeAssistantEntity | Error>).filter(
-      (result) => !(result instanceof Error)
-    ) as HomeAssistantEntity[]
-  },
-})

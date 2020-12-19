@@ -1,23 +1,14 @@
 import { config } from "dotenv"
 config()
-import _fp from "lodash/fp"
+import { concat, flow } from "lodash/fp"
 import path from "path"
 import { makeSchema, nullabilityGuardPlugin } from "nexus"
 
-const { concat, flow } = _fp
 import * as area from "./home_assistant_area"
 import * as domain from "./home_assistant_domain"
 import * as entity from "./home_assistant_entity"
-import * as guestDevices from "./guest_devices"
-// import * as game from "./game"
-// import * as light from "./home_assistant_light"
-// import * as media_player from "./home_assistant_media_player"
-// import * as node from "./node"
-// import * as platform from "./platform"
-// import * as presence_devices from "./home_assistant_presence_devices"
-// import * as shopping_list from "./shopping_list"
-// import * as spotify_credentials from "./spotify_credentials"
-// import * as spotify_playlist from "./spotify_playlist"
+import * as mutations from "./mutations"
+import * as queries from "./queries"
 
 const guardPlugin = nullabilityGuardPlugin({
   onGuarded({ info }) {
@@ -41,16 +32,8 @@ const createTypes = flow([
   concat(area),
   concat(domain),
   concat(entity),
-  concat(guestDevices),
-  // concat(game),
-  // concat(light),
-  // concat(media_player),
-  // concat(node),
-  // concat(platform),
-  // concat(presence_devices),
-  // concat(shopping_list),
-  // concat(spotify_credentials),
-  // concat(spotify_playlist),
+  concat(mutations),
+  concat(queries),
 ])
 
 export const schema = makeSchema({

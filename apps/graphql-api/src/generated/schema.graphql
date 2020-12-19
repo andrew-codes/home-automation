@@ -2,7 +2,7 @@
 ### Do not make changes to this file directly
 
 
-type HomeAssistantArea implements Node {
+type HomeAssistantArea {
   entities: [HomeAssistantEntity]
   id: ID
   name: String
@@ -52,6 +52,7 @@ interface Node {
 }
 
 type Query {
+  area(ids: [String]): [HomeAssistantArea]
   domain(ids: [String]): [HomeAssistantDomain]
   entitiy(ids: [String]): [HomeAssistantEntity]
 }

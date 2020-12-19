@@ -1,16 +1,14 @@
 import createDebug from "debug"
 import path from "path"
-import { list, objectType, queryField, stringArg } from "nexus"
+import { list, objectType } from "nexus"
 import { Node } from "./node"
 import { HomeAssistantEntityGraphType } from "./home_assistant_entity"
 import { equality } from "../filter"
 import {
   DomainEntityDomain,
   DomainHomeAssistantEntity,
-  EntityDomain,
   HomeAssistantEntity,
 } from "../Domain"
-import { resetCounts } from "../dataProvider/dataSourceBatchPerformance"
 
 const debug = createDebug("@ha/graphql-api/home_assistant_entity")
 
@@ -31,22 +29,5 @@ export const DomainGraphType = objectType({
         }) as Promise<HomeAssistantEntity[]>
       },
     })
-  },
-})
-
-export const DomainQuery = queryField("domain", {
-  type: list(DomainGraphType),
-  args: { ids: list(stringArg()) },
-  async resolve(root, args, ctx) {
-    let results = await ctx.query({
-      from: "entity_domain",
-      filters: args.ids?.map((id) => equality<DomainEntityDomain>("id", id)),
-    })
-    if (!Array.isArray(results)) {
-      results = [results]
-    }
-    return (results as Array<HomeAssistantEntity | Error>).filter(
-      (result) => !(result instanceof Error)
-    ) as HomeAssistantEntity[]
   },
 })

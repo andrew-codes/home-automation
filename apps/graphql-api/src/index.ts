@@ -45,29 +45,12 @@ const unifi = createUnifi({
   password: USG_PASSWORD,
 })
 
-const whitelist = [
-  /http:\/\/192\.168\.[1-9]+[0-9]*\.[1-9]+[0-9]/,
-  /http:\/\/localhost/,
-]
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (
-      !origin ||
-      whitelist.find((originPattern) => originPattern.test(origin))
-    ) {
-      callback(null, true)
-      return
-    }
-    callback(new Error(`Not allowed by CORS: ${origin}`))
-  },
-}
-
 const app = express()
 app.use("/graphql", bodyParser.graphql())
 
 app.use(
   "/graphql",
-  cors(corsOptions),
+  cors(),
   authorize(GRAPHQL_API_TOKEN as string),
   async (req, resp, next) => {
     const mqtt = await connectAsync(`tcp://${MQTT_HOST}`, {

@@ -1,21 +1,12 @@
-import createDebug from "debug"
-import { inputObjectType, list, objectType, queryField, stringArg } from "nexus"
-import { Node } from "./node"
+import { list, objectType } from "nexus"
 import { HomeAssistantEntityGraphType } from "./home_assistant_entity"
 import { equality } from "../filter"
-import {
-  Area,
-  DomainArea,
-  DomainHomeAssistantEntity,
-  HomeAssistantEntity,
-} from "../Domain"
-
-const debug = createDebug("@ha/graphql-api/home_assistant_area")
+import { DomainHomeAssistantEntity, HomeAssistantEntity } from "../Domain"
 
 export const AreaGraphType = objectType({
   name: "HomeAssistantArea",
   definition(t) {
-    t.implements(Node)
+    t.id("id")
     t.string("name")
     t.field("entities", {
       type: list(HomeAssistantEntityGraphType),
@@ -26,36 +17,5 @@ export const AreaGraphType = objectType({
         }) as Promise<HomeAssistantEntity[]>
       },
     })
-  },
-})
-
-export const AreaQuery = queryField("roomArea", {
-  type: list(AreaGraphType),
-  args: { ids: list(stringArg()) },
-  async resolve(root, args, ctx) {
-    let results = await ctx.query({
-      from: "area",
-      filters: args.ids?.map((id) => equality<DomainArea>("id", id)),
-    })
-    if (!Array.isArray(results)) {
-      results = [results]
-    }
-    return (results as Array<HomeAssistantEntity | Error>).filter(
-      (result) => !(result instanceof Error)
-    ) as HomeAssistantEntity[]
-  },
-})
-
-export const InputArea = inputObjectType({
-  name: "InputArea",
-  definition(t) {
-    t.string("id")
-    t.string("name")
-  },
-})
-export const InputAreas = inputObjectType({
-  name: "InputAreas",
-  definition(t) {
-    t.field("items", { type: list(InputArea) })
   },
 })

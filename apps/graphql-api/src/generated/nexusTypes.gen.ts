@@ -58,7 +58,7 @@ export interface NexusGenObjects {
 }
 
 export interface NexusGenInterfaces {
-  Node: NexusGenRootTypes['HomeAssistantArea'] | NexusGenRootTypes['HomeAssistantDomain'];
+  Node: NexusGenRootTypes['HomeAssistantDomain'];
 }
 
 export interface NexusGenUnions {
@@ -89,6 +89,7 @@ export interface NexusGenFieldTypes {
     trackGuestDevice: NexusGenRootTypes['HomeAssistantEntity'] | null; // HomeAssistantEntity
   }
   Query: { // field return type
+    area: Array<NexusGenRootTypes['HomeAssistantArea'] | null> | null; // [HomeAssistantArea]
     domain: Array<NexusGenRootTypes['HomeAssistantDomain'] | null> | null; // [HomeAssistantDomain]
     entitiy: Array<NexusGenRootTypes['HomeAssistantEntity'] | null> | null; // [HomeAssistantEntity]
   }
@@ -118,6 +119,7 @@ export interface NexusGenFieldTypeNames {
     trackGuestDevice: 'HomeAssistantEntity'
   }
   Query: { // field return type name
+    area: 'HomeAssistantArea'
     domain: 'HomeAssistantDomain'
     entitiy: 'HomeAssistantEntity'
   }
@@ -137,6 +139,9 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    area: { // args
+      ids?: Array<string | null> | null; // [String]
+    }
     domain: { // args
       ids?: Array<string | null> | null; // [String]
     }
@@ -147,11 +152,10 @@ export interface NexusGenArgTypes {
 }
 
 export interface NexusGenAbstractTypeMembers {
-  Node: "HomeAssistantArea" | "HomeAssistantDomain"
+  Node: "HomeAssistantDomain"
 }
 
 export interface NexusGenTypeInterfaces {
-  HomeAssistantArea: "Node"
   HomeAssistantDomain: "Node"
 }
 
