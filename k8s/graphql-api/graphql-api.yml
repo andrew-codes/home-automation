@@ -43,10 +43,7 @@ spec:
                   name: ha-secrets
                   key: ha_token
             - name: HA_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: ha-secrets
-                  key: ha_host
+              value: home-assistant
             - name: MQTT_USERNAME
               valueFrom:
                 secretKeyRef:
