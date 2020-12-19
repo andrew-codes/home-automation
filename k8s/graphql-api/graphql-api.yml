@@ -43,7 +43,7 @@ spec:
                   name: ha-secrets
                   key: ha_token
             - name: HA_HOST
-              value: home-assistant
+              value: "http://home-assistant"
             - name: HA_HOST
               value: 8123
             - name: MQTT_USERNAME
