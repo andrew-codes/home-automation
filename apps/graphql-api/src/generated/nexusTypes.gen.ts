@@ -90,6 +90,7 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     domain: Array<NexusGenRootTypes['HomeAssistantDomain'] | null> | null; // [HomeAssistantDomain]
+    entitiy: Array<NexusGenRootTypes['HomeAssistantEntity'] | null> | null; // [HomeAssistantEntity]
   }
   Node: { // field return type
     id: string | null; // ID
@@ -118,6 +119,7 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     domain: 'HomeAssistantDomain'
+    entitiy: 'HomeAssistantEntity'
   }
   Node: { // field return type name
     id: 'ID'
@@ -136,6 +138,9 @@ export interface NexusGenArgTypes {
   }
   Query: {
     domain: { // args
+      ids?: Array<string | null> | null; // [String]
+    }
+    entitiy: { // args
       ids?: Array<string | null> | null; // [String]
     }
   }
