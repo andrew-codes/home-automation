@@ -27,7 +27,7 @@ spec:
               protocol: TCP
           env:
             - name: NODE_TLS_REJECT_UNAUTHORIZED
-              value: 0
+              value: "0"
             - name: PORT
               value: "80"
             - name: DEBUG
