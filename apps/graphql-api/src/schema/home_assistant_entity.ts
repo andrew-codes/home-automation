@@ -124,15 +124,17 @@ export const DomainQuery = queryField("entitiy", {
   type: list(HomeAssistantEntityGraphType),
   args: { ids: list(stringArg()) },
   async resolve(root, args, ctx) {
-    const results = await ctx.query({
+    let results = await ctx.query({
       from: "home_assistant_entity",
       filters: args.ids?.map((id) =>
         equality<DomainHomeAssistantEntity>("id", id)
       ),
     })
     if (!Array.isArray(results)) {
-      return [results]
+      results = [results]
     }
-    return results
+    return (results as Array<HomeAssistantEntity | Error>).filter(
+      (result) => !(result instanceof Error)
+    ) as HomeAssistantEntity[]
   },
 })

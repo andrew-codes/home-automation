@@ -29,18 +29,20 @@ export const AreaGraphType = objectType({
   },
 })
 
-export const AreaQuery = queryField("area", {
+export const AreaQuery = queryField("roomArea", {
   type: list(AreaGraphType),
   args: { ids: list(stringArg()) },
   async resolve(root, args, ctx) {
-    const results = await ctx.query({
+    let results = await ctx.query({
       from: "area",
       filters: args.ids?.map((id) => equality<DomainArea>("id", id)),
     })
     if (!Array.isArray(results)) {
-      return [results]
+      results = [results]
     }
-    return results
+    return (results as Array<HomeAssistantEntity | Error>).filter(
+      (result) => !(result instanceof Error)
+    ) as HomeAssistantEntity[]
   },
 })
 
