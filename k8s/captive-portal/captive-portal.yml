@@ -30,40 +30,13 @@ spec:
               value: "80"
             - name: DEBUG
               value: "*"
-            - name: MQTT_USERNAME
+            - name: GRAPHQL_API_HOST
+              value: http://graphql/graphql
+            - name: GRAPHQL_API_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: mqtt-secrets
+                  name: graphql-secrets
                   key: mqtt-username
-            - name: MQTT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mqtt-secrets
-                  key: mqtt-password
-            - name: MQTT_HOST
-              value: mqtt
-            - name: MQTT_PORT
-              value: "1883"
-            - name: USG_IP
-              valueFrom:
-                secretKeyRef:
-                  name: usg-secrets
-                  key: usg_ip
-            - name: USG_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: usg-secrets
-                  key: usg_port
-            - name: USG_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: usg-secrets
-                  key: usg_username
-            - name: USG_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: usg-secrets
-                  key: usg_password
 
 ---
 apiVersion: v1

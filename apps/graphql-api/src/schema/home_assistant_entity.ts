@@ -1,11 +1,18 @@
 import createDebug from "debug"
 import path from "path"
-import { inputObjectType, list, objectType } from "nexus"
-import _ from "lodash"
+import { arg, inputObjectType, list, mutationField, objectType } from "nexus"
+import { keyBy } from "lodash"
 import { AreaGraphType } from "./home_assistant_area"
 import { equality } from "../filter/index"
 import { DomainGraphType } from "./home_assistant_domain"
-import { Area, DomainArea, DomainEntityDomain, EntityDomain } from "../Domain"
+import {
+  Area,
+  DomainArea,
+  DomainEntityDomain,
+  DomainHomeAssistantEntity,
+  EntityDomain,
+  HomeAssistantEntity,
+} from "../Domain"
 
 const debug = createDebug("@ha/graphql-api/home_assistant_entity")
 
@@ -72,3 +79,35 @@ export const InputServiceCall = inputObjectType({
     t.field("payload", { type: list(InputServiceCallPayload) })
   },
 })
+
+export const HomeAssistantServiceCall = mutationField(
+  "homeAssistantCallService",
+  {
+    type: HomeAssistantEntityGraphType,
+    args: {
+      entity: arg({ type: InputServiceCall }),
+    },
+    async resolve(root, args, ctx) {
+      try {
+        debug("Args", args)
+        if (!args.entity) {
+          throw new Error("Invalid argument")
+        }
+        const domain = args.entity.id?.split(".")[0]
+        const payload = keyBy(args.entity.payload || [], "key")
+        const resp = await ctx.ha.services.call(args.entity.service, domain, {
+          entity_id: args.entity.id,
+          ...payload,
+        })
+        debug("HA API response", resp)
+      } catch (error) {
+        debug(error)
+      } finally {
+        return ctx.query({
+          from: "home_assistant_entity",
+          filters: [equality<DomainHomeAssistantEntity>("id", args.entity?.id)],
+        }) as Promise<HomeAssistantEntity>
+      }
+    },
+  }
+)

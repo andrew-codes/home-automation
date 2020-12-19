@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@ha/graphql-api",
+  "name": "@ha/graphql-api-app",
   "version": "0.0.1",
   "main": "src/index.js",
   "license": "MIT",
@@ -20,6 +20,7 @@
   "dependencies": {
     "@nexus/schema": "^0.20.1",
     "altair-express-middleware": "^3.0.0",
+    "async-mqtt": "^2.6.1",
     "body-parser-graphql": "^1.1.0",
     "cors": "^2.8.5",
     "dataloader": "^2.0.0",
@@ -33,6 +34,7 @@
     "nexus": "^1.0.0",
     "node-cache": "^5.1.2",
     "node-fetch": "^2.6.1",
+    "node-unifiapi": "^0.0.54",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

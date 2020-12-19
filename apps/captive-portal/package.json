@@ -12,11 +12,10 @@
     "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"$DOCKER_REGISTRY_DOMAIN:5000/captive-portal:latest\" --context dir:///workspace/ --insecure"
   },
   "dependencies": {
-    "async-mqtt": "^2.6.1",
+    "apollo-fetch": "^0.7.0",
     "debug": "^4.3.1",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "node-unifiapi": "^0.0.54"
+    "express": "^4.17.1"
   },
   "devDependencies": {
     "@zeit/ncc": "^0.22.3",

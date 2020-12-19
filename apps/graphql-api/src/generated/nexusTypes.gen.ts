@@ -53,6 +53,7 @@ export interface NexusGenObjects {
   }
   HomeAssistantDomain: EntityDomain;
   HomeAssistantEntity: HomeAssistantEntity;
+  Mutation: {};
   Query: {};
 }
 
@@ -83,6 +84,9 @@ export interface NexusGenFieldTypes {
     id: string | null; // ID
     name: string | null; // String
   }
+  Mutation: { // field return type
+    homeAssistantCallService: NexusGenRootTypes['HomeAssistantEntity'] | null; // HomeAssistantEntity
+  }
   Query: { // field return type
     domain: Array<NexusGenRootTypes['HomeAssistantDomain'] | null> | null; // [HomeAssistantDomain]
   }
@@ -107,6 +111,9 @@ export interface NexusGenFieldTypeNames {
     id: 'ID'
     name: 'String'
   }
+  Mutation: { // field return type name
+    homeAssistantCallService: 'HomeAssistantEntity'
+  }
   Query: { // field return type name
     domain: 'HomeAssistantDomain'
   }
@@ -116,6 +123,11 @@ export interface NexusGenFieldTypeNames {
 }
 
 export interface NexusGenArgTypes {
+  Mutation: {
+    homeAssistantCallService: { // args
+      entity?: NexusGenInputs['InputServiceCall'] | null; // InputServiceCall
+    }
+  }
   Query: {
     domain: { // args
       ids?: Array<string | null> | null; // [String]

@@ -1,4 +1,5 @@
 import createDebug from "debug"
+import { AsyncClient } from "async-mqtt"
 import { IProvideData } from "./dataProvider/DataProvider"
 // import { createDataProvider as createAggregateDataProvider } from "./dataProvider/aggregateDataProvider"
 import { createDataProvider as createSwitchDataProvider } from "./dataProvider/switchDataProvider"
@@ -9,9 +10,11 @@ const debug = createDebug("@ha/graphql-api/dataContext")
 
 export interface DataContext extends IProvideData {
   ha: any
+  mqtt: AsyncClient
+  unifi: any
 }
 
-const createDataContext = (ha): DataContext => {
+const createDataContext = (ha, mqtt: AsyncClient, unifi): DataContext => {
   const areaConfigProvider = createAreaConfigDataProvider()
   const haEntityAPIProvider = createHomeAssistantAPIEntityDataProvider()
   const domainConfigProvider = createDomainConfigProvider()
@@ -29,6 +32,8 @@ const createDataContext = (ha): DataContext => {
 
   return {
     ha,
+    mqtt,
+    unifi,
     canExecuteQuery: dataProvider.canExecuteQuery,
     query: async (q) => {
       try {

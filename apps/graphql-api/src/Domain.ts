@@ -1,4 +1,4 @@
-import { FilterDefinition } from "./filter/filter"
+import { Filter } from "./filter/filter"
 
 export type DomainEntityDomain = "entity_domain"
 export type DomainHomeAssistantEntity = "home_assistant_entity"
@@ -52,7 +52,7 @@ export interface Area extends Base {}
 export type HomeAssistantEntity = MediaPlayer | DeviceTracker
 
 export interface DomainQuery<TDomain extends Domain> {
-  filters?: Array<FilterDefinition<TDomain>>
+  filters?: Array<Filter<TDomain>>
   from: TDomain
 }
 

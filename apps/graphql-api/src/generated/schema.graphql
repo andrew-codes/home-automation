@@ -42,6 +42,10 @@ input InputServiceCallPayload {
   value: String
 }
 
+type Mutation {
+  homeAssistantCallService(entity: InputServiceCall): HomeAssistantEntity
+}
+
 interface Node {
   id: ID
 }

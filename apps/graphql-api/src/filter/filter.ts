@@ -1,15 +1,17 @@
-import { Domain, DomainResults } from "../Domain"
+import { Domain, DomainHomeAssistantEntity, DomainResults } from "../Domain"
 
-type SupportedFilters = "equality"
+type SupportedFilters = "equality" | "equalityInPath"
 interface FilterDefinition<TDomain extends Domain> {
   type: SupportedFilters
-  attribute: keyof DomainResults[TDomain]
+  attribute: keyof DomainResults[TDomain] | string[]
   value: any
   negation: boolean
 }
 
+type Filter<TDomain extends Domain> = FilterDefinition<TDomain>
+
 const filterCreator = (type: SupportedFilters) => <TDomain extends Domain>(
-  attribute: keyof DomainResults[TDomain],
+  attribute: keyof DomainResults[TDomain] | string[],
   value: any,
   negation: boolean = false
 ): FilterDefinition<TDomain> => {
@@ -22,4 +24,4 @@ const filterCreator = (type: SupportedFilters) => <TDomain extends Domain>(
 }
 
 export default filterCreator
-export { FilterDefinition, SupportedFilters }
+export { Filter, FilterDefinition, SupportedFilters }
