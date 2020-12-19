@@ -93,7 +93,7 @@ spec:
   type: NodePort
   ports:
     - name: http
-      port: 8081
+      port: 80
       protocol: TCP
       targetPort: http
       nodePort: 30517
