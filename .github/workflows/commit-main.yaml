@@ -21,6 +21,8 @@ jobs:
           node-version: "${{ steps.nvm.outputs.NVMRC }}"
       - name: Install deps
         run: yarn
+      - name: Patch packages
+        run: yarn patch-package
       - name: Compile changed apps
         run: yarn lerna run compile --stream --since HEAD~
       - name: Build and push images
