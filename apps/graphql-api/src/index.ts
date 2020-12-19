@@ -5,7 +5,7 @@ import createDebug from "debug"
 import express from "express"
 import HomeAssistant from "homeassistant"
 import createUnifi from "node-unifiapi"
-import { connect } from "async-mqtt"
+import { connectAsync } from "async-mqtt"
 import { altairExpress } from "altair-express-middleware"
 import { graphqlHTTP } from "express-graphql"
 import * as bodyParser from "body-parser-graphql"
@@ -39,11 +39,6 @@ const ha = new HomeAssistant({
   token: HA_TOKEN,
   ignoreCert: true,
 })
-const mqtt = connect(MQTT_HOST, {
-  password: MQTT_PASSWORD,
-  port: parseInt(MQTT_PORT || "1883", 10),
-  username: MQTT_USERNAME,
-})
 const unifi = createUnifi({
   baseUrl: `https://${USG_IP}:${USG_PORT}`,
   username: USG_USERNAME,
@@ -66,17 +61,22 @@ const corsOptions = {
 
 const app = express()
 app.use("/graphql", bodyParser.graphql())
-const options = {
-  schema: schema,
-  graphiql: false,
-  context: createDataContext(ha, mqtt, unifi),
-}
 
 app.use(
   "/graphql",
   cors(corsOptions),
   authorize(GRAPHQL_API_TOKEN as string),
   async (req, resp, next) => {
+    const mqtt = await connectAsync(MQTT_HOST, {
+      password: MQTT_PASSWORD,
+      port: parseInt(MQTT_PORT || "1883", 10),
+      username: MQTT_USERNAME,
+    })
+    const options = {
+      schema: schema,
+      graphiql: false,
+      context: createDataContext(ha, mqtt, unifi),
+    }
     await graphqlHTTP(options)(req, resp)
     next()
   },
