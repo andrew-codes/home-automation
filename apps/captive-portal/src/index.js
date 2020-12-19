@@ -47,14 +47,14 @@ app.post("/register", async (req, res) => {
     debug("mac", mac)
     debug("isPrimaryDevice", isPrimaryDevice)
     await gql({
-      query: `mutation trackGuestDevice($mac: String, $isPrimary: Boolean) {
+      query: `mutation track($mac: String, $isPrimary: Boolean) {
         trackGuestDevice(mac: $mac, isPrimary: $isPrimary) {
           id
         }
       }`,
       variables: {
         mac,
-        isPrimary: isPrimaryDevice,
+        isPrimary: !!isPrimaryDevice,
       },
     })
     res.sendFile(thankYouPage)
