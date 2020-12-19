@@ -4,6 +4,7 @@ import { Node } from "./node"
 import { HomeAssistantEntityGraphType } from "./home_assistant_entity"
 import { equality } from "../filter"
 import {
+  Area,
   DomainArea,
   DomainHomeAssistantEntity,
   HomeAssistantEntity,
@@ -31,11 +32,15 @@ export const AreaGraphType = objectType({
 export const AreaQuery = queryField("area", {
   type: list(AreaGraphType),
   args: { ids: list(stringArg()) },
-  resolve(root, args, ctx) {
-    return ctx.query({
+  async resolve(root, args, ctx) {
+    const results = await ctx.query({
       from: "area",
-      filters: !!args.ids ? [equality<DomainArea>("id", args.ids)] : undefined,
+      filters: args.ids?.map((id) => equality<DomainArea>("id", id)),
     })
+    if (!Array.isArray(results)) {
+      return [results]
+    }
+    return results
   },
 })
 
