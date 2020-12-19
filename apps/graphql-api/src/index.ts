@@ -51,7 +51,10 @@ const whitelist = [
 ]
 const corsOptions = {
   origin: (origin, callback) => {
-    if (whitelist.find((originPattern) => originPattern.test(origin))) {
+    if (
+      !origin ||
+      whitelist.find((originPattern) => originPattern.test(origin))
+    ) {
       callback(null, true)
       return
     }
