@@ -86,6 +86,7 @@ export interface NexusGenFieldTypes {
   }
   Mutation: { // field return type
     homeAssistantCallService: NexusGenRootTypes['HomeAssistantEntity'] | null; // HomeAssistantEntity
+    trackGuestDevice: NexusGenRootTypes['HomeAssistantEntity'] | null; // HomeAssistantEntity
   }
   Query: { // field return type
     domain: Array<NexusGenRootTypes['HomeAssistantDomain'] | null> | null; // [HomeAssistantDomain]
@@ -113,6 +114,7 @@ export interface NexusGenFieldTypeNames {
   }
   Mutation: { // field return type name
     homeAssistantCallService: 'HomeAssistantEntity'
+    trackGuestDevice: 'HomeAssistantEntity'
   }
   Query: { // field return type name
     domain: 'HomeAssistantDomain'
@@ -126,6 +128,10 @@ export interface NexusGenArgTypes {
   Mutation: {
     homeAssistantCallService: { // args
       entity?: NexusGenInputs['InputServiceCall'] | null; // InputServiceCall
+    }
+    trackGuestDevice: { // args
+      isPrimary?: boolean | null; // Boolean
+      mac?: string | null; // String
     }
   }
   Query: {

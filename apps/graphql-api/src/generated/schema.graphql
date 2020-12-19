@@ -44,6 +44,7 @@ input InputServiceCallPayload {
 
 type Mutation {
   homeAssistantCallService(entity: InputServiceCall): HomeAssistantEntity
+  trackGuestDevice(isPrimary: Boolean = false, mac: String): HomeAssistantEntity
 }
 
 interface Node {

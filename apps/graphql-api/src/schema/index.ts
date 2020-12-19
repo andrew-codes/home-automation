@@ -8,6 +8,7 @@ const { concat, flow } = _fp
 import * as area from "./home_assistant_area"
 import * as domain from "./home_assistant_domain"
 import * as entity from "./home_assistant_entity"
+import * as guestDevices from "./guest_devices"
 // import * as game from "./game"
 // import * as light from "./home_assistant_light"
 // import * as media_player from "./home_assistant_media_player"
@@ -40,6 +41,7 @@ const createTypes = flow([
   concat(area),
   concat(domain),
   concat(entity),
+  concat(guestDevices),
   // concat(game),
   // concat(light),
   // concat(media_player),
