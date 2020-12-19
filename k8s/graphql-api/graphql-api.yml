@@ -45,7 +45,7 @@ spec:
             - name: HA_HOST
               value: "http://home-assistant"
             - name: HA_PORT
-              value: 8123
+              value: "8123"
             - name: MQTT_USERNAME
               valueFrom:
                 secretKeyRef:
