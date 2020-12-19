@@ -36,12 +36,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: ha-secrets
-                  key: ha-token
+                  key: ha_token
             - name: HA_HOST
               valueFrom:
                 secretKeyRef:
                   name: ha-secrets
-                  key: ha-host
+                  key: ha_host
             - name: MQTT_USERNAME
               valueFrom:
                 secretKeyRef:
