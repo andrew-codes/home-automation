@@ -9,12 +9,12 @@ import { connectAsync } from "async-mqtt"
 import { altairExpress } from "altair-express-middleware"
 import { graphqlHTTP } from "express-graphql"
 import * as bodyParser from "body-parser-graphql"
-import { createDataContext } from "./dataContext"
-import { schema } from "./schema/index"
 import { authorize } from "./middleware/authorize"
-import * as types from "./generated/nexusTypes.gen"
-import { resetCounts } from "./dataProvider/dataSourceBatchPerformance"
 import { cache } from "./cache"
+import { createDataContext } from "./dataContext"
+import { resetCounts } from "./dataProvider/dataSourceBatchPerformance"
+import { schema } from "./schema/index"
+import * as types from "./generated/nexusTypes.gen"
 const debug = createDebug("@ha/graphql-api")
 
 const {
