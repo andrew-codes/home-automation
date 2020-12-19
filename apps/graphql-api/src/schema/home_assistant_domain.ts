@@ -38,11 +38,13 @@ export const DomainQuery = queryField("domain", {
   type: list(DomainGraphType),
   args: { ids: list(stringArg()) },
   async resolve(root, args, ctx) {
-    return ctx.query({
+    const results = (await ctx.query({
       from: "entity_domain",
-      filters: !!args.ids
-        ? [equality<DomainEntityDomain>("id", args.ids)]
-        : undefined,
-    }) as Promise<EntityDomain[]>
+      filters: args.ids?.map((id) => equality<DomainEntityDomain>("id", id)),
+    })) as EntityDomain[] | EntityDomain
+    if (!Array.isArray(results)) {
+      return [results]
+    }
+    return results
   },
 })
