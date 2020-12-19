@@ -26,7 +26,6 @@ const app = express()
 app.use(express.static(path.join(__dirname, "static")))
 app.get("/", async (req, res) => {
   try {
-    console.log("we did it!", req.query)
     const mac = req.query.mac
     if (!mac) {
       throw new Error("No MAC address found in URL")
@@ -48,7 +47,7 @@ app.post("/register", async (req, res) => {
     debug("mac", mac)
     debug("isPrimaryDevice", isPrimaryDevice)
     await gql({
-      query: `mutation trackGuestDevice($mac: String, $isPrimary: Boolean) {
+      query: `mutation trackGuestDevice($mac: String, $isPrimary: Bboolean) {
         trackGuestDevice(mac: $mac, isPrimary: $isPrimary) {
           id
         }
