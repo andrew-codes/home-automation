@@ -67,7 +67,7 @@ app.use(
   cors(corsOptions),
   authorize(GRAPHQL_API_TOKEN as string),
   async (req, resp, next) => {
-    const mqtt = await connectAsync(MQTT_HOST, {
+    const mqtt = await connectAsync(`tcp://${MQTT_HOST}`, {
       password: MQTT_PASSWORD,
       port: parseInt(MQTT_PORT || "1883", 10),
       username: MQTT_USERNAME,
