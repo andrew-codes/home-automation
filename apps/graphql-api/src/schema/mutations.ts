@@ -62,7 +62,6 @@ export const RenewGuestDevicesMutation = mutationField("renewGuestDevices", {
       const guestDeviceTrackers = guestDevices.filter(
         (device) => device.domainId === "device_tracker"
       ) as DeviceTracker[]
-      debug("guest device trackers", guestDeviceTrackers)
 
       await Promise.all(
         guestDeviceTrackers.map(
@@ -71,11 +70,11 @@ export const RenewGuestDevicesMutation = mutationField("renewGuestDevices", {
           getAuthorizationTime()
         )
       )
+      debug(guestDeviceTrackers)
+      return guestDeviceTrackers
     } catch (error) {
       debug(error)
     }
-    debug(guestDeviceTrackers)
-    console.log(guestDeviceTrackers)
     return guestDeviceTrackers
   },
 })
