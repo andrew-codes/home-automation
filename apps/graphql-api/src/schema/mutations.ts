@@ -69,13 +69,13 @@ export const RenewGuestDevicesMutation = mutationField("renewGuestDevices", {
         (device) => device.domainId === "device_tracker"
       ) as DeviceTracker[]
 
-      // await Promise.all(
-      //   guestDeviceTrackers.map(
-      //     async (deviceTracker) =>
-      //       await ctx.unifi.authorize_guest(deviceTracker.attributes.mac),
-      //     getAuthorizationTime()
-      //   )
-      // )
+      await Promise.all(
+        guestDeviceTrackers.map(
+          async (deviceTracker) =>
+            await ctx.unifi.authorize_guest(deviceTracker.attributes.mac),
+          getAuthorizationTime()
+        )
+      )
       debug(guestDeviceTrackers)
       return guestDeviceTrackers
     } catch (error) {
