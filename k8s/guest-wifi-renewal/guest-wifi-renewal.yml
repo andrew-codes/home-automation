@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: guest-wifi-renewal
+  namespace: home-automation
+  labels:
+    app.kubernetes.io/name: guest-wifi-renewal
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: guest-wifi-renewal
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: guest-wifi-renewal
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: guest-wifi-renewal
+          image: docker.smith-simms.family:5000/guest-wifi-renewal:latest
+          imagePullPolicy: Always
+          env:
+            - name: DEBUG
+              value: "@ha/guest-wifi-renewal/*"
+            - name: GRAPHQL_API_HOST
+              value: graphql-api/graphql
+            - name: GRAPHQL_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: graphql-secrets
+                  key: token
