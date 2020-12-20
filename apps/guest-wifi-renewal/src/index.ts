@@ -40,9 +40,10 @@ const run = async () => {
       return
     }
     const renewedDevices = await gql({
-      query: `mutation renew() {
-        renewGuestDevices() {
+      query: `mutation {
+        renewGuestDevices {
           id
+          name
         }
       }`,
     })
