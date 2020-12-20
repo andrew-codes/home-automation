@@ -50,6 +50,7 @@ export const RenewGuestDevicesMutation = mutationField("renewGuestDevices", {
       const filters = guestGroup.attributes.entityId.map((entityId) =>
         equality(["id"], entityId)
       )
+      debug(filters)
       let guestDevices = ((await ctx.query({
         from: "home_assistant_entity",
         filters,
@@ -63,13 +64,13 @@ export const RenewGuestDevicesMutation = mutationField("renewGuestDevices", {
         (device) => device.domainId === "device_tracker"
       ) as DeviceTracker[]
 
-      await Promise.all(
-        guestDeviceTrackers.map(
-          async (deviceTracker) =>
-            await ctx.unifi.authorize_guest(deviceTracker.attributes.mac),
-          getAuthorizationTime()
-        )
-      )
+      // await Promise.all(
+      //   guestDeviceTrackers.map(
+      //     async (deviceTracker) =>
+      //       await ctx.unifi.authorize_guest(deviceTracker.attributes.mac),
+      //     getAuthorizationTime()
+      //   )
+      // )
       debug(guestDeviceTrackers)
       return guestDeviceTrackers
     } catch (error) {
