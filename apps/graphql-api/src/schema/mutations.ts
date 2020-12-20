@@ -1,5 +1,6 @@
 import createDebug from "debug"
 import { booleanArg, list, mutationField, stringArg } from "nexus"
+import { isEmpty } from "lodash"
 import { HomeAssistantEntityGraphType } from "./home_assistant_entity"
 import { equality } from "../filter"
 import { DeviceTracker, Group, HomeAssistantEntity } from "../Domain"
@@ -47,6 +48,10 @@ export const RenewGuestDevicesMutation = mutationField("renewGuestDevices", {
       })) as unknown) as Group
       debug(guestGroup)
 
+      if (!isEmpty(guestGroup.attributes.entityId)) {
+        return guestDeviceTrackers
+      }
+
       const filters = guestGroup.attributes.entityId.map((entityId) =>
         equality(["id"], entityId)
       )
@@ -60,7 +65,7 @@ export const RenewGuestDevicesMutation = mutationField("renewGuestDevices", {
       if (!Array.isArray(guestDevices)) {
         guestDevices = [guestDevices]
       }
-      const guestDeviceTrackers = guestDevices.filter(
+      guestDeviceTrackers = guestDevices.filter(
         (device) => device.domainId === "device_tracker"
       ) as DeviceTracker[]
 
