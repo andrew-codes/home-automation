@@ -11,9 +11,10 @@ const debug = createDebugger(
 
 const getAll = () => {
   return {
+    device_tracker: { name: "Device Tracker" },
+    group: { name: "Group" },
     light: { name: "Light" },
     media_player: { name: "Media Player" },
-    device_tracker: { name: "Device Tracker" },
     sensor: { name: "Sensor" },
   }
 }

@@ -2,7 +2,7 @@ import createDebug from "debug"
 import { booleanArg, mutationField, stringArg } from "nexus"
 import { HomeAssistantEntityGraphType } from "./home_assistant_entity"
 import { equality } from "../filter"
-import { HomeAssistantEntity } from "../Domain"
+import { DeviceTracker, Group, HomeAssistantEntity } from "../Domain"
 
 const debug = createDebug("@ha/graphql-api/guest_devices")
 
@@ -32,6 +32,46 @@ export const GuestDeviceTrackingMutation = mutationField("trackGuestDevice", {
         from: "home_assistant_entity",
         filters: [equality(["attributes", "mac"], args.mac)],
       }) as Promise<HomeAssistantEntity>
+    }
+  },
+})
+
+export const RenewGuestDevices = mutationField("renewGuestDevices", {
+  type: HomeAssistantEntityGraphType,
+  async resolve(root, args, ctx) {
+    let guestDeviceTrackers: DeviceTracker[] = []
+    try {
+      const guestGroup = ((await ctx.query({
+        from: "home_assistant_entity",
+        filters: [equality(["id"], "group.guests")],
+      })) as unknown) as Group
+      debug(guestGroup)
+
+      const filters = guestGroup.attributes.entityId.map((entityId) =>
+        equality(["id"], entityId)
+      )
+      const guestDevices = ((await ctx.query({
+        from: "home_assistant_entity",
+        filters,
+      })) as unknown) as HomeAssistantEntity[]
+
+      debug("guest devices", guestDevices)
+      const guestDeviceTrackers = guestDevices.filter(
+        (device) => device.domainId === "device_tracker"
+      ) as DeviceTracker[]
+      debug("guest device trackers", guestDeviceTrackers)
+
+      await Promise.all(
+        guestDeviceTrackers.map(
+          (deviceTracker) =>
+            ctx.unifi.authorize_guest(deviceTracker.attributes.mac),
+          getAuthorizationTime()
+        )
+      )
+    } catch (error) {
+      debug(error)
+    } finally {
+      return guestDeviceTrackers
     }
   },
 })

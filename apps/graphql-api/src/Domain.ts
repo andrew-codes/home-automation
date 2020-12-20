@@ -47,9 +47,16 @@ export interface DeviceTracker
   }
 }
 
+export interface Group
+  extends HomeAssistantEntityWithState<DeviceTrackerState> {
+  attributes: {
+    entityId: string[]
+  }
+}
+
 export interface EntityDomain extends Base {}
 export interface Area extends Base {}
-export type HomeAssistantEntity = MediaPlayer | DeviceTracker
+export type HomeAssistantEntity = MediaPlayer | DeviceTracker | Group
 
 export interface DomainQuery<TDomain extends Domain> {
   filters?: Array<Filter<TDomain>>

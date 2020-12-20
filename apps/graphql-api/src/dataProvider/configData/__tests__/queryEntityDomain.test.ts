@@ -13,9 +13,10 @@ test("all domains", async () => {
 
   const actual = await sut.query({ from: "entity_domain" })
   expect(actual).toMatchObject<Array<EntityDomain>>([
+    { id: "device_tracker", name: "Device Tracker" },
+    { id: "group", name: "Group" },
     { id: "light", name: "Light" },
     { id: "media_player", name: "Media Player" },
-    { id: "device_tracker", name: "Device Tracker" },
     { id: "sensor", name: "Sensor" },
   ])
 })
