@@ -3,7 +3,6 @@ config()
 import { concat, flow } from "lodash/fp"
 import path from "path"
 import { makeSchema, nullabilityGuardPlugin } from "nexus"
-
 import * as area from "./home_assistant_area"
 import * as domain from "./home_assistant_domain"
 import * as entity from "./home_assistant_entity"
