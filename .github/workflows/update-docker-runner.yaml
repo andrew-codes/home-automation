@@ -13,4 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Build/push docker image
+        env:
+          DOCKER_REGISTRY_DOMAIN: ${{ secrets.DOCKER_REGISTRY_DOMAIN }}
         run: yarn image/push --scope @ha/github-action-runner-amd64
