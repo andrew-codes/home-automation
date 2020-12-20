@@ -1,5 +1,3 @@
-import { config } from "dotenv"
-config()
 import createDebugger from "debug"
 import { connectAsync } from "async-mqtt"
 import { createApolloFetch } from "apollo-fetch"
