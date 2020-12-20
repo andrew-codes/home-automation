@@ -48,7 +48,7 @@ export const RenewGuestDevicesMutation = mutationField("renewGuestDevices", {
       })) as unknown) as Group
       debug(guestGroup)
 
-      if (!isEmpty(guestGroup.attributes.entityId)) {
+      if (isEmpty(guestGroup.attributes.entityId)) {
         return guestDeviceTrackers
       }
 
