@@ -1,5 +1,5 @@
 import createDebug from "debug"
-import { booleanArg, mutationField, stringArg } from "nexus"
+import { booleanArg, list, mutationField, stringArg } from "nexus"
 import { HomeAssistantEntityGraphType } from "./home_assistant_entity"
 import { equality } from "../filter"
 import { DeviceTracker, Group, HomeAssistantEntity } from "../Domain"
@@ -37,7 +37,7 @@ export const GuestDeviceTrackingMutation = mutationField("trackGuestDevice", {
 })
 
 export const RenewGuestDevicesMutation = mutationField("renewGuestDevices", {
-  type: HomeAssistantEntityGraphType,
+  type: list(HomeAssistantEntityGraphType),
   async resolve(root, args, ctx) {
     let guestDeviceTrackers: DeviceTracker[] = []
     try {
