@@ -73,10 +73,9 @@ export const RenewGuestDevicesMutation = mutationField("renewGuestDevices", {
       )
     } catch (error) {
       debug(error)
-    } finally {
-      debug(guestDeviceTrackers)
-      console.log(guestDeviceTrackers)
-      return guestDeviceTrackers
     }
+    debug(guestDeviceTrackers)
+    console.log(guestDeviceTrackers)
+    return guestDeviceTrackers
   },
 })
