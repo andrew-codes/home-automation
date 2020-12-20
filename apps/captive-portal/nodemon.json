@@ -2,6 +2,6 @@
   "verbose": true,
   "ignore": ["*.test.js", "fixtures/*"],
   "execMap": {
-    "js": "node -r dotenv/config"
+    "js": "node"
   }
 }

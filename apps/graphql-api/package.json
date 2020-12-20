@@ -10,7 +10,7 @@
     "precompile": "rm -rf src/generated && yarn generateTypes",
     "compile": "ncc build src/index.ts -o dist -m",
     "generateTypes": "ts-node src/schema/index.ts",
-    "image/local": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --no-push --dockerfile /workspace/dev.Dockerfile --destination graphql-api:latest --tarPath \"image.tar\" --context dir:///workspace/ && docker image load --input \"$PWD/image.tar\"",
+    "image/local": "docker build -t graphql-api:latest -f dev.Dockerfile .",
     "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"$DOCKER_REGISTRY_DOMAIN:5000/graphql-api:latest\" --context dir:///workspace/ --insecure",
     "test": "jest"
   },
