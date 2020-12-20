@@ -1,5 +1,3 @@
-import { config } from "dotenv"
-config()
 import { concat, flow } from "lodash/fp"
 import path from "path"
 import { makeSchema, nullabilityGuardPlugin } from "nexus"

@@ -1,5 +1,3 @@
-import { config } from "dotenv"
-config()
 import createDebugger from "debug"
 import DataLoader from "dataloader"
 import HomeAssistant from "homeassistant"
