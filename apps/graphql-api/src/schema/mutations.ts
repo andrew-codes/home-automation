@@ -36,7 +36,7 @@ export const GuestDeviceTrackingMutation = mutationField("trackGuestDevice", {
   },
 })
 
-export const RenewGuestDevices = mutationField("renewGuestDevices", {
+export const RenewGuestDevicesMutation = mutationField("renewGuestDevices", {
   type: HomeAssistantEntityGraphType,
   async resolve(root, args, ctx) {
     let guestDeviceTrackers: DeviceTracker[] = []
