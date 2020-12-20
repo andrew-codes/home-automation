@@ -1,6 +1,15 @@
 guest_tracking_package:
-
   group:
     guests:
       name: Guests
       entities: []
+
+  automation:
+    - alias: Renew guest devices
+      trigger:
+        - platform: time
+          at: 01:00:00
+      action:
+        - service: mqtt.publish
+          data:
+            topic: "/homeassistant/guest/renew-devices"
