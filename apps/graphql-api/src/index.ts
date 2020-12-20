@@ -1,5 +1,3 @@
-import { config } from "dotenv"
-config()
 import cors from "cors"
 import createDebug from "debug"
 import express from "express"
@@ -15,7 +13,7 @@ import { createDataContext } from "./dataContext"
 import { resetCounts } from "./dataProvider/dataSourceBatchPerformance"
 import { schema } from "./schema/index"
 import * as types from "./generated/nexusTypes.gen"
-const debug = createDebug("@ha/graphql-api")
+const debug = createDebug("@ha/graphql-api/index")
 
 const {
   GRAPHQL_API_TOKEN,
@@ -84,7 +82,9 @@ if (NODE_ENV === "development") {
   )
 }
 
-app.listen(PORT, () => debug("listening on port", PORT))
+app.listen(PORT, () => {
+  debug("listening on port", PORT)
+})
 
 process.on("SIGINT", () => {
   process.exit(0)

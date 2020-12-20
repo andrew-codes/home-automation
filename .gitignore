@@ -10,3 +10,4 @@ secrets.yaml
 dist
 .env
 *.env
+image.tar
