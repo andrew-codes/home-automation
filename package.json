@@ -17,7 +17,7 @@
     "patch": "patch-package",
     "postintall": "yarn patch",
     "seal": "lerna run seal",
-    "image/local": "lerna run image/local --include-filtered-dependencies",
+    "image/local": "./scripts/bin/build-local-images.sh",
     "image/push": "lerna run image/push --include-filtered-dependencies",
     "ingress/prod": "lerna run ingress/prod --include-filtered-dependencies",
     "ingress/stage": "lerna run ingress/stage --include-filtered-dependencies",

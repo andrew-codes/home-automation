@@ -9,7 +9,6 @@
     "compile": "ncc build src/index.js -o dist -m",
     "start": "nodemon src/index.js --inspect=0.0.0.0:9229",
     "postcompile": "cp -r src/static dist/static",
-    "image/local": "docker build -t captive-portal:latest -f dev.Dockerfile .",
     "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"$DOCKER_REGISTRY_DOMAIN:5000/captive-portal:latest\" --context dir:///workspace/ --insecure"
   },
   "dependencies": {
