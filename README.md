@@ -12,7 +12,7 @@ My home automation and, all related services, run in a local Kubernetes cluster.
 1. [Enable Automated Deploys](./docs/automate-deploys-with-github-actions.md)
 1. [Setting App Secrets](./docs/secrets-catalog.md)
 
-## Applictions
+## Applications
 
 Application documentation is located with its deployment configuration in the `./k8s/*` directories. Application source code is located in the `./apps/*` directories.
 
