@@ -43,7 +43,22 @@ export interface MediaPlayer
 export interface DeviceTracker
   extends HomeAssistantEntityWithState<DeviceTrackerState> {
   attributes: {
-    mac: string
+    mac?: string
+    sourceType?: string
+    isWired?: boolean
+    isGuestByUap?: boolean
+    apMac?: string
+    authorized?: boolean
+    essid?: string
+    ip?: string
+    is11R?: boolean
+    isGuest?: boolean
+    qosPolicyApplied?: boolean
+    radio?: string
+    radioProto?: string
+    vlan?: number
+    hostname?: string
+    oui?: string
   }
 }
 
