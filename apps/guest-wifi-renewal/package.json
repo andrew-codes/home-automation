@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "dev": "",
-    "compile": "ncc build src/index.js -o dist -m",
+    "compile": "ncc build src/index.ts -o dist -m",
     "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"$DOCKER_REGISTRY_DOMAIN:5000/guest-wifi-renewal:latest\" --context dir:///workspace/ --insecure"
   },
   "dependencies": {
