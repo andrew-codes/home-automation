@@ -28,6 +28,8 @@ This application is a node express app that serves a registration page to guests
 
 ![Captive Portal Web UI](./docs/captive-portal-web-ui.png)
 
-## Developing
+## Developing Locally
 
-Read [captive-portal app](./../../apps/captive-portal/README.md) for information on developing locally.
+1. Ensure you have a working cluster running (follow the [brand new installation guide](../../README.md))
+1. `./start-captive-portal-locally.sh`
+1. Visit `http://localhost:8081?mac=123` to view the site.
