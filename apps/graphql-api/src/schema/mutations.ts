@@ -50,12 +50,15 @@ export const RenewGuestDevicesMutation = mutationField("renewGuestDevices", {
       const filters = guestGroup.attributes.entityId.map((entityId) =>
         equality(["id"], entityId)
       )
-      const guestDevices = ((await ctx.query({
+      let guestDevices = ((await ctx.query({
         from: "home_assistant_entity",
         filters,
-      })) as unknown) as HomeAssistantEntity[]
-
+      })) as unknown) as HomeAssistantEntity[] | HomeAssistantEntity
       debug("guest devices", guestDevices)
+
+      if (!Array.isArray(guestDevices)) {
+        guestDevices = [guestDevices]
+      }
       const guestDeviceTrackers = guestDevices.filter(
         (device) => device.domainId === "device_tracker"
       ) as DeviceTracker[]
