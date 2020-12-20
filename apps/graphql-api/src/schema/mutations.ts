@@ -71,7 +71,7 @@ export const RenewGuestDevicesMutation = mutationField("renewGuestDevices", {
     } catch (error) {
       debug(error)
     } finally {
-      return guestDeviceTrackers
+      return guestDeviceTrackers as HomeAssistantEntity[]
     }
   },
 })
