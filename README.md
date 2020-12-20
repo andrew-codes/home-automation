@@ -18,6 +18,7 @@ Application documentation is located with its deployment configuration in the `.
 
 - [MQTT](./k8s/mqtt/README.md)
 - [Home Assistant](./k8s/home-assistant/README.md)
+- [GraphQL Home API](./k8s/graphql-api/README.md)
 - [Guest Detection: Captive Portal](./k8s/captive-portal/README.md)
 
 ## Testing Locally
