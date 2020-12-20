@@ -66,8 +66,8 @@ export const RenewGuestDevicesMutation = mutationField("renewGuestDevices", {
 
       await Promise.all(
         guestDeviceTrackers.map(
-          (deviceTracker) =>
-            ctx.unifi.authorize_guest(deviceTracker.attributes.mac),
+          async (deviceTracker) =>
+            await ctx.unifi.authorize_guest(deviceTracker.attributes.mac),
           getAuthorizationTime()
         )
       )
@@ -75,7 +75,8 @@ export const RenewGuestDevicesMutation = mutationField("renewGuestDevices", {
       debug(error)
     } finally {
       debug(guestDeviceTrackers)
-      return guestDeviceTrackers as HomeAssistantEntity[]
+      console.log(guestDeviceTrackers)
+      return guestDeviceTrackers
     }
   },
 })
