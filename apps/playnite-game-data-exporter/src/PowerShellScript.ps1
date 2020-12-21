@@ -17,9 +17,7 @@ function global:OnApplicationStopped()
 
 function global:OnLibraryUpdated()
 {
-    $gamesPayload = $PlayniteApi.Database.Games | ConvertTo-Json -Compress
-    $__logger.Debug($gamesPayload)
-    $MqttClient.Publish("/playnite/game/list", [System.Text.Encoding]::UTF8.GetBytes($gamesPayload), 2, 0)
+    $global:PublishLibrary()
 }
 
 function global:OnGameStarting()
@@ -64,3 +62,23 @@ function global:OnGameSelected()
         $selection
     )    
 }
+
+function global:MQTTMsgReceived
+{
+    Param(
+        [parameter(Mandatory=$true)]$mqtt
+    )
+    $msg = $([System.Text.Encoding]::ASCII.GetString($mqtt.Message))
+    $__logger.Info("Topic: " + $mqtt.topic)
+    if ($mqtt.topic == "/playnite/game/list/request") {
+        $global:PublishLibrary()
+    }
+}
+
+function global:PublishLibrary {
+    $__logger.Info('Publishing library')
+    $gamesPayload = $PlayniteApi.Database.Games | ConvertTo-Json -Compress
+    $MqttClient.Publish("/playnite/game/list", [System.Text.Encoding]::UTF8.GetBytes($gamesPayload), 2, 0)
+}
+
+Register-ObjectEvent -inputObject $MqttClient -EventName MqttMsgPublishReceived -Action { MQTTMsgReceived $($args[1]) }
