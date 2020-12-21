@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "@ha/playnite-game-data-exporter-app",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "precompile": "mkdir -p dist",
+    "compile": "cp -R .secrets/ extension.yaml PowerShellScript.ps1 dist/",
+    "deploy": "scripts/bin/deploy.sh"
+  }
+}

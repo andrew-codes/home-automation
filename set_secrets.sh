@@ -46,3 +46,10 @@ stringData:
   digitalocean_token: $DIGITALOCEAN_TOKEN
 type: Opaque
 EOL
+
+mkdir -p apps/playnite-game-data-exporter/.secrets
+cat >apps/playnite-game-data-exporter/.secrets/secrets.ps1 <<EOL
+\$MQTT_HOST = "$MQTT_HOST"
+\$MQTT_USERNAME = "$MQTT_USERNAME"
+\$MQTT_PASSWORD = "$MQTT_PASSWORD"
+EOL

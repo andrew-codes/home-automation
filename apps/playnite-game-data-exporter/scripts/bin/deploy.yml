@@ -1,0 +1,14 @@
+---
+- hosts: gaming_pc
+  gather_facts: yes
+  connection: winrm
+
+  tasks:
+    - name: Copy Playnite extension scripts
+      ansible.windows.win_copy:
+          src: ../../dist/
+          dest: C:\Users\{{ ansible_user }}\AppData\Local\Playnite\Extensions\game-data-exporter\
+      vars:
+        ansible_become_user: "{{ ansible_user }}"
+        ansible_become_password: "{{ ansible_password }}"
+        ansible_remote_tmp: 'C:\tmp'
