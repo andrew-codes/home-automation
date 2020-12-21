@@ -1,11 +1,12 @@
-Add-Type -Path "C:\lib\M2Mqtt.4.3.0.0\lib\net45\M2Mqtt.Net.dll"
-. secrets.ps1
+$__logger.Info("Starting script")
+Add-Type -Path "C:\lib\M2Mqtt.4.3.0.0\lib\\net45\M2Mqtt.Net.dll"
 
-$MqttClient = [uPLibrary.Networking.M2Mqtt.MqttClient]($MQTT_HOST)
+$MqttClient = New-Object -Type uPLibrary.Networking.M2Mqtt.MqttClient -ArgumentList ($MQTT_HOST, $MQTT_PORT, $FALSE, $null, $null, [uPLibrary.Networking.M2Mqtt.MqttSslProtocols]::None)
+$MqttClient.Connect([guid]::NewGuid(), $MQTT_USERNAME, $MQTT_PASSWORD)
 
 function global:OnApplicationStarted()
 {
-    $MqttClient.Connect([guid]::NewGuid(), $MQTT_USERNAME, $MQTT_PASSWORD)
+    $__logger.Info("Starting app and connecting to MQTT")
     $MqttClient.Publish("/playnite/birth", [System.Text.Encoding]::UTF8.GetBytes(""), 2, 0)
 }
 
@@ -17,7 +18,7 @@ function global:OnApplicationStopped()
 function global:OnLibraryUpdated()
 {
     $gamesPayload = $PlayniteApi.Database.Games | ConvertTo-Json -Compress
-    $PlayniteApi.Dialogs.ShowMessage($gamesPayload)
+    $__logger.Debug($gamesPayload)
     $MqttClient.Publish("/playnite/game/list", [System.Text.Encoding]::UTF8.GetBytes($gamesPayload), 2, 0)
 }
 
