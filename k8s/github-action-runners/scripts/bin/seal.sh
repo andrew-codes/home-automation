@@ -23,3 +23,10 @@ kubectl create secret generic controller-manager --dry-run=client --namespace="a
 kubeseal --namespace "actions-runner-system" <".secrets/github_token.json" >"secrets/github_token.json"
 rm -rf .secrets/github_token
 rm -rf .secrets/github_token.json
+
+## Ansible SSH Key
+echo "$HOME_AUTOMATION_SSH_PRIVATE_KEY" >.secrets/ssh-secrets
+kubectl create secret generic ssh-secrets --dry-run=client --namespace="home-automation" --from-file=id_rsa=".secrets/ssh-secrets" -o json >".secrets/ssh-secrets.json"
+kubeseal --namespace "home-automation" <".secrets/ssh-secrets.json" >"secrets/ssh-secrets.json"
+rm -rf .secrets/ssh-secrets
+rm -rf .secrets/ssh-secrets.json

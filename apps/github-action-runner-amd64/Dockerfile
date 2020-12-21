@@ -9,13 +9,15 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 RUN curl -sS https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 RUN echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable" | sudo tee -a /etc/apt/sources.list.d/docker.list
+RUN sudo apt-add-repository -y --update ppa:ansible/ansible
 RUN sudo apt update -y
 RUN sudo apt-get install -y \
   nodejs \
   yarn \
   docker.io \
   apt-transport-https gnupg2 kubectl \
-  lxc ca-certificates iptables
+  lxc ca-certificates iptables \
+  software-properties-common ansible
 RUN export KUBECONFIG=/home/runner/.kube/config
 RUN mkdir -p /home/runner/.docker
 RUN sudo yarn global add lerna
