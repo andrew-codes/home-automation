@@ -41,3 +41,14 @@
       win_chocolatey:
         name: geforce-game-ready-driver
         state: present
+    
+    - name: Ensure nuget is installed
+      win_chocolatey:
+        name: nuget.commandline
+        state: present
+
+    - name: Ensure mqtt powershell is available
+      win_shell: nuget.exe install M2Mqtt -o c:\lib
+      vars:
+        ansible_become_user: "{{ ansible_user }}"
+        ansible_become_password: "{{ ansible_password }}"

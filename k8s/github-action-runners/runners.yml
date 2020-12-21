@@ -21,10 +21,17 @@ spec:
         - name: kubectl-config-volume
           mountPath: /home/runner/.kube/config
           subPath: kubectl-config
+        - name: ssh-volue
+          mountPath: /home/runner/.ssh/id_rsa
+          subPath: id_rsa
       volumes:
         - name: kubectl-config-volume
           secret:
             secretName: kubectl-config
+        - name: ssh-volume
+          secret:
+            defaultMode: 0600
+            secretName: ssh-secrets
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
