@@ -11,5 +11,5 @@
           src: ../../dist/
           dest: C:\Users\{{ gaming_pc_user }}\AppData\Local\Playnite\Extensions\HomeAutomationGameDataExporter\
       vars:
-        ansible_become_user: "{{ gaming_pc_user }}"
+        ansible_become_user: "{{ lookup('env', 'GAMING_PC_USERNAME') }}"
         ansible_remote_tmp: 'C:\tmp'

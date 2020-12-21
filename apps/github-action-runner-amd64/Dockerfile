@@ -21,3 +21,4 @@ RUN sudo apt-get install -y \
 RUN export KUBECONFIG=/home/runner/.kube/config
 RUN mkdir -p /home/runner/.docker
 RUN sudo yarn global add lerna
+RUN ansible-galaxy collection install ansible.windows

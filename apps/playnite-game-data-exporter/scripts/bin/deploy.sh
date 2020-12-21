@@ -2,7 +2,6 @@
 
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
-source ../../secrets.sh
 ANSIBLE_CONFIG=../../ansible/ansible.cfg
 
 ansible-playbook "scripts/bin/deploy.yml" -i ../../ansible/hosts.yml --extra-vars "ansible_become_pass='$MACHINE_PASSWORD' ansible_password='$MACHINE_PASSWORD'"
