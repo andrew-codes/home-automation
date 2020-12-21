@@ -4,6 +4,8 @@ This app provides a single interface to interact with the home automation system
 
 ## Running Locally
 
+> See the [testing applications locally guide](../../docs/testing-apps-locally.md) for more details.
+
 1. Ensure you have a working cluster running (follow the [brand new installation guide](../../README.md))
 1. `./start-graphql-api-locally.sh`
 1. Visit `http://localhost:8080/altair` for an interactive GraphQL client

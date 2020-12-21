@@ -4,6 +4,8 @@ This application listens to the MQTT topic, `/homeassistant/guest/renew-devices`
 
 ## Running Locally
 
+> See the [testing applications locally guide](../../docs/testing-apps-locally.md) for more details.
+
 1. Ensure you have a working cluster running (follow the [brand new installation guide](../../README.md))
 1. `./start-guest-wifi-renewal-locally.sh`
 1. View the console output when MQTT messages are received.
