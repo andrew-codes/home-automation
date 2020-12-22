@@ -63,22 +63,22 @@ spec:
             - name: UNIFI_IP
               valueFrom:
                 secretKeyRef:
-                  name: usg-secrets
+                  name: unifi-secrets
                   key: unifi_ip
             - name: UNIFI_PORT
               valueFrom:
                 secretKeyRef:
-                  name: usg-secrets
+                  name: unifi-secrets
                   key: unifi_port
             - name: UNIFI_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: usg-secrets
+                  name: unifi-secrets
                   key: unifi_username
             - name: UNIFI_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: usg-secrets
+                  name: unifi-secrets
                   key: unifi_password
 
 ---
