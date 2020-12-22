@@ -16,9 +16,5 @@ CLI to automate burning ISO installation images to USB drives.
 
 ```bash
 # x86 CPUs
-sudo burn-image /dev/disk2 ~/Downloads/ubuntu-20.04.1-live-server-amd64.iso
+sudo yarn burn-image /dev/disk2 ~/Downloads/ubuntu-20.04.1-live-server-amd64.iso
 ```
-
-# Running Tests
-
-`yarn test`

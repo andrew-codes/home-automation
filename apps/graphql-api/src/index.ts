@@ -26,10 +26,10 @@ const {
   MQTT_USERNAME,
   NODE_ENV,
   PORT,
-  USG_IP,
-  USG_PORT,
-  USG_USERNAME,
-  USG_PASSWORD,
+  UNIFI_IP,
+  UNIFI_PORT,
+  UNIFI_USERNAME,
+  UNIFI_PASSWORD,
 } = process.env
 const ha = new HomeAssistant({
   host: HA_HOST,
@@ -38,9 +38,9 @@ const ha = new HomeAssistant({
   ignoreCert: true,
 })
 const unifi = createUnifi({
-  baseUrl: `https://${USG_IP}:${USG_PORT}`,
-  username: USG_USERNAME,
-  password: USG_PASSWORD,
+  baseUrl: `https://${UNIFI_IP}:${UNIFI_PORT}`,
+  username: UNIFI_USERNAME,
+  password: UNIFI_PASSWORD,
 })
 
 const app = express()

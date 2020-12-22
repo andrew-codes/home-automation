@@ -11,7 +11,7 @@ kubeseal --namespace "home-automation" <".secrets/regcred.json" >"secrets/regcre
 rm -rf .secrets/regcred.json
 
 # Config Checkokut SSH
-echo "$HOME_ASSISTANT_ID_RSA" >.secrets/id_rsa
+echo "$REPO_SSH_PRIVATE_KEY" >.secrets/id_rsa
 kubectl create secret generic ssh --dry-run=client --namespace="home-automation" --from-file=id_rsa=".secrets/id_rsa" -o json >".secrets/ssh.json"
 kubeseal --namespace "home-automation" <".secrets/ssh.json" >"secrets/ssh.json"
 rm -rf .secrets/id_rsa

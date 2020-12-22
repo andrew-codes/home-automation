@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  deploy_apps:
+  run_tests:
     name: Run all unit tests
     runs-on: self-hosted
     steps:
