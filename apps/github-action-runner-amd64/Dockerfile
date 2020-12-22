@@ -10,6 +10,7 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/so
 RUN curl -sS https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 RUN echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable" | sudo tee -a /etc/apt/sources.list.d/docker.list
 RUN sudo apt-add-repository -y --update ppa:ansible/ansible
+RUN sudo add-apt-repository ppa:deadsnakes/ppa
 RUN sudo apt update -y
 RUN sudo apt-get install -y \
   nodejs \
@@ -17,9 +18,9 @@ RUN sudo apt-get install -y \
   docker.io \
   apt-transport-https gnupg2 kubectl \
   lxc ca-certificates iptables \
-  software-properties-common ansible
+  software-properties-common ansible python3.8 python3-pip
 RUN export KUBECONFIG=/home/runner/.kube/config
 RUN mkdir -p /home/runner/.docker
 RUN sudo yarn global add lerna
-RUN pip install "pywinrm>=0.3.0"
+RUN pip3 install "pywinrm>=0.3.0"
 RUN ansible-galaxy collection install ansible.windows
