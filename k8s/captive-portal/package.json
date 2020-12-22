@@ -4,7 +4,6 @@
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
-    "seal": "scripts/bin/seal.sh",
     "deploy": "scripts/bin/deploy.sh",
     "postdeploy": "kubectl rollout restart deployment captive-portal --namespace home-automation"
   },

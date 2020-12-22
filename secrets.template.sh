@@ -5,9 +5,11 @@
 #   - those used after installation
 # See the [secrets catalog](./docs/secrets-catalog.md) for details on what secrets are needed for installation.
 
+# Required for installation
+# =================================
 export CLUSTER_IP=""
 
-# Ubuntu server user and password
+# Machine provisioning username/password
 export MACHINE_USERNAME=""
 export MACHINE_PASSWORD=""
 
@@ -23,81 +25,61 @@ export BACKUP_BUCKET=""
 export BACKUP_URI=""
 
 # Docker registry domain; e.g. docker.yourdomain.com
+# Local DNS must point this domain to your $CLUSTER_IP
 export DOCKER_REGISTRY_DOMAIN=""
 
 # Inlets pro license value
 export INLETS_PRO_LICENSE=""
 export POD_NETWORK_CIDR="192.168.100.0/24"
-$()$(
 
-    ## Full Secrets Catalog
-
-    These are set after the initial provisioning, but in the same file,
-)./secrets.sh$(
-    .
-
-)$()bash
-#!/usr/bin/env bash
-
-export CLUSTER_IP=""
-
-# Ubuntu server hl user password
-export MACHINE_USERNAME=""
-export MACHINE_PASSWORD=""
-
-# Your email
-export EMAIL=""
-
-# API token to create droplets in Digital Ocean
-export DIGITALOCEAN_TOKEN=""
-# Digital Ocean Spaces (for backup)
-export SPACES_ACCESS_KEY=""
-export SPACES_ACCESS_SECRET_KEY=""
-export BACKUP_BUCKET=""
-export BACKUP_URI=""
-
-# Docker registry domain; e.g. docker.yourdomain.com
-export DOCKER_REGISTRY_DOMAIN=""
+# After Installation
+# ================================
 export DOCKER_REGISTRY_USERNAME=""
 export DOCKER_REGISTRY_PASSWORD=""
 export DOCKER_REGISTRY_CERT_STATE=""
 export DOCKER_REGISTRY_CERT_CITY=""
 export DOCKER_REGISTRY_CERT_ORG=""
 
-# Inlets pro license value
-export INLETS_PRO_LICENSE=""
-export POD_NETWORK_CIDR=""
+# Public IP of Digital Ocean droplet, dynamically created by Inlets
 export INLETS_IP=""
 
-# Home Assistant
+# Home Assistant Repo URL (this repo)
 export HOME_ASSISTANT_REPO_URL=""
-# SSH Key with repo access with no pass phrase
+# SSH Key with repo access; no pass phrase
 export REPO_SSH_PRIVATE_KEY=$(
     cat <<EOL
 -----BEGIN OPENSSH PRIVATE KEY-----
 -----END OPENSSH PRIVATE KEY-----
 EOL
 )
+# e.g. ha.yourdomain.com
+# Public/Dynamic DNS record should point this domain to your $INLETS_IP
 export HOME_ASSISTANT_DOMAIN=""
+# Only used if using Google DNS for dynamic DNS record for $HOME_ASSISTANT_DOMAIN
 export HOME_ASSISTANT_DNS_USERNAME=""
 export HOME_ASSISTANT_DNS_PASSWORD=""
 
 # GitHub Action Runners
 export KUBE_CONFIG=$(cat ~/.kube/config)
+# Requires repo read/write, workflow, and org permissions
 export GITHUB_RUNNER_TOKEN=""
 
+# Externally exposed nodePort for MQTT from the cluster.
 export EXTERNAL_MQTT_PORT=""
 export MQTT_USERNAME=""
 export MQTT_PASSWORD=""
 
+# Home Assistant configuration values
 export LATITUDE=""
 export LONGITUDE=""
 export ELEVATION=""
 export TIME_ZONE=""
 export UNIT_SYSTEM=""
+# Long-lived HA token
 export HA_TOKEN=""
 export APPDAEMON_URL=""
 export APPDAEMON_PASSWORD=""
+# Withings developer app (see https://www.home-assistant.io/integrations/withings/ for more details)
 export WITHINGS_CLIENT_ID=""
 export WITHINGS_CLIENT_SECRET=""
 export GAMING_ROOM_TV_IP=""
@@ -119,8 +101,8 @@ export HOME_AUTOMATION_SSH_PUBLIC_KEY=$(
 EOL
 )
 export ROUTER_IP=""
-export USG_IP=""
-export USG_PORT=""
-export USG_USERNAME=""
-export USG_PASSWORD=""
+export UNIFI_IP=""
+export UNIFI_PORT=""
+export UNIFI_USERNAME=""
+export UNIFI_PASSWORD=""
 export GRAPHQL_API_TOKEN=""

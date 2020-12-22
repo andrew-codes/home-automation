@@ -60,26 +60,26 @@ spec:
               value: mqtt
             - name: MQTT_PORT
               value: "1883"
-            - name: USG_IP
+            - name: UNIFI_IP
               valueFrom:
                 secretKeyRef:
                   name: usg-secrets
-                  key: usg_ip
-            - name: USG_PORT
+                  key: unifi_ip
+            - name: UNIFI_PORT
               valueFrom:
                 secretKeyRef:
                   name: usg-secrets
-                  key: usg_port
-            - name: USG_USERNAME
+                  key: unifi_port
+            - name: UNIFI_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: usg-secrets
-                  key: usg_username
-            - name: USG_PASSWORD
+                  key: unifi_username
+            - name: UNIFI_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: usg-secrets
-                  key: usg_password
+                  key: unifi_password
 
 ---
 apiVersion: v1
