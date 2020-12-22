@@ -70,7 +70,7 @@ function global:MQTTMsgReceived
     )
     $msg = $([System.Text.Encoding]::ASCII.GetString($mqtt.Message))
     $__logger.Info("Topic: " + $mqtt.topic)
-    if ($mqtt.topic == "/playnite/game/list/request") {
+    if ($mqtt.topic -eq "/playnite/game/list/request") {
         PublishLibrary
     }
 }
@@ -82,3 +82,4 @@ function global:PublishLibrary {
 }
 
 Register-ObjectEvent -inputObject $MqttClient -EventName MqttMsgPublishReceived -Action { MQTTMsgReceived $($args[1]) }
+$MqttClient.subscribe("/playnite/game/list/request", 2)
