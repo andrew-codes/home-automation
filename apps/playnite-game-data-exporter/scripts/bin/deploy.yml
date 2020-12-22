@@ -7,7 +7,7 @@
     - name: Copy Playnite extension scripts
       ansible.windows.win_copy:
           src: ../../dist/
-          dest: C:\Users\{{ gaming_pc_user }}\AppData\Local\Playnite\Extensions\HomeAutomationGameDataExporter\
+          dest: C:\Users\{{ lookup('env', 'GAMING_PC_USERNAME') }}\AppData\Local\Playnite\Extensions\HomeAutomationGameDataExporter\
       vars:
         ansible_become_user: "{{ lookup('env', 'GAMING_PC_USERNAME') }}"
         ansible_remote_tmp: 'C:\tmp'
