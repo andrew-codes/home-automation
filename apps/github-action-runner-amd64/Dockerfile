@@ -18,9 +18,9 @@ RUN sudo apt-get install -y \
   docker.io \
   apt-transport-https gnupg2 kubectl \
   lxc ca-certificates iptables \
-  software-properties-common ansible python3.8 python3-pip
+  software-properties-common ansible python2 python-pip
+RUN pip install "pywinrm>=0.3.0"
 RUN export KUBECONFIG=/home/runner/.kube/config
 RUN mkdir -p /home/runner/.docker
 RUN sudo yarn global add lerna
-RUN pip3 install "pywinrm>=0.3.0"
 RUN ansible-galaxy collection install ansible.windows
