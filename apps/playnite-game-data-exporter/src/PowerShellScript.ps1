@@ -17,7 +17,7 @@ function global:OnApplicationStopped()
 
 function global:OnLibraryUpdated()
 {
-    $global:PublishLibrary()
+    PublishLibrary
 }
 
 function global:OnGameStarting()
@@ -71,7 +71,7 @@ function global:MQTTMsgReceived
     $msg = $([System.Text.Encoding]::ASCII.GetString($mqtt.Message))
     $__logger.Info("Topic: " + $mqtt.topic)
     if ($mqtt.topic == "/playnite/game/list/request") {
-        $global:PublishLibrary()
+        PublishLibrary
     }
 }
 
