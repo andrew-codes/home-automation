@@ -20,6 +20,11 @@ Application documentation is located with its deployment configuration in the `.
 - [Guest Detection: Captive Portal](./k8s/captive-portal/README.md)
 - [Guest Detection: Guest Device Wifi Renewals](./k8s/guest-wifi-renewal/README.md)
 
+## Packages
+
+- [Burning Installation Images to USB](./packages/image/README.md)
+- [Automating the Addition of Github Secrets](./packages/github-secrets/README.md)
+
 ## Automations
 
 See a [list of automations](./docs/automations.md) for regression testing purposes.
