@@ -47,13 +47,15 @@ stringData:
 type: Opaque
 EOL
 
-mkdir -p apps/playnite-game-data-exporter/.secrets
-cat >apps/playnite-game-data-exporter/.secrets/secrets.ps1 <<EOL
-\$MQTT_HOST = "$MQTT_HOST"
-\$MQTT_PORT = $MQTT_PORT
-\$MQTT_USERNAME = "$MQTT_USERNAME"
-\$MQTT_PASSWORD = "$MQTT_PASSWORD"
+yarn seal-github-secret andrew-codes home-automation DOCKER_REGISTRY_DOMAIN $DOCKER_REGISTRY_DOMAIN
+yarn seal-github-secret andrew-codes home-automation GAMING_ROOM_GAMING_PC_MAC $GAMING_ROOM_GAMING_PC_MAC
+yarn seal-github-secret andrew-codes home-automation GAMING_ROOM_GAMING_PC_USERNAME $GAMING_ROOM_GAMING_PC_USERNAME
+yarn seal-github-secret andrew-codes home-automation MACHINE_PASSWORD $MACHINE_PASSWORD
+yarn seal-github-secret andrew-codes home-automation MQTT_CONNECTION $(
+  cat <<EOL
+$MQTT_HOST = "$CLUSTER_IP"
+$MQTT_PORT = $EXTERNAL_MQTT_PORT
+$MQTT_USERNAME = "$MQTT_USERNAME"
+$MQTT_PASSWORD = "$MQTT_PASSWORD"
 EOL
-cat >apps/playnite-game-data-exporter/.secrets/secrets.yml <<EOL
-gaming_pc_user: $GAMING_ROOM_GAMING_PC_USERNAME
-EOL
+)

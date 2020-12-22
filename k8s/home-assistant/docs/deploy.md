@@ -18,7 +18,7 @@ Copy the following settings with their secret values to your `.secrets.sh` file.
 ```bash
 # Home Assistant
 export HOME_ASSISTANT_REPO_URL=""
-export HOME_ASSISTANT_ID_RSA=$(
+export REPO_SSH_PRIVATE_KEY=$(
     cat <<EOL
 -----BEGIN OPENSSH PRIVATE KEY-----
 -----END OPENSSH PRIVATE KEY-----

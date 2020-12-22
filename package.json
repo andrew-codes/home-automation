@@ -15,6 +15,7 @@
     "dashboard": "kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}') && kubectl proxy",
     "deploy": "lerna run deploy --include-filtered-dependencies",
     "patch": "patch-package",
+    "preinstall": "yarn global add typescript ts-node",
     "postintall": "yarn patch",
     "seal": "lerna run seal",
     "image/local": "./scripts/bin/build-local-images.sh",

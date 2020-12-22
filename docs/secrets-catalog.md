@@ -59,7 +59,7 @@ export MQTT_PASSWORD=""
 
 # Home Assistant
 export HOME_ASSISTANT_REPO_URL="git@github.com:andrew-codes/home-automation.git"
-export HOME_ASSISTANT_ID_RSA=$(
+export REPO_SSH_PRIVATE_KEY=$(
     cat <<EOL
 -----BEGIN OPENSSH PRIVATE KEY-----
 -----END OPENSSH PRIVATE KEY-----
