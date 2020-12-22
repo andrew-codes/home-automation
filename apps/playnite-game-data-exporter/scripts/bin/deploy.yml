@@ -2,8 +2,6 @@
 - hosts: gaming_pc
   gather_facts: yes
   connection: winrm
-  vars_files:
-    - ../../.secrets/secrets.yml
 
   tasks:
     - name: Copy Playnite extension scripts
