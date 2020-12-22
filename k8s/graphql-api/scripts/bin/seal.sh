@@ -10,7 +10,7 @@ echo -n "$UNIFI_IP" >.secrets/unifi_ip
 echo -n "$UNIFI_PORT" >.secrets/unifi_port
 echo -n "$UNIFI_USERNAME" >.secrets/unifi_username
 echo -n "$UNIFI_PASSWORD" >.secrets/unifi_password
-kubectl create secret generic unifi-secrets --dry-run=client --namespace="home-automation" --from-file=unifi_ip=".secrets/unifi_ip" --from-file=unifi_port=".secrets/unifi_port" --from-file=unifi_username=".secrets/unifi_username" --from-file=unifi_password=".secrets/unifi_password" -o json >".secrets/usg-secrets.json"
+kubectl create secret generic unifi-secrets --dry-run=client --namespace="home-automation" --from-file=unifi_ip=".secrets/unifi_ip" --from-file=unifi_port=".secrets/unifi_port" --from-file=unifi_username=".secrets/unifi_username" --from-file=unifi_password=".secrets/unifi_password" -o json >".secrets/unifi-secrets.json"
 kubeseal --namespace "home-automation" <".secrets/unifi-secrets.json" >"secrets/unifi-secrets.json"
 rm -rf .secrets/unifi_ip
 rm -rf .secrets/unifi_port
