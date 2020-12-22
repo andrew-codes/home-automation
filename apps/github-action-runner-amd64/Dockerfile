@@ -18,7 +18,7 @@ RUN sudo apt-get install -y \
   docker.io \
   apt-transport-https gnupg2 kubectl \
   lxc ca-certificates iptables \
-  software-properties-common ansible python2 python-pip \
+  software-properties-common ansible python3.8 python-pip python3-pip \
   etherwake
 RUN pip install "pywinrm>=0.3.0"
 RUN export KUBECONFIG=/home/runner/.kube/config
