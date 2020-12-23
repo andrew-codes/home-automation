@@ -137,6 +137,7 @@ spec:
     spec:
       imagePullSecrets:
         - name: regcred
+      dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: mongodb
           image: mongo:4.4.2-bionic
