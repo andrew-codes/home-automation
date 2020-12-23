@@ -4,10 +4,12 @@ export type DomainEntityDomain = "entity_domain"
 export type DomainHomeAssistantEntity = "home_assistant_entity"
 export type DomainArea = "area"
 export type DomainError = "error"
+export type DomainGame = "game"
 export type Domain =
   | DomainEntityDomain
   | DomainHomeAssistantEntity
   | DomainArea
+  | DomainGame
   | DomainError
 
 export type LightState = "on" | "off"
@@ -72,6 +74,25 @@ export interface Group
 export interface EntityDomain extends Base {}
 export interface Area extends Base {}
 export type HomeAssistantEntity = MediaPlayer | DeviceTracker | Group
+export type GameState =
+  | "Installed"
+  | "Not Installed"
+  | "Installing"
+  | "Uninstalling"
+  | "Launching"
+  | "Running"
+export interface GameEntity extends Base {
+  platformId: string
+  description: string | null
+  favorite: boolean
+  coverImage: string | null
+  gameImagePath: string | null
+  sourceId: string
+  state: GameState
+  playtime: number
+  releaseYear: number | null
+  hidden: boolean
+}
 
 export interface DomainQuery<TDomain extends Domain> {
   filters?: Array<Filter<TDomain>>
@@ -83,4 +104,5 @@ export type DomainResults = {
   entity_domain: EntityDomain
   home_assistant_entity: HomeAssistantEntity
   error: Error
+  game: GameEntity
 }

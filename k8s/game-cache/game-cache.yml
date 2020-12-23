@@ -102,12 +102,12 @@ spec:
             - name: REDIS_AOF_ENABLED
               value: "no"
             - name: ALLOW_EMPTY_PASSWORD
-              value: "no"
-            - name: REDIS_PASSWORD
-              valueFrom:
-                  secretKeyRef:
-                    name: redis-secrets
-                    key: password
+              value: "yes"
+            # - name: REDIS_PASSWORD
+            #   valueFrom:
+            #       secretKeyRef:
+            #         name: redis-secrets
+            #         key: password
 
 ---
 apiVersion: v1
@@ -116,12 +116,11 @@ metadata:
   name: redis
   namespace: home-automation
   labels:
-    app: home-automation
+    app.kubernetes.io/name: redis
 spec:
-  type: NodePort
   ports:
     - name: default-port
       port: 6379
       targetPort: default
   selector:
-    app: home-automation
+    app.kubernetes.io/name: redis

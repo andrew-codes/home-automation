@@ -4,6 +4,7 @@ import { makeSchema, nullabilityGuardPlugin } from "nexus"
 import * as area from "./home_assistant_area"
 import * as domain from "./home_assistant_domain"
 import * as entity from "./home_assistant_entity"
+import * as game from "./game"
 import * as mutations from "./mutations"
 import * as queries from "./queries"
 
@@ -29,6 +30,7 @@ const createTypes = flow([
   concat(area),
   concat(domain),
   concat(entity),
+  concat(game),
   concat(mutations),
   concat(queries),
 ])

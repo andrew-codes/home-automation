@@ -1,11 +1,12 @@
 import createDebug from "debug"
 import { AsyncClient } from "async-mqtt"
-import { IProvideData } from "./dataProvider/DataProvider"
-// import { createDataProvider as createAggregateDataProvider } from "./dataProvider/aggregateDataProvider"
-import { createDataProvider as createSwitchDataProvider } from "./dataProvider/switchDataProvider"
-import { createDataProvider as createHomeAssistantAPIEntityDataProvider } from "./dataProvider/homeAssistant/queryHomeAssistantEntities"
 import { createDataProvider as createAreaConfigDataProvider } from "./dataProvider/configData/queryArea"
 import { createDataProvider as createDomainConfigProvider } from "./dataProvider/configData/queryEntityDomain"
+import { createDataProvider as createHomeAssistantAPIEntityDataProvider } from "./dataProvider/homeAssistant/queryHomeAssistantEntities"
+import { createDataProvider as createGameDataProvider } from "./dataProvider/gameDataProvider"
+import { createDataProvider as createSwitchDataProvider } from "./dataProvider/switchDataProvider"
+
+import { IProvideData } from "./dataProvider/DataProvider"
 const debug = createDebug("@ha/graphql-api/dataContext")
 
 export interface DataContext extends IProvideData {
@@ -18,6 +19,7 @@ const createDataContext = (ha, mqtt: AsyncClient, unifi): DataContext => {
   const areaConfigProvider = createAreaConfigDataProvider()
   const haEntityAPIProvider = createHomeAssistantAPIEntityDataProvider()
   const domainConfigProvider = createDomainConfigProvider()
+  const gameProvider = createGameDataProvider()
 
   // For when there are multiple providers for a single domain
   // const domainProvider = createAggregateDataProvider([
@@ -28,6 +30,7 @@ const createDataContext = (ha, mqtt: AsyncClient, unifi): DataContext => {
     areaConfigProvider,
     haEntityAPIProvider,
     domainConfigProvider,
+    gameProvider,
   ])
 
   return {

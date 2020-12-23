@@ -2,6 +2,21 @@
 ### Do not make changes to this file directly
 
 
+type Game {
+  coverImage: String
+  description: String
+  favorite: Boolean
+  gameImagePath: String
+  hidden: Boolean
+  id: ID
+  name: String
+  platformId: String
+  playtime: Int
+  releaseYear: Int
+  sourceId: String
+  state: String
+}
+
 type HomeAssistantArea {
   entities: [HomeAssistantEntity]
   id: ID
@@ -56,4 +71,5 @@ type Query {
   area(ids: [String]): [HomeAssistantArea]
   domain(ids: [String]): [HomeAssistantDomain]
   entitiy(ids: [String]): [HomeAssistantEntity]
+  game(ids: [String]): [Game]
 }
