@@ -140,6 +140,9 @@ spec:
           ports:
             - name: default
               containerPort: 6379
+          securityContext:
+            runAsUser: 1001
+            fsGroup: 1001
           env:
             - name: REDIS_AOF_ENABLED
               value: "yes"
@@ -152,7 +155,7 @@ spec:
                     key: password
           volumeMounts:
             - name: redis-volume
-              mountPath: /bitnami/redis/data
+              mountPath: /bitnami/redis/data 
 
       volumes:
         - name: redis-volume
