@@ -134,15 +134,15 @@ spec:
     spec:
       imagePullSecrets:
         - name: regcred
+      securityContext:
+            runAsUser: 1001
+            fsGroup: 1001
       containers:
         - name: redis
           image: bitnami/redis:6.0.9-debian-10-r52
           ports:
             - name: default
               containerPort: 6379
-          securityContext:
-            runAsUser: 1001
-            fsGroup: 1001
           env:
             - name: REDIS_AOF_ENABLED
               value: "yes"
