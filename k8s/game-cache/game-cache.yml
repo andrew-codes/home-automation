@@ -142,7 +142,7 @@ spec:
               containerPort: 6379
           env:
             - name: REDIS_AOF_ENABLED
-              value: "no"
+              value: "yes"
             - name: ALLOW_EMPTY_PASSWORD
               value: "no"
             - name: REDIS_PASSWORD
