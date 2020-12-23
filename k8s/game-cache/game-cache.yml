@@ -24,6 +24,13 @@ spec:
           env:
             - name: DEBUG
               value: "@ha/game-cache-app/*"
+            - name: REDIS_HOST
+              value: redis
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secrets
+                  key: password
             - name: MQTT_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -75,3 +82,20 @@ spec:
                   secretKeyRef:
                     name: redis-secrets
                     key: password
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: home-automation
+  labels:
+    app: home-automation
+spec:
+  type: NodePort
+  ports:
+    - name: default-port
+      port: 6379
+      targetPort: default
+  selector:
+    app: home-automation
