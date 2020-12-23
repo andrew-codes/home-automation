@@ -37,8 +37,9 @@ const run = async () => {
         debug("set games")
         await client.connect()
         const db = await client.db("gameLibrary")
-        const games = db.collection("games")
-        games.insertMany(JSON.parse(message.toString()))
+        const playNiteGames = db.collection("playniteGames")
+        playNiteGames.insertMany(JSON.parse(message.toString()))
+
         await mqtt.publish("/playnite/game/list/updated", "")
         await fs.writeFile(
           path.join(__dirname, "games.json"),
