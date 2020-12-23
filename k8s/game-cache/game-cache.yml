@@ -56,12 +56,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: mongodb-secrets
-                  key: root_username
+                  key: root-username
             - name: MONGODB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: mongodb-secrets
-                  key: password
+                  key: root-password
             - name: MONGODB_HOST
               value: mongodb
             - name: MONGODB_PORT
