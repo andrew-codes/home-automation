@@ -50,12 +50,17 @@ spec:
           env:
             - name: DEBUG
               value: "@ha/game-cache-app/*"
-            - name: REDIS_HOST
-              value: redis
-            - name: REDIS_PASSWORD
+            - name: MONGODB_HOST
+              value: mongodb
+            - name: MONGODB_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: redis-secrets
+                  name: mongodb-secrets
+                  key: root_username
+            - name: MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secrets
                   key: password
             - name: MQTT_USERNAME
               valueFrom:
@@ -76,35 +81,29 @@ spec:
                 secretKeyRef:
                   name: gaming-pc-secrets
                   key: mac
-            - name: REDIS_PASSWORD
-              valueFrom:
-                  secretKeyRef:
-                    name: redis-secrets
-                    key: password
-
 
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: redis-pv-volume
+  name: mongodb-game-cache-pv
   namespace: home-automation
   labels:
     type: local
 spec:
   storageClassName: manual
   capacity:
-    storage: 5Gi
+    storage: 10Gi
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: "/mnt/data/redis"
+    path: "/mnt/data/mongodb-game-cache"
 
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: redis-pv-claim
+  name: mongodb-game-cache-pv-claim
   namespace: home-automation
 spec:
   storageClassName: manual
@@ -112,66 +111,66 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 5Gi
+      storage: 10Gi
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: redis
+  name: mongodb
   namespace: home-automation
   labels:
-    app.kubernetes.io/name: redis
+    app.kubernetes.io/name: mongodb
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: redis
+      app.kubernetes.io/name: mongodb
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: redis
+        app.kubernetes.io/name: mongodb
     spec:
       imagePullSecrets:
         - name: regcred
       securityContext:
             fsGroup: 1001
       containers:
-        - name: redis
-          image: bitnami/redis:6.0.9-debian-10-r52
+        - name: mongodb
+          image: mongo:4.4.2-bionic
           ports:
             - name: default
-              containerPort: 6379
+              containerPort: 27017
           env:
-            - name: REDIS_AOF_ENABLED
-              value: "yes"
-            - name: ALLOW_EMPTY_PASSWORD
-              value: "no"
-            - name: REDIS_PASSWORD
+            - name: MONGO_INITDB_ROOT_USERNAME
               valueFrom:
                   secretKeyRef:
-                    name: redis-secrets
-                    key: password
+                    name: mongodb-secrets
+                    key: root-usernmae
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                  secretKeyRef:
+                    name: mongodb-secrets
+                    key: root-password
           volumeMounts:
-            - name: redis-volume
-              mountPath: /bitnami/redis/data 
-
+            - name: mongodb-volume
+              mountPath: /data/db
       volumes:
-        - name: redis-volume
+        - name: mongodb-volume
           persistentVolumeClaim:
-              claimName: redis-pv-claim
+              claimName: mongodb-game-cache-pv-claim
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: redis
+  name: mongodb
   namespace: home-automation
   labels:
-    app.kubernetes.io/name: redis
+    app.kubernetes.io/name: mongodb
 spec:
   ports:
     - name: default-port
-      port: 6379
+      port: 27017
       targetPort: default
   selector:
-    app.kubernetes.io/name: redis
+    app.kubernetes.io/name: mongodb

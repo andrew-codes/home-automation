@@ -5,11 +5,13 @@ source ../../secrets.sh
 mkdir -p secrets
 mkdir -p .secrets
 
-# Redis
-echo -n "$REDIS_PASSWORD" >.secrets/redis-password
-kubectl create secret generic redis-secrets --dry-run=client --namespace="home-automation" --from-file=password=".secrets/redis-password" -o json >".secrets/redis-secrets.json"
-kubeseal --namespace "home-automation" <".secrets/redis-secrets.json" >"secrets/redis-secrets.json"
-rm -rf .secrets/redis-password
+# MongoDB
+echo -n "$MONGODB_ROOT_USERNAME" >.secrets/mongodb-root-username
+echo -n "$MONGODB_ROOT_PASSWORD" >.secrets/mongodb-root-password
+kubectl create secret generic mongodb-secrets --dry-run=client --namespace="home-automation" --from-file=root-username=".secrets/mongodb-root-username" --from-file=root-password=".secrets/mongodb-root-password" -o json >".secrets/mongodb-secrets.json"
+kubeseal --namespace "home-automation" <".secrets/mongodb-secrets.json" >"secrets/mongodb-secrets.json"
+rm -rf .secrets/mongodb-root-password
+rm -rf .secrets/mongodb-root-username
 rm -rf .secrets/redis-secrets.json
 
 # Gaming PC
