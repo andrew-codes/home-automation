@@ -76,6 +76,11 @@ spec:
                 secretKeyRef:
                   name: gaming-pc-secrets
                   key: mac
+            - name: REDIS_PASSWORD
+              valueFrom:
+                  secretKeyRef:
+                    name: redis-secrets
+                    key: password
 
 ---
 apiVersion: apps/v1
