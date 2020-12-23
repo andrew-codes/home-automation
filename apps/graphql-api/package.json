@@ -20,6 +20,7 @@
     "@nexus/schema": "^0.20.1",
     "altair-express-middleware": "^3.0.0",
     "async-mqtt": "^2.6.1",
+    "async-redis": "^1.1.7",
     "body-parser-graphql": "^1.1.0",
     "cors": "^2.8.5",
     "dataloader": "^2.0.0",
