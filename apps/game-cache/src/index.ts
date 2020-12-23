@@ -15,7 +15,7 @@ const {
 
 const redisClient = redis.createClient({
   host: REDIS_HOST,
-  // password: REDIS_PASSWORD,
+  password: REDIS_PASSWORD,
 })
 redisClient.on("error", function (err) {
   debug("redis error", err)

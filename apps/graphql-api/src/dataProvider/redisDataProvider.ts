@@ -7,8 +7,7 @@ import { IProvideData } from "./DataProvider"
 const debug = createDebug("@ha/graphql-api/dataProvider/redis")
 
 const createDataProvider = (options) => {
-  debug(options)
-  const redisClient = redis.createClient(6379, "redis")
+  const redisClient = redis.createClient(options)
   redisClient.on("error", function (err) {
     debug("redis error", err)
   })

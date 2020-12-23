@@ -102,12 +102,12 @@ spec:
             - name: REDIS_AOF_ENABLED
               value: "no"
             - name: ALLOW_EMPTY_PASSWORD
-              value: "yes"
-            # - name: REDIS_PASSWORD
-            #   valueFrom:
-            #       secretKeyRef:
-            #         name: redis-secrets
-            #         key: password
+              value: "no"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                  secretKeyRef:
+                    name: redis-secrets
+                    key: password
 
 ---
 apiVersion: v1
