@@ -1,10 +1,12 @@
 import createDebugger from "debug"
 import redis from "async-redis"
 import { connectAsync } from "async-mqtt"
+import wol from "wakeonlan"
 
 const debug = createDebugger("@ha/game-cache-app/index")
 
 const {
+  GAMING_ROOM_GAMING_PC_MAC,
   MQTT_HOST,
   MQTT_PASSWORD,
   MQTT_PORT,
@@ -33,10 +35,16 @@ const run = async () => {
 
   mqtt.on("message", async (topic, message) => {
     debug("topic", topic)
-    let payload = null
-    debug("payload", JSON.stringify(payload, null, 2))
-    await redisClient.set("games", message.toString())
-    await mqtt.publish("/playnite/game/list/updated", "")
+    if (topic === "/playnite/game/list") {
+      await redisClient.set("games", message.toString())
+      await mqtt.publish("/playnite/game/list/updated", "")
+      return
+    }
+
+    if (topic === "/playnite/game/update") {
+      await wol(GAMING_ROOM_GAMING_PC_MAC)
+      await mqtt.publish("/playnite/game/list/request", "")
+    }
   })
 }
 
