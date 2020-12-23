@@ -142,8 +142,7 @@ spec:
           image: mongo:4.4.2-bionic
           command:
             - "mongod"
-            - "--bind_ip"
-            - "0.0.0.0"
+            - "--bind_ip_all"
           ports:
             - name: default
               containerPort: 27017
