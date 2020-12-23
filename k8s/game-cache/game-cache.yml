@@ -135,7 +135,6 @@ spec:
       imagePullSecrets:
         - name: regcred
       securityContext:
-            runAsUser: 1001
             fsGroup: 1001
       containers:
         - name: redis
