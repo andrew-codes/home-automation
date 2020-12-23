@@ -18,6 +18,7 @@ const {
 } = process.env
 
 const dbUri = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_HOST}:${MONGODB_PORT}`
+debug(dbUri)
 const client = new MongoClient(dbUri)
 
 const run = async () => {
@@ -34,16 +35,18 @@ const run = async () => {
     debug("topic", topic)
     if (topic === "/playnite/game/list") {
       try {
-        debug("set games")
+        debug("Adding playnite games")
         await client.connect()
         const db = await client.db("gameLibrary")
         const playNiteGames = db.collection("playniteGames")
-        playNiteGames.insertMany(JSON.parse(message.toString()))
-
+        await playNiteGames.deleteMany({})
+        await playNiteGames.insertMany(JSON.parse(message.toString()))
         await mqtt.publish("/playnite/game/list/updated", "")
+
+        const games = playNiteGames.find({})
         await fs.writeFile(
           path.join(__dirname, "games.json"),
-          message.toString(),
+          JSON.stringify(games, null, 2),
           "utf8"
         )
       } finally {
