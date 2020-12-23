@@ -1,8 +1,6 @@
 import createDebugger from "debug"
 import { MongoClient } from "mongodb"
 import { connectAsync } from "async-mqtt"
-import fs from "fs/promises"
-import path from "path"
 
 const debug = createDebugger("@ha/game-cache-app/index")
 
@@ -17,7 +15,7 @@ const {
   MQTT_USERNAME,
 } = process.env
 
-const dbUri = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_HOST}:${MONGODB_PORT}`
+const dbUri = `mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_HOST}:${MONGODB_PORT}`
 debug(dbUri)
 const client = new MongoClient(dbUri)
 
@@ -35,26 +33,35 @@ const run = async () => {
     debug("topic", topic)
     if (topic === "/playnite/game/list") {
       try {
-        debug("Adding playnite games")
         await client.connect()
+        debug("Adding playnite games")
         const db = await client.db("gameLibrary")
-        const playNiteGames = db.collection("playniteGames")
-        await playNiteGames.deleteMany({})
-        await playNiteGames.insertMany(JSON.parse(message.toString()))
-        await mqtt.publish("/playnite/game/list/updated", "")
+        const gamesPayload = JSON.parse(message.toString())
+        debug("Number of games to import", gamesPayload.length)
 
-        const games = playNiteGames.find({})
-        await fs.writeFile(
-          path.join(__dirname, "games.json"),
-          JSON.stringify(games, null, 2),
-          "utf8"
-        )
-      } finally {
-        await client.close()
+        const gameUpdates = gamesPayload.map((game) => ({
+          updateOne: {
+            filter: {
+              id: game.Id,
+            },
+            update: { $set: game },
+            upsert: true,
+          },
+        }))
+        const playNiteGames = await db.collection("playniteGames")
+        await playNiteGames.bulkWrite(gameUpdates)
+
+        const count = await playNiteGames.count()
+        debug("Total games", count)
+        await mqtt.publish("/playnite/game/list/updated", "")
+      } catch (error) {
+        debug(error)
       }
-      return
     }
   })
 }
 
+process.on("exit", async () => {
+  await client.close()
+})
 run()
