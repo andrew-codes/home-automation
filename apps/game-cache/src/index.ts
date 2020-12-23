@@ -32,6 +32,7 @@ const run = async () => {
   })
 
   await mqtt.subscribe("/playnite/game/list")
+  await mqtt.subscribe("/playnite/game/update")
 
   mqtt.on("message", async (topic, message) => {
     debug("topic", topic)
