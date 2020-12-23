@@ -137,8 +137,6 @@ spec:
     spec:
       imagePullSecrets:
         - name: regcred
-      securityContext:
-            fsGroup: 1001
       containers:
         - name: mongodb
           image: mongo:4.4.2-bionic
