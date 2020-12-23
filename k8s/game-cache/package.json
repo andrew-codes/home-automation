@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "@ha/game-cache",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "deploy": "scripts/bin/deploy.sh",
+    "postdeploy": "kubectl rollout restart deployment game-cache --namespace home-automation",
+    "seal": "scripts/bin/seal.sh"
+  },
+  "dependencies": {
+    "@ha/game-cache-app": "^0.0.1",
+    "@ha/mqtt": "^0.0.1"
+  }
+}

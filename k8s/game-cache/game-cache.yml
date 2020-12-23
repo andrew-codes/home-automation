@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: game-cache
+  namespace: home-automation
+  labels:
+    app.kubernetes.io/name: game-cache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: game-cache
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: game-cache
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: game-cache
+          image: docker.smith-simms.family:5000/game-cache:latest
+          imagePullPolicy: Always
+          env:
+            - name: DEBUG
+              value: "@ha/game-cache-app/*"
+            - name: MQTT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-secrets
+                  key: mqtt-username
+            - name: MQTT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-secrets
+                  key: mqtt-password
+            - name: MQTT_HOST
+              value: mqtt
+            - name: MQTT_PORT
+              value: "1883"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: home-automation
+  labels:
+    app.kubernetes.io/name: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: redis
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: redis
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: redis
+          image: bitnami/redis:6.0.9-debian-10-r52
+          ports:
+            - name: default
+              containerPort: 6379
+          env:
+            - name: REDIS_AOF_ENABLED
+              value: "no"
+            - name: ALLOW_EMPTY_PASSWORD
+              value: "no"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                  secretKeyRef:
+                    name: redis-secrets
+                    key: password
