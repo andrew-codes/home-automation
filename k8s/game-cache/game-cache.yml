@@ -66,6 +66,27 @@ spec:
     spec:
       imagePullSecrets:
         - name: regcred
+      initContainers:
+        - name: game cache primer
+          image: docker.smith-simms.family:5000/game-cache-primer:latest
+          imagePullPolicy: Always
+          env:
+            - name: DEBUG
+              value: "@ha/game-cache-primer-app/*"
+            - name: MQTT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-secrets
+                  key: mqtt-username
+            - name: MQTT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-secrets
+                  key: mqtt-password
+            - name: MQTT_HOST
+              value: mqtt
+            - name: MQTT_PORT
+              value: "1883"
       containers:
         - name: redis
           image: bitnami/redis:6.0.9-debian-10-r52

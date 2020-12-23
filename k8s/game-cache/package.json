@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ha/game-cache-app": "^0.0.1",
+    "@ha/game-cache-primer-app": "^0.0.1",
     "@ha/mqtt": "^0.0.1"
   }
 }
