@@ -67,7 +67,7 @@ spec:
       imagePullSecrets:
         - name: regcred
       initContainers:
-        - name: game cache primer
+        - name: game-cache-primer
           image: docker.smith-simms.family:5000/game-cache-primer:latest
           imagePullPolicy: Always
           env:
