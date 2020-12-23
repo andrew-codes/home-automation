@@ -1,12 +1,14 @@
 jest.mock("../dataProvider/switchDataProvider")
 jest.mock("..//dataProvider/homeAssistant/queryHomeAssistantEntities")
 jest.mock("../dataProvider/configData/queryArea")
+jest.mock("../dataProvider/gameDataProvider")
 jest.mock("../dataProvider/configData/queryEntityDomain")
 import { createDataContext } from "../dataContext"
 import { createDataProvider as createSwitchDataProvider } from "../dataProvider/switchDataProvider"
 import { createDataProvider as createHomeAssistantAPIEntityDataProvider } from "../dataProvider/homeAssistant/queryHomeAssistantEntities"
 import { createDataProvider as createAreaConfigDataProvider } from "../dataProvider/configData/queryArea"
 import { createDataProvider as createDomainConfigProvider } from "../dataProvider/configData/queryEntityDomain"
+import { createDataProvider as createGameDataProvider } from "../dataProvider/gameDataProvider"
 
 let ha
 const switchProvider = {
@@ -25,6 +27,10 @@ const domainProvider = {
   canExecuteQuery: jest.fn(),
   query: jest.fn(),
 }
+const gameProvider = {
+  canExecuteQuery: jest.fn(),
+  query: jest.fn(),
+}
 beforeEach(() => {
   jest.resetAllMocks()
 
@@ -33,6 +39,7 @@ beforeEach(() => {
   createHomeAssistantAPIEntityDataProvider.mockReturnValue(haEntityProvider)
   createAreaConfigDataProvider.mockReturnValue(areaProvider)
   createDomainConfigProvider.mockReturnValue(domainProvider)
+  createGameDataProvider.mockReturnValue(gameProvider)
 })
 
 test("data context contains HA instance", () => {
@@ -46,6 +53,7 @@ test("combines domains in a switch provider", async () => {
     areaProvider,
     haEntityProvider,
     domainProvider,
+    gameProvider,
   ])
   switchProvider.query.mockResolvedValue({ id: "lights", name: "Lights" })
 
