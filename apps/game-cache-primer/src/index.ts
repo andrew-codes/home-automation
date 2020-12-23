@@ -24,4 +24,4 @@ const run = async () => {
   await mqtt.publish("/playnite/game/list/request", "")
 }
 
-run()
+run().then(() => debug("Exiting app."))
