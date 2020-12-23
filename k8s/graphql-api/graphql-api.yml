@@ -80,6 +80,13 @@ spec:
                 secretKeyRef:
                   name: unifi-secrets
                   key: unifi_password
+            - name: REDIS_HOST
+              value: redis
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secrets
+                  key: password
 
 ---
 apiVersion: v1
