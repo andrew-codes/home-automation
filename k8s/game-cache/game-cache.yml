@@ -150,7 +150,7 @@ spec:
               valueFrom:
                   secretKeyRef:
                     name: mongodb-secrets
-                    key: root-usernmae
+                    key: root-username
             - name: MONGO_INITDB_ROOT_PASSWORD
               valueFrom:
                   secretKeyRef:
