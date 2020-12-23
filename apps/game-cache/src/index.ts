@@ -1,27 +1,24 @@
 import createDebugger from "debug"
-import redis from "async-redis"
+import { MongoClient } from "mongodb"
 import { connectAsync } from "async-mqtt"
-import wol from "wakeonlan"
+import fs from "fs/promises"
+import path from "path"
 
 const debug = createDebugger("@ha/game-cache-app/index")
 
 const {
-  GAMING_ROOM_GAMING_PC_MAC,
+  MONGODB_HOST,
+  MONGODB_PORT,
+  MONGODB_PASSWORD,
+  MONGODB_USERNAME,
   MQTT_HOST,
   MQTT_PASSWORD,
   MQTT_PORT,
   MQTT_USERNAME,
-  REDIS_HOST,
-  REDIS_PASSWORD,
 } = process.env
 
-const redisClient = redis.createClient({
-  host: REDIS_HOST,
-  password: REDIS_PASSWORD,
-})
-redisClient.on("error", function (err) {
-  debug("redis error", err)
-})
+const dbUri = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_HOST}:${MONGODB_PORT}`
+const client = new MongoClient(dbUri)
 
 const run = async () => {
   debug("Starting app.")
@@ -32,19 +29,26 @@ const run = async () => {
   })
 
   await mqtt.subscribe("/playnite/game/list")
-  await mqtt.subscribe("/playnite/game/update")
 
   mqtt.on("message", async (topic, message) => {
     debug("topic", topic)
     if (topic === "/playnite/game/list") {
-      await redisClient.set("games", message.toString())
-      await mqtt.publish("/playnite/game/list/updated", "")
+      try {
+        debug("set games")
+        await client.connect()
+        const db = await client.db("gameLibrary")
+        const games = db.collection("games")
+        games.insertMany(JSON.parse(message.toString()))
+        await mqtt.publish("/playnite/game/list/updated", "")
+        await fs.writeFile(
+          path.join(__dirname, "games.json"),
+          message.toString(),
+          "utf8"
+        )
+      } finally {
+        await client.close()
+      }
       return
-    }
-
-    if (topic === "/playnite/game/update") {
-      await wol(GAMING_ROOM_GAMING_PC_MAC)
-      await mqtt.publish("/playnite/game/list/request", "")
     }
   })
 }

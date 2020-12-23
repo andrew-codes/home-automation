@@ -12,9 +12,8 @@
   },
   "dependencies": {
     "async-mqtt": "^2.6.1",
-    "async-redis": "^1.1.7",
     "debug": "^4.3.1",
-    "wakeonlan": "^0.1.0"
+    "mongodb": "^3.6.3"
   },
   "devDependencies": {
     "@zeit/ncc": "^0.22.3",

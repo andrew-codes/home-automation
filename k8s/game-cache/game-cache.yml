@@ -62,6 +62,10 @@ spec:
                 secretKeyRef:
                   name: mongodb-secrets
                   key: password
+            - name: MONGODB_HOST
+              value: mongodb
+            - name: MONGODB_PORT
+              value: "27017"
             - name: MQTT_USERNAME
               valueFrom:
                 secretKeyRef:
