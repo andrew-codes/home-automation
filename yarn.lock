@@ -9018,6 +9018,11 @@ w3c-xmlserializer@^2.0.0:
   dependencies:
     xml-name-validator "^3.0.0"
 
+wakeonlan@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/wakeonlan/-/wakeonlan-0.1.0.tgz#b79e73bba84d7d28d9a35795ef020b9eecc32a25"
+  integrity sha1-t55zu6hNfSjZo1eV7wILnuzDKiU=
+
 walker@^1.0.7, walker@~1.0.5:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/walker/-/walker-1.0.7.tgz#2f7f9b8fd10d677262b18a884e28d19618e028fb"
