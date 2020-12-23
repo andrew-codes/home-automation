@@ -147,6 +147,7 @@ spec:
           ports:
             - name: default
               containerPort: 27017
+              protocol: TCP
           env:
             - name: MONGO_INITDB_ROOT_USERNAME
               valueFrom:
@@ -178,5 +179,6 @@ spec:
     - name: default-port
       port: 27017
       targetPort: default
+      protocol: TCP
   selector:
     app.kubernetes.io/name: mongodb
