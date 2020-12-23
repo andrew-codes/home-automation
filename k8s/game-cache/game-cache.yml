@@ -88,9 +88,10 @@ spec:
             - name: MQTT_PORT
               value: "1883"
             - name: GAMING_ROOM_GAMING_PC_MAC
-              secretKeyRef:
-                name: gaming-pc-secrets
-                key: mac
+              valueFrom:
+                secretKeyRef:
+                  name: gaming-pc-secrets
+                  key: mac
       containers:
         - name: redis
           image: bitnami/redis:6.0.9-debian-10-r52
