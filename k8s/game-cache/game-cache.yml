@@ -89,12 +89,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: twitch-secrets
-                  key: mac
+                  key: client-id
             - name: TWITCH_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: twitch-secrets
-                  key: mac
+                  key: client-secret
 
 ---
 apiVersion: v1
