@@ -24,7 +24,7 @@ rm -rf .secrets/gaming-pc-secrets.json
 # Twitch
 echo -n "$TWITCH_CLIENT_ID" >.secrets/twitch-client-id
 echo -n "$TWITCH_CLIENT_SECRET" >.secrets/twitch-client-secret
-kubectl create secret generic twitch-secrets --dry-run=client --namespace="home-automation" --from-file=root-username=".secrets/twitch-client-id" --from-file=root-password=".secrets/twitch-client-secret" -o json >".secrets/twitch-secrets.json"
+kubectl create secret generic twitch-secrets --dry-run=client --namespace="home-automation" --from-file=client-id=".secrets/twitch-client-id" --from-file=client-secret=".secrets/twitch-client-secret" -o json >".secrets/twitch-secrets.json"
 kubeseal --namespace "home-automation" <".secrets/twitch-secrets.json" >"secrets/twitch-secrets.json"
 rm -rf .secrets/twitch-client-secret
 rm -rf .secrets/twitch-client-id

@@ -11,9 +11,13 @@
     "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"$DOCKER_REGISTRY_DOMAIN:5000/game-cache:latest\" --context dir:///workspace/ --insecure"
   },
   "dependencies": {
+    "@ha/string-utils": "^0.0.1",
     "async-mqtt": "^2.6.1",
     "debug": "^4.3.1",
-    "mongodb": "^3.6.3"
+    "igdb-api-node": "^5.0.0",
+    "lodash": "^4.17.20",
+    "mongodb": "^3.6.3",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "@zeit/ncc": "^0.22.3",

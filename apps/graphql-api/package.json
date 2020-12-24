@@ -17,6 +17,7 @@
     "graphql": "^15.1.0"
   },
   "dependencies": {
+    "@ha/string-utils": "^0.0.1",
     "@nexus/schema": "^0.20.1",
     "altair-express-middleware": "^3.0.0",
     "async-mqtt": "^2.6.1",

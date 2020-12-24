@@ -4,9 +4,9 @@ import HomeAssistant from "homeassistant"
 import { get } from "lodash/fp"
 import { isEmpty, lowerCase } from "lodash"
 import { keyBy, trim } from "lodash"
+import { formatKeys, nameFromId } from "@ha/string-utils"
 import { createFilterApplicator } from "../filterApplicators/valueFilterApplicators"
 import { IProvideData } from "../DataProvider"
-import { nameFromId, toCamelCaseProperties } from "./stringManipulations"
 import { UnsupportedDomainError } from "../Errors"
 import { countApiCall } from "../dataSourceBatchPerformance"
 import { cache } from "../../cache"
@@ -50,7 +50,7 @@ const getAll = async (): Promise<object> => {
           ""
         ) || nameFromId(haEntity.entity_id.split(".")[1]),
       domainId: haEntity.entity_id.split(".")[0],
-      attributes: toCamelCaseProperties(haEntity.attributes),
+      attributes: formatKeys(haEntity.attributes),
     }
     return outResult
   })

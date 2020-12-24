@@ -1,6 +1,13 @@
 import createDebugger from "debug"
-import { MongoClient } from "mongodb"
+import fetch from "node-fetch"
+import igdb from "igdb-api-node"
 import { connectAsync } from "async-mqtt"
+import { first, flatten } from "lodash"
+import { get } from "lodash/fp"
+import { MongoClient } from "mongodb"
+import { formatKeys } from "@ha/string-utils"
+import path from "path"
+import fs from "fs/promises"
 
 const debug = createDebugger("@ha/game-cache-app/index")
 
@@ -13,14 +20,21 @@ const {
   MQTT_PASSWORD,
   MQTT_PORT,
   MQTT_USERNAME,
+  TWITCH_CLIENT_ID,
+  TWITCH_CLIENT_SECRET,
 } = process.env
 
 const dbUri = `mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_HOST}:${MONGODB_PORT}`
-debug(dbUri)
-const client = new MongoClient(dbUri)
+const mongo = new MongoClient(dbUri)
 
 const run = async () => {
   debug("Starting app.")
+  const twitchAuthRequest = await fetch(
+    `https://id.twitch.tv/oauth2/token?client_id=${TWITCH_CLIENT_ID}&client_secret=${TWITCH_CLIENT_SECRET}&grant_type=client_credentials`,
+    { method: "POST" }
+  )
+  const twitchAuth = await twitchAuthRequest.json()
+  const igdbClient = igdb(TWITCH_CLIENT_ID, twitchAuth.access_token)
   const mqtt = await connectAsync(`tcp://${MQTT_HOST}`, {
     password: MQTT_PASSWORD,
     port: parseInt(MQTT_PORT || "1883", 10),
@@ -33,26 +47,74 @@ const run = async () => {
     debug("topic", topic)
     if (topic === "/playnite/game/list") {
       try {
-        await client.connect()
+        await mongo.connect()
         debug("Adding playnite games")
-        const db = await client.db("gameLibrary")
-        const gamesPayload = JSON.parse(message.toString())
+        const db = await mongo.db("gameLibrary")
+        const updateFromIgdb = createUpdater(db, igdbClient)
+        const gamesPayload = JSON.parse(message.toString()).map(formatKeys)
         debug("Number of games to import", gamesPayload.length)
-
-        const gameUpdates = gamesPayload.map((game) => ({
+        const playNiteGameUpdates = gamesPayload.map((game) => ({
           updateOne: {
             filter: {
-              id: game.Id,
+              id: game.id,
             },
             update: { $set: game },
             upsert: true,
           },
         }))
-        const playNiteGames = await db.collection("playniteGames")
-        await playNiteGames.bulkWrite(gameUpdates)
+        const playNiteGamesCollection = await db.collection("playniteGames")
+        await playNiteGamesCollection.bulkWrite(playNiteGameUpdates)
+        const playniteGameCount = await playNiteGamesCollection.count()
+        debug("Total number of Playnite games", playniteGameCount)
 
-        const count = await playNiteGames.count()
-        debug("Total games", count)
+        const fetchedGames: any[] = []
+        for (let gameIndex = 0; gameIndex < gamesPayload.length; gameIndex++) {
+          const game = gamesPayload[gameIndex]
+          debug(game.name)
+          const { data: gameResults } = await igdbClient
+            .fields("*")
+            .limit(1)
+            .search(game.name.replace(/"/g, '\\"'))
+            .request("/games")
+          await sleepRateLimit()
+          let fetchedGame = first(gameResults)
+          if (!fetchedGame) {
+            fetchedGame = {
+              fetchError: "Not Found",
+            }
+          }
+          fetchedGame.playNightId = game.id
+          fetchedGames.push(fetchedGame)
+        }
+        debug("Total number of fetched IGDB games", fetchedGames.length)
+        await fs.writeFile(
+          path.join(__dirname, "fetched.games.json"),
+          JSON.stringify(fetchedGames, null, 2),
+          "utf8"
+        )
+        const igdbGamesCollection = await db.collection("igdmGames")
+        const igdbGamesUpdate = fetchedGames.map((game) => ({
+          updateOne: {
+            filter: {
+              id: game.id,
+            },
+            update: { $set: formatKeys(game) },
+            upsert: true,
+          },
+        }))
+        await igdbGamesCollection.bulkWrite(igdbGamesUpdate)
+        await updateFromIgdb("cover", "covers", fetchedGames)
+        await updateFromIgdb("collection", "collections", fetchedGames)
+        await updateFromIgdb("franchise", "franchises", fetchedGames)
+        await updateFromIgdb("genres", "genres", fetchedGames)
+        await updateFromIgdb("tags", "tags", fetchedGames)
+        await updateFromIgdb("game_modes", "game_modes", fetchedGames)
+        await updateFromIgdb(
+          "multiplayer_modes",
+          "multiplayer_modes",
+          fetchedGames
+        )
+
         await mqtt.publish("/playnite/game/list/updated", "")
       } catch (error) {
         debug(error)
@@ -62,6 +124,38 @@ const run = async () => {
 }
 
 process.on("exit", async () => {
-  await client.close()
+  await mongo.close()
 })
 run()
+
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(true), ms)
+  })
+}
+
+async function sleepRateLimit() {
+  await sleep(350)
+}
+
+function createUpdater(db, igdbClient) {
+  return async (field, typeName, games) => {
+    const ids = flatten(games.map(get(field)))
+    const { data: items } = await igdbClient
+      .fields("*")
+      .where(`id = (${ids.join(",")})`)
+      .request(`/${typeName}`)
+    await sleepRateLimit()
+    const collection = await db.collection(`${typeName}`)
+    const itemsUpdate = items.map((item) => ({
+      updateOne: {
+        filter: {
+          id: item.id,
+        },
+        update: { $set: formatKeys(item) },
+        upsert: true,
+      },
+    }))
+    await collection.bulkWrite(itemsUpdate)
+  }
+}
