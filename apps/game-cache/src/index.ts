@@ -89,7 +89,7 @@ const run = async () => {
         debug("Total number of fetched IGDB games", fetchedGames.length)
         debug("Total games not found in IGDB", gamesWithoutResults.length)
         const notFoundGamesCollection = await db.collection("notFoundGames")
-        const notFoundGamesUpdates = notFoundGamesCollection.map((game) => ({
+        const notFoundGamesUpdates = gamesWithoutResults.map((game) => ({
           updateOne: {
             filter: {
               id: game.id,
