@@ -2,12 +2,10 @@ import createDebugger from "debug"
 import fetch from "node-fetch"
 import igdb from "igdb-api-node"
 import { connectAsync } from "async-mqtt"
-import { first, flatten } from "lodash"
+import { first, flatten, isEmpty } from "lodash"
 import { get } from "lodash/fp"
 import { MongoClient } from "mongodb"
 import { formatKeys } from "@ha/string-utils"
-import path from "path"
-import fs from "fs/promises"
 
 const debug = createDebugger("@ha/game-cache-app/index")
 
@@ -94,10 +92,13 @@ const run = async () => {
             id: { $in: fetchedGames.map(get("id")) },
           })
           .toArray()
-        const newGames = fetchedGames.filter((game) =>
-          existingGames.map(get("id")).includes(game.id)
+        const newGames = fetchedGames.filter(
+          (game) => !existingGames.map(get("id")).includes(game.id)
         )
         debug("New game count", newGames.length)
+        if (isEmpty(newGames)) {
+          return
+        }
 
         const igdbGamesUpdate = newGames.map((game) => ({
           updateOne: {
