@@ -85,6 +85,16 @@ spec:
                 secretKeyRef:
                   name: gaming-pc-secrets
                   key: mac
+            - name: TWITCH_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: twitch-secrets
+                  key: mac
+            - name: TWITCH_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: twitch-secrets
+                  key: mac
 
 ---
 apiVersion: v1

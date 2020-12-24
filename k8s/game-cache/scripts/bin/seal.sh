@@ -12,7 +12,7 @@ kubectl create secret generic mongodb-secrets --dry-run=client --namespace="home
 kubeseal --namespace "home-automation" <".secrets/mongodb-secrets.json" >"secrets/mongodb-secrets.json"
 rm -rf .secrets/mongodb-root-password
 rm -rf .secrets/mongodb-root-username
-rm -rf .secrets/redis-secrets.json
+rm -rf .secrets/mongodb-secrets.json
 
 # Gaming PC
 echo -n "$GAMING_ROOM_GAMING_PC_MAC" >.secrets/gaming-pc-mac
@@ -20,3 +20,12 @@ kubectl create secret generic gaming-pc-secrets --dry-run=client --namespace="ho
 kubeseal --namespace "home-automation" <".secrets/gaming-pc-secrets.json" >"secrets/gaming-pc-secrets.json"
 rm -rf .secrets/gaming-pc-mac
 rm -rf .secrets/gaming-pc-secrets.json
+
+# Twitch
+echo -n "$TWITCH_CLIENT_ID" >.secrets/twitch-client-id
+echo -n "$TWITCH_CLIENT_SECRET" >.secrets/twitch-client-secret
+kubectl create secret generic twitch-secrets --dry-run=client --namespace="home-automation" --from-file=root-username=".secrets/twitch-client-id" --from-file=root-password=".secrets/twitch-client-secret" -o json >".secrets/twitch-secrets.json"
+kubeseal --namespace "home-automation" <".secrets/twitch-secrets.json" >"secrets/twitch-secrets.json"
+rm -rf .secrets/twitch-client-secret
+rm -rf .secrets/twitch-client-id
+rm -rf .secrets/twitch-secrets.json
