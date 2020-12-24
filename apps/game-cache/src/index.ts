@@ -89,7 +89,7 @@ const run = async () => {
         }
         debug("Total number of fetched IGDB games", fetchedGames.length)
         const igdbGamesCollection = await db.collection("igdmGames")
-        const existingGames = igdbGamesCollection
+        const existingGames = await igdbGamesCollection
           .find({
             id: { $in: fetchedGames.map(get("id")) },
           })
