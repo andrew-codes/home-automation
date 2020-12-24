@@ -64,6 +64,7 @@ const run = async () => {
         }))
         const playNiteGamesCollection = await db.collection("playniteGames")
         await playNiteGamesCollection.bulkWrite(playNiteGameUpdates)
+        await playNiteGamesCollection.createIndex("id")
         const playniteGameCount = await playNiteGamesCollection.count()
         debug("Total number of Playnite games", playniteGameCount)
 
@@ -87,13 +88,18 @@ const run = async () => {
           fetchedGames.push(fetchedGame)
         }
         debug("Total number of fetched IGDB games", fetchedGames.length)
-        await fs.writeFile(
-          path.join(__dirname, "fetched.games.json"),
-          JSON.stringify(fetchedGames, null, 2),
-          "utf8"
-        )
         const igdbGamesCollection = await db.collection("igdmGames")
-        const igdbGamesUpdate = fetchedGames.map((game) => ({
+        const existingGames = igdbGamesCollection
+          .find({
+            id: { $in: fetchedGames.map(get("id")) },
+          })
+          .toArray()
+        const newGames = fetchedGames.filter((game) =>
+          existingGames.map(get("id")).includes(game.id)
+        )
+        debug("New game count", newGames.length)
+
+        const igdbGamesUpdate = newGames.map((game) => ({
           updateOne: {
             filter: {
               id: game.id,
@@ -103,17 +109,16 @@ const run = async () => {
           },
         }))
         await igdbGamesCollection.bulkWrite(igdbGamesUpdate)
-        await updateFromIgdb("cover", "covers", fetchedGames)
-        await updateFromIgdb("collection", "collections", fetchedGames)
-        await updateFromIgdb("franchise", "franchises", fetchedGames)
-        await updateFromIgdb("genres", "genres", fetchedGames)
-        await updateFromIgdb("tags", "tags", fetchedGames)
-        await updateFromIgdb("game_modes", "game_modes", fetchedGames)
-        await updateFromIgdb(
-          "multiplayer_modes",
-          "multiplayer_modes",
-          fetchedGames
-        )
+        await igdbGamesCollection.createIndex("id")
+        await igdbGamesCollection.createIndex("playNightId")
+        await updateFromIgdb("cover", "covers", newGames)
+        await updateFromIgdb("collection", "collections", newGames)
+        await updateFromIgdb("franchise", "franchises", newGames)
+        await updateFromIgdb("genres", "genres", newGames)
+        await updateFromIgdb("tags", "tags", newGames)
+        await updateFromIgdb("game_modes", "game_modes", newGames)
+        await updateFromIgdb("multiplayer_modes", "multiplayer_modes", newGames)
+        await updateFromIgdb("keywords", "keywords", newGames)
 
         await mqtt.publish("/playnite/game/list/updated", "")
       } catch (error) {
@@ -156,6 +161,7 @@ function createUpdater(db, igdbClient) {
         upsert: true,
       },
     }))
+    await collection.createIndex("id")
     await collection.bulkWrite(itemsUpdate)
   }
 }
