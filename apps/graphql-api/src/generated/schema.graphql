@@ -3,18 +3,21 @@
 
 
 type Game {
-  coverImage: String
-  description: String
-  favorite: Boolean
-  gameImagePath: String
-  hidden: Boolean
+  artworks: [GameImage]
+  cover: GameImage
   id: ID
   name: String
   platformId: String
+  playniteId: String
   playtime: Int
   releaseYear: Int
-  sourceId: String
-  state: String
+  summary: String
+}
+
+type GameImage {
+  height: Int
+  id: ID
+  imageId: String
 }
 
 type HomeAssistantArea {

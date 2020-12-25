@@ -5,12 +5,16 @@ export type DomainHomeAssistantEntity = "home_assistant_entity"
 export type DomainArea = "area"
 export type DomainError = "error"
 export type DomainGame = "game"
+export type DomainGameCover = "game_cover"
+export type DomainGameArtwork = "game_artwork"
 export type Domain =
   | DomainEntityDomain
   | DomainHomeAssistantEntity
   | DomainArea
   | DomainGame
   | DomainError
+  | DomainGameCover
+  | DomainGameArtwork
 
 export type LightState = "on" | "off"
 export type MediaPlayerState = "on" | "off" | "standby" | "idle" | "playing"
@@ -83,15 +87,23 @@ export type GameState =
   | "Running"
 export interface GameEntity extends Base {
   platformId: string
-  description: string | null
+  artworks?: number[]
+  playniteId: string
+  category: number
+  summary?: string
   favorite: boolean
-  coverImage: string | null
-  gameImagePath: string | null
+  cover: number
   sourceId: string
   state: GameState
   playtime: number
-  releaseYear: number | null
+  firstReleaseDate: number
+  releaseDates: number[]
   hidden: boolean
+  url: string
+}
+export interface GameImage extends Base {
+  imageId: string
+  height: number
 }
 
 export interface DomainQuery<TDomain extends Domain> {
@@ -105,4 +117,6 @@ export type DomainResults = {
   home_assistant_entity: HomeAssistantEntity
   error: Error
   game: GameEntity
+  game_cover: GameImage
+  game_artwork: GameImage
 }

@@ -5,7 +5,7 @@
 
 
 import { DataContext as ctx } from "./../dataContext"
-import { HomeAssistantEntity, EntityDomain } from "./../Domain"
+import { GameImage, GameEntity, HomeAssistantEntity, EntityDomain } from "./../Domain"
 
 
 
@@ -47,20 +47,8 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
-  Game: { // root type
-    coverImage?: string | null; // String
-    description?: string | null; // String
-    favorite?: boolean | null; // Boolean
-    gameImagePath?: string | null; // String
-    hidden?: boolean | null; // Boolean
-    id?: string | null; // ID
-    name?: string | null; // String
-    platformId?: string | null; // String
-    playtime?: number | null; // Int
-    releaseYear?: number | null; // Int
-    sourceId?: string | null; // String
-    state?: string | null; // String
-  }
+  Game: GameEntity;
+  GameImage: GameImage;
   HomeAssistantArea: { // root type
     id?: string | null; // ID
     name?: string | null; // String
@@ -84,18 +72,20 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
   Game: { // field return type
-    coverImage: string | null; // String
-    description: string | null; // String
-    favorite: boolean | null; // Boolean
-    gameImagePath: string | null; // String
-    hidden: boolean | null; // Boolean
+    artworks: Array<NexusGenRootTypes['GameImage'] | null> | null; // [GameImage]
+    cover: NexusGenRootTypes['GameImage'] | null; // GameImage
     id: string | null; // ID
     name: string | null; // String
     platformId: string | null; // String
+    playniteId: string | null; // String
     playtime: number | null; // Int
     releaseYear: number | null; // Int
-    sourceId: string | null; // String
-    state: string | null; // String
+    summary: string | null; // String
+  }
+  GameImage: { // field return type
+    height: number | null; // Int
+    id: string | null; // ID
+    imageId: string | null; // String
   }
   HomeAssistantArea: { // field return type
     entities: Array<NexusGenRootTypes['HomeAssistantEntity'] | null> | null; // [HomeAssistantEntity]
@@ -130,18 +120,20 @@ export interface NexusGenFieldTypes {
 
 export interface NexusGenFieldTypeNames {
   Game: { // field return type name
-    coverImage: 'String'
-    description: 'String'
-    favorite: 'Boolean'
-    gameImagePath: 'String'
-    hidden: 'Boolean'
+    artworks: 'GameImage'
+    cover: 'GameImage'
     id: 'ID'
     name: 'String'
     platformId: 'String'
+    playniteId: 'String'
     playtime: 'Int'
     releaseYear: 'Int'
-    sourceId: 'String'
-    state: 'String'
+    summary: 'String'
+  }
+  GameImage: { // field return type name
+    height: 'Int'
+    id: 'ID'
+    imageId: 'String'
   }
   HomeAssistantArea: { // field return type name
     entities: 'HomeAssistantEntity'
