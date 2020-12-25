@@ -7,7 +7,8 @@
   "scripts": {
     "clean": "rm -rf dist",
     "compile": "ncc build src/index.ts -o dist -m",
-    "start": "nodemon src/index.ts --inspect=0.0.0.0:9229",
+    "start": "scripts/bin/start.sh",
+    "start/dev": "nodemon src/index.ts --inspect=0.0.0.0:9229",
     "postcompile": "cp -r src/static dist/static",
     "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"$DOCKER_REGISTRY_DOMAIN:5000/captive-portal:latest\" --context dir:///workspace/ --insecure"
   },

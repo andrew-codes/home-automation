@@ -10,5 +10,5 @@ function start-locally() {
         yarn image/local
     fi
 
-    telepresence --namespace "$1" --swap-deployment "$2" --docker-run --rm -it -v "$PWD:/app" -p "$4:80" "$3" yarn lerna run start --scope "@ha/$2-app" --stream
+    telepresence --namespace "$1" --swap-deployment "$2" --docker-run --rm -it -v "$PWD:/app" -p "$4:80" "$3" yarn lerna run start/dev --scope "@ha/$2-app" --stream
 }
