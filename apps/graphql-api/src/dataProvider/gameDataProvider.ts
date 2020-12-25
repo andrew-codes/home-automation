@@ -1,11 +1,11 @@
 import createDebug from "debug"
+import { client } from "../mongo"
 import { DomainGame, GameState } from "../Domain"
 import { IProvideData } from "./DataProvider"
-import { createDataProvider as createRedisDataProvider } from "./redisDataProvider"
+import { createMongoCollectionQuery } from "./mongodb/queryMongoCollection"
+import { UnsupportedDomainError } from "./Errors"
 
 const debug = createDebug("@ha/graphql-api/dataProvider/game")
-
-const { REDIS_HOST, REDIS_PASSWORD } = process.env
 
 const getGameState = (gameItem): GameState => {
   if (gameItem.IsInstalled) {
@@ -31,28 +31,27 @@ const transformGame = (gameItem, index, list) => {
   }
 
   return {
-    coverImage: gameItem.CoverImage as string,
-    description: gameItem.Description as string,
-    favorite: !!gameItem.Favorite,
-    gameImagePath: gameItem.GameImagePath as string,
-    hidden: !!gameItem.Hidden,
-    id: gameItem.GameId as string,
-    name: gameItem.Name as string,
-    platformId: gameItem.Platform.Id as string,
-    playtime: gameItem.Playtime as number,
-    releaseYear: gameItem.ReleaseYear as number | null,
-    sourceId: gameItem.Source.Id as string,
+    ...gameItem,
     state: getGameState(gameItem),
   }
 }
 const canExecuteQuery = (query) => query.from === "game"
-const redisDataProvider = createRedisDataProvider({
-  host: REDIS_HOST,
-  password: REDIS_PASSWORD,
-})<DomainGame>("games", transformGame, canExecuteQuery)
+const mongoDbDataProvider = createMongoCollectionQuery<DomainGame>(
+  client,
+  "gameDetails"
+)
 
 const createDataProvider = (): IProvideData => {
-  return redisDataProvider
+  return {
+    canExecuteQuery,
+    query: async (q) => {
+      if (!canExecuteQuery(q)) {
+        throw new UnsupportedDomainError(q)
+      }
+      const results = await mongoDbDataProvider.query(q)
+      return results.map(transformGame)
+    },
+  }
 }
 
 export { createDataProvider }

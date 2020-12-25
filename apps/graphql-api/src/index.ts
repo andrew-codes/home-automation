@@ -9,6 +9,8 @@ import { graphqlHTTP } from "express-graphql"
 import * as bodyParser from "body-parser-graphql"
 import { authorize } from "./middleware/authorize"
 import { cache } from "./cache"
+import { client } from "./mongo"
+import { closeMongo } from "./middleware/closeMongo"
 import { createDataContext } from "./dataContext"
 import { resetCounts } from "./dataProvider/dataSourceBatchPerformance"
 import { schema } from "./schema/index"
@@ -87,5 +89,6 @@ app.listen(PORT, () => {
 })
 
 process.on("SIGINT", () => {
+  client.close()
   process.exit(0)
 })

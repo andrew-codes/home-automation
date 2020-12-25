@@ -12,7 +12,7 @@ function start-locally() {
         yarn image/local
     fi
 
-    echo $DEV_MACHINE_PASSWORD | {
+    echo "$DEV_MACHINE_PASSWORD" | {
         read
         telepresence --namespace "$1" --swap-deployment "$2" --docker-run --rm -t -v "$PWD/../../:/app" -p "$4:80" "$3" yarn lerna run start/dev --scope "@ha/$2-app" --stream
     }
