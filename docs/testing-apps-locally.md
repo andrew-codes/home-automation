@@ -14,7 +14,7 @@ Instead, we can run an application locally and have it think it is running in th
 > This assumes, and **only works**, with a working **deployed cluster**. Be sure to follow the [installation guide](./installation-guide.md) first.
 
 1. To run an app locally, first you must build the application development images. You can do this via `yarn image/local`.
-1. Each app has a dedicated start shell script in the root. For example, to run the GraphQL API locally, you can run `./start-graphql-api-locally.sh`
+1. Run the start of the respective **app package**; `yarn start --scope @ha/graphql-api-app`
 1. See the console output for connecting to the service locally. In this example; http://localhost:8080/altair` to see the GraphQL client
 1. Editing an app's code will auto-restart the application
 

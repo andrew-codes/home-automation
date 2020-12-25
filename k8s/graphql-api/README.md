@@ -7,7 +7,7 @@ This app provides a single interface to interact with the home automation system
 > See the [testing applications locally guide](../../docs/testing-apps-locally.md) for more details.
 
 1. Ensure you have a working cluster running (follow the [brand new installation guide](../../README.md))
-1. `./start-graphql-api-locally.sh`
+1. `yarn start --scope @ha/graphql-api-app`
 1. Visit `http://localhost:8080/altair` for an interactive GraphQL client
    - Ensure you set the Authorization header in the client with your `$GRAPHQL_API_TOKEN`; e.g. `Authorization: Bearer $GRAPHQL_API_TOKEN`
 

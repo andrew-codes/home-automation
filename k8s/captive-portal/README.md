@@ -33,5 +33,5 @@ This application is a node express app that serves a registration page to guests
 > See the [testing applications locally guide](../../docs/testing-apps-locally.md) for more details.
 
 1. Ensure you have a working cluster running (follow the [brand new installation guide](../../README.md))
-1. `./start-captive-portal-locally.sh`
+1. `yarn start --scope @ha/captive-portal-app`
 1. Visit `http://localhost:8081?mac=123` to view the site.
