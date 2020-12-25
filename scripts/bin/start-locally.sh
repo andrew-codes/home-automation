@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source ../../secrets.sh
+
 function start-locally() {
     : ${1?"Usage: $0; first argument must the k8s namespace"} ${2?"Usage: $0; second argument is the deployment name"} ${3?"Usage: $0; third argument is dev docker image"}
 
@@ -10,5 +12,8 @@ function start-locally() {
         yarn image/local
     fi
 
-    telepresence --namespace "$1" --swap-deployment "$2" --docker-run --rm -it -v "$PWD:/app" -p "$4:80" "$3" yarn lerna run start/dev --scope "@ha/$2-app" --stream
+    echo $DEV_MACHINE_PASSWORD | {
+        read
+        telepresence --namespace "$1" --swap-deployment "$2" --docker-run --rm -t -v "$PWD/../../:/app" -p "$4:80" "$3" yarn lerna run start/dev --scope "@ha/$2-app" --stream
+    }
 }
