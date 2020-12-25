@@ -101,7 +101,7 @@ const run = async () => {
                 {
                   id: playniteGame.id,
                 },
-                playniteGame,
+                { $set: playniteGame },
                 {
                   upsert: true,
                 }
@@ -184,7 +184,7 @@ const run = async () => {
               {
                 id: game.id,
               },
-              game,
+              { $set: game },
               {
                 upsert: true,
               }
@@ -195,7 +195,7 @@ const run = async () => {
               {
                 id: playniteGame.id,
               },
-              { playniteGame, game },
+              { $set: { playniteGame, game } },
               {
                 upsert: true,
               }
