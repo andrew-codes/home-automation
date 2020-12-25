@@ -84,6 +84,16 @@ spec:
               value: mongodb
             - name: MONGODB_PORT
               value: "27017"
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                  secretKeyRef:
+                    name: mongodb-secrets
+                    key: root-username
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                  secretKeyRef:
+                    name: mongodb-secrets
+                    key: root-password
 
 ---
 apiVersion: v1
