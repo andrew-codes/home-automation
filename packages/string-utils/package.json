@@ -2,9 +2,11 @@
   "private": true,
   "name": "@ha/string-utils",
   "version": "0.0.1",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
+    "clean": "rm -rf dist",
+    "compile": "tsc",
     "test": "jest"
   },
   "dependencies": {
