@@ -24,7 +24,7 @@ jobs:
       - name: Patch packages
         run: yarn patch-package
       - name: Compile changed apps
-        run: yarn lerna run compile --stream --since HEAD~
+        run: yarn lerna run compile --stream
         env:
           MQTT_CONNECTION: ${{ secrets.MQTT_CONNECTION }}
       - name: Run tests
