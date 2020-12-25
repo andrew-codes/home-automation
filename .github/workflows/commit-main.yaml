@@ -23,7 +23,7 @@ jobs:
         run: yarn
       - name: Patch packages
         run: yarn patch-package
-      - name: Compile changed apps
+      - name: Compile apps
         run: yarn lerna run compile --stream
         env:
           MQTT_CONNECTION: ${{ secrets.MQTT_CONNECTION }}

@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "name": "@ha/ts-config",
+  "version": "0.0.1",
+  "main": "src/index.json",
+  "license": "MIT"
+}
