@@ -22,5 +22,9 @@ jobs:
           node-version: "${{ steps.nvm.outputs.NVMRC }}"
       - name: Install deps
         run: yarn
+      - name: Patch packages
+        run: run yarn patch-package
+      - name: Compile
+        run: yarn compile
       - name: Run unit tests
         run: yarn test
