@@ -247,9 +247,6 @@ function createAncillaryUpdater(db, callApi) {
     if (isEmpty(ids)) {
       return
     }
-    if (field === "franchises") {
-      debug(field, urlSuffix, ids)
-    }
     const { data: items } = await callApi((client) =>
       client
         .fields("*")
