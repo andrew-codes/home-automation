@@ -2,7 +2,7 @@ import createDebugger from "debug"
 import fetch from "node-fetch"
 import igdb from "igdb-api-node"
 import { connectAsync } from "async-mqtt"
-import { get } from "lodash/fp"
+import { first, isEmpty } from "lodash"
 import { MongoClient, GridFSBucket } from "mongodb"
 import { formatKeys } from "@ha/string-utils"
 
@@ -75,7 +75,7 @@ const run = async () => {
         )
         gamesWithErrorsCollection.createIndex("id")
         const updateAncillaryDetails = createAncillaryUpdater(db, callApi)
-
+        let game
         for (let gameIndex = 0; gameIndex < gamesPayload.length; gameIndex++) {
           const playniteGame = gamesPayload[gameIndex]
           try {
@@ -88,33 +88,38 @@ const run = async () => {
             if (gameExists) {
               continue
             }
-            const { data: gameResult } = await callApi((client) =>
+            const { data: gameResults } = await callApi((client) =>
               client
                 .fields("*")
                 .limit(1)
                 .search(playniteGame.name.replace(/"/g, '\\"'))
                 .request("/games")
             )
+            const gameResult = first(gameResults)
             if (!gameResult) {
-              await notFoundGamesCollection.updateOne({
-                filter: {
+              await notFoundGamesCollection.updateOne(
+                {
                   id: playniteGame.id,
                 },
-                update: { $set: playniteGame },
-                upsert: true,
-              })
+                playniteGame,
+                {
+                  upsert: true,
+                }
+              )
               continue
             }
             gameResult.playniteId = playniteGame.id
-            const game = formatKeys(gameResult)
+            game = formatKeys(gameResult)
 
-            debug("Saving ancillary data")
+            debug("Saving artworks")
             await updateAncillaryDetails(
               "artworks",
               "artworks",
               "artworks",
               game
             )
+
+            debug("Saving covers")
             await updateAncillaryDetails("cover", "covers", "covers", game)
             await updateAncillaryDetails(
               "collection",
@@ -122,31 +127,43 @@ const run = async () => {
               "collections",
               game
             )
+            debug("Saving franchises")
             await updateAncillaryDetails(
               "franchise",
               "franchises",
               "franchises",
               game
             )
+            await updateAncillaryDetails(
+              "franchises",
+              "franchises",
+              "franchises",
+              game
+            )
+            debug("Saving genres")
             await updateAncillaryDetails("genres", "genres", "genres", game)
+            debug("Saving game modes")
             await updateAncillaryDetails(
               "gameModes",
               "game_modes",
               "gameMods",
               game
             )
+            debug("Saving multipler mdoes")
             await updateAncillaryDetails(
-              "multiplayerMods",
+              "multiplayerModes",
               "multiplayer_modes",
               "multiplayerModes",
               game
             )
+            debug("Saving keywords")
             await updateAncillaryDetails(
               "keywords",
               "keywords",
               "keywords",
               game
             )
+            debug("Saving player perspectives")
             await updateAncillaryDetails(
               "playerPerspectives",
               "player_perspectives",
@@ -162,23 +179,27 @@ const run = async () => {
             debug("Downloading artworks")
             await scrapeImages("artworks", game)
 
-            debug("Saving game from API")
-            gameDetailsCollection.updateOne({
-              filter: {
+            debug("Saving game from API", game.name)
+            gameDetailsCollection.updateOne(
+              {
                 id: game.id,
               },
-              update: { $set: game },
-              upsert: true,
-            })
+              game,
+              {
+                upsert: true,
+              }
+            )
           } catch (error) {
-            debug(error)
-            await gamesWithErrorsCollection.updateOne({
-              filter: {
+            debug(error, playniteGame.name)
+            await gamesWithErrorsCollection.updateOne(
+              {
                 id: playniteGame.id,
               },
-              update: { $set: playniteGame },
-              upsert: true,
-            })
+              { playniteGame, game },
+              {
+                upsert: true,
+              }
+            )
           }
         }
 
@@ -216,10 +237,23 @@ function rateLimit(api) {
 
 function createAncillaryUpdater(db, callApi) {
   return async (field, urlSuffix, collectionName, game) => {
+    let ids = game[field]
+    if (!ids) {
+      return
+    }
+    if (!Array.isArray(ids)) {
+      ids = [ids]
+    }
+    if (isEmpty(ids)) {
+      return
+    }
+    if (field === "franchises") {
+      debug(field, urlSuffix, ids)
+    }
     const { data: items } = await callApi((client) =>
       client
         .fields("*")
-        .where(`id = ${get(field)(game)}`)
+        .where(`id = (${ids.join(",")})`)
         .request(`/${urlSuffix}`)
     )
     const collection = db.collection(`${collectionName}`)
