@@ -2,12 +2,12 @@
   "private": true,
   "name": "@ha/captive-portal-app",
   "version": "0.0.1",
-  "main": "src/index.js",
+  "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf dist",
-    "compile": "ncc build src/index.js -o dist -m",
-    "start": "nodemon src/index.js --inspect=0.0.0.0:9229",
+    "compile": "ncc build src/index.ts -o dist -m",
+    "start": "nodemon src/index.ts --inspect=0.0.0.0:9229",
     "postcompile": "cp -r src/static dist/static",
     "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"$DOCKER_REGISTRY_DOMAIN:5000/captive-portal:latest\" --context dir:///workspace/ --insecure"
   },
