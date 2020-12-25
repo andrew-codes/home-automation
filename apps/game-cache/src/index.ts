@@ -2,7 +2,6 @@ import createDebugger from "debug"
 import fetch from "node-fetch"
 import igdb from "igdb-api-node"
 import { connectAsync } from "async-mqtt"
-import { first, flatten, isEmpty, uniq } from "lodash"
 import { get } from "lodash/fp"
 import { MongoClient, GridFSBucket } from "mongodb"
 import { formatKeys } from "@ha/string-utils"
@@ -46,12 +45,11 @@ const run = async () => {
     if (topic === "/playnite/game/list") {
       try {
         await mongo.connect()
-        debug("Adding playnite games")
         const db = await mongo.db("gameLibrary")
-        const updateFromIgdb = createUpdater(db, igdbClient)
-        debug(message.toString()[19899])
+        debug("Adding playnite games")
+        const callApi = rateLimit(igdbClient)
         const gamesPayload = JSON.parse(message.toString()).map(formatKeys)
-        debug("Number of games to import", gamesPayload.length)
+        debug("Number of playnite games to import", gamesPayload.length)
         const playNiteGameUpdates = gamesPayload.map((game) => ({
           updateOne: {
             filter: {
@@ -61,146 +59,131 @@ const run = async () => {
             upsert: true,
           },
         }))
-        const playNiteGamesCollection = await db.collection("playniteGames")
+        const playNiteGamesCollection = db.collection("playniteGames")
         await playNiteGamesCollection.bulkWrite(playNiteGameUpdates)
         await playNiteGamesCollection.createIndex("id")
         const playniteGameCount = await playNiteGamesCollection.count()
         debug("Total number of Playnite games", playniteGameCount)
 
-        const fetchedGames: any[] = []
-        const gamesWithoutResults: any[] = []
+        const gameDetailsCollection = db.collection("gameDetails")
+        gameDetailsCollection.createIndex("id")
+        gameDetailsCollection.createIndex("playNightId")
+        const notFoundGamesCollection = db.collection("notFoundGames")
+        notFoundGamesCollection.createIndex("id")
+        const gamesWithErrorsCollection = db.collection(
+          "importedGamesWithErrors"
+        )
+        gamesWithErrorsCollection.createIndex("id")
+        const updateAncillaryDetails = createAncillaryUpdater(db, callApi)
+
         for (let gameIndex = 0; gameIndex < gamesPayload.length; gameIndex++) {
-          const game = gamesPayload[gameIndex]
-          debug(game.name)
-          const { data: gameResults } = await igdbClient
-            .fields("*")
-            .limit(1)
-            .search(game.name.replace(/"/g, '\\"'))
-            .request("/games")
-          await sleepRateLimit()
-          let fetchedGame = first(gameResults)
-          if (fetchedGame) {
-            fetchedGame.playNightId = game.id
-            fetchedGames.push(fetchedGame)
-          } else {
-            gamesWithoutResults.push(game)
+          const playniteGame = gamesPayload[gameIndex]
+          try {
+            const gameExists =
+              (await gameDetailsCollection
+                .find({
+                  playniteId: playniteGame.id,
+                })
+                .count()) > 1
+            if (gameExists) {
+              continue
+            }
+            const { data: gameResult } = await callApi((client) =>
+              client
+                .fields("*")
+                .limit(1)
+                .search(playniteGame.name.replace(/"/g, '\\"'))
+                .request("/games")
+            )
+            if (!gameResult) {
+              await notFoundGamesCollection.updateOne({
+                filter: {
+                  id: playniteGame.id,
+                },
+                update: { $set: playniteGame },
+                upsert: true,
+              })
+              continue
+            }
+            gameResult.playniteId = playniteGame.id
+            const game = formatKeys(gameResult)
+
+            debug("Saving ancillary data")
+            await updateAncillaryDetails(
+              "artworks",
+              "artworks",
+              "artworks",
+              game
+            )
+            await updateAncillaryDetails("cover", "covers", "covers", game)
+            await updateAncillaryDetails(
+              "collection",
+              "collections",
+              "collections",
+              game
+            )
+            await updateAncillaryDetails(
+              "franchise",
+              "franchises",
+              "franchises",
+              game
+            )
+            await updateAncillaryDetails("genres", "genres", "genres", game)
+            await updateAncillaryDetails(
+              "gameModes",
+              "game_modes",
+              "gameMods",
+              game
+            )
+            await updateAncillaryDetails(
+              "multiplayerMods",
+              "multiplayer_modes",
+              "multiplayerModes",
+              game
+            )
+            await updateAncillaryDetails(
+              "keywords",
+              "keywords",
+              "keywords",
+              game
+            )
+            await updateAncillaryDetails(
+              "playerPerspectives",
+              "player_perspectives",
+              "playerPerspectives",
+              game
+            )
+
+            const bucket = new GridFSBucket(db)
+            const scrapeImages = createImageScraper(db, bucket)
+
+            debug("Downloading covers")
+            await scrapeImages("covers", game)
+            debug("Downloading artworks")
+            await scrapeImages("artworks", game)
+
+            debug("Saving game from API")
+            gameDetailsCollection.updateOne({
+              filter: {
+                id: game.id,
+              },
+              update: { $set: game },
+              upsert: true,
+            })
+          } catch (error) {
+            debug(error)
+            await gamesWithErrorsCollection.updateOne({
+              filter: {
+                id: playniteGame.id,
+              },
+              update: { $set: playniteGame },
+              upsert: true,
+            })
           }
         }
-        debug("Total number of fetched IGDB games", fetchedGames.length)
-        debug("Total games not found in IGDB", gamesWithoutResults.length)
-        const notFoundGamesCollection = await db.collection("notFoundGames")
-        const notFoundGamesUpdates = gamesWithoutResults.map((game) => ({
-          updateOne: {
-            filter: {
-              id: game.id,
-            },
-            update: { $set: game },
-            upsert: true,
-          },
-        }))
-        notFoundGamesCollection.bulkWrite(notFoundGamesUpdates)
-        notFoundGamesCollection.createIndex("id")
 
-        const igdbGamesCollection = await db.collection("gameDetails")
-
-        const existingGames = await igdbGamesCollection
-          .find(
-            {
-              id: { $in: fetchedGames.map(get("id")) },
-            },
-            { id: 1 }
-          )
-          .toArray()
-        const newGames = fetchedGames.filter(
-          (game) => !existingGames.map(get("id")).includes(game.id)
-        )
-        debug("New game count", newGames.length)
-        if (isEmpty(newGames)) {
-          return
-        }
-
-        const igdbGamesUpdate = newGames.map((game) => ({
-          updateOne: {
-            filter: {
-              id: game.id,
-            },
-            update: { $set: formatKeys(game) },
-            upsert: true,
-          },
-        }))
-        await igdbGamesCollection.bulkWrite(igdbGamesUpdate)
-        await igdbGamesCollection.createIndex("id")
-        await igdbGamesCollection.createIndex("playNightId")
-        await updateFromIgdb("artworks", "artworks", "artworks", newGames)
-        await updateFromIgdb("cover", "covers", "covers", newGames)
-        await updateFromIgdb(
-          "collection",
-          "collections",
-          "collections",
-          newGames
-        )
-        await updateFromIgdb("franchise", "franchises", "franchises", newGames)
-        await updateFromIgdb("genres", "genres", "genres", newGames)
-        await updateFromIgdb("gameModes", "game_modes", "gameMods", newGames)
-        await updateFromIgdb(
-          "multiplayerMods",
-          "multiplayer_modes",
-          "multiplayerModes",
-          newGames
-        )
-        await updateFromIgdb("keywords", "keywords", "keywords", newGames)
-        await updateFromIgdb(
-          "playerPerspectives",
-          "player_perspectives",
-          "playerPerspectives",
-          newGames
-        )
-
-        const bucket = new GridFSBucket(db)
-        await db
-          .collection("covers")
-          .find({}, { id: 1, imageId: 1 })
-          .forEach(async ({ id, imageId }) => {
-            debug("cover id", id, imageId)
-            const resp = await fetch(`http://igdb.com/images/${imageId}`, {
-              method: "GET",
-            })
-            new Promise((resolve, reject) => {
-              resp.body
-                .pipe(bucket.openUploadStream(id))
-                .on("error", function (error) {
-                  debug("error", error)
-                  reject(error)
-                })
-                .on("finish", function () {
-                  sleepRateLimit().then(resolve)
-                })
-            })
-          })
-
-        await db
-          .collection("artworks")
-          .find({}, { id: 1, imageId: 1 })
-          .forEach(async ({ id, imageId }) => {
-            debug("artwork id", id, imageId)
-            const resp = await fetch(`http://igdb.com/images/${imageId}`, {
-              method: "GET",
-            })
-            new Promise((resolve, reject) => {
-              resp.body
-                .pipe(bucket.openUploadStream(id))
-                .on("error", function (error) {
-                  debug("error", error)
-                  reject(error)
-                })
-                .on("finish", function () {
-                  sleepRateLimit().then(resolve)
-                })
-            })
-          })
-
+        debug("Done! Publshing updated event")
         await mqtt.publish("/playnite/game/list/updated", "")
-        debug("done")
       } catch (error) {
         debug(error)
       }
@@ -223,17 +206,22 @@ async function sleepRateLimit() {
   await sleep(350)
 }
 
-function createUpdater(db, igdbClient) {
-  return async (field, urlSuffix, collectionName, games) => {
-    const ids = flatten(games.map(get(field))).filter(Boolean)
-    if (isEmpty(ids)) {
-      return
-    }
-    const { data: items } = await igdbClient
-      .fields("*")
-      .where(`id = (${ids.join(",")})`)
-      .request(`/${urlSuffix}`)
+function rateLimit(api) {
+  return async (cb) => {
+    const results = await cb(api)
     await sleepRateLimit()
+    return results
+  }
+}
+
+function createAncillaryUpdater(db, callApi) {
+  return async (field, urlSuffix, collectionName, game) => {
+    const { data: items } = await callApi((client) =>
+      client
+        .fields("*")
+        .where(`id = ${get(field)(game)}`)
+        .request(`/${urlSuffix}`)
+    )
     const collection = db.collection(`${collectionName}`)
     const itemsUpdate = items.map((item) => ({
       updateOne: {
@@ -246,5 +234,30 @@ function createUpdater(db, igdbClient) {
     }))
     await collection.createIndex("id")
     await collection.bulkWrite(itemsUpdate)
+  }
+}
+
+function createImageScraper(db, bucket) {
+  return async (collection, game) => {
+    await db
+      .collection(collection)
+      .find({ id: game.cover }, { id: 1, imageId: 1 })
+      .map(async ({ id, imageId }) => {
+        debug("Found image", id, imageId)
+        const resp = await fetch(`http://igdb.com/images/${imageId}`, {
+          method: "GET",
+        })
+        return new Promise((resolve, reject) => {
+          resp.body
+            .pipe(bucket.openUploadStream(id))
+            .on("error", function (error) {
+              debug("error", error)
+              reject(error)
+            })
+            .on("finish", function () {
+              resolve(true)
+            })
+        })
+      })
   }
 }
