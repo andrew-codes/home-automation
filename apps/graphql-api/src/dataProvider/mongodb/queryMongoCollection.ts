@@ -26,8 +26,8 @@ const createMongoCollectionQuery = <TDomain extends Domain>(
         ),
       ])
       const intermediateQuery = dataQuery.toDataQuery(q)
-      const databaseQuery = new QueryMongo(db)
-      return await databaseQuery.executeQuery(intermediateQuery)
+      const queryDatabase = new QueryMongo(db)
+      return await queryDatabase.executeQuery(intermediateQuery)
     },
   }
 }

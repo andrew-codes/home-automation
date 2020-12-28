@@ -5,7 +5,7 @@
 
 
 import { DataContext as ctx } from "./../dataContext"
-import { GameImage, GameEntity, HomeAssistantEntity, EntityDomain } from "./../Domain"
+import { GameImage, GameGenre, GameEntity, HomeAssistantEntity, EntityDomain } from "./../Domain"
 
 
 
@@ -48,6 +48,7 @@ export interface NexusGenScalars {
 
 export interface NexusGenObjects {
   Game: GameEntity;
+  GameGenre: GameGenre;
   GameImage: GameImage;
   HomeAssistantArea: { // root type
     id?: string | null; // ID
@@ -74,6 +75,7 @@ export interface NexusGenFieldTypes {
   Game: { // field return type
     artworks: Array<NexusGenRootTypes['GameImage'] | null> | null; // [GameImage]
     cover: NexusGenRootTypes['GameImage'] | null; // GameImage
+    genres: Array<NexusGenRootTypes['GameGenre'] | null> | null; // [GameGenre]
     id: string | null; // ID
     name: string | null; // String
     platformId: string | null; // String
@@ -81,6 +83,10 @@ export interface NexusGenFieldTypes {
     playtime: number | null; // Int
     releaseYear: number | null; // Int
     summary: string | null; // String
+  }
+  GameGenre: { // field return type
+    id: string | null; // ID
+    name: string | null; // String
   }
   GameImage: { // field return type
     height: number | null; // Int
@@ -122,6 +128,7 @@ export interface NexusGenFieldTypeNames {
   Game: { // field return type name
     artworks: 'GameImage'
     cover: 'GameImage'
+    genres: 'GameGenre'
     id: 'ID'
     name: 'String'
     platformId: 'String'
@@ -129,6 +136,10 @@ export interface NexusGenFieldTypeNames {
     playtime: 'Int'
     releaseYear: 'Int'
     summary: 'String'
+  }
+  GameGenre: { // field return type name
+    id: 'ID'
+    name: 'String'
   }
   GameImage: { // field return type name
     height: 'Int'

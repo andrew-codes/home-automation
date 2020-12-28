@@ -6,6 +6,7 @@ import {
   IConvertToDataQuery,
   IApplyFilterToQuery,
 } from "../DataProvider"
+import { countApiCall } from "../dataSourceBatchPerformance"
 
 export type MongoOperator = "$in" | "$or"
 
@@ -80,6 +81,7 @@ export class MongoDataQuery<TDomain extends Domain>
     )
 
     return (db) => {
+      countApiCall(`mongodb/${this.table}`)
       return db.collection(this.table).find(intermediateQuery).toArray()
     }
   }

@@ -2,7 +2,7 @@ import path from "path"
 import { list, objectType } from "nexus"
 import { first } from "lodash"
 import { equality } from "../filter"
-import { GameImage } from "../Domain"
+import { GameGenre, GameImage } from "../Domain"
 
 export const GameImageGraphType = objectType({
   name: "GameImage",
@@ -14,6 +14,18 @@ export const GameImageGraphType = objectType({
     t.id("id")
     t.int("height")
     t.string("imageId")
+  },
+})
+
+export const GameGenreGraphType = objectType({
+  name: "GameGenre",
+  sourceType: {
+    export: "GameGenre",
+    module: path.join(__dirname, "..", "Domain.ts"),
+  },
+  definition(t) {
+    t.id("id")
+    t.string("name")
   },
 })
 
@@ -56,6 +68,15 @@ export const GameGraphType = objectType({
           from: "game_artwork",
           filters: [equality(["id"], root.artworks)],
         }) as Promise<GameImage[]>
+      },
+    })
+    t.field("genres", {
+      type: list(GameGenreGraphType),
+      resolve(root, args, ctx) {
+        return ctx.query({
+          from: "game_genre",
+          filters: [equality(["id"], root.genres)],
+        }) as Promise<GameGenre[]>
       },
     })
   },

@@ -7,6 +7,7 @@ export type DomainError = "error"
 export type DomainGame = "game"
 export type DomainGameCover = "game_cover"
 export type DomainGameArtwork = "game_artwork"
+export type DomainGameGenre = "game_genre"
 export type Domain =
   | DomainEntityDomain
   | DomainHomeAssistantEntity
@@ -15,6 +16,7 @@ export type Domain =
   | DomainError
   | DomainGameCover
   | DomainGameArtwork
+  | DomainGameGenre
 
 export type LightState = "on" | "off"
 export type MediaPlayerState = "on" | "off" | "standby" | "idle" | "playing"
@@ -100,11 +102,13 @@ export interface GameEntity extends Base {
   releaseDates: number[]
   hidden: boolean
   url: string
+  genres: number[]
 }
 export interface GameImage extends Base {
   imageId: string
   height: number
 }
+export interface GameGenre extends Base {}
 
 export interface DomainQuery<TDomain extends Domain> {
   filters?: Array<Filter<TDomain>>
@@ -119,4 +123,5 @@ export type DomainResults = {
   game: GameEntity
   game_cover: GameImage
   game_artwork: GameImage
+  game_genre: GameGenre
 }

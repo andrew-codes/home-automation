@@ -5,6 +5,7 @@
 type Game {
   artworks: [GameImage]
   cover: GameImage
+  genres: [GameGenre]
   id: ID
   name: String
   platformId: String
@@ -12,6 +13,11 @@ type Game {
   playtime: Int
   releaseYear: Int
   summary: String
+}
+
+type GameGenre {
+  id: ID
+  name: String
 }
 
 type GameImage {
