@@ -8,6 +8,10 @@ export type DomainGame = "game"
 export type DomainGameCover = "game_cover"
 export type DomainGameArtwork = "game_artwork"
 export type DomainGameGenre = "game_genre"
+export type DomainGameCollection = "game_collection"
+export type DomainGameFranchise = "game_franchise"
+export type DomainGameMultiplayerMode = "game_multiplayer_mode"
+export type DomainGamePlayerPerspective = "game_player_perspective"
 export type Domain =
   | DomainEntityDomain
   | DomainHomeAssistantEntity
@@ -17,6 +21,10 @@ export type Domain =
   | DomainGameCover
   | DomainGameArtwork
   | DomainGameGenre
+  | DomainGameCollection
+  | DomainGameFranchise
+  | DomainGameMultiplayerMode
+  | DomainGamePlayerPerspective
 
 export type LightState = "on" | "off"
 export type MediaPlayerState = "on" | "off" | "standby" | "idle" | "playing"
@@ -88,27 +96,57 @@ export type GameState =
   | "Launching"
   | "Running"
 export interface GameEntity extends Base {
-  platformId: string
   artworks?: number[]
-  playniteId: string
   category: number
-  summary?: string
-  favorite: boolean
+  collection: number
   cover: number
+  favorite: boolean
+  firstReleaseDate: number
+  franchise: number
+  franchises: number[]
+  genres: number[]
+  hidden: boolean
+  multiplayerMode: number
+  platformId: string
+  playerPerspective: number
+  playniteId: string
+  playtime: number
+  releaseDates: number[]
+  slug: string
   sourceId: string
   state: GameState
-  playtime: number
-  firstReleaseDate: number
-  releaseDates: number[]
-  hidden: boolean
+  summary?: string
   url: string
-  genres: number[]
 }
 export interface GameImage extends Base {
   imageId: string
   height: number
 }
-export interface GameGenre extends Base {}
+export interface GameGenre extends Base {
+  slug: string
+}
+export interface GameCollection extends Base {
+  slug: string
+}
+export interface GameFranchise extends Base {
+  slug: string
+}
+export interface GameMultiplayerMode extends Base {
+  campaigncoop: boolean
+  dropIn: boolean
+  lancoop: boolean
+  offlinecoop: boolean
+  offlinecoopmax: number
+  offlinemax: number
+  onlinecoop: boolean
+  onlinecoopmax: number
+  onlinemax: number
+  platform: number
+  splitscreen: boolean
+}
+export interface GamePlayerPerspective extends Base {
+  slug: string
+}
 
 export interface DomainQuery<TDomain extends Domain> {
   filters?: Array<Filter<TDomain>>
@@ -124,4 +162,8 @@ export type DomainResults = {
   game_cover: GameImage
   game_artwork: GameImage
   game_genre: GameGenre
+  game_collection: GameCollection
+  game_franchise: GameFranchise
+  game_multiplayer_mode: GameMultiplayerMode
+  game_player_perspective: GamePlayerPerspective
 }

@@ -4,26 +4,65 @@
 
 type Game {
   artworks: [GameImage]
+  collection: GameCollection
   cover: GameImage
+  franchise: GameFranchise
+  franchises: [GameFranchise]
   genres: [GameGenre]
   id: ID
+  multiplayerMode: GameMultiPlayerMode
   name: String
-  platformId: String
+  platform: String
+  playerPerspective: GamePlayerPerspective
   playniteId: String
   playtime: Int
   releaseYear: Int
+  slug: String
   summary: String
+}
+
+type GameCollection {
+  id: ID
+  name: String
+  slug: String
+}
+
+type GameFranchise {
+  id: ID
+  name: String
+  slug: String
 }
 
 type GameGenre {
   id: ID
   name: String
+  slug: String
 }
 
 type GameImage {
   height: Int
   id: ID
   imageId: String
+}
+
+type GameMultiPlayerMode {
+  campaigncoop: Boolean
+  dropIn: Boolean
+  id: ID
+  lancoop: Boolean
+  offlinecoop: Boolean
+  offlinecoopmax: Int
+  offlinemax: Int
+  onlinecoop: Boolean
+  onlinecoopmax: Int
+  onlinemax: Int
+  splitscreen: Boolean
+}
+
+type GamePlayerPerspective {
+  id: ID
+  name: String
+  slug: String
 }
 
 type HomeAssistantArea {
