@@ -66,7 +66,7 @@ app.use(
     next()
   },
   (req, resp, next) => {
-    console.log("Flushing Cache")
+    debug("Flushing Cache")
     resetCounts()
     cache.flushAll()
     cache.flushStats()

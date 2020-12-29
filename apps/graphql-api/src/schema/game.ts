@@ -4,9 +4,11 @@ import { first } from "lodash"
 import { equality } from "../filter"
 import {
   GameCollection,
+  GameEntity,
   GameFranchise,
   GameGenre,
   GameImage,
+  GameKeyword,
   GameMultiplayerMode,
   GamePlayerPerspective,
 } from "../Domain"
@@ -28,6 +30,19 @@ export const GamePlayerPerspectiveGraphType = objectType({
   name: "GamePlayerPerspective",
   sourceType: {
     export: "GamePlayerPerspective",
+    module: path.join(__dirname, "..", "Domain.ts"),
+  },
+  definition(t) {
+    t.id("id")
+    t.string("name")
+    t.string("slug")
+  },
+})
+
+export const GameKeywordGraphType = objectType({
+  name: "GameKeyword",
+  sourceType: {
+    export: "GameKeyword",
     module: path.join(__dirname, "..", "Domain.ts"),
   },
   definition(t) {
@@ -60,6 +75,15 @@ export const GameCollectionGraphType = objectType({
     t.id("id")
     t.string("name")
     t.string("slug")
+    t.field("games", {
+      type: list(GameGraphType),
+      resolve(root, args, ctx) {
+        return ctx.query({
+          from: "game",
+          filters: [equality(["id"], root.games)],
+        }) as Promise<GameEntity[]>
+      },
+    })
   },
 })
 
@@ -73,6 +97,15 @@ export const GameFranchiseGraphType = objectType({
     t.id("id")
     t.string("name")
     t.string("slug")
+    t.field("games", {
+      type: list(GameGraphType),
+      resolve(root, args, ctx) {
+        return ctx.query({
+          from: "game",
+          filters: [equality(["id"], root.games)],
+        }) as Promise<GameEntity[]>
+      },
+    })
   },
 })
 export const GameMultiPlayerModeGraphType = objectType({
@@ -174,6 +207,15 @@ export const GameGraphType = objectType({
           from: "game_genre",
           filters: [equality(["id"], root.genres)],
         }) as Promise<GameGenre[]>
+      },
+    })
+    t.field("keywords", {
+      type: list(GameKeywordGraphType),
+      resolve(root, args, ctx) {
+        return ctx.query({
+          from: "game_keyword",
+          filters: [equality(["id"], root.keywords)],
+        }) as Promise<GameKeyword[]>
       },
     })
     t.field("multiplayerMode", {

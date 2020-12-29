@@ -10,6 +10,7 @@ type Game {
   franchises: [GameFranchise]
   genres: [GameGenre]
   id: ID
+  keywords: [GameKeyword]
   multiplayerMode: GameMultiPlayerMode
   name: String
   platform: String
@@ -22,12 +23,14 @@ type Game {
 }
 
 type GameCollection {
+  games: [Game]
   id: ID
   name: String
   slug: String
 }
 
 type GameFranchise {
+  games: [Game]
   id: ID
   name: String
   slug: String
@@ -43,6 +46,12 @@ type GameImage {
   height: Int
   id: ID
   imageId: String
+}
+
+type GameKeyword {
+  id: ID
+  name: String
+  slug: String
 }
 
 type GameMultiPlayerMode {
