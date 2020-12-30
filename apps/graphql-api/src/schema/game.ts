@@ -57,6 +57,15 @@ export const GameKeywordGraphType = objectType({
     t.id("id")
     t.string("name")
     t.string("slug")
+    t.field("games", {
+      type: list(GameGraphType),
+      resolve(root, args, ctx) {
+        return ctx.query({
+          from: "game",
+          filters: [equality<DomainGame>("keywords", root.id)],
+        }) as Promise<GameEntity[]>
+      },
+    })
   },
 })
 

@@ -1,18 +1,29 @@
-import { list, queryField, stringArg } from "nexus"
+import { intArg, list, queryField, stringArg } from "nexus"
 import { equality } from "../filter"
 import {
   Area,
   DomainArea,
   DomainEntityDomain,
   DomainGame,
+  DomainGameFranchise,
+  DomainGameGenre,
+  DomainGameKeyword,
   DomainHomeAssistantEntity,
   GameEntity,
+  GameFranchise,
+  GameGenre,
+  GameKeyword,
   HomeAssistantEntity,
 } from "../Domain"
 import { HomeAssistantEntityGraphType } from "./home_assistant_entity"
 import { AreaGraphType } from "./home_assistant_area"
 import { DomainGraphType } from "./home_assistant_domain"
-import { GameGraphType } from "./game"
+import {
+  GameFranchiseGraphType,
+  GameGenreGraphType,
+  GameGraphType,
+  GameKeywordGraphType,
+} from "./game"
 
 export const HAEntityQuery = queryField("entitiy", {
   type: list(HomeAssistantEntityGraphType),
@@ -69,7 +80,7 @@ export const DomainQuery = queryField("domain", {
 
 export const GameQuery = queryField("game", {
   type: list(GameGraphType),
-  args: { ids: list(stringArg()) },
+  args: { ids: list(intArg()) },
   async resolve(root, args, ctx) {
     let results = await ctx.query({
       from: "game",
@@ -81,5 +92,56 @@ export const GameQuery = queryField("game", {
     return (results as Array<GameEntity | Error>).filter(
       (result) => !(result instanceof Error)
     ) as GameEntity[]
+  },
+})
+
+export const GameGenreQuery = queryField("gameGenre", {
+  type: list(GameGenreGraphType),
+  args: { ids: list(intArg()) },
+  async resolve(root, args, ctx) {
+    let results = await ctx.query({
+      from: "game_genre",
+      filters: args.ids?.map((id) => equality<DomainGameGenre>("id", id)),
+    })
+    if (!Array.isArray(results)) {
+      results = [results]
+    }
+    return (results as Array<GameGenre | Error>).filter(
+      (result) => !(result instanceof Error)
+    ) as GameGenre[]
+  },
+})
+
+export const GameFranchiseQuery = queryField("gameFranchise", {
+  type: list(GameFranchiseGraphType),
+  args: { ids: list(intArg()) },
+  async resolve(root, args, ctx) {
+    let results = await ctx.query({
+      from: "game_franchise",
+      filters: args.ids?.map((id) => equality<DomainGameFranchise>("id", id)),
+    })
+    if (!Array.isArray(results)) {
+      results = [results]
+    }
+    return (results as Array<GameFranchise | Error>).filter(
+      (result) => !(result instanceof Error)
+    ) as GameFranchise[]
+  },
+})
+
+export const GameKeywordQuery = queryField("gameKeyword", {
+  type: list(GameKeywordGraphType),
+  args: { ids: list(intArg()) },
+  async resolve(root, args, ctx) {
+    let results = await ctx.query({
+      from: "game_keyword",
+      filters: args.ids?.map((id) => equality<DomainGameKeyword>("id", id)),
+    })
+    if (!Array.isArray(results)) {
+      results = [results]
+    }
+    return (results as Array<GameKeyword | Error>).filter(
+      (result) => !(result instanceof Error)
+    ) as GameKeyword[]
   },
 })

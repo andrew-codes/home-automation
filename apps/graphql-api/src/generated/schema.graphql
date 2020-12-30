@@ -50,6 +50,7 @@ type GameImage {
 }
 
 type GameKeyword {
+  games: [Game]
   id: ID
   name: String
   slug: String
@@ -129,5 +130,8 @@ type Query {
   area(ids: [String]): [HomeAssistantArea]
   domain(ids: [String]): [HomeAssistantDomain]
   entitiy(ids: [String]): [HomeAssistantEntity]
-  game(ids: [String]): [Game]
+  game(ids: [Int]): [Game]
+  gameFranchise(ids: [Int]): [GameFranchise]
+  gameGenre(ids: [Int]): [GameGenre]
+  gameKeyword(ids: [Int]): [GameKeyword]
 }

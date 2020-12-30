@@ -120,6 +120,7 @@ export interface NexusGenFieldTypes {
     imageId: string | null; // String
   }
   GameKeyword: { // field return type
+    games: Array<NexusGenRootTypes['Game'] | null> | null; // [Game]
     id: string | null; // ID
     name: string | null; // String
     slug: string | null; // String
@@ -167,6 +168,9 @@ export interface NexusGenFieldTypes {
     domain: Array<NexusGenRootTypes['HomeAssistantDomain'] | null> | null; // [HomeAssistantDomain]
     entitiy: Array<NexusGenRootTypes['HomeAssistantEntity'] | null> | null; // [HomeAssistantEntity]
     game: Array<NexusGenRootTypes['Game'] | null> | null; // [Game]
+    gameFranchise: Array<NexusGenRootTypes['GameFranchise'] | null> | null; // [GameFranchise]
+    gameGenre: Array<NexusGenRootTypes['GameGenre'] | null> | null; // [GameGenre]
+    gameKeyword: Array<NexusGenRootTypes['GameKeyword'] | null> | null; // [GameKeyword]
   }
   Node: { // field return type
     id: string | null; // ID
@@ -217,6 +221,7 @@ export interface NexusGenFieldTypeNames {
     imageId: 'String'
   }
   GameKeyword: { // field return type name
+    games: 'Game'
     id: 'ID'
     name: 'String'
     slug: 'String'
@@ -264,6 +269,9 @@ export interface NexusGenFieldTypeNames {
     domain: 'HomeAssistantDomain'
     entitiy: 'HomeAssistantEntity'
     game: 'Game'
+    gameFranchise: 'GameFranchise'
+    gameGenre: 'GameGenre'
+    gameKeyword: 'GameKeyword'
   }
   Node: { // field return type name
     id: 'ID'
@@ -291,7 +299,16 @@ export interface NexusGenArgTypes {
       ids?: Array<string | null> | null; // [String]
     }
     game: { // args
-      ids?: Array<string | null> | null; // [String]
+      ids?: Array<number | null> | null; // [Int]
+    }
+    gameFranchise: { // args
+      ids?: Array<number | null> | null; // [Int]
+    }
+    gameGenre: { // args
+      ids?: Array<number | null> | null; // [Int]
+    }
+    gameKeyword: { // args
+      ids?: Array<number | null> | null; // [Int]
     }
   }
 }
