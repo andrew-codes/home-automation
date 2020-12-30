@@ -37,6 +37,7 @@ type GameFranchise {
 }
 
 type GameGenre {
+  games: [Game]
   id: ID
   name: String
   slug: String

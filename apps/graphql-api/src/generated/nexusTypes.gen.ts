@@ -109,6 +109,7 @@ export interface NexusGenFieldTypes {
     slug: string | null; // String
   }
   GameGenre: { // field return type
+    games: Array<NexusGenRootTypes['Game'] | null> | null; // [Game]
     id: string | null; // ID
     name: string | null; // String
     slug: string | null; // String
@@ -205,6 +206,7 @@ export interface NexusGenFieldTypeNames {
     slug: 'String'
   }
   GameGenre: { // field return type name
+    games: 'Game'
     id: 'ID'
     name: 'String'
     slug: 'String'

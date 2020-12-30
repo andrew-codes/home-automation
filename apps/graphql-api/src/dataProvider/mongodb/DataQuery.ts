@@ -1,4 +1,3 @@
-import { MongoClient } from "mongodb"
 import { Domain, DomainQuery } from "../../Domain"
 import { Filter, SupportedFilters } from "../../filter/filter"
 import {

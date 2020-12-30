@@ -1,8 +1,16 @@
 import path from "path"
 import { list, objectType } from "nexus"
-import { first } from "lodash"
 import { equality } from "../filter"
 import {
+  DomainGame,
+  DomainGameArtwork,
+  DomainGameCollection,
+  DomainGameCover,
+  DomainGameFranchise,
+  DomainGameGenre,
+  DomainGameKeyword,
+  DomainGameMultiplayerMode,
+  DomainGamePlayerPerspective,
   GameCollection,
   GameEntity,
   GameFranchise,
@@ -62,6 +70,15 @@ export const GameGenreGraphType = objectType({
     t.id("id")
     t.string("name")
     t.string("slug")
+    t.field("games", {
+      type: list(GameGraphType),
+      resolve(root, args, ctx) {
+        return ctx.query({
+          from: "game",
+          filters: [equality<DomainGame>("genres", root.id)],
+        }) as Promise<GameEntity[]>
+      },
+    })
   },
 })
 
@@ -80,7 +97,7 @@ export const GameCollectionGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game",
-          filters: [equality(["id"], root.games)],
+          filters: [equality<DomainGame>("id", root.games)],
         }) as Promise<GameEntity[]>
       },
     })
@@ -102,7 +119,7 @@ export const GameFranchiseGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game",
-          filters: [equality(["id"], root.games)],
+          filters: [equality<DomainGame>("id", root.games)],
         }) as Promise<GameEntity[]>
       },
     })
@@ -154,40 +171,37 @@ export const GameGraphType = objectType({
     t.string("slug")
     t.field("cover", {
       type: GameImageGraphType,
-      async resolve(root, args, ctx) {
-        const results = await ctx.query({
+      resolve(root, args, ctx) {
+        return ctx.query({
           from: "game_cover",
-          filters: [equality(["id"], root.cover)],
-        })
-        return first(results) as GameImage
+          filters: [equality<DomainGameCover>("id", root.cover)],
+        }) as Promise<GameImage>
       },
     })
     t.field("collection", {
       type: GameCollectionGraphType,
-      async resolve(root, args, ctx) {
-        const results = await ctx.query({
+      resolve(root, args, ctx) {
+        return ctx.query({
           from: "game_collection",
-          filters: [equality(["id"], root.collection)],
-        })
-        return first(results) as GameCollection
+          filters: [equality<DomainGameCollection>("id", root.collection)],
+        }) as Promise<GameCollection>
       },
     })
     t.field("franchise", {
       type: GameFranchiseGraphType,
-      async resolve(root, args, ctx) {
-        const results = await ctx.query({
+      resolve(root, args, ctx) {
+        return ctx.query({
           from: "game_franchise",
-          filters: [equality(["id"], root.franchise)],
-        })
-        return first(results) as GameFranchise
+          filters: [equality<DomainGameFranchise>("id", root.franchise)],
+        }) as Promise<GameFranchise>
       },
     })
     t.field("franchises", {
       type: list(GameFranchiseGraphType),
-      async resolve(root, args, ctx) {
+      resolve(root, args, ctx) {
         return ctx.query({
           from: "game_franchise",
-          filters: [equality(["id"], root.franchises)],
+          filters: [equality<DomainGameFranchise>("id", root.franchises)],
         }) as Promise<GameFranchise[]>
       },
     })
@@ -196,7 +210,7 @@ export const GameGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game_artwork",
-          filters: [equality(["id"], root.artworks)],
+          filters: [equality<DomainGameArtwork>("id", root.artworks)],
         }) as Promise<GameImage[]>
       },
     })
@@ -205,7 +219,7 @@ export const GameGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game_genre",
-          filters: [equality(["id"], root.genres)],
+          filters: [equality<DomainGameGenre>("id", root.genres)],
         }) as Promise<GameGenre[]>
       },
     })
@@ -214,28 +228,30 @@ export const GameGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game_keyword",
-          filters: [equality(["id"], root.keywords)],
+          filters: [equality<DomainGameKeyword>("id", root.keywords)],
         }) as Promise<GameKeyword[]>
       },
     })
     t.field("multiplayerMode", {
       type: GameMultiPlayerModeGraphType,
-      async resolve(root, args, ctx) {
-        const result = await ctx.query({
+      resolve(root, args, ctx) {
+        return ctx.query({
           from: "game_multiplayer_mode",
-          filters: [equality(["id"], root.multiplayerMode)],
-        })
-        return first(result) as GameMultiplayerMode
+          filters: [
+            equality<DomainGameMultiplayerMode>("id", root.multiplayerMode),
+          ],
+        }) as Promise<GameMultiplayerMode>
       },
     })
     t.field("playerPerspective", {
       type: GamePlayerPerspectiveGraphType,
-      async resolve(root, args, ctx) {
-        const result = await ctx.query({
+      resolve(root, args, ctx) {
+        return ctx.query({
           from: "game_player_perspective",
-          filters: [equality(["id"], root.playerPerspective)],
-        })
-        return first(result) as GamePlayerPerspective
+          filters: [
+            equality<DomainGamePlayerPerspective>("id", root.playerPerspective),
+          ],
+        }) as Promise<GamePlayerPerspective>
       },
     })
   },

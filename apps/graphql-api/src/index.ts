@@ -87,6 +87,10 @@ app.listen(PORT, () => {
   debug("listening on port", PORT)
 })
 
+process.once("SIGUSR2", () => {
+  resetCounts()
+  process.kill(process.pid, "SIGUSR2")
+})
 process.on("SIGINT", () => {
   client.close()
   process.exit(0)

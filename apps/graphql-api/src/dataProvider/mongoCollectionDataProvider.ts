@@ -1,5 +1,4 @@
 import createDebug from "debug"
-import { client } from "../mongo"
 import { DomainGame } from "../Domain"
 import { IProvideData } from "./DataProvider"
 import { createMongoCollectionQuery } from "./mongodb/queryMongoCollection"
@@ -12,7 +11,6 @@ const debug = createDebug(
 const createDataProvider = (domain, collectionName): IProvideData => {
   const canExecuteQuery = (query) => query.from === domain
   const mongoDbDataProvider = createMongoCollectionQuery<DomainGame>(
-    client,
     collectionName
   )
   return {
@@ -21,7 +19,7 @@ const createDataProvider = (domain, collectionName): IProvideData => {
       if (!canExecuteQuery(q)) {
         throw new UnsupportedDomainError(q)
       }
-      return await mongoDbDataProvider.query(q)
+      return mongoDbDataProvider.query(q)
     },
   }
 }

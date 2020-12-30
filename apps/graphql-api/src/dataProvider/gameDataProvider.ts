@@ -25,19 +25,12 @@ const getGameState = (gameItem): GameState => {
   }
   return "Not Installed"
 }
-const transformGame = (gameItem, index, list) => {
-  if (index === 0) {
-    debug(gameItem)
-  }
-
-  return {
-    ...gameItem,
-    state: getGameState(gameItem),
-  }
-}
+const transformGame = (gameItem, index, list) => ({
+  ...gameItem,
+  state: getGameState(gameItem),
+})
 const canExecuteQuery = (query) => query.from === "game"
 const mongoDbDataProvider = createMongoCollectionQuery<DomainGame>(
-  client,
   "gameDetails"
 )
 
