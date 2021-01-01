@@ -10,6 +10,7 @@ import {
   DomainGameFranchise,
   DomainGameGenre,
   DomainGameKeyword,
+  DomainGameMode,
   DomainGameMultiplayerMode,
   DomainGamePlatform,
   DomainGamePlayerPerspective,
@@ -19,6 +20,7 @@ import {
   GameGenre,
   GameImage,
   GameKeyword,
+  GameMode,
   GameMultiplayerMode,
   GamePlatform,
   GamePlayerPerspective,
@@ -115,6 +117,28 @@ export const GameGenreGraphType = objectType({
   },
 })
 
+export const GameModeGraphType = objectType({
+  name: "GameMode",
+  sourceType: {
+    export: "GameMode",
+    module: path.join(__dirname, "..", "Domain.ts"),
+  },
+  definition(t) {
+    t.id("id")
+    t.string("name")
+    t.string("slug")
+    t.field("games", {
+      type: list(GameGraphType),
+      resolve(root, args, ctx) {
+        return ctx.query({
+          from: "game",
+          filters: [equality<DomainGame>("gameModes", root.id)],
+        }) as Promise<GameEntity[]>
+      },
+    })
+  },
+})
+
 export const GameCollectionGraphType = objectType({
   name: "GameCollection",
   sourceType: {
@@ -189,6 +213,15 @@ export const GameGraphType = objectType({
     t.id("id")
     t.string("playniteId")
     t.int("playtime")
+    t.field("gameModes", {
+      type: list(GameModeGraphType),
+      resolve(root, args, ctx) {
+        return ctx.query({
+          from: "game_mode",
+          filters: [equality<DomainGameMode>("id", root.gameModes)],
+        }) as Promise<GameMode[]>
+      },
+    })
     t.int("releaseYear", {
       resolve(root) {
         if (!root.firstReleaseDate) {
@@ -201,6 +234,11 @@ export const GameGraphType = objectType({
     t.string("name")
     t.boolean("favorite")
     t.boolean("hidden")
+    t.string("source", {
+      resolve(root, args, ctx) {
+        return root.source.name
+      },
+    })
     t.field("platform", {
       type: GamePlatformGraphType,
       async resolve(root, args, ctx) {
@@ -275,15 +313,15 @@ export const GameGraphType = objectType({
         }) as Promise<GameKeyword[]>
       },
     })
-    t.field("multiplayerMode", {
-      type: GameMultiPlayerModeGraphType,
+    t.field("multiplayerModes", {
+      type: list(GameMultiPlayerModeGraphType),
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game_multiplayer_mode",
           filters: [
-            equality<DomainGameMultiplayerMode>("id", root.multiplayerMode),
+            equality<DomainGameMultiplayerMode>("id", root.multiplayerModes),
           ],
-        }) as Promise<GameMultiplayerMode>
+        }) as Promise<GameMultiplayerMode[]>
       },
     })
     t.field("playerPerspective", {

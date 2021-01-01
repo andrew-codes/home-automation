@@ -163,7 +163,7 @@ const run = async () => {
             await updateAncillaryDetails(
               "gameModes",
               "game_modes",
-              "gameMods",
+              "gameModes",
               game
             )
             debug("Saving multipler mdoes")

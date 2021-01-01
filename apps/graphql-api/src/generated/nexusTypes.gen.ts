@@ -5,7 +5,7 @@
 
 
 import { DataContext as ctx } from "./../dataContext"
-import { GameImage, GamePlayerPerspective, GamePlatform, GameKeyword, GameGenre, GameCollection, GameFranchise, GameMultiPlayerMode, GameEntity, HomeAssistantEntity, EntityDomain } from "./../Domain"
+import { GameImage, GamePlayerPerspective, GamePlatform, GameKeyword, GameGenre, GameMode, GameCollection, GameFranchise, GameMultiPlayerMode, GameEntity, HomeAssistantEntity, EntityDomain } from "./../Domain"
 
 
 
@@ -53,6 +53,7 @@ export interface NexusGenObjects {
   GameGenre: GameGenre;
   GameImage: GameImage;
   GameKeyword: GameKeyword;
+  GameMode: GameMode;
   GameMultiPlayerMode: GameMultiPlayerMode;
   GamePlatform: GamePlatform;
   GamePlayerPerspective: GamePlayerPerspective;
@@ -85,11 +86,12 @@ export interface NexusGenFieldTypes {
     favorite: boolean | null; // Boolean
     franchise: NexusGenRootTypes['GameFranchise'] | null; // GameFranchise
     franchises: Array<NexusGenRootTypes['GameFranchise'] | null> | null; // [GameFranchise]
+    gameModes: Array<NexusGenRootTypes['GameMode'] | null> | null; // [GameMode]
     genres: Array<NexusGenRootTypes['GameGenre'] | null> | null; // [GameGenre]
     hidden: boolean | null; // Boolean
     id: string | null; // ID
     keywords: Array<NexusGenRootTypes['GameKeyword'] | null> | null; // [GameKeyword]
-    multiplayerMode: NexusGenRootTypes['GameMultiPlayerMode'] | null; // GameMultiPlayerMode
+    multiplayerModes: Array<NexusGenRootTypes['GameMultiPlayerMode'] | null> | null; // [GameMultiPlayerMode]
     name: string | null; // String
     platform: NexusGenRootTypes['GamePlatform'] | null; // GamePlatform
     playerPerspective: NexusGenRootTypes['GamePlayerPerspective'] | null; // GamePlayerPerspective
@@ -97,6 +99,7 @@ export interface NexusGenFieldTypes {
     playtime: number | null; // Int
     releaseYear: number | null; // Int
     slug: string | null; // String
+    source: string | null; // String
     summary: string | null; // String
   }
   GameCollection: { // field return type
@@ -123,6 +126,12 @@ export interface NexusGenFieldTypes {
     imageId: string | null; // String
   }
   GameKeyword: { // field return type
+    games: Array<NexusGenRootTypes['Game'] | null> | null; // [Game]
+    id: string | null; // ID
+    name: string | null; // String
+    slug: string | null; // String
+  }
+  GameMode: { // field return type
     games: Array<NexusGenRootTypes['Game'] | null> | null; // [Game]
     id: string | null; // ID
     name: string | null; // String
@@ -179,6 +188,7 @@ export interface NexusGenFieldTypes {
     gameFranchise: Array<NexusGenRootTypes['GameFranchise'] | null> | null; // [GameFranchise]
     gameGenre: Array<NexusGenRootTypes['GameGenre'] | null> | null; // [GameGenre]
     gameKeyword: Array<NexusGenRootTypes['GameKeyword'] | null> | null; // [GameKeyword]
+    gameMode: Array<NexusGenRootTypes['GameMode'] | null> | null; // [GameMode]
     gamePlatform: Array<NexusGenRootTypes['GamePlatform'] | null> | null; // [GamePlatform]
   }
   Node: { // field return type
@@ -194,11 +204,12 @@ export interface NexusGenFieldTypeNames {
     favorite: 'Boolean'
     franchise: 'GameFranchise'
     franchises: 'GameFranchise'
+    gameModes: 'GameMode'
     genres: 'GameGenre'
     hidden: 'Boolean'
     id: 'ID'
     keywords: 'GameKeyword'
-    multiplayerMode: 'GameMultiPlayerMode'
+    multiplayerModes: 'GameMultiPlayerMode'
     name: 'String'
     platform: 'GamePlatform'
     playerPerspective: 'GamePlayerPerspective'
@@ -206,6 +217,7 @@ export interface NexusGenFieldTypeNames {
     playtime: 'Int'
     releaseYear: 'Int'
     slug: 'String'
+    source: 'String'
     summary: 'String'
   }
   GameCollection: { // field return type name
@@ -232,6 +244,12 @@ export interface NexusGenFieldTypeNames {
     imageId: 'String'
   }
   GameKeyword: { // field return type name
+    games: 'Game'
+    id: 'ID'
+    name: 'String'
+    slug: 'String'
+  }
+  GameMode: { // field return type name
     games: 'Game'
     id: 'ID'
     name: 'String'
@@ -288,6 +306,7 @@ export interface NexusGenFieldTypeNames {
     gameFranchise: 'GameFranchise'
     gameGenre: 'GameGenre'
     gameKeyword: 'GameKeyword'
+    gameMode: 'GameMode'
     gamePlatform: 'GamePlatform'
   }
   Node: { // field return type name
@@ -325,6 +344,9 @@ export interface NexusGenArgTypes {
       ids?: Array<number | null> | null; // [Int]
     }
     gameKeyword: { // args
+      ids?: Array<number | null> | null; // [Int]
+    }
+    gameMode: { // args
       ids?: Array<number | null> | null; // [Int]
     }
     gamePlatform: { // args

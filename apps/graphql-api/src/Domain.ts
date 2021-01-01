@@ -1,34 +1,36 @@
 import { Filter } from "./filter/filter"
 
-export type DomainEntityDomain = "entity_domain"
-export type DomainHomeAssistantEntity = "home_assistant_entity"
 export type DomainArea = "area"
+export type DomainEntityDomain = "entity_domain"
 export type DomainError = "error"
 export type DomainGame = "game"
-export type DomainGameCover = "game_cover"
 export type DomainGameArtwork = "game_artwork"
-export type DomainGameGenre = "game_genre"
 export type DomainGameCollection = "game_collection"
+export type DomainGameCover = "game_cover"
 export type DomainGameFranchise = "game_franchise"
-export type DomainGameMultiplayerMode = "game_multiplayer_mode"
-export type DomainGamePlayerPerspective = "game_player_perspective"
+export type DomainGameGenre = "game_genre"
 export type DomainGameKeyword = "game_keyword"
+export type DomainGameMode = "game_mode"
+export type DomainGameMultiplayerMode = "game_multiplayer_mode"
 export type DomainGamePlatform = "game_platform"
+export type DomainGamePlayerPerspective = "game_player_perspective"
+export type DomainHomeAssistantEntity = "home_assistant_entity"
 export type Domain =
-  | DomainEntityDomain
-  | DomainHomeAssistantEntity
   | DomainArea
-  | DomainGame
+  | DomainEntityDomain
   | DomainError
-  | DomainGameCover
+  | DomainGame
   | DomainGameArtwork
-  | DomainGameGenre
   | DomainGameCollection
+  | DomainGameCover
   | DomainGameFranchise
-  | DomainGameMultiplayerMode
-  | DomainGamePlayerPerspective
+  | DomainGameGenre
   | DomainGameKeyword
+  | DomainGameMode
+  | DomainGameMultiplayerMode
   | DomainGamePlatform
+  | DomainGamePlayerPerspective
+  | DomainHomeAssistantEntity
 
 export type LightState = "on" | "off"
 export type MediaPlayerState = "on" | "off" | "standby" | "idle" | "playing"
@@ -108,10 +110,11 @@ export interface GameEntity extends Base {
   firstReleaseDate: number
   franchise: number
   franchises: number[]
+  gameModes: number[]
   genres: number[]
   hidden: boolean
   keywords: number[]
-  multiplayerMode: number
+  multiplayerModes: number[]
   platformId: string
   playerPerspective: number
   playniteId: string
@@ -119,6 +122,10 @@ export interface GameEntity extends Base {
   releaseDates: number[]
   slug: string
   sourceId: string
+  source: {
+    id: string
+    name: string
+  }
   state: GameState
   summary?: string
   url: string
@@ -126,6 +133,9 @@ export interface GameEntity extends Base {
 export interface GameImage extends Base {
   imageId: string
   height: number
+}
+export interface GameMode extends Base {
+  slug: string
 }
 export interface GameGenre extends Base {
   slug: string
@@ -179,4 +189,5 @@ export type DomainResults = {
   game_player_perspective: GamePlayerPerspective
   game_keyword: GameKeyword
   game_platform: GamePlatform
+  game_mode: GameMode
 }

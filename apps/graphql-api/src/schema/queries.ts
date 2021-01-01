@@ -8,12 +8,14 @@ import {
   DomainGameFranchise,
   DomainGameGenre,
   DomainGameKeyword,
+  DomainGameMode,
   DomainGamePlatform,
   DomainHomeAssistantEntity,
   GameEntity,
   GameFranchise,
   GameGenre,
   GameKeyword,
+  GameMode,
   GamePlatform,
   HomeAssistantEntity,
 } from "../Domain"
@@ -25,6 +27,7 @@ import {
   GameGenreGraphType,
   GameGraphType,
   GameKeywordGraphType,
+  GameModeGraphType,
   GamePlatformGraphType,
 } from "./game"
 
@@ -163,5 +166,22 @@ export const GamePlatformQuery = queryField("gamePlatform", {
     return (results as Array<GamePlatform | Error>).filter(
       (result) => !(result instanceof Error)
     ) as GamePlatform[]
+  },
+})
+
+export const GameModeQuery = queryField("gameMode", {
+  type: list(GameModeGraphType),
+  args: { ids: list(intArg()) },
+  async resolve(root, args, ctx) {
+    let results = await ctx.query({
+      from: "game_mode",
+      filters: args.ids?.map((id) => equality<DomainGameMode>("id", id)),
+    })
+    if (!Array.isArray(results)) {
+      results = [results]
+    }
+    return (results as Array<GameMode | Error>).filter(
+      (result) => !(result instanceof Error)
+    ) as GameMode[]
   },
 })
