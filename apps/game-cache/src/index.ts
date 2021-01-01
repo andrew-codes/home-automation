@@ -289,10 +289,10 @@ function createImageScraper(db, bucket) {
   return async (collection, game) => {
     await db
       .collection(collection)
-      .find({ id: game.cover }, { id: 1, imageId: 1 })
-      .map(async ({ id, imageId }) => {
-        debug("Found image", id, imageId)
-        const resp = await fetch(`http://igdb.com/images/${imageId}`, {
+      .find({ id: game.cover }, { id: 1, imageId: 1, url: 1 })
+      .map(async ({ id, imageId, url }) => {
+        debug("Found image", id, imageId, url)
+        const resp = await fetch(`http://${url}`, {
           method: "GET",
         })
         return new Promise((resolve, reject) => {
