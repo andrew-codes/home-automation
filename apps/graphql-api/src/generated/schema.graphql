@@ -14,7 +14,7 @@ type Game {
   hidden: Boolean
   id: ID
   keywords: [GameKeyword]
-  multiplayerModes: [GameMultiPlayerMode]
+  multiplayerModes: [GameMultiplayerMode]
   name: String
   platform: GamePlatform
   playerPerspective: GamePlayerPerspective
@@ -67,7 +67,7 @@ type GameMode {
   slug: String
 }
 
-type GameMultiPlayerMode {
+type GameMultiplayerMode {
   campaigncoop: Boolean
   dropIn: Boolean
   id: ID

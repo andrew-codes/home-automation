@@ -182,10 +182,10 @@ export const GameFranchiseGraphType = objectType({
     })
   },
 })
-export const GameMultiPlayerModeGraphType = objectType({
-  name: "GameMultiPlayerMode",
+export const GameMultiplayerModeGraphType = objectType({
+  name: "GameMultiplayerMode",
   sourceType: {
-    export: "GameMultiPlayerMode",
+    export: "GameMultiplayerMode",
     module: path.join(__dirname, "..", "Domain.ts"),
   },
   definition(t) {
@@ -314,7 +314,7 @@ export const GameGraphType = objectType({
       },
     })
     t.field("multiplayerModes", {
-      type: list(GameMultiPlayerModeGraphType),
+      type: list(GameMultiplayerModeGraphType),
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game_multiplayer_mode",

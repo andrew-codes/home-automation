@@ -5,7 +5,7 @@
 
 
 import { DataContext as ctx } from "./../dataContext"
-import { GameImage, GamePlayerPerspective, GamePlatform, GameKeyword, GameGenre, GameMode, GameCollection, GameFranchise, GameMultiPlayerMode, GameEntity, HomeAssistantEntity, EntityDomain } from "./../Domain"
+import { GameImage, GamePlayerPerspective, GamePlatform, GameKeyword, GameGenre, GameMode, GameCollection, GameFranchise, GameMultiplayerMode, GameEntity, HomeAssistantEntity, EntityDomain } from "./../Domain"
 
 
 
@@ -54,7 +54,7 @@ export interface NexusGenObjects {
   GameImage: GameImage;
   GameKeyword: GameKeyword;
   GameMode: GameMode;
-  GameMultiPlayerMode: GameMultiPlayerMode;
+  GameMultiplayerMode: GameMultiplayerMode;
   GamePlatform: GamePlatform;
   GamePlayerPerspective: GamePlayerPerspective;
   HomeAssistantArea: { // root type
@@ -91,7 +91,7 @@ export interface NexusGenFieldTypes {
     hidden: boolean | null; // Boolean
     id: string | null; // ID
     keywords: Array<NexusGenRootTypes['GameKeyword'] | null> | null; // [GameKeyword]
-    multiplayerModes: Array<NexusGenRootTypes['GameMultiPlayerMode'] | null> | null; // [GameMultiPlayerMode]
+    multiplayerModes: Array<NexusGenRootTypes['GameMultiplayerMode'] | null> | null; // [GameMultiplayerMode]
     name: string | null; // String
     platform: NexusGenRootTypes['GamePlatform'] | null; // GamePlatform
     playerPerspective: NexusGenRootTypes['GamePlayerPerspective'] | null; // GamePlayerPerspective
@@ -137,7 +137,7 @@ export interface NexusGenFieldTypes {
     name: string | null; // String
     slug: string | null; // String
   }
-  GameMultiPlayerMode: { // field return type
+  GameMultiplayerMode: { // field return type
     campaigncoop: boolean | null; // Boolean
     dropIn: boolean | null; // Boolean
     id: string | null; // ID
@@ -209,7 +209,7 @@ export interface NexusGenFieldTypeNames {
     hidden: 'Boolean'
     id: 'ID'
     keywords: 'GameKeyword'
-    multiplayerModes: 'GameMultiPlayerMode'
+    multiplayerModes: 'GameMultiplayerMode'
     name: 'String'
     platform: 'GamePlatform'
     playerPerspective: 'GamePlayerPerspective'
@@ -255,7 +255,7 @@ export interface NexusGenFieldTypeNames {
     name: 'String'
     slug: 'String'
   }
-  GameMultiPlayerMode: { // field return type name
+  GameMultiplayerMode: { // field return type name
     campaigncoop: 'Boolean'
     dropIn: 'Boolean'
     id: 'ID'
