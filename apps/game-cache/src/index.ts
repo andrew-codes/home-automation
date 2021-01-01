@@ -1,6 +1,7 @@
 import createDebugger from "debug"
 import fetch from "node-fetch"
 import igdb from "igdb-api-node"
+import path from "path"
 import { connectAsync } from "async-mqtt"
 import { first, isEmpty } from "lodash"
 import { MongoClient, GridFSBucket } from "mongodb"
@@ -294,8 +295,10 @@ function createImageScraper(db, bucket) {
     return Promise.all(
       images.map(async ({ id, imageId, url }) => {
         debug("Found image", id, imageId, url)
+        const ext = path.extname(url)
+        debug(ext)
         const resp = await fetch(
-          `https://images.igdb.com/igdb/image/upload/t_cover_big/${imageId}`,
+          `https://images.igdb.com/igdb/image/upload/t_cover_big/${imageId}${ext}`,
           {
             method: "GET",
           }

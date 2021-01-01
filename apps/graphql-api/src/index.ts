@@ -10,6 +10,7 @@ import * as bodyParser from "body-parser-graphql"
 import { authorize } from "./middleware/authorize"
 import { cache } from "./cache"
 import { client } from "./mongo"
+import { GridFSBucket } from "mongodb"
 import { createDataContext } from "./dataContext"
 import { resetCounts } from "./dataProvider/dataSourceBatchPerformance"
 import { schema } from "./schema/index"
@@ -73,6 +74,25 @@ app.use(
     next()
   }
 )
+
+app.get("/image/:imageId", async (req, resp, next) => {
+  const { imageId } = req.params
+  debug("imageId", imageId)
+  const db = await client.db("gameLibrary")
+  resp.contentType("image/jpeg")
+  const bucket = new GridFSBucket(db)
+  bucket
+    .openDownloadStreamByName(imageId)
+    .on("data", (data) => {
+      resp.write(data)
+    })
+    .on("error", (error) => {
+      debug(error)
+    })
+    .on("end", () => {
+      resp.end()
+    })
+})
 
 if (NODE_ENV === "development") {
   app.use(
