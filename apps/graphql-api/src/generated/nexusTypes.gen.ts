@@ -5,7 +5,7 @@
 
 
 import { DataContext as ctx } from "./../dataContext"
-import { HomeAssistantEntity, EntityDomain } from "./../Domain"
+import { GameImage, GamePlayerPerspective, GamePlatform, GameKeyword, GameGenre, GameMode, GameCollection, GameFranchise, GameMultiplayerMode, GameEntity, HomeAssistantEntity, EntityDomain } from "./../Domain"
 
 
 
@@ -47,20 +47,16 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
-  Game: { // root type
-    coverImage?: string | null; // String
-    description?: string | null; // String
-    favorite?: boolean | null; // Boolean
-    gameImagePath?: string | null; // String
-    hidden?: boolean | null; // Boolean
-    id?: string | null; // ID
-    name?: string | null; // String
-    platformId?: string | null; // String
-    playtime?: number | null; // Int
-    releaseYear?: number | null; // Int
-    sourceId?: string | null; // String
-    state?: string | null; // String
-  }
+  Game: GameEntity;
+  GameCollection: GameCollection;
+  GameFranchise: GameFranchise;
+  GameGenre: GameGenre;
+  GameImage: GameImage;
+  GameKeyword: GameKeyword;
+  GameMode: GameMode;
+  GameMultiplayerMode: GameMultiplayerMode;
+  GamePlatform: GamePlatform;
+  GamePlayerPerspective: GamePlayerPerspective;
   HomeAssistantArea: { // root type
     id?: string | null; // ID
     name?: string | null; // String
@@ -84,18 +80,85 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
   Game: { // field return type
-    coverImage: string | null; // String
-    description: string | null; // String
+    artworks: Array<NexusGenRootTypes['GameImage'] | null> | null; // [GameImage]
+    collection: NexusGenRootTypes['GameCollection'] | null; // GameCollection
+    cover: NexusGenRootTypes['GameImage'] | null; // GameImage
     favorite: boolean | null; // Boolean
-    gameImagePath: string | null; // String
+    franchise: NexusGenRootTypes['GameFranchise'] | null; // GameFranchise
+    franchises: Array<NexusGenRootTypes['GameFranchise'] | null> | null; // [GameFranchise]
+    gameModes: Array<NexusGenRootTypes['GameMode'] | null> | null; // [GameMode]
+    genres: Array<NexusGenRootTypes['GameGenre'] | null> | null; // [GameGenre]
     hidden: boolean | null; // Boolean
     id: string | null; // ID
+    keywords: Array<NexusGenRootTypes['GameKeyword'] | null> | null; // [GameKeyword]
+    multiplayerModes: Array<NexusGenRootTypes['GameMultiplayerMode'] | null> | null; // [GameMultiplayerMode]
     name: string | null; // String
-    platformId: string | null; // String
+    platform: NexusGenRootTypes['GamePlatform'] | null; // GamePlatform
+    playerPerspective: NexusGenRootTypes['GamePlayerPerspective'] | null; // GamePlayerPerspective
+    playniteId: string | null; // String
     playtime: number | null; // Int
     releaseYear: number | null; // Int
-    sourceId: string | null; // String
-    state: string | null; // String
+    slug: string | null; // String
+    source: string | null; // String
+    summary: string | null; // String
+  }
+  GameCollection: { // field return type
+    games: Array<NexusGenRootTypes['Game'] | null> | null; // [Game]
+    id: string | null; // ID
+    name: string | null; // String
+    slug: string | null; // String
+  }
+  GameFranchise: { // field return type
+    games: Array<NexusGenRootTypes['Game'] | null> | null; // [Game]
+    id: string | null; // ID
+    name: string | null; // String
+    slug: string | null; // String
+  }
+  GameGenre: { // field return type
+    games: Array<NexusGenRootTypes['Game'] | null> | null; // [Game]
+    id: string | null; // ID
+    name: string | null; // String
+    slug: string | null; // String
+  }
+  GameImage: { // field return type
+    height: number | null; // Int
+    id: string | null; // ID
+    imageId: string | null; // String
+  }
+  GameKeyword: { // field return type
+    games: Array<NexusGenRootTypes['Game'] | null> | null; // [Game]
+    id: string | null; // ID
+    name: string | null; // String
+    slug: string | null; // String
+  }
+  GameMode: { // field return type
+    games: Array<NexusGenRootTypes['Game'] | null> | null; // [Game]
+    id: string | null; // ID
+    name: string | null; // String
+    slug: string | null; // String
+  }
+  GameMultiplayerMode: { // field return type
+    campaigncoop: boolean | null; // Boolean
+    dropIn: boolean | null; // Boolean
+    id: string | null; // ID
+    lancoop: boolean | null; // Boolean
+    offlinecoop: boolean | null; // Boolean
+    offlinecoopmax: number | null; // Int
+    offlinemax: number | null; // Int
+    onlinecoop: boolean | null; // Boolean
+    onlinecoopmax: number | null; // Int
+    onlinemax: number | null; // Int
+    splitscreen: boolean | null; // Boolean
+  }
+  GamePlatform: { // field return type
+    games: Array<NexusGenRootTypes['Game'] | null> | null; // [Game]
+    id: string | null; // ID
+    name: string | null; // String
+  }
+  GamePlayerPerspective: { // field return type
+    id: string | null; // ID
+    name: string | null; // String
+    slug: string | null; // String
   }
   HomeAssistantArea: { // field return type
     entities: Array<NexusGenRootTypes['HomeAssistantEntity'] | null> | null; // [HomeAssistantEntity]
@@ -122,6 +185,11 @@ export interface NexusGenFieldTypes {
     domain: Array<NexusGenRootTypes['HomeAssistantDomain'] | null> | null; // [HomeAssistantDomain]
     entitiy: Array<NexusGenRootTypes['HomeAssistantEntity'] | null> | null; // [HomeAssistantEntity]
     game: Array<NexusGenRootTypes['Game'] | null> | null; // [Game]
+    gameFranchise: Array<NexusGenRootTypes['GameFranchise'] | null> | null; // [GameFranchise]
+    gameGenre: Array<NexusGenRootTypes['GameGenre'] | null> | null; // [GameGenre]
+    gameKeyword: Array<NexusGenRootTypes['GameKeyword'] | null> | null; // [GameKeyword]
+    gameMode: Array<NexusGenRootTypes['GameMode'] | null> | null; // [GameMode]
+    gamePlatform: Array<NexusGenRootTypes['GamePlatform'] | null> | null; // [GamePlatform]
   }
   Node: { // field return type
     id: string | null; // ID
@@ -130,18 +198,85 @@ export interface NexusGenFieldTypes {
 
 export interface NexusGenFieldTypeNames {
   Game: { // field return type name
-    coverImage: 'String'
-    description: 'String'
+    artworks: 'GameImage'
+    collection: 'GameCollection'
+    cover: 'GameImage'
     favorite: 'Boolean'
-    gameImagePath: 'String'
+    franchise: 'GameFranchise'
+    franchises: 'GameFranchise'
+    gameModes: 'GameMode'
+    genres: 'GameGenre'
     hidden: 'Boolean'
     id: 'ID'
+    keywords: 'GameKeyword'
+    multiplayerModes: 'GameMultiplayerMode'
     name: 'String'
-    platformId: 'String'
+    platform: 'GamePlatform'
+    playerPerspective: 'GamePlayerPerspective'
+    playniteId: 'String'
     playtime: 'Int'
     releaseYear: 'Int'
-    sourceId: 'String'
-    state: 'String'
+    slug: 'String'
+    source: 'String'
+    summary: 'String'
+  }
+  GameCollection: { // field return type name
+    games: 'Game'
+    id: 'ID'
+    name: 'String'
+    slug: 'String'
+  }
+  GameFranchise: { // field return type name
+    games: 'Game'
+    id: 'ID'
+    name: 'String'
+    slug: 'String'
+  }
+  GameGenre: { // field return type name
+    games: 'Game'
+    id: 'ID'
+    name: 'String'
+    slug: 'String'
+  }
+  GameImage: { // field return type name
+    height: 'Int'
+    id: 'ID'
+    imageId: 'String'
+  }
+  GameKeyword: { // field return type name
+    games: 'Game'
+    id: 'ID'
+    name: 'String'
+    slug: 'String'
+  }
+  GameMode: { // field return type name
+    games: 'Game'
+    id: 'ID'
+    name: 'String'
+    slug: 'String'
+  }
+  GameMultiplayerMode: { // field return type name
+    campaigncoop: 'Boolean'
+    dropIn: 'Boolean'
+    id: 'ID'
+    lancoop: 'Boolean'
+    offlinecoop: 'Boolean'
+    offlinecoopmax: 'Int'
+    offlinemax: 'Int'
+    onlinecoop: 'Boolean'
+    onlinecoopmax: 'Int'
+    onlinemax: 'Int'
+    splitscreen: 'Boolean'
+  }
+  GamePlatform: { // field return type name
+    games: 'Game'
+    id: 'ID'
+    name: 'String'
+  }
+  GamePlayerPerspective: { // field return type name
+    id: 'ID'
+    name: 'String'
+    slug: 'String'
   }
   HomeAssistantArea: { // field return type name
     entities: 'HomeAssistantEntity'
@@ -168,6 +303,11 @@ export interface NexusGenFieldTypeNames {
     domain: 'HomeAssistantDomain'
     entitiy: 'HomeAssistantEntity'
     game: 'Game'
+    gameFranchise: 'GameFranchise'
+    gameGenre: 'GameGenre'
+    gameKeyword: 'GameKeyword'
+    gameMode: 'GameMode'
+    gamePlatform: 'GamePlatform'
   }
   Node: { // field return type name
     id: 'ID'
@@ -195,7 +335,22 @@ export interface NexusGenArgTypes {
       ids?: Array<string | null> | null; // [String]
     }
     game: { // args
-      ids?: Array<string | null> | null; // [String]
+      ids?: Array<number | null> | null; // [Int]
+    }
+    gameFranchise: { // args
+      ids?: Array<number | null> | null; // [Int]
+    }
+    gameGenre: { // args
+      ids?: Array<number | null> | null; // [Int]
+    }
+    gameKeyword: { // args
+      ids?: Array<number | null> | null; // [Int]
+    }
+    gameMode: { // args
+      ids?: Array<number | null> | null; // [Int]
+    }
+    gamePlatform: { // args
+      ids?: Array<number | null> | null; // [Int]
     }
   }
 }

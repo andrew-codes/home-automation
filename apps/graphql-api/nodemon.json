@@ -5,6 +5,7 @@
     "js": "ts-node",
     "ts": "ts-node"
   },
+  "watch": ["src", "../../packages/string-utils/src"],
   "events": {
     "restart": "ts-node src/schema/index.ts"
   }

@@ -8,12 +8,6 @@ const filterHandlers = {
     f: FilterDefinition<TDomain>,
     value: DomainResults[TDomain]
   ): boolean => {
-    let objPath = f.attribute
-    if (!Array.isArray(f.attribute)) {
-      objPath = [f.attribute as string]
-    } else {
-      objPath = f.attribute
-    }
     const assetValue = get(value, f.attribute)
     if (f.negation) {
       if (Array.isArray(f.value)) {

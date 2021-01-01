@@ -65,5 +65,5 @@ app.post("/register", async (req, res) => {
 })
 
 app.listen(PORT, () => {
-  console.log(`listening on port ${PORT}`)
+  debug(`listening on port ${PORT}`)
 })

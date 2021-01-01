@@ -18,6 +18,7 @@
     "preinstall": "yarn global add typescript ts-node",
     "postintall": "yarn patch",
     "seal": "lerna run seal",
+    "start": "lerna run start --stream",
     "image/local": "./scripts/bin/build-local-images.sh",
     "image/push": "lerna run image/push --include-filtered-dependencies",
     "ingress/prod": "lerna run ingress/prod --include-filtered-dependencies",

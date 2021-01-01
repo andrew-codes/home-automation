@@ -1,16 +1,36 @@
 import { Filter } from "./filter/filter"
 
-export type DomainEntityDomain = "entity_domain"
-export type DomainHomeAssistantEntity = "home_assistant_entity"
 export type DomainArea = "area"
+export type DomainEntityDomain = "entity_domain"
 export type DomainError = "error"
 export type DomainGame = "game"
+export type DomainGameArtwork = "game_artwork"
+export type DomainGameCollection = "game_collection"
+export type DomainGameCover = "game_cover"
+export type DomainGameFranchise = "game_franchise"
+export type DomainGameGenre = "game_genre"
+export type DomainGameKeyword = "game_keyword"
+export type DomainGameMode = "game_mode"
+export type DomainGameMultiplayerMode = "game_multiplayer_mode"
+export type DomainGamePlatform = "game_platform"
+export type DomainGamePlayerPerspective = "game_player_perspective"
+export type DomainHomeAssistantEntity = "home_assistant_entity"
 export type Domain =
-  | DomainEntityDomain
-  | DomainHomeAssistantEntity
   | DomainArea
-  | DomainGame
+  | DomainEntityDomain
   | DomainError
+  | DomainGame
+  | DomainGameArtwork
+  | DomainGameCollection
+  | DomainGameCover
+  | DomainGameFranchise
+  | DomainGameGenre
+  | DomainGameKeyword
+  | DomainGameMode
+  | DomainGameMultiplayerMode
+  | DomainGamePlatform
+  | DomainGamePlayerPerspective
+  | DomainHomeAssistantEntity
 
 export type LightState = "on" | "off"
 export type MediaPlayerState = "on" | "off" | "standby" | "idle" | "playing"
@@ -82,17 +102,72 @@ export type GameState =
   | "Launching"
   | "Running"
 export interface GameEntity extends Base {
-  platformId: string
-  description: string | null
+  artworks?: number[]
+  category: number
+  collection: number
+  cover: number
   favorite: boolean
-  coverImage: string | null
-  gameImagePath: string | null
-  sourceId: string
-  state: GameState
-  playtime: number
-  releaseYear: number | null
+  firstReleaseDate: number
+  franchise: number
+  franchises: number[]
+  gameModes: number[]
+  genres: number[]
   hidden: boolean
+  keywords: number[]
+  multiplayerModes: number[]
+  platformId: string
+  playerPerspective: number
+  playniteId: string
+  playtime: number
+  releaseDates: number[]
+  slug: string
+  sourceId: string
+  source: {
+    id: string
+    name: string
+  }
+  state: GameState
+  summary?: string
+  url: string
 }
+export interface GameImage extends Base {
+  imageId: string
+  height: number
+}
+export interface GameMode extends Base {
+  slug: string
+}
+export interface GameGenre extends Base {
+  slug: string
+}
+export interface GameCollection extends Base {
+  slug: string
+  games: number[]
+}
+export interface GameFranchise extends Base {
+  slug: string
+  games: number[]
+}
+export interface GameKeyword extends Base {
+  slug: string
+}
+export interface GameMultiplayerMode extends Base {
+  campaigncoop: boolean
+  dropIn: boolean
+  lancoop: boolean
+  offlinecoop: boolean
+  offlinecoopmax: number
+  offlinemax: number
+  onlinecoop: boolean
+  onlinecoopmax: number
+  onlinemax: number
+  platform: number
+  splitscreen: boolean
+}
+export interface GamePlayerPerspective extends Base {
+  slug: string
+}
+export interface GamePlatform extends Base {}
 
 export interface DomainQuery<TDomain extends Domain> {
   filters?: Array<Filter<TDomain>>
@@ -105,4 +180,14 @@ export type DomainResults = {
   home_assistant_entity: HomeAssistantEntity
   error: Error
   game: GameEntity
+  game_cover: GameImage
+  game_artwork: GameImage
+  game_genre: GameGenre
+  game_collection: GameCollection
+  game_franchise: GameFranchise
+  game_multiplayer_mode: GameMultiplayerMode
+  game_player_perspective: GamePlayerPerspective
+  game_keyword: GameKeyword
+  game_platform: GamePlatform
+  game_mode: GameMode
 }

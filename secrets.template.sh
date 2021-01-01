@@ -5,6 +5,9 @@
 #   - those used after installation
 # See the [secrets catalog](./docs/secrets-catalog.md) for details on what secrets are needed for installation.
 
+# Your developer machine's admin user password; required for running locally via telepresence.
+export DEV_MACHINE_PASSWORD=""
+
 # Required for installation
 # =================================
 export CLUSTER_IP=""

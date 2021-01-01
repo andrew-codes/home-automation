@@ -74,6 +74,7 @@ const run = async () => {
           "importedGamesWithErrors"
         )
         gamesWithErrorsCollection.createIndex("id")
+        const platformCollection = db.collection("platforms")
         const updateAncillaryDetails = createAncillaryUpdater(db, callApi)
         let game
         for (let gameIndex = 0; gameIndex < gamesPayload.length; gameIndex++) {
@@ -109,7 +110,23 @@ const run = async () => {
               continue
             }
             gameResult.playniteId = playniteGame.id
-            game = formatKeys(gameResult)
+            const formattedGameResult = formatKeys(gameResult)
+            const game = {
+              ...playniteGame,
+              ...formattedGameResult,
+              playniteId: playniteGame.id,
+            }
+
+            debug("Saving platform")
+            platformCollection.updateOne(
+              {
+                id: game.platform.id,
+              },
+              { $set: game.platform },
+              {
+                upsert: true,
+              }
+            )
 
             debug("Saving artworks")
             await updateAncillaryDetails(
@@ -146,7 +163,7 @@ const run = async () => {
             await updateAncillaryDetails(
               "gameModes",
               "game_modes",
-              "gameMods",
+              "gameModes",
               game
             )
             debug("Saving multipler mdoes")

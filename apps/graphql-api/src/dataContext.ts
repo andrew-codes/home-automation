@@ -4,6 +4,7 @@ import { createDataProvider as createAreaConfigDataProvider } from "./dataProvid
 import { createDataProvider as createDomainConfigProvider } from "./dataProvider/configData/queryEntityDomain"
 import { createDataProvider as createHomeAssistantAPIEntityDataProvider } from "./dataProvider/homeAssistant/queryHomeAssistantEntities"
 import { createDataProvider as createGameDataProvider } from "./dataProvider/gameDataProvider"
+import { createDataProvider as createMongoCollectionDataProvider } from "./dataProvider/mongoCollectionDataProvider"
 import { createDataProvider as createSwitchDataProvider } from "./dataProvider/switchDataProvider"
 
 import { IProvideData } from "./dataProvider/DataProvider"
@@ -31,6 +32,22 @@ const createDataContext = (ha, mqtt: AsyncClient, unifi): DataContext => {
     haEntityAPIProvider,
     domainConfigProvider,
     gameProvider,
+    createMongoCollectionDataProvider("game_cover", "covers"),
+    createMongoCollectionDataProvider("game_artwork", "artworks"),
+    createMongoCollectionDataProvider("game_genre", "genres"),
+    createMongoCollectionDataProvider("game_collection", "collections"),
+    createMongoCollectionDataProvider("game_franchise", "franchises"),
+    createMongoCollectionDataProvider(
+      "game_multiplayer_mode",
+      "multiplayerModes"
+    ),
+    createMongoCollectionDataProvider(
+      "game_player_perspective",
+      "playerPerspectives"
+    ),
+    createMongoCollectionDataProvider("game_keyword", "keywords"),
+    createMongoCollectionDataProvider("game_platform", "platforms"),
+    createMongoCollectionDataProvider("game_mode", "gameModes"),
   ])
 
   return {

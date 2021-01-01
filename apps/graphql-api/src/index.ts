@@ -9,6 +9,7 @@ import { graphqlHTTP } from "express-graphql"
 import * as bodyParser from "body-parser-graphql"
 import { authorize } from "./middleware/authorize"
 import { cache } from "./cache"
+import { client } from "./mongo"
 import { createDataContext } from "./dataContext"
 import { resetCounts } from "./dataProvider/dataSourceBatchPerformance"
 import { schema } from "./schema/index"
@@ -65,7 +66,7 @@ app.use(
     next()
   },
   (req, resp, next) => {
-    console.log("Flushing Cache")
+    debug("Flushing Cache")
     resetCounts()
     cache.flushAll()
     cache.flushStats()
@@ -86,6 +87,11 @@ app.listen(PORT, () => {
   debug("listening on port", PORT)
 })
 
+process.once("SIGUSR2", () => {
+  resetCounts()
+  process.kill(process.pid, "SIGUSR2")
+})
 process.on("SIGINT", () => {
+  client.close()
   process.exit(0)
 })
