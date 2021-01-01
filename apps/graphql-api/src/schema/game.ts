@@ -175,7 +175,7 @@ export const GameGraphType = objectType({
       },
     })
     t.string("name")
-    t.string("platform")
+    // t.string("platform")
     t.string("summary")
     t.string("slug")
     t.field("cover", {

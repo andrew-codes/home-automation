@@ -13,7 +13,6 @@ type Game {
   keywords: [GameKeyword]
   multiplayerMode: GameMultiPlayerMode
   name: String
-  platform: String
   playerPerspective: GamePlayerPerspective
   playniteId: String
   playtime: Int

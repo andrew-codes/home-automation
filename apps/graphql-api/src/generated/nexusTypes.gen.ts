@@ -88,7 +88,6 @@ export interface NexusGenFieldTypes {
     keywords: Array<NexusGenRootTypes['GameKeyword'] | null> | null; // [GameKeyword]
     multiplayerMode: NexusGenRootTypes['GameMultiPlayerMode'] | null; // GameMultiPlayerMode
     name: string | null; // String
-    platform: string | null; // String
     playerPerspective: NexusGenRootTypes['GamePlayerPerspective'] | null; // GamePlayerPerspective
     playniteId: string | null; // String
     playtime: number | null; // Int
@@ -189,7 +188,6 @@ export interface NexusGenFieldTypeNames {
     keywords: 'GameKeyword'
     multiplayerMode: 'GameMultiPlayerMode'
     name: 'String'
-    platform: 'String'
     playerPerspective: 'GamePlayerPerspective'
     playniteId: 'String'
     playtime: 'Int'

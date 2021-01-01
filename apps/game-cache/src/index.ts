@@ -109,7 +109,12 @@ const run = async () => {
               continue
             }
             gameResult.playniteId = playniteGame.id
-            game = formatKeys(gameResult)
+            const formattedGameResult = formatKeys(gameResult)
+            const game = {
+              ...playniteGame,
+              ...formattedGameResult,
+              playniteId: playniteGame.id,
+            }
 
             debug("Saving artworks")
             await updateAncillaryDetails(
