@@ -97,18 +97,17 @@ beforeEach(() => {
   createDomainConfigProvider.mockReturnValue(domainProvider)
   createGameDataProvider.mockReturnValue(gameProvider)
   createMongoCollectionDataProvider.mockImplementation((domain, collection) => {
-    console.log(domain, collection)
     return mongoProviderMap[`${domain}.${collection}`]
   })
 })
 
 test("data context contains HA instance", () => {
-  const sut = createDataContext(ha)
+  const sut = createDataContext(ha, null, null)
   expect(sut.ha).toEqual(ha)
 })
 
 test("combines domains in a switch provider", async () => {
-  const sut = createDataContext(ha)
+  const sut = createDataContext(ha, null, null)
   expect(createSwitchDataProvider).toHaveBeenCalledWith([
     areaProvider,
     haEntityProvider,
@@ -139,7 +138,7 @@ test("errors from providers return empty result set", async () => {
   switchProvider.query.mockImplementation(() => {
     throw new Error()
   })
-  const sut = createDataContext(ha)
+  const sut = createDataContext(ha, null, null)
   const actual = await sut.query({ from: "area" })
   expect(actual).toEqual([])
 })
