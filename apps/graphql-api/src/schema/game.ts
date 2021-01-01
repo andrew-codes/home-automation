@@ -1,6 +1,5 @@
 import path from "path"
 import { list, objectType } from "nexus"
-import { first } from "lodash"
 import { equality } from "../filter"
 import {
   DomainGame,

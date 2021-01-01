@@ -287,17 +287,22 @@ function createAncillaryUpdater(db, callApi) {
 
 function createImageScraper(db, bucket) {
   return async (collection, game) => {
-    await db
+    const images = await db
       .collection(collection)
-      .find({ id: game.cover }, { id: 1, imageId: 1, url: 1 })
-      .map(async ({ id, imageId, url }) => {
+      .find({ game: game.id })
+      .toArray()
+    return Promise.all(
+      images.map(async ({ id, imageId, url }) => {
         debug("Found image", id, imageId, url)
-        const resp = await fetch(`http://${url}`, {
-          method: "GET",
-        })
+        const resp = await fetch(
+          `https://images.igdb.com/igdb/image/upload/t_cover_big/${imageId}`,
+          {
+            method: "GET",
+          }
+        )
         return new Promise((resolve, reject) => {
           resp.body
-            .pipe(bucket.openUploadStream(id))
+            .pipe(bucket.openUploadStream(id.toString()))
             .on("error", function (error) {
               debug("error", error)
               reject(error)
@@ -307,5 +312,6 @@ function createImageScraper(db, bucket) {
             })
         })
       })
+    )
   }
 }
