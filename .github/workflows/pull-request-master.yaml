@@ -23,7 +23,7 @@ jobs:
       - name: Install deps
         run: yarn
       - name: Patch packages
-        run: run yarn patch-package
+        run: run yarn patch
       - name: Compile
         run: yarn compile
       - name: Run unit tests

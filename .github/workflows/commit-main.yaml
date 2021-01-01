@@ -22,7 +22,7 @@ jobs:
       - name: Install deps
         run: yarn
       - name: Patch packages
-        run: yarn patch-package
+        run: yarn patch
       - name: Compile apps
         run: yarn lerna run compile --stream
         env:
