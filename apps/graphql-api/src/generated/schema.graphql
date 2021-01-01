@@ -6,13 +6,16 @@ type Game {
   artworks: [GameImage]
   collection: GameCollection
   cover: GameImage
+  favorite: Boolean
   franchise: GameFranchise
   franchises: [GameFranchise]
   genres: [GameGenre]
+  hidden: Boolean
   id: ID
   keywords: [GameKeyword]
   multiplayerMode: GameMultiPlayerMode
   name: String
+  platform: GamePlatform
   playerPerspective: GamePlayerPerspective
   playniteId: String
   playtime: Int
@@ -67,6 +70,12 @@ type GameMultiPlayerMode {
   onlinecoopmax: Int
   onlinemax: Int
   splitscreen: Boolean
+}
+
+type GamePlatform {
+  games: [Game]
+  id: ID
+  name: String
 }
 
 type GamePlayerPerspective {
@@ -133,4 +142,5 @@ type Query {
   gameFranchise(ids: [Int]): [GameFranchise]
   gameGenre(ids: [Int]): [GameGenre]
   gameKeyword(ids: [Int]): [GameKeyword]
+  gamePlatform(ids: [Int]): [GamePlatform]
 }

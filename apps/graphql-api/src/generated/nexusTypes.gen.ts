@@ -5,7 +5,7 @@
 
 
 import { DataContext as ctx } from "./../dataContext"
-import { GameImage, GamePlayerPerspective, GameKeyword, GameGenre, GameCollection, GameFranchise, GameMultiPlayerMode, GameEntity, HomeAssistantEntity, EntityDomain } from "./../Domain"
+import { GameImage, GamePlayerPerspective, GamePlatform, GameKeyword, GameGenre, GameCollection, GameFranchise, GameMultiPlayerMode, GameEntity, HomeAssistantEntity, EntityDomain } from "./../Domain"
 
 
 
@@ -54,6 +54,7 @@ export interface NexusGenObjects {
   GameImage: GameImage;
   GameKeyword: GameKeyword;
   GameMultiPlayerMode: GameMultiPlayerMode;
+  GamePlatform: GamePlatform;
   GamePlayerPerspective: GamePlayerPerspective;
   HomeAssistantArea: { // root type
     id?: string | null; // ID
@@ -81,13 +82,16 @@ export interface NexusGenFieldTypes {
     artworks: Array<NexusGenRootTypes['GameImage'] | null> | null; // [GameImage]
     collection: NexusGenRootTypes['GameCollection'] | null; // GameCollection
     cover: NexusGenRootTypes['GameImage'] | null; // GameImage
+    favorite: boolean | null; // Boolean
     franchise: NexusGenRootTypes['GameFranchise'] | null; // GameFranchise
     franchises: Array<NexusGenRootTypes['GameFranchise'] | null> | null; // [GameFranchise]
     genres: Array<NexusGenRootTypes['GameGenre'] | null> | null; // [GameGenre]
+    hidden: boolean | null; // Boolean
     id: string | null; // ID
     keywords: Array<NexusGenRootTypes['GameKeyword'] | null> | null; // [GameKeyword]
     multiplayerMode: NexusGenRootTypes['GameMultiPlayerMode'] | null; // GameMultiPlayerMode
     name: string | null; // String
+    platform: NexusGenRootTypes['GamePlatform'] | null; // GamePlatform
     playerPerspective: NexusGenRootTypes['GamePlayerPerspective'] | null; // GamePlayerPerspective
     playniteId: string | null; // String
     playtime: number | null; // Int
@@ -137,6 +141,11 @@ export interface NexusGenFieldTypes {
     onlinemax: number | null; // Int
     splitscreen: boolean | null; // Boolean
   }
+  GamePlatform: { // field return type
+    games: Array<NexusGenRootTypes['Game'] | null> | null; // [Game]
+    id: string | null; // ID
+    name: string | null; // String
+  }
   GamePlayerPerspective: { // field return type
     id: string | null; // ID
     name: string | null; // String
@@ -170,6 +179,7 @@ export interface NexusGenFieldTypes {
     gameFranchise: Array<NexusGenRootTypes['GameFranchise'] | null> | null; // [GameFranchise]
     gameGenre: Array<NexusGenRootTypes['GameGenre'] | null> | null; // [GameGenre]
     gameKeyword: Array<NexusGenRootTypes['GameKeyword'] | null> | null; // [GameKeyword]
+    gamePlatform: Array<NexusGenRootTypes['GamePlatform'] | null> | null; // [GamePlatform]
   }
   Node: { // field return type
     id: string | null; // ID
@@ -181,13 +191,16 @@ export interface NexusGenFieldTypeNames {
     artworks: 'GameImage'
     collection: 'GameCollection'
     cover: 'GameImage'
+    favorite: 'Boolean'
     franchise: 'GameFranchise'
     franchises: 'GameFranchise'
     genres: 'GameGenre'
+    hidden: 'Boolean'
     id: 'ID'
     keywords: 'GameKeyword'
     multiplayerMode: 'GameMultiPlayerMode'
     name: 'String'
+    platform: 'GamePlatform'
     playerPerspective: 'GamePlayerPerspective'
     playniteId: 'String'
     playtime: 'Int'
@@ -237,6 +250,11 @@ export interface NexusGenFieldTypeNames {
     onlinemax: 'Int'
     splitscreen: 'Boolean'
   }
+  GamePlatform: { // field return type name
+    games: 'Game'
+    id: 'ID'
+    name: 'String'
+  }
   GamePlayerPerspective: { // field return type name
     id: 'ID'
     name: 'String'
@@ -270,6 +288,7 @@ export interface NexusGenFieldTypeNames {
     gameFranchise: 'GameFranchise'
     gameGenre: 'GameGenre'
     gameKeyword: 'GameKeyword'
+    gamePlatform: 'GamePlatform'
   }
   Node: { // field return type name
     id: 'ID'
@@ -306,6 +325,9 @@ export interface NexusGenArgTypes {
       ids?: Array<number | null> | null; // [Int]
     }
     gameKeyword: { // args
+      ids?: Array<number | null> | null; // [Int]
+    }
+    gamePlatform: { // args
       ids?: Array<number | null> | null; // [Int]
     }
   }

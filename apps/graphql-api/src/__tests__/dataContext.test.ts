@@ -65,6 +65,10 @@ const gameKeyword = {
   canExecuteQuery: jest.fn(),
   query: jest.fn(),
 }
+const gamePlatform = {
+  canExecuteQuery: jest.fn(),
+  query: jest.fn(),
+}
 
 const mongoProviderMap = {
   "game_cover.covers": gameCover,
@@ -75,6 +79,7 @@ const mongoProviderMap = {
   "game_multiplayer_mode.multiplayerModes": gameMultiplayerModes,
   "game_player_perspective.playerPerspectives": gamePlayerPerspective,
   "game_keyword.keywords": gameKeyword,
+  "game_platform.platforms": gamePlatform,
 }
 
 beforeEach(() => {
@@ -112,6 +117,7 @@ test("combines domains in a switch provider", async () => {
     gameMultiplayerModes,
     gamePlayerPerspective,
     gameKeyword,
+    gamePlatform,
   ])
   switchProvider.query.mockResolvedValue({ id: "lights", name: "Lights" })
 

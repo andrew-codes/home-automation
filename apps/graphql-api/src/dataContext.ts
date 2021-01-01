@@ -46,6 +46,7 @@ const createDataContext = (ha, mqtt: AsyncClient, unifi): DataContext => {
       "playerPerspectives"
     ),
     createMongoCollectionDataProvider("game_keyword", "keywords"),
+    createMongoCollectionDataProvider("game_platform", "platforms"),
   ])
 
   return {

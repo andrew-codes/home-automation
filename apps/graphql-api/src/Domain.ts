@@ -13,6 +13,7 @@ export type DomainGameFranchise = "game_franchise"
 export type DomainGameMultiplayerMode = "game_multiplayer_mode"
 export type DomainGamePlayerPerspective = "game_player_perspective"
 export type DomainGameKeyword = "game_keyword"
+export type DomainGamePlatform = "game_platform"
 export type Domain =
   | DomainEntityDomain
   | DomainHomeAssistantEntity
@@ -27,6 +28,7 @@ export type Domain =
   | DomainGameMultiplayerMode
   | DomainGamePlayerPerspective
   | DomainGameKeyword
+  | DomainGamePlatform
 
 export type LightState = "on" | "off"
 export type MediaPlayerState = "on" | "off" | "standby" | "idle" | "playing"
@@ -155,6 +157,7 @@ export interface GameMultiplayerMode extends Base {
 export interface GamePlayerPerspective extends Base {
   slug: string
 }
+export interface GamePlatform extends Base {}
 
 export interface DomainQuery<TDomain extends Domain> {
   filters?: Array<Filter<TDomain>>
@@ -175,4 +178,5 @@ export type DomainResults = {
   game_multiplayer_mode: GameMultiplayerMode
   game_player_perspective: GamePlayerPerspective
   game_keyword: GameKeyword
+  game_platform: GamePlatform
 }

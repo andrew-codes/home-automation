@@ -31,6 +31,7 @@ const loadFns = {
   playerPerspectives: createBatchFn("playerPerspectives"),
   collections: createBatchFn("collections"),
   keywords: createBatchFn("keywords"),
+  platforms: createBatchFn("platforms"),
 }
 
 const createMongoCollectionQuery = <TDomain extends Domain>(

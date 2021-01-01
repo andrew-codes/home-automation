@@ -1,5 +1,6 @@
 import path from "path"
 import { list, objectType } from "nexus"
+import { first } from "lodash"
 import { equality } from "../filter"
 import {
   DomainGame,
@@ -10,6 +11,7 @@ import {
   DomainGameGenre,
   DomainGameKeyword,
   DomainGameMultiplayerMode,
+  DomainGamePlatform,
   DomainGamePlayerPerspective,
   GameCollection,
   GameEntity,
@@ -18,6 +20,7 @@ import {
   GameImage,
   GameKeyword,
   GameMultiplayerMode,
+  GamePlatform,
   GamePlayerPerspective,
 } from "../Domain"
 
@@ -44,6 +47,27 @@ export const GamePlayerPerspectiveGraphType = objectType({
     t.id("id")
     t.string("name")
     t.string("slug")
+  },
+})
+
+export const GamePlatformGraphType = objectType({
+  name: "GamePlatform",
+  sourceType: {
+    export: "GamePlatform",
+    module: path.join(__dirname, "..", "Domain.ts"),
+  },
+  definition(t) {
+    t.id("id")
+    t.string("name")
+    t.field("games", {
+      type: list(GameGraphType),
+      resolve(root, args, ctx) {
+        return ctx.query({
+          from: "game",
+          filters: [equality<DomainGame>("platformId", root.id)],
+        }) as Promise<GameEntity[]>
+      },
+    })
   },
 })
 
@@ -175,7 +199,17 @@ export const GameGraphType = objectType({
       },
     })
     t.string("name")
-    // t.string("platform")
+    t.boolean("favorite")
+    t.boolean("hidden")
+    t.field("platform", {
+      type: GamePlatformGraphType,
+      async resolve(root, args, ctx) {
+        return ctx.query({
+          from: "game_platform",
+          filters: [equality<DomainGamePlatform>("id", root.platformId)],
+        }) as Promise<GamePlatform>
+      },
+    })
     t.string("summary")
     t.string("slug")
     t.field("cover", {

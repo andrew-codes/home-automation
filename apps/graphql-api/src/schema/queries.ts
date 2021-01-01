@@ -8,11 +8,13 @@ import {
   DomainGameFranchise,
   DomainGameGenre,
   DomainGameKeyword,
+  DomainGamePlatform,
   DomainHomeAssistantEntity,
   GameEntity,
   GameFranchise,
   GameGenre,
   GameKeyword,
+  GamePlatform,
   HomeAssistantEntity,
 } from "../Domain"
 import { HomeAssistantEntityGraphType } from "./home_assistant_entity"
@@ -23,6 +25,7 @@ import {
   GameGenreGraphType,
   GameGraphType,
   GameKeywordGraphType,
+  GamePlatformGraphType,
 } from "./game"
 
 export const HAEntityQuery = queryField("entitiy", {
@@ -143,5 +146,22 @@ export const GameKeywordQuery = queryField("gameKeyword", {
     return (results as Array<GameKeyword | Error>).filter(
       (result) => !(result instanceof Error)
     ) as GameKeyword[]
+  },
+})
+
+export const GamePlatformQuery = queryField("gamePlatform", {
+  type: list(GamePlatformGraphType),
+  args: { ids: list(intArg()) },
+  async resolve(root, args, ctx) {
+    let results = await ctx.query({
+      from: "game_platform",
+      filters: args.ids?.map((id) => equality<DomainGamePlatform>("id", id)),
+    })
+    if (!Array.isArray(results)) {
+      results = [results]
+    }
+    return (results as Array<GamePlatform | Error>).filter(
+      (result) => !(result instanceof Error)
+    ) as GamePlatform[]
   },
 })
