@@ -15,8 +15,6 @@ const {
 } = process.env
 
 debug.info("Starting service.")
-debug.warn("Watch out!")
-debug.error("Something went wrong.")
 
 async function run() {
   debug.info("Connecting MQTT client")
@@ -31,6 +29,13 @@ async function run() {
     await mqtt.subscribe("/playnite/game/stop/pc")
 
     mqtt.on("message", async (topic, message) => {
+      debug.info(
+        `Topic: ${topic}, message: ${JSON.stringify(
+          JSON.parse(message.toString()),
+          null,
+          4
+        )}`
+      )
       if (topic === "/playnite/game/play") {
         const { id, platform } = JSON.parse(message.toString())
         if (platform !== "pc") {
@@ -58,8 +63,8 @@ async function run() {
       }
     })
   } catch (error) {
-    debug.info(error)
+    debug.error(error)
   }
 }
 
-run()
+run().then(() => debug.info("Run has been run."))
