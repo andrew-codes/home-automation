@@ -36,7 +36,7 @@ const svc = new Service({
     { name: "PLAYNITE_EXEC", value: PLAYNITE_EXEC },
   ],
 })
-svc.logonAs.domain = "GAMING_PC"
+svc.logOnAs.domain = "GAMING_PC"
 svc.logOnAs.account = USERNAME
 
 svc.on("install", () => {
