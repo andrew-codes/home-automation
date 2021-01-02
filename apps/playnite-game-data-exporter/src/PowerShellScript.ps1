@@ -24,6 +24,8 @@ function global:OnGameStarting()
     param(
         $game
     )
+
+    $MqttClient.Publish("/playnite/game/starting", [System.Text.Encoding]::UTF8.GetBytes($game.Id.toString()), 2, 0)
 }
 
 function global:OnGameStarted()
@@ -31,6 +33,7 @@ function global:OnGameStarted()
     param(
         $game
     )
+    $MqttClient.Publish("/playnite/game/started", [System.Text.Encoding]::UTF8.GetBytes($game.Id.toString()), 2, 0)
 }
 
 function global:OnGameStopped()
@@ -39,27 +42,33 @@ function global:OnGameStopped()
         $game,
         $elapsedSeconds
     )
+
+    $MqttClient.Publish("/playnite/game/stopped", [System.Text.Encoding]::UTF8.GetBytes($game.Id.toString()), 2, 0)
 }
 
 function global:OnGameInstalled()
 {
     param(
         $game
-    )     
+    )
+
+    $MqttClient.Publish("/playnite/game/installed", [System.Text.Encoding]::UTF8.GetBytes($game.Id.toString()), 2, 0)
 }
 
 function global:OnGameUninstalled()
 {
     param(
         $game
-    )    
+    )
+
+    $MqttClient.Publish("/playnite/game/uninstalled", [System.Text.Encoding]::UTF8.GetBytes($game.Id.toString()), 2, 0)
 }
 
 function global:OnGameSelected()
 {
     param(
         $selection
-    )    
+    )
 }
 
 function global:MQTTMsgReceived
@@ -73,8 +82,7 @@ function global:MQTTMsgReceived
         PublishLibrary
     }
     if ($mqtt.topic -eq "/playnite/game/play/pc") {
-        $payload = $([System.Text.Encoding]::ASCII.GetString($mqtt.Payload))
-        $gameId = [System.guid]::New($payload)
+        $gameId = [System.guid]::New($msg)
         $PlayniteApi.StartGame($gameId)        
     }
 
