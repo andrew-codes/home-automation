@@ -51,9 +51,9 @@ yarn seal-github-secret andrew-codes home-automation DOCKER_REGISTRY_DOMAIN "$DO
 yarn seal-github-secret andrew-codes home-automation GAMING_ROOM_GAMING_PC_MAC "$GAMING_ROOM_GAMING_PC_MAC"
 yarn seal-github-secret andrew-codes home-automation GAMING_ROOM_GAMING_PC_USERNAME "$GAMING_ROOM_GAMING_PC_USERNAME"
 yarn seal-github-secret andrew-codes home-automation MACHINE_PASSWORD "$MACHINE_PASSWORD"
-yarn seal-github-secret andrew-codes home-automation MQTT_HOST "$MQTT_HOST"
+yarn seal-github-secret andrew-codes home-automation MQTT_HOST "$CLUSTER_IP"
 yarn seal-github-secret andrew-codes home-automation MQTT_PASSWORD "$MQTT_PASSWORD"
-yarn seal-github-secret andrew-codes home-automation MQTT_PORT "$MQTT_PORT"
+yarn seal-github-secret andrew-codes home-automation MQTT_PORT "$EXTERNAL_MQTT_PORT"
 yarn seal-github-secret andrew-codes home-automation MQTT_USERNAME "$MQTT_USERNAME"
 yarn seal-github-secret andrew-codes home-automation MQTT_CONNECTION "$(
   cat <<EOL
