@@ -40,5 +40,5 @@
 
     - name: Restart node app service
       ansible.windows.win_service:
-        name: Playnite Game Player
+        name: Playnite Game Player v2
         state: restarted
