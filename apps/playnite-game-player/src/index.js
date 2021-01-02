@@ -11,7 +11,7 @@ const {
   MQTT_PASSWORD,
   MQTT_PORT,
   MQTT_USERNAME,
-  PLAYNITE_EXEC,
+  USERNAME,
 } = process.env
 
 debug.info("Starting service.")
@@ -41,10 +41,11 @@ async function run() {
         if (platform !== "pc") {
           return
         }
+        const playniteExec = `C:\\Users\\${USERNAME}\\AppData\\Local\\Playnite\\Playnite.FullscreenApp.exe`
         debug.info(`Playing PC game ${id}`)
-        debug.info(`${PLAYNITE_EXEC} --start "${id}" --nolibupdate`)
+        debug.info(`${playniteExec} --start "${id}" --nolibupdate`)
         sh.exec(
-          `${PLAYNITE_EXEC} --start "${id}" --nolibupdate`,
+          `${playniteExec} --start "${id}" --nolibupdate`,
           (code, stdout, stderr) => {
             debug.info(`Exit code ${code}`)
             debug.info(stdout)

@@ -6,7 +6,7 @@ const {
   MQTT_PASSWORD,
   MQTT_PORT,
   MQTT_USERNAME,
-  PLAYNITE_EXEC,
+  USERNAME,
 } = process.env
 
 const svc = new Service({
@@ -32,7 +32,10 @@ const svc = new Service({
       name: "MQTT_USERNAME",
       value: MQTT_USERNAME,
     },
-    { name: "PLAYNITE_EXEC", value: PLAYNITE_EXEC },
+    {
+      name: "USERNAME",
+      value: USERNAME,
+    },
   ],
 })
 

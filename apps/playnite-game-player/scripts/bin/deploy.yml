@@ -28,6 +28,11 @@
     - name: Install global packages
       win_shell: npm install -g nodemon node-windows
 
+    - name: Restart node app service
+      ansible.windows.win_service:
+        name: Playnite Game Player v2
+        state: stopped
+
     - name: Install node app as service
       win_shell: node C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\playnite-game-player-v2\dist\deploy-service.js
       environment:
@@ -35,7 +40,6 @@
         MQTT_PORT: "{{ lookup('env', 'MQTT_PORT') }}"
         MQTT_PASSWORD: "{{ lookup('env', 'MQTT_PASSWORD') }}"
         MQTT_USERNAME: "{{ lookup('env', 'MQTT_USERNAME') }}"
-        PLAYNITE_EXEC: C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\Playnite\Playnite.FullscreenApp.exe
         USERNAME: "{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}"
 
     - name: Restart node app service
