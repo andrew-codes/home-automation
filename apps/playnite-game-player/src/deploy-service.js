@@ -14,7 +14,7 @@ const svc = new Service({
   name: "Playnite Game Player",
   description:
     "Node service listening to MQTT bus for /playnite actions to be performed on PC.",
-  script: path.join(__dirname, "..", "index.js"),
+  script: path.join(__dirname, "index.js"),
   maxRetries: 5,
   env: [
     {

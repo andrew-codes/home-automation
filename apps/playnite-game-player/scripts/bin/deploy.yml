@@ -29,7 +29,7 @@
       win_shell: npm install -g nodemon node-windows
 
     - name: Install node app as service
-      win_shell: node C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\playnite-game-player\deploy\index.js
+      win_shell: node C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\playnite-game-player\deploy.js
       environment:
         MQTT_HOST: "{{ lookup('env', 'MQTT_HOST') }}"
         MQTT_PORT: "{{ lookup('env', 'MQTT_PORT') }}"
