@@ -12,6 +12,19 @@
         ansible_become_user: "{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}"
         ansible_remote_tmp: 'C:\tmp'
 
+    - name: Copy package.json
+      ansible.windows.win_copy:
+        src: ../../package.json
+        dest: C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\playnite-game-player\package.json
+      vars:
+        ansible_become_user: "{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}"
+        ansible_remote_tmp: 'C:\tmp'
+
+    - name: Install deps
+      win_shell: npm install
+      args:
+        chdir: C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\playnite-game-player\
+
     - name: Install global packages
       win_shell: npm install -g nodemon node-windows
 

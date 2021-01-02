@@ -1,8 +1,10 @@
-import { EventLogger, kill, list } from "node-windows"
-import { connectAsync } from "async-mqtt"
-import { exec } from "shelljs"
+const EventLogger = require("node-windows").EventLogger
+const kill = require("node-windows").kill
+const list = require("node-windows").list
+const connectAsync = require("async-mqtt").connectAsync
+const sh = require("shelljs")
 
-var debug = new EventLogger("@ha/playnite-game-player-app/index")
+const debug = new EventLogger("@ha/playnite-game-player-app/index")
 
 const {
   MQTT_HOST,
@@ -35,7 +37,7 @@ async function run() {
           return
         }
         debug.info(`Playing PC game ${id}`)
-        exec(`${PLAYNITE_EXEC} --start ${id}`, (code, stdout, stderr) => {
+        sh.exec(`${PLAYNITE_EXEC} --start ${id}`, (code, stdout, stderr) => {
           debug.info(`Exit code ${code}`)
         })
       }
