@@ -209,15 +209,19 @@ const run = async () => {
             )
           } catch (error) {
             debug(error, playniteGame.name)
-            await gamesWithErrorsCollection.updateOne(
-              {
-                id: playniteGame.id,
-              },
-              { $set: { playniteGame, game } },
-              {
-                upsert: true,
-              }
-            )
+            try {
+              await gamesWithErrorsCollection.updateOne(
+                {
+                  id: playniteGame.id,
+                },
+                { $set: { updated: new Date(), playniteGame } },
+                {
+                  upsert: true,
+                }
+              )
+            } catch (e) {
+              debug("Could not save to game error table", e)
+            }
           }
         }
 
