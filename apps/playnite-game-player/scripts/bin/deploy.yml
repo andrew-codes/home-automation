@@ -18,10 +18,10 @@
     - name: Install node app as service
       win_shell: node C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\playnite-game-player\deploy-service.js
       environment:
-        MQTT_HOST: "{{ MQTT_HOST }}"
-        MQTT_PORT: "{{ MQTT_PORT }}"
-        MQTT_PASSWORD: "{{ MQTT_PASSWORD }}"
-        MQTT_USERNAME: "{{ MQTT_USERNAME }}"
+        MQTT_HOST: "{{ lookup('env', 'MQTT_HOST') }}"
+        MQTT_PORT: "{{ lookup('env', 'MQTT_PORT') }}"
+        MQTT_PASSWORD: "{{ lookup('env', 'MQTT_PASSWORD') }}"
+        MQTT_USERNAME: "{{ lookup('env', 'MQTT_USERNAME') }}"
         PLAYNITE_EXEC: C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\Playnite\Playnite.DesktopApp.exe
 
     - name: Restart node app service
