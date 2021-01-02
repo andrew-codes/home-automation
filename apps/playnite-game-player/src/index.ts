@@ -24,8 +24,8 @@ async function run() {
     username: MQTT_USERNAME,
   })
 
-  mqtt.subscribe("/playnite/game/play/pc")
-  mqtt.subscribe("/playnite/game/stop/pc")
+  await mqtt.subscribe("/playnite/game/play/pc")
+  await mqtt.subscribe("/playnite/game/stop/pc")
 
   mqtt.on("message", async (topic, message) => {
     if (topic === "/playnite/game/play") {
