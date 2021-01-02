@@ -8,24 +8,24 @@ import { UnsupportedDomainError } from "./Errors"
 const debug = createDebug("@ha/graphql-api/dataProvider/game")
 
 const getGameState = (gameItem): GameState => {
-  if (gameItem.IsInstalled) {
+  if (gameItem.isInstalled) {
     return "Installed"
   }
-  if (gameItem.IsInstalling) {
+  if (gameItem.isInstalling) {
     return "Installing"
   }
-  if (gameItem.IsUninstalling) {
+  if (gameItem.isUninstalling) {
     return "Uninstalling"
   }
-  if (gameItem.IsLaunching) {
+  if (gameItem.isLaunching) {
     return "Launching"
   }
-  if (gameItem.IsRunning) {
+  if (gameItem.isRunning) {
     return "Running"
   }
   return "Not Installed"
 }
-const transformGame = (gameItem, index, list) => ({
+const transformGame = (gameItem) => ({
   ...gameItem,
   state: getGameState(gameItem),
 })
@@ -42,7 +42,10 @@ const createDataProvider = (): IProvideData => {
         throw new UnsupportedDomainError(q)
       }
       const results = await mongoDbDataProvider.query(q)
-      return results.map(transformGame)
+      if (Array.isArray(results)) {
+        return results.map(transformGame)
+      }
+      return transformGame(results)
     },
   }
 }

@@ -100,6 +100,7 @@ export interface NexusGenFieldTypes {
     releaseYear: number | null; // Int
     slug: string | null; // String
     source: string | null; // String
+    state: string | null; // String
     summary: string | null; // String
   }
   GameCollection: { // field return type
@@ -177,6 +178,7 @@ export interface NexusGenFieldTypes {
   }
   Mutation: { // field return type
     homeAssistantCallService: NexusGenRootTypes['HomeAssistantEntity'] | null; // HomeAssistantEntity
+    playGameInGameRoom: NexusGenRootTypes['Game'] | null; // Game
     renewGuestDevices: Array<NexusGenRootTypes['HomeAssistantEntity'] | null> | null; // [HomeAssistantEntity]
     trackGuestDevice: NexusGenRootTypes['HomeAssistantEntity'] | null; // HomeAssistantEntity
   }
@@ -218,6 +220,7 @@ export interface NexusGenFieldTypeNames {
     releaseYear: 'Int'
     slug: 'String'
     source: 'String'
+    state: 'String'
     summary: 'String'
   }
   GameCollection: { // field return type name
@@ -295,6 +298,7 @@ export interface NexusGenFieldTypeNames {
   }
   Mutation: { // field return type name
     homeAssistantCallService: 'HomeAssistantEntity'
+    playGameInGameRoom: 'Game'
     renewGuestDevices: 'HomeAssistantEntity'
     trackGuestDevice: 'HomeAssistantEntity'
   }
@@ -318,6 +322,9 @@ export interface NexusGenArgTypes {
   Mutation: {
     homeAssistantCallService: { // args
       entity?: NexusGenInputs['InputServiceCall'] | null; // InputServiceCall
+    }
+    playGameInGameRoom: { // args
+      id?: string | null; // String
     }
     trackGuestDevice: { // args
       isPrimary?: boolean | null; // Boolean

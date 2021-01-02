@@ -52,3 +52,8 @@
       vars:
         ansible_become_user: "{{ ansible_user }}"
         ansible_become_password: "{{ ansible_password }}"
+
+    - name: Ensure node is installed
+      win_chocolatey:
+        name: nodejs
+        state: present

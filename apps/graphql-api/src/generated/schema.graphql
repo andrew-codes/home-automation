@@ -23,6 +23,7 @@ type Game {
   releaseYear: Int
   slug: String
   source: String
+  state: String
   summary: String
 }
 
@@ -135,6 +136,7 @@ input InputServiceCallPayload {
 
 type Mutation {
   homeAssistantCallService(entity: InputServiceCall): HomeAssistantEntity
+  playGameInGameRoom(id: String): Game
   renewGuestDevices: [HomeAssistantEntity]
   trackGuestDevice(isPrimary: Boolean = false, mac: String): HomeAssistantEntity
 }

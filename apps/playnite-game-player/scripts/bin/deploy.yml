@@ -1,0 +1,32 @@
+---
+- hosts: gaming_pc
+  gather_facts: yes
+  connection: winrm
+  vars_files:
+    - .secrets/playnite-game-player.yml
+
+  tasks:
+    - name: Copy app dist
+      ansible.windows.win_copy:
+          src: ../../dist/
+          dest: C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\playnite-game-player\
+      vars:
+        ansible_become_user: "{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}"
+        ansible_remote_tmp: 'C:\tmp'
+
+    - name: Install global packages
+      ansible.windows.win_shell: npm install -g nodemon node-windows
+
+    - name: Install node app as service
+      ansible.windows.win_shell: node C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\playnite-game-player\deploy-service.js
+      environment:
+        MQTT_HOST: "{{ MQTT_HOST }}"
+        MQTT_PORT: "{{ MQTT_PORT }}"
+        MQTT_PASSWORD: "{{ MQTT_PASSWORD }}"
+        MQTT_USERNAME: "{{ MQTT_USERNAME }}"
+        PLAYNITE_EXEC: C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\Playnite\Playnite.DesktopApp.exe
+
+    - name: Restart node app service
+      ansible.windows.win_service:
+        name: Playnite Game Player
+        state: restarted

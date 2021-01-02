@@ -37,3 +37,7 @@ jobs:
           MACHINE_PASSWORD: '${{ secrets.MACHINE_PASSWORD }}'
           GAMING_ROOM_GAMING_PC_USERNAME: "${{ secrets.GAMING_ROOM_GAMING_PC_USERNAME }}"
           GAMING_ROOM_GAMING_PC_MAC: "${{ secrets.GAMING_ROOM_GAMING_PC_MAC }}"
+          MQTT_HOST: "${{ secrets.MQTT_HOST }}"
+          MQTT_PASSWORD: "${{ secrets.MQTT_PASSWORD }}"
+          MQTT_PORT: "${{ secrets.MQTT_PORT }}"
+          MQTT_USERNAME: "${{ secrets.MQTT_USERNAME }}"

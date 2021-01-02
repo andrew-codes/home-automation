@@ -1,0 +1,25 @@
+{
+  "private": true,
+  "name": "@ha/playnite-game-player-app",
+  "version": "0.0.1",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "start": "scripts/bin/start.sh",
+    "start/dev": "nodemon src/index.ts --inspect=0.0.0.0:9233",
+    "compile": "ncc build src/index.ts -o dist -m && ncc build src/deploy-service.ts -o dist -m"
+  },
+  "dependencies": {
+    "async-mqtt": "^2.6.1",
+    "debug": "^4.3.1",
+    "node-windows": "^1.0.0-beta.5",
+    "shelljs": "^0.8.4"
+  },
+  "devDependencies": {
+    "@zeit/ncc": "^0.22.3",
+    "nodemon": "^2.0.6",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  }
+}

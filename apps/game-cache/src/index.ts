@@ -167,7 +167,7 @@ const run = async () => {
               "gameModes",
               game
             )
-            debug("Saving multipler mdoes")
+            debug("Saving multipler modes")
             await updateAncillaryDetails(
               "multiplayerModes",
               "multiplayer_modes",

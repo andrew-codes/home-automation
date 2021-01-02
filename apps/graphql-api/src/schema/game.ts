@@ -212,6 +212,7 @@ export const GameGraphType = objectType({
     t.id("id")
     t.string("playniteId")
     t.int("playtime")
+    t.string("state")
     t.field("gameModes", {
       type: list(GameModeGraphType),
       resolve(root, args, ctx) {

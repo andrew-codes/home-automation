@@ -1,11 +1,20 @@
 import createDebug from "debug"
 import { booleanArg, list, mutationField, stringArg } from "nexus"
-import { isEmpty } from "lodash"
+import { isEmpty, lowerCase } from "lodash"
 import { HomeAssistantEntityGraphType } from "./home_assistant_entity"
 import { equality } from "../filter"
-import { DeviceTracker, Group, HomeAssistantEntity } from "../Domain"
+import {
+  DeviceTracker,
+  DomainGame,
+  DomainGamePlatform,
+  GameEntity,
+  GamePlatform,
+  Group,
+  HomeAssistantEntity,
+} from "../Domain"
+import { GameGraphType } from "./game"
 
-const debug = createDebug("@ha/graphql-api/guest_devices")
+const debug = createDebug("@ha/graphql-api/mutations")
 
 // A weekend (3 days) worth of time per authorization.
 const getAuthorizationTime = () => 4320
@@ -84,3 +93,110 @@ export const RenewGuestDevicesMutation = mutationField("renewGuestDevices", {
     return guestDeviceTrackers
   },
 })
+
+export const PlayGameInGameRoomMutation = mutationField("playGameInGameRoom", {
+  type: GameGraphType,
+  args: {
+    id: stringArg(),
+  },
+  async resolve(root, args, ctx) {
+    try {
+      debug("Args", args)
+      if (!args.id) {
+        throw new Error("Invalid argument")
+      }
+      const currentGame = (await ctx.query({
+        from: "game",
+        filters: [
+          equality<DomainGame>("launching", true),
+          equality<DomainGame>("running", true),
+        ],
+      })) as GameEntity[]
+
+      if (!isEmpty(currentGame)) {
+        throw new Error("Game already running")
+      }
+
+      const gameToPlay = (await ctx.query({
+        from: "game",
+        filters: [equality<DomainGame>("id", parseInt(args.id, 10))],
+      })) as GameEntity
+
+      if (isEmpty(gameToPlay)) {
+        throw new Error(`No matching game found for ID: ${args.id}`)
+      }
+
+      const gamePlatform = (await ctx.query({
+        from: "game_platform",
+        filters: [equality<DomainGamePlatform>("id", gameToPlay.platformId)],
+      })) as GamePlatform
+
+      if (isEmpty(gamePlatform)) {
+        throw new Error(
+          `Could not find game platform: ${gameToPlay.platformId}`
+        )
+      }
+
+      const normalizedPlatform = normalizePlatform(gamePlatform)
+      if (
+        normalizedPlatform === "gaming_pc" &&
+        gameToPlay.state !== "Installed"
+      ) {
+        debug(gameToPlay)
+        throw new Error("Game not installed")
+      }
+      debug(
+        "Turning on media player",
+        `media_player.gaming_room_universal_${normalizedPlatform}`
+      )
+      const turnOnMediaPlayerRepsonse = await ctx.ha.services.call(
+        "turn_on",
+        "media_player",
+        {
+          entity_id: `media_player.gaming_room_universal_${normalizedPlatform}`,
+        }
+      )
+      debug(turnOnMediaPlayerRepsonse)
+
+      if (normalizedPlatform === "gaming_pc") {
+        debug("Publishing play pc game", gameToPlay.playniteId)
+        await ctx.mqtt.publish(
+          `/playnite/game/play`,
+          JSON.stringify({ id: gameToPlay.playniteId, platform: "pc" })
+        )
+      } else if (normalizedPlatform === "playstation_4_pro") {
+        await ctx.mqtt.publish(
+          `/playnite/game/play`,
+          JSON.stringify({ id: gameToPlay.playniteId, platform: "ps4" })
+        )
+        debug("Setting source for PS4 media player", gameToPlay.name)
+        const setSourceResponse = await ctx.ha.services.call(
+          "select_source",
+          "media_player",
+          {
+            entity_id: `media_player.gaming_room_universal_${normalizedPlatform}`,
+            data: {
+              source: gameToPlay.name,
+            },
+          }
+        )
+        debug(setSourceResponse)
+      }
+      return gameToPlay
+    } catch (error) {
+      debug(error)
+    }
+    return null
+  },
+})
+
+function normalizePlatform(platform: GamePlatform): string {
+  const lowerName = lowerCase(platform.name)
+  if (/pc/.test(lowerName)) {
+    return "gaming_pc"
+  }
+  if (/play station 4/.test(lowerName)) {
+    return "playstation_4_pro"
+  }
+  return "gaming_pc"
+}

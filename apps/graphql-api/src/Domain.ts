@@ -113,6 +113,11 @@ export interface GameEntity extends Base {
   gameModes: number[]
   genres: number[]
   hidden: boolean
+  installed: boolean
+  installing: boolean
+  uninstalling: boolean
+  launching: boolean
+  running: boolean
   keywords: number[]
   multiplayerModes: number[]
   platformId: string
