@@ -7,7 +7,7 @@
     - name: Copy app dist
       ansible.windows.win_copy:
         src: ../../dist
-        dest: C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\playnite-game-player\
+        dest: C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\playnite-game-player-v2\
       vars:
         ansible_become_user: "{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}"
         ansible_remote_tmp: 'C:\tmp'
@@ -15,7 +15,7 @@
     - name: Copy package.json
       ansible.windows.win_copy:
         src: ../../package.json
-        dest: C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\playnite-game-player\package.json
+        dest: C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\playnite-game-player-v2\package.json
       vars:
         ansible_become_user: "{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}"
         ansible_remote_tmp: 'C:\tmp'
@@ -23,19 +23,20 @@
     - name: Install deps
       win_shell: npm install
       args:
-        chdir: C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\playnite-game-player\
+        chdir: C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\playnite-game-player-v2\
 
     - name: Install global packages
       win_shell: npm install -g nodemon node-windows
 
     - name: Install node app as service
-      win_shell: node C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\playnite-game-player\dist\deploy-service.js
+      win_shell: node C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\playnite-game-player-v2\dist\deploy-service.js
       environment:
         MQTT_HOST: "{{ lookup('env', 'MQTT_HOST') }}"
         MQTT_PORT: "{{ lookup('env', 'MQTT_PORT') }}"
         MQTT_PASSWORD: "{{ lookup('env', 'MQTT_PASSWORD') }}"
         MQTT_USERNAME: "{{ lookup('env', 'MQTT_USERNAME') }}"
         PLAYNITE_EXEC: C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\Playnite\Playnite.DesktopApp.exe
+        USERNAME: "{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}"
 
     - name: Restart node app service
       ansible.windows.win_service:
