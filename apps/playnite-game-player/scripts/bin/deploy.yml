@@ -2,8 +2,6 @@
 - hosts: gaming_pc
   gather_facts: yes
   connection: winrm
-  vars_files:
-    - .secrets/playnite-game-player.yml
 
   tasks:
     - name: Copy app dist
