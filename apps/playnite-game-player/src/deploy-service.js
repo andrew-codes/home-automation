@@ -42,8 +42,5 @@ svc.logOnAs.account = USERNAME
 svc.on("install", () => {
   svc.start()
 })
-svc.on("uninstall", () => {
-  svc.install()
-})
 
-svc.uninstall()
+svc.install()
