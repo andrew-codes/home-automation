@@ -8,7 +8,7 @@
     "clean": "rm -rf dist",
     "start": "scripts/bin/start.sh",
     "start/dev": "nodemon src/index.ts --inspect=0.0.0.0:9233",
-    "compile": "ncc build src/index.ts -o dist -m && ncc build src/deploy-service.ts -o dist/deploy -m",
+    "compile": "ncc build src/index.ts -o dist -m && mkdir -p dist/deploy && cp src/deploy-service.js dist/deploy/index.js",
     "deploy": "scripts/bin/deploy.sh"
   },
   "dependencies": {

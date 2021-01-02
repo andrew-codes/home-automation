@@ -1,7 +1,7 @@
-import { Service } from "node-windows"
+const path = require("path")
+const Service = require("node-windows").Service
 
 const {
-  DEPLOYMENT_PATH,
   MQTT_HOST,
   MQTT_PASSWORD,
   MQTT_PORT,
@@ -14,7 +14,7 @@ const svc = new Service({
   name: "Playnite Game Player",
   description:
     "Node service listening to MQTT bus for /playnite actions to be performed on PC.",
-  script: DEPLOYMENT_PATH,
+  script: path.join(__dirname, "..", "index.js"),
   maxRetries: 5,
   env: [
     {
@@ -36,7 +36,7 @@ const svc = new Service({
     { name: "PLAYNITE_EXEC", value: PLAYNITE_EXEC },
   ],
 })
-
+svc.logonAs.domain = "GAMING_PC"
 svc.logOnAs.account = USERNAME
 
 svc.on("install", () => {
