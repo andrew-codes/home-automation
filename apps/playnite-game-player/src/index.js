@@ -25,8 +25,8 @@ async function run() {
       username: MQTT_USERNAME,
     })
 
-    await mqtt.subscribe("/playnite/game/play/pc")
-    await mqtt.subscribe("/playnite/game/stop/pc")
+    await mqtt.subscribe("/playnite/game/play")
+    await mqtt.subscribe("/playnite/game/stop")
 
     mqtt.on("message", async (topic, message) => {
       debug.info(
@@ -47,7 +47,7 @@ async function run() {
         })
       }
 
-      if (topic === "/playnite/game/stop/pc") {
+      if (topic === "/playnite/game/stop") {
         const { platform } = JSON.parse(message.toString())
         if (platform !== "pc") {
           return
