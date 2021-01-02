@@ -11,7 +11,7 @@ const {
 } = process.env
 
 const svc = new Service({
-  name: "Playnite Game Player",
+  name: "Playnite Game Player v2",
   description:
     "Node service listening to MQTT bus for /playnite actions to be performed on PC.",
   script: path.join(__dirname, "index.js"),
