@@ -12,7 +12,6 @@ function global:OnApplicationStarted()
 
 function global:OnApplicationStopped()
 {
-    $MqttClient.Disconnect()
 }
 
 function global:OnLibraryUpdated()
@@ -73,6 +72,12 @@ function global:MQTTMsgReceived
     if ($mqtt.topic -eq "/playnite/game/list/request") {
         PublishLibrary
     }
+    if ($mqtt.topic -eq "/playnite/game/play/pc") {
+        $payload = $([System.Text.Encoding]::ASCII.GetString($mqtt.Payload))
+        $gameId = [System.guid]::New($payload)
+        $PlayniteApi.StartGame($gameId)        
+    }
+
 }
 
 function global:PublishLibrary {
@@ -83,3 +88,4 @@ function global:PublishLibrary {
 
 Register-ObjectEvent -inputObject $MqttClient -EventName MqttMsgPublishReceived -Action { MQTTMsgReceived $($args[1]) }
 $MqttClient.subscribe("/playnite/game/list/request", 2)
+$MqttClient.subscribe("/playnite/game/play/pc", 2)
