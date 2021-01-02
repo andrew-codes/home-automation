@@ -42,8 +42,11 @@ async function run() {
           return
         }
         debug.info(`Playing PC game ${id}`)
+        debug.info(`${PLAYNITE_EXEC} --start ${id}`)
         sh.exec(`${PLAYNITE_EXEC} --start ${id}`, (code, stdout, stderr) => {
           debug.info(`Exit code ${code}`)
+          debug.info(stdout)
+          debug.warn(stderr)
         })
       }
 
