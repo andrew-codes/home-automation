@@ -7,7 +7,6 @@ const {
   MQTT_PORT,
   MQTT_USERNAME,
   PLAYNITE_EXEC,
-  USERNAME,
 } = process.env
 
 const svc = new Service({
@@ -36,8 +35,6 @@ const svc = new Service({
     { name: "PLAYNITE_EXEC", value: PLAYNITE_EXEC },
   ],
 })
-svc.logOnAs.domain = "GAMING_PC"
-svc.logOnAs.account = USERNAME
 
 svc.on("install", () => {
   svc.start()
