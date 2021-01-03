@@ -51,6 +51,7 @@
           working_directory: C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\playnite-game-player-v2\dist
         triggers:
           - type: logon
+          - type: registration
         username: GAMING-PC\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}
         state: present
         enabled: yes
