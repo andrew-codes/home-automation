@@ -1,9 +1,9 @@
+const connectAsync = require("async-mqtt").connectAsync
 const EventLogger = require("node-windows").EventLogger
 const kill = require("node-windows").kill
 const list = require("node-windows").list
-const connectAsync = require("async-mqtt").connectAsync
-const sh = require("shelljs")
 const path = require("path")
+const sh = require("shelljs")
 
 const debug = new EventLogger("@ha/playnite-game-player-app/index")
 
