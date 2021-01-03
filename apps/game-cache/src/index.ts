@@ -243,7 +243,7 @@ const run = async () => {
       const db = await mongo.db("gameLibrary")
       db.collection("gameDetails").updateOne({
         filter: {
-          id: gameId,
+          playniteId: gameId,
         },
         update: {
           $set: {
@@ -262,7 +262,7 @@ const run = async () => {
       const db = await mongo.db("gameLibrary")
       db.collection("gameDetails").updateOne({
         filter: {
-          id: gameId,
+          playniteId: gameId,
         },
         update: {
           $set: {
@@ -284,7 +284,7 @@ const run = async () => {
       const db = await mongo.db("gameLibrary")
       db.collection("gameDetails").updateOne({
         filter: {
-          id: gameId,
+          playniteId: gameId,
         },
         update: {
           $set: {
@@ -303,7 +303,7 @@ const run = async () => {
       const db = await mongo.db("gameLibrary")
       db.collection("gameDetails").updateOne({
         filter: {
-          id: gameId,
+          playniteId: gameId,
         },
         update: {
           $set: {
