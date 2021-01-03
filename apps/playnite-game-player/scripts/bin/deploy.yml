@@ -40,7 +40,6 @@
         MQTT_PORT: "{{ lookup('env', 'MQTT_PORT') }}"
         MQTT_PASSWORD: "{{ lookup('env', 'MQTT_PASSWORD') }}"
         MQTT_USERNAME: "{{ lookup('env', 'MQTT_USERNAME') }}"
-        USERNAME: "{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}"
 
     - name: Restart node app service
       ansible.windows.win_service:

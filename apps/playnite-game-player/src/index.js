@@ -3,16 +3,11 @@ const kill = require("node-windows").kill
 const list = require("node-windows").list
 const connectAsync = require("async-mqtt").connectAsync
 const sh = require("shelljs")
+const path = require("path")
 
 const debug = new EventLogger("@ha/playnite-game-player-app/index")
 
-const {
-  MQTT_HOST,
-  MQTT_PASSWORD,
-  MQTT_PORT,
-  MQTT_USERNAME,
-  USERNAME,
-} = process.env
+const { MQTT_HOST, MQTT_PASSWORD, MQTT_PORT, MQTT_USERNAME } = process.env
 
 debug.info("Starting service.")
 
@@ -41,7 +36,13 @@ async function run() {
         if (platform !== "pc") {
           return
         }
-        const playniteExec = `C:\\Users\\${USERNAME}\\AppData\\Local\\Playnite\\Playnite.FullscreenApp.exe`
+        const playniteExec = path.join(
+          __dirname,
+          "..",
+          "..",
+          "Playnite",
+          "Playnite.FullscreenApp.exe"
+        )
         debug.info(`Playing PC game ${id}`)
         debug.info(`${playniteExec} --start "${id}" --nolibupdate`)
         sh.exec(
