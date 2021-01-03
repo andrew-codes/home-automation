@@ -34,7 +34,7 @@
         description: Open playnite game
         actions:
         - path: node.exe
-          arguments: C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\playnite-game-player-v2\dist\index.js"
+          arguments: C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\playnite-game-player-v2\dist\index.js
           working_directory: C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\playnite-game-player-v2\dist
         triggers:
           - type: logon
