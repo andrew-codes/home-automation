@@ -25,11 +25,16 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
+            - name: ws
+              containerPort: 5000
+              protocol: TCP
           env:
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: "0"
             - name: PORT
               value: "80"
+            - name: WS_PORT
+              value: "5000"
             - name: DEBUG
               value: "@ha/graphql-api/*"
             - name: GRAPHQL_API_TOKEN
@@ -111,5 +116,10 @@ spec:
       protocol: TCP
       targetPort: http
       nodePort: 30517
+    - name: ws
+      port: 5000
+      protocol: TCP
+      targetPort: ws
+      nodePort: 30518
   selector:
     app.kubernetes.io/name: graphql-api
