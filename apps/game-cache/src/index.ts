@@ -40,6 +40,11 @@ const run = async () => {
   })
 
   await mqtt.subscribe("/playnite/game/list")
+  await mqtt.subscribe("/playnite/game/starting")
+  await mqtt.subscribe("/playnite/game/started")
+  await mqtt.subscribe("/playnite/game/stopped")
+  await mqtt.subscribe("/playnite/game/installed")
+  await mqtt.subscribe("/playnite/game/uninstalled")
 
   mqtt.on("message", async (topic, message) => {
     debug("topic", topic)
@@ -230,6 +235,102 @@ const run = async () => {
       } catch (error) {
         debug(error)
       }
+    }
+
+    if (topic === "/playnite/game/starting") {
+      const gameId = parseInt(message.toString(), 10)
+      await mongo.connect()
+      const db = await mongo.db("gameLibrary")
+      db.collection("gameDetails").updateOne({
+        filter: {
+          id: gameId,
+        },
+        update: {
+          $set: {
+            isStarting: true,
+            isStarted: false,
+            isInstalled: true,
+            isUninstalled: false,
+          },
+        },
+      })
+      mqtt.publish("/playnite/game/state/updated", gameId.toString())
+    }
+    if (topic === "/playnite/game/started") {
+      const gameId = parseInt(message.toString(), 10)
+      await mongo.connect()
+      const db = await mongo.db("gameLibrary")
+      db.collection("gameDetails").updateOne({
+        filter: {
+          id: gameId,
+        },
+        update: {
+          $set: {
+            isStarting: false,
+            isStarted: true,
+            isInstalled: true,
+            isUninstalled: false,
+          },
+        },
+      })
+      mqtt.publish("/playnite/game/state/updated", gameId.toString())
+    }
+    if (topic === "/playnite/game/stopped") {
+      const gameId = parseInt(message.toString(), 10)
+      await mongo.connect()
+      const db = await mongo.db("gameLibrary")
+      db.collection("gameDetails").updateOne({
+        filter: {
+          id: gameId,
+        },
+        update: {
+          $set: {
+            isStarting: false,
+            isStarted: false,
+            isInstalled: true,
+            isUninstalled: false,
+          },
+        },
+      })
+      mqtt.publish("/playnite/game/state/updated", gameId.toString())
+    }
+    if (topic === "/playnite/game/installed") {
+      const gameId = parseInt(message.toString(), 10)
+      await mongo.connect()
+      const db = await mongo.db("gameLibrary")
+      db.collection("gameDetails").updateOne({
+        filter: {
+          id: gameId,
+        },
+        update: {
+          $set: {
+            isStarting: false,
+            isStarted: false,
+            isInstalled: true,
+            isUninstalled: false,
+          },
+        },
+      })
+      mqtt.publish("/playnite/game/state/updated", gameId.toString())
+    }
+    if (topic === "/playnite/game/uninstalled") {
+      const gameId = parseInt(message.toString(), 10)
+      await mongo.connect()
+      const db = await mongo.db("gameLibrary")
+      db.collection("gameDetails").updateOne({
+        filter: {
+          id: gameId,
+        },
+        update: {
+          $set: {
+            isStarting: false,
+            isStarted: false,
+            isInstalled: false,
+            isUninstalled: true,
+          },
+        },
+      })
+      mqtt.publish("/playnite/game/state/updated", gameId.toString())
     }
   })
 }
