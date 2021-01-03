@@ -12,6 +12,7 @@ function global:OnApplicationStarted()
 
 function global:OnApplicationStopped()
 {
+    $MqttClient.Publish("/playnite/game/stopped", "", 2, 0)
 }
 
 function global:OnLibraryUpdated()

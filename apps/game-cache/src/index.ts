@@ -276,6 +276,9 @@ const run = async () => {
       mqtt.publish("/playnite/game/state/updated", gameId.toString())
     }
     if (topic === "/playnite/game/stopped") {
+      if (!message.toString()) {
+        return
+      }
       const gameId = parseInt(message.toString(), 10)
       await mongo.connect()
       const db = await mongo.db("gameLibrary")
