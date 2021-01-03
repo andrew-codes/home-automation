@@ -39,8 +39,4 @@ const svc = new Service({
   ],
 })
 
-svc.on("install", () => {
-  svc.start()
-})
-
-svc.install()
+svc.uninstall()
