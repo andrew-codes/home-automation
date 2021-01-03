@@ -205,7 +205,7 @@ const run = async () => {
             debug("Saving game from API", game.name)
             gameDetailsCollection.updateOne(
               {
-                id: game.id,
+                playniteId: game.playniteId,
               },
               { $set: game },
               {
