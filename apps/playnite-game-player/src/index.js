@@ -32,38 +32,42 @@ async function run() {
           4
         )}`
       )
-      if (topic === "/playnite/game/play") {
-        const { id, platform } = JSON.parse(message.toString())
-        if (platform !== "pc") {
-          return
-        }
-        const playniteExec = path.join(
-          __dirname,
-          "..",
-          "..",
-          "Playnite",
-          "Playnite.FullscreenApp.exe"
-        )
-        debug(`Playing PC game ${id}`)
-        debug(`${playniteExec} --start "${id}" --nolibupdate`)
-        sh.exec(
-          `${playniteExec} --start "${id}" --nolibupdate`,
-          (code, stdout, stderr) => {
-            debug(`Exit code ${code}`)
-            debug(stdout)
-            debug(stderr)
+      try {
+        if (topic === "/playnite/game/play") {
+          const { id, platform } = JSON.parse(message.toString())
+          if (platform !== "pc") {
+            return
           }
-        )
-        return
-      }
-
-      if (topic === "/playnite/game/stop") {
-        const { platform } = JSON.parse(message.toString())
-        if (platform !== "pc") {
-          debug("Stopping game on PC")
-          sh.exec(`Get-Process -Name PlayniteFullscreenApp | Stop-Process`)
+          const playniteExec = path.join(
+            __dirname,
+            "..",
+            "..",
+            "Playnite",
+            "Playnite.FullscreenApp.exe"
+          )
+          debug(`Playing PC game ${id}`)
+          debug(`${playniteExec} --start "${id}" --nolibupdate`)
+          sh.exec(
+            `${playniteExec} --start "${id}" --nolibupdate`,
+            (code, stdout, stderr) => {
+              debug(`Exit code ${code}`)
+              debug(stdout)
+              debug(stderr)
+            }
+          )
           return
         }
+
+        if (topic === "/playnite/game/stop") {
+          const { platform } = JSON.parse(message.toString())
+          if (platform !== "pc") {
+            debug("Stopping game on PC")
+            sh.exec(`Get-Process -Name PlayniteFullscreenApp | Stop-Process`)
+            return
+          }
+        }
+      } catch (err) {
+        debug(err)
       }
     })
   } catch (error) {
