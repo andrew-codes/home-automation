@@ -22,7 +22,7 @@ async function run() {
     })
 
     await mqtt.subscribe("/playnite/game/play")
-    await mqtt.subscribe("/playnite/game/stop")
+    await mqtt.subscribe("/playnite/game/stopped")
 
     mqtt.on("message", async (topic, message) => {
       debug(
