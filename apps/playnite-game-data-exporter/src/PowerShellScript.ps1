@@ -89,7 +89,7 @@ function global:MQTTMsgReceived
             $game = $PlayniteApi.Database.Games[[System.guid]::New($j.id)]
             $__logger.Info($game.Id)
             $__logger.Info($game.Name)
-            $PlayniteApi.StartGame($game.Id)
+            $PlayniteApi.StartGame($game)
         }
     }
 }
