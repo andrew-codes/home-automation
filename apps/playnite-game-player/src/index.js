@@ -62,7 +62,9 @@ async function run() {
           const { platform } = JSON.parse(message.toString())
           if (platform !== "pc") {
             debug("Stopping game on PC")
-            sh.exec(`Get-Process -Name PlayniteFullscreenApp | Stop-Process`)
+            sh.exec(`Get-Process -Name PlayniteFullscreenApp | Stop-Process`, {
+              async: true,
+            })
             return
           }
         }
