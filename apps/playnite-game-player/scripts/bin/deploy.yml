@@ -33,13 +33,13 @@
         name: Playnite Game Player v2
         state: stopped
 
-    # - name: Install node app as service
-    #   win_shell: node C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\playnite-game-player-v2\dist\deploy-service.js
-    #   environment:
-    #     MQTT_HOST: "{{ lookup('env', 'MQTT_HOST') }}"
-    #     MQTT_PORT: "{{ lookup('env', 'MQTT_PORT') }}"
-    #     MQTT_PASSWORD: "{{ lookup('env', 'MQTT_PASSWORD') }}"
-    #     MQTT_USERNAME: "{{ lookup('env', 'MQTT_USERNAME') }}"
+    - name: Install node app as service
+      win_shell: node C:\Users\{{ lookup('env', 'GAMING_ROOM_GAMING_PC_USERNAME') }}\AppData\Local\playnite-game-player-v2\dist\deploy-service.js
+      environment:
+        MQTT_HOST: "{{ lookup('env', 'MQTT_HOST') }}"
+        MQTT_PORT: "{{ lookup('env', 'MQTT_PORT') }}"
+        MQTT_PASSWORD: "{{ lookup('env', 'MQTT_PASSWORD') }}"
+        MQTT_USERNAME: "{{ lookup('env', 'MQTT_USERNAME') }}"
 
     - name: Create playnite game player task
       community.windows.win_scheduled_task:
