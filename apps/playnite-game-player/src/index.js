@@ -60,6 +60,8 @@ async function run() {
       if (topic === "/playnite/game/stop") {
         const { platform } = JSON.parse(message.toString())
         if (platform !== "pc") {
+          debug("Stopping game on PC")
+          sh.exec(`Get-Process -Name PlayniteFullscreenApp | Stop-Process`)
           return
         }
       }
