@@ -85,7 +85,11 @@ function global:MQTTMsgReceived
         $j = ConvertFrom-JSON -InputObject $msg
         $__logger.Info("platform: " + $j.platform)
         if ($j.platform -eq "pc") {
-            $PlayniteApi.StartGame([System.guid]::New($j.id))
+            $__logger.Info($j.id)
+            $game = $PlayniteApi.Database.Games[[System.guid]::New($j.id)]
+            $__logger.Info($game.Id)
+            $__logger.Info($game.Name)
+            $PlayniteApi.StartGame($game.Id)
         }
     }
 }
