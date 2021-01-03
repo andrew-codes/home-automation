@@ -58,7 +58,7 @@ async function run() {
           return
         }
 
-        if (topic === "/playnite/game/stop") {
+        if (topic === "/playnite/game/stopped") {
           const { platform } = JSON.parse(message.toString())
           if (platform !== "pc") {
             debug("Stopping game on PC")
