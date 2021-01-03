@@ -1,18 +1,15 @@
+const debug = require("debug")("@ha/playnite-game-player-app/index")
 const connectAsync = require("async-mqtt").connectAsync
-const EventLogger = require("node-windows").EventLogger
-const kill = require("node-windows").kill
-const list = require("node-windows").list
 const path = require("path")
 const sh = require("shelljs")
 
-const debug = new EventLogger("@ha/playnite-game-player-app/index")
-
 const { MQTT_HOST, MQTT_PASSWORD, MQTT_PORT, MQTT_USERNAME } = process.env
 
-debug.info("Starting service.")
+debug("Starting service.")
+debug(MQTT_HOST, MQTT_PASSWORD, MQTT_PORT, MQTT_USERNAME)
 
 async function run() {
-  debug.info("Connecting MQTT client")
+  debug("Connecting MQTT client")
   try {
     const mqtt = await connectAsync(`tcp://${MQTT_HOST}`, {
       password: MQTT_PASSWORD,
@@ -24,7 +21,7 @@ async function run() {
     await mqtt.subscribe("/playnite/game/stop")
 
     mqtt.on("message", async (topic, message) => {
-      debug.info(
+      debug(
         `Topic: ${topic}, message: ${JSON.stringify(
           JSON.parse(message.toString()),
           null,
@@ -43,14 +40,14 @@ async function run() {
           "Playnite",
           "Playnite.FullscreenApp.exe"
         )
-        debug.info(`Playing PC game ${id}`)
-        debug.info(`${playniteExec} --start "${id}" --nolibupdate`)
+        debug(`Playing PC game ${id}`)
+        debug(`${playniteExec} --start "${id}" --nolibupdate`)
         sh.exec(
           `${playniteExec} --start "${id}" --nolibupdate`,
           (code, stdout, stderr) => {
-            debug.info(`Exit code ${code}`)
-            debug.info(stdout)
-            debug.warn(stderr)
+            debug(`Exit code ${code}`)
+            debug(stdout)
+            debug(stderr)
           }
         )
         return
@@ -61,20 +58,11 @@ async function run() {
         if (platform !== "pc") {
           return
         }
-
-        list((services) => {
-          const pid = services.find((svc) => svc.SessionName === "Playnite")
-          debug.info(`PID: ${pid}`)
-          kill(pid, () => {
-            debug.info("Playnite stopped")
-          })
-        }, true)
-        return
       }
     })
   } catch (error) {
-    debug.error(error)
+    debug(error)
   }
 }
 
-run().then(() => debug.info("Run has been run."))
+run().then(() => debug("Run has been run."))
