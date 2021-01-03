@@ -81,6 +81,13 @@ function global:MQTTMsgReceived
     if ($mqtt.topic -eq "/playnite/game/list/request") {
         PublishLibrary
     }
+    if ($mqtt.topic -eq "/playnite/game/play") {
+        $j = ConvertFrom-JSON -InputObject $msg
+        $__logger.Info("platform: " + $j.platform)
+        if ($j.platform -eq "pc") {
+            $PlayniteApi.StartGame([System.guid]::New($j.id))
+        }
+    }
 }
 
 function global:PublishLibrary {
