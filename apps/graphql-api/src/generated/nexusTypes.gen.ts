@@ -196,6 +196,7 @@ export interface NexusGenFieldTypes {
     gamePlatform: Array<NexusGenRootTypes['GamePlatform'] | null> | null; // [GamePlatform]
   }
   Subscription: { // field return type
+    gameLibrary: Array<NexusGenRootTypes['Game'] | null> | null; // [Game]
     gameState: NexusGenRootTypes['Game'] | null; // Game
   }
   Node: { // field return type
@@ -320,6 +321,7 @@ export interface NexusGenFieldTypeNames {
     gamePlatform: 'GamePlatform'
   }
   Subscription: { // field return type name
+    gameLibrary: 'Game'
     gameState: 'Game'
   }
   Node: { // field return type name
@@ -366,6 +368,11 @@ export interface NexusGenArgTypes {
       ids?: Array<string | null> | null; // [String]
     }
     gamePlatform: { // args
+      ids?: Array<string | null> | null; // [String]
+    }
+  }
+  Subscription: {
+    gameLibrary: { // args
       ids?: Array<string | null> | null; // [String]
     }
   }

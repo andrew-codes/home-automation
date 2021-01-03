@@ -1,6 +1,6 @@
-const authorize = (apiToken: string) => (request, response, next) => {
+const authorize = (apiToken: string) => (request) => {
   if (!request.headers || !request.headers.authorization) {
-    return next(new Error("Unauthorized"))
+    throw new Error("Unauthorized")
   }
   let token
   const parts = request.headers.authorization.split(" ")
@@ -13,9 +13,19 @@ const authorize = (apiToken: string) => (request, response, next) => {
     }
   }
   if (!token || token !== apiToken) {
-    return next(new Error("Unauthorized"))
+    throw new Error("Unauthorized")
   }
-  return next()
+}
+const authorizeMiddleware = (apiToken: string) => {
+  const authorizeApi = authorize(apiToken)
+  return (request, response, next) => {
+    try {
+      authorizeApi(request)
+      return next()
+    } catch (error) {
+      return next(error)
+    }
+  }
 }
 
-export { authorize }
+export { authorize, authorizeMiddleware }

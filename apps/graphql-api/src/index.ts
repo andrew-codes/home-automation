@@ -5,7 +5,7 @@ import express from "express"
 import HomeAssistant from "homeassistant"
 import createUnifi from "node-unifiapi"
 import { altairExpress } from "altair-express-middleware"
-import { authorize } from "./middleware/authorize"
+import { authorizeMiddleware } from "./middleware/authorize"
 import { cache } from "./cache"
 import { client } from "./mongo"
 import { connectAsync } from "async-mqtt"
@@ -48,7 +48,6 @@ const unifi = createUnifi({
   username: UNIFI_USERNAME,
   password: UNIFI_PASSWORD,
 })
-
 const app = express()
 const http = createServer(app)
 async function run() {
@@ -59,15 +58,13 @@ async function run() {
   })
   const options = {
     schema: schema,
-    context: async ({ req }) => {
-      return createDataContext(ha, mqtt, unifi)
-    },
+    context: createDataContext(ha, mqtt, unifi),
   }
   const apollo = new ApolloServer(options)
   app.use(
     "/graphql",
     cors(),
-    authorize(GRAPHQL_API_TOKEN as string),
+    authorizeMiddleware(GRAPHQL_API_TOKEN as string),
     bodyParser.graphql()
   )
   apollo.applyMiddleware({ app })
@@ -83,6 +80,7 @@ async function run() {
     debug("listening on port", PORT)
     debug(apollo.graphqlPath)
   })
+
   http.listen(WS_PORT, () => {
     debug("listening for subscriptions", WS_PORT, apollo.subscriptionsPath)
   })
@@ -92,9 +90,13 @@ async function run() {
   await mqtt.subscribe("/playnite/game/stopped", { qos: 2 })
   await mqtt.subscribe("/playnite/game/installed", { qos: 2 })
   await mqtt.subscribe("/playnite/game/uninstalled", { qos: 2 })
+  await mqtt.subscribe("/playnite/game/list/updated", { qos: 2 })
 
   mqtt.on("message", (topic, message) => {
     debug(topic, message.toString())
+    if (topic === "/playnite/game/list/updated") {
+      pubsub.publish("/playnite/game/state/updated", null)
+    }
     if (topic === "/playnite/game/stopped") {
       debug("publishing topic")
       pubsub.publish("/playnite/game/state/updated", { id: message.toString() })
