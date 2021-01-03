@@ -98,3 +98,4 @@ function global:PublishLibrary {
 
 Register-ObjectEvent -inputObject $MqttClient -EventName MqttMsgPublishReceived -Action { MQTTMsgReceived $($args[1]) }
 $MqttClient.subscribe("/playnite/game/list/request", 2)
+$MqttClient.subscribe("/playnite/game/play", 2)
