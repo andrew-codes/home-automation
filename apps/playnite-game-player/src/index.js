@@ -55,7 +55,7 @@ async function run() {
 
         if (topic === "/playnite/game/stopped") {
           const pid = sh.exec(
-            `powershell.exe -Command "Get-Process -Name PlayniteFullscreenApp | Stop-Process"`,
+            `powershell.exe -Command "Get-Process -Name Playnite.FullscreenApp | Stop-Process"`,
             { async: true }
           )
           return
