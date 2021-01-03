@@ -138,6 +138,7 @@ type Mutation {
   homeAssistantCallService(entity: InputServiceCall): HomeAssistantEntity
   playGameInGameRoom(id: String): Game
   renewGuestDevices: [HomeAssistantEntity]
+  stopGameInGameRoom: Game
   trackGuestDevice(isPrimary: Boolean = false, mac: String): HomeAssistantEntity
 }
 
@@ -149,10 +150,14 @@ type Query {
   area(ids: [String]): [HomeAssistantArea]
   domain(ids: [String]): [HomeAssistantDomain]
   entitiy(ids: [String]): [HomeAssistantEntity]
-  game(ids: [Int]): [Game]
-  gameFranchise(ids: [Int]): [GameFranchise]
-  gameGenre(ids: [Int]): [GameGenre]
-  gameKeyword(ids: [Int]): [GameKeyword]
-  gameMode(ids: [Int]): [GameMode]
-  gamePlatform(ids: [Int]): [GamePlatform]
+  game(ids: [String]): [Game]
+  gameFranchise(ids: [String]): [GameFranchise]
+  gameGenre(ids: [String]): [GameGenre]
+  gameKeyword(ids: [String]): [GameKeyword]
+  gameMode(ids: [String]): [GameMode]
+  gamePlatform(ids: [String]): [GamePlatform]
+}
+
+type Subscription {
+  gameState: Game
 }

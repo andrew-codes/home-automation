@@ -32,7 +32,7 @@ test("aggregates data from multiple providers and returns a single, merged, resu
     {
       id: "media_player.playstaion_4",
       state: "idle",
-      name: "Playstation 4",
+      name: "PlayStation 4",
     },
   ])
   p1.canExecuteQuery.mockReturnValue(true)
@@ -47,7 +47,7 @@ test("aggregates data from multiple providers and returns a single, merged, resu
       id: "media_player.playstaion_4",
       areaId: "area.gaming_room",
       domainId: "media_player",
-      name: "Playstation 4",
+      name: "PlayStation 4",
       state: "idle",
       attributes: {
         source: "PS4",

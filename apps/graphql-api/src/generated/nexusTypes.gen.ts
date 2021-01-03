@@ -65,6 +65,7 @@ export interface NexusGenObjects {
   HomeAssistantEntity: HomeAssistantEntity;
   Mutation: {};
   Query: {};
+  Subscription: {};
 }
 
 export interface NexusGenInterfaces {
@@ -180,6 +181,7 @@ export interface NexusGenFieldTypes {
     homeAssistantCallService: NexusGenRootTypes['HomeAssistantEntity'] | null; // HomeAssistantEntity
     playGameInGameRoom: NexusGenRootTypes['Game'] | null; // Game
     renewGuestDevices: Array<NexusGenRootTypes['HomeAssistantEntity'] | null> | null; // [HomeAssistantEntity]
+    stopGameInGameRoom: NexusGenRootTypes['Game'] | null; // Game
     trackGuestDevice: NexusGenRootTypes['HomeAssistantEntity'] | null; // HomeAssistantEntity
   }
   Query: { // field return type
@@ -192,6 +194,9 @@ export interface NexusGenFieldTypes {
     gameKeyword: Array<NexusGenRootTypes['GameKeyword'] | null> | null; // [GameKeyword]
     gameMode: Array<NexusGenRootTypes['GameMode'] | null> | null; // [GameMode]
     gamePlatform: Array<NexusGenRootTypes['GamePlatform'] | null> | null; // [GamePlatform]
+  }
+  Subscription: { // field return type
+    gameState: NexusGenRootTypes['Game'] | null; // Game
   }
   Node: { // field return type
     id: string | null; // ID
@@ -300,6 +305,7 @@ export interface NexusGenFieldTypeNames {
     homeAssistantCallService: 'HomeAssistantEntity'
     playGameInGameRoom: 'Game'
     renewGuestDevices: 'HomeAssistantEntity'
+    stopGameInGameRoom: 'Game'
     trackGuestDevice: 'HomeAssistantEntity'
   }
   Query: { // field return type name
@@ -312,6 +318,9 @@ export interface NexusGenFieldTypeNames {
     gameKeyword: 'GameKeyword'
     gameMode: 'GameMode'
     gamePlatform: 'GamePlatform'
+  }
+  Subscription: { // field return type name
+    gameState: 'Game'
   }
   Node: { // field return type name
     id: 'ID'
@@ -342,22 +351,22 @@ export interface NexusGenArgTypes {
       ids?: Array<string | null> | null; // [String]
     }
     game: { // args
-      ids?: Array<number | null> | null; // [Int]
+      ids?: Array<string | null> | null; // [String]
     }
     gameFranchise: { // args
-      ids?: Array<number | null> | null; // [Int]
+      ids?: Array<string | null> | null; // [String]
     }
     gameGenre: { // args
-      ids?: Array<number | null> | null; // [Int]
+      ids?: Array<string | null> | null; // [String]
     }
     gameKeyword: { // args
-      ids?: Array<number | null> | null; // [Int]
+      ids?: Array<string | null> | null; // [String]
     }
     gameMode: { // args
-      ids?: Array<number | null> | null; // [Int]
+      ids?: Array<string | null> | null; // [String]
     }
     gamePlatform: { // args
-      ids?: Array<number | null> | null; // [Int]
+      ids?: Array<string | null> | null; // [String]
     }
   }
 }

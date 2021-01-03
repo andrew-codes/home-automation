@@ -7,6 +7,7 @@ import * as entity from "./home_assistant_entity"
 import * as game from "./game"
 import * as mutations from "./mutations"
 import * as queries from "./queries"
+import * as subscriptions from "./subscriptions"
 
 const guardPlugin = nullabilityGuardPlugin({
   onGuarded({ info }) {
@@ -33,6 +34,7 @@ const createTypes = flow([
   concat(game),
   concat(mutations),
   concat(queries),
+  concat(subscriptions),
 ])
 
 export const schema = makeSchema({

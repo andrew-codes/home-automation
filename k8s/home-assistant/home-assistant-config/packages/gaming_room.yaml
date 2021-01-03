@@ -113,7 +113,7 @@ gaming_room_package:
         com.netflix.ninja: Netflix
         com.nvidia.tegrazone3: GameStream
         com.waxrain.airplaydmr3: AirPlay
-    - name: Gaming Room Universal Playstation 4 Pro
+    - name: Gaming Room Universal PlayStation 4 Pro
       platform: universal
       children:
         - media_player.gaming_room_playstation_4_pro

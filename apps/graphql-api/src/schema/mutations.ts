@@ -1,6 +1,6 @@
 import createDebug from "debug"
 import { booleanArg, list, mutationField, stringArg } from "nexus"
-import { isEmpty, lowerCase } from "lodash"
+import { first, isEmpty, lowerCase } from "lodash"
 import { HomeAssistantEntityGraphType } from "./home_assistant_entity"
 import { equality } from "../filter"
 import {
@@ -183,6 +183,58 @@ export const PlayGameInGameRoomMutation = mutationField("playGameInGameRoom", {
         debug(setSourceResponse)
       }
       return gameToPlay
+    } catch (error) {
+      debug(error)
+    }
+    return null
+  },
+})
+
+export const StopGameInGameRoomMutation = mutationField("stopGameInGameRoom", {
+  type: GameGraphType,
+  async resolve(root, args, ctx) {
+    try {
+      const currentGameResults = (await ctx.query({
+        from: "game",
+        filters: [
+          equality<DomainGame>("launching", true),
+          equality<DomainGame>("running", true),
+        ],
+      })) as GameEntity[]
+      if (isEmpty(currentGameResults)) {
+        throw new Error("No game is currently playing")
+      }
+      const currentGame = first(currentGameResults)
+      const gamePlatform = (await ctx.query({
+        from: "game_platform",
+        filters: [equality<DomainGamePlatform>("id", currentGame.platformId)],
+      })) as GamePlatform
+
+      if (isEmpty(gamePlatform)) {
+        throw new Error(
+          `Could not find game platform: ${currentGame.platformId}`
+        )
+      }
+      const normalizedPlatform = normalizePlatform(gamePlatform)
+
+      if (normalizedPlatform === "gaming_pc") {
+        await ctx.mqtt.publish(
+          `/playnite/game/stop`,
+          JSON.stringify({
+            id: currentGame.playniteId,
+            platform: "pc",
+          })
+        )
+      } else if (normalizedPlatform === "playstation_4_pro") {
+        await ctx.mqtt.publish(
+          `/playnite/game/stop`,
+          JSON.stringify({
+            id: currentGame.playniteId,
+            platform: "ps4",
+          })
+        )
+      }
+      return currentGame
     } catch (error) {
       debug(error)
     }
