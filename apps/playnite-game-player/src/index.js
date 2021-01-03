@@ -2,8 +2,12 @@ const debug = require("debug")("@ha/playnite-game-player-app/index")
 const connectAsync = require("async-mqtt").connectAsync
 const path = require("path")
 const sh = require("shelljs")
-
-const { MQTT_HOST, MQTT_PASSWORD, MQTT_PORT, MQTT_USERNAME } = process.env
+const {
+  MQTT_HOST,
+  MQTT_PASSWORD,
+  MQTT_PORT,
+  MQTT_USERNAME,
+} = require("./secrets")
 
 debug("Starting service.")
 debug(MQTT_HOST, MQTT_PASSWORD, MQTT_PORT, MQTT_USERNAME)
