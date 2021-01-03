@@ -25,16 +25,11 @@ async function run() {
     await mqtt.subscribe("/playnite/game/stopped")
 
     mqtt.on("message", async (topic, message) => {
-      debug(
-        `Topic: ${topic}, message: ${JSON.stringify(
-          JSON.parse(message.toString()),
-          null,
-          4
-        )}`
-      )
+      debug(topic)
       try {
         if (topic === "/playnite/game/play") {
           const { id, platform } = JSON.parse(message.toString())
+          debug(id, platform)
           if (platform !== "pc") {
             return
           }
@@ -59,7 +54,6 @@ async function run() {
         }
 
         if (topic === "/playnite/game/stopped") {
-          debug("Stopping Playnite")
           sh.exec(`Get-Process -Name PlayniteFullscreenApp | Stop-Process`, {
             async: true,
           })
