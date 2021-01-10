@@ -168,9 +168,7 @@ export const PlayGameInGameRoomMutation = mutationField("playGameInGameRoom", {
           "media_player",
           {
             entity_id: `media_player.gaming_room_universal_${normalizedPlatform}`,
-            data: {
-              source: gameToPlay.name,
-            },
+            source: gameToPlay.name,
           }
         )
         debug(setSourceResponse)
