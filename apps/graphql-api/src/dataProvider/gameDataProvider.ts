@@ -8,20 +8,20 @@ import { UnsupportedDomainError } from "./Errors"
 const debug = createDebug("@ha/graphql-api/dataProvider/game")
 
 const getGameState = (gameItem): GameState => {
-  if (gameItem.isInstalled) {
-    return "Installed"
+  if (gameItem?.isStarting) {
+    return "Launching"
+  }
+  if (gameItem?.isStarted) {
+    return "Running"
   }
   if (gameItem.isInstalling) {
     return "Installing"
   }
+  if (gameItem.isInstalled) {
+    return "Installed"
+  }
   if (gameItem.isUninstalling) {
     return "Uninstalling"
-  }
-  if (gameItem.isLaunching) {
-    return "Launching"
-  }
-  if (gameItem.isRunning) {
-    return "Running"
   }
   return "Not Installed"
 }

@@ -40,11 +40,6 @@ const run = async () => {
   })
 
   await mqtt.subscribe("/playnite/game/list")
-  await mqtt.subscribe("/playnite/game/starting")
-  await mqtt.subscribe("/playnite/game/started")
-  await mqtt.subscribe("/playnite/game/stopped")
-  await mqtt.subscribe("/playnite/game/installed")
-  await mqtt.subscribe("/playnite/game/uninstalled")
 
   mqtt.on("message", async (topic, message) => {
     debug("topic", topic)
