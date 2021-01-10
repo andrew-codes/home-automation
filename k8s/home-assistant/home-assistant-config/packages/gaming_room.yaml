@@ -53,6 +53,7 @@ gaming_room_package:
 
   shell_command:
     turn_off_gaming_room_gaming_pc: !secret turn_off_gaming_room_gaming_pc_command
+    stop_game: !secret stop_game_shell_command
 
   media_player:
       # This is the primary media player for automations.
