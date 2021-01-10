@@ -509,3 +509,11 @@ gaming_room_package:
           to: "off"
       action:
         - service: rest_command.stop_game
+
+    - alias: Stopping gaming from topic turns off systems
+      trigger:
+        - platform: mqtt
+          topic: "/playnite/game/stopped"
+      action:
+        - service: script.turn_on
+          entity_id: script.gaming_room_turn_off_all_media_players
