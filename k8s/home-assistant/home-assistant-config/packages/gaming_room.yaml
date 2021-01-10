@@ -38,6 +38,14 @@ gaming_room_package:
           data:
             entity_id: media_player.gaming_room_tv
 
+  rest_command:
+    stop_game:
+      url: !secret graphql_url
+      method: POST
+      headers:
+        authorization: !secret graphql_authorization
+      verify_ssl: false
+
   shell_command:
     turn_off_gaming_room_gaming_pc: !secret turn_off_gaming_room_gaming_pc_command
 
@@ -490,3 +498,14 @@ gaming_room_package:
         - service: script.turn_on
           data:
             entity_id: script.gaming_room_turn_off_all_media_players
+
+    - alias: Stopping gaming publishes stop game topic
+      trigger:
+        - platform: state
+          entity_id: media_player.gaming_room_universal_playstation_4_pro
+          to: "off"
+        - platform: state
+          entity_id: media_player.gaming_room_universal_gaming_pc
+          to: "off"
+      action:
+        - service: rest_command.stop_game
