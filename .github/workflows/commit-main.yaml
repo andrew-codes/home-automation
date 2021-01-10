@@ -21,6 +21,8 @@ jobs:
           node-version: "${{ steps.nvm.outputs.NVMRC }}"
       - name: Install deps
         run: yarn
+      - name: Patch
+        run: yarn patch
       - name: Compile apps
         run: yarn lerna run compile --stream
         env:
