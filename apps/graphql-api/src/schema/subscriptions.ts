@@ -1,5 +1,6 @@
 import createDebug from "debug"
 import { list, stringArg, subscriptionField } from "nexus"
+import { first } from "lodash"
 import { equality } from "../filter"
 import { DomainGame, GameEntity } from "../Domain"
 import { GameGraphType } from "./game"
@@ -32,15 +33,15 @@ export const GameStateSubscription = subscriptionField("gameState", {
   subscribe() {
     return pubsub.asyncIterator("/playnite/game/state/updated")
   },
-  resolve(root, args, ctx) {
+  async resolve(root, args, ctx) {
     const { id } = root as { id: string }
     if (!id) {
       return null
     }
-    debug(id)
-    return ctx.query({
+    const results = (await ctx.query({
       from: "game",
-      filters: [equality<DomainGame>("id", parseInt(id, 10))],
-    })
+      filters: [equality<DomainGame>("playniteId", id)],
+    })) as GameEntity[]
+    return first(results)
   },
 })

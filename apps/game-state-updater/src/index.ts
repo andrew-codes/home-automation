@@ -36,11 +36,12 @@ const run = async () => {
 
   mqtt.on("message", async (topic, message) => {
     debug("topic", topic)
+    console.log(topic)
     if (topic === "/playnite/game/starting") {
-      const gameId = parseInt(message.toString(), 10)
+      const gameId = message.toString()
       debug(gameId)
       const db = await mongo.db("gameLibrary")
-      db.collection("gameDetails").updateOne(
+      await db.collection("gameDetails").updateOne(
         {
           playniteId: gameId,
         },
@@ -56,9 +57,9 @@ const run = async () => {
       mqtt.publish("/playnite/game/state/updated", gameId.toString())
     }
     if (topic === "/playnite/game/started") {
-      const gameId = parseInt(message.toString(), 10)
+      const gameId = message.toString()
       const db = await mongo.db("gameLibrary")
-      db.collection("gameDetails").updateOne(
+      await db.collection("gameDetails").updateOne(
         {
           playniteId: gameId,
         },
@@ -77,9 +78,9 @@ const run = async () => {
       if (!message.toString()) {
         return
       }
-      const gameId = parseInt(message.toString(), 10)
+      const gameId = message.toString()
       const db = await mongo.db("gameLibrary")
-      db.collection("gameDetails").updateOne(
+      await db.collection("gameDetails").updateOne(
         {
           playniteId: gameId,
         },
@@ -95,9 +96,9 @@ const run = async () => {
       mqtt.publish("/playnite/game/state/updated", gameId.toString())
     }
     if (topic === "/playnite/game/installed") {
-      const gameId = parseInt(message.toString(), 10)
+      const gameId = message.toString()
       const db = await mongo.db("gameLibrary")
-      db.collection("gameDetails").updateOne({
+      await db.collection("gameDetails").updateOne({
         filter: {
           playniteId: gameId,
         },
@@ -113,9 +114,9 @@ const run = async () => {
       mqtt.publish("/playnite/game/state/updated", gameId.toString())
     }
     if (topic === "/playnite/game/uninstalled") {
-      const gameId = parseInt(message.toString(), 10)
+      const gameId = message.toString()
       const db = await mongo.db("gameLibrary")
-      db.collection("gameDetails").updateOne(
+      await db.collection("gameDetails").updateOne(
         {
           id: gameId,
         },
@@ -132,8 +133,8 @@ const run = async () => {
     }
   })
 }
+run()
 
 process.on("exit", async () => {
   await mongo.close()
 })
-run()

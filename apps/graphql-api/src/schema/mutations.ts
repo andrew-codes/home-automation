@@ -1,6 +1,6 @@
 import createDebug from "debug"
 import { booleanArg, list, mutationField, stringArg } from "nexus"
-import { first, isEmpty, lowerCase } from "lodash"
+import { isEmpty, lowerCase } from "lodash"
 import { HomeAssistantEntityGraphType } from "./home_assistant_entity"
 import { equality } from "../filter"
 import {
@@ -107,13 +107,13 @@ export const PlayGameInGameRoomMutation = mutationField("playGameInGameRoom", {
       }
       const currentGame = (await ctx.query({
         from: "game",
-        filters: [
-          equality<DomainGame>("launching", true),
-          equality<DomainGame>("running", true),
-        ],
       })) as GameEntity[]
 
-      if (!isEmpty(currentGame)) {
+      if (
+        !isEmpty(
+          currentGame.filter((game) => game.isStarting || game.isStarting)
+        )
+      ) {
         throw new Error("Game already running")
       }
 
@@ -138,13 +138,6 @@ export const PlayGameInGameRoomMutation = mutationField("playGameInGameRoom", {
       }
 
       const normalizedPlatform = normalizePlatform(gamePlatform)
-      if (
-        normalizedPlatform === "gaming_pc" &&
-        gameToPlay.state !== "Installed"
-      ) {
-        debug(gameToPlay)
-        throw new Error("Game not installed")
-      }
       debug(
         "Turning on media player",
         `media_player.gaming_room_universal_${normalizedPlatform}`
@@ -175,9 +168,7 @@ export const PlayGameInGameRoomMutation = mutationField("playGameInGameRoom", {
           "media_player",
           {
             entity_id: `media_player.gaming_room_universal_${normalizedPlatform}`,
-            data: {
-              source: gameToPlay.name,
-            },
+            source: gameToPlay.name,
           }
         )
         debug(setSourceResponse)
@@ -196,15 +187,13 @@ export const StopGameInGameRoomMutation = mutationField("stopGameInGameRoom", {
     try {
       const currentGameResults = (await ctx.query({
         from: "game",
-        filters: [
-          equality<DomainGame>("launching", true),
-          equality<DomainGame>("running", true),
-        ],
       })) as GameEntity[]
-      if (isEmpty(currentGameResults)) {
+      const currentGame = currentGameResults.find(
+        (game) => game.isStarting || game.isStarted
+      )
+      if (!currentGame) {
         throw new Error("No game is currently playing")
       }
-      const currentGame = first(currentGameResults)
       const gamePlatform = (await ctx.query({
         from: "game_platform",
         filters: [equality<DomainGamePlatform>("id", currentGame.platformId)],
@@ -217,23 +206,10 @@ export const StopGameInGameRoomMutation = mutationField("stopGameInGameRoom", {
       }
       const normalizedPlatform = normalizePlatform(gamePlatform)
 
-      if (normalizedPlatform === "gaming_pc") {
-        await ctx.mqtt.publish(
-          `/playnite/game/stop`,
-          JSON.stringify({
-            id: currentGame.playniteId,
-            platform: "pc",
-          })
-        )
-      } else if (normalizedPlatform === "playstation_4_pro") {
-        await ctx.mqtt.publish(
-          `/playnite/game/stop`,
-          JSON.stringify({
-            id: currentGame.playniteId,
-            platform: "ps4",
-          })
-        )
-      }
+      // if (normalizedPlatform === "gaming_pc") {
+      // } else if (normalizedPlatform === "playstation_4_pro") {
+      // }
+      await ctx.mqtt.publish(`/playnite/game/stopped`, currentGame.playniteId)
       return currentGame
     } catch (error) {
       debug(error)

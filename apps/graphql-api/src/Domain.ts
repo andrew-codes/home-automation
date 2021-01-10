@@ -113,9 +113,9 @@ export interface GameEntity extends Base {
   gameModes: number[]
   genres: number[]
   hidden: boolean
-  installed: boolean
-  installing: boolean
-  uninstalling: boolean
+  isInstalled: boolean
+  IsInstalling: boolean
+  isUninstalling: boolean
   launching: boolean
   running: boolean
   keywords: number[]
@@ -131,6 +131,8 @@ export interface GameEntity extends Base {
     id: string
     name: string
   }
+  isStarted: boolean
+  isStarting: boolean
   state: GameState
   summary?: string
   url: string

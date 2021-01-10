@@ -85,20 +85,12 @@ async function run() {
     debug("listening for subscriptions", WS_PORT, apollo.subscriptionsPath)
   })
 
-  await mqtt.subscribe("/playnite/game/starting", { qos: 2 })
-  await mqtt.subscribe("/playnite/game/started", { qos: 2 })
-  await mqtt.subscribe("/playnite/game/stopped", { qos: 2 })
-  await mqtt.subscribe("/playnite/game/installed", { qos: 2 })
-  await mqtt.subscribe("/playnite/game/uninstalled", { qos: 2 })
+  await mqtt.subscribe("/playnite/game/state/updated", { qos: 2 })
   await mqtt.subscribe("/playnite/game/list/updated", { qos: 2 })
 
   mqtt.on("message", (topic, message) => {
     debug(topic, message.toString())
-    if (topic === "/playnite/game/list/updated") {
-      pubsub.publish("/playnite/game/state/updated", null)
-    }
-    if (topic === "/playnite/game/stopped") {
-      debug("publishing topic")
+    if (topic === "/playnite/game/state/updated") {
       pubsub.publish("/playnite/game/state/updated", { id: message.toString() })
     }
   })

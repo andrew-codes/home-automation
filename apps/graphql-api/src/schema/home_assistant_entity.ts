@@ -99,7 +99,6 @@ export const HomeAssistantServiceCall = mutationField(
           entity_id: args.entity.id,
           ...payload,
         })
-        debug("HA API response", resp)
       } catch (error) {
         debug(error)
       } finally {
