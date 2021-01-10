@@ -36,7 +36,7 @@ test("all home assistant entities", async () => {
       domainId: "media_player",
 
       state: "playing",
-      name: "Playstation 4",
+      name: "PlayStation 4",
       attributes: {
         sourceList: ["FF7", "Nioh 2"],
         source: "Nioh 2",
@@ -87,7 +87,7 @@ test("filtered home assistant entities by non-ID", async () => {
       domainId: "media_player",
 
       state: "playing",
-      name: "Playstation 4",
+      name: "PlayStation 4",
       attributes: {
         sourceList: ["FF7", "Nioh 2"],
         source: "Nioh 2",
@@ -153,7 +153,7 @@ test("filtered home assistant entities by multiple IDs", async () => {
       domainId: "media_player",
 
       state: "playing",
-      name: "Playstation 4",
+      name: "PlayStation 4",
       attributes: {
         sourceList: ["FF7", "Nioh 2"],
         source: "Nioh 2",
@@ -193,6 +193,7 @@ function homeAssistantEntities() {
       attributes: {
         source_list: ["FF7", "Nioh 2"],
         source: "Nioh 2",
+        friendly_name: "PlayStation 4",
       },
     },
     {

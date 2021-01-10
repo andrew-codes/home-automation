@@ -1,4 +1,4 @@
-import { intArg, list, queryField, stringArg } from "nexus"
+import { list, queryField, stringArg } from "nexus"
 import { equality } from "../filter"
 import {
   Area,
@@ -86,11 +86,13 @@ export const DomainQuery = queryField("domain", {
 
 export const GameQuery = queryField("game", {
   type: list(GameGraphType),
-  args: { ids: list(intArg()) },
+  args: { ids: list(stringArg()) },
   async resolve(root, args, ctx) {
     let results = await ctx.query({
       from: "game",
-      filters: args.ids?.map((id) => equality<DomainGame>("id", id)),
+      filters: (args.ids as string[] | null)?.map((id) =>
+        equality<DomainGame>("id", parseInt(id, 10))
+      ),
     })
     if (!Array.isArray(results)) {
       results = [results]
@@ -103,11 +105,13 @@ export const GameQuery = queryField("game", {
 
 export const GameGenreQuery = queryField("gameGenre", {
   type: list(GameGenreGraphType),
-  args: { ids: list(intArg()) },
+  args: { ids: list(stringArg()) },
   async resolve(root, args, ctx) {
     let results = await ctx.query({
       from: "game_genre",
-      filters: args.ids?.map((id) => equality<DomainGameGenre>("id", id)),
+      filters: (args.ids as string[] | null)?.map((id) =>
+        equality<DomainGameGenre>("id", parseInt(id, 10))
+      ),
     })
     if (!Array.isArray(results)) {
       results = [results]
@@ -120,11 +124,13 @@ export const GameGenreQuery = queryField("gameGenre", {
 
 export const GameFranchiseQuery = queryField("gameFranchise", {
   type: list(GameFranchiseGraphType),
-  args: { ids: list(intArg()) },
+  args: { ids: list(stringArg()) },
   async resolve(root, args, ctx) {
     let results = await ctx.query({
       from: "game_franchise",
-      filters: args.ids?.map((id) => equality<DomainGameFranchise>("id", id)),
+      filters: (args.ids as string[] | null)?.map((id) =>
+        equality<DomainGameFranchise>("id", parseInt(id, 10))
+      ),
     })
     if (!Array.isArray(results)) {
       results = [results]
@@ -137,11 +143,13 @@ export const GameFranchiseQuery = queryField("gameFranchise", {
 
 export const GameKeywordQuery = queryField("gameKeyword", {
   type: list(GameKeywordGraphType),
-  args: { ids: list(intArg()) },
+  args: { ids: list(stringArg()) },
   async resolve(root, args, ctx) {
     let results = await ctx.query({
       from: "game_keyword",
-      filters: args.ids?.map((id) => equality<DomainGameKeyword>("id", id)),
+      filters: (args.ids as string[] | null)?.map((id: string) =>
+        equality<DomainGameKeyword>("id", parseInt(id, 10))
+      ),
     })
     if (!Array.isArray(results)) {
       results = [results]
@@ -154,11 +162,13 @@ export const GameKeywordQuery = queryField("gameKeyword", {
 
 export const GamePlatformQuery = queryField("gamePlatform", {
   type: list(GamePlatformGraphType),
-  args: { ids: list(intArg()) },
+  args: { ids: list(stringArg()) },
   async resolve(root, args, ctx) {
     let results = await ctx.query({
       from: "game_platform",
-      filters: args.ids?.map((id) => equality<DomainGamePlatform>("id", id)),
+      filters: (args.ids as string[] | null)?.map((id: string) =>
+        equality<DomainGamePlatform>("id", id)
+      ),
     })
     if (!Array.isArray(results)) {
       results = [results]
@@ -171,11 +181,13 @@ export const GamePlatformQuery = queryField("gamePlatform", {
 
 export const GameModeQuery = queryField("gameMode", {
   type: list(GameModeGraphType),
-  args: { ids: list(intArg()) },
+  args: { ids: list(stringArg()) },
   async resolve(root, args, ctx) {
     let results = await ctx.query({
       from: "game_mode",
-      filters: args.ids?.map((id) => equality<DomainGameMode>("id", id)),
+      filters: (args.ids as string[] | null)?.map((id) =>
+        equality<DomainGameMode>("id", parseInt(id, 10))
+      ),
     })
     if (!Array.isArray(results)) {
       results = [results]

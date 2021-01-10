@@ -1,8 +1,8 @@
-import { authorize } from "../authorize"
+import { authorizeMiddleware } from "../authorize"
 
 const token = "123"
 const next = jest.fn()
-const sut = authorize(token)
+const sut = authorizeMiddleware(token)
 
 beforeEach(() => {
   jest.resetAllMocks()

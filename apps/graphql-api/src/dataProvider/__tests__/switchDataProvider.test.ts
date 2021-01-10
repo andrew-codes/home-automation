@@ -14,7 +14,7 @@ test("selects first matching provider to return results", async () => {
   p2.query.mockResolvedValue([
     {
       id: "media_player.playstaion_4",
-      name: "Playstation 4",
+      name: "PlayStation 4",
       domainId: "media_player",
       state: "idle",
       attributes: {
@@ -35,7 +35,7 @@ test("selects first matching provider to return results", async () => {
     {
       id: "media_player.playstaion_4",
       state: "idle",
-      name: "Playstation 4",
+      name: "PlayStation 4",
     },
   ])
   p1.canExecuteQuery.mockReturnValue(false)
@@ -49,7 +49,7 @@ test("selects first matching provider to return results", async () => {
     {
       domainId: "media_player",
       state: "idle",
-      name: "Playstation 4",
+      name: "PlayStation 4",
       id: "media_player.playstaion_4",
       attributes: {
         source: "PS4",

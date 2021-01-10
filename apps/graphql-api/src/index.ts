@@ -1,20 +1,23 @@
+import { ApolloServer } from "apollo-server-express"
 import cors from "cors"
 import createDebug from "debug"
 import express from "express"
 import HomeAssistant from "homeassistant"
 import createUnifi from "node-unifiapi"
-import { connectAsync } from "async-mqtt"
 import { altairExpress } from "altair-express-middleware"
-import { graphqlHTTP } from "express-graphql"
-import * as bodyParser from "body-parser-graphql"
-import { authorize } from "./middleware/authorize"
+import { authorizeMiddleware } from "./middleware/authorize"
 import { cache } from "./cache"
 import { client } from "./mongo"
+import { connectAsync } from "async-mqtt"
+import { createServer } from "http"
 import { GridFSBucket } from "mongodb"
+import { SubscriptionServer } from "subscriptions-transport-ws"
+import * as bodyParser from "body-parser-graphql"
 import { createDataContext } from "./dataContext"
+import { pubsub } from "./pubsub"
 import { resetCounts } from "./dataProvider/dataSourceBatchPerformance"
 import { schema } from "./schema/index"
-import * as types from "./generated/nexusTypes.gen"
+// import * as types from "./generated/nexusTypes.gen"
 const debug = createDebug("@ha/graphql-api/index")
 
 const {
@@ -32,6 +35,7 @@ const {
   UNIFI_PORT,
   UNIFI_USERNAME,
   UNIFI_PASSWORD,
+  WS_PORT,
 } = process.env
 const ha = new HomeAssistant({
   host: HA_HOST,
@@ -44,36 +48,62 @@ const unifi = createUnifi({
   username: UNIFI_USERNAME,
   password: UNIFI_PASSWORD,
 })
-
 const app = express()
-app.use("/graphql", bodyParser.graphql())
-
-app.use(
-  "/graphql",
-  cors(),
-  authorize(GRAPHQL_API_TOKEN as string),
-  async (req, resp, next) => {
-    const mqtt = await connectAsync(`tcp://${MQTT_HOST}`, {
-      password: MQTT_PASSWORD,
-      port: parseInt(MQTT_PORT || "1883", 10),
-      username: MQTT_USERNAME,
-    })
-    const options = {
-      schema: schema,
-      graphiql: false,
-      context: createDataContext(ha, mqtt, unifi),
-    }
-    await graphqlHTTP(options)(req, resp)
-    next()
-  },
-  (req, resp, next) => {
+const http = createServer(app)
+async function run() {
+  const mqtt = await connectAsync(`tcp://${MQTT_HOST}`, {
+    password: MQTT_PASSWORD,
+    port: parseInt(MQTT_PORT || "1883", 10),
+    username: MQTT_USERNAME,
+  })
+  const options = {
+    schema: schema,
+    context: createDataContext(ha, mqtt, unifi),
+  }
+  const apollo = new ApolloServer(options)
+  app.use(
+    "/graphql",
+    cors(),
+    authorizeMiddleware(GRAPHQL_API_TOKEN as string),
+    bodyParser.graphql()
+  )
+  apollo.applyMiddleware({ app })
+  app.use("/graphql", (req, resp, next) => {
     debug("Flushing Cache")
     resetCounts()
     cache.flushAll()
     cache.flushStats()
     next()
-  }
-)
+  })
+  apollo.installSubscriptionHandlers(http)
+  app.listen({ port: PORT }, () => {
+    debug("listening on port", PORT)
+    debug(apollo.graphqlPath)
+  })
+
+  http.listen(WS_PORT, () => {
+    debug("listening for subscriptions", WS_PORT, apollo.subscriptionsPath)
+  })
+
+  await mqtt.subscribe("/playnite/game/starting", { qos: 2 })
+  await mqtt.subscribe("/playnite/game/started", { qos: 2 })
+  await mqtt.subscribe("/playnite/game/stopped", { qos: 2 })
+  await mqtt.subscribe("/playnite/game/installed", { qos: 2 })
+  await mqtt.subscribe("/playnite/game/uninstalled", { qos: 2 })
+  await mqtt.subscribe("/playnite/game/list/updated", { qos: 2 })
+
+  mqtt.on("message", (topic, message) => {
+    debug(topic, message.toString())
+    if (topic === "/playnite/game/list/updated") {
+      pubsub.publish("/playnite/game/state/updated", null)
+    }
+    if (topic === "/playnite/game/stopped") {
+      debug("publishing topic")
+      pubsub.publish("/playnite/game/state/updated", { id: message.toString() })
+    }
+  })
+}
+run()
 
 app.get("/image/:imageId", async (req, resp, next) => {
   const { imageId } = req.params
@@ -102,10 +132,6 @@ if (NODE_ENV === "development") {
     })
   )
 }
-
-app.listen(PORT, () => {
-  debug("listening on port", PORT)
-})
 
 process.once("SIGUSR2", () => {
   resetCounts()
