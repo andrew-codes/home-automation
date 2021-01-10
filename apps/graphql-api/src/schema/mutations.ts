@@ -111,7 +111,7 @@ export const PlayGameInGameRoomMutation = mutationField("playGameInGameRoom", {
       const currentGame = currentGameResults.find(
         (game) => game.isStarting || game.isStarting
       )
-      if (!currentGame) {
+      if (!!currentGame) {
         throw new Error(`A game is already running: ${currentGame.name}`)
       }
 
