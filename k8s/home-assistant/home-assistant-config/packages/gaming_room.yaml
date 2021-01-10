@@ -44,6 +44,11 @@ gaming_room_package:
       method: POST
       headers:
         authorization: !secret graphql_authorization
+        Accept-Encoding: "gzip, deflate, br"
+        Content-Type: "application/json" 
+        Accept: application/json
+        Connection: keep-alive
+      payload: '{"query":"\n\nmutation{\n  stopGameInGameRoom{\n    id\n }\n}","variables":{}}'
       verify_ssl: false
 
   shell_command:
