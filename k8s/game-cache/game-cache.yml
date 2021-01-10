@@ -95,6 +95,42 @@ spec:
                 secretKeyRef:
                   name: twitch-secrets
                   key: client-secret
+        - name: game-state-updater
+          image: docker.smith-simms.family:5000/game-state-updater:latest
+          imagePullPolicy: Always
+          env:
+            - name: DEBUG
+              value: "@ha/game-state-updater-app/*"
+            - name: MONGODB_HOST
+              value: mongodb
+            - name: MONGODB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secrets
+                  key: root-username
+            - name: MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secrets
+                  key: root-password
+            - name: MONGODB_HOST
+              value: mongodb
+            - name: MONGODB_PORT
+              value: "27017"
+            - name: MQTT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-secrets
+                  key: mqtt-username
+            - name: MQTT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-secrets
+                  key: mqtt-password
+            - name: MQTT_HOST
+              value: mqtt
+            - name: MQTT_PORT
+              value: "1883"
 
 ---
 apiVersion: v1
