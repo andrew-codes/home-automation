@@ -6,12 +6,12 @@
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf dist && rm -rf src/generated",
-    "start": "scripts/bin/start.sh",
-    "start/dev": "nodemon src/index.ts --inspect=0.0.0.0:9233",
-    "precompile": "rm -rf src/generated && yarn generateTypes",
     "compile": "ncc build src/index.ts -o dist -m",
     "generateTypes": "ts-node src/schema/index.ts",
     "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"$DOCKER_REGISTRY_DOMAIN:5000/graphql-api:latest\" --context dir:///workspace/ --insecure",
+    "precompile": "rm -rf src/generated && yarn generateTypes",
+    "start": "scripts/bin/start.sh",
+    "start/dev": "nodemon src/index.ts --inspect=0.0.0.0:9233",
     "test": "jest"
   },
   "peerDependencies": {
