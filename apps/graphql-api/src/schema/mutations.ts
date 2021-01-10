@@ -105,16 +105,14 @@ export const PlayGameInGameRoomMutation = mutationField("playGameInGameRoom", {
       if (!args.id) {
         throw new Error("Invalid argument")
       }
-      const currentGame = (await ctx.query({
+      const currentGameResults = (await ctx.query({
         from: "game",
       })) as GameEntity[]
-
-      if (
-        !isEmpty(
-          currentGame.filter((game) => game.isStarting || game.isStarting)
-        )
-      ) {
-        throw new Error("Game already running")
+      const currentGame = currentGameResults.find(
+        (game) => game.isStarting || game.isStarting
+      )
+      if (!currentGame) {
+        throw new Error(`A game is already running: ${currentGame.name}`)
       }
 
       const gameToPlay = (await ctx.query({
