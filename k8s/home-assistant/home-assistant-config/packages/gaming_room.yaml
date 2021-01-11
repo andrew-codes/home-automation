@@ -38,19 +38,6 @@ gaming_room_package:
           data:
             entity_id: media_player.gaming_room_tv
 
-  rest_command:
-    stop_game:
-      url: !secret graphql_url
-      method: POST
-      headers:
-        authorization: !secret graphql_authorization
-        Accept-Encoding: "gzip, deflate, br"
-        Content-Type: "application/json" 
-        Accept: application/json
-        Connection: keep-alive
-      payload: '{"query":"\n\nmutation{\n  stopGameInGameRoom{\n    id\n }\n}","variables":{}}'
-      verify_ssl: false
-
   shell_command:
     turn_off_gaming_room_gaming_pc: !secret turn_off_gaming_room_gaming_pc_command
     stop_game: !secret stop_game_shell_command
@@ -514,7 +501,7 @@ gaming_room_package:
           entity_id: media_player.gaming_room_universal_gaming_pc
           to: "off"
       action:
-        - service: rest_command.stop_game
+        - service: shell_command.stop_game
 
     - alias: Stopping gaming from topic turns off systems
       trigger:
