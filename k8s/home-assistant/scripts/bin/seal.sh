@@ -50,7 +50,6 @@ gaming_room_gaming_pc_ip: $GAMING_ROOM_GAMING_PC_IP
 router_ip: $ROUTER_IP
 graphql_url: http://graphql-api/graphql
 graphql_authorization: Bearer $GRAPHQL_API_TOKEN
-stop_game_shell_command: "curl 'http://graphql-api/graphql' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'Authorization: Bearer $GRAPHQL_API_TOKEN' --data-binary '{\"query\":\"\\\\nmutation{\\\\n  stopGameInGameRoom{\\\\n    id\\\\n  }\\\\n}\",\"variables\":{}}' --compressed"
 turn_off_gaming_room_gaming_pc_command: ssh -n -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa $MACHINE_USERNAME@$GAMING_ROOM_GAMING_PC_IP "C:\Windows\System32\rundll32.exe powrprof.dll,SetSuspendState Standby"
 EOL
 

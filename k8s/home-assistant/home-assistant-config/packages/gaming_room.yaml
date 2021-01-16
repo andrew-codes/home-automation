@@ -47,7 +47,6 @@ gaming_room_package:
 
   shell_command:
     turn_off_gaming_room_gaming_pc: !secret turn_off_gaming_room_gaming_pc_command
-    stop_game: !secret stop_game_shell_command
 
   media_player:
       # This is the primary media player for automations.
@@ -508,7 +507,10 @@ gaming_room_package:
           entity_id: media_player.gaming_room_universal_gaming_pc
           to: "off"
       action:
-        - service: shell_command.stop_game
+        - service: mqtt.publish
+          data_temlate:
+            topic: "/playnite/game/stopped"
+            qos: 2
 
     - alias: Changing PS source, stops previous game and starts next game (game state)
       trigger:
