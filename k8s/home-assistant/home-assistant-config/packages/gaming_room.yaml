@@ -514,10 +514,6 @@ gaming_room_package:
       trigger:
         - platform: state
           entity_id: sensor.gaming_room_playstation_4_pro_source
-      condition:
-        - condition: state
-          entity_id: media_player.gaming_room_playstation_4_pro
-          state: "on"
       action:
         - service: mqtt.publish
           data_template:

@@ -1,5 +1,6 @@
 import createDebugger from "debug"
 import { connectAsync } from "async-mqtt"
+import { first } from "lodash"
 import { MongoClient } from "mongodb"
 
 const debug = createDebugger("@ha/game-state-updater-app/index")
@@ -135,13 +136,15 @@ const run = async () => {
     if (topic === "/playnite/game/started/ps4") {
       const gameName = message.toString()
       const db = await mongo.db("gameLibrary")
-      const matchingPsGame = await db
+      const matchingGames = await db
         .collection("gameDetails")
         .find(
           { "platform.name": "Sony PlayStation 4", name: gameName },
           { playniteId: 1 }
         )
-      if (!matchingPsGame) {
+        .toArray()
+      const matchingGame = first(matchingGames)
+      if (!matchingGame) {
         debug("No matching PS game", gameName)
         return
       }
@@ -156,7 +159,7 @@ const run = async () => {
           },
         }
       )
-      mqtt.publish("/playnite/game/state/updated", matchingPsGame.playniteId)
+      mqtt.publish("/playnite/game/state/updated", matchingGame.playniteId)
     }
   })
 }
