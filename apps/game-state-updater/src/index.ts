@@ -1,6 +1,6 @@
 import createDebugger from "debug"
 import { connectAsync } from "async-mqtt"
-import { first } from "lodash"
+import { lowerCase } from "lodash"
 import { MongoClient } from "mongodb"
 
 const debug = createDebugger("@ha/game-state-updater-app/index")
@@ -82,19 +82,12 @@ const run = async () => {
       }
       const gameId = message.toString()
       const db = await mongo.db("gameLibrary")
-      await db.collection("gameDetails").updateOne(
-        {
-          playniteId: gameId,
+      await db.collection("gameDetails").updateMany({
+        $set: {
+          isStarting: false,
+          isStarted: false,
         },
-        {
-          $set: {
-            isStarting: false,
-            isStarted: false,
-            isInstalled: true,
-            isUninstalled: false,
-          },
-        }
-      )
+      })
       mqtt.publish("/playnite/game/state/updated", gameId.toString())
     }
     if (topic === "/playnite/game/installed") {
@@ -139,12 +132,15 @@ const run = async () => {
       const matchingGames = await db
         .collection("gameDetails")
         .find(
-          { "platform.name": "Sony PlayStation 4", name: gameName },
-          { playniteId: 1 }
+          { "platform.name": "Sony PlayStation 4" },
+          { name: 1, playniteId: 1 }
         )
         .toArray()
-      const matchingGame = first(matchingGames)
+      const matchingGame = matchingGames.find(({ name }) =>
+        lowerCase(name).includes(lowerCase(gameName))
+      )
       if (!matchingGame) {
+        console.log("No matching PS game", gameName)
         debug("No matching PS game", gameName)
         return
       }
@@ -154,7 +150,7 @@ const run = async () => {
           $set: {
             isStarting: false,
             isStarted: true,
-            isInstalled: false,
+            isInstalled: true,
             isUninstalled: false,
           },
         }
