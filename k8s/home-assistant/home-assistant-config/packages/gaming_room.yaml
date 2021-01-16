@@ -519,6 +519,10 @@ gaming_room_package:
       action:
         - service: mqtt.publish
           data_template:
+            topic: "/playnite/game/stopped"
+            qos: 2
+        - service: mqtt.publish
+          data_template:
             topic: "/playnite/game/started/ps4"
             qos: 2
             payload: "{{ trigger.to_state.state }}"
