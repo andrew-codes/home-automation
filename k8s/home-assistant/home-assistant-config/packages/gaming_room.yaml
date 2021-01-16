@@ -515,9 +515,9 @@ gaming_room_package:
         - platform: state
           entity_id: sensor.gaming_room_playstation_4_pro_source
       condition:
-          - platform: state
-            entity_id: media_player.gaming_room_playstation_4_pro
-            state: "on"
+        - platform: state
+          entity_id: media_player.gaming_room_playstation_4_pro
+          state: "on"
       action:
         - service: mqtt.publish
           data_template:
