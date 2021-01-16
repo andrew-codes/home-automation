@@ -519,4 +519,4 @@ gaming_room_package:
           data_template:
             topic: "/playnite/game/started/ps4"
             qos: 2
-            payload: "{{ source }}"
+            payload: "{{ trigger.to_state.state }}"
