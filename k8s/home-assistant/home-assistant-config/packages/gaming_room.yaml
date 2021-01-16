@@ -19,6 +19,13 @@ gaming_room_package:
       initial: off
       icon: mdi:nintendo-switch
 
+  sensor:
+    - platform: template
+      sensors:
+        gaming_room_playstation_4_pro_source:
+          value_template: '{{ states.media_player.gaming_room_playstation_4_pro.attributes["source"] }}'
+          friendly_name: 'Playstation 4 Pro Source'
+
   script:
     gaming_room_turn_off_all_media_players:
       sequence:
@@ -502,3 +509,18 @@ gaming_room_package:
           to: "off"
       action:
         - service: shell_command.stop_game
+
+    - alias: Changing PS source, stops previous game and starts next game (game state)
+      trigger:
+        - platform: state
+          entity_id: sensor.gaming_room_playstation_4_pro_source
+      condition:
+          - platform: state
+            entity_id: media_player.gaming_room_playstation_4_pro
+            state: "on"
+      action:
+        - service: mqtt.publish
+          data_template:
+            topic: "/playnite/game/started/ps4"
+            qos: 2
+            payload: "{{ source }}"

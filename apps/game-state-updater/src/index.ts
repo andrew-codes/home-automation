@@ -28,6 +28,7 @@ const run = async () => {
 
   await mqtt.subscribe("/playnite/game/starting")
   await mqtt.subscribe("/playnite/game/started")
+  await mqtt.subscribe("/playnite/game/started/ps4")
   await mqtt.subscribe("/playnite/game/stopped")
   await mqtt.subscribe("/playnite/game/installed")
   await mqtt.subscribe("/playnite/game/uninstalled")
@@ -130,6 +131,32 @@ const run = async () => {
         }
       )
       mqtt.publish("/playnite/game/state/updated", gameId.toString())
+    }
+    if (topic === "/playnite/game/started/ps4") {
+      const gameName = message.toString()
+      const db = await mongo.db("gameLibrary")
+      const matchingPsGame = await db
+        .collection("gameDetails")
+        .find(
+          { "platform.name": "Sony PlayStation 4", name: gameName },
+          { playniteId: 1 }
+        )
+      if (!matchingPsGame) {
+        debug("No matching PS game", gameName)
+        return
+      }
+      await db.collection("gameDetails").updateOne(
+        { "platform.name": "Sony PlayStation 4", name: gameName },
+        {
+          $set: {
+            isStarting: false,
+            isStarted: true,
+            isInstalled: false,
+            isUninstalled: false,
+          },
+        }
+      )
+      mqtt.publish("/playnite/game/state/updated", matchingPsGame.playniteId)
     }
   })
 }
