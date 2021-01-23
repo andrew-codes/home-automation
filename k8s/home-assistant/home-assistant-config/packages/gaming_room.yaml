@@ -508,7 +508,7 @@ gaming_room_package:
           to: "off"
       action:
         - service: mqtt.publish
-          data_temlate:
+          data_template:
             topic: "/playnite/game/stopped"
             qos: 2
 
