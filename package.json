@@ -19,6 +19,7 @@
     "postintall": "yarn patch",
     "seal": "lerna run seal",
     "start": "lerna run start --stream",
+    "start/cleanup": "kubectl get pods -A -l telepresence -o json | jq -r '.items[] |select((.metadata.creationTimestamp | now - fromdateiso8601) > 86400) | @sh \"kubectl delete --grace-period=1 -n \\(.metadata.namespace) pod/\\(.metadata.name)\"' | xargs",
     "image/local": "./scripts/bin/build-local-images.sh",
     "image/push": "lerna run image/push --include-filtered-dependencies",
     "ingress/prod": "lerna run ingress/prod --include-filtered-dependencies",
