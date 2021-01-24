@@ -86,7 +86,7 @@
     - name: Setup private registry access for nodes.
       command: "{{ item }}"
       with_items:
-        - 'echo '{ "insecure-registries": ["{{ docker_registry_domain }}:5000", "{{ docker_registry_domain }}"] }' > /etc/docker/daemon.json'
+        - 'echo '{ "insecure-registries": ["{{ docker_registry_domain }}:5000", "{{ docker_registry_domain }}"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' > /etc/docker/daemon.json'
         - systemctl daemon-reload
         - systemctl restart docker
 
