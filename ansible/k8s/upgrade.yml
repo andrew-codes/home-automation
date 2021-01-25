@@ -1,0 +1,20 @@
+---
+- hosts: mains, workers
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+
+  tasks:
+    - name: Upgrading docker via apt-get
+      shell: apt-get upgrade docker.io -y
+    
+    - name: Stop docker to upgrade containerd.
+      command: "{{ item }}"
+      with_items:
+        - wget https://github.com/containerd/containerd/releases/download/v1.4.3/containerd-1.4.3-linux-amd64.tar.gz
+        - tar xvf containerd-1.4.3-linux-amd64.tar.gz
+        - systemctl stop docker
+        - mv ./bin/* /usr/bin
+        - systemctl start docker
