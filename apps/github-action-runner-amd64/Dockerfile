@@ -8,7 +8,7 @@ RUN echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 RUN curl -sS https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-RUN echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable" | sudo tee -a /etc/apt/sources.list.d/docker.list
+RUN echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable" | sudo tee -a /etc/apt/sources.list.d/docker.list
 RUN sudo apt-add-repository -y --update ppa:ansible/ansible
 RUN sudo add-apt-repository ppa:deadsnakes/ppa
 RUN sudo apt update -y
