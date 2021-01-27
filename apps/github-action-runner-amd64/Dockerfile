@@ -12,10 +12,11 @@ RUN echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stabl
 RUN sudo apt-add-repository -y --update ppa:ansible/ansible
 RUN sudo add-apt-repository ppa:deadsnakes/ppa
 RUN sudo apt update -y
+RUN sudo apt-get remove docker docker-engine docker.io containerd
 RUN sudo apt-get install -y \
   nodejs \
   yarn \
-  docker.io \
+  docker-ce \
   apt-transport-https gnupg2 kubectl \
   lxc ca-certificates iptables \
   software-properties-common ansible python3.8 python-pip python3-pip \
