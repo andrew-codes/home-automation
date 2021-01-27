@@ -203,4 +203,3 @@ spec:
       targetPort: appdaemon
   selector:
     app.kubernetes.io/name: home-assistant
-
