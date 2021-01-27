@@ -28,5 +28,6 @@ RUN sudo yarn global add lerna
 RUN ansible-galaxy collection install ansible.windows
 RUN ansible-galaxy collection install community.windows
 RUN sudo wget https://github.com/containerd/containerd/releases/download/v1.4.3/containerd-1.4.3-linux-amd64.tar.gz
-RUN sudo tar -xvf containerd-1.4.3-linux-amd64.tar.gz
-RUN sudo mv bin/* /usr/bin
+RUN sudo mkdir -p containerd
+RUN sudo tar -xvf containerd-1.4.3-linux-amd64.tar.gz --directory containerd
+RUN sudo mv containerd/bin/* /usr/bin
