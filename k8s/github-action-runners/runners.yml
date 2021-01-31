@@ -1,43 +1,104 @@
 apiVersion: actions.summerwind.dev/v1alpha1
-kind: RunnerDeployment
+kind: Runner
 metadata:
-  name: github-action-runners
+  name: github-action-runner-1
   namespace: actions-runner-system
 spec:
-  replicas: 3
-  template:
-    spec:
-      labels:
-        - amd64-runner
-        - nodejs-runner
-      repository: andrew-codes/home-automation
-      dockerEnabled: true
-      dockerdWithinRunnerContainer: false
-      imagePullSecrets:
-        - name: regcred
-      image: docker.smith-simms.family:5000/github-action-runner:latest
-      imagePullPolicy: Always
-      volumeMounts:
-        - name: kubectl-config-volume
-          mountPath: /home/runner/.kube/config
-          subPath: kubectl-config
-        - name: ssh-volue
-          mountPath: /home/runner/.ssh/id_rsa
-          subPath: id_rsa
-      volumes:
-        - name: kubectl-config-volume
-          secret:
-            secretName: kubectl-config
-        - name: ssh-volume
-          secret:
-            defaultMode: 0600
-            secretName: ssh-secrets
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/arch
-                    operator: In
-                    values:
-                      - amd64
+  labels:
+    - amd64-runner
+  repository: andrew-codes/home-automation
+  dockerEnabled: true
+  dockerdWithinRunnerContainer: false
+  imagePullSecrets:
+    - name: regcred
+  image: docker.smith-simms.family:5000/github-action-runner:latest
+  imagePullPolicy: Always
+  resources:
+    limits:
+      memory: "8Gi"
+    requests:
+      memory: "4Gi"
+  env:
+    - name: DOCKER_HOST
+      value: localhost:2736
+  volumeMounts:
+    - name: kubectl-config-volume
+      mountPath: /home/runner/.kube/config
+      subPath: kubectl-config
+    - name: ssh-volume
+      mountPath: /home/runner/.ssh/id_rsa
+      subPath: id_rsa
+    # - name: runner
+    #   mountPath: /runner
+  volumes:
+    - name: kubectl-config-volume
+      secret:
+        secretName: kubectl-config
+    - name: ssh-volume
+      secret:
+        defaultMode: 0600
+        secretName: ssh-secrets
+    # - name: runner
+    #   emptyDir: {}
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                  - amd64
+
+---
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: Runner
+metadata:
+  name: github-action-runner-2
+  namespace: actions-runner-system
+spec:
+  labels:
+    - amd64-runner
+  repository: andrew-codes/home-automation
+  dockerEnabled: true
+  dockerdWithinRunnerContainer: false
+  imagePullSecrets:
+    - name: regcred
+  image: docker.smith-simms.family:5000/github-action-runner:latest
+  imagePullPolicy: Always
+  resources:
+    limits:
+      memory: "8Gi"
+    requests:
+      memory: "4Gi"
+  env:
+    - name: DOCKER_HOST
+      value: localhost:2736
+  volumeMounts:
+    - name: kubectl-config-volume
+      mountPath: /home/runner/.kube/config
+      subPath: kubectl-config
+    - name: ssh-volume
+      mountPath: /home/runner/.ssh/id_rsa
+      subPath: id_rsa
+    # - name: runner
+    #   mountPath: /runner
+  volumes:
+    - name: kubectl-config-volume
+      secret:
+        secretName: kubectl-config
+    - name: ssh-volume
+      secret:
+        defaultMode: 0600
+        secretName: ssh-secrets
+    # - name: runner
+    #   emptyDir: {}
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                  - amd64
