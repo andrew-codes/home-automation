@@ -17,4 +17,4 @@ jobs:
           DOCKER_REGISTRY_DOMAIN: ${{ secrets.DOCKER_REGISTRY_DOMAIN }}
         run: yarn image/push --scope @ha/github-action-runner-amd64 --stream
       - name: Purge registry of old images
-        run: docker run --rm anoxis/registry-cli -r ${{ secrets.DOCKER_REGISTRY_DOMAIN }} --delete --num 5 -l "$DOCKER_REGISTRY_USERNAME:$DOCKER_REGISTRY_PASSWORD"
+        run: docker run --rm anoxis/registry-cli -r ${{ secrets.DOCKER_REGISTRY_DOMAIN }} --delete --num 5 -l "$DOCKER_REGISTRY_USERNAME:$DOCKER_REGISTRY_PASSWORD" --no-validate-ssl
