@@ -35,7 +35,7 @@ bandwidth_usage_package:
           value_template: "{{ ((states('sensor.snmp_wan_out') | float ) / 1000000000 ) | round(3) }}"
           unit_of_measurement: "GB"
         internet_usage:
-          value_template: "{{ (states('sensor.internet_usage_in') | float) + (states('sensor.internet_usage_out') | float) }}"
+          value_template: "{{ (states('sensor.internet_usage_in') | float) + (states('sensor.internet_usage_out') | float) | round(3) }}"
           unit_of_measurement: "GB"
 
   utility_meter:
