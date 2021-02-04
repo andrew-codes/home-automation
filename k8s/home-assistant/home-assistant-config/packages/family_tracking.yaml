@@ -1,0 +1,13 @@
+family_tracking_package:
+
+  sensor:
+    - platform: template
+      sensors:
+        andrew_smith_state:
+          value_template: >-
+            {% if is_state('person.andrew_smith', 'home') and is_state('binary_sensor.withings_in_bed_andrew_smith', 'on') %}
+              Sleeping
+            {% else %}
+              {{ states('person.andrew_smith') }}
+            {% endif %}              
+
