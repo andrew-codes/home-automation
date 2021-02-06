@@ -10,7 +10,7 @@ module.exports = {
     path: path.resolve(__dirname, "..", "dist", "client"),
     filename: "index.js",
   },
-  devtool: "inline-source-map",
+  devtool: NODE_ENV !== "production" ? "inline-source-map" : undefined,
   module: {
     rules: [{ test: /\.tsx?$/, use: "ts-loader", exclude: "/node_modules/" }],
   },
