@@ -5,6 +5,7 @@ const webpack = require("webpack")
 const { GRAPHQL_API_HOST, NODE_ENV } = process.env
 
 module.exports = {
+  mode: NODE_ENV === "production" ? "production" : "development",
   entry: path.join(__dirname, "client", "index.tsx"),
   output: {
     path: path.resolve(__dirname, "..", "dist", "client"),
