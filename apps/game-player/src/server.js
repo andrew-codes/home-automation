@@ -41,12 +41,23 @@ if (NODE_ENV !== "production") {
   const webpackMerge = require("webpack-merge")
   const compiler = webpack(
     webpackMerge.merge(webpackConfig, {
+      entry: [
+        path.join(__dirname, "client", "index.tsx"),
+        "webpack-hot-middleware/client",
+      ],
       devtool: "inline-source-map",
       mode: "development",
-      plugins: [new webpack.HotModuleReplacementPlugin({})],
+      plugins: [
+        new webpack.HotModuleReplacementPlugin({}),
+        new webpack.NoEmitOnErrorsPlugin(),
+      ],
+      devServer: {
+        hot: true,
+      },
     })
   )
   app.use(webpackMiddleware(compiler, {}))
+  app.use(require("webpack-hot-middleware")(compiler))
 } else {
   app.get(/.*\.js$/, (req, resp) => {
     resp.sendFile(path.join(__dirname, req.path))

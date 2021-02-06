@@ -15,3 +15,7 @@ render(
   </ApolloProvider>,
   appEl
 )
+
+if (module.hot) {
+  module.hot.accept()
+}
