@@ -17,9 +17,7 @@ module.exports = {
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
   },
-  optimization: {
-    runtimeChunk: "single",
-  },
+  optimization: {},
   plugins: [
     new HtmlWebpackPlugin({
       appMountId: "app",
