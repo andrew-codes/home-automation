@@ -9,7 +9,7 @@
     "compile": "concurrently 'ncc build src/server.ts -o dist -m' 'webpack --config webpack.config.js'",
     "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"$DOCKER_REGISTRY_DOMAIN:5000/game-player:latest\" --context dir:///workspace/ --insecure",
     "start": "scripts/bin/start.sh",
-    "start/dev": "nodemon src/server.ts --inspect=0.0.0.0:9233"
+    "start/dev": "cross-env NODE_ENV=development nodemon src/server.ts --inspect=0.0.0.0:9233"
   },
   "dependencies": {
     "apollo-fetch": "^0.7.0",
@@ -23,6 +23,7 @@
     "@types/react-dom": "^17.0.0",
     "@zeit/ncc": "^0.22.3",
     "concurrently": "^5.3.0",
+    "cross-env": "^7.0.3",
     "graphql": "^15.5.0",
     "html-webpack-plugin": "^5.0.0",
     "nodemon": "^2.0.6",
