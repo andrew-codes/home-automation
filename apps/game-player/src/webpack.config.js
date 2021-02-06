@@ -25,7 +25,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       appMountId: "app",
-      inject: false,
+      inject: true,
       inlineManifestWebpackName: "webpackManifest",
       links: [
         "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap",
