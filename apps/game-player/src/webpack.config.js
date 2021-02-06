@@ -2,16 +2,13 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 const path = require("path")
 const webpack = require("webpack")
 
-const { GRAPHQL_API_HOST, NODE_ENV } = process.env
-
 module.exports = {
-  mode: NODE_ENV === "production" ? "production" : "development",
+  mode: "production",
   entry: path.join(__dirname, "client", "index.tsx"),
   output: {
     path: path.resolve(__dirname, "..", "dist", "client"),
     filename: "index.js",
   },
-  devtool: NODE_ENV !== "production" ? "inline-source-map" : undefined,
   module: {
     rules: [{ test: /\.tsx?$/, use: "ts-loader", exclude: "/node_modules/" }],
   },
@@ -29,15 +26,6 @@ module.exports = {
       mobile: true,
       template: require("html-webpack-template"),
       title: "Game Player",
-      window: {
-        env: {
-          imagesUrl: GRAPHQL_API_HOST,
-        },
-      },
     }),
-  ].concat(
-    NODE_ENV !== "production"
-      ? [new webpack.HotModuleReplacementPlugin({})]
-      : []
-  ),
+  ],
 }
