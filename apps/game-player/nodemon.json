@@ -1,0 +1,8 @@
+{
+  "verbose": true,
+  "ignore": ["*.test.js", "fixtures/*, src/client.tsx, src/client/*"],
+  "execMap": {
+    "js": "ts-node",
+    "ts": "ts-node"
+  }
+}
