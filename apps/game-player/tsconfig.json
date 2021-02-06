@@ -1,0 +1,6 @@
+{
+  "extends": "@ha/ts-config/src/index.json",
+  "compilerOptions": {
+    "jsx": "react"
+  }
+}
