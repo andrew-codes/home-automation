@@ -18,20 +18,16 @@ module.exports = {
     extensions: [".tsx", ".ts", ".js"],
   },
   optimization: {
-    runtimeChunk: {
-      name: "webpackManifest",
-    },
+    runtimeChunk: "single",
   },
   plugins: [
     new HtmlWebpackPlugin({
       appMountId: "app",
       inject: true,
-      inlineManifestWebpackName: "webpackManifest",
       links: [
         "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap",
       ],
       mobile: true,
-      scripts: ["/client/index.js"],
       template: require("html-webpack-template"),
       title: "Game Player",
       window: {
