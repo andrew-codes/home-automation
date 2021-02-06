@@ -52,7 +52,7 @@ if (NODE_ENV !== "production") {
     resp.sendFile(path.join(__dirname, req.path))
   })
   app.get("*", async (req, resp) => {
-    resp.sendFile(path.join(__dirname, "client", "index.html"))
+    resp.sendFile(path.join(__dirname, "index.html"))
   })
 }
 app.listen(PORT, () => debug(`Listening on port ${PORT}`))

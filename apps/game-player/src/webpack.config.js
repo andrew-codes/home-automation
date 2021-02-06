@@ -6,7 +6,7 @@ module.exports = {
   mode: "production",
   entry: path.join(__dirname, "client", "index.tsx"),
   output: {
-    path: path.resolve(__dirname, "..", "dist", "client"),
+    path: path.resolve(__dirname, "..", "dist"),
     filename: "index.js",
   },
   module: {
