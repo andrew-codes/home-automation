@@ -1,10 +1,7 @@
 const debug = require("debug")("@ha/game-player/index")
 const express = require("express")
-const webpackMiddleware = require("webpack-dev-middleware")
-const webpack = require("webpack")
 const path = require("path")
 const { createApolloFetch } = require("apollo-fetch")
-const webpackConfig = require("./webpack.config")
 
 const { GRAPHQL_API_HOST, GRAPHQL_API_TOKEN, NODE_ENV, PORT } = process.env
 const app = express()
@@ -25,7 +22,10 @@ app.post("/api", async (req, resp) => {
   resp.send(results)
 })
 if (NODE_ENV !== "production") {
+  const webpackMiddleware = require("webpack-dev-middleware")
+  const webpack = require("webpack")
   const compiler = webpack(webpackConfig)
+  const webpackConfig = require("./webpack.config")
   app.use(webpackMiddleware(compiler, {}))
 } else {
   app.get("*", async (req, resp) => {

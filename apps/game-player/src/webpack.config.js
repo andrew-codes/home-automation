@@ -2,6 +2,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 const path = require("path")
 const webpack = require("webpack")
 
+const { GRAPHQL_API_HOST } = process.env
+
 module.exports = {
   entry: path.join(__dirname, "client", "index.tsx"),
   output: {
@@ -16,7 +18,18 @@ module.exports = {
     extensions: [".tsx", ".ts", ".js"],
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: "./src/index.html" }),
+    new HtmlWebpackPlugin({
+      appMountId: "app",
+      inject: false,
+      mobile: true,
+      template: require("html-webpack-template"),
+      title: "Game Player",
+      window: {
+        env: {
+          imagesUrl: GRAPHQL_API_HOST,
+        },
+      },
+    }),
     new webpack.HotModuleReplacementPlugin({}),
   ],
 }
