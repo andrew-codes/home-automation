@@ -2,6 +2,7 @@ const debug = require("debug")("@ha/game-player/index")
 const express = require("express")
 const webpackMiddleware = require("webpack-dev-middleware")
 const webpack = require("webpack")
+const path = require("path")
 const { createApolloFetch } = require("apollo-fetch")
 const webpackConfig = require("./webpack.config")
 
