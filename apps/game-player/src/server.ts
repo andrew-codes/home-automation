@@ -1,13 +1,12 @@
-import createDebug from "debug"
-import express from "express"
-import webpackMiddleware from "webpack-dev-middleware"
-import webpack from "webpack"
-import { createApolloFetch } from "apollo-fetch"
-import webpackConfig from "../webpack.config"
+const debug = require("debug")("@ha/game-player/index")
+const express = require("express")
+const webpackMiddleware = require("webpack-dev-middleware")
+const webpack = require("webpack")
+const { createApolloFetch } = require("apollo-fetch")
+const webpackConfig = require("../webpack.config")
 
 const { GRAPHQL_API_HOST, GRAPHQL_API_TOKEN, NODE_ENV, PORT } = process.env
 
-const debug = createDebug("@ha/game-player/index")
 const compiler = webpack(webpackConfig)
 const gql = createApolloFetch({
   uri: `http://${GRAPHQL_API_HOST}`,
