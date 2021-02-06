@@ -3,7 +3,7 @@ const path = require("path")
 const webpack = require("webpack")
 
 module.exports = {
-  entry: path.join(__dirname, "src", "client.tsx"),
+  entry: path.join(__dirname, "src", "client", "index.tsx"),
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "client.js",
