@@ -3,9 +3,9 @@ const path = require("path")
 const webpack = require("webpack")
 
 module.exports = {
-  entry: path.join(__dirname, "src", "client", "index.tsx"),
+  entry: path.join(__dirname, "client", "index.tsx"),
   output: {
-    path: path.resolve(__dirname, "dist", "client"),
+    path: path.resolve(__dirname, "..", "dist", "client"),
     filename: "index.js",
   },
   devtool: "inline-source-map",
