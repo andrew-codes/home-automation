@@ -3,7 +3,7 @@ const express = require("express")
 const webpackMiddleware = require("webpack-dev-middleware")
 const webpack = require("webpack")
 const { createApolloFetch } = require("apollo-fetch")
-const webpackConfig = require("../webpack.config")
+const webpackConfig = require("./webpack.config")
 
 const { GRAPHQL_API_HOST, GRAPHQL_API_TOKEN, NODE_ENV, PORT } = process.env
 const app = express()
