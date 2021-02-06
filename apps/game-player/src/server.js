@@ -48,6 +48,9 @@ if (NODE_ENV !== "production") {
   const webpackConfig = require("./webpack.config")
   app.use(webpackMiddleware(compiler, {}))
 } else {
+  app.get(/.*\.js$/, (req, resp) => {
+    resp.sendFile(path.join(__dirname, req.path))
+  })
   app.get("*", async (req, resp) => {
     resp.sendFile(path.join(__dirname, "client", "index.html"))
   })
