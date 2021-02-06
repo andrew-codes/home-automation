@@ -7,7 +7,7 @@ import webpackConfig from "../webpack.config"
 
 const { GRAPHQL_API_HOST, GRAPHQL_API_TOKEN, NODE_ENV, PORT } = process.env
 
-const debug = createDebug("@ha/games-player/index")
+const debug = createDebug("@ha/game-player/index")
 const compiler = webpack(webpackConfig)
 const gql = createApolloFetch({
   uri: `http://${GRAPHQL_API_HOST}`,
