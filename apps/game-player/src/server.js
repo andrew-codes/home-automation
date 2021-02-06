@@ -2,6 +2,7 @@ const debug = require("debug")("@ha/game-player/index")
 const express = require("express")
 const path = require("path")
 const { createApolloFetch } = require("apollo-fetch")
+const fetch = require("node-fetch")
 
 const { GRAPHQL_API_HOST, GRAPHQL_API_TOKEN, NODE_ENV, PORT } = process.env
 const app = express()
@@ -21,6 +22,18 @@ app.post("/api", async (req, resp) => {
   const results = await gql(req.body)
   resp.send(results)
 })
+app.get("/image/:imageId", async (req, resp) => {
+  const imageResp = await fetch(
+    `${GRAPHQL_API_HOST}/image/${req.params.imageId}`
+  )
+  imageResp.body
+    .on("data", (chunk) => {
+      resp.send(chunk)
+    })
+    .on("end", () => {
+      resp.end()
+    })
+})
 if (NODE_ENV !== "production") {
   const webpackMiddleware = require("webpack-dev-middleware")
   const webpack = require("webpack")
@@ -29,24 +42,7 @@ if (NODE_ENV !== "production") {
     webpackMerge(webpackConfig, {
       devtool: "inline-source-map",
       mode: "development",
-      plugins: [
-        new HtmlWebpackPlugin({
-          appMountId: "app",
-          inject: true,
-          links: [
-            "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap",
-          ],
-          mobile: true,
-          template: require("html-webpack-template"),
-          title: "Game Player",
-          window: {
-            env: {
-              IMAGE_URL: GRAPHQL_API_HOST,
-            },
-          },
-        }),
-        new webpack.HotModuleReplacementPlugin({}),
-      ],
+      plugins: [new webpack.HotModuleReplacementPlugin({})],
     })
   )
   const webpackConfig = require("./webpack.config")

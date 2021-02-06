@@ -14,7 +14,8 @@
   "dependencies": {
     "apollo-fetch": "^0.7.0",
     "debug": "^4.3.1",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "@apollo/client": "^3.3.8",
