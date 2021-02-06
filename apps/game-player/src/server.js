@@ -7,14 +7,6 @@ const webpackConfig = require("./webpack.config")
 
 const { GRAPHQL_API_HOST, GRAPHQL_API_TOKEN, NODE_ENV, PORT } = process.env
 const app = express()
-if (NODE_ENV !== "production") {
-  const compiler = webpack(webpackConfig)
-  app.use(webpackMiddleware(compiler, {}))
-} else {
-  app.get("*", async (req, resp) => {
-    resp.sendFile("client/index.html")
-  })
-}
 const gql = createApolloFetch({
   uri: `http://${GRAPHQL_API_HOST}`,
 })
@@ -31,4 +23,12 @@ app.post("/api", async (req, resp) => {
   const results = await gql(req.body)
   resp.send(results)
 })
+if (NODE_ENV !== "production") {
+  const compiler = webpack(webpackConfig)
+  app.use(webpackMiddleware(compiler, {}))
+} else {
+  app.get("*", async (req, resp) => {
+    resp.sendFile(path.join(__dirname, "client", "index.html"))
+  })
+}
 app.listen(PORT, () => debug(`Listening on port ${PORT}`))
