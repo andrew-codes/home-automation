@@ -5,4 +5,4 @@ WORKDIR /app
 COPY . .
 RUN echo "$(cat ./package.json | jq 'del(.devDependencies)')" > package.json
 RUN yarn install --production=true
-ENTRYPOINT ["node", "server.js"]
+ENTRYPOINT ["node", "dist/server.js"]
