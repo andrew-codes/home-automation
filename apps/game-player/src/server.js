@@ -37,15 +37,15 @@ app.get("/image/:imageId", async (req, resp) => {
 if (NODE_ENV !== "production") {
   const webpackMiddleware = require("webpack-dev-middleware")
   const webpack = require("webpack")
+  const webpackConfig = require("./webpack.config")
   const webpackMerge = require("webpack-merge")
   const compiler = webpack(
-    webpackMerge(webpackConfig, {
+    webpackMerge.merge(webpackConfig, {
       devtool: "inline-source-map",
       mode: "development",
       plugins: [new webpack.HotModuleReplacementPlugin({})],
     })
   )
-  const webpackConfig = require("./webpack.config")
   app.use(webpackMiddleware(compiler, {}))
 } else {
   app.get(/.*\.js$/, (req, resp) => {
