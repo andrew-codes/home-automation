@@ -58,7 +58,7 @@ const GameGrid = ({
       layout,
     })
 
-    const games = uniqueGames[gameIndex]
+    const games = uniqueGames[gameIndex] as any[]
     if (!games) {
       return null
     }
