@@ -7,7 +7,6 @@ import { GameGrid } from "./GameGrid"
 const GET_GAMES = gql`
   query {
     game {
-      id
       playniteId
       name
       releaseYear
@@ -89,8 +88,13 @@ const App = () => {
                     games={data?.game.filter((game) => game.favorite)}
                     height={height}
                     layout="horizontal"
-                    onSelect={(evt, { playniteId }) => {
-                      startGame({ variables: { id: playniteId } })
+                    onSelect={(evt, { name, platform, playniteId }) => {
+                      startGame({
+                        variables: {
+                          id: platform.name === "ps4" ? name : playniteId,
+                          platformName: platform.name,
+                        },
+                      })
                     }}
                     rowCount={3}
                     width={width}
@@ -106,9 +110,14 @@ const App = () => {
                     games={data?.game}
                     height={height}
                     layout="horizontal"
-                    onSelect={(evt, { playniteId }) =>
-                      startGame({ variables: { id: playniteId } })
-                    }
+                    onSelect={(evt, { name, platform, playniteId }) => {
+                      startGame({
+                        variables: {
+                          id: platform.name === "ps4" ? name : playniteId,
+                          platformName: platform.name,
+                        },
+                      })
+                    }}
                     rowCount={4}
                     width={width}
                   />
