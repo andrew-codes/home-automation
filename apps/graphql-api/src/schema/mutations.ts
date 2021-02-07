@@ -117,7 +117,7 @@ export const PlayGameInGameRoomMutation = mutationField("playGameInGameRoom", {
 
       const gameToPlay = (await ctx.query({
         from: "game",
-        filters: [equality<DomainGame>("id", parseInt(args.id, 10))],
+        filters: [equality<DomainGame>("playniteId", args.id)],
       })) as GameEntity
 
       if (isEmpty(gameToPlay)) {
