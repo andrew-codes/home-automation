@@ -1,13 +1,30 @@
 import * as React from "react"
 import AutoSizer from "react-virtualized-auto-sizer"
-import { FixedSizeGrid as Grid } from "react-window"
 import { AppBar, Box, Drawer, makeStyles, Tab, Tabs } from "@material-ui/core"
+import { gql, useQuery } from "@apollo/client"
+import { GameGrid } from "./GameGrid"
 
-const Cell = ({ columnIndex, rowIndex, style }) => (
-  <div style={style}>
-    Item {rowIndex},{columnIndex}
-  </div>
-)
+const GET_GAMES = gql`
+  query {
+    game {
+      id
+      playniteId
+      name
+      releaseYear
+      favorite
+      hidden
+      cover {
+        id
+        imageId
+        height
+      }
+      platform {
+        id
+        name
+      }
+    }
+  }
+`
 
 const TabPanel = ({ children, index, value, ...rest }) => (
   <div
@@ -21,6 +38,8 @@ const TabPanel = ({ children, index, value, ...rest }) => (
   </div>
 )
 
+const Loading = () => <div>Loading...</div>
+
 const App = () => {
   const [open, setOpen] = React.useState(false)
 
@@ -29,6 +48,8 @@ const App = () => {
     setTabIndex(newValue)
   }
 
+  const { loading, error, data } = useQuery(GET_GAMES)
+  console.log(error)
   return (
     <>
       <AppBar position="static">
@@ -45,34 +66,34 @@ const App = () => {
         <h1>Filters</h1>
       </Drawer>
       <div
-        style={{ height: "calc(100vh - 64px)", width: "calc(100vw - 35px)" }}
+        style={{ height: "calc(100vh - 96px)", width: "calc(100vw - 35px)" }}
       >
         <AutoSizer>
           {({ height, width }) => (
             <>
               <TabPanel value={tabIndex} index={0}>
-                <Grid
-                  columnCount={5}
-                  columnWidth={100}
-                  height={height}
-                  rowCount={3}
-                  rowHeight={35}
-                  width={width}
-                >
-                  {Cell}
-                </Grid>
+                {loading ? (
+                  <Loading />
+                ) : (
+                  <GameGrid
+                    columnCount={4}
+                    games={data?.game.filter((game) => game.favorite)}
+                    height={height}
+                    width={width}
+                  />
+                )}
               </TabPanel>
               <TabPanel value={tabIndex} index={1}>
-                <Grid
-                  columnCount={1000}
-                  columnWidth={100}
-                  height={height}
-                  rowCount={1000}
-                  rowHeight={35}
-                  width={width}
-                >
-                  {Cell}
-                </Grid>
+                {loading ? (
+                  <Loading />
+                ) : (
+                  <GameGrid
+                    columnCount={8}
+                    games={data?.game}
+                    height={height}
+                    width={width}
+                  />
+                )}
               </TabPanel>
             </>
           )}

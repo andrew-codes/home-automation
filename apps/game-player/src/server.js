@@ -14,7 +14,7 @@ const app = express()
 app.get("/apiUrl", async (req, resp) => {
   resp.send(
     JSON.stringify({
-      url: GRAPHQL_API_HOST,
+      url: `${GRAPHQL_API_HOST}/graphql`,
       subUrl: GRAPHQL_SUB_API_HOST,
       token: GRAPHQL_API_TOKEN,
     })

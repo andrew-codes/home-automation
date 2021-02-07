@@ -16,9 +16,8 @@ async function run() {
   const apiDetails = await apiUrlResp.json()
 
   const httpLink = createHttpLink({
-    uri: apiDetails.url,
+    uri: `http://${apiDetails.url}`,
   })
-
   const authLink = setContext((_, { headers }) => ({
     headers: {
       ...headers,
@@ -31,15 +30,15 @@ async function run() {
     cache: new InMemoryCache(),
   })
 
-  const wsLink = new WebSocketLink({
-    uri: `ws://${apiDetails.subUrl}/`,
-    options: {
-      reconnect: true,
-      connectionParams: {
-        authToken: apiDetails.token,
-      },
-    },
-  })
+  // const wsLink = new WebSocketLink({
+  //   uri: `ws://${apiDetails.subUrl}/`,
+  //   options: {
+  //     reconnect: true,
+  //     connectionParams: {
+  //       authToken: apiDetails.token,
+  //     },
+  //   },
+  // })
 
   const theme = createMuiTheme({
     overrides: {
