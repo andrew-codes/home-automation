@@ -26,8 +26,8 @@ const GET_GAMES = gql`
 `
 
 const START_GAME = gql`
-  mutation START_GAME($id: String!) {
-    playGameInGameRoom(id: $id) {
+  mutation START_GAME($id: String!, $platformName: String!) {
+    playGameInGameRoom(id: $id, platformName: $platformName) {
       state
     }
   }
