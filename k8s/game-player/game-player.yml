@@ -27,7 +27,15 @@ spec:
             - name: DEBUG
               value: "@ha/game-player/*"
             - name: GRAPHQL_API_HOST
-              value: graphql-api/graphql
+              valueFrom:
+                secretKeyRef:
+                  name: game-player-secrets
+                  key: graphql_url
+            - name: GRAPHQL_SUB_API_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: game-player-secrets
+                  key: graphql_sub_url
             - name: GRAPHQL_API_TOKEN
               valueFrom:
                 secretKeyRef:

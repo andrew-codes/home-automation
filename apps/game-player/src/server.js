@@ -1,39 +1,26 @@
 const debug = require("debug")("@ha/game-player/index")
 const express = require("express")
 const path = require("path")
-const { createApolloFetch } = require("apollo-fetch")
-const fetch = require("node-fetch")
 
-const { GRAPHQL_API_HOST, GRAPHQL_API_TOKEN, NODE_ENV, PORT } = process.env
+const {
+  GRAPHQL_API_HOST,
+  GRAPHQL_API_TOKEN,
+  GRAPHQL_SUB_API_HOST,
+  NODE_ENV,
+  PORT,
+} = process.env
 const app = express()
-const gql = createApolloFetch({
-  uri: `http://${GRAPHQL_API_HOST}`,
-})
-gql.use(({ request, options }, next) => {
-  if (!options.headers) {
-    options.headers = {}
-  }
-  options.headers["Authorization"] = `Bearer ${GRAPHQL_API_TOKEN}`
 
-  next()
-})
-
-app.post("/api", async (req, resp) => {
-  const results = await gql(req.body)
-  resp.send(results)
-})
-app.get("/image/:imageId", async (req, resp) => {
-  const imageResp = await fetch(
-    `${GRAPHQL_API_HOST}/image/${req.params.imageId}`
+app.get("/apiUrl", async (req, resp) => {
+  resp.send(
+    JSON.stringify({
+      url: GRAPHQL_API_HOST,
+      subUrl: GRAPHQL_SUB_API_HOST,
+      token: GRAPHQL_API_TOKEN,
+    })
   )
-  imageResp.body
-    .on("data", (chunk) => {
-      resp.send(chunk)
-    })
-    .on("end", () => {
-      resp.end()
-    })
 })
+
 if (NODE_ENV !== "production") {
   const webpackMiddleware = require("webpack-dev-middleware")
   const webpack = require("webpack")

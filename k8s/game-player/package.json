@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "deploy": "scripts/bin/deploy.sh",
-    "postdeploy": "kubectl rollout restart deployment game-player --namespace home-automation"
+    "postdeploy": "kubectl rollout restart deployment game-player --namespace home-automation",
+    "seal": "scripts/bin/seal.sh"
   },
   "dependencies": {
     "@ha/game-player-app": "^0.0.1",
