@@ -1,7 +1,7 @@
 import * as React from "react"
 import AutoSizer from "react-virtualized-auto-sizer"
 import { AppBar, Box, Drawer, makeStyles, Tab, Tabs } from "@material-ui/core"
-import { gql, useQuery } from "@apollo/client"
+import { gql, useMutation, useQuery } from "@apollo/client"
 import { GameGrid } from "./GameGrid"
 
 const GET_GAMES = gql`
@@ -22,6 +22,14 @@ const GET_GAMES = gql`
         id
         name
       }
+    }
+  }
+`
+
+const START_GAME = gql`
+  mutation START_GAME($id: String!) {
+    playGameInGameRoom(id: $id) {
+      state
     }
   }
 `
@@ -47,6 +55,8 @@ const App = () => {
   const handleTabIndexChange = (event, newValue) => {
     setTabIndex(newValue)
   }
+
+  const [startGame, { data: startGameData }] = useMutation(START_GAME)
 
   const { loading, error, data } = useQuery(GET_GAMES)
   return (
@@ -78,6 +88,11 @@ const App = () => {
                     columnCount={4}
                     games={data?.game.filter((game) => game.favorite)}
                     height={height}
+                    layout="horizontal"
+                    onSelect={(evt, { playniteId }) => {
+                      startGame({ variables: { id: playniteId } })
+                    }}
+                    rowCount={3}
                     width={width}
                   />
                 )}
@@ -87,9 +102,14 @@ const App = () => {
                   <Loading />
                 ) : (
                   <GameGrid
-                    columnCount={6}
+                    columnCount={5}
                     games={data?.game}
                     height={height}
+                    layout="horizontal"
+                    onSelect={(evt, { playniteId }) =>
+                      startGame({ variables: { id: playniteId } })
+                    }
+                    rowCount={4}
                     width={width}
                   />
                 )}

@@ -1,5 +1,6 @@
 import * as React from "react"
 import { makeStyles, Theme } from "@material-ui/core"
+import { noop } from "lodash"
 
 const useGameCellStyles = makeStyles<Theme, { game: any }>({
   root: {
@@ -25,19 +26,13 @@ const useGameCellStyles = makeStyles<Theme, { game: any }>({
   },
 })
 
-const GameSummary = ({ game }) => {
+const GameSummary = ({ game, onSelect = noop }) => {
   const classes = useGameCellStyles({ game })
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} onClick={onSelect}>
       <div className={classes.coverArt}>
-        <div className={classes.details}>
-          {game.name}
-          <br />
-          {game.cover?.id}
-          <br />
-          {game.cover?.imageId}
-        </div>
+        <div className={classes.details}>{game.name}</div>
       </div>
     </div>
   )
