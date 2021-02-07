@@ -1,19 +1,18 @@
 import * as React from "react"
 import { FixedSizeGrid as Grid } from "react-window"
+import { GameSummary } from "./GameSummary"
 
 const GameGrid = ({ columnCount = 1, games = [], height, width }) => {
   const GameCell = ({ columnIndex, rowIndex, style }) => {
     const gameIndex = (rowIndex + 1) * (columnIndex + 1) - 1
-
-    if (gameIndex > games.length) {
+    const game = games[gameIndex]
+    if (!game) {
       return null
     }
-    const game = games[gameIndex]
+
     return (
       <div style={style}>
-        {game?.name}
-        <br />
-        {game?.playniteId}
+        <GameSummary game={game} />
       </div>
     )
   }

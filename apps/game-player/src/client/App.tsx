@@ -49,7 +49,6 @@ const App = () => {
   }
 
   const { loading, error, data } = useQuery(GET_GAMES)
-  console.log(error)
   return (
     <>
       <AppBar position="static">
@@ -88,7 +87,7 @@ const App = () => {
                   <Loading />
                 ) : (
                   <GameGrid
-                    columnCount={8}
+                    columnCount={6}
                     games={data?.game}
                     height={height}
                     width={width}
