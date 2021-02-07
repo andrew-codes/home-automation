@@ -57,16 +57,19 @@ const GameGrid = ({
       rowIndex,
       layout,
     })
+
     const games = uniqueGames[gameIndex]
     if (!games) {
       return null
     }
+    const game = games[0]
+    if (!game) {
+      return null
+    }
+
     return (
       <div style={style}>
-        <GameSummary
-          game={games[0]}
-          onSelect={(evt) => onSelect(evt, games[0])}
-        />
+        <GameSummary game={game} onSelect={(evt) => onSelect(evt, game)} />
       </div>
     )
   }
