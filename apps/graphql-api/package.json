@@ -19,7 +19,6 @@
   "dependencies": {
     "@ha/string-utils": "^0.0.1",
     "@nexus/schema": "^0.20.1",
-    "altair-express-middleware": "^3.0.0",
     "apollo-server-express": "^2.19.1",
     "async-mqtt": "^2.6.1",
     "body-parser-graphql": "^1.1.0",

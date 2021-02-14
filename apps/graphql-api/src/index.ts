@@ -4,7 +4,6 @@ import createDebug from "debug"
 import express from "express"
 import HomeAssistant from "homeassistant"
 import createUnifi from "node-unifiapi"
-import { altairExpress } from "altair-express-middleware"
 import { authorizeMiddleware } from "./middleware/authorize"
 import { cache } from "./cache"
 import { client } from "./mongo"
@@ -114,15 +113,6 @@ app.get("/image/:imageId", async (req, resp, next) => {
       resp.end()
     })
 })
-
-if (NODE_ENV === "development") {
-  app.use(
-    "/altair",
-    altairExpress({
-      endpointURL: "/graphql",
-    })
-  )
-}
 
 process.once("SIGUSR2", () => {
   resetCounts()
