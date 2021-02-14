@@ -25,7 +25,7 @@
     "ingress/prod": "lerna run ingress/prod --include-filtered-dependencies",
     "ingress/stage": "lerna run ingress/stage --include-filtered-dependencies",
     "grafana": "kubectl --namespace monitoring port-forward svc/grafana 3000",
-    "test": "lerna run test -- --testLocationInResults"
+    "test": "jest"
   },
   "workspaces": {
     "packages": [
