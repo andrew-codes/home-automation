@@ -7,5 +7,4 @@ module.exports = {
   transform: {
     "^.+\\.[jt]sx?$": path.join(__dirname, "babel-jest-transformer.js"),
   },
-  reporters: ["default", "jest-github-reporter"],
 }
