@@ -25,7 +25,7 @@
     "ingress/prod": "lerna run ingress/prod --include-filtered-dependencies",
     "ingress/stage": "lerna run ingress/stage --include-filtered-dependencies",
     "grafana": "kubectl --namespace monitoring port-forward svc/grafana 3000",
-    "test": "lerna run test -- --testLocationInResults"
+    "test": "jest"
   },
   "workspaces": {
     "packages": [
@@ -41,7 +41,6 @@
     "@types/jest": "^26.0.19",
     "babel-jest": "^26.6.3",
     "jest": "^26.6.3",
-    "jest-github-reporter": "^1.0.1",
     "lerna": "^3.22.1",
     "patch-package": "^6.2.2",
     "postinstall-postinstall": "^2.1.0"

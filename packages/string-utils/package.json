@@ -4,14 +4,11 @@
   "version": "0.0.1",
   "main": "src/index.ts",
   "license": "MIT",
-  "scripts": {
-    "test": "jest"
-  },
+  "scripts": {},
   "dependencies": {
     "lodash": "^4.17.20"
   },
   "devDependencies": {
-    "jest": "^26.6.3",
     "typescript": "^4.1.3"
   }
 }

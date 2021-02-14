@@ -48,6 +48,7 @@ type: Opaque
 EOL
 
 yarn seal-github-secret andrew-codes home-automation DOCKER_REGISTRY_DOMAIN "$DOCKER_REGISTRY_DOMAIN"
+yarn seal-github-secret andrew-codes home-automation GITHUB_TOKEN "$GITHUB_ACTION_TOKEN"
 yarn seal-github-secret andrew-codes home-automation DOCKER_REGISTRY_USERNAME "$DOCKER_REGISTRY_USERNAME"
 yarn seal-github-secret andrew-codes home-automation DOCKER_REGISTRY_PASSWORD "$DOCKER_REGISTRY_PASSWORD"
 yarn seal-github-secret andrew-codes home-automation GAMING_ROOM_GAMING_PC_MAC "$GAMING_ROOM_GAMING_PC_MAC"
