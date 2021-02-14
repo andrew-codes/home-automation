@@ -22,15 +22,6 @@ jobs:
           node-version: "${{ steps.nvm.outputs.NVMRC }}"
       - name: Install deps
         run: yarn
-      - name: Compile
-        run: yarn compile
-        env:
-          MQTT_CONNECTION: ${{ secrets.MQTT_CONNECTION }}
-          GAMING_ROOM_GAMING_PC_USERNAME: "${{ secrets.GAMING_ROOM_GAMING_PC_USERNAME }}"
-          MQTT_HOST: "${{ secrets.MQTT_HOST }}"
-          MQTT_PASSWORD: "${{ secrets.MQTT_PASSWORD }}"
-          MQTT_PORT: "${{ secrets.MQTT_PORT }}"
-          MQTT_USERNAME: "${{ secrets.MQTT_USERNAME }}"
       - name: Run unit tests
         uses: mattallty/jest-github-action@v1
         env:
