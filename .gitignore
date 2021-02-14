@@ -11,3 +11,4 @@ dist
 .env
 *.env
 image.tar
+coverage/
