@@ -1,11 +1,12 @@
 import * as React from "react"
-import { makeStyles, Theme } from "@material-ui/core"
+import { Chip, makeStyles, Theme } from "@material-ui/core"
 import { noop } from "lodash"
 
 const useGameCellStyles = makeStyles<Theme, { game: any }>({
   root: {
     height: "100%",
     padding: "8px",
+    position: "relative",
   },
   coverArt: {
     backgroundImage: ({ game }) =>
@@ -24,7 +25,25 @@ const useGameCellStyles = makeStyles<Theme, { game: any }>({
     padding: "8px",
     width: "100%",
   },
+  platform: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+  },
 })
+
+const PlatformIcon = ({ platformName }) => (
+  <Chip
+    color="primary"
+    label={
+      platformName === "Sony PlayStation 4"
+        ? "PS4"
+        : platformName === "Sony PlayStation 3"
+        ? "PS3"
+        : "PC"
+    }
+  />
+)
 
 const GameSummary = ({ game, onSelect = noop }) => {
   const classes = useGameCellStyles({ game })
@@ -33,6 +52,9 @@ const GameSummary = ({ game, onSelect = noop }) => {
     <div className={classes.root} onClick={onSelect}>
       <div className={classes.coverArt}>
         <div className={classes.details}>{game.name}</div>
+      </div>
+      <div className={classes.platform}>
+        <PlatformIcon platformName={game.platform.name} />
       </div>
     </div>
   )
