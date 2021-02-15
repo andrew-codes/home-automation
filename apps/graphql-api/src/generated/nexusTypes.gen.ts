@@ -336,6 +336,7 @@ export interface NexusGenArgTypes {
     }
     playGameInGameRoom: { // args
       id?: string | null; // String
+      platformName?: string | null; // String
     }
     trackGuestDevice: { // args
       isPrimary?: boolean | null; // Boolean

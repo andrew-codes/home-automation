@@ -1,6 +1,6 @@
 import createDebug from "debug"
 import DataLoader from "dataloader"
-import { flatten, isEmpty } from "lodash"
+import { flatten, isEmpty, keyBy } from "lodash"
 import { get } from "lodash/fp"
 import { client } from "../../mongo"
 import { Domain } from "../../Domain"
@@ -16,10 +16,12 @@ const debug = createDebug("@ha/graphql-api/dataProvider/mongo")
 const createBatchFn = (collection) =>
   new DataLoader(async (ids) => {
     const db = await client.db("gameLibrary")
-    return db
+    const results = await db
       .collection(collection)
       .find({ id: { $in: ids } })
       .toArray()
+    const keyedResults = keyBy(results, "id")
+    return ids.map((id) => keyedResults[id])
   })
 const loadFns = {
   artworks: createBatchFn("artworks"),

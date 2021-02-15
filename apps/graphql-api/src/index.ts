@@ -4,7 +4,6 @@ import createDebug from "debug"
 import express from "express"
 import HomeAssistant from "homeassistant"
 import createUnifi from "node-unifiapi"
-import { altairExpress } from "altair-express-middleware"
 import { authorizeMiddleware } from "./middleware/authorize"
 import { cache } from "./cache"
 import { client } from "./mongo"
@@ -16,7 +15,7 @@ import { createDataContext } from "./dataContext"
 import { pubsub } from "./pubsub"
 import { resetCounts } from "./dataProvider/dataSourceBatchPerformance"
 import { schema } from "./schema/index"
-// import * as types from "./generated/nexusTypes.gen"
+import * as types from "./generated/nexusTypes.gen"
 const debug = createDebug("@ha/graphql-api/index")
 
 const {
@@ -114,15 +113,6 @@ app.get("/image/:imageId", async (req, resp, next) => {
       resp.end()
     })
 })
-
-if (NODE_ENV === "development") {
-  app.use(
-    "/altair",
-    altairExpress({
-      endpointURL: "/graphql",
-    })
-  )
-}
 
 process.once("SIGUSR2", () => {
   resetCounts()
