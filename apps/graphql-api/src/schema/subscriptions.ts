@@ -1,5 +1,5 @@
 import createDebug from "debug"
-import { subscriptionField } from "nexus"
+import { objectType, subscriptionField } from "nexus"
 import { first } from "lodash"
 import { equality } from "../filter"
 import { DomainGame, DomainQuery, GameEntity } from "../Domain"
@@ -8,13 +8,20 @@ import { pubsub } from "../pubsub"
 
 const debug = createDebug("@ha/graphql-api/subscriptions")
 
+export const UpdatedAtType = objectType({
+  name: "UpdatedAt",
+  definition(t) {
+    t.string("updatedAt")
+  },
+})
+
 export const GamesSubscription = subscriptionField("gameLibrary", {
-  type: "String",
+  type: UpdatedAtType,
   subscribe() {
     return pubsub.asyncIterator("/playnite/game/list/updated")
   },
-  async resolve(root, args, ctx) {
-    return { updated: new Date().toISOString() }
+  resolve(root, args, ctx) {
+    return { updatedAt: new Date().toISOString() }
   },
 })
 

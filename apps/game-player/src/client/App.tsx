@@ -1,6 +1,6 @@
 import * as React from "react"
 import AutoSizer from "react-virtualized-auto-sizer"
-import { AppBar, Box, Drawer, makeStyles, Tab, Tabs } from "@material-ui/core"
+import { AppBar, Box, Drawer, Tab, Tabs } from "@material-ui/core"
 import { gql, useMutation, useQuery } from "@apollo/client"
 import { GameGrid } from "./GameGrid"
 
@@ -91,7 +91,7 @@ const App = () => {
                     onSelect={(evt, { name, platform, playniteId }) => {
                       startGame({
                         variables: {
-                          id: platform.name === "ps4" ? name : playniteId,
+                          id: platform.name === "PC" ? playniteId : name,
                           platformName: platform.name,
                         },
                       })
@@ -113,7 +113,7 @@ const App = () => {
                     onSelect={(evt, { name, platform, playniteId }) => {
                       startGame({
                         variables: {
-                          id: platform.name === "ps4" ? name : playniteId,
+                          id: platform.name === "PC" ? playniteId : name,
                           platformName: platform.name,
                         },
                       })
