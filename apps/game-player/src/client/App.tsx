@@ -6,7 +6,7 @@ import { GameGrid } from "./GameGrid"
 
 const GET_GAMES = gql`
   query {
-    game {
+    game(orderBy: { name: asc }) {
       playniteId
       name
       releaseYear
@@ -66,7 +66,7 @@ const App = () => {
           onChange={handleTabIndexChange}
           value={tabIndex}
         >
-          <Tab label="Recent"></Tab>
+          <Tab label="Favorites"></Tab>
           <Tab label="All"></Tab>
         </Tabs>
       </AppBar>
