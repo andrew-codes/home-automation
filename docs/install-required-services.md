@@ -1,6 +1,6 @@
 # Installing Required Services
 
-> Be sure you review the required [initial secrets](./secrets-catalog.md#initial-provisioning).
+> Be sure to fill in the required secrets for the Docker registry in your `secrets.sh` file.
 
 ## Installing the Docker Registry
 
@@ -10,11 +10,11 @@ yarn deploy --scope @ha/docker-registry
 
 ### Point Docker Domain to IP
 
-Point your `$DOCKER_REGISTRY_DOMAIN` to the **IP of the cluster** in a DNS entry. If you do not have a local DNS, use local `/etc/hosts` files.
+Point your `$DOCKER_REGISTRY_DOMAIN` to the `$CLUSTER_IP` in a DNS entry. If you do not have a local DNS, use local `/etc/hosts` files.
 
-> Note: use the local cluster IP! Not an external one; unless you don't care about hitting data caps by ISPs.
+> Note: use the local cluster IP! Do not use or expose the docker registry to the public Internet.
 
-> When using local `/etc/hosts` to redirect your domain to the cluster, note this must be done on every machine that will push/pull from the docker registry.
+> When using local `/etc/hosts` to redirect your domain to the cluster, note that every machine that will push/pull from the docker registry must have an updated `/etc/hosts` file.
 
 ### Testing: Push Images to Registry
 
@@ -25,5 +25,3 @@ docker push "$DOCKER_REGISTRY_DOMAIN:5000/alpine:latest"
 ```
 
 > The registry is not secured! Anyone with LAN access can push/pull, so do not expose this externally!
-
-The registry is not protected via a username/password or TLS simply to reduce bandwidth usage for ISP data caps. Pushing/pulling images through an external IP counts as bandwidth to your ISP; which likely has a data cap. You can easily push beyond 1 TB monthly if you make updates frequently.

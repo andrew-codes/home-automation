@@ -2,7 +2,7 @@
 
 > For installation instructions, see the [kubernetes installation doc](./kubernetes-cluster-setup.md).
 
-## What is Provisioned by Default?
+## Default Provisioning?
 
 - Docker
 - Kubernetes and [Calico](https://docs.projectcalico.org/about/about-calico) networking
@@ -25,11 +25,11 @@ Then visit the local [dashboard web UI](http://localhost:8001/api/v1/namespaces/
 
 ## Backup and Restore
 
-This will demonstrate backing up and then restoring the home-automation namespace in the kubernetes cluster.
+This section will demonstrate backing up and then restoring the home-automation namespace in the Kubernetes cluster.
 
 > Ensure you have already installed [velero CLI](https://velero.io/docs/v1.5/basic-install/); see their [installation guide](https://velero.io/docs/v1.5/basic-install/) for more details.
 
 1. Create the backup: `velero backup create home-automation-namespace --include-namespaces home-automation`
 1. Delete the namespace: `kubectl delete ns home-automation`
-1. Ensure all namespace volumes/claims are deleted, too.
+1. Ensure to delete all namespace volumes/claims
 1. Restore via: `velero restore create --from-backup home-automation-namespace`

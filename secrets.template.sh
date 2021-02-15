@@ -5,11 +5,11 @@
 #   - those used after installation
 # See the [secrets catalog](./docs/secrets-catalog.md) for details on what secrets are needed for installation.
 
+# =================================
+# Required for Initial Provisioning
+# =================================
 # Your developer machine's admin user password; required for running locally via telepresence.
 export DEV_MACHINE_PASSWORD=""
-
-# Required for installation
-# =================================
 export CLUSTER_IP=""
 
 # Machine provisioning username/password
@@ -34,15 +34,31 @@ export DOCKER_REGISTRY_DOMAIN=""
 # Inlets pro license value
 export INLETS_PRO_LICENSE=""
 export POD_NETWORK_CIDR="192.168.100.0/24"
+# ===============================
 
-# After Installation
-# ================================
+# =======================================
+# Required for Docker Registry Deployment
+# =======================================
 export DOCKER_REGISTRY_USERNAME=""
 export DOCKER_REGISTRY_PASSWORD=""
 export DOCKER_REGISTRY_CERT_STATE=""
 export DOCKER_REGISTRY_CERT_CITY=""
 export DOCKER_REGISTRY_CERT_ORG=""
+# ===============================
 
+# ======================================
+# Required for GitHub Action Deployments
+# ======================================
+export KUBE_CONFIG=$(cat ~/.kube/config)
+# Requires repo read/write, workflow, and org permissions
+export GITHUB_RUNNER_TOKEN=""
+# Requires repo read/write permissions
+export GITHUB_ACTION_JEST_REPORTER_TOKEN=""
+# ===============================
+
+# ======================================
+# Required for Home Assistant
+# ======================================
 # Public IP of Digital Ocean droplet, dynamically created by Inlets
 export INLETS_IP=""
 
@@ -61,11 +77,6 @@ export HOME_ASSISTANT_DOMAIN=""
 # Only used if using Google DNS for dynamic DNS record for $HOME_ASSISTANT_DOMAIN
 export HOME_ASSISTANT_DNS_USERNAME=""
 export HOME_ASSISTANT_DNS_PASSWORD=""
-
-# GitHub Action Runners
-export KUBE_CONFIG=$(cat ~/.kube/config)
-# Requires repo read/write, workflow, and org permissions
-export GITHUB_RUNNER_TOKEN=""
 
 # Externally exposed nodePort for MQTT from the cluster.
 export EXTERNAL_MQTT_PORT=""
@@ -104,9 +115,14 @@ export HOME_AUTOMATION_SSH_PUBLIC_KEY=$(
 EOL
 )
 export ROUTER_IP=""
+# ===============================
+
+# ====================
+# Required for GraphQL
+# ====================
 export UNIFI_IP=""
 export UNIFI_PORT=""
 export UNIFI_USERNAME=""
 export UNIFI_PASSWORD=""
 export GRAPHQL_API_TOKEN=""
-export REDIS_PASSWORD=""
+# ===============================

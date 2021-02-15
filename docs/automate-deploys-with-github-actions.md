@@ -1,42 +1,43 @@
 # Automate Deployments
 
-At this set in the guide, you should be able to push/pull Docker images from your locally running registry. Many apps/services can be deployed via a CLI command: `yarn deploy`; although most have secrets that need to be added beforehand. See the README of each deployable app for more details (found in the `k8s` directory).
+At this set in the guide, you should be able to push/pull Docker images from your locally running registry. Deploy apps via the CLI command: `yarn deploy`; but many require setting appropriate secrets beforehand. See the `README` of each deployable app for more details (found in the `k8s` directory).
 
 For example, to deploy Home Assistant, run `yarn deploy --scope @ha/home-assistant`. Now you can make local changes and deploy the impacted apps to the Kubernetes cluster. However, this guide will help you automate this process via local GitHub actions.
 
 ## The Goal
 
-The following is our goal:
+> Remember, this all happens in the local cluster.
+
+### Commits to Main
 
 1. Push a new commit to the `main` branch
 1. GitHub signals to spin up a container running locally in your cluster
-   - The container has yarn, node, and all the things required to compile any application in the repository
-1. The runner container compiles the apps
-   - Only apps have been changed, in the most recent commit, are compiled
+   - This container has yarn, node, and all the things required to compile any application in the repository
+1. The runner container compiles only apps that have changed in the most recent commit
 1. The runner then builds app Docker images
    - Only impacted apps are built
-1. The runner pushes new images to your private registry
-1. Finally, the runner deploys impacted apps by pulling down the latest image from the registry
+1. The runner pushes new docker images to your private registry
+1. Finally, the runner deploys affected apps by pulling down the latest image from the registry
 1. GitHub reports the status of the deployment back to the commit with a Pass/Fail icon
 1. GitHub can display the logs of the workflow for debugging purposes
 
-> Remember, this all happens in the local cluster.
+### Opening/Committing a PR
+
+1. Run all tests
+1. Report test status to PR
+1. Report test failures to PR via GitHub Checks API with annotations
 
 ## Installation
 
-### Additional Secrets
+### GitHub Actions Secrets
 
-Create an [access token](https://github.com/settings/tokens/new) in GitHub. Ensure it has full access to `repo`, `workflow`, and `admin:org`. Then append the following to your `./secrets.sh` file.
+Ensure necessary secrets are set for the GitHub Actions Deployment section. This will require the creation of two GitHub access tokens.
 
-```bash
-# GitHub Action Runners
-export KUBE_CONFIG=$(cat ~/.kube/config)
-export GITHUB_RUNNER_TOKEN=""
-```
+Next, run `./set_github_secrets.sh`
 
 ### Seal Secrets
 
-To seal the secrets; encrypt them so that they can be committed and deployed, run:
+To seal the secrets for use in Kubernetes; encrypt them so that they can be committed and deployed by running:
 
 ```bash
 yarn seal --scope @ha/github-action-runners --stream

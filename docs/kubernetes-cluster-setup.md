@@ -12,7 +12,7 @@ Here is a [list of capabilities](./kubernetes-cluster-features.md) of the cluste
 
 ## Before you Begin
 
-Much of this process is automated, but it still is lengthy and can be time-consuming. As an overview, the process is broken down into these primary steps:
+Much of this process is automated, but it still is lengthy and can be time-consuming. As an overview, the process primarily the following steps:
 
 1. Install project dependencies
 1. Installing Ubuntu Server on machines that will be in the cluster
@@ -41,7 +41,7 @@ yarn
    > See the [image package](packages/image) for more details
 1. Install Ubuntu Server on the physical machine
    - When prompted, provide the following information to the installer
-   - Note the user's password, this will be used later
+   - Note the user's password and save this for later
      > Use the same username and password for each machine
 1. Repeat for any other machines that will start in your cluster
 
@@ -87,7 +87,7 @@ all:
 See [initial provisioning secrets](./secrets-catalog.md#initial-provisioning) to setup the required secrets. Set these secrets and then run the following:
 
 ```bash
-./set_secrets.sh
+./set_initial_secrets.sh
 ```
 
 ## Provision Kubernetes
