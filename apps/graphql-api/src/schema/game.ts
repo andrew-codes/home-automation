@@ -13,6 +13,7 @@ import {
   DomainGameMultiplayerMode,
   DomainGamePlatform,
   DomainGamePlayerPerspective,
+  DomainQuery,
   GameCollection,
   GameEntity,
   GameFranchise,
@@ -65,8 +66,8 @@ export const GamePlatformGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game",
-          filters: [equality<DomainGame>("platformId", root.id)],
-        }) as Promise<GameEntity[]>
+          filters: [equality("platformId", root.id)],
+        } as DomainQuery<DomainGame>) as Promise<GameEntity[]>
       },
     })
   },
@@ -87,8 +88,8 @@ export const GameKeywordGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game",
-          filters: [equality<DomainGame>("keywords", root.id)],
-        }) as Promise<GameEntity[]>
+          filters: [equality("keywords", root.id)],
+        } as DomainQuery<DomainGame>) as Promise<GameEntity[]>
       },
     })
   },
@@ -109,8 +110,8 @@ export const GameGenreGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game",
-          filters: [equality<DomainGame>("genres", root.id)],
-        }) as Promise<GameEntity[]>
+          filters: [equality("genres", root.id)],
+        } as DomainQuery<DomainGame>) as Promise<GameEntity[]>
       },
     })
   },
@@ -131,8 +132,8 @@ export const GameModeGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game",
-          filters: [equality<DomainGame>("gameModes", root.id)],
-        }) as Promise<GameEntity[]>
+          filters: [equality("gameModes", root.id)],
+        } as DomainQuery<DomainGame>) as Promise<GameEntity[]>
       },
     })
   },
@@ -153,8 +154,8 @@ export const GameCollectionGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game",
-          filters: [equality<DomainGame>("id", root.games)],
-        }) as Promise<GameEntity[]>
+          filters: [equality("id", root.games)],
+        } as DomainQuery<DomainGame>) as Promise<GameEntity[]>
       },
     })
   },
@@ -175,8 +176,8 @@ export const GameFranchiseGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game",
-          filters: [equality<DomainGame>("id", root.games)],
-        }) as Promise<GameEntity[]>
+          filters: [equality("id", root.games)],
+        } as DomainQuery<DomainGame>) as Promise<GameEntity[]>
       },
     })
   },
@@ -218,8 +219,8 @@ export const GameGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game_mode",
-          filters: [equality<DomainGameMode>("id", root.gameModes)],
-        }) as Promise<GameMode[]>
+          filters: [equality("id", root.gameModes)],
+        } as DomainQuery<DomainGameMode>) as Promise<GameMode[]>
       },
     })
     t.int("releaseYear", {
@@ -244,8 +245,8 @@ export const GameGraphType = objectType({
       async resolve(root, args, ctx) {
         return ctx.query({
           from: "game_platform",
-          filters: [equality<DomainGamePlatform>("id", root.platformId)],
-        }) as Promise<GamePlatform>
+          filters: [equality("id", root.platformId)],
+        } as DomainQuery<DomainGamePlatform>) as Promise<GamePlatform>
       },
     })
     t.string("summary")
@@ -255,8 +256,8 @@ export const GameGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game_cover",
-          filters: [equality<DomainGameCover>("id", root.cover)],
-        }) as Promise<GameImage>
+          filters: [equality("id", root.cover)],
+        } as DomainQuery<DomainGameCover>) as Promise<GameImage>
       },
     })
     t.field("collection", {
@@ -264,8 +265,8 @@ export const GameGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game_collection",
-          filters: [equality<DomainGameCollection>("id", root.collection)],
-        }) as Promise<GameCollection>
+          filters: [equality("id", root.collection)],
+        } as DomainQuery<DomainGameCollection>) as Promise<GameCollection>
       },
     })
     t.field("franchise", {
@@ -273,8 +274,8 @@ export const GameGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game_franchise",
-          filters: [equality<DomainGameFranchise>("id", root.franchise)],
-        }) as Promise<GameFranchise>
+          filters: [equality("id", root.franchise)],
+        } as DomainQuery<DomainGameFranchise>) as Promise<GameFranchise>
       },
     })
     t.field("franchises", {
@@ -282,8 +283,8 @@ export const GameGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game_franchise",
-          filters: [equality<DomainGameFranchise>("id", root.franchises)],
-        }) as Promise<GameFranchise[]>
+          filters: [equality("id", root.franchises)],
+        } as DomainQuery<DomainGameFranchise>) as Promise<GameFranchise[]>
       },
     })
     t.field("artworks", {
@@ -291,8 +292,8 @@ export const GameGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game_artwork",
-          filters: [equality<DomainGameArtwork>("id", root.artworks)],
-        }) as Promise<GameImage[]>
+          filters: [equality("id", root.artworks)],
+        } as DomainQuery<DomainGameArtwork>) as Promise<GameImage[]>
       },
     })
     t.field("genres", {
@@ -300,8 +301,8 @@ export const GameGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game_genre",
-          filters: [equality<DomainGameGenre>("id", root.genres)],
-        }) as Promise<GameGenre[]>
+          filters: [equality("id", root.genres)],
+        } as DomainQuery<DomainGameGenre>) as Promise<GameGenre[]>
       },
     })
     t.field("keywords", {
@@ -309,8 +310,8 @@ export const GameGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game_keyword",
-          filters: [equality<DomainGameKeyword>("id", root.keywords)],
-        }) as Promise<GameKeyword[]>
+          filters: [equality("id", root.keywords)],
+        } as DomainQuery<DomainGameKeyword>) as Promise<GameKeyword[]>
       },
     })
     t.field("multiplayerModes", {
@@ -318,10 +319,10 @@ export const GameGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game_multiplayer_mode",
-          filters: [
-            equality<DomainGameMultiplayerMode>("id", root.multiplayerModes),
-          ],
-        }) as Promise<GameMultiplayerMode[]>
+          filters: [equality("id", root.multiplayerModes)],
+        } as DomainQuery<DomainGameMultiplayerMode>) as Promise<
+          GameMultiplayerMode[]
+        >
       },
     })
     t.field("playerPerspective", {
@@ -329,10 +330,8 @@ export const GameGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "game_player_perspective",
-          filters: [
-            equality<DomainGamePlayerPerspective>("id", root.playerPerspective),
-          ],
-        }) as Promise<GamePlayerPerspective>
+          filters: [equality("id", root.playerPerspective)],
+        } as DomainQuery<DomainGamePlayerPerspective>) as Promise<GamePlayerPerspective>
       },
     })
   },

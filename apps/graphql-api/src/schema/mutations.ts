@@ -5,7 +5,10 @@ import { HomeAssistantEntityGraphType } from "./home_assistant_entity"
 import { equality } from "../filter"
 import {
   DeviceTracker,
+  DomainGame,
   DomainGamePlatform,
+  DomainHomeAssistantEntity,
+  DomainQuery,
   GameEntity,
   GamePlatform,
   Group,
@@ -40,7 +43,7 @@ export const GuestDeviceTrackingMutation = mutationField("trackGuestDevice", {
       return ctx.query({
         from: "home_assistant_entity",
         filters: [equality(["attributes", "mac"], args.mac)],
-      }) as Promise<HomeAssistantEntity>
+      } as DomainQuery<DomainHomeAssistantEntity>) as Promise<HomeAssistantEntity>
     }
   },
 })
@@ -50,10 +53,10 @@ export const RenewGuestDevicesMutation = mutationField("renewGuestDevices", {
   async resolve(root, args, ctx) {
     let guestDeviceTrackers: DeviceTracker[] = []
     try {
-      const guestGroup = ((await ctx.query({
+      const guestGroup = (await ctx.query({
         from: "home_assistant_entity",
         filters: [equality(["id"], "group.guests")],
-      })) as unknown) as Group
+      } as DomainQuery<DomainHomeAssistantEntity>)) as Group
       debug(guestGroup)
 
       if (isEmpty(guestGroup.attributes.entityId)) {
@@ -64,10 +67,12 @@ export const RenewGuestDevicesMutation = mutationField("renewGuestDevices", {
         equality(["id"], entityId)
       )
       debug(filters)
-      let guestDevices = ((await ctx.query({
+      let guestDevices = (await ctx.query({
         from: "home_assistant_entity",
         filters,
-      })) as unknown) as HomeAssistantEntity[] | HomeAssistantEntity
+      } as DomainQuery<DomainHomeAssistantEntity>)) as
+        | HomeAssistantEntity[]
+        | HomeAssistantEntity
       debug("guest devices", guestDevices)
 
       if (!Array.isArray(guestDevices)) {
@@ -107,9 +112,11 @@ export const PlayGameInGameRoomMutation = mutationField("playGameInGameRoom", {
       }
       const currentGameResults = (await ctx.query({
         from: "game",
-      })) as GameEntity[]
+        filters: [equality("id", args.id)],
+      } as DomainQuery<DomainGame>)) as GameEntity[]
+      debug("matching games", currentGameResults)
       const currentGame = currentGameResults.find(
-        (game) => game.isStarting || game.isStarting
+        (game) => game.isStarting || game.isStarted
       )
       if (!!currentGame) {
         throw new Error(`A game is already running: ${currentGame.name}`)
@@ -163,7 +170,7 @@ export const StopGameInGameRoomMutation = mutationField("stopGameInGameRoom", {
     try {
       const currentGameResults = (await ctx.query({
         from: "game",
-      })) as GameEntity[]
+      } as DomainQuery<DomainGame>)) as GameEntity[]
       const currentGame = currentGameResults.find(
         (game) => game.isStarting || game.isStarted
       )
@@ -172,8 +179,8 @@ export const StopGameInGameRoomMutation = mutationField("stopGameInGameRoom", {
       }
       const gamePlatform = (await ctx.query({
         from: "game_platform",
-        filters: [equality<DomainGamePlatform>("id", currentGame.platformId)],
-      })) as GamePlatform
+        filters: [equality("id", currentGame.platformId)],
+      } as DomainQuery<DomainGamePlatform>)) as GamePlatform
 
       if (isEmpty(gamePlatform)) {
         throw new Error(

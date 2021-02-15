@@ -1,4 +1,4 @@
-import { list, queryField, stringArg } from "nexus"
+import { arg, inputObjectType, list, queryField, stringArg } from "nexus"
 import { equality } from "../filter"
 import {
   Area,
@@ -11,6 +11,7 @@ import {
   DomainGameMode,
   DomainGamePlatform,
   DomainHomeAssistantEntity,
+  DomainQuery,
   GameEntity,
   GameFranchise,
   GameGenre,
@@ -30,6 +31,7 @@ import {
   GameModeGraphType,
   GamePlatformGraphType,
 } from "./game"
+import { OrderByType } from "./orderBy"
 
 export const HAEntityQuery = queryField("entitiy", {
   type: list(HomeAssistantEntityGraphType),
@@ -40,7 +42,7 @@ export const HAEntityQuery = queryField("entitiy", {
       filters: args.ids?.map((id) =>
         equality<DomainHomeAssistantEntity>("id", id)
       ),
-    })
+    } as DomainQuery<DomainHomeAssistantEntity>)
     if (!Array.isArray(results)) {
       results = [results]
     }
@@ -57,7 +59,7 @@ export const AreaQuery = queryField("area", {
     let results = await ctx.query({
       from: "area",
       filters: args.ids?.map((id) => equality<DomainArea>("id", id)),
-    })
+    } as DomainQuery<DomainArea>)
     if (!Array.isArray(results)) {
       results = [results]
     }
@@ -67,14 +69,14 @@ export const AreaQuery = queryField("area", {
   },
 })
 
-export const DomainQuery = queryField("domain", {
+export const HADomainQuery = queryField("domain", {
   type: list(DomainGraphType),
   args: { ids: list(stringArg()) },
   async resolve(root, args, ctx) {
     let results = await ctx.query({
       from: "entity_domain",
       filters: args.ids?.map((id) => equality<DomainEntityDomain>("id", id)),
-    })
+    } as DomainQuery<DomainEntityDomain>)
     if (!Array.isArray(results)) {
       results = [results]
     }
@@ -84,16 +86,25 @@ export const DomainQuery = queryField("domain", {
   },
 })
 
+export const OrderGameBy = inputObjectType({
+  name: "OrderByArg",
+  definition(t) {
+    t.field("name", { type: OrderByType })
+    t.field("releaseYear", { type: OrderByType })
+  },
+})
+
 export const GameQuery = queryField("game", {
   type: list(GameGraphType),
-  args: { ids: list(stringArg()) },
+  args: { ids: list(stringArg()), orderBy: arg({ type: OrderGameBy }) },
   async resolve(root, args, ctx) {
     let results = await ctx.query({
       from: "game",
       filters: (args.ids as string[] | null)?.map((id) =>
-        equality<DomainGame>("id", parseInt(id, 10))
+        equality("id", parseInt(id, 10))
       ),
-    })
+      orderBy: args.orderBy,
+    } as DomainQuery<DomainGame>)
     if (!Array.isArray(results)) {
       results = [results]
     }
@@ -110,9 +121,9 @@ export const GameGenreQuery = queryField("gameGenre", {
     let results = await ctx.query({
       from: "game_genre",
       filters: (args.ids as string[] | null)?.map((id) =>
-        equality<DomainGameGenre>("id", parseInt(id, 10))
+        equality("id", parseInt(id, 10))
       ),
-    })
+    } as DomainQuery<DomainGameGenre>)
     if (!Array.isArray(results)) {
       results = [results]
     }
@@ -131,7 +142,7 @@ export const GameFranchiseQuery = queryField("gameFranchise", {
       filters: (args.ids as string[] | null)?.map((id) =>
         equality<DomainGameFranchise>("id", parseInt(id, 10))
       ),
-    })
+    } as DomainQuery<DomainGameFranchise>)
     if (!Array.isArray(results)) {
       results = [results]
     }
@@ -150,7 +161,7 @@ export const GameKeywordQuery = queryField("gameKeyword", {
       filters: (args.ids as string[] | null)?.map((id: string) =>
         equality<DomainGameKeyword>("id", parseInt(id, 10))
       ),
-    })
+    } as DomainQuery<DomainGameKeyword>)
     if (!Array.isArray(results)) {
       results = [results]
     }
@@ -169,7 +180,7 @@ export const GamePlatformQuery = queryField("gamePlatform", {
       filters: (args.ids as string[] | null)?.map((id: string) =>
         equality<DomainGamePlatform>("id", id)
       ),
-    })
+    } as DomainQuery<DomainGamePlatform>)
     if (!Array.isArray(results)) {
       results = [results]
     }
@@ -188,7 +199,7 @@ export const GameModeQuery = queryField("gameMode", {
       filters: (args.ids as string[] | null)?.map((id) =>
         equality<DomainGameMode>("id", parseInt(id, 10))
       ),
-    })
+    } as DomainQuery<DomainGameMode>)
     if (!Array.isArray(results)) {
       results = [results]
     }

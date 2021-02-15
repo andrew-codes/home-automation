@@ -33,9 +33,14 @@ export interface NexusGenInputs {
     key?: string | null; // String
     value?: string | null; // String
   }
+  OrderByArg: { // input type
+    name?: NexusGenEnums['OrderByType'] | null; // OrderByType
+    releaseYear?: NexusGenEnums['OrderByType'] | null; // OrderByType
+  }
 }
 
 export interface NexusGenEnums {
+  OrderByType: 1 | -1
 }
 
 export interface NexusGenScalars {
@@ -77,7 +82,7 @@ export interface NexusGenUnions {
 
 export type NexusGenRootTypes = NexusGenInterfaces & NexusGenObjects
 
-export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
+export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
   Game: { // field return type
@@ -196,7 +201,7 @@ export interface NexusGenFieldTypes {
     gamePlatform: Array<NexusGenRootTypes['GamePlatform'] | null> | null; // [GamePlatform]
   }
   Subscription: { // field return type
-    gameLibrary: Array<NexusGenRootTypes['Game'] | null> | null; // [Game]
+    gameLibrary: boolean | null; // Boolean
     gameState: NexusGenRootTypes['Game'] | null; // Game
   }
   Node: { // field return type
@@ -321,7 +326,7 @@ export interface NexusGenFieldTypeNames {
     gamePlatform: 'GamePlatform'
   }
   Subscription: { // field return type name
-    gameLibrary: 'Game'
+    gameLibrary: 'Boolean'
     gameState: 'Game'
   }
   Node: { // field return type name
@@ -355,6 +360,7 @@ export interface NexusGenArgTypes {
     }
     game: { // args
       ids?: Array<string | null> | null; // [String]
+      orderBy?: NexusGenInputs['OrderByArg'] | null; // OrderByArg
     }
     gameFranchise: { // args
       ids?: Array<string | null> | null; // [String]
@@ -372,11 +378,6 @@ export interface NexusGenArgTypes {
       ids?: Array<string | null> | null; // [String]
     }
   }
-  Subscription: {
-    gameLibrary: { // args
-      ids?: Array<string | null> | null; // [String]
-    }
-  }
 }
 
 export interface NexusGenAbstractTypeMembers {
@@ -391,7 +392,7 @@ export type NexusGenObjectNames = keyof NexusGenObjects;
 
 export type NexusGenInputNames = keyof NexusGenInputs;
 
-export type NexusGenEnumNames = never;
+export type NexusGenEnumNames = keyof NexusGenEnums;
 
 export type NexusGenInterfaceNames = keyof NexusGenInterfaces;
 

@@ -81,7 +81,11 @@ export class MongoDataQuery<TDomain extends Domain>
 
     return (db) => {
       countApiCall(`mongodb/${this.table}`)
-      return db.collection(this.table).find(intermediateQuery).toArray()
+      return db
+        .collection(this.table)
+        .find(intermediateQuery)
+        .sort(query.orderBy)
+        .toArray()
     }
   }
 }
