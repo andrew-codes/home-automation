@@ -5,7 +5,6 @@ import { HomeAssistantEntityGraphType } from "./home_assistant_entity"
 import { equality } from "../filter"
 import {
   DeviceTracker,
-  DomainGame,
   DomainGamePlatform,
   GameEntity,
   GamePlatform,
@@ -116,7 +115,7 @@ export const PlayGameInGameRoomMutation = mutationField("playGameInGameRoom", {
         throw new Error(`A game is already running: ${currentGame.name}`)
       }
 
-      const normalizedPlatform = normalizePlatform(args.platformName)
+      const normalizedPlatform = normalizePlatform({ name: args.platformName })
       debug(
         "Turning on media player",
         `media_player.gaming_room_universal_${normalizedPlatform}`
@@ -195,7 +194,7 @@ export const StopGameInGameRoomMutation = mutationField("stopGameInGameRoom", {
   },
 })
 
-function normalizePlatform(platform: GamePlatform): string {
+function normalizePlatform(platform: { name: string }): string {
   const lowerName = lowerCase(platform.name)
   if (/pc/.test(lowerName)) {
     return "gaming_pc"
