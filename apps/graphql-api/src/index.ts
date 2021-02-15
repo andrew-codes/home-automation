@@ -15,7 +15,7 @@ import { createDataContext } from "./dataContext"
 import { pubsub } from "./pubsub"
 import { resetCounts } from "./dataProvider/dataSourceBatchPerformance"
 import { schema } from "./schema/index"
-// import * as types from "./generated/nexusTypes.gen"
+import * as types from "./generated/nexusTypes.gen"
 const debug = createDebug("@ha/graphql-api/index")
 
 const {
