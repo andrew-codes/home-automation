@@ -1,5 +1,5 @@
 import createDebug from "debug"
-import { list, stringArg, subscriptionField } from "nexus"
+import { subscriptionField } from "nexus"
 import { first } from "lodash"
 import { equality } from "../filter"
 import { DomainGame, DomainQuery, GameEntity } from "../Domain"
