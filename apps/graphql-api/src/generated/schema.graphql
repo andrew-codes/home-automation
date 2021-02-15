@@ -136,7 +136,7 @@ input InputServiceCallPayload {
 
 type Mutation {
   homeAssistantCallService(entity: InputServiceCall): HomeAssistantEntity
-  playGameInGameRoom(id: String): Game
+  playGameInGameRoom(id: String, platformName: String): Game
   renewGuestDevices: [HomeAssistantEntity]
   stopGameInGameRoom: Game
   trackGuestDevice(isPrimary: Boolean = false, mac: String): HomeAssistantEntity
