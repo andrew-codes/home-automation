@@ -146,11 +146,21 @@ interface Node {
   id: ID
 }
 
+input OrderByArg {
+  name: OrderByType
+  releaseYear: OrderByType
+}
+
+enum OrderByType {
+  asc
+  desc
+}
+
 type Query {
   area(ids: [String]): [HomeAssistantArea]
   domain(ids: [String]): [HomeAssistantDomain]
   entitiy(ids: [String]): [HomeAssistantEntity]
-  game(ids: [String]): [Game]
+  game(ids: [String], orderBy: OrderByArg): [Game]
   gameFranchise(ids: [String]): [GameFranchise]
   gameGenre(ids: [String]): [GameGenre]
   gameKeyword(ids: [String]): [GameKeyword]
@@ -159,6 +169,6 @@ type Query {
 }
 
 type Subscription {
-  gameLibrary(ids: [String]): [Game]
+  gameLibrary: Boolean
   gameState: Game
 }

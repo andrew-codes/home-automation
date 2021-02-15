@@ -1,7 +1,11 @@
 import { list, objectType } from "nexus"
 import { HomeAssistantEntityGraphType } from "./home_assistant_entity"
 import { equality } from "../filter"
-import { DomainHomeAssistantEntity, HomeAssistantEntity } from "../Domain"
+import {
+  DomainHomeAssistantEntity,
+  DomainQuery,
+  HomeAssistantEntity,
+} from "../Domain"
 
 export const AreaGraphType = objectType({
   name: "HomeAssistantArea",
@@ -13,8 +17,10 @@ export const AreaGraphType = objectType({
       async resolve(root, args, ctx) {
         return ctx.query({
           from: "home_assistant_entity",
-          filters: [equality<DomainHomeAssistantEntity>("areaId", root.id)],
-        }) as Promise<HomeAssistantEntity[]>
+          filters: [equality("areaId", root.id)],
+        } as DomainQuery<DomainHomeAssistantEntity>) as Promise<
+          HomeAssistantEntity[]
+        >
       },
     })
   },

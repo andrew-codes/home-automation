@@ -176,9 +176,17 @@ export interface GamePlayerPerspective extends Base {
 }
 export interface GamePlatform extends Base {}
 
-export interface DomainQuery<TDomain extends Domain> {
+export enum Sort {
+  asc = 1,
+  desc = -1,
+}
+export type OrderBy<TDomain extends Domain> = {
+  [P in keyof TDomain]: Sort
+}
+export type DomainQuery<TDomain extends Domain> = {
   filters?: Array<Filter<TDomain>>
   from: TDomain
+  orderBy: OrderBy<TDomain>
 }
 
 export type DomainResults = {

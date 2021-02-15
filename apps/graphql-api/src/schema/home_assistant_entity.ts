@@ -10,6 +10,7 @@ import {
   DomainArea,
   DomainEntityDomain,
   DomainHomeAssistantEntity,
+  DomainQuery,
   EntityDomain,
   HomeAssistantEntity,
 } from "../Domain"
@@ -30,8 +31,8 @@ export const HomeAssistantEntityGraphType = objectType({
       async resolve(root, args, ctx) {
         return ctx.query({
           from: "entity_domain",
-          filters: [equality<DomainEntityDomain>("id", root.domainId)],
-        }) as Promise<EntityDomain>
+          filters: [equality("id", root.domainId)],
+        } as DomainQuery<DomainEntityDomain>) as Promise<EntityDomain>
       },
     })
     t.field("area", {
@@ -39,8 +40,8 @@ export const HomeAssistantEntityGraphType = objectType({
       async resolve(root, args, ctx) {
         return ctx.query({
           from: "area",
-          filters: [equality<DomainArea>("id", root.areaId)],
-        }) as Promise<Area>
+          filters: [equality("id", root.areaId)],
+        } as DomainQuery<DomainArea>) as Promise<Area>
       },
     })
   },
@@ -104,8 +105,8 @@ export const HomeAssistantServiceCall = mutationField(
       } finally {
         return ctx.query({
           from: "home_assistant_entity",
-          filters: [equality<DomainHomeAssistantEntity>("id", args.entity?.id)],
-        }) as Promise<HomeAssistantEntity>
+          filters: [equality("id", args.entity?.id)],
+        } as DomainQuery<DomainHomeAssistantEntity>) as Promise<HomeAssistantEntity>
       }
     },
   }

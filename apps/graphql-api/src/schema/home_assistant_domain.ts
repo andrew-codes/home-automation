@@ -7,6 +7,7 @@ import { equality } from "../filter"
 import {
   DomainEntityDomain,
   DomainHomeAssistantEntity,
+  DomainQuery,
   HomeAssistantEntity,
 } from "../Domain"
 
@@ -25,8 +26,10 @@ export const DomainGraphType = objectType({
       resolve(root, args, ctx) {
         return ctx.query({
           from: "home_assistant_entity",
-          filters: [equality<DomainHomeAssistantEntity>("domainId", root.id)],
-        }) as Promise<HomeAssistantEntity[]>
+          filters: [equality("domainId", root.id)],
+        } as DomainQuery<DomainHomeAssistantEntity>) as Promise<
+          HomeAssistantEntity[]
+        >
       },
     })
   },

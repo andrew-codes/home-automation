@@ -2,29 +2,19 @@ import createDebug from "debug"
 import { list, stringArg, subscriptionField } from "nexus"
 import { first } from "lodash"
 import { equality } from "../filter"
-import { DomainGame, GameEntity } from "../Domain"
+import { DomainGame, DomainQuery, GameEntity } from "../Domain"
 import { GameGraphType } from "./game"
 import { pubsub } from "../pubsub"
 
 const debug = createDebug("@ha/graphql-api/subscriptions")
 
 export const GamesSubscription = subscriptionField("gameLibrary", {
-  type: list(GameGraphType),
-  args: { ids: list(stringArg()) },
+  type: "Boolean",
   subscribe() {
     return pubsub.asyncIterator("/playnite/game/list/updated")
   },
   async resolve(root, args, ctx) {
-    let results = await ctx.query({
-      from: "game",
-      filters: args.ids?.map((id) => equality<DomainGame>("id", id)),
-    })
-    if (!Array.isArray(results)) {
-      results = [results]
-    }
-    return (results as Array<GameEntity | Error>).filter(
-      (result) => !(result instanceof Error)
-    ) as GameEntity[]
+    return true
   },
 })
 
@@ -40,8 +30,8 @@ export const GameStateSubscription = subscriptionField("gameState", {
     }
     const results = (await ctx.query({
       from: "game",
-      filters: [equality<DomainGame>("playniteId", id)],
-    })) as GameEntity[]
+      filters: [equality("playniteId", id)],
+    } as DomainQuery<DomainGame>)) as GameEntity[]
     return first(results)
   },
 })
