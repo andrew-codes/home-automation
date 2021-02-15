@@ -9,12 +9,12 @@ import { pubsub } from "../pubsub"
 const debug = createDebug("@ha/graphql-api/subscriptions")
 
 export const GamesSubscription = subscriptionField("gameLibrary", {
-  type: "Boolean",
+  type: "String",
   subscribe() {
     return pubsub.asyncIterator("/playnite/game/list/updated")
   },
   async resolve(root, args, ctx) {
-    return true
+    return { updated: new Date().toISOString() }
   },
 })
 
