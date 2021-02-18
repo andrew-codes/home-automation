@@ -23,7 +23,7 @@ const {
   HA_HOST,
   HA_PORT,
   HA_TOKEN,
-  HOST,
+  HOST = "",
   MQTT_HOST,
   MQTT_PASSWORD,
   MQTT_PORT,
