@@ -21,7 +21,7 @@ const createDataContext = (
   ha,
   mqtt: AsyncClient,
   unifi,
-  host: string
+  host: string | null
 ): DataContext => {
   const areaConfigProvider = createAreaConfigDataProvider()
   const haEntityAPIProvider = createHomeAssistantAPIEntityDataProvider()
