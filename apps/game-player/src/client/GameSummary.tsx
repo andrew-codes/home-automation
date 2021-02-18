@@ -2,15 +2,19 @@ import * as React from "react"
 import { Chip, makeStyles, Theme } from "@material-ui/core"
 import { noop } from "lodash"
 
-const useGameCellStyles = makeStyles<Theme, { game: any }>({
+const useGameCellStyles = makeStyles<
+  Theme,
+  {
+    game: Game
+  }
+>({
   root: {
     height: "100%",
     padding: "8px",
     position: "relative",
   },
   coverArt: {
-    backgroundImage: ({ game }) =>
-      `url(http://192.168.1.45:30517/image/${game.cover.id})`,
+    backgroundImage: ({ game }) => `url(${game.cover.url})`,
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
@@ -32,7 +36,9 @@ const useGameCellStyles = makeStyles<Theme, { game: any }>({
   },
 })
 
-const PlatformIcon = ({ platformName }) => (
+const PlatformIcon: React.FunctionComponent<{ platformName: string }> = ({
+  platformName,
+}) => (
   <Chip
     color="primary"
     label={
@@ -45,7 +51,21 @@ const PlatformIcon = ({ platformName }) => (
   />
 )
 
-const GameSummary = ({ game, onSelect = noop }) => {
+type Game = {
+  cover: { url: string }
+  name: string
+  platform: {
+    name: string
+  }
+}
+type Props = {
+  game: Game
+  onSelect: (evt: React.FormEvent) => void
+}
+const GameSummary: React.FunctionComponent<Props> = ({
+  game,
+  onSelect = noop,
+}) => {
   const classes = useGameCellStyles({ game })
 
   return (

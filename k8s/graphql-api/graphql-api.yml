@@ -29,6 +29,8 @@ spec:
               containerPort: 5000
               protocol: TCP
           env:
+            - name: HOST
+              value: "192.168.1.45:30517"
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: "0"
             - name: PORT

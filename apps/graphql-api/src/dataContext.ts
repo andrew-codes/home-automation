@@ -11,12 +11,18 @@ import { IProvideData } from "./dataProvider/DataProvider"
 const debug = createDebug("@ha/graphql-api/dataContext")
 
 export interface DataContext extends IProvideData {
+  host: string
   ha: any
   mqtt: AsyncClient
   unifi: any
 }
 
-const createDataContext = (ha, mqtt: AsyncClient, unifi): DataContext => {
+const createDataContext = (
+  ha,
+  mqtt: AsyncClient,
+  unifi,
+  host: string
+): DataContext => {
   const areaConfigProvider = createAreaConfigDataProvider()
   const haEntityAPIProvider = createHomeAssistantAPIEntityDataProvider()
   const domainConfigProvider = createDomainConfigProvider()
@@ -51,6 +57,7 @@ const createDataContext = (ha, mqtt: AsyncClient, unifi): DataContext => {
   ])
 
   return {
+    host,
     ha,
     mqtt,
     unifi,

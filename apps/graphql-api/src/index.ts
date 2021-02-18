@@ -23,11 +23,11 @@ const {
   HA_HOST,
   HA_PORT,
   HA_TOKEN,
+  HOST,
   MQTT_HOST,
   MQTT_PASSWORD,
   MQTT_PORT,
   MQTT_USERNAME,
-  NODE_ENV,
   PORT,
   UNIFI_IP,
   UNIFI_PORT,
@@ -56,7 +56,7 @@ async function run() {
   })
   const options = {
     schema: schema,
-    context: createDataContext(ha, mqtt, unifi),
+    context: createDataContext(ha, mqtt, unifi, HOST),
   }
   const apollo = new ApolloServer(options)
   app.use(

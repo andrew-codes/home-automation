@@ -36,6 +36,11 @@ export const GameImageGraphType = objectType({
     t.id("id")
     t.int("height")
     t.string("imageId")
+    t.string("url", {
+      resolve(root, args, ctx) {
+        return `${ctx.host}/image/${root.id}`
+      },
+    })
   },
 })
 
