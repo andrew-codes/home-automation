@@ -12,10 +12,12 @@ const {
 debug("Starting service.")
 debug(MQTT_HOST, MQTT_PASSWORD, MQTT_PORT, MQTT_USERNAME)
 
+let mqtt
+
 async function run() {
   debug("Connecting MQTT client")
   try {
-    const mqtt = await connectAsync(`tcp://${MQTT_HOST}`, {
+    mqtt = await connectAsync(`tcp://${MQTT_HOST}`, {
       password: MQTT_PASSWORD,
       port: parseInt(MQTT_PORT || "1883", 10),
       username: MQTT_USERNAME,
@@ -70,3 +72,25 @@ async function run() {
 }
 
 run().then(() => debug("Run has been run."))
+
+function stop() {
+  try {
+    if (mqtt) {
+      mqtt.publish("/playnite/game/stopped", "")
+    }
+  } catch (error) {
+    debug(error)
+  }
+}
+
+process.once("SIGUSR2", () => {
+  stop()
+  process.kill(process.pid, "SIGUSR2")
+})
+process.on("SIGINT", () => {
+  stop()
+  process.exit(0)
+})
+process.on("exit", () => {
+  stop()
+})
