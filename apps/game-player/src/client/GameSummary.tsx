@@ -1,6 +1,7 @@
 import * as React from "react"
 import { Chip, makeStyles, Theme } from "@material-ui/core"
 import { noop } from "lodash"
+import { gql } from "@apollo/client"
 
 const useGameCellStyles = makeStyles<
   Theme,
@@ -51,6 +52,18 @@ const PlatformIcon: React.FunctionComponent<{ platformName: string }> = ({
   />
 )
 
+const query = gql`
+fragment on Game {
+  cover { 
+    url
+  }
+  name
+  platform {
+    name
+  }
+}
+`
+
 type Game = {
   cover: { url: string }
   name: string
@@ -80,4 +93,4 @@ const GameSummary: React.FunctionComponent<Props> = ({
   )
 }
 
-export { GameSummary }
+export { query, GameSummary }

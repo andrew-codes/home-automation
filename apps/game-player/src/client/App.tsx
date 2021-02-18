@@ -3,24 +3,19 @@ import AutoSizer from "react-virtualized-auto-sizer"
 import { AppBar, Box, Drawer, Tab, Tabs } from "@material-ui/core"
 import { gql, useMutation, useQuery } from "@apollo/client"
 import { GameGrid } from "./GameGrid"
+import { query as gameQuery } from "./GameSummary"
 
 const GET_GAMES = gql`
   query {
     game(orderBy: { name: asc }) {
       playniteId
-      name
       releaseYear
       favorite
       hidden
-      cover {
-        id
-        imageId
-        height
-      }
       platform {
-        id
         name
       }
+      ...${gameQuery}
     }
   }
 `
