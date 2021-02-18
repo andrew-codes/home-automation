@@ -84,11 +84,7 @@ const run = async () => {
           isStarted: false,
         },
       })
-      if (!message?.toString()) {
-        return
-      }
-      const gameId = message.toString()
-      mqtt.publish("/playnite/game/state/updated", gameId.toString())
+      mqtt.publish("/playnite/game/state/updated", "")
     }
     if (topic === "/playnite/game/installed") {
       const gameId = message.toString()
