@@ -112,7 +112,7 @@ export const PlayGameInGameRoomMutation = mutationField("playGameInGameRoom", {
       }
       const currentGameResults = (await ctx.query({
         from: "game",
-        filters: [equality("id", args.id)],
+        filters: [equality("playniteId", args.id)],
       } as DomainQuery<DomainGame>)) as GameEntity[]
       debug("matching games", currentGameResults)
       const currentGame = currentGameResults.find(

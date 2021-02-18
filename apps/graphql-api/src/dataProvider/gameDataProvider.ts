@@ -1,5 +1,4 @@
 import createDebug from "debug"
-import { client } from "../mongo"
 import { DomainGame, GameState } from "../Domain"
 import { IProvideData } from "./DataProvider"
 import { createMongoCollectionQuery } from "./mongodb/queryMongoCollection"
