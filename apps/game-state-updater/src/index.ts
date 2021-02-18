@@ -78,12 +78,15 @@ const run = async () => {
     }
     if (topic === "/playnite/game/stopped") {
       const db = await mongo.db("gameLibrary")
-      await db.collection("gameDetails").updateMany({
-        $set: {
-          isStarting: false,
-          isStarted: false,
-        },
-      })
+      await db.collection("gameDetails").updateMany(
+        { $or: [{ isStarted: true }, { isStarting: true }] },
+        {
+          $set: {
+            isStarting: false,
+            isStarted: false,
+          },
+        }
+      )
       mqtt.publish("/playnite/game/state/updated", "")
     }
     if (topic === "/playnite/game/installed") {
