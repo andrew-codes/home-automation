@@ -36,125 +36,140 @@ const run = async () => {
 
   await mongo.connect()
 
+  const db = await mongo.db("gameLibrary")
+  await db.collection("gameDetails").updateMany(
+    { $or: [{ isStarted: true }, { isStarting: true }] },
+    {
+      $set: {
+        isStarting: false,
+        isStarted: false,
+      },
+    }
+  )
+
   mqtt.on("message", async (topic, message) => {
     debug("topic", topic)
     console.log(topic)
-    if (topic === "/playnite/game/starting") {
-      const gameId = message.toString()
-      debug(gameId)
-      const db = await mongo.db("gameLibrary")
-      await db.collection("gameDetails").updateOne(
-        {
-          playniteId: gameId,
-        },
-        {
-          $set: {
-            isStarting: true,
-            isStarted: false,
-            isInstalled: true,
-            isUninstalled: false,
+    try {
+      if (topic === "/playnite/game/starting") {
+        const gameId = message.toString()
+        debug(gameId)
+        const db = await mongo.db("gameLibrary")
+        await db.collection("gameDetails").updateOne(
+          {
+            playniteId: gameId,
           },
-        }
-      )
-      mqtt.publish("/playnite/game/state/updated", gameId.toString())
-    }
-    if (topic === "/playnite/game/started") {
-      const gameId = message.toString()
-      const db = await mongo.db("gameLibrary")
-      await db.collection("gameDetails").updateOne(
-        {
-          playniteId: gameId,
-        },
-        {
-          $set: {
-            isStarting: false,
-            isStarted: true,
-            isInstalled: true,
-            isUninstalled: false,
-          },
-        }
-      )
-      mqtt.publish("/playnite/game/state/updated", gameId.toString())
-    }
-    if (topic === "/playnite/game/stopped") {
-      const db = await mongo.db("gameLibrary")
-      await db.collection("gameDetails").updateMany(
-        { $or: [{ isStarted: true }, { isStarting: true }] },
-        {
-          $set: {
-            isStarting: false,
-            isStarted: false,
-          },
-        }
-      )
-      mqtt.publish("/playnite/game/state/updated", "")
-    }
-    if (topic === "/playnite/game/installed") {
-      const gameId = message.toString()
-      const db = await mongo.db("gameLibrary")
-      await db.collection("gameDetails").updateOne({
-        filter: {
-          playniteId: gameId,
-        },
-        update: {
-          $set: {
-            isStarting: false,
-            isStarted: false,
-            isInstalled: true,
-            isUninstalled: false,
-          },
-        },
-      })
-      mqtt.publish("/playnite/game/state/updated", gameId.toString())
-    }
-    if (topic === "/playnite/game/uninstalled") {
-      const gameId = message.toString()
-      const db = await mongo.db("gameLibrary")
-      await db.collection("gameDetails").updateOne(
-        {
-          id: gameId,
-        },
-        {
-          $set: {
-            isStarting: false,
-            isStarted: false,
-            isInstalled: false,
-            isUninstalled: true,
-          },
-        }
-      )
-      mqtt.publish("/playnite/game/state/updated", gameId.toString())
-    }
-    if (topic === "/playnite/game/started/ps4") {
-      const gameName = message.toString()
-      const db = await mongo.db("gameLibrary")
-      const matchingGames = await db
-        .collection("gameDetails")
-        .find(
-          { "platform.name": "Sony PlayStation 4" },
-          { name: 1, playniteId: 1 }
+          {
+            $set: {
+              isStarting: true,
+              isStarted: false,
+              isInstalled: true,
+              isUninstalled: false,
+            },
+          }
         )
-        .toArray()
-      const matchingGame = matchingGames.find(({ name }) =>
-        lowerCase(name).includes(lowerCase(gameName))
-      )
-      if (!matchingGame) {
-        console.log("No matching PS game", gameName)
-        debug("No matching PS game", gameName)
-        return
+        mqtt.publish("/playnite/game/state/updated", gameId.toString())
       }
-      await db.collection("gameDetails").updateOne(
-        { "platform.name": "Sony PlayStation 4", name: gameName },
-        {
-          $set: {
-            isStarting: false,
-            isStarted: true,
-            isInstalled: true,
-            isUninstalled: false,
+      if (topic === "/playnite/game/started") {
+        const gameId = message.toString()
+        const db = await mongo.db("gameLibrary")
+        await db.collection("gameDetails").updateOne(
+          {
+            playniteId: gameId,
           },
+          {
+            $set: {
+              isStarting: false,
+              isStarted: true,
+              isInstalled: true,
+              isUninstalled: false,
+            },
+          }
+        )
+        mqtt.publish("/playnite/game/state/updated", gameId.toString())
+      }
+      if (topic === "/playnite/game/stopped") {
+        const db = await mongo.db("gameLibrary")
+        await db.collection("gameDetails").updateMany(
+          { $or: [{ isStarted: true }, { isStarting: true }] },
+          {
+            $set: {
+              isStarting: false,
+              isStarted: false,
+            },
+          }
+        )
+        mqtt.publish("/playnite/game/state/updated", "")
+      }
+      if (topic === "/playnite/game/installed") {
+        const gameId = message.toString()
+        const db = await mongo.db("gameLibrary")
+        await db.collection("gameDetails").updateOne({
+          filter: {
+            playniteId: gameId,
+          },
+          update: {
+            $set: {
+              isStarting: false,
+              isStarted: false,
+              isInstalled: true,
+              isUninstalled: false,
+            },
+          },
+        })
+        mqtt.publish("/playnite/game/state/updated", gameId.toString())
+      }
+      if (topic === "/playnite/game/uninstalled") {
+        const gameId = message.toString()
+        const db = await mongo.db("gameLibrary")
+        await db.collection("gameDetails").updateOne(
+          {
+            id: gameId,
+          },
+          {
+            $set: {
+              isStarting: false,
+              isStarted: false,
+              isInstalled: false,
+              isUninstalled: true,
+            },
+          }
+        )
+        mqtt.publish("/playnite/game/state/updated", gameId.toString())
+      }
+      if (topic === "/playnite/game/started/ps4") {
+        const gameName = message.toString()
+        const db = await mongo.db("gameLibrary")
+        const matchingGames = await db
+          .collection("gameDetails")
+          .find(
+            { "platform.name": "Sony PlayStation 4" },
+            { name: 1, playniteId: 1 }
+          )
+          .toArray()
+        const matchingGame = matchingGames.find(({ name }) =>
+          lowerCase(name).includes(lowerCase(gameName))
+        )
+        if (!matchingGame) {
+          console.log("No matching PS game", gameName)
+          debug("No matching PS game", gameName)
+          return
         }
-      )
-      mqtt.publish("/playnite/game/state/updated", matchingGame.playniteId)
+        await db.collection("gameDetails").updateOne(
+          { "platform.name": "Sony PlayStation 4", name: gameName },
+          {
+            $set: {
+              isStarting: false,
+              isStarted: true,
+              isInstalled: true,
+              isUninstalled: false,
+            },
+          }
+        )
+        mqtt.publish("/playnite/game/state/updated", matchingGame.playniteId)
+      }
+    } catch (error) {
+      debug(error)
     }
   })
 }
