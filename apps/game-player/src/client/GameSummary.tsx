@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Chip, makeStyles, Theme } from "@material-ui/core"
-import { noop } from "lodash"
 import { gql } from "@apollo/client"
+import { noop } from "lodash"
 
 const useGameCellStyles = makeStyles<
   Theme,
@@ -15,7 +15,7 @@ const useGameCellStyles = makeStyles<
     position: "relative",
   },
   coverArt: {
-    backgroundImage: ({ game }) => `url(${game.cover.url})`,
+    backgroundImage: ({ game }) => `url(http://${game.cover.url})`,
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
@@ -53,15 +53,15 @@ const PlatformIcon: React.FunctionComponent<{ platformName: string }> = ({
 )
 
 const query = gql`
-fragment on Game {
-  cover { 
-    url
-  }
-  name
-  platform {
+  fragment GameSummary on Game {
+    cover {
+      url
+    }
     name
+    platform {
+      name
+    }
   }
-}
 `
 
 type Game = {

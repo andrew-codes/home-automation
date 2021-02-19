@@ -4,7 +4,9 @@ import {
   ApolloProvider,
   createHttpLink,
   InMemoryCache,
+  split,
 } from "@apollo/client"
+import { getMainDefinition } from "@apollo/client/utilities"
 import { render } from "react-dom"
 import { setContext } from "@apollo/client/link/context"
 import { WebSocketLink } from "@apollo/client/link/ws"
@@ -25,20 +27,30 @@ async function run() {
     },
   }))
 
-  const client = new ApolloClient({
-    link: authLink.concat(httpLink),
-    cache: new InMemoryCache(),
+  const wsLink = new WebSocketLink({
+    uri: `ws://${apiDetails.subUrl}`,
+    options: {
+      timeout: 30000,
+      reconnect: true,
+    },
   })
 
-  // const wsLink = new WebSocketLink({
-  //   uri: `ws://${apiDetails.subUrl}/`,
-  //   options: {
-  //     reconnect: true,
-  //     connectionParams: {
-  //       authToken: apiDetails.token,
-  //     },
-  //   },
-  // })
+  const splitLink = split(
+    ({ query }) => {
+      const definition = getMainDefinition(query)
+      return (
+        definition.kind === "OperationDefinition" &&
+        definition.operation === "subscription"
+      )
+    },
+    wsLink,
+    authLink.concat(httpLink)
+  )
+
+  const client = new ApolloClient({
+    link: splitLink,
+    cache: new InMemoryCache(),
+  })
 
   const theme = createMuiTheme({
     overrides: {

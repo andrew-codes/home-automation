@@ -1,7 +1,16 @@
 import * as React from "react"
 import { FixedSizeGrid as Grid } from "react-window"
+import { gql, useMutation } from "@apollo/client"
 import { groupBy, noop } from "lodash"
 import { GameSummary } from "./GameSummary"
+
+const START_GAME = gql`
+  mutation START_GAME($id: String!, $platformName: String!) {
+    playGameInGameRoom(id: $id, platformName: $platformName) {
+      state
+    }
+  }
+`
 
 const getLaneProps = ({
   columnCount,
@@ -50,6 +59,8 @@ const GameGrid = ({
 }) => {
   const uniqueGames = Object.values(groupBy(games, "name"))
   const GameCell = ({ columnIndex, rowIndex, style }) => {
+    const [startGame, { data: startGameData }] = useMutation(START_GAME)
+
     const gameIndex = getGameIndex({
       columnCount,
       columnIndex,
@@ -69,7 +80,18 @@ const GameGrid = ({
 
     return (
       <div style={style}>
-        <GameSummary game={game} onSelect={(evt) => onSelect(evt, game)} />
+        <GameSummary
+          game={game}
+          onSelect={(evt) => {
+            onSelect(evt, game)
+            startGame({
+              variables: {
+                id: game.platform.name === "PC" ? game.playniteId : name,
+                platformName: game.platform.name,
+              },
+            })
+          }}
+        />
       </div>
     )
   }

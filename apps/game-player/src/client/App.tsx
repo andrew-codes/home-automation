@@ -1,7 +1,8 @@
 import * as React from "react"
 import AutoSizer from "react-virtualized-auto-sizer"
 import { AppBar, Box, Drawer, Tab, Tabs } from "@material-ui/core"
-import { gql, useMutation, useQuery } from "@apollo/client"
+import { gql, useQuery } from "@apollo/client"
+import { merge } from "lodash"
 import { GameGrid } from "./GameGrid"
 import { query as gameQuery } from "./GameSummary"
 
@@ -15,14 +16,17 @@ const GET_GAMES = gql`
       platform {
         name
       }
-      ...${gameQuery}
+      state
+      ...GameSummary
     }
   }
+  ${gameQuery}
 `
-
-const START_GAME = gql`
-  mutation START_GAME($id: String!, $platformName: String!) {
-    playGameInGameRoom(id: $id, platformName: $platformName) {
+const GAME_STATE_UPDATES = gql`
+  subscription {
+    gameState {
+      id
+      playniteId
       state
     }
   }
@@ -50,9 +54,32 @@ const App = () => {
     setTabIndex(newValue)
   }
 
-  const [startGame, { data: startGameData }] = useMutation(START_GAME)
+  const { loading, data, error, subscribeToMore } = useQuery(GET_GAMES)
+  React.useEffect(() => {
+    subscribeToMore({
+      document: GAME_STATE_UPDATES,
+      updateQuery: (prev, { subscriptionData }) => {
+        console.log(prev, subscriptionData)
+        if (!subscriptionData.data) {
+          return merge({}, prev, {
+            game: prev.game
+              .filter(
+                ({ state }) => state == "Launching" || state === "Running"
+              )
+              .map((game) => merge(game, { state: "Installed" })),
+          })
+        }
+        const updatedGame = subscriptionData.data.gameState
+        const newGames = merge({}, prev)
+        const gameIndex = newGames.game.findIndex(
+          (game) => game.playniteId === updatedGame.playniteId
+        )
+        newGames.game[gameIndex].state = updatedGame.state
+        return newGames
+      },
+    })
+  }, [])
 
-  const { loading, error, data } = useQuery(GET_GAMES)
   return (
     <>
       <AppBar position="static">
@@ -63,6 +90,7 @@ const App = () => {
         >
           <Tab label="Favorites"></Tab>
           <Tab label="All"></Tab>
+          <Tab label="Actively Playing"></Tab>
         </Tabs>
       </AppBar>
       <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
@@ -83,14 +111,6 @@ const App = () => {
                     games={data?.game.filter((game) => game.favorite)}
                     height={height}
                     layout="horizontal"
-                    onSelect={(evt, { name, platform, playniteId }) => {
-                      startGame({
-                        variables: {
-                          id: platform.name === "PC" ? playniteId : name,
-                          platformName: platform.name,
-                        },
-                      })
-                    }}
                     rowCount={3}
                     width={width}
                   />
@@ -105,14 +125,23 @@ const App = () => {
                     games={data?.game}
                     height={height}
                     layout="horizontal"
-                    onSelect={(evt, { name, platform, playniteId }) => {
-                      startGame({
-                        variables: {
-                          id: platform.name === "PC" ? playniteId : name,
-                          platformName: platform.name,
-                        },
-                      })
-                    }}
+                    rowCount={4}
+                    width={width}
+                  />
+                )}
+              </TabPanel>
+              <TabPanel value={tabIndex} index={2}>
+                {loading ? (
+                  <Loading />
+                ) : (
+                  <GameGrid
+                    columnCount={5}
+                    games={data?.game.filter(
+                      ({ state }) =>
+                        state === "Launching" || state === "Running"
+                    )}
+                    height={height}
+                    layout="horizontal"
                     rowCount={4}
                     width={width}
                   />

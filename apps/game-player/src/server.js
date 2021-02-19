@@ -15,7 +15,7 @@ app.get("/apiUrl", async (req, resp) => {
   resp.send(
     JSON.stringify({
       url: `${GRAPHQL_API_HOST}/graphql`,
-      subUrl: GRAPHQL_SUB_API_HOST,
+      subUrl: `${GRAPHQL_SUB_API_HOST}/graphql`,
       token: GRAPHQL_API_TOKEN,
     })
   )
