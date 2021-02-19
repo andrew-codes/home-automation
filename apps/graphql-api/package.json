@@ -36,7 +36,8 @@
     "node-fetch": "^2.6.1",
     "node-unifiapi": "^0.0.54",
     "subscriptions-transport-ws": "^0.9.18",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "wait": "^0.4.2"
   },
   "devDependencies": {
     "@ha/ts-config": "^0.0.1",

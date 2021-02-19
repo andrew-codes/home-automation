@@ -1,4 +1,5 @@
 import createDebug from "debug"
+import wait from "wait"
 import { booleanArg, list, mutationField, stringArg } from "nexus"
 import { isEmpty, lowerCase } from "lodash"
 import { HomeAssistantEntityGraphType } from "./home_assistant_entity"
@@ -135,6 +136,8 @@ export const PlayGameInGameRoomMutation = mutationField("playGameInGameRoom", {
         }
       )
       debug(turnOnMediaPlayerRepsonse)
+
+      await wait(550)
 
       if (normalizedPlatform === "gaming_pc") {
         debug("Publishing play pc game", args.id)

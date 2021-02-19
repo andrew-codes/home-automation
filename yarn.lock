@@ -10840,6 +10840,11 @@ w3c-xmlserializer@^2.0.0:
   dependencies:
     xml-name-validator "^3.0.0"
 
+wait@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/wait/-/wait-0.4.2.tgz#d7d932ea72a57a78b526d168322457d2d7e4ae33"
+  integrity sha512-g4Uu25y9MJ3jtBcrRDDXeI/f7lBNtVmNUM3Xd78S19tm1gZutDkL/f6UEcMi/NqWvKZ74Mhrb+4LwpYbjG6XYA==
+
 wakeonlan@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/wakeonlan/-/wakeonlan-0.1.0.tgz#b79e73bba84d7d28d9a35795ef020b9eecc32a25"
