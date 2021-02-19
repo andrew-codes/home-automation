@@ -41,8 +41,8 @@ const run = async () => {
     { $or: [{ isStarted: true }, { isStarting: true }] },
     {
       $set: {
-        isStarting: false,
         isStarted: false,
+        isStarting: false,
       },
     }
   )

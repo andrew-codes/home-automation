@@ -1,7 +1,7 @@
 import createDebug from "debug"
 import wait from "wait"
 import { booleanArg, list, mutationField, stringArg } from "nexus"
-import { isEmpty, lowerCase } from "lodash"
+import { first, isEmpty, lowerCase } from "lodash"
 import { HomeAssistantEntityGraphType } from "./home_assistant_entity"
 import { equality } from "../filter"
 import {
@@ -180,21 +180,7 @@ export const StopGameInGameRoomMutation = mutationField("stopGameInGameRoom", {
       if (!currentGame) {
         throw new Error("No game is currently playing")
       }
-      const gamePlatform = (await ctx.query({
-        from: "game_platform",
-        filters: [equality("id", currentGame.platformId)],
-      } as DomainQuery<DomainGamePlatform>)) as GamePlatform
 
-      if (isEmpty(gamePlatform)) {
-        throw new Error(
-          `Could not find game platform: ${currentGame.platformId}`
-        )
-      }
-      const normalizedPlatform = normalizePlatform(gamePlatform)
-
-      // if (normalizedPlatform === "gaming_pc") {
-      // } else if (normalizedPlatform === "playstation_4_pro") {
-      // }
       await ctx.mqtt.publish(`/playnite/game/stopped`, currentGame.playniteId)
       return currentGame
     } catch (error) {
