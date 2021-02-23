@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Chip, makeStyles, Theme } from "@material-ui/core"
+import { Chip, makeStyles, StyledProps, Theme } from "@material-ui/core"
 import { gql } from "@apollo/client"
 import { noop } from "lodash"
 
@@ -72,17 +72,24 @@ type Game = {
   }
 }
 type Props = {
+  classes?: {
+    root?: string
+  }
   game: Game
   onSelect: (evt: React.FormEvent) => void
 }
 const GameSummary: React.FunctionComponent<Props> = ({
   game,
   onSelect = noop,
+  ...rest
 }) => {
   const classes = useGameCellStyles({ game })
 
   return (
-    <div className={classes.root} onClick={onSelect}>
+    <div
+      className={`${classes.root} ${rest?.classes?.root}`}
+      onClick={onSelect}
+    >
       <div className={classes.coverArt}>
         <div className={classes.details}>{game.name}</div>
       </div>

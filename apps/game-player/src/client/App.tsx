@@ -1,10 +1,22 @@
 import * as React from "react"
 import AutoSizer from "react-virtualized-auto-sizer"
-import { AppBar, Box, Drawer, Tab, Tabs } from "@material-ui/core"
-import { gql, useQuery } from "@apollo/client"
-import { merge } from "lodash"
+import {
+  AppBar,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Drawer,
+  makeStyles,
+  Tab,
+  Tabs,
+} from "@material-ui/core"
+import { gql, useMutation, useQuery } from "@apollo/client"
+import { merge, noop } from "lodash"
 import { GameGrid } from "./GameGrid"
-import { query as gameQuery } from "./GameSummary"
+import { GameSummary, query as gameQuery } from "./GameSummary"
 
 const GET_GAMES = gql`
   query {
@@ -13,6 +25,7 @@ const GET_GAMES = gql`
       releaseYear
       favorite
       hidden
+      summary
       platform {
         name
       }
@@ -25,12 +38,37 @@ const GET_GAMES = gql`
 const GAME_STATE_UPDATES = gql`
   subscription {
     gameState {
-      id
       playniteId
       state
     }
   }
 `
+
+const STOP_GAME = gql`
+  mutation {
+    stopGameInGameRoom {
+      playniteId
+    }
+  }
+`
+
+const useStyles = makeStyles((theme) => ({
+  activeGameDialogRoot: {
+    display: "flex",
+    height: "100%",
+    width: "100%",
+  },
+  activeGameDialogGameSummaryRoot: {
+    width: "750px",
+  },
+  activeGameDialogGameSummaryText: {
+    margin: "32px",
+    width: "100%",
+  },
+  paper: {
+    height: "80vh",
+  },
+}))
 
 const TabPanel = ({ children, index, value, ...rest }) => (
   <div
@@ -47,6 +85,8 @@ const TabPanel = ({ children, index, value, ...rest }) => (
 const Loading = () => <div>Loading...</div>
 
 const App = () => {
+  const classes = useStyles()
+
   const [open, setOpen] = React.useState(false)
 
   const [tabIndex, setTabIndex] = React.useState(0)
@@ -54,23 +94,25 @@ const App = () => {
     setTabIndex(newValue)
   }
 
+  const [stopGame] = useMutation(STOP_GAME)
+
   const { loading, data, error, subscribeToMore } = useQuery(GET_GAMES)
   React.useEffect(() => {
     subscribeToMore({
       document: GAME_STATE_UPDATES,
       updateQuery: (prev, { subscriptionData }) => {
-        console.log(prev, subscriptionData)
-        if (!subscriptionData.data) {
-          return merge({}, prev, {
-            game: prev.game
-              .filter(
-                ({ state }) => state == "Launching" || state === "Running"
-              )
-              .map((game) => merge(game, { state: "Installed" })),
-          })
+        const newGames = merge({}, prev)
+        if (!subscriptionData.data.gameState) {
+          const gameIndex = newGames.game.findIndex(
+            ({ state }) => state === "Launching" || state === "Running"
+          )
+          if (gameIndex < 0) {
+            return
+          }
+          newGames.game[gameIndex].state = "Installed"
+          return newGames
         }
         const updatedGame = subscriptionData.data.gameState
-        const newGames = merge({}, prev)
         const gameIndex = newGames.game.findIndex(
           (game) => game.playniteId === updatedGame.playniteId
         )
@@ -90,7 +132,6 @@ const App = () => {
         >
           <Tab label="Favorites"></Tab>
           <Tab label="All"></Tab>
-          <Tab label="Actively Playing"></Tab>
         </Tabs>
       </AppBar>
       <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
@@ -130,26 +171,56 @@ const App = () => {
                   />
                 )}
               </TabPanel>
-              <TabPanel value={tabIndex} index={2}>
-                {loading ? (
-                  <Loading />
-                ) : (
-                  <GameGrid
-                    columnCount={5}
-                    games={data?.game.filter(
-                      ({ state }) =>
-                        state === "Launching" || state === "Running"
-                    )}
-                    height={height}
-                    layout="horizontal"
-                    rowCount={4}
-                    width={width}
-                  />
-                )}
-              </TabPanel>
             </>
           )}
         </AutoSizer>
+        <Dialog
+          disableBackdropClick
+          disableEscapeKeyDown
+          maxWidth="lg"
+          fullWidth={true}
+          aria-labelledby="game-playing-confirmation-dialog-title"
+          open={
+            !!data?.game.find(
+              ({ state }) => state === "Launching" || state === "Running"
+            )
+          }
+          classes={{
+            paper: classes.paper,
+          }}
+        >
+          <DialogTitle id="game-playing-confirmation-dialog-title">
+            Active Game
+          </DialogTitle>
+          <DialogContent>
+            {!!data?.game.find(
+              ({ state }) => state === "Launching" || state === "Running"
+            ) && (
+              <div className={classes.activeGameDialogRoot}>
+                <GameSummary
+                  classes={{ root: classes.activeGameDialogGameSummaryRoot }}
+                  game={data?.game.find(
+                    ({ state }) => state === "Launching" || state === "Running"
+                  )}
+                  onSelect={noop}
+                />
+                <p className={classes.activeGameDialogGameSummaryText}>
+                  {
+                    data?.game.find(
+                      ({ state }) =>
+                        state === "Launching" || state === "Running"
+                    )?.summary
+                  }
+                </p>
+              </div>
+            )}
+          </DialogContent>
+          <DialogActions>
+            <Button autoFocus onClick={(evt) => stopGame()} color="primary">
+              Stop Game
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     </>
   )
