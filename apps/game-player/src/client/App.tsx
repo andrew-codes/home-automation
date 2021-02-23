@@ -9,10 +9,12 @@ import {
   DialogContent,
   DialogTitle,
   Drawer,
+  IconButton,
   makeStyles,
   Tab,
   Tabs,
 } from "@material-ui/core"
+import { PowerOff } from "@material-ui/icons"
 import { gql, useMutation, useQuery } from "@apollo/client"
 import { merge, noop } from "lodash"
 import { GameGrid } from "./GameGrid"
@@ -67,6 +69,10 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     height: "80vh",
+  },
+  powerButton: {
+    flexGrow: 1,
+    textAlign: "right",
   },
 }))
 
@@ -132,6 +138,11 @@ const App = () => {
         >
           <Tab label="Favorites"></Tab>
           <Tab label="All"></Tab>
+          <div className={classes.powerButton}>
+            <IconButton>
+              <PowerOff style={{ color: "#fff" }} />
+            </IconButton>
+          </div>
         </Tabs>
       </AppBar>
       <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
