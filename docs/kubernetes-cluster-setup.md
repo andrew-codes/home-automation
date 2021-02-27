@@ -92,6 +92,8 @@ See [initial provisioning secrets](./secrets-catalog.md#initial-provisioning) to
 
 ## Provision Kubernetes
 
+> This assumes you have pulled your SSH key from GitHub and it exists on your developer machine.
+
 ```bash
 ./ansible.sh ansible/k8s/all.yml
 ```
