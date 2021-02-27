@@ -26,6 +26,7 @@
         state: present
       when: hostvars[item].ansible_host is defined
       with_items: "{{ groups.all }}"
+
     - name: Installing Prerequisites for Kubernetes
       apt:
         name:
@@ -85,11 +86,15 @@
         name: kubelet
         enabled: yes
 
-    - name: Setup private registry access for nodes.
+    - name: Setup docker daemon config.
+      shell: "echo '{ \"exec-opts\": [\"native.cgroupdriver=systemd\"], \"insecure-registries\": [\"{{ docker_registry_domain }}:5000\", \"{{ docker_registry_domain }}\"], \"log-driver\": \"json-file\", \"log-opts\": {\"max-size\": \"10m\", \"max-file\": \"3\"} }' > /etc/docker/daemon.json"
+
+    - name: Restart docker.
       command: "{{ item }}"
+      become_user: root
+      become_method: sudo
+      become: yes
       with_items:
-        - >
-          echo '{ "exec-opts": ["native.cgroupdriver=systemd"], "insecure-registries": ["{{ docker_registry_domain }}:5000", "{{ docker_registry_domain }}"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' > /etc/docker/daemon.json
         - systemctl daemon-reload
         - systemctl restart docker
 
