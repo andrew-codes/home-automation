@@ -2,7 +2,7 @@
 
 This mono-repo consists of several applications and services I use to create my home automation.
 
-My home automation and, all related services, run in a local Kubernetes cluster. I have automated the provisioning of the cluster, so tearing down or spinning one back up is fairly straight forward. See the [kubernetes cluster setup page](./docs/kubernetes-cluster-setup.md) for more information.
+My home automation and all related services run in a local Kubernetes cluster. I have automated the cluster provisioning, so tearing down or spinning one back up is fairly straightforward. See the [kubernetes cluster setup page](./docs/kubernetes-cluster-setup.md) for more information.
 
 ## Topics
 
@@ -12,7 +12,7 @@ My home automation and, all related services, run in a local Kubernetes cluster.
 
 ## Applications
 
-Application documentation is located with its deployment configuration in the `./k8s/*` directories. Application source code is located in the `./apps/*` directories.
+Application documentation is within its deployment configuration in the `./k8s/*` directories. Application source code is in the `./apps/*` directories.
 
 - [MQTT](./k8s/mqtt/README.md)
 - [Home Assistant](./k8s/home-assistant/README.md)

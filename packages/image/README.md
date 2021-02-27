@@ -12,9 +12,9 @@ CLI to automate burning ISO installation images to USB drives.
    - path to the USB drive
    - path to the ISO image
 
-> All usage scenarios require root access (in order to burn drive).
+> All usage scenarios require root access to burn drive.
 
 ```bash
 # x86 CPUs
-sudo yarn burn-image /dev/disk2 ~/Downloads/ubuntu-20.04.1-live-server-amd64.iso
+yarn burn-image /dev/disk2 ~/Downloads/ubuntu-20.04.1-live-server-amd64.iso
 ```
