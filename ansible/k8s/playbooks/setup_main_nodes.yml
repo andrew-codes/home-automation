@@ -11,7 +11,15 @@
 
   tasks:
     - name: Intializing Kubernetes Cluster
-      command: kubeadm init --pod-network-cidr "{{ pod_network_cidr }}" --apiserver-advertise-address "{{ ansible_default_ipv4.address }}"
+      command: "{{ item }}"
+      with_items:
+        - kubeadm init phase certs all
+        - kubeadm init phase kubeconfig all
+        - kubeadm init phase control-plane all --pod-network-cidr "{{ pod_network_cidr }}" --apiserver-advertise-address "{{ ansible_default_ipv4.address }}"
+        - "sed -i 's/initialDelaySeconds: [0-9][0-9]/initialDelaySeconds: 240/g' /etc/kubernetes/manifests/kube-apiserver.yaml"
+        - "sed -i 's/failureThreshold: [0-9]/failureThreshold: 18/g' /etc/kubernetes/manifests/kube-apiserver.yaml"
+        - "sed -i 's/timeoutSeconds: [0-9][0-9]/timeoutSeconds: 20/g' /etc/kubernetes/manifests/kube-apiserver.yaml"
+        - kubeadm init --v=1 --skip-phases=certs,kubeconfig,control-plane --ignore-preflight-errors=all --pod-network-cidr "{{ pod_network_cidr }}" --apiserver-advertise-address "{{ ansible_default_ipv4.address }}"
       run_once: true
       delegate_to: "{{ ansible_default_ipv4.address }}"
 
