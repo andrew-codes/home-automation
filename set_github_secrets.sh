@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source secrets.sh
+
 yarn seal-github-secret andrew-codes home-automation DOCKER_REGISTRY_DOMAIN "$DOCKER_REGISTRY_DOMAIN"
 yarn seal-github-secret andrew-codes home-automation GITHUB_TOKEN "$GITHUB_ACTION_JEST_REPORTER_TOKEN"
 yarn seal-github-secret andrew-codes home-automation DOCKER_REGISTRY_USERNAME "$DOCKER_REGISTRY_USERNAME"
