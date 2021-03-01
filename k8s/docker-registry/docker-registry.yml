@@ -13,7 +13,7 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: "/media/usb/data/docker-registry"
+    path: "/mnt/data/docker-registry"
 
 ---
 apiVersion: v1
@@ -79,7 +79,7 @@ spec:
     app: docker-registry
   type: NodePort
   externalIPs:
-    - 192.168.1.45
+    - 192.168.1.68
   ports:
     - name: http
       port: 5000
