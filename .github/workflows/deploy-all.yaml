@@ -1,0 +1,47 @@
+name: "Deploy all"
+
+on: workflow_dispatch
+
+jobs:
+  deploy:
+    name: Compile, Push, Deploy
+    runs-on: amd64-runner
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Read .nvmrc
+        run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
+      - name: Use Node.js (.nvmrc)
+        uses: actions/setup-node@v1
+        with:
+          node-version: "${{ steps.nvm.outputs.NVMRC }}"
+      - name: Install deps
+        run: yarn
+      - name: Patch
+        run: yarn patch
+      - name: Compile apps
+        run: yarn lerna run compile --stream
+        env:
+          MQTT_CONNECTION: ${{ secrets.MQTT_CONNECTION }}
+          GAMING_ROOM_GAMING_PC_USERNAME: "${{ secrets.GAMING_ROOM_GAMING_PC_USERNAME }}"
+          MQTT_HOST: "${{ secrets.MQTT_HOST }}"
+          MQTT_PASSWORD: "${{ secrets.MQTT_PASSWORD }}"
+          MQTT_PORT: "${{ secrets.MQTT_PORT }}"
+          MQTT_USERNAME: "${{ secrets.MQTT_USERNAME }}"
+      - name: Run tests
+        run: yarn test
+      - name: Build and push images
+        env:
+          DOCKER_REGISTRY_DOMAIN: ${{ secrets.DOCKER_REGISTRY_DOMAIN }}
+        run: yarn lerna run image/push --stream --ignore @ha/github-action-runner-amd64
+      - name: Deploy
+        run: yarn lerna run deploy --stream --ignore @ha/github-action-runner-amd64 --ignore @ha/lets-encrypt
+        env:
+          MACHINE_PASSWORD: '${{ secrets.MACHINE_PASSWORD }}'
+          GAMING_ROOM_GAMING_PC_USERNAME: "${{ secrets.GAMING_ROOM_GAMING_PC_USERNAME }}"
+          GAMING_ROOM_GAMING_PC_MAC: "${{ secrets.GAMING_ROOM_GAMING_PC_MAC }}"
+          MQTT_HOST: "${{ secrets.MQTT_HOST }}"
+          MQTT_PASSWORD: "${{ secrets.MQTT_PASSWORD }}"
+          MQTT_PORT: "${{ secrets.MQTT_PORT }}"
+          MQTT_USERNAME: "${{ secrets.MQTT_USERNAME }}"
