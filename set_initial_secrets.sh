@@ -9,7 +9,6 @@ digitalocean_token: "$DIGITALOCEAN_TOKEN"
 backup_bucket: "$BACKUP_BUCKET"
 backup_uri: "$BACKUP_URI"
 inlets_pro_license: "$INLETS_PRO_LICENSE"
-pod_network_cidr: "$POD_NETWORK_CIDR"
 docker_registry_domain: "$DOCKER_REGISTRY_DOMAIN"
 EOL
 

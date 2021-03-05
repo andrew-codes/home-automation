@@ -1,8 +1,6 @@
 # My Home Automation
 
-This mono-repo consists of several applications and services I use to create my home automation.
-
-My home automation and all related services run in a local Kubernetes cluster. I have automated the cluster provisioning, so tearing down or spinning one back up is fairly straightforward. See the [kubernetes cluster setup page](./docs/kubernetes-cluster-setup.md) for more information.
+This mono-repo consists of several applications and services I use to create my home automation. Most services/applications run in a local Kubernetes cluster.
 
 ## Topics
 

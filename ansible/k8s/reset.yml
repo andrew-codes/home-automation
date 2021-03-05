@@ -8,6 +8,8 @@
   remote_user: hl
 
   tasks:
+    - name: Remove networking CNI config
+      shell: rm -rf /etc/cni/net.d/*
+
     - name: Reset cluster
       command: kubeadm reset --force
-- import_playbook: install.yml

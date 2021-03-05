@@ -19,3 +19,5 @@ kubeseal --namespace "docker-registry" <".secrets/cert.json" >"secrets/cert.json
 rm -rf .secrets/cert.json
 rm -rf .secrets/domain.key
 rm -rf .secrets/domain.crt
+
+rm -rf .secrets

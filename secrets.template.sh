@@ -13,7 +13,7 @@ export DEV_MACHINE_PASSWORD=""
 export CLUSTER_IP=""
 
 # Machine provisioning username/password
-export MACHINE_USERNAME=""
+export MACHINE_USERNAME="hl"
 export MACHINE_PASSWORD=""
 
 # Your email
@@ -33,7 +33,6 @@ export DOCKER_REGISTRY_DOMAIN=""
 
 # Inlets pro license value
 export INLETS_PRO_LICENSE=""
-export POD_NETWORK_CIDR="192.168.100.0/24"
 # ===============================
 
 # =======================================

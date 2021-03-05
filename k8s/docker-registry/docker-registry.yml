@@ -65,23 +65,3 @@ spec:
         - name: image-store
           persistentVolumeClaim:
             claimName: docker-registry-pv-claim
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: docker-registry-nodeport
-  namespace: docker-registry
-  labels:
-    app: docker-registry
-spec:
-  selector:
-    app: docker-registry
-  type: NodePort
-  externalIPs:
-    - 192.168.1.68
-  ports:
-    - name: http
-      port: 5000
-      targetPort: 5000
-      nodePort: 30500

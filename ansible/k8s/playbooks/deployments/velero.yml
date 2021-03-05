@@ -20,6 +20,12 @@
         - tar -xvf velero.tar.gz
         - mv velero-v1.5.2-linux-amd64/velero /usr/local/bin
 
+    - name: Create .secrets directory
+      become_user: hl
+      become_method: sudo
+      become: yes
+      shell: mkdir -p /home/{{ ansible_user }}/.secrets
+
     - name: Copy secrets
       copy:
         src: ./../../.secrets/k8s-digitalocean-secret-token.yml

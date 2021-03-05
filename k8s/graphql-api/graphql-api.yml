@@ -30,7 +30,7 @@ spec:
               protocol: TCP
           env:
             - name: HOST
-              value: "192.168.1.68:30517"
+              value: "192.168.1.222:30517"
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: "0"
             - name: PORT
