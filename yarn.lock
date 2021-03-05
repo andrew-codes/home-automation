@@ -8617,9 +8617,9 @@ pascalcase@^0.1.1:
   integrity sha1-s2PlXoAGym/iF4TS2yK9FdeRfxQ=
 
 patch-package@^6.2.2:
-  version "6.4.0"
-  resolved "https://registry.yarnpkg.com/patch-package/-/patch-package-6.4.0.tgz#e307742a57ae51e177c63b994f81cf46e43eecc3"
-  integrity sha512-KePc85SXRoN//6T4uSDvWpH05xfyH+VGbtzgeNNsGgallox5l4UKWFHCd26SCfAI9ob9DB7MZqsxMjGMweIY+A==
+  version "6.4.5"
+  resolved "https://registry.yarnpkg.com/patch-package/-/patch-package-6.4.5.tgz#5fcefa3129c32185725b8a038753f4815c191957"
+  integrity sha512-iZl3nNUEQ3cdoY1U4Gj7p9aIGgn27aD3Z32TEh+13remRlkEzbc1+CdjFvy/zT/JK2EtY4ERwoiHKQU9B0PEvw==
   dependencies:
     "@yarnpkg/lockfile" "^1.1.0"
     chalk "^2.4.2"
