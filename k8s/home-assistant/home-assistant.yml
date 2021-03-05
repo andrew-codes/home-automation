@@ -170,10 +170,10 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:
-                  - key: kubernetes.io/hostname
+                  - key: beta.kubernetes.io/arch
                     operator: In
                     values:
-                      - nuc01
+                      - amd64
 
 ---
 apiVersion: v1
