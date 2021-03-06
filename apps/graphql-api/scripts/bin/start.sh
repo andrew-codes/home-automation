@@ -11,7 +11,4 @@ if [ "$NODE_APP_IMAGE_COUNT_BY_REFERENCE" -ne "2" ]; then
     yarn image/local
 fi
 
-echo "$DEV_MACHINE_PASSWORD" | {
-    read
-    telepresence --namespace "home-automation" --swap-deployment "graphql-api" --docker-run --rm -t -v "$PWD/../../:/app" -p "8080:80" -p "8081:5000" "node-app:latest" yarn lerna run start/dev --scope "@ha/graphql-api-app" --stream
-}
+telepresence --namespace "home-automation" --swap-deployment "graphql-api" --docker-run --rm -t -v "$PWD/../../:/app" -p "8080:80" -p "8081:5000" "node-app:latest" yarn lerna run start/dev --scope "@ha/graphql-api-app" --stream <<<$DEV_MACHINE_PASSWORD
