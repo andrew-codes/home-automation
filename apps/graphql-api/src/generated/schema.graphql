@@ -52,6 +52,7 @@ type GameImage {
   height: Int
   id: ID
   imageId: String
+  url: String
 }
 
 type GameKeyword {
@@ -169,6 +170,10 @@ type Query {
 }
 
 type Subscription {
-  gameLibrary: Boolean
+  gameLibrary: UpdatedAt
   gameState: Game
+}
+
+type UpdatedAt {
+  updatedAt: String
 }

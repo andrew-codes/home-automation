@@ -71,6 +71,9 @@ export interface NexusGenObjects {
   Mutation: {};
   Query: {};
   Subscription: {};
+  UpdatedAt: { // root type
+    updatedAt?: string | null; // String
+  }
 }
 
 export interface NexusGenInterfaces {
@@ -131,6 +134,7 @@ export interface NexusGenFieldTypes {
     height: number | null; // Int
     id: string | null; // ID
     imageId: string | null; // String
+    url: string | null; // String
   }
   GameKeyword: { // field return type
     games: Array<NexusGenRootTypes['Game'] | null> | null; // [Game]
@@ -201,8 +205,11 @@ export interface NexusGenFieldTypes {
     gamePlatform: Array<NexusGenRootTypes['GamePlatform'] | null> | null; // [GamePlatform]
   }
   Subscription: { // field return type
-    gameLibrary: boolean | null; // Boolean
+    gameLibrary: NexusGenRootTypes['UpdatedAt'] | null; // UpdatedAt
     gameState: NexusGenRootTypes['Game'] | null; // Game
+  }
+  UpdatedAt: { // field return type
+    updatedAt: string | null; // String
   }
   Node: { // field return type
     id: string | null; // ID
@@ -256,6 +263,7 @@ export interface NexusGenFieldTypeNames {
     height: 'Int'
     id: 'ID'
     imageId: 'String'
+    url: 'String'
   }
   GameKeyword: { // field return type name
     games: 'Game'
@@ -326,8 +334,11 @@ export interface NexusGenFieldTypeNames {
     gamePlatform: 'GamePlatform'
   }
   Subscription: { // field return type name
-    gameLibrary: 'Boolean'
+    gameLibrary: 'UpdatedAt'
     gameState: 'Game'
+  }
+  UpdatedAt: { // field return type name
+    updatedAt: 'String'
   }
   Node: { // field return type name
     id: 'ID'
