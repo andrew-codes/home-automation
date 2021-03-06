@@ -55,9 +55,9 @@ Visit `http://$CLUSTER_IP:8123` to signup as the main user.
 
 ### Stage (Testing)
 
-Once you have your `$HOME_ASSISTANT_DOMAIN` DNS entry pointing to your `$INLET_IP` address, you are ready to securely make the site publicly available.
+Once you have your `$HOME_ASSISTANT_DOMAIN` DNS entry pointing to your `$INLET_IP` address, you are ready to make the site publicly available securely.
 
-Start by running the following. This will use the staging environment of let's encrypt; which has relaxed API rate limits for testing purposes.
+Start by running the following command. This command will use the staging environment of Let's Encrypt, using relaxed API rate limits for testing purposes.
 
 ```bash
 yarn ingress/stage --scope @ha/home-assistant --stream
