@@ -52,7 +52,7 @@
     
     - name: Copy flannel setup
       copy:
-        src: ./../../../../k8s/setup/flannel.yml
+        src: ./../../../k8s/setup/flannel.yml
         dest: /home/{{ ansible_user }}/flannel.yml
         owner: hl
         mode: "0644"

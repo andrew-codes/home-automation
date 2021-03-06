@@ -18,9 +18,10 @@ yarn seal --scope @ha/docker-registry
 
 ## Deploying the Docker Registry
 
-The following command will deploy an insecure docker registry. DO NOT expose this to the public Internet.
+The following command will deploy an insecure Docker registry. DO NOT expose this to the public Internet.
 
 ```bash
+source secrets.sh
 yarn deploy --scope @ha/docker-registry
 ```
 
