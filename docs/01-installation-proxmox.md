@@ -48,4 +48,4 @@ Add your DEV machine's root password as a secret; e.g., `export DEV_MACHINE_PASS
 
 # Next
 
-[Setup Kubernetes](./02-installation-kubernetes) on your HOST.
+[Setup Kubernetes](./02-installation-kubernetes.md) on your HOST.

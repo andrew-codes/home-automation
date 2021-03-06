@@ -5,8 +5,7 @@ This mono-repo consists of several applications and services I use to create my 
 ## Topics
 
 1. [Installation guide](./docs/installation-guide.md)
-1. [Setting app secrets](./docs/secrets-catalog.md)
-1. [Testing locally](./docs/testing-apps-locally.md)
+1. [Testing/running apps/services locally](./docs/testing-apps-locally.md)
 
 ## Applications
 

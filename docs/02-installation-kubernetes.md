@@ -59,4 +59,4 @@ If you want to reset the Kubernetes cluster, you can run the following (AFTER fi
 
 # Next
 
-[Deploy a Docker registry](./03-installation-docker-registry) to hold all the container images for home automation.
+[Deploy a Docker registry](./03-installation-docker-registry.md) to hold all the container images for home automation.

@@ -21,6 +21,7 @@ Ensure the following is installed on your DEV machine.
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 - [docker](https://docs.docker.com/get-docker/)
 - [yq](https://mikefarah.github.io/yq/)
+- [telepresence](https://www.telepresence.io/reference/install)
 
 ## Install Dependencies
 
@@ -40,4 +41,4 @@ cp secrets.template.sh secrets.sh
 
 # Next
 
-[Install Proxmox](./01-installation-proxmox) on your HYPERVISOR.
+[Install Proxmox](./01-installation-proxmox.md) on your HYPERVISOR.

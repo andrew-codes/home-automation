@@ -43,4 +43,4 @@ docker push "$DOCKER_REGISTRY_DOMAIN:5000/alpine:latest"
 
 # Next
 
-[Automate deployments via GitHub Actions](./04-installation-github-actions).
+[Automate deployments via GitHub Actions](./04-installation-github-actions.md).

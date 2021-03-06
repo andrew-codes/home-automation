@@ -66,4 +66,4 @@ yarn deploy --scope @ha/github-action-runners --stream
 
 # Next
 
-At this point, you should have a fully deployed Kubernetes cluster running in a VM on Proxmox; complete with all the services necessary to begin running home automation apps/services. However, before deploying all the apps, ensure you have completed the remaining secrets sections in your `secrets.sh` file. Additional information on these secrets are located in the [secrets catalog](./06-installation-secrets-catalog.md).
+At this point, you should have a fully deployed Kubernetes cluster running in a VM on Proxmox; complete with all the services necessary to begin running home automation apps/services. However, before deploying all the apps, ensure you have completed the remaining secrets sections in your `secrets.sh` file. Additional information on these secrets are located in the [secrets catalog](./05-installation-secrets-catalog.md).
