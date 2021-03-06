@@ -13,7 +13,7 @@
     - name: Intializing Kubernetes Cluster
       command: "{{ item }}"
       with_items:
-        - kubeadm init --pod-network-cidr="192.168.100.0/24" --apiserver-advertise-address="{{ ansible_default_ipv4.address }}"
+        - kubeadm init --pod-network-cidr="{{ pod_network_cidr }}" --apiserver-advertise-address="{{ ansible_default_ipv4.address }}"
       run_once: true
       delegate_to: "{{ ansible_default_ipv4.address }}"
 
@@ -56,6 +56,23 @@
         dest: /home/{{ ansible_user }}/flannel.yml
         owner: hl
         mode: "0644"
+    
+    - name: Copy flannel network config
+      copy:
+        src: ./../../../k8s/setup/flannel-network-config.yml
+        dest: /home/{{ ansible_user }}/flannel-network-config.yml
+        owner: hl
+        mode: "0644"
+    
+    - name: Copy flannel network config value
+      copy:
+        src: ./../../../k8s/setup/tmp/flannel-pod-network-cidr.json
+        dest: /home/{{ ansible_user }}/flannel-pod-network-cidr.json
+        owner: hl
+        mode: "0644"
+
+    - name: Update flannel network config
+      shell: NET_JSON=$(cat /home/{{ ansible_user }}/flannel-pod-network-cidr.json) yq eval -i '.data."net-conf.json" =strenv(NET_JSON)' /home/{{ ansible_user }}/flannel-network-config.yml
 
     - name: Create Pod Network & RBAC.
       become_user: hl
@@ -63,7 +80,8 @@
       become: yes
       command: "{{ item }}"
       with_items:
-        - kubectl apply -f flannel.yml
+        - kubectl apply -f /home/{{ ansible_user }}/flannel-network-config.yml
+        - kubectl apply -f /home/{{ ansible_user }}/flannel.yml
 
     - pause: seconds=30
 

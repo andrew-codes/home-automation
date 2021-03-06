@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Catalog of app/service ports.
+
+export EXTERNAL_MQTT_PORT="30519"
+export EXTERNAL_GRAPHQL_PORT="30517"
+export EXTERNAL_GRAPHQL_SUB_PORT="30518"
+export EXTERNAL_CAPTIVE_PORTAL_PORT="30516"
+export EXTERNAL_GAME_PLAYER_PORT="30520"

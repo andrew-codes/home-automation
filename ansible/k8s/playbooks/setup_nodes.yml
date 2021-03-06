@@ -35,6 +35,7 @@
           - curl
           - gnupg-agent
           - jq
+          - yq
           - software-properties-common
         state: present
 

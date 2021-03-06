@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mqtt
+  namespace: home-automation
+  labels:
+    app: home-automation
+spec:
+  type: NodePort
+  ports:
+    - name: default-port
+      port: 1883
+      targetPort: default
+    - name: web-socket-port
+      port: 9001
+      targetPort: web-socket
+  selector:
+    app: home-automation

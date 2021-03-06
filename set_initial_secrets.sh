@@ -10,6 +10,7 @@ backup_bucket: "$BACKUP_BUCKET"
 backup_uri: "$BACKUP_URI"
 inlets_pro_license: "$INLETS_PRO_LICENSE"
 docker_registry_domain: "$DOCKER_REGISTRY_DOMAIN"
+pod_network_cidr: "$POD_NETWORK_CIDR"
 EOL
 
 cat >ansible/k8s/.secrets/inlets-pro.license <<EOL
@@ -29,4 +30,9 @@ kind: Secret
 stringData:
   digitalocean_token: $DIGITALOCEAN_TOKEN
 type: Opaque
+EOL
+
+mkdir -p k8s/setup/tmp
+cat >k8s/setup/tmp/flannel-pod-network-cidr.json <<EOL
+{"Network": "$POD_NETWORK_CIDR","Backend":{"Type":"vxlan"}}
 EOL

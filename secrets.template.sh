@@ -55,9 +55,9 @@ export GITHUB_RUNNER_TOKEN=""
 export GITHUB_ACTION_JEST_REPORTER_TOKEN=""
 # ===============================
 
-# ======================================
+# ===========================
 # Required for Home Assistant
-# ======================================
+# ===========================
 # Public IP of Digital Ocean droplet, dynamically created by Inlets
 export INLETS_IP=""
 
@@ -78,7 +78,6 @@ export HOME_ASSISTANT_DNS_USERNAME=""
 export HOME_ASSISTANT_DNS_PASSWORD=""
 
 # Externally exposed nodePort for MQTT from the cluster.
-export EXTERNAL_MQTT_PORT=""
 export MQTT_USERNAME=""
 export MQTT_PASSWORD=""
 

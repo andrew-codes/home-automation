@@ -9,7 +9,7 @@ cat >.secrets/captive-portal.html <<EOL
 <html>
   <head>
     <title>Smith-Simms Wifi</title>
-    <meta http-equiv="refresh" content="0;url=http://$CLUSTER_IP:30516?mac=<unifi var="mac" />">
+    <meta http-equiv="refresh" content="0;url=http://$CLUSTER_IP:$EXTERNAL_CAPTIVE_PORTAL_PORT?mac=<unifi var="mac" />">
   </head>
   <body>
   </body>

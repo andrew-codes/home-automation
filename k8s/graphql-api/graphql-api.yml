@@ -30,7 +30,10 @@ spec:
               protocol: TCP
           env:
             - name: HOST
-              value: "192.168.1.222:30517"
+              valueFrom:
+                secretKeyRef:
+                  name: graphql-secrets
+                  key: host
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: "0"
             - name: PORT
@@ -101,27 +104,3 @@ spec:
                   secretKeyRef:
                     name: mongodb-secrets
                     key: root-password
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: graphql-api
-  namespace: home-automation
-  labels:
-    app.kubernetes.io/name: graphql-api
-spec:
-  type: NodePort
-  ports:
-    - name: http
-      port: 80
-      protocol: TCP
-      targetPort: http
-      nodePort: 30517
-    - name: ws
-      port: 5000
-      protocol: TCP
-      targetPort: ws
-      nodePort: 30518
-  selector:
-    app.kubernetes.io/name: graphql-api
