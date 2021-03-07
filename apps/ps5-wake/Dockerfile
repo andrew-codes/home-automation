@@ -2,7 +2,6 @@ FROM node:15.3.0-alpine
 
 RUN apk update
 RUN apk add \
-    build-dependencies \
     build-base \
     gcc \
     git
