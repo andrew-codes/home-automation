@@ -8,7 +8,7 @@ RUN apk add \
 WORKDIR /
 COPY . .
 WORKDIR /build
-RUN git clone https://github.com/iharosi/ps5-wake.git
+RUN git clone https://github.com/andrew-codes/ps5-wake.git
 WORKDIR /build/ps5-wake
 RUN make
 RUN cp ps5-wake /ps5-wake
