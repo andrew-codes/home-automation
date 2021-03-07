@@ -1,11 +1,12 @@
-FROM debian:buster
+FROM node:15.3.0-alpine
 
-RUN apt-get update
-RUN apt-get install -y \
-    build-essential \
-    git \ 
-    mosquitto-clients
-WORKDIR /
+RUN apk update
+RUN apk add \
+    build-dependencies \
+    build-base \
+    gcc \
+    git \
+    WORKDIR /
 COPY . .
 WORKDIR /build
 RUN git clone https://github.com/iharosi/ps5-wake.git
