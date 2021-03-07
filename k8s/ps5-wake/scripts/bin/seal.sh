@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 source ../../secrets.sh
+source ../../external-port-vars.sh
 
 mkdir -p secrets
 mkdir -p .secrets
