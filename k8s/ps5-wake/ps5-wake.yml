@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ps5-wake
+  namespace: home-automation
+  labels:
+    app.kubernetes.io/name: ps5-wake
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ps5-wake
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ps5-wake
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: ps5-wake
+          image: docker.smith-simms.family:5000/ps5-wake:latest
+          imagePullPolicy: Always
+          env:
+            - name: DEBUG
+              value: "@ha/ps5-wake-app/*"
+            - name: MQTT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-secrets
+                  key: mqtt-username
+            - name: MQTT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-secrets
+                  key: mqtt-password
+            - name: MQTT_HOST
+              value: mqtt
+            - name: MQTT_PORT
+              value: "1883"
+            - name: PS5_USER_CREDENTIALS
+              valueFrom:
+                secretKeyRef:
+                  name: ps5-secrets
+                  key: ps5-user-credentials

@@ -124,3 +124,9 @@ export UNIFI_USERNAME=""
 export UNIFI_PASSWORD=""
 export GRAPHQL_API_TOKEN=""
 # ===============================
+
+# =====================
+# Required for PS5 Wake
+# =====================
+export PS5_USER_CREDENTIALS=""
+# ===============================

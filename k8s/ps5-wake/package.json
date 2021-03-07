@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "@ha/ps5-wake",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "deploy": "scripts/bin/deploy.sh",
+    "postdeploy": "kubectl rollout restart deployment ps5-wake --namespace home-automation",
+    "seal": "scripts/bin/seal.sh"
+  },
+  "dependencies": {
+    "@ha/ps5-wake-app": "*"
+  }
+}
