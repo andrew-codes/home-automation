@@ -21,12 +21,21 @@ async function run() {
   })
 
   await mqtt.subscribe("/ps5/wake")
+  await mqtt.subscribe("/ps5/state/request")
 
   mqtt.on("message", async (topic, message) => {
     debug("topic", topic)
     try {
       if (topic === "/ps5/wake") {
-        sh.exec(`/ps5-wake -vW ${PS5_USER_CREDENTIALS} -B`)
+        await sh.exec(`/ps5-wake -vjW ${PS5_USER_CREDENTIALS} -B`, {
+          async: true,
+        })
+        await mqtt.publish("/ps5/state/request", "")
+      }
+      if (topic === "/ps5/state/request") {
+        const requestOutput = sh.exec(`/ps5-wake -vjP -B`)
+        debug(requestOutput)
+        await mqtt.publish("/ps5/state", requestOutput)
       }
     } catch (e) {
       debug(e)
