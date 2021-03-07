@@ -5,8 +5,8 @@ RUN apk add \
     build-dependencies \
     build-base \
     gcc \
-    git \
-    WORKDIR /
+    git
+WORKDIR /
 COPY . .
 WORKDIR /build
 RUN git clone https://github.com/iharosi/ps5-wake.git
