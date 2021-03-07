@@ -41,5 +41,5 @@ spec:
             - name: PS5_USER_CREDENTIALS
               valueFrom:
                 secretKeyRef:
-                  name: ps5-secrets
+                  name: ps5-wake-secrets
                   key: ps5-user-credentials
