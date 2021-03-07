@@ -24,8 +24,12 @@ async function run() {
 
   mqtt.on("message", async (topic, message) => {
     debug("topic", topic)
-    if (topic === "/ps5/wake") {
-      sh.exec(`/ps5-wake -vW ${PS5_USER_CREDENTIALS} -B`)
+    try {
+      if (topic === "/ps5/wake") {
+        sh.exec(`/ps5-wake -vW ${PS5_USER_CREDENTIALS} -B`)
+      }
+    } catch (e) {
+      debug(e)
     }
   })
 }
