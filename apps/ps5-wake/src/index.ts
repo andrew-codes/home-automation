@@ -6,8 +6,8 @@ const debug = createDebugger("@ha/ps5-wake-app/index")
 
 const {
   MQTT_HOST,
-  MQTT_PORT,
   MQTT_PASSWORD,
+  MQTT_PORT,
   MQTT_USERNAME,
   PS5_USER_CREDENTIALS,
 } = process.env
@@ -25,15 +25,17 @@ async function run() {
 
   mqtt.on("message", async (topic, message) => {
     debug("topic", topic)
+    const messagePayload = message.toString()
     try {
       if (topic === "/ps5/wake") {
-        await sh.exec(`/ps5-wake -vjW ${PS5_USER_CREDENTIALS} -B`, {
-          async: true,
-        })
-        await mqtt.publish("/ps5/state/request", "")
+        const wakeOutput = sh.exec(
+          `/ps5-wake -vW ${PS5_USER_CREDENTIALS} -H ${messagePayload}`
+        )
+        debug(wakeOutput)
+        await mqtt.publish("/ps5/state/request", messagePayload)
       }
       if (topic === "/ps5/state/request") {
-        const requestOutput = sh.exec(`/ps5-wake -vjP -B`)
+        const requestOutput = sh.exec(`/ps5-wake -vjP -H ${messagePayload}`)
         debug(requestOutput)
         await mqtt.publish("/ps5/state", requestOutput)
       }
