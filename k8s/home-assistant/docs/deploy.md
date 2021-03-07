@@ -13,7 +13,7 @@ In order to deploy Home Assistant, you will need the following secrets:
    - I am using Google Domains to manage my dynamic DNS entries.
    - Leave blank if you are using something else and want to manually update the dynamic DNS entry with your DNS provider.
 
-Copy the following settings with their secret values to your `.secrets.sh` file.
+Copy the following settings with their secret values to your `secrets.sh` file.
 
 ```bash
 # Home Assistant

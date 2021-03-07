@@ -37,4 +37,4 @@ Although you can deploy Home Assistant, the configuration directory is not deplo
 
 ## Next Steps
 
-Update your configuration, commit and push to master. The changes should be automatically deployed by the [local GitHub action runner](./../../../docs/automate-deploys-with-github-actions.md).
+Update your configuration, commit and push to master. The changes should be automatically deployed by the [local GitHub action runner](./../../../docs/04-installation-github-actions.md).
