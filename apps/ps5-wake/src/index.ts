@@ -12,6 +12,9 @@ const {
   PS5_USER_CREDENTIALS,
 } = process.env
 
+const getPS5State = ({ code }) =>
+  code === "200" ? "on" : code === "602" ? "standby" : "off"
+
 async function run() {
   debug("Starting application")
   const mqtt = await connectAsync(`tcp://${MQTT_HOST}`, {
@@ -37,7 +40,9 @@ async function run() {
       if (topic === "/ps5/state/request") {
         const requestOutput = sh.exec(`/ps5-wake -vjP -H ${messagePayload}`)
         debug(requestOutput)
-        await mqtt.publish("/ps5/state", requestOutput)
+        const payload = JSON.parse(requestOutput)
+        payload.state = getPS5State(payload)
+        await mqtt.publish("/ps5/state", payload.toString())
       }
     } catch (e) {
       debug(e)

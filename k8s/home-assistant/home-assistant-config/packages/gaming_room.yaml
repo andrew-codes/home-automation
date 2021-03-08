@@ -20,18 +20,14 @@ gaming_room_package:
       icon: mdi:nintendo-switch
 
   sensor:
-    - platform: template
-      sensors:
-        gaming_room_playstation_4_pro_source:
-          value_template: '{{ states.media_player.gaming_room_playstation_4_pro.attributes["source"] }}'
-          friendly_name: 'Playstation 4 Pro Source'
+    - platform: mqtt
+      name: "PlayStation 5 State"
+      state_topic: "ps5/state"
+      value_template: "{{ value_json.state }}"
 
   script:
     gaming_room_turn_off_all_media_players:
       sequence:
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_playstation_4_pro
         - service: media_player.turn_off
           data:
             entity_id: media_player.gaming_room_universal_gaming_pc
@@ -54,13 +50,11 @@ gaming_room_package:
       platform: universal
       children:
         - media_player.gaming_room_universal_gaming_pc
-        - media_player.gaming_room_universal_playstation_4_pro
+        - media_player.gaming_room_universal_playstation_5
         - media_player.gaming_room_universal_nintendo_switch
         - media_player.gaming_room_universal_media_player
       state_template: >
-        {% if is_state('media_player.gaming_room_universal_playstation_4_pro', 'on') %}
-        on
-        {% elif is_state('media_player.gaming_room_universal_playstation_4_pro', 'idle') %}
+        {% if is_state('sensor.playstation_5_state', 'on') %}
         on
         {% elif is_state('media_player.gaming_room_universal_gaming_pc', 'on') %}
         on
@@ -109,6 +103,7 @@ gaming_room_package:
       attributes:
         is_volume_muted: media_player.gaming_room_avr|is_volume_muted
         volume_level: media_player.gaming_room_avr|volume_level
+
     - name: Gaming Room NVIDIA Shield Pro
       platform: androidtv
       host: !secret gaming_room_nvidia_shield_ip
@@ -120,29 +115,29 @@ gaming_room_package:
         com.netflix.ninja: Netflix
         com.nvidia.tegrazone3: GameStream
         com.waxrain.airplaydmr3: AirPlay
-    - name: Gaming Room Universal PlayStation 4 Pro
+    - name: Gaming Room Universal PlayStation 5
       platform: universal
       children:
-        - media_player.gaming_room_playstation_4_pro
         - media_player.gaming_room_avr
         - media_player.gaming_room_tv
       state_template: >
-        {% if is_state('media_player.gaming_room_playstation_4_pro', 'standby') %}
+        {% if is_state('sensor.playstation_5_state', 'standby') %}
         off
-        {% elif is_state('media_player.gaming_room_playstation_4_pro', 'idle') %}
+        {% elif is_state('sensor.playstation_5_state', 'idle') %}
         on
         {% else %}      
-        {{ states('media_player.gaming_room_playstation_4_pro') }}
+        {{ states('sensor.playstation_5_state') }}
         {% endif %}
       commands:
         turn_on:
-          service: media_player.turn_on
+          service: mqtt.publish
           data:
-            entity_id: media_player.gaming_room_playstation_4_pro
-        turn_off:
-          service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_playstation_4_pro
+            topic: "/ps5/wake"
+            payload: !secret gaming_room_playstation_5_ip
+        # turn_off:
+        #   service: media_player.turn_off
+        #   data:
+        #     entity_id:
         volume_set:
           service: media_player.volume_set
           data:
@@ -166,15 +161,14 @@ gaming_room_package:
         select_source:
           service: media_player.select_source
           data:
-            entity_id: media_player.gaming_room_playstation_4_pro
+            entity_id: media_player.gaming_room_avr
           data_template:
-            source: "{{ source }}"
+            source: PS4
       attributes:
-        state: media_player.gaming_room_playstation_4_pro
         is_volume_muted: media_player.gaming_room_avr|is_volume_muted
         volume_level: media_player.gaming_room_avr|volume_level
-        source: media_player.gaming_room_playstation_4_pro|source
-        source_list: media_player.gaming_room_playstation_4_pro|source_list
+        source: media_player.gaming_room_avr|source
+        source_list: media_player.gaming_room_avr|source_list
     - name: Gaming Room Universal Gaming PC
       platform: universal
       children:
@@ -320,7 +314,7 @@ gaming_room_package:
     - alias: Start a game room activity while Andrew is home
       trigger:
         - platform: state
-          entity_id: media_player.gaming_room_universal_playstation_4_pro
+          entity_id: media_player.gaming_room_universal_playstation_5
           from: "off"
         - platform: state
           entity_id: media_player.gaming_room_universal_gaming_pc
@@ -350,7 +344,7 @@ gaming_room_package:
     - alias: Start a game room activity while Andrew is not home
       trigger:
         - platform: state
-          entity_id: media_player.gaming_room_universal_playstation_4_pro
+          entity_id: media_player.gaming_room_universal_playstation_5
           from: "off"
         - platform: state
           entity_id: media_player.gaming_room_universal_gaming_pc
@@ -409,9 +403,9 @@ gaming_room_package:
         - service: media_player.turn_off
           data:
             entity_id: media_player.gaming_room_universal_media_player
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_playstation_4_pro
+        # - service: media_player.turn_off
+        #   data:
+        #     entity_id: media_player.gaming_room_universal_playstation_4_pro
 
     - alias: Start an activity on the gaming room gaming PC while Andrew is not home
       trigger:
@@ -428,10 +422,10 @@ gaming_room_package:
             entity_id: media_player.gaming_room_universal_gaming_pc
             volume_level: 0
 
-    - alias: Start an activity on the gaming room playstation 4 pro
+    - alias: Start an activity on the gaming room playstation 5
       trigger:
         platform: state
-        entity_id: media_player.gaming_room_universal_playstation_4_pro
+        entity_id: media_player.gaming_room_universal_playstation_5
         from: "off"
       action:
         - service: media_player.select_source
@@ -458,9 +452,9 @@ gaming_room_package:
           data:
             entity_id: media_player.gaming_room_avr
             source: SWITCH
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_playstation_4_pro
+        # - service: media_player.turn_off
+        #   data:
+        #     entity_id: media_player.gaming_room_universal_playstation_4_pro
         - service: media_player.turn_off
           data:
             entity_id: media_player.gaming_room_universal_media_player
@@ -478,9 +472,9 @@ gaming_room_package:
           data:
             entity_id: media_player.gaming_room_avr
             source: Media Player
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_playstation_4_pro
+        # - service: media_player.turn_off
+        #   data:
+        #     entity_id: media_player.gaming_room_universal_playstation_4_pro
         - service: media_player.turn_off
           data:
             entity_id: media_player.gaming_room_universal_nintendo_switch
@@ -501,7 +495,7 @@ gaming_room_package:
     - alias: Stopping gaming publishes stop game topic
       trigger:
         - platform: state
-          entity_id: media_player.gaming_room_universal_playstation_4_pro
+          entity_id: media_player.gaming_room_universal_playstation_5
           to: "off"
         - platform: state
           entity_id: media_player.gaming_room_universal_gaming_pc
@@ -512,17 +506,17 @@ gaming_room_package:
             topic: "/playnite/game/stopped"
             qos: 2
 
-    - alias: Changing PS source, stops previous game and starts next game (game state)
-      trigger:
-        - platform: state
-          entity_id: sensor.gaming_room_playstation_4_pro_source
-      action:
-        - service: mqtt.publish
-          data_template:
-            topic: "/playnite/game/stopped"
-            qos: 2
-        - service: mqtt.publish
-          data_template:
-            topic: "/playnite/game/started/ps4"
-            qos: 2
-            payload: "{{ trigger.to_state.state }}"
+    # - alias: Changing PS source, stops previous game and starts next game (game state)
+    #   trigger:
+    #     - platform: state
+    #       entity_id: media_player.gaming_room_playstation_5_source
+    #   action:
+    #     - service: mqtt.publish
+    #       data_template:
+    #         topic: "/playnite/game/stopped"
+    #         qos: 2
+    #     - service: mqtt.publish
+    #       data_template:
+    #         topic: "/playnite/game/started/ps5"
+    #         qos: 2
+    #         payload: "{{ trigger.to_state.state }}"

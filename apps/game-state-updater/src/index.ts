@@ -30,6 +30,7 @@ const run = async () => {
   await mqtt.subscribe("/playnite/game/starting")
   await mqtt.subscribe("/playnite/game/started")
   await mqtt.subscribe("/playnite/game/started/ps4")
+  await mqtt.subscribe("/playnite/game/started/ps5")
   await mqtt.subscribe("/playnite/game/stopped")
   await mqtt.subscribe("/playnite/game/installed")
   await mqtt.subscribe("/playnite/game/uninstalled")
@@ -151,12 +152,63 @@ const run = async () => {
           lowerCase(name).includes(lowerCase(gameName))
         )
         if (!matchingGame) {
-          console.log("No matching PS game", gameName)
           debug("No matching PS game", gameName)
+          await db.collection("gameDetails").updateOne(
+            { id: "unknown" },
+            {
+              $set: {
+                isStarting: false,
+                isStarted: true,
+                isInstalled: true,
+                isUninstalled: false,
+              },
+            }
+          )
           return
         }
         await db.collection("gameDetails").updateOne(
           { "platform.name": "Sony PlayStation 4", name: gameName },
+          {
+            $set: {
+              isStarting: false,
+              isStarted: true,
+              isInstalled: true,
+              isUninstalled: false,
+            },
+          }
+        )
+        mqtt.publish("/playnite/game/state/updated", matchingGame.playniteId)
+      }
+      if (topic === "/playnite/game/started/ps5") {
+        const gameName = message.toString()
+        const db = await mongo.db("gameLibrary")
+        const matchingGames = await db
+          .collection("gameDetails")
+          .find(
+            { "platform.name": "Sony PlayStation 5" },
+            { name: 1, playniteId: 1 }
+          )
+          .toArray()
+        const matchingGame = matchingGames.find(({ name }) =>
+          lowerCase(name).includes(lowerCase(gameName))
+        )
+        if (!matchingGame) {
+          debug("No matching PS game", gameName)
+          await db.collection("gameDetails").updateOne(
+            { id: "unknown" },
+            {
+              $set: {
+                isStarting: false,
+                isStarted: true,
+                isInstalled: true,
+                isUninstalled: false,
+              },
+            }
+          )
+          return
+        }
+        await db.collection("gameDetails").updateOne(
+          { "platform.name": "Sony PlayStation 5", name: gameName },
           {
             $set: {
               isStarting: false,

@@ -145,10 +145,13 @@ export const PlayGameInGameRoomMutation = mutationField("playGameInGameRoom", {
           `/playnite/game/play`,
           JSON.stringify({ id: args.id, platform: "pc" })
         )
-      } else if (normalizedPlatform === "playstation_4_pro") {
+      } else if (normalizedPlatform === "playstation_5") {
+        const platform = args.platformName.test(/play station 4/)
+          ? "ps4"
+          : "ps5"
         await ctx.mqtt.publish(
           `/playnite/game/play`,
-          JSON.stringify({ id: args.id, platform: "ps4" })
+          JSON.stringify({ id: args.id, platform })
         )
         const setSourceResponse = await ctx.ha.services.call(
           "select_source",
@@ -196,7 +199,10 @@ function normalizePlatform(platform: { name: string }): string {
     return "gaming_pc"
   }
   if (/play station 4/.test(lowerName)) {
-    return "playstation_4_pro"
+    return "playstation_5"
+  }
+  if (/play station 5/.test(lowerName)) {
+    return "playstation_5"
   }
   return "gaming_pc"
 }

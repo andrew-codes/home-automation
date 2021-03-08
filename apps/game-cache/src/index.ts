@@ -77,6 +77,9 @@ const run = async () => {
         gamesWithErrorsCollection.createIndex("id")
         const platformCollection = db.collection("platforms")
         const updateAncillaryDetails = createAncillaryUpdater(db, callApi)
+
+        ensureUnknownGameForPlatforms(gameDetailsCollection)
+
         let game
         for (let gameIndex = 0; gameIndex < gamesPayload.length; gameIndex++) {
           const playniteGame = gamesPayload[gameIndex]
@@ -321,4 +324,21 @@ function createImageScraper(db, bucket) {
       })
     )
   }
+}
+
+async function ensureUnknownGameForPlatforms(gameDetailsCollection) {
+  const game = await gameDetailsCollection.find({ playniteId: "unknown" })
+  if (!!game) {
+    return
+  }
+  await gameDetailsCollection.insertOne({
+    id: "unknown",
+    playniteId: "unknown",
+    isInstalled: true,
+    isInstalling: false,
+    isLaunching: false,
+    isRunning: false,
+    isUninstalling: false,
+    isUnknown: true,
+  })
 }

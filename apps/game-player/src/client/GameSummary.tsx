@@ -43,7 +43,9 @@ const PlatformIcon: React.FunctionComponent<{ platformName: string }> = ({
   <Chip
     color="primary"
     label={
-      platformName === "Sony PlayStation 4"
+      platformName === "Sony PlayStation 5"
+        ? "PS5"
+        : platformName === "Sony PlayStation 4"
         ? "PS4"
         : platformName === "Sony PlayStation 3"
         ? "PS3"
