@@ -22,7 +22,7 @@ gaming_room_package:
   sensor:
     - platform: mqtt
       name: "PlayStation 5 State"
-      state_topic: "ps5/state"
+      state_topic: "/ps5/state"
       value_template: "{{ value_json.state }}"
 
   script:
