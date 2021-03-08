@@ -517,3 +517,24 @@ gaming_room_package:
     #         topic: "/playnite/game/started/ps5"
     #         qos: 2
     #         payload: "{{ trigger.to_state.state }}"
+
+    - alias: Poll for PlayStation 5 state
+      trigger:
+        - platform: time_pattern
+          seconds: "/30"
+      action:
+        - service: mqtt.publish
+          data:
+            topic: "/ps5/state/request"
+            payload: !secret gaming_room_playstation_5_ip
+
+    - alias: Turning on PS5 starts unknown game
+      trigger:
+        - platform: state
+          entity_id: media_player.gaming_room_universal_playstation_5
+          from: "off"
+      action:
+        - service: mqtt.publish
+          data:
+            topic: "/playnite/game/started/ps5"
+            qos: 2

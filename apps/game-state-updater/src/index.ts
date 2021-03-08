@@ -151,7 +151,7 @@ const run = async () => {
         const matchingGame = matchingGames.find(({ name }) =>
           lowerCase(name).includes(lowerCase(gameName))
         )
-        if (!matchingGame) {
+        if (!matchingGame || gameName === "") {
           debug("No matching PS game", gameName)
           await db.collection("gameDetails").updateOne(
             { id: "unknown" },
@@ -192,7 +192,7 @@ const run = async () => {
         const matchingGame = matchingGames.find(({ name }) =>
           lowerCase(name).includes(lowerCase(gameName))
         )
-        if (!matchingGame) {
+        if (!matchingGame || gameName === "") {
           debug("No matching PS game", gameName)
           await db.collection("gameDetails").updateOne(
             { id: "unknown" },
