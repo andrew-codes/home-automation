@@ -1,17 +1,15 @@
 import createDebug from "debug"
 import wait from "wait"
 import { booleanArg, list, mutationField, stringArg } from "nexus"
-import { first, isEmpty, lowerCase } from "lodash"
+import { isEmpty, lowerCase } from "lodash"
 import { HomeAssistantEntityGraphType } from "./home_assistant_entity"
 import { equality } from "../filter"
 import {
   DeviceTracker,
   DomainGame,
-  DomainGamePlatform,
   DomainHomeAssistantEntity,
   DomainQuery,
   GameEntity,
-  GamePlatform,
   Group,
   HomeAssistantEntity,
 } from "../Domain"

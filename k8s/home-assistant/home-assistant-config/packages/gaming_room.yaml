@@ -54,7 +54,7 @@ gaming_room_package:
         - media_player.gaming_room_universal_nintendo_switch
         - media_player.gaming_room_universal_media_player
       state_template: >
-        {% if is_state('sensor.playstation_5_state', 'on') %}
+        {% if is_state('media_player.gaming_room_universal_playstation_5', 'on') %}
         on
         {% elif is_state('media_player.gaming_room_universal_gaming_pc', 'on') %}
         on
@@ -125,15 +125,12 @@ gaming_room_package:
         off
         {% elif is_state('sensor.playstation_5_state', 'idle') %}
         on
-        {% else %}      
-        {{ states('sensor.playstation_5_state') }}
+        {% elif is_state('sensor.playstation_5_state', 'on') %}
+        on
+        {% else %}
+        off
         {% endif %}
       commands:
-        turn_on:
-          service: mqtt.publish
-          data:
-            topic: "/ps5/wake"
-            payload: !secret gaming_room_playstation_5_ip
         # turn_off:
         #   service: media_player.turn_off
         #   data:
