@@ -146,7 +146,7 @@ export const PlayGameInGameRoomMutation = mutationField("playGameInGameRoom", {
           JSON.stringify({ id: args.id, platform: "pc" })
         )
       } else if (normalizedPlatform === "playstation_5") {
-        const platform = args.platformName.test(/play station 4/)
+        const platform = /play station 4/.test(args.platformName)
           ? "ps4"
           : "ps5"
         await ctx.mqtt.publish(
