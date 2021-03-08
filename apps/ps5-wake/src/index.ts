@@ -39,6 +39,7 @@ async function run() {
       }
       if (topic === "/ps5/state/request") {
         const requestOutput = sh.exec(`/ps5-wake -vjP -H ${messagePayload}`)
+          .stdout
         debug(requestOutput)
         const payload = JSON.parse(requestOutput)
         payload.state = getPS5State(payload)
