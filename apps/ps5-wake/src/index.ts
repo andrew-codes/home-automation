@@ -43,7 +43,9 @@ async function run() {
         debug(requestOutput)
         const payload = JSON.parse(requestOutput)
         payload.state = getPS5State(payload)
-        await mqtt.publish("/ps5/state", payload.toString())
+        const message = payload.toString()
+        debug(message)
+        await mqtt.publish("/ps5/state", message)
       }
     } catch (e) {
       debug(e)

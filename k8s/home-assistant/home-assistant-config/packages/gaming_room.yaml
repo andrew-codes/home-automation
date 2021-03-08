@@ -155,16 +155,10 @@ gaming_room_package:
             entity_id: media_player.gaming_room_avr
           data_template:
             is_volume_muted: "{{ is_volume_muted }}"
-        select_source:
-          service: media_player.select_source
-          data:
-            entity_id: media_player.gaming_room_avr
-          data_template:
-            source: PS4
       attributes:
         is_volume_muted: media_player.gaming_room_avr|is_volume_muted
         volume_level: media_player.gaming_room_avr|volume_level
-        source: media_player.gaming_room_avr|source
+        source: PS4
         source_list: media_player.gaming_room_avr|source_list
     - name: Gaming Room Universal Gaming PC
       platform: universal
