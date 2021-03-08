@@ -13,7 +13,7 @@ const {
 } = process.env
 
 const getPS5State = ({ code }) =>
-  code === "200" ? "on" : code === "602" ? "standby" : "off"
+  code === 200 ? "on" : code === 620 ? "standby" : "off"
 
 async function run() {
   debug("Starting application")
