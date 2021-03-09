@@ -25,6 +25,6 @@ jobs:
       - name: Run unit tests
         uses: mattallty/jest-github-action@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.JEST_REPORTER_TOKEN }}
         with:
           test-command: "yarn test"
