@@ -30,3 +30,9 @@ mqtt:
   broker: mqtt
   username: !secret mqtt_username
   password: !secret mqtt_password
+
+panel_iframe:
+  router:
+    title: Game Browser
+    url: "http://192.168.1.222:30520"
+    icon: mdi:gamepad-variant
