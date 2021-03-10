@@ -10,14 +10,15 @@ gaming_room_package:
         mac: !secret gaming_room_tv_mac
 
   input_boolean:
-    gaming_room_gaming_pc:
-      name: Gaming Room Gaming PC Power State
-      initial: off
-      icon: mdi:desktop-tower
     gaming_room_nintendo_switch_power_state:
       name: Gaming Room Nintendo Switch Power State
       initial: off
       icon: mdi:nintendo-switch
+
+  binary_sensor:
+    - name: Gaming Room Gaming PC Power State
+      platform: ping
+      host: !secret gaming_room_gaming_pc_ip
 
   sensor:
     - platform: mqtt
@@ -26,6 +27,15 @@ gaming_room_package:
       value_template: "{{ value_json.state }}"
 
   script:
+    gaming_room_turn_on_gaming_pc:
+      sequence:
+        - service: wake_on_lan
+          data:
+            mac: !secret gaming_room_gaming_pc_mac
+            broadcast_address: !secret gaming_room_gaming_pc_ip
+    gaming_room_turn_off_gaming_pc:
+      sequence:
+        - service: shell_command.turn_off_gaming_room_gaming_pc
     gaming_room_turn_off_all_media_players:
       sequence:
         - service: media_player.turn_off
@@ -166,16 +176,16 @@ gaming_room_package:
         - media_player.gaming_room_avr
         - media_player.gaming_room_tv
       state_template: >
-        {{ states('input_boolean.gaming_room_gaming_pc') }}
+        {{ states('binary_sensor.gaming_room_gaming_pc') }}
       commands:
         turn_on:
-          service: input_boolean.turn_on
+          service: script.turn_on
           data:
-            entity_id: input_boolean.gaming_room_gaming_pc
+            entity_id: script.gaming_room_turn_on_gaming_pc
         turn_off:
-          service: input_boolean.turn_off
+          service: script.turn_on
           data:
-            entity_id: input_boolean.gaming_room_gaming_pc
+            entity_id: script.gaming_room_turn_on_gaming_pc
         volume_set:
           service: media_player.volume_set
           data:
@@ -206,7 +216,7 @@ gaming_room_package:
         is_volume_muted: media_player.gaming_room_avr|is_volume_muted
         volume_level: media_player.gaming_room_avr|volume_level
         source: PC
-        state: input_boolean.gaming_room_gaming_pc
+        state: binary_sensor.gaming_room_gaming_pc
     - name: Gaming Room Universal Nintendo Switch
       platform: universal
       children:
@@ -358,25 +368,6 @@ gaming_room_package:
           data:
             entity_id: media_player.gaming_room_avr
             sound_mode: DOLBY DIGITAL
-
-    - alias: Turning on gaming room gaming PC from input_boolean
-      trigger:
-        - platform: state
-          entity_id: input_boolean.gaming_room_gaming_pc
-          to: "on"
-      action:
-        - service: wake_on_lan.send_magic_packet
-          data:
-            mac: !secret gaming_room_gaming_pc_mac
-            broadcast_address: !secret gaming_room_gaming_pc_ip
-
-    - alias: Turning off gaming room gaming PC from input_boolean
-      trigger:
-        - platform: state
-          entity_id: input_boolean.gaming_room_gaming_pc
-          to: "off"
-      action:
-        - service: shell_command.turn_off_gaming_room_gaming_pc
 
     - alias: Start an activity on the gaming room gaming PC
       trigger:
