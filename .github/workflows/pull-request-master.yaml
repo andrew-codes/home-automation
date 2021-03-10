@@ -23,8 +23,9 @@ jobs:
       - name: Install deps
         run: yarn
       - name: Run unit tests
-        uses: mattallty/jest-github-action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.JEST_REPORTER_TOKEN }}
-        with:
-          test-command: "yarn test"
+        run: yarn test
+        # uses: mattallty/jest-github-action@v1
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.JEST_REPORTER_TOKEN }}
+        # with:
+        #   test-command: "yarn test"
