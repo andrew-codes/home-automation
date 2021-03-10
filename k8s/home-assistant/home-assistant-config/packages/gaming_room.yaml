@@ -19,6 +19,7 @@ gaming_room_package:
     - name: Gaming Room Gaming PC Power State
       platform: ping
       host: !secret gaming_room_gaming_pc_ip
+      scan_interval: 20
 
   sensor:
     - platform: mqtt
