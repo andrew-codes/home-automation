@@ -29,7 +29,7 @@ gaming_room_package:
   script:
     gaming_room_turn_on_gaming_pc:
       sequence:
-        - service: wake_on_lan
+        - service: wake_on_lan.send_magic_packet
           data:
             mac: !secret gaming_room_gaming_pc_mac
             broadcast_address: !secret gaming_room_gaming_pc_ip
@@ -185,7 +185,7 @@ gaming_room_package:
         turn_off:
           service: script.turn_on
           data:
-            entity_id: script.gaming_room_turn_on_gaming_pc
+            entity_id: script.gaming_room_turn_off_gaming_pc
         volume_set:
           service: media_player.volume_set
           data:
