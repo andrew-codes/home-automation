@@ -177,7 +177,7 @@ gaming_room_package:
         - media_player.gaming_room_avr
         - media_player.gaming_room_tv
       state_template: >
-        {{ states('binary_sensor.gaming_room_gaming_pc') }}
+        {{ states('binary_sensor.gaming_room_gaming_pc_power_state') }}
       commands:
         turn_on:
           service: script.turn_on
@@ -217,7 +217,7 @@ gaming_room_package:
         is_volume_muted: media_player.gaming_room_avr|is_volume_muted
         volume_level: media_player.gaming_room_avr|volume_level
         source: PC
-        state: binary_sensor.gaming_room_gaming_pc
+        state: binary_sensor.gaming_room_gaming_pc_power_state
     - name: Gaming Room Universal Nintendo Switch
       platform: universal
       children:
