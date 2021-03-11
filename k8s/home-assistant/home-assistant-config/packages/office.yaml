@@ -44,7 +44,7 @@ office_package:
         - service: input_text.set_value
           entity_id: input_text.teams_status
           data:
-            value: Available
+            value: Busy
         - service: input_text.set_value
           entity_id: input_text.teams_status_icon
           data:
@@ -57,7 +57,7 @@ office_package:
         - service: input_text.set_value
           entity_id: input_text.teams_status
           data:
-            value: Available
+            value: Be Right Back
         - service: input_text.set_value
           entity_id: input_text.teams_status_icon
           data:
@@ -70,7 +70,7 @@ office_package:
         - service: input_text.set_value
           entity_id: input_text.teams_status
           data:
-            value: Available
+            value: Away
         - service: input_text.set_value
           entity_id: input_text.teams_status_icon
           data:
@@ -83,7 +83,7 @@ office_package:
         - service: input_text.set_value
           entity_id: input_text.teams_status
           data:
-            value: Available
+            value: Do not Disturb
         - service: input_text.set_value
           entity_id: input_text.teams_status_icon
           data:
@@ -96,20 +96,7 @@ office_package:
         - service: input_text.set_value
           entity_id: input_text.teams_status
           data:
-            value: Available
-        - service: input_text.set_value
-          entity_id: input_text.teams_status_icon
-          data:
-            value: mdi:microsoft-teams
-    - alias: Set MS Teams away status
-      trigger:
-        platform: webhook
-        webhook_id: !secret ms_teams_status_away_webhook_id
-      action:
-        - service: input_text.set_value
-          entity_id: input_text.teams_status
-          data:
-            value: Available
+            value: Offline
         - service: input_text.set_value
           entity_id: input_text.teams_status_icon
           data:
@@ -122,7 +109,7 @@ office_package:
         - service: input_text.set_value
           entity_id: input_text.teams_status
           data:
-            value: Available
+            value: "Off"
         - service: input_text.set_value
           entity_id: input_text.teams_status_icon
           data:
@@ -135,7 +122,7 @@ office_package:
         - service: input_text.set_value
           entity_id: input_text.teams_status
           data:
-            value: Available
+            value: Available Idle
         - service: input_text.set_value
           entity_id: input_text.teams_status_icon
           data:
