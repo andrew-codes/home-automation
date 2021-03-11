@@ -52,6 +52,7 @@ graphql_url: http://graphql-api/graphql
 graphql_authorization: Bearer $GRAPHQL_API_TOKEN
 turn_off_gaming_room_gaming_pc_command: ssh -n -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa $MACHINE_USERNAME@$GAMING_ROOM_GAMING_PC_IP "C:\Windows\System32\rundll32.exe powrprof.dll,SetSuspendState Standby"
 gaming_room_playstation_5_ip: $PS5_IP
+ms_teams_status_webhook_id: $MS_TEAMS_STATUS_WEBHOOK_ID
 EOL
 
 kubectl create secret generic secrets --dry-run=client --namespace="home-automation" --from-file=yml=".secrets/secrets.yaml" -o json >".secrets/secrets.json"

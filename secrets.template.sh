@@ -113,6 +113,7 @@ export HOME_AUTOMATION_SSH_PUBLIC_KEY=$(
 EOL
 )
 export ROUTER_IP=""
+export export MS_TEAMS_STATUS_WEBHOOK_ID=""
 # ===============================
 
 # ====================

@@ -20,3 +20,14 @@ office_package:
           friendly_name: Microsoft Teams activity
           value_template: "{{states('input_text.teams_activity')}}"
           unique_id: sensor.teams_activity
+
+  automation:
+    - alias: Set MS Teams Status
+      trigger:
+        platform: webhook
+        webhook_id: !secret ms_teams_status_webhook_id
+      action:
+        service: input_text.set
+        entity_id: input_text.teams_status
+        data:
+          value: "{{ trigger.json }}"
