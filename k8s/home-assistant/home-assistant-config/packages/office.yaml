@@ -1,129 +1,129 @@
 office_package:
 
   input_text:
-    teams_status:
+    andrew_teams_status:
       name: Microsoft Teams status
-    teams_status_icon:
+    andrew_teams_status_icon:
       name: Microsoft Teams status icon
-    teams_activity:
+    andrew_teams_activity:
       name: Microsoft Teams activity
-    teams_activity_icon:
+    andrew_teams_activity_icon:
       name: Microsoft Teams activity icon
 
   sensor:
     - platform: template
       sensors:
-        teams_status: 
-          friendly_name: Microsoft Teams status
-          value_template: "{{states('input_text.teams_status')}}"
-          icon_template: "{{states('input_text.teams_status_icon')}}"
-        teams_activity:
-          friendly_name: Microsoft Teams activity
+        andrew_teams_status: 
+          friendly_name: Andrew's Microsoft Teams status
+          value_template: "{{states('input_text.andrew_teams_status')}}"
+          icon_template: "{{states('input_text.andrew_teams_status_icon')}}"
+        andrew_teams_activity:
+          friendly_name: Andrew's Microsoft Teams activity
           value_template: "{{states('input_text.teams_activity')}}"
           icon_template: "{{states('input_text.teams_activity_icon')}}"
 
   automation:
-    - alias: Set MS Teams active status
+    - alias: Set Andrew's MS Teams active status
       trigger:
         platform: webhook
         webhook_id: !secret ms_teams_status_active_webhook_id
       action:
         - service: input_text.set_value
-          entity_id: input_text.teams_status
+          entity_id: input_text.andrew_teams_status
           data:
             value: Available
         - service: input_text.set_value
-          entity_id: input_text.teams_status_icon
+          entity_id: input_text.andrew_teams_status_icon
           data:
             value: mdi:microsoft-teams
-    - alias: Set MS Teams busy status
+    - alias: Set Andrew's MS Teams busy status
       trigger:
         platform: webhook
         webhook_id: !secret ms_teams_status_busy_webhook_id
       action:
         - service: input_text.set_value
-          entity_id: input_text.teams_status
+          entity_id: input_text.andrew_teams_status
           data:
             value: Busy
         - service: input_text.set_value
-          entity_id: input_text.teams_status_icon
+          entity_id: input_text.andrew_teams_status_icon
           data:
             value: mdi:microsoft-teams
-    - alias: Set MS Teams be right back status
+    - alias: Set Andrew's MS Teams be right back status
       trigger:
         platform: webhook
         webhook_id: !secret ms_teams_status_be_right_back_webhook_id
       action:
         - service: input_text.set_value
-          entity_id: input_text.teams_status
+          entity_id: input_text.andrew_teams_status
           data:
             value: Be Right Back
         - service: input_text.set_value
-          entity_id: input_text.teams_status_icon
+          entity_id: input_text.andrew_teams_status_icon
           data:
             value: mdi:microsoft-teams
-    - alias: Set MS Teams away status
+    - alias: Set Andrew's MS Teams away status
       trigger:
         platform: webhook
         webhook_id: !secret ms_teams_status_away_webhook_id
       action:
         - service: input_text.set_value
-          entity_id: input_text.teams_status
+          entity_id: input_text.andrew_teams_status
           data:
             value: Away
         - service: input_text.set_value
-          entity_id: input_text.teams_status_icon
+          entity_id: input_text.andrew_teams_status_icon
           data:
             value: mdi:microsoft-teams
-    - alias: Set MS Teams do not disturb status
+    - alias: Set Andrew's MS Teams do not disturb status
       trigger:
         platform: webhook
         webhook_id: !secret ms_teams_status_do_not_disturb_webhook_id
       action:
         - service: input_text.set_value
-          entity_id: input_text.teams_status
+          entity_id: input_text.andrew_teams_status
           data:
             value: Do not Disturb
         - service: input_text.set_value
-          entity_id: input_text.teams_status_icon
+          entity_id: input_text.andrew_teams_status_icon
           data:
             value: mdi:microsoft-teams
-    - alias: Set MS Teams offline status
+    - alias: Set Andrew's MS Teams offline status
       trigger:
         platform: webhook
         webhook_id: !secret ms_teams_status_offline_webhook_id
       action:
         - service: input_text.set_value
-          entity_id: input_text.teams_status
+          entity_id: input_text.andrew_teams_status
           data:
             value: Offline
         - service: input_text.set_value
-          entity_id: input_text.teams_status_icon
+          entity_id: input_text.andrew_teams_status_icon
           data:
             value: mdi:microsoft-teams
-    - alias: Set MS Teams off status
+    - alias: Set Andrew's MS Teams off status
       trigger:
         platform: webhook
         webhook_id: !secret ms_teams_status_off_webhook_id
       action:
         - service: input_text.set_value
-          entity_id: input_text.teams_status
+          entity_id: input_text.andrew_teams_status
           data:
             value: "Off"
         - service: input_text.set_value
-          entity_id: input_text.teams_status_icon
+          entity_id: input_text.andrew_teams_status_icon
           data:
             value: mdi:microsoft-teams
-    - alias: Set MS Teams available idle status
+    - alias: Set Andrew's MS Teams available idle status
       trigger:
         platform: webhook
         webhook_id: !secret ms_teams_status_available_idle_webhook_id
       action:
         - service: input_text.set_value
-          entity_id: input_text.teams_status
+          entity_id: input_text.andrew_teams_status
           data:
             value: Available Idle
         - service: input_text.set_value
-          entity_id: input_text.teams_status_icon
+          entity_id: input_text.andrew_teams_status_icon
           data:
             value: mdi:microsoft-teams
