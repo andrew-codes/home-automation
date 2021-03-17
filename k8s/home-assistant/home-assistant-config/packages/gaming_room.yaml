@@ -517,7 +517,7 @@ gaming_room_package:
     - alias: Poll for PlayStation 5 state
       trigger:
         - platform: time_pattern
-          seconds: "/30"
+          seconds: "/10"
       action:
         - service: mqtt.publish
           data:
