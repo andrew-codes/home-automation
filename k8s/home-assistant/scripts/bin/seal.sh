@@ -60,6 +60,7 @@ ms_teams_status_do_not_disturb_webhook_id: $MS_TEAMS_STATUS_DO_NOT_DISTURB_WEBHO
 ms_teams_status_offline_webhook_id: $MS_TEAMS_STATUS_OFFLINE_WEBHOOK_ID
 ms_teams_status_off_webhook_id: $MS_TEAMS_STATUS_OFF_WEBHOOK_ID
 ms_teams_status_available_idle_webhook_id: $MS_TEAMS_STATUS_AVAILABLE_IDLE_WEBHOOK_ID
+valheim_ddns_rest_url: "https://${VALHEIM_GOOGLE_DOMAIN_USERNAME}:${VALHEIM_GOOGLE_DOMAIN_PASSWORD}@domains.google.com/nic/update?hostname=${VALHEIM_DOMAIN}"
 EOL
 
 kubectl create secret generic secrets --dry-run=client --namespace="home-automation" --from-file=yml=".secrets/secrets.yaml" -o json >".secrets/secrets.json"

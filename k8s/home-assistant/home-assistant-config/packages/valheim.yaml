@@ -1,0 +1,12 @@
+valhiem_package:
+  rest_command:
+    update_valheim_ddns:
+      url: !secret valheim_ddns_rest_url
+
+  automation:
+    - alias: Update Valheim DNS
+      trigger:
+        - platform: time_pattern
+          hour: "/1"
+      action:
+        - service: rest_command.update_valheim_ddns
