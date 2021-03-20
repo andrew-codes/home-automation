@@ -7,6 +7,6 @@ valhiem_package:
     - alias: Update Valheim DNS
       trigger:
         - platform: time_pattern
-          hour: "/1"
+          minutes: "/60"
       action:
         - service: rest_command.update_valheim_ddns
