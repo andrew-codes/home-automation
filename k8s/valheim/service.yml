@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: valheim-server
+  namespace: gaming
+spec:
+  ports:
+    - name: game1
+      port: 2456
+      protocol: UDP
+    - name: game2
+      port: 2457
+      protocol: UDP
+    - name: game3
+      port: 2458
+      protocol: UDP
+  type: NodePort
+  selector:
+    app: valheim-server

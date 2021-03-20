@@ -138,3 +138,12 @@ export GRAPHQL_API_TOKEN=""
 # =====================
 export PS5_USER_CREDENTIALS=""
 # ===============================
+
+# ====================
+# Required for Valheim
+# ====================
+export VALHEIM_SERVER_PASSWORD=""
+export VALHEIM_GAME_1_PORT=""
+export VALHEIM_GAME_2_PORT=""
+export VALHEIM_GAME_3_PORT=""
+# ===============================

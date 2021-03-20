@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 source secrets.sh
+source external-port-vars.sh
 
 yarn seal-github-secret andrew-codes home-automation DOCKER_REGISTRY_DOMAIN "$DOCKER_REGISTRY_DOMAIN"
 yarn seal-github-secret andrew-codes home-automation JEST_REPORTER_TOKEN "$GITHUB_ACTION_JEST_REPORTER_TOKEN"
@@ -21,3 +22,6 @@ yarn seal-github-secret andrew-codes home-automation MQTT_CONNECTION "$(
 \$MQTT_PASSWORD = "$MQTT_PASSWORD"
 EOL
 )"
+yarn seal-github-secret andrew-codes home-automation VALHEIM_GAME_1_PORT "$VALHEIM_GAME_1_PORT"
+yarn seal-github-secret andrew-codes home-automation VALHEIM_GAME_2_PORT "$VALHEIM_GAME_2_PORT"
+yarn seal-github-secret andrew-codes home-automation VALHEIM_GAME_3_PORT "$VALHEIM_GAME_3_PORT"

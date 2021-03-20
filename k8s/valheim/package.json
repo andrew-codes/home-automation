@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "@ha/valheim",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "deploy": "scripts/bin/deploy.sh",
+    "postdeploy": "kubectl rollout restart deployment valheim --namespace gaming",
+    "seal": "scripts/bin/seal.sh"
+  },
+  "dependencies": {
+    "@ha/gaming-namespace": "*"
+  }
+}
