@@ -44,3 +44,4 @@
 - import_playbook: playbooks/deployments/dashboard.yml
 - import_playbook: playbooks/deployments/inlets.yml
 - import_playbook: playbooks/deployments/nginx.yml
+- import_playbook: playbooks/deployments/velero.yml
