@@ -35,9 +35,11 @@
           - curl
           - gnupg-agent
           - jq
-          - yq
           - software-properties-common
         state: present
+
+    - name: Installing yq
+      shell: wget https://github.com/mikefarah/yq/releases/download/v4.6.3/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
 
     - name: Add Docker’s official GPG key
       apt_key:
