@@ -21,11 +21,17 @@ export EMAIL=""
 
 # API token to create droplets in Digital Ocean
 export DIGITALOCEAN_TOKEN=""
-# Digital Ocean Spaces (for backup)
-export SPACES_ACCESS_KEY=""
-export SPACES_ACCESS_SECRET_KEY=""
-export BACKUP_BUCKET=""
-export BACKUP_URI=""
+
+# Azure (for backup)
+export AZURE_SUBSCRIPTION_ID=""
+export AZURE_TENANT_ID=""
+export AZURE_CLIENT_ID=""
+export AZURE_CLIENT_SECRET=""
+export AZURE_RESOURCE_GROUP=""
+export AZURE_CLOUD_NAME=""
+export AZURE_STORAGE_ACCOUNT_ID=""
+export AZURE_BACKUP_SUBSCRIPTION_ID=""
+export BLOB_CONTAINER=""
 
 # Docker registry domain; e.g. docker.yourdomain.com
 # Local DNS must point this domain to your $CLUSTER_IP

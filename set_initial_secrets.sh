@@ -11,6 +11,10 @@ backup_uri: "$BACKUP_URI"
 inlets_pro_license: "$INLETS_PRO_LICENSE"
 docker_registry_domain: "$DOCKER_REGISTRY_DOMAIN"
 pod_network_cidr: "$POD_NETWORK_CIDR"
+azure_backup_resource_group: "$AZURE_RESOURCE_GROUP"
+azure_storage_account_id: "$AZURE_STORAGE_ACCOUNT_ID"
+azure_backup_subscription_id: "$AZURE_BACKUP_SUBSCRIPTION_ID"
+blob_container: "$BLOB_CONTAINER"
 EOL
 
 cat >ansible/k8s/.secrets/inlets-pro.license <<EOL
@@ -18,9 +22,12 @@ $INLETS_PRO_LICENSE
 EOL
 
 cat >ansible/k8s/.secrets/backup-cloud-credentials.ini <<EOL
-[default]
-aws_access_key_id=$SPACES_ACCESS_KEY
-aws_secret_access_key=$SPACES_ACCESS_SECRET_KEY
+AZURE_SUBSCRIPTION_ID=$AZURE_SUBSCRIPTION_ID
+AZURE_TENANT_ID=$AZURE_TENANT_ID
+AZURE_CLIENT_ID=$AZURE_CLIENT_ID
+AZURE_CLIENT_SECRET=$AZURE_CLIENT_SECRET
+AZURE_RESOURCE_GROUP=$AZURE_RESOURCE_GROUP
+AZURE_CLOUD_NAME=$AZURE_CLOUD_NAME
 EOL
 
 cat >ansible/k8s/.secrets/k8s-digitalocean-secret-token.yml <<EOL
