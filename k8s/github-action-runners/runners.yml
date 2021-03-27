@@ -72,6 +72,7 @@ spec:
         secretName: ssh-secrets
     - name: yarn-cache
       persistentVolumeClaim:
+        defaultMode: 0644
         claimName: yarn-cache-pv-claim
   affinity:
     nodeAffinity:
@@ -126,6 +127,7 @@ spec:
         secretName: ssh-secrets
     - name: yarn-cache
       persistentVolumeClaim:
+        defaultMode: 0644
         claimName: yarn-cache-pv-claim
   affinity:
     nodeAffinity:
