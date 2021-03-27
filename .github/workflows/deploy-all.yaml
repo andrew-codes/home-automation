@@ -17,6 +17,8 @@ jobs:
         with:
           node-version: "${{ steps.nvm.outputs.NVMRC }}"
       - name: Install deps
+        env:
+          YARN_CACHE_FOLDER: "/yarn/cache"
         run: yarn
       - name: Patch
         run: yarn patch

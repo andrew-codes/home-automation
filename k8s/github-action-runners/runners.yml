@@ -1,3 +1,35 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: yarn-cache-pv
+  namespace: actions-runner-system
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data/yarn-cache"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: yarn-cache-pv-claim
+  namespace: actions-runner-system
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+
+---
 apiVersion: actions.summerwind.dev/v1alpha1
 kind: Runner
 metadata:
@@ -28,8 +60,8 @@ spec:
     - name: ssh-volume
       mountPath: /home/runner/.ssh/id_rsa
       subPath: id_rsa
-    # - name: runner
-    #   mountPath: /runner
+    - name: yarn-cache
+      mountPath: /yarn/cache
   volumes:
     - name: kubectl-config-volume
       secret:
@@ -38,8 +70,9 @@ spec:
       secret:
         defaultMode: 0600
         secretName: ssh-secrets
-    # - name: runner
-    #   emptyDir: {}
+    - name: yarn-cache
+      persistentVolumeClaim:
+            claimName: yarn-cache-pv-claim
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -81,8 +114,8 @@ spec:
     - name: ssh-volume
       mountPath: /home/runner/.ssh/id_rsa
       subPath: id_rsa
-    # - name: runner
-    #   mountPath: /runner
+    - name: yarn-cache
+      mountPath: /yarn/cache
   volumes:
     - name: kubectl-config-volume
       secret:
@@ -91,8 +124,9 @@ spec:
       secret:
         defaultMode: 0600
         secretName: ssh-secrets
-    # - name: runner
-    #   emptyDir: {}
+    - name: yarn-cache
+      persistentVolumeClaim:
+            claimName: yarn-cache-pv-claim
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
