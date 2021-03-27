@@ -72,7 +72,7 @@ spec:
         secretName: ssh-secrets
     - name: yarn-cache
       persistentVolumeClaim:
-            claimName: yarn-cache-pv-claim
+        claimName: yarn-cache-pv-claim
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -126,7 +126,7 @@ spec:
         secretName: ssh-secrets
     - name: yarn-cache
       persistentVolumeClaim:
-            claimName: yarn-cache-pv-claim
+        claimName: yarn-cache-pv-claim
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
