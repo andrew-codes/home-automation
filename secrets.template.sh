@@ -19,6 +19,9 @@ export MACHINE_PASSWORD=""
 # Your email
 export EMAIL=""
 
+# Required to setup Pihole
+export PIHOLE_PASSWORD=""
+
 # API token to create droplets in Digital Ocean
 export DIGITALOCEAN_TOKEN=""
 

@@ -43,3 +43,9 @@ mkdir -p k8s/setup/tmp
 cat >k8s/setup/tmp/flannel-pod-network-cidr.json <<EOL
 {"Network": "$POD_NETWORK_CIDR","Backend":{"Type":"vxlan"}}
 EOL
+
+mkdir -p ansible/pihole/.secrets
+cat >ansible/pihole/.secrets/pihole.yml <<EOL
+---
+pihole_password: "$PIHOLE_PASSWORD"
+EOL

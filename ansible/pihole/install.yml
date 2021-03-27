@@ -1,18 +1,16 @@
 ---
 - hosts: pihole
   become: yes
-  vars_files:
-    - .secrets/pihole.yml
 
   tasks:
+    - name: Installing Prerequisites for Kubernetes
+      apt:
+        name:
+          - curl
+        state: present
+
     - name: Install pihole
       become_user: root
       become_method: sudo
       become: yes
-      shell: curl -sSL https://install.pi-hole.net | bash
-
-  - name: Set password
-     become_user: root
-    become_method: sudo
-    become: yes
-    shell: echo "{{ pihole_password }}" | pihole -a -p
+      shell: curl -sSL https://install.pi-hole.net | bash /dev/stdin --unattended
