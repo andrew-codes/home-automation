@@ -1,4 +1,4 @@
-github_bug_reporting_package:
+defect_reporting_package:
   
   input_text:
     defect_summary:
@@ -26,7 +26,7 @@ github_bug_reporting_package:
         - condition: template
           value_template: "{{ not is_state('input_text.defect_summary', '') }}"
       action:
-        - service: rest_command.rest_create_defect
+        - service: rest_command.create_github_issue
         - service: input_text.set_value
           data:
             entity_id: input_text.defect_summary
