@@ -21,9 +21,7 @@ jobs:
         with:
           node-version: "${{ steps.nvm.outputs.NVMRC }}"
       - name: Install deps
-        env:
-          YARN_CACHE_FOLDER: "/runner/_work/yarn/cache"
-        run: yarn
+        run: yarn --cache-folder /runner/_work/yarn/cache
       - name: Run unit tests
         run: yarn test
         # uses: mattallty/jest-github-action@v1
