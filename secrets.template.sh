@@ -110,6 +110,8 @@ export GAMING_ROOM_GAMING_PC_MAC=""
 export GAMING_ROOM_GAMING_PC_IP=""
 export GAMING_ROOM_GAMING_PC_USERNAME=""
 
+export GITHUB_ISSUES_TOKEN=""
+
 # SSH key with NO passphrase
 export HOME_AUTOMATION_SSH_PRIVATE_KEY=$(
     cat <<EOL
