@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "compile": "concurrently 'mkdir -p dist && cp src/server.js src/webpack.config.js dist/' 'webpack --config src/webpack.config.js'",
-    "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"$DOCKER_REGISTRY_DOMAIN:5000/game-player:latest\" --context dir:///workspace/ --insecure n --cache=true",
+    "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"$DOCKER_REGISTRY_DOMAIN:5000/game-player:latest\" --context dir:///workspace/ --insecure --cache=true",
     "start": "scripts/bin/start.sh",
     "start/dev": "cross-env NODE_ENV=development nodemon src/server.js --inspect=0.0.0.0:9233"
   },

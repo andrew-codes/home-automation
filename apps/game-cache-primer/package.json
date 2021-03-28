@@ -9,7 +9,7 @@
     "start": "scripts/bin/start.sh",
     "start/dev": "nodemon src/index.ts --inspect=0.0.0.0:9233",
     "compile": "ncc build src/index.ts -o dist -m",
-    "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"$DOCKER_REGISTRY_DOMAIN:5000/game-cache-primer:latest\" --context dir:///workspace/ --insecure n --cache=true"
+    "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"$DOCKER_REGISTRY_DOMAIN:5000/game-cache-primer:latest\" --context dir:///workspace/ --insecure --cache=true"
   },
   "dependencies": {
     "async-mqtt": "^2.6.1",

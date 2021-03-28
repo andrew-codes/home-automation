@@ -6,6 +6,6 @@
   "scripts": {
     "clean": "rm -rf dist",
     "compile": "cp -r src/ dist/",
-    "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"$DOCKER_REGISTRY_DOMAIN:5000/home-assistant-config-applicator:latest\" --context dir:///workspace/ --insecure n --cache=true"
+    "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"$DOCKER_REGISTRY_DOMAIN:5000/home-assistant-config-applicator:latest\" --context dir:///workspace/ --insecure --cache=true"
   }
 }
