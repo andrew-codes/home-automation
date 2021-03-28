@@ -1,6 +1,6 @@
 pihole_package:
   automation:
-    - alias: Remind users to re-enable PiHole
+    - alias: Notify users that pihole is enabled
       trigger:
         platform: state
         entity_id:
@@ -9,10 +9,13 @@ pihole_package:
         for:
           hours: 1
       action:
+        - service: switch.turn_on
+          target:
+            entity_id: switch.pi_hole
         - service: notify.mobile_app_andrew_s_iphone
           data:
-            title: "PiHole is still enabled"
-            message: "Did you forget to re-enable PiHole? It has been disabled for an hour."
+            title: "PiHole is re-enabled"
+            message: "PiHole has been disabled for an hour and is now re-enabled."
             data:
               push:
                 category: pihole
@@ -22,9 +25,9 @@ pihole_package:
         platform: event
         event_type: ios.notification_action_fired
         event_data:
-          actionName: pihole
+          actionName: DISABLE_PIHOLE
       action:
-        - service: switch.turn_on
+        - service: switch.turn_off
           target:
             entity_id: switch.pi_hole
 
@@ -34,9 +37,9 @@ pihole_package:
         - name: pihole
           identifier: pihole
           actions:
-            - identifier: Enable PiHole
-              title: Enable PiHole
-              activationMode: foreground
-              authenticationRequired: true
+            - identifier: DISABLE_PIHOLE
+              title: Disable PiHole
+              activationMode: background
+              authenticationRequired: false
               destructive: true
               behavior: default
