@@ -13,7 +13,7 @@ defect_reporting_package:
         authorization: !secret github_authorization_header
         accept: "application/json, text/html"
         user-agent: "Mozilla/5.0 {{ useragent }}"
-      payload: '{"title": "{{ states("input_text.defect_summary") }}","body": "","labels": ["bug"]}'
+      payload: '{"title": "{{ states("input_text.defect_summary") }}","body": "","labels": ["bug", "reported"]}'
       content_type: "application/json; charset=utf-8"
       verify_ssl: true
 
