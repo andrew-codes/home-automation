@@ -61,7 +61,7 @@ spec:
       mountPath: /home/runner/.ssh/id_rsa
       subPath: id_rsa
     - name: yarn-cache
-      mountPath: /runner/_work/yarn/cache
+      mountPath: /home/runner/yarn/cache
   volumes:
     - name: kubectl-config-volume
       secret:
@@ -115,7 +115,7 @@ spec:
       mountPath: /home/runner/.ssh/id_rsa
       subPath: id_rsa
     - name: yarn-cache
-      mountPath: /runner/_work/yarn/cache
+      mountPath: /home/runner/yarn/cache
   volumes:
     - name: kubectl-config-volume
       secret:
