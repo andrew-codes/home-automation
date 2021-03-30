@@ -17,18 +17,11 @@ defect_reporting_package:
       content_type: "application/json; charset=utf-8"
       verify_ssl: true
 
-  automation:
-    - alias: Report Defect
-      trigger:
-        - platform: state
-          entity_id: input_text.defect_summary
-      condition:
-        - condition: template
-          value_template: "{{ not is_state('input_text.defect_summary', '') }}"
-      action:
+  script:
+    report_defect:
+      sequence:
         - service: rest_command.create_github_issue
         - service: input_text.set_value
           data:
             entity_id: input_text.defect_summary
             value: ""
-  
