@@ -316,16 +316,7 @@ gaming_room_package:
     - alias: Start a game room activity while Andrew is home
       trigger:
         - platform: state
-          entity_id: media_player.gaming_room_universal_playstation_5
-          from: "off"
-        - platform: state
-          entity_id: media_player.gaming_room_universal_gaming_pc
-          from: "off"
-        - platform: state
-          entity_id: media_player.gaming_room_universal_nintendo_switch
-          from: "off"
-        - platform: state
-          entity_id: media_player.gaming_room_universal_media_player
+          entity_id: media_player.gaming_room_media_player
           from: "off"
       condition:
         - condition: state
@@ -343,7 +334,7 @@ gaming_room_package:
             entity_id: media_player.gaming_room_avr
             sound_mode: DOLBY DIGITAL
 
-    - alias: Start a game room activity while Andrew is not home
+    - alias: Start a game room gaming activity while Andrew is not home
       trigger:
         - platform: state
           entity_id: media_player.gaming_room_universal_playstation_5
@@ -354,13 +345,10 @@ gaming_room_package:
         - platform: state
           entity_id: media_player.gaming_room_universal_nintendo_switch
           from: "off"
-        - platform: state
-          entity_id: media_player.gaming_room_universal_media_player
-          from: "off"
       condition:
         - condition: state
           entity_id: person.andrew_smith
-          state: "home"
+          state: "not_home"
       action:
         - service: media_player.turn_on
           data:
@@ -369,6 +357,10 @@ gaming_room_package:
           data:
             entity_id: media_player.gaming_room_avr
             sound_mode: DOLBY DIGITAL
+        - service: media_player.volume_set
+          data:
+            entity_id: media_player.gaming_room_universal_gaming_pc
+            volume_level: 0
 
     - alias: Start an activity on the gaming room gaming PC
       trigger:
@@ -390,7 +382,7 @@ gaming_room_package:
         #   data:
         #     entity_id: media_player.gaming_room_universal_playstation_4_pro
 
-    - alias: Start an activity on the gaming room gaming PC while Andrew is not home
+    - alias: Start an activity on the gaming room gaming PC while Andrew is home adjusts volume
       trigger:
         - platform: state
           entity_id: media_player.gaming_room_universal_gaming_pc
@@ -398,12 +390,12 @@ gaming_room_package:
       condition:
         - condition: state
           entity_id: person.andrew_smith
-          state: "not_home"
+          state: "home"
       action:
         - service: media_player.volume_set
           data:
             entity_id: media_player.gaming_room_universal_gaming_pc
-            volume_level: 0
+            volume_level: 56
 
     - alias: Start an activity on the gaming room playstation 5
       trigger:
@@ -424,6 +416,21 @@ gaming_room_package:
         - service: media_player.turn_off
           data:
             entity_id: media_player.gaming_room_universal_gaming_pc
+
+    - alias: Start an activity on the gaming room playstation 5 while Andrew is home adjusts volume
+      trigger:
+        - platform: state
+          entity_id: media_player.gaming_room_universal_playstation_5
+          from: "off"
+      condition:
+        - condition: state
+          entity_id: person.andrew_smith
+          state: "home"
+      action:
+        - service: media_player.volume_set
+          data:
+            entity_id: media_player.gaming_room_universal_gaming_pc
+            volume_level: 45
 
     - alias: Start an activity on the gaming room nintendo switch
       trigger:
@@ -475,7 +482,7 @@ gaming_room_package:
           data:
             entity_id: script.gaming_room_turn_off_all_media_players
 
-    - alias: Stopping gaming publishes stop game topic
+    - alias: Stopping game room gaming activity publishes stop game topic
       trigger:
         - platform: state
           entity_id: media_player.gaming_room_universal_playstation_5
