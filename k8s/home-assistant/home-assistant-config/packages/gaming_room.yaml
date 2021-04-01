@@ -531,3 +531,13 @@ gaming_room_package:
           data:
             topic: "/playnite/game/started/ps5"
             qos: 2
+
+    - alias: Keep AVR connected
+      trigger:
+        - platform: time
+          at: "03:00:00"
+      action:
+        - service: media_player.turn_off
+          entity_id: media_player.gaming_room_avr
+        - service: media_player.turn_on
+          entity_id: media_player.gaming_room_avr
