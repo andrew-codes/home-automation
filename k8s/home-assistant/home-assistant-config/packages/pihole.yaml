@@ -3,7 +3,7 @@ pihole_package:
     - alias: Notify users that pihole is enabled
       trigger:
         platform: state
-        entity_id: switch.pihole
+        entity_id: switch.pi_hole
         to: 'off'
         for: "00:00:30"
       action:
