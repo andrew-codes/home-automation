@@ -5,8 +5,7 @@ pihole_package:
         platform: state
         entity_id: switch.pihole
         to: 'off'
-        for:
-          hours: 1
+        for: "00:00:30"
       action:
         - service: switch.turn_on
           target:
