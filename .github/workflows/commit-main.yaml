@@ -48,9 +48,9 @@ jobs:
       - name: Build and push images
         env:
           DOCKER_REGISTRY_DOMAIN: ${{ secrets.DOCKER_REGISTRY_DOMAIN }}
-        run: yarn lerna run image/push --stream --ignore @ha/github-action-runner-amd64 --since HEAD~
+        run: yarn lerna run image/push --stream --since HEAD~
       - name: Deploy
-        run: yarn lerna run deploy --stream --ignore @ha/github-action-runner-amd64 --ignore @ha/lets-encrypt --ignore @ha/docker-registry --since HEAD~
+        run: yarn lerna run deploy --stream --ignore @ha/lets-encrypt --ignore @ha/docker-registry --since HEAD~
         env:
           MACHINE_PASSWORD: '${{ secrets.MACHINE_PASSWORD }}'
           GAMING_ROOM_GAMING_PC_USERNAME: "${{ secrets.GAMING_ROOM_GAMING_PC_USERNAME }}"

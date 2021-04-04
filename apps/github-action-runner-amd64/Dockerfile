@@ -31,3 +31,5 @@ RUN sudo wget https://github.com/containerd/containerd/releases/download/v1.4.3/
 RUN sudo mkdir -p containerd
 RUN sudo tar -xvf containerd-1.4.3-linux-amd64.tar.gz --directory containerd
 RUN sudo mv containerd/bin/* /usr/bin
+RUN sudo wget https://github.com/mikefarah/yq/releases/download/v4.6.3/yq_linux_amd64 -O /usr/bin/yq
+RUN sudo chmod +x /usr/bin/yq
