@@ -395,7 +395,7 @@ gaming_room_package:
         - service: media_player.volume_set
           data:
             entity_id: media_player.gaming_room_universal_gaming_pc
-            volume_level: 56
+            volume_level: 0.56
 
     - alias: Start an activity on the gaming room playstation 5
       trigger:
@@ -430,7 +430,7 @@ gaming_room_package:
         - service: media_player.volume_set
           data:
             entity_id: media_player.gaming_room_universal_playstation_5
-            volume_level: 45
+            volume_level: 0.45
 
     - alias: Start an activity on the gaming room nintendo switch
       trigger:
