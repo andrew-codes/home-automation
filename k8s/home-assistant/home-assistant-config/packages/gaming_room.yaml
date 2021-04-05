@@ -429,7 +429,7 @@ gaming_room_package:
       action:
         - service: media_player.volume_set
           data:
-            entity_id: media_player.gaming_room_universal_gaming_pc
+            entity_id: media_player.gaming_room_universal_playstation_5
             volume_level: 45
 
     - alias: Start an activity on the gaming room nintendo switch
