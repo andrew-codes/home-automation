@@ -2,7 +2,7 @@
 
 ## Daily Backup
 
-To setup a daily backup that is stored for a maximum of 5 days (5 day rolling backup), execute the following:
+To set up a daily backup that is stored for a maximum of 5 days (5-day rolling backup), execute the following:
 
 ```bash
 ./ansible.sh ansible/k8s/backup-schedule.yml
@@ -10,14 +10,13 @@ To setup a daily backup that is stored for a maximum of 5 days (5 day rolling ba
 
 ## Restore
 
-SSH into the cluster machine. Find the restore via:
+Find the backup you wish to restore by logging into Azure and looking in the Velero storage blob container. Backups are located in `./backups/daily-backup-$TIMESTAMP`
+
+SSH into the cluster machine. To restore:
 
 ```bash
-velero restore get
-```
+# Replace timestamp with correct timestamp value from looking up the backup name.
+BACKUP_NAME="daily-backup-$TIMESTAMP"
 
-To restore:
-
-```bash
 velero restore create --from-backup $BACKUP_NAME
 ```
