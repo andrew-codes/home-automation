@@ -36,4 +36,4 @@
       become: yes
       command: "{{ item }}"
       with_items:
-        - arkade install inlets-operator --provider azure --region eastUS --token-file /home/{{ ansible_user }}/secrets/azure-cloud-credentials.json --license-file /home/{{ ansible_user }}/secrets/inlets-pro.license
+        - arkade install inlets-operator --provider azure --region eastUS --token-file /home/{{ ansible_user }}/secrets/azure-cloud-credentials.json --license-file /home/{{ ansible_user }}/secrets/inlets-pro.license --subscription-id {{ azure_inlets_subscription_id }}
