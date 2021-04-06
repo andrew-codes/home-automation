@@ -19,20 +19,20 @@
     - name: Copy azure creds
       copy:
         src: ./../../.secrets/azure-cloud-credentials.json
-        dest: /home/{{ ansible_user }}/.secrets/azure-cloud-credentials
+        dest: /home/{{ ansible_user }}/.secrets/azure-cloud-credentials.json
         owner: hl
         mode: "0644"
 
-    - name: Inlets for DigitalOcean
+    - name: Inlets for Azure
       become_user: hl
       become_method: sudo
       become: yes
       command: "{{ item }}"
       with_items:
-        - kubectl create secret generic cert --dry-run=client -from-file=inlets-access-key=/home/{{ ansible_user }}/.secrets/azure-cloud-credentials -o json >"/home/{{ ansible_user }}/.secrets/azure-cloud-credentials-kubectl-secret.json"
-        - kubeseal <"/home/{{ ansible_user }}/.secrets/azure-cloud-credentials-kubectl-secret.json" >"/home/{{ ansible_user }}/.secrets/azure-cloud-credentials.json"
-        - kubectl apply -f .secrets/azure-cloud-credentials.json
-        - arkade install inlets-operator provider=azure,region=eastus,subscriptionID={{ azure_subscription_id }},inletsProLicense={{ inlets_pro_license }}
+        - kubectl create secret generic inlets-access-key --from-file=inlets-access-key=/home/{{ ansible_user }}/.secrets/azure-cloud-credentials.json
+        - helm repo add inlets https://inlets.github.io/inlets-operator/
+        - helm repo update
+        - helm upgrade inlets-operator --install inlets/inlets-operator --set provider=azure,region=eastus,subscriptionID={{ azure_subscription_id }},inletsProLicense={{ inlets_pro_license }}
 
     - name: Delete secrets
       become_user: hl
