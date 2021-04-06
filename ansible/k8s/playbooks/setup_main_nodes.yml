@@ -10,7 +10,7 @@
     - ../.secrets/setup_k8s.yml
 
   tasks:
-    - name: Intializing Kubernetes Cluster
+    - name: Initializing Kubernetes Cluster
       command: "{{ item }}"
       with_items:
         - kubeadm init --pod-network-cidr="{{ pod_network_cidr }}" --apiserver-advertise-address="{{ ansible_default_ipv4.address }}"

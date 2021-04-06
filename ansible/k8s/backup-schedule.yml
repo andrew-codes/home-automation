@@ -1,0 +1,12 @@
+---
+- hosts: mains
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+  remote_user: hl
+
+  tasks:
+    - name: Schedule 5 day rolling backup
+      shell: velero schedule create daily-backup --schedule "0 7 * * *" --ttl "120h"

@@ -5,6 +5,8 @@ This mono-repo consists of several applications and services I use to create my 
 ## Topics
 
 1. [Installation guide](./docs/installation-guide.md)
+1. [Viewing the Kubernetes dashboard](./docs/kubernetes-dashboard.md)
+1. [Kubernetes cluster backup and restore](./docs/kubernetes-backup-and-restore.md)
 1. [Testing/running apps/services locally](./docs/testing-apps-locally.md)
 
 ## Applications

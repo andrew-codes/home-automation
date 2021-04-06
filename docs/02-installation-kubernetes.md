@@ -28,7 +28,11 @@ all:
 
 ## Required Secrets
 
-Fill in the secrets found in `secrets.sh` for the "# Required for Initial Provisioning" section and then execute:
+Fill in the secrets found in `secrets.sh` for the "# Required for Initial Provisioning" section.
+
+> See setting [Azure backup secrets](./azure-backup-secrets.md) for more information on setting the Azure secrets.
+
+Then execute:
 
 ```bash
 ./set_initial_secrets.sh
