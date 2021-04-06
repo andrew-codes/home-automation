@@ -10,16 +10,23 @@
     - ../../.secrets/setup_k8s.yml
 
   tasks:
-    - name: Create .secrets directory
+    - name: Create secrets directory
       become_user: hl
       become_method: sudo
       become: yes
-      shell: mkdir -p /home/{{ ansible_user }}/.secrets
+      shell: mkdir -p /home/{{ ansible_user }}/secrets
 
     - name: Copy azure creds
       copy:
         src: ./../../.secrets/azure-cloud-credentials.json
-        dest: /home/{{ ansible_user }}/.secrets/azure-cloud-credentials.json
+        dest: /home/{{ ansible_user }}/secrets/azure-cloud-credentials.json
+        owner: hl
+        mode: "0644"
+
+    - name: Copy inlets license
+      copy:
+        src: ./../../.secrets/inlets-pro.license
+        dest: /home/{{ ansible_user }}/secrets/inlets-pro.license
         owner: hl
         mode: "0644"
 
@@ -29,13 +36,4 @@
       become: yes
       command: "{{ item }}"
       with_items:
-        - kubectl create secret generic inlets-access-key --from-file=inlets-access-key=/home/{{ ansible_user }}/.secrets/azure-cloud-credentials.json
-        - helm repo add inlets https://inlets.github.io/inlets-operator/
-        - helm repo update
-        - helm upgrade inlets-operator --install inlets/inlets-operator --set provider=azure,region=eastus,subscriptionID={{ azure_subscription_id }},inletsProLicense={{ inlets_pro_license }}
-
-    - name: Delete secrets
-      become_user: hl
-      become_method: sudo
-      become: yes
-      shell: rm -rf /home/{{ ansible_user }}/.secrets/*
+        - arkade install inlets-operator --provider azure --region eastUS --token-file /home/{{ ansible_user }}/secrets/azure-cloud-credentials.json --license-file /home/{{ ansible_user }}/secrets/inlets-pro.license

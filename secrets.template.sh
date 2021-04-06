@@ -22,9 +22,6 @@ export EMAIL=""
 # Required to setup Pihole
 export PIHOLE_PASSWORD=""
 
-# API token to create droplets in Digital Ocean
-export DIGITALOCEAN_TOKEN=""
-
 # Azure (for backup)
 export AZURE_SUBSCRIPTION_ID=""
 export AZURE_TENANT_ID=""
@@ -36,16 +33,18 @@ export AZURE_STORAGE_ACCOUNT_ID=""
 export AZURE_BACKUP_SUBSCRIPTION_ID=""
 export BLOB_CONTAINER=""
 
+# Azure Inlets Exit Server
+export AZURE_INLETS_CLIENT_ID=""
+export AZURE_INLETS_CLIENT_SECRET=""
+export AZURE_INLETS_SUBSCRIPTION_ID=""
+export AZURE_INLETS_TENANT_ID=""
+# Inlets pro license value
+export INLETS_PRO_LICENSE=""
+
 # Docker registry domain; e.g. docker.yourdomain.com
 # Local DNS must point this domain to your $CLUSTER_IP
 export DOCKER_REGISTRY_DOMAIN=""
 
-# Inlets pro license value
-export INLETS_PRO_LICENSE=""
-export INLETS_PRO_AZURE_EXIT_SERVER_CONFIG=$(
-    cat <<EOL
-EOL
-)
 # ===============================
 
 # =======================================
