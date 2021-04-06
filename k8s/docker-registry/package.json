@@ -8,7 +8,5 @@
     "postdeploy": "kubectl rollout restart deployment docker-registry --namespace docker-registry",
     "seal": "scripts/bin/seal.sh"
   },
-  "dependencies": {
-    "@ha/lets-encrypt": "^0.0.1"
-  }
+  "dependencies": {}
 }
