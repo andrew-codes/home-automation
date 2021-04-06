@@ -9,6 +9,6 @@
     "seal": "scripts/bin/seal.sh"
   },
   "dependencies": {
-    "@ha/gaming-namespace": "*"
+    "@ha/gaming-namespace": "^0.0.1"
   }
 }
