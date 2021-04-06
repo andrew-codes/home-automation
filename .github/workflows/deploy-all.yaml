@@ -47,7 +47,7 @@ jobs:
           DOCKER_REGISTRY_DOMAIN: ${{ secrets.DOCKER_REGISTRY_DOMAIN }}
         run: yarn lerna run image/push --stream
       - name: Deploy
-        run: yarn lerna run deploy --stream --ignore @ha/lets-encrypt --ignore @ha/docker-registry
+        run: yarn lerna run deploy --stream --ignore @ha/lets-encrypt --ignore @ha/docker-registry --ignore @ha/playnite-game-data-exporter
         env:
           MACHINE_PASSWORD: '${{ secrets.MACHINE_PASSWORD }}'
           GAMING_ROOM_GAMING_PC_USERNAME: "${{ secrets.GAMING_ROOM_GAMING_PC_USERNAME }}"
