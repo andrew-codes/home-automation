@@ -38,7 +38,7 @@
         remote_src: yes
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"
-        mode: "0644"
+        mode: "0600"
 
     - pause: seconds=10
 
