@@ -42,6 +42,10 @@ export DOCKER_REGISTRY_DOMAIN=""
 
 # Inlets pro license value
 export INLETS_PRO_LICENSE=""
+export INLETS_PRO_AZURE_EXIT_SERVER_CONFIG=$(
+    cat <<EOL
+EOL
+)
 # ===============================
 
 # =======================================

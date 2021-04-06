@@ -15,10 +15,15 @@ azure_backup_resource_group: "$AZURE_RESOURCE_GROUP"
 azure_storage_account_id: "$AZURE_STORAGE_ACCOUNT_ID"
 azure_backup_subscription_id: "$AZURE_BACKUP_SUBSCRIPTION_ID"
 blob_container: "$BLOB_CONTAINER"
+azure_subscription_id: "$AZURE_SUBSCRIPTION_ID"
 EOL
 
 cat >ansible/k8s/.secrets/inlets-pro.license <<EOL
 $INLETS_PRO_LICENSE
+EOL
+
+cat >ansible/k8s/.secrets/azure-cloud-credentials.json <<EOL
+$INLETS_PRO_AZURE_EXIT_SERVER_CONFIG
 EOL
 
 cat >ansible/k8s/.secrets/backup-cloud-credentials.ini <<EOL

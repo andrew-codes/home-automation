@@ -32,6 +32,8 @@ Fill in the secrets found in `secrets.sh` for the "# Required for Initial Provis
 
 > See setting [Azure backup secrets](./azure-backup-secrets.md) for more information on setting the Azure secrets.
 
+> See setting up [Azure exit servers for Inlets Pro](https://docs.inlets.dev/#/tools/inlets-operator?id=create-exit-node-on-azure)
+
 Then execute:
 
 ```bash
