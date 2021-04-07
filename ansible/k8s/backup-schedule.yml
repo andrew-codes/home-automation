@@ -2,11 +2,22 @@
 - hosts: mains
   become: yes
   become_method: sudo
-  become_user: root
+  become_user: hl
   gather_facts: yes
   connection: ssh
   remote_user: hl
 
   tasks:
-    - name: Schedule 5 day rolling backup
-      shell: velero schedule create daily-backup --schedule "0 7 * * *" --ttl "120h"
+    - name: Schedule 5 day rolling backup of home-automation namespace
+      shell: velero schedule create home-automation-daily-backup --schedule "0 7 * * *" --ttl "120h" --include-namespaces home-automation
+    
+    - name: Schedule 5 day rolling backup of gaming namespace
+      shell: velero schedule create gaming-daily-backup --schedule "0 7 * * *" --ttl "120h" --include-namespaces gaming
+    
+    - name: Schedule 5 day rolling backup of docker registry namespace
+      shell: velero schedule create docker-registry-daily-backup --schedule "0 7 * * *" --ttl "120h" --include-namespaces docker-registry
+    
+    - name: Schedule 5 day rolling backup of github action runners namespace
+      shell: velero schedule create github-action-runners-daily-backup --schedule "0 7 * * *" --ttl "120h" --include-namespaces actions-runner-system
+
+
