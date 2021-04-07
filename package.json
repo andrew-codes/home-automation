@@ -13,7 +13,7 @@
     "burn-image": "./scripts/bin/burn-image.sh",
     "clean": "lerna run clean --include-filtered-dependencies",
     "compile": "lerna run compile --include-filtered-dependencies",
-    "dashboard": "kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}') && kubectl proxy",
+    "dashboard": "lerna run dashboard --stream --parallel",
     "deploy": "lerna run deploy --include-filtered-dependencies",
     "patch": "patch-package",
     "preinstall": "yarn global add typescript ts-node",
