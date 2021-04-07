@@ -13,4 +13,4 @@ done
 kubectl create -f kube-prometheus-0.7.0/manifests/
 
 rm -rf tmp
-rm -f kube-prometheus-0.7.0
+rm -rf kube-prometheus-0.7.0
