@@ -5,6 +5,6 @@
   "license": "MIT",
   "scripts": {
     "deploy": "scripts/bin/deploy.sh",
-    "dashboard": ""
+    "dashboard": "scripts/bin/dashboard.sh"
   }
 }
