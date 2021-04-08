@@ -1,6 +1,6 @@
 # GraphQL API
 
-This app provides a single interface to interact with the home automation system services. It provides a GraphQL endpoint that enables other services to query or mutate the home automation graph. The intention is for other services to use a single API instead of taking direct dependencies on several other services.
+This app provides a single interface to interact with the home automation system services. It provides a GraphQL endpoint that enables other services to query or mutate the home automation graph. The intention is for additional services to use a single API instead of taking direct dependencies on several other services.
 
 ## Running Locally
 

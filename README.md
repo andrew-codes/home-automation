@@ -18,6 +18,7 @@ Application documentation is within its deployment configuration in the `./k8s/*
 - [GraphQL Home API](./k8s/graphql-api/README.md)
 - [Guest Detection: Captive Portal](./k8s/captive-portal/README.md)
 - [Guest Detection: Guest Device Wifi Renewals](./k8s/guest-wifi-renewal/README.md)
+- [Metrics with Prometheus and Grafana](./k8s/metrics/README.md)
 
 ## Packages
 
