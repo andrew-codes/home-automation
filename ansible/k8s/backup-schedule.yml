@@ -19,5 +19,8 @@
     
     - name: Schedule 5 day rolling backup of github action runners namespace
       shell: velero schedule create github-action-runners-daily-backup --schedule "0 7 * * *" --ttl "120h" --include-namespaces actions-runner-system
+    
+    - name: Schedule 5 day rolling backup of zwave namespace
+      shell: velero schedule create zwave-daily-backup --schedule "0 7 * * *" --ttl "120h" --include-namespaces zwave
 
 
