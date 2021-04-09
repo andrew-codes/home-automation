@@ -6,6 +6,7 @@ kubectl apply -f secrets
 mkdir -p tmp
 cp service.yml tmp/service.yml
 yq eval ".spec.externalIPs[0]=\"$CLUSTER_IP\"" -i tmp/service.yml
+yq eval '.spec.ports[0].nodePort=env(EXTERNAL_DOCKER_REGISTIRY_PORT)' -i service.yml
 kubectl apply -f docker-registry.yml
 kubectl apply -f tmp/service.yml
 
