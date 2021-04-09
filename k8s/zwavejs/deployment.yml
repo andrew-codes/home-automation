@@ -34,6 +34,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: zwave
+  namespace: zwave
 spec:
   replicas: 1
   selector:
