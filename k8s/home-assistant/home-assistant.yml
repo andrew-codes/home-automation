@@ -80,7 +80,7 @@ spec:
               subPath: id_rsa
       containers:
         - name: home-assistant
-          image: homeassistant/home-assistant:2021.3.4
+          image: homeassistant/home-assistant:2021.4.3
           imagePullPolicy: Always
           command:
             - "sh"
