@@ -1,0 +1,5 @@
+---
+- import_playbook: playbooks/backups/daily-docker-registry.yml
+- import_playbook: playbooks/backups/daily-gaming.yml
+- import_playbook: playbooks/backups/daily-home-automation.yml
+- import_playbook: playbooks/backups/daily-zwave.yml

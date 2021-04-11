@@ -1,0 +1,12 @@
+---
+- hosts: mains
+  become: yes
+  become_method: sudo
+  become_user: hl
+  gather_facts: yes
+  connection: ssh
+  remote_user: hl
+
+  tasks:
+    - name: Schedule 5 day rolling backup of home-automation namespace
+      shell: velero schedule create home-automation-daily-backup --schedule "0 7 * * *" --ttl "120h" --include-namespaces home-automation
