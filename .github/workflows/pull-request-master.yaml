@@ -35,8 +35,9 @@ jobs:
         run: yarn
       - name: Run unit tests
         run: yarn test
-        # uses: mattallty/jest-github-action@v1
-        # env:
-        #   GITHUB_TOKEN: ${{ secrets.JEST_REPORTER_TOKEN }}
-        # with:
-        #   test-command: "yarn test"
+      - name: Report Test coverage
+        uses: mattallty/jest-github-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.JEST_REPORTER_TOKEN }}
+        with:
+          test-command: "yarn test"
