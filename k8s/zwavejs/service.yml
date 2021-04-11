@@ -9,5 +9,8 @@ spec:
     - name: http
       port: 80
       targetPort: http
+    - name: ws
+      port: 3000
+      targetPort: ws
   selector:
     name: zwave
