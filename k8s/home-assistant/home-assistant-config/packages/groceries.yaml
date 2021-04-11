@@ -1,0 +1,116 @@
+shopping_list:
+  automation:
+    - alias: Remind Dorri of the grocery list when she arrives at the grocery store
+      trigger:
+        - platform: state
+          entity_id: person.dorri_smith
+          to: Kroger by InfoMart
+          for:
+            minutes: 1
+        - platform: state
+          entity_id: person.dorri_smith
+          to: Costco at Cumberland Mall
+          for:
+            minutes: 1
+        - platform: state
+          entity_id: person.dorri_smith
+          to: Publix at Chastain Square
+          for:
+            minutes: 1
+        - platform: state
+          entity_id: person.dorri_smith
+          to: Kroger by Terminus
+          for:
+            minutes: 1
+        - platform: state
+          entity_id: person.dorri_smith
+          to: Publix at Piedmont Commons
+          for:
+            minutes: 1
+      action:
+        - service: notify.mobile_app_dorri_s_iphone
+          data_template:
+            title: Check the grocery list
+            message: "Don't forget to check the shopping list while you are at the grocery store"
+            data:
+              url: lovelace/groceries
+              push:
+                thread-id: groceries
+
+    - alias: Remind Andrew of the grocery list when he arrives at the grocery store
+      trigger:
+        - platform: state
+          entity_id: person.andrew_smith
+          to: Costco at Cumberland Mall
+          for:
+            minutes: 1
+        - platform: state
+          entity_id: person.andrew_smith
+          to: Publix at Chastain Square
+          for:
+            minutes: 1
+        - platform: state
+          entity_id: person.andrew_smith
+          to: Kroger by Terminus
+          for:
+            minutes: 1
+        - platform: state
+          entity_id: person.andrew_smith
+          to: Publix at Piedmont Commons
+          for:
+            minutes: 1
+      action:
+        - service: notify.mobile_app_andrew_s_iphone
+          data_template:
+            title: Check the grocery list
+            message: "Don't forget to check the shopping list while you are at the grocery store"
+            data:
+              url: lovelace/groceries
+              push:
+                thread-id: groceries
+
+    - alias: Sync Alexa shopping list
+      trigger:
+        - platform: time_pattern
+          minutes: "/1"
+      action:
+        - service: mqtt.publish
+          data:
+            topic: /home/shopping-list/refresh
+
+  ios:
+    push:
+      categories:
+        - name: Shopping List
+          identifier: Shopping List
+          actions:
+            - identifier: View Shopping List
+              title: View Shopping List
+              activationMode: foreground
+              authenticationRequired: false
+              destructive: true
+              behavior: default
+
+  zone:
+    - name: Kroger by InfoMart
+      latitude: 33.922950
+      longitude: -84.469949
+      icon: mdi:cart
+    - name: Kroger by Terminus
+      latitude: 33.845693
+      longitude: -84.374194
+      icon: mdi:cart
+    - name: Costco at Cumberland Mall
+      latitude: 33.880650
+      longitude: -84.470763
+      icon: mdi:cart
+    - name: Publix at Chastain Square
+      latitude: 33.871056
+      longitude: -84.379442
+      radius: 80
+      icon: mdi:cart
+    - name: Publix at Piedmont Commons
+      latitude: 33.977253395051555
+      longitude: -84.47811771779271
+      radius: 80
+      icon: mdi:cart
