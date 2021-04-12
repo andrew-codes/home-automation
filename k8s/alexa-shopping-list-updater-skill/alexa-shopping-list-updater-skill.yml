@@ -23,7 +23,7 @@ spec:
           imagePullPolicy: Always
           ports:
             - name: alexa-http
-              containerPort: 80
+              containerPort: 8085
               protocol: TCP
           env:
             - name: API_URL
@@ -34,7 +34,7 @@ spec:
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: "0"
             - name: PORT
-              value: "80"
+              value: "8085"
             - name: DEBUG
               value: "@ha/alexa-shopping-list-updater-skill/*"
             - name: GRAPHQL_API_TOKEN
