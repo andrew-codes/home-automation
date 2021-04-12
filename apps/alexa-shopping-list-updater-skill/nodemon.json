@@ -1,0 +1,9 @@
+{
+  "verbose": true,
+  "ignore": ["*.test.js", "fixtures/*", "*.graphql"],
+  "execMap": {
+    "js": "ts-node",
+    "ts": "ts-node"
+  },
+  "watch": ["src"]
+}

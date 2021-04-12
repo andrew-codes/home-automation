@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alexa-shopping-list-updater-skill
+  namespace: home-automation
+  labels:
+    app.kubernetes.io/name: alexa-shopping-list-updater-skill
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: alexa-shopping-list-updater-skill
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: alexa-shopping-list-updater-skill
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: alexa-shopping-list-updater-skill
+          image: docker.smith-simms.family:5000/alexa-shopping-list-updater-skill:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          env:
+            - name: API_URL
+              valueFrom:
+                secretKeyRef:
+                  name: graphql-secrets
+                  key: host
+            - name: NODE_TLS_REJECT_UNAUTHORIZED
+              value: "0"
+            - name: PORT
+              value: "80"
+            - name: DEBUG
+              value: "@ha/alexa-shopping-list-updater-skill/*"
+            - name: GRAPHQL_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: graphql-secrets
+                  key: token
+            - name: MQTT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-secrets
+                  key: mqtt-username
+            - name: MQTT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-secrets
+                  key: mqtt-password
+            - name: MQTT_HOST
+              value: mqtt
+            - name: MQTT_PORT
+              value: "1883"

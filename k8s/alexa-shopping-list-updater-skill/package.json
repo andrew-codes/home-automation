@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "@ha/alexa-shopping-list-updater-skill",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "seal": "scripts/bin/seal.sh",
+    "deploy": "scripts/bin/deploy.sh",
+    "postdeploy": "kubectl rollout restart deployment alexa-shopping-list-updater-skill --namespace home-automation"
+  },
+  "dependencies": {
+    "@ha/alexa-shopping-list-updater-skill-app": "^0.0.1"
+  }
+}
