@@ -22,5 +22,5 @@ spec:
         paths:
           - path: "/"
             backend:
-              serviceName: alexa-http
+              serviceName: alexa-shopping-list-updater-skill
               servicePort: 8085
