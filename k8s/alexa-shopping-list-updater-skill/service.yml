@@ -8,9 +8,9 @@ metadata:
     app.kubernetes.io/name: alexa-shopping-list-updater-skill
 spec:
   ports:
-    - name: http
+    - name: alexa-http
       port: 80
       protocol: TCP
-      targetPort: http
+      targetPort: alexa-http
   selector:
     app.kubernetes.io/name: alexa-shopping-list-updater-skill

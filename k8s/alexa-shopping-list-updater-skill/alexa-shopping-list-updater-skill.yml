@@ -22,7 +22,7 @@ spec:
           image: docker.smith-simms.family:5000/alexa-shopping-list-updater-skill:latest
           imagePullPolicy: Always
           ports:
-            - name: http
+            - name: alexa-http
               containerPort: 80
               protocol: TCP
           env:

@@ -22,5 +22,5 @@ spec:
         paths:
           - path:
             backend:
-              serviceName: http
+              serviceName: alexa-http
               servicePort: 80
