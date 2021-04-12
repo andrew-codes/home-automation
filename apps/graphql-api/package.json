@@ -29,7 +29,7 @@
     "graphql": "^15.1.0",
     "graphql-subscriptions": "^1.1.0",
     "homeassistant": "^0.2.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "mongodb": "^3.6.3",
     "nexus": "^1.0.0",
     "node-cache": "^5.1.2",

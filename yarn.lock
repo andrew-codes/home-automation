@@ -3194,6 +3194,32 @@ asap@^2.0.0:
   resolved "https://registry.yarnpkg.com/asap/-/asap-2.0.6.tgz#e50347611d7e690943208bbdafebcbc2fb866d46"
   integrity sha1-5QNHYR1+aQlDIIu9r+vLwvuGbUY=
 
+ask-sdk-core@^2.10.2:
+  version "2.10.2"
+  resolved "https://registry.yarnpkg.com/ask-sdk-core/-/ask-sdk-core-2.10.2.tgz#db846ae27c91e13a9859b46175075ffc12af359e"
+  integrity sha512-HaH/ditTlB5nqXB2rx8D36fwG8PMP6OXQK3kHQDoTV8b4jgOij1eESJ3sGRilXwLfK/BUz92Ya2laIEnNvzhEA==
+  dependencies:
+    ask-sdk-runtime "^2.10.2"
+
+ask-sdk-express-adapter@^2.10.2:
+  version "2.10.2"
+  resolved "https://registry.yarnpkg.com/ask-sdk-express-adapter/-/ask-sdk-express-adapter-2.10.2.tgz#c186686fedc65c2d4dae9c7947cf5fd80b495145"
+  integrity sha512-h/WuqFMRF+vpPcUq8fGbJr89lZDJG7Qb0V3255E0+aA26i8L4VdD5KfkxHrpnpFUACaT1tjoNq+EONSevAiIyQ==
+  dependencies:
+    body-parser "^1.18.2"
+    node-forge "^0.10.0"
+    semver "^7.3.4"
+
+ask-sdk-model@^1.35.1:
+  version "1.35.1"
+  resolved "https://registry.yarnpkg.com/ask-sdk-model/-/ask-sdk-model-1.35.1.tgz#310a98a01e5ff352395f46ba3b7ecf7eecddae55"
+  integrity sha512-xYWkjGVOetvApO5qoCkxxEbRdzld/toSE32xYW48jIDYmOsL0bCGXkf4oheZ3jEhg6jrSdBtHYN0Xe9cyVXIOg==
+
+ask-sdk-runtime@^2.10.2:
+  version "2.10.2"
+  resolved "https://registry.yarnpkg.com/ask-sdk-runtime/-/ask-sdk-runtime-2.10.2.tgz#8c3bd818c73deb46bccc58ff00387ee652b5a0ad"
+  integrity sha512-pe9xbhQzkRGrrWT/pRceoREmVLKw33C7Z00mC4mKZEOrO4vjjrUAXNIALPKIy/gpqMTB00N0H77vLtzZVH21Sg==
+
 asn1@~0.2.3:
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/asn1/-/asn1-0.2.4.tgz#8d2475dfab553bb33e77b54e59e880bb8ce23136"
@@ -7205,7 +7231,7 @@ lodash.templatesettings@^4.0.0:
   dependencies:
     lodash._reinterpolate "^3.0.0"
 
-lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20:
+lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -7792,6 +7818,11 @@ node-fetch@^2.1.2, node-fetch@^2.2.0, node-fetch@^2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
+
+node-forge@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.10.0.tgz#32dea2afb3e9926f02ee5ce8794902691a676bf3"
+  integrity sha512-PPmu8eEeG9saEUvI97fm4OYxXVB6bFvyNTyiUOBichBpFG8A1Ljw3bY62+5oOjDEMHRnd0Y7HQ+x7uzxOzC6JA==
 
 node-gyp@^5.0.2:
   version "5.1.1"
