@@ -197,6 +197,7 @@ const skill = skillBuilder.create()
 const adapter = new ExpressAdapter(skill, true, true)
 app.post("/", adapter.getRequestHandlers())
 app.get("/", (req, res) => {
+  debug("GET received")
   res.sendStatus(200)
 })
 app.listen(PORT, () => debug(`Listening on ${PORT}`))
