@@ -9,7 +9,7 @@ metadata:
 spec:
   ports:
     - name: alexa-http
-      port: 80
+      port: 8085
       protocol: TCP
       targetPort: alexa-http
   selector:

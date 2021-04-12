@@ -20,7 +20,7 @@ spec:
     - host: $ALEXA_SHOPPING_LIST_SKILL_DOMAIN
       http:
         paths:
-          - path:
+          - path: "/"
             backend:
               serviceName: alexa-http
-              servicePort: 80
+              servicePort: 8085
