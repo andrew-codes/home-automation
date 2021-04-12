@@ -1,4 +1,4 @@
-import Alexa from "ask-sdk-core"
+import * as Alexa from "ask-sdk-core"
 import express from "express"
 import createDebug from "debug"
 import { createApolloFetch } from "apollo-fetch"
