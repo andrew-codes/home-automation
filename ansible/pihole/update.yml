@@ -6,4 +6,4 @@
       become_user: root
       become_method: sudo
       become: yes
-      shell: pihole update
+      shell: pihole -up
