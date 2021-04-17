@@ -22,7 +22,7 @@ homeassistant:
   latitude: !secret latitude
   longitude: !secret longitude
   unit_system: !secret unit_system
-  packages: !include_dir_merge_named packages
+  packages: !include_dir_named packages
 frontend:
   themes: !include_dir_merge_named themes
 

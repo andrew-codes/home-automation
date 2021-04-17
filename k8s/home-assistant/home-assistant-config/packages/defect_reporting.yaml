@@ -1,27 +1,25 @@
-defect_reporting_package:
-  
-  input_text:
-    defect_summary:
-      name: Defect Summary
-      initial: ""
+input_text:
+  defect_summary:
+    name: Defect Summary
+    initial: ""
 
-  rest_command:
-    create_github_issue:
-      url: https://api.github.com/repos/andrew-codes/home-automation/issues
-      method: POST
-      headers:
-        authorization: !secret github_authorization_header
-        accept: "application/json, text/html"
-        user-agent: "Mozilla/5.0 {{ useragent }}"
-      payload: '{"title": "{{ states("input_text.defect_summary") }}","body": "","labels": ["bug", "reported"]}'
-      content_type: "application/json; charset=utf-8"
-      verify_ssl: true
+rest_command:
+  create_github_issue:
+    url: https://api.github.com/repos/andrew-codes/home-automation/issues
+    method: POST
+    headers:
+      authorization: !secret github_authorization_header
+      accept: "application/json, text/html"
+      user-agent: "Mozilla/5.0 {{ useragent }}"
+    payload: '{"title": "{{ states("input_text.defect_summary") }}","body": "","labels": ["bug", "reported"]}'
+    content_type: "application/json; charset=utf-8"
+    verify_ssl: true
 
-  script:
-    report_defect:
-      sequence:
-        - service: rest_command.create_github_issue
-        - service: input_text.set_value
-          data:
-            entity_id: input_text.defect_summary
-            value: ""
+script:
+  report_defect:
+    sequence:
+      - service: rest_command.create_github_issue
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.defect_summary
+          value: ""

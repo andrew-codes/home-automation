@@ -1,544 +1,543 @@
-gaming_room_package:
-  wake_on_lan:
+wake_on_lan:
 
-  webostv:
-    name: Gaming Room TV
-    host: !secret gaming_room_tv_ip
-    turn_on_action:
-      service: wake_on_lan.send_magic_packet
-      data:
-        mac: !secret gaming_room_tv_mac
+webostv:
+  name: Gaming Room TV
+  host: !secret gaming_room_tv_ip
+  turn_on_action:
+    service: wake_on_lan.send_magic_packet
+    data:
+      mac: !secret gaming_room_tv_mac
 
-  input_boolean:
-    gaming_room_nintendo_switch_power_state:
-      name: Gaming Room Nintendo Switch Power State
-      initial: off
-      icon: mdi:nintendo-switch
+input_boolean:
+  gaming_room_nintendo_switch_power_state:
+    name: Gaming Room Nintendo Switch Power State
+    initial: off
+    icon: mdi:nintendo-switch
 
-  binary_sensor:
-    - name: Gaming Room Gaming PC Power State
-      platform: ping
-      host: !secret gaming_room_gaming_pc_ip
-      scan_interval: 20
+binary_sensor:
+  - name: Gaming Room Gaming PC Power State
+    platform: ping
+    host: !secret gaming_room_gaming_pc_ip
+    scan_interval: 20
 
-  sensor:
-    - platform: mqtt
-      name: "PlayStation 5 State"
-      state_topic: "/ps5/state"
-      value_template: "{{ value_json.state }}"
+sensor:
+  - platform: mqtt
+    name: "PlayStation 5 State"
+    state_topic: "/ps5/state"
+    value_template: "{{ value_json.state }}"
 
-  script:
-    gaming_room_turn_on_gaming_pc:
-      sequence:
-        - service: wake_on_lan.send_magic_packet
-          data:
-            mac: !secret gaming_room_gaming_pc_mac
-            broadcast_address: !secret gaming_room_gaming_pc_ip
-    gaming_room_turn_off_gaming_pc:
-      sequence:
-        - service: shell_command.turn_off_gaming_room_gaming_pc
-    gaming_room_turn_off_all_media_players:
-      sequence:
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_gaming_pc
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_media_player
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_nintendo_switch
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_tv
-
-  shell_command:
-    turn_off_gaming_room_gaming_pc: !secret turn_off_gaming_room_gaming_pc_command
-
-  media_player:
-      # This is the primary media player for automations.
-    - name: Gaming Room Media Player
-      platform: universal
-      children:
-        - media_player.gaming_room_universal_gaming_pc
-        - media_player.gaming_room_universal_playstation_5
-        - media_player.gaming_room_universal_nintendo_switch
-        - media_player.gaming_room_universal_media_player
-      state_template: >
-        {% if is_state('media_player.gaming_room_universal_playstation_5', 'on') %}
-        on
-        {% elif is_state('media_player.gaming_room_universal_gaming_pc', 'on') %}
-        on
-        {% elif is_state('media_player.gaming_room_universal_nintendo_switch', 'on') %}
-        on
-        {% elif is_state('media_player.gaming_room_universal_media_player', 'on') %}
-        on
-        {% elif is_state('media_player.gaming_room_universal_media_player', 'playing') %}
-        on
-        {% else %}
-        off
-        {% endif %}
-      commands:
-        turn_off:
-          service: script.turn_on
-          data:
-            entity_id: script.gaming_room_turn_off_all_media_players
-        volume_set:
-          service: media_player.volume_set
-          data_template:
-            entity_id: >
-              {{ state_attr('media_player.gaming_room_media_player', 'active_child') }}
-            volume_level: "{{ volume_level }}"
-        volume_up:
-          service: media_player.volume_up
-          data_template:
-            entity_id: >
-              {{ state_attr('media_player.gaming_room_media_player', 'active_child') }}
-        volume_down:
-          service: media_player.volume_down
-          data_template:
-            entity_id: >
-              {{ state_attr('media_player.gaming_room_media_player', 'active_child') }}
-        volume_mute:
-          service: media_player.volume_mute
-          data_template:
-            entity_id: >
-              {{ state_attr('media_player.gaming_room_media_player', 'active_child') }}
-            is_volume_muted: "{{ is_volume_muted }}"
-        select_source:
-          service: media_player.select_source
-          data_template:
-            entity_id: >
-              {{ state_attr('media_player.gaming_room_media_player', 'active_child') }}
-            source: "{{ source }}"
-      attributes:
-        is_volume_muted: media_player.gaming_room_avr|is_volume_muted
-        volume_level: media_player.gaming_room_avr|volume_level
-
-    - name: Gaming Room NVIDIA Shield Pro
-      platform: androidtv
-      host: !secret gaming_room_nvidia_shield_ip
-      exclude_unnamed_apps: true
-      apps:
-        com.amazon.amazonvideo.livingroom: Prime
-        com.google.android.youtube.tv: YouTube
-        com.hulu.livingroomplus: Hulu
-        com.netflix.ninja: Netflix
-        com.nvidia.tegrazone3: GameStream
-        com.waxrain.airplaydmr3: AirPlay
-    - name: Gaming Room Universal PlayStation 5
-      platform: universal
-      children:
-        - media_player.gaming_room_avr
-        - media_player.gaming_room_tv
-      state_template: >
-        {% if is_state('sensor.playstation_5_state', 'standby') %}
-        off
-        {% elif is_state('sensor.playstation_5_state', 'idle') %}
-        on
-        {% elif is_state('sensor.playstation_5_state', 'on') %}
-        on
-        {% else %}
-        off
-        {% endif %}
-      commands:
-        # turn_off:
-        #   service: media_player.turn_off
-        #   data:
-        #     entity_id:
-        volume_set:
-          service: media_player.volume_set
-          data:
-            entity_id: media_player.gaming_room_avr
-          data_template:
-            volume_level: "{{ volume_level }}"
-        volume_up:
-          service: media_player.volume_up
-          data:
-            entity_id: media_player.gaming_room_avr
-        volume_down:
-          service: media_player.volume_down
-          data:
-            entity_id: media_player.gaming_room_avr
-        volume_mute:
-          service: media_player.volume_mute
-          data:
-            entity_id: media_player.gaming_room_avr
-          data_template:
-            is_volume_muted: "{{ is_volume_muted }}"
-      attributes:
-        is_volume_muted: media_player.gaming_room_avr|is_volume_muted
-        volume_level: media_player.gaming_room_avr|volume_level
-        source: PS4
-        source_list: media_player.gaming_room_avr|source_list
-    - name: Gaming Room Universal Gaming PC
-      platform: universal
-      children:
-        - media_player.gaming_room_avr
-        - media_player.gaming_room_tv
-      state_template: >
-        {{ states('binary_sensor.gaming_room_gaming_pc_power_state') }}
-      commands:
-        turn_on:
-          service: script.turn_on
-          data:
-            entity_id: script.gaming_room_turn_on_gaming_pc
-        turn_off:
-          service: script.turn_on
-          data:
-            entity_id: script.gaming_room_turn_off_gaming_pc
-        volume_set:
-          service: media_player.volume_set
-          data:
-            entity_id: media_player.gaming_room_avr
-          data_template:
-            volume_level: "{{ volume_level }}"
-        volume_up:
-          service: media_player.volume_up
-          data:
-            entity_id: media_player.gaming_room_avr
-        volume_down:
-          service: media_player.volume_down
-          data:
-            entity_id: media_player.gaming_room_avr
-        volume_mute:
-          service: media_player.volume_mute
-          data:
-            entity_id: media_player.gaming_room_avr
-          data_template:
-            is_volume_muted: "{{ is_volume_muted }}"
-        select_source:
-          service: mqtt.publish
-          data_template:
-            topic: "/homeassistant/games/play/pc"
-            qos: 2
-            payload: "{{ source }}"
-      attributes:
-        is_volume_muted: media_player.gaming_room_avr|is_volume_muted
-        volume_level: media_player.gaming_room_avr|volume_level
-        source: PC
-        state: binary_sensor.gaming_room_gaming_pc_power_state
-    - name: Gaming Room Universal Nintendo Switch
-      platform: universal
-      children:
-        - media_player.gaming_room_avr
-        - media_player.gaming_room_tv
-      state_template: >
-        {{ states('input_boolean.gaming_room_nintendo_switch_power_state') }}
-      commands:
-        turn_on:
-          service: input_boolean.turn_on
-          data:
-            entity_id: input_boolean.gaming_room_nintendo_switch_power_state
-        turn_off:
-          service: input_boolean.turn_off
-          data:
-            entity_id: input_boolean.gaming_room_nintendo_switch_power_state
-        volume_set:
-          service: media_player.volume_set
-          data:
-            entity_id: media_player.gaming_room_avr
-          data_template:
-            volume_level: "{{ volume_level }}"
-        volume_up:
-          service: media_player.volume_up
-          data:
-            entity_id: media_player.gaming_room_avr
-        volume_down:
-          service: media_player.volume_down
-          data:
-            entity_id: media_player.gaming_room_avr
-        volume_mute:
-          service: media_player.volume_mute
-          data:
-            entity_id: media_player.gaming_room_avr
-          data_template:
-            is_volume_muted: "{{ is_volume_muted }}"
-        select_source:
-          service: media_player.select_source
-          data:
-            entity_id: media_player.gaming_room_avr
-            source: SWITCH
-      attributes:
-        is_volume_muted: media_player.gaming_room_avr|is_volume_muted
-        volume_level: media_player.gaming_room_avr|volume_level
-        source: SWITCH
-        source_list: media_player.gaming_room_avr|source_list
-    - name: Gaming Room Universal Media Player
-      platform: universal
-      children:
-        - media_player.gaming_room_nvidia_shield
-        - media_player.gaming_room_avr
-        - media_player.gaming_room_tv
-      state_template: >
-        {{ states('media_player.gaming_room_nvidia_shield_pro') }}
-      commands:
-        turn_on:
-          service: media_player.turn_on
-          data:
-            entity_id: media_player.gaming_room_nvidia_shield_pro
-        turn_off:
-          service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_nvidia_shield_pro
-        volume_set:
-          service: media_player.volume_set
-          data:
-            entity_id: media_player.gaming_room_avr
-          data_template:
-            volume_level: "{{ volume_level }}"
-        volume_up:
-          service: media_player.volume_up
-          data:
-            entity_id: media_player.gaming_room_avr
-        volume_down:
-          service: media_player.volume_down
-          data:
-            entity_id: media_player.gaming_room_avr
-        volume_mute:
-          service: media_player.volume_mute
-          data:
-            entity_id: media_player.gaming_room_avr
-          data_template:
-            is_volume_muted: "{{ is_volume_muted }}"
-        select_source:
-          service: media_player.select_source
-          data:
-            entity_id: media_player.gaming_room_avr
-            source: Media Player
-      attributes:
-        is_volume_muted: media_player.gaming_room_avr|is_volume_muted
-        volume_level: media_player.gaming_room_avr|volume_level
-        source: Media Player
-        source_list: media_player.gaming_room_avr|source_list
-
-  automation:
-    - alias: Start a game room activity while Andrew is home
-      trigger:
-        - platform: state
-          entity_id: media_player.gaming_room_media_player
-          from: "off"
-      condition:
-        - condition: state
-          entity_id: person.andrew_smith
-          state: "home"
-      action:
-        - service: media_player.turn_on
-          data:
-            entity_id: media_player.gaming_room_avr
-        - service: media_player.turn_on
-          data:
-            entity_id: media_player.gaming_room_tv
-        - service: media_player.select_sound_mode
-          data:
-            entity_id: media_player.gaming_room_avr
-            sound_mode: DOLBY DIGITAL
-
-    - alias: Start a game room gaming activity while Andrew is not home
-      trigger:
-        - platform: state
-          entity_id: media_player.gaming_room_universal_playstation_5
-          from: "off"
-        - platform: state
+script:
+  gaming_room_turn_on_gaming_pc:
+    sequence:
+      - service: wake_on_lan.send_magic_packet
+        data:
+          mac: !secret gaming_room_gaming_pc_mac
+          broadcast_address: !secret gaming_room_gaming_pc_ip
+  gaming_room_turn_off_gaming_pc:
+    sequence:
+      - service: shell_command.turn_off_gaming_room_gaming_pc
+  gaming_room_turn_off_all_media_players:
+    sequence:
+      - service: media_player.turn_off
+        data:
           entity_id: media_player.gaming_room_universal_gaming_pc
-          from: "off"
-        - platform: state
+      - service: media_player.turn_off
+        data:
+          entity_id: media_player.gaming_room_universal_media_player
+      - service: media_player.turn_off
+        data:
           entity_id: media_player.gaming_room_universal_nintendo_switch
-          from: "off"
-      condition:
-        - condition: state
-          entity_id: person.andrew_smith
-          state: "not_home"
-      action:
-        - service: media_player.turn_on
-          data:
-            entity_id: media_player.gaming_room_avr
-        - service: media_player.select_sound_mode
-          data:
-            entity_id: media_player.gaming_room_avr
-            sound_mode: DOLBY DIGITAL
-        - service: media_player.volume_set
-          data:
-            entity_id: media_player.gaming_room_universal_gaming_pc
-            volume_level: 0
+      - service: media_player.turn_off
+        data:
+          entity_id: media_player.gaming_room_tv
 
-    - alias: Start an activity on the gaming room gaming PC
-      trigger:
-        - platform: state
-          entity_id: media_player.gaming_room_universal_gaming_pc
-          from: "off"
-      action:
-        - service: media_player.select_source
-          data:
-            entity_id: media_player.gaming_room_avr
-            source: PC
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_nintendo_switch
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_media_player
-        # - service: media_player.turn_off
-        #   data:
-        #     entity_id: media_player.gaming_room_universal_playstation_4_pro
+shell_command:
+  turn_off_gaming_room_gaming_pc: !secret turn_off_gaming_room_gaming_pc_command
 
-    - alias: Start an activity on the gaming room gaming PC while Andrew is home adjusts volume
-      trigger:
-        - platform: state
-          entity_id: media_player.gaming_room_universal_gaming_pc
-          from: "off"
-      condition:
-        - condition: state
-          entity_id: person.andrew_smith
-          state: "home"
-      action:
-        - service: media_player.volume_set
-          data:
-            entity_id: media_player.gaming_room_universal_gaming_pc
-            volume_level: 0.56
+media_player:
+    # This is the primary media player for automations.
+  - name: Gaming Room Media Player
+    platform: universal
+    children:
+      - media_player.gaming_room_universal_gaming_pc
+      - media_player.gaming_room_universal_playstation_5
+      - media_player.gaming_room_universal_nintendo_switch
+      - media_player.gaming_room_universal_media_player
+    state_template: >
+      {% if is_state('media_player.gaming_room_universal_playstation_5', 'on') %}
+      on
+      {% elif is_state('media_player.gaming_room_universal_gaming_pc', 'on') %}
+      on
+      {% elif is_state('media_player.gaming_room_universal_nintendo_switch', 'on') %}
+      on
+      {% elif is_state('media_player.gaming_room_universal_media_player', 'on') %}
+      on
+      {% elif is_state('media_player.gaming_room_universal_media_player', 'playing') %}
+      on
+      {% else %}
+      off
+      {% endif %}
+    commands:
+      turn_off:
+        service: script.turn_on
+        data:
+          entity_id: script.gaming_room_turn_off_all_media_players
+      volume_set:
+        service: media_player.volume_set
+        data_template:
+          entity_id: >
+            {{ state_attr('media_player.gaming_room_media_player', 'active_child') }}
+          volume_level: "{{ volume_level }}"
+      volume_up:
+        service: media_player.volume_up
+        data_template:
+          entity_id: >
+            {{ state_attr('media_player.gaming_room_media_player', 'active_child') }}
+      volume_down:
+        service: media_player.volume_down
+        data_template:
+          entity_id: >
+            {{ state_attr('media_player.gaming_room_media_player', 'active_child') }}
+      volume_mute:
+        service: media_player.volume_mute
+        data_template:
+          entity_id: >
+            {{ state_attr('media_player.gaming_room_media_player', 'active_child') }}
+          is_volume_muted: "{{ is_volume_muted }}"
+      select_source:
+        service: media_player.select_source
+        data_template:
+          entity_id: >
+            {{ state_attr('media_player.gaming_room_media_player', 'active_child') }}
+          source: "{{ source }}"
+    attributes:
+      is_volume_muted: media_player.gaming_room_avr|is_volume_muted
+      volume_level: media_player.gaming_room_avr|volume_level
 
-    - alias: Start an activity on the gaming room playstation 5
-      trigger:
-        platform: state
+  - name: Gaming Room NVIDIA Shield Pro
+    platform: androidtv
+    host: !secret gaming_room_nvidia_shield_ip
+    exclude_unnamed_apps: true
+    apps:
+      com.amazon.amazonvideo.livingroom: Prime
+      com.google.android.youtube.tv: YouTube
+      com.hulu.livingroomplus: Hulu
+      com.netflix.ninja: Netflix
+      com.nvidia.tegrazone3: GameStream
+      com.waxrain.airplaydmr3: AirPlay
+  - name: Gaming Room Universal PlayStation 5
+    platform: universal
+    children:
+      - media_player.gaming_room_avr
+      - media_player.gaming_room_tv
+    state_template: >
+      {% if is_state('sensor.playstation_5_state', 'standby') %}
+      off
+      {% elif is_state('sensor.playstation_5_state', 'idle') %}
+      on
+      {% elif is_state('sensor.playstation_5_state', 'on') %}
+      on
+      {% else %}
+      off
+      {% endif %}
+    commands:
+      # turn_off:
+      #   service: media_player.turn_off
+      #   data:
+      #     entity_id:
+      volume_set:
+        service: media_player.volume_set
+        data:
+          entity_id: media_player.gaming_room_avr
+        data_template:
+          volume_level: "{{ volume_level }}"
+      volume_up:
+        service: media_player.volume_up
+        data:
+          entity_id: media_player.gaming_room_avr
+      volume_down:
+        service: media_player.volume_down
+        data:
+          entity_id: media_player.gaming_room_avr
+      volume_mute:
+        service: media_player.volume_mute
+        data:
+          entity_id: media_player.gaming_room_avr
+        data_template:
+          is_volume_muted: "{{ is_volume_muted }}"
+    attributes:
+      is_volume_muted: media_player.gaming_room_avr|is_volume_muted
+      volume_level: media_player.gaming_room_avr|volume_level
+      source: PS4
+      source_list: media_player.gaming_room_avr|source_list
+  - name: Gaming Room Universal Gaming PC
+    platform: universal
+    children:
+      - media_player.gaming_room_avr
+      - media_player.gaming_room_tv
+    state_template: >
+      {{ states('binary_sensor.gaming_room_gaming_pc_power_state') }}
+    commands:
+      turn_on:
+        service: script.turn_on
+        data:
+          entity_id: script.gaming_room_turn_on_gaming_pc
+      turn_off:
+        service: script.turn_on
+        data:
+          entity_id: script.gaming_room_turn_off_gaming_pc
+      volume_set:
+        service: media_player.volume_set
+        data:
+          entity_id: media_player.gaming_room_avr
+        data_template:
+          volume_level: "{{ volume_level }}"
+      volume_up:
+        service: media_player.volume_up
+        data:
+          entity_id: media_player.gaming_room_avr
+      volume_down:
+        service: media_player.volume_down
+        data:
+          entity_id: media_player.gaming_room_avr
+      volume_mute:
+        service: media_player.volume_mute
+        data:
+          entity_id: media_player.gaming_room_avr
+        data_template:
+          is_volume_muted: "{{ is_volume_muted }}"
+      select_source:
+        service: mqtt.publish
+        data_template:
+          topic: "/homeassistant/games/play/pc"
+          qos: 2
+          payload: "{{ source }}"
+    attributes:
+      is_volume_muted: media_player.gaming_room_avr|is_volume_muted
+      volume_level: media_player.gaming_room_avr|volume_level
+      source: PC
+      state: binary_sensor.gaming_room_gaming_pc_power_state
+  - name: Gaming Room Universal Nintendo Switch
+    platform: universal
+    children:
+      - media_player.gaming_room_avr
+      - media_player.gaming_room_tv
+    state_template: >
+      {{ states('input_boolean.gaming_room_nintendo_switch_power_state') }}
+    commands:
+      turn_on:
+        service: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.gaming_room_nintendo_switch_power_state
+      turn_off:
+        service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.gaming_room_nintendo_switch_power_state
+      volume_set:
+        service: media_player.volume_set
+        data:
+          entity_id: media_player.gaming_room_avr
+        data_template:
+          volume_level: "{{ volume_level }}"
+      volume_up:
+        service: media_player.volume_up
+        data:
+          entity_id: media_player.gaming_room_avr
+      volume_down:
+        service: media_player.volume_down
+        data:
+          entity_id: media_player.gaming_room_avr
+      volume_mute:
+        service: media_player.volume_mute
+        data:
+          entity_id: media_player.gaming_room_avr
+        data_template:
+          is_volume_muted: "{{ is_volume_muted }}"
+      select_source:
+        service: media_player.select_source
+        data:
+          entity_id: media_player.gaming_room_avr
+          source: SWITCH
+    attributes:
+      is_volume_muted: media_player.gaming_room_avr|is_volume_muted
+      volume_level: media_player.gaming_room_avr|volume_level
+      source: SWITCH
+      source_list: media_player.gaming_room_avr|source_list
+  - name: Gaming Room Universal Media Player
+    platform: universal
+    children:
+      - media_player.gaming_room_nvidia_shield
+      - media_player.gaming_room_avr
+      - media_player.gaming_room_tv
+    state_template: >
+      {{ states('media_player.gaming_room_nvidia_shield_pro') }}
+    commands:
+      turn_on:
+        service: media_player.turn_on
+        data:
+          entity_id: media_player.gaming_room_nvidia_shield_pro
+      turn_off:
+        service: media_player.turn_off
+        data:
+          entity_id: media_player.gaming_room_nvidia_shield_pro
+      volume_set:
+        service: media_player.volume_set
+        data:
+          entity_id: media_player.gaming_room_avr
+        data_template:
+          volume_level: "{{ volume_level }}"
+      volume_up:
+        service: media_player.volume_up
+        data:
+          entity_id: media_player.gaming_room_avr
+      volume_down:
+        service: media_player.volume_down
+        data:
+          entity_id: media_player.gaming_room_avr
+      volume_mute:
+        service: media_player.volume_mute
+        data:
+          entity_id: media_player.gaming_room_avr
+        data_template:
+          is_volume_muted: "{{ is_volume_muted }}"
+      select_source:
+        service: media_player.select_source
+        data:
+          entity_id: media_player.gaming_room_avr
+          source: Media Player
+    attributes:
+      is_volume_muted: media_player.gaming_room_avr|is_volume_muted
+      volume_level: media_player.gaming_room_avr|volume_level
+      source: Media Player
+      source_list: media_player.gaming_room_avr|source_list
+
+automation:
+  - alias: Start a game room activity while Andrew is home
+    trigger:
+      - platform: state
+        entity_id: media_player.gaming_room_media_player
+        from: "off"
+    condition:
+      - condition: state
+        entity_id: person.andrew_smith
+        state: "home"
+    action:
+      - service: media_player.turn_on
+        data:
+          entity_id: media_player.gaming_room_avr
+      - service: media_player.turn_on
+        data:
+          entity_id: media_player.gaming_room_tv
+      - service: media_player.select_sound_mode
+        data:
+          entity_id: media_player.gaming_room_avr
+          sound_mode: DOLBY DIGITAL
+
+  - alias: Start a game room gaming activity while Andrew is not home
+    trigger:
+      - platform: state
         entity_id: media_player.gaming_room_universal_playstation_5
         from: "off"
-      action:
-        - service: media_player.select_source
-          data:
-            entity_id: media_player.gaming_room_avr
-            source: PS4
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_nintendo_switch
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_media_player
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_gaming_pc
-
-    - alias: Start an activity on the gaming room playstation 5 while Andrew is home adjusts volume
-      trigger:
-        - platform: state
-          entity_id: media_player.gaming_room_universal_playstation_5
-          from: "off"
-      condition:
-        - condition: state
-          entity_id: person.andrew_smith
-          state: "home"
-      action:
-        - service: media_player.volume_set
-          data:
-            entity_id: media_player.gaming_room_universal_playstation_5
-            volume_level: 0.45
-
-    - alias: Start an activity on the gaming room nintendo switch
-      trigger:
-        platform: state
+      - platform: state
+        entity_id: media_player.gaming_room_universal_gaming_pc
+        from: "off"
+      - platform: state
         entity_id: media_player.gaming_room_universal_nintendo_switch
         from: "off"
-      action:
-        - service: media_player.select_source
-          data:
-            entity_id: media_player.gaming_room_avr
-            source: SWITCH
-        # - service: media_player.turn_off
-        #   data:
-        #     entity_id: media_player.gaming_room_universal_playstation_4_pro
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_media_player
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_gaming_pc
-
-    - alias: Start an activity on the gaming room media player
-      trigger:
-        platform: state
-        entity_id: media_player.gaming_room_universal_media_player
-        from: "off"
-      action:
-        - service: media_player.select_source
-          data:
-            entity_id: media_player.gaming_room_avr
-            source: Media Player
-        # - service: media_player.turn_off
-        #   data:
-        #     entity_id: media_player.gaming_room_universal_playstation_4_pro
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_nintendo_switch
-        - service: media_player.turn_off
-          data:
-            entity_id: media_player.gaming_room_universal_gaming_pc
-
-    - alias: Stopping generalized media player activity turns off devices
-      trigger:
-        platform: state
-        entity_id: media_player.gaming_room_media_player
-        to: "off"
-      action:
-        - service: script.turn_on
-          data:
-            entity_id: script.gaming_room_turn_off_all_media_players
-
-    - alias: Stopping game room gaming activity publishes stop game topic
-      trigger:
-        - platform: state
-          entity_id: media_player.gaming_room_universal_playstation_5
-          to: "off"
-        - platform: state
+    condition:
+      - condition: state
+        entity_id: person.andrew_smith
+        state: "not_home"
+    action:
+      - service: media_player.turn_on
+        data:
+          entity_id: media_player.gaming_room_avr
+      - service: media_player.select_sound_mode
+        data:
+          entity_id: media_player.gaming_room_avr
+          sound_mode: DOLBY DIGITAL
+      - service: media_player.volume_set
+        data:
           entity_id: media_player.gaming_room_universal_gaming_pc
-          to: "off"
-      action:
-        - service: mqtt.publish
-          data_template:
-            topic: "/playnite/game/stopped"
-            qos: 2
+          volume_level: 0
 
-    # - alias: Changing PS source, stops previous game and starts next game (game state)
-    #   trigger:
-    #     - platform: state
-    #       entity_id: media_player.gaming_room_playstation_5_source
-    #   action:
-    #     - service: mqtt.publish
-    #       data_template:
-    #         topic: "/playnite/game/stopped"
-    #         qos: 2
-    #     - service: mqtt.publish
-    #       data_template:
-    #         topic: "/playnite/game/started/ps5"
-    #         qos: 2
-    #         payload: "{{ trigger.to_state.state }}"
+  - alias: Start an activity on the gaming room gaming PC
+    trigger:
+      - platform: state
+        entity_id: media_player.gaming_room_universal_gaming_pc
+        from: "off"
+    action:
+      - service: media_player.select_source
+        data:
+          entity_id: media_player.gaming_room_avr
+          source: PC
+      - service: media_player.turn_off
+        data:
+          entity_id: media_player.gaming_room_universal_nintendo_switch
+      - service: media_player.turn_off
+        data:
+          entity_id: media_player.gaming_room_universal_media_player
+      # - service: media_player.turn_off
+      #   data:
+      #     entity_id: media_player.gaming_room_universal_playstation_4_pro
 
-    - alias: Poll for PlayStation 5 state
-      trigger:
-        - platform: time_pattern
-          seconds: "/10"
-      action:
-        - service: mqtt.publish
-          data:
-            topic: "/ps5/state/request"
-            payload: !secret gaming_room_playstation_5_ip
+  - alias: Start an activity on the gaming room gaming PC while Andrew is home adjusts volume
+    trigger:
+      - platform: state
+        entity_id: media_player.gaming_room_universal_gaming_pc
+        from: "off"
+    condition:
+      - condition: state
+        entity_id: person.andrew_smith
+        state: "home"
+    action:
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.gaming_room_universal_gaming_pc
+          volume_level: 0.56
 
-    - alias: Turning on PS5 starts unknown game
-      trigger:
-        - platform: state
+  - alias: Start an activity on the gaming room playstation 5
+    trigger:
+      platform: state
+      entity_id: media_player.gaming_room_universal_playstation_5
+      from: "off"
+    action:
+      - service: media_player.select_source
+        data:
+          entity_id: media_player.gaming_room_avr
+          source: PS4
+      - service: media_player.turn_off
+        data:
+          entity_id: media_player.gaming_room_universal_nintendo_switch
+      - service: media_player.turn_off
+        data:
+          entity_id: media_player.gaming_room_universal_media_player
+      - service: media_player.turn_off
+        data:
+          entity_id: media_player.gaming_room_universal_gaming_pc
+
+  - alias: Start an activity on the gaming room playstation 5 while Andrew is home adjusts volume
+    trigger:
+      - platform: state
+        entity_id: media_player.gaming_room_universal_playstation_5
+        from: "off"
+    condition:
+      - condition: state
+        entity_id: person.andrew_smith
+        state: "home"
+    action:
+      - service: media_player.volume_set
+        data:
           entity_id: media_player.gaming_room_universal_playstation_5
-          from: "off"
-      action:
-        - service: mqtt.publish
-          data:
-            topic: "/playnite/game/started/ps5"
-            qos: 2
+          volume_level: 0.45
 
-    - alias: Keep AVR connected
-      trigger:
-        - platform: time
-          at: "03:00:00"
-      action:
-        - service: media_player.turn_off
+  - alias: Start an activity on the gaming room nintendo switch
+    trigger:
+      platform: state
+      entity_id: media_player.gaming_room_universal_nintendo_switch
+      from: "off"
+    action:
+      - service: media_player.select_source
+        data:
           entity_id: media_player.gaming_room_avr
-        - delay: "00:01:00"
-        - service: media_player.turn_on
+          source: SWITCH
+      # - service: media_player.turn_off
+      #   data:
+      #     entity_id: media_player.gaming_room_universal_playstation_4_pro
+      - service: media_player.turn_off
+        data:
+          entity_id: media_player.gaming_room_universal_media_player
+      - service: media_player.turn_off
+        data:
+          entity_id: media_player.gaming_room_universal_gaming_pc
+
+  - alias: Start an activity on the gaming room media player
+    trigger:
+      platform: state
+      entity_id: media_player.gaming_room_universal_media_player
+      from: "off"
+    action:
+      - service: media_player.select_source
+        data:
           entity_id: media_player.gaming_room_avr
+          source: Media Player
+      # - service: media_player.turn_off
+      #   data:
+      #     entity_id: media_player.gaming_room_universal_playstation_4_pro
+      - service: media_player.turn_off
+        data:
+          entity_id: media_player.gaming_room_universal_nintendo_switch
+      - service: media_player.turn_off
+        data:
+          entity_id: media_player.gaming_room_universal_gaming_pc
+
+  - alias: Stopping generalized media player activity turns off devices
+    trigger:
+      platform: state
+      entity_id: media_player.gaming_room_media_player
+      to: "off"
+    action:
+      - service: script.turn_on
+        data:
+          entity_id: script.gaming_room_turn_off_all_media_players
+
+  - alias: Stopping game room gaming activity publishes stop game topic
+    trigger:
+      - platform: state
+        entity_id: media_player.gaming_room_universal_playstation_5
+        to: "off"
+      - platform: state
+        entity_id: media_player.gaming_room_universal_gaming_pc
+        to: "off"
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: "/playnite/game/stopped"
+          qos: 2
+
+  # - alias: Changing PS source, stops previous game and starts next game (game state)
+  #   trigger:
+  #     - platform: state
+  #       entity_id: media_player.gaming_room_playstation_5_source
+  #   action:
+  #     - service: mqtt.publish
+  #       data_template:
+  #         topic: "/playnite/game/stopped"
+  #         qos: 2
+  #     - service: mqtt.publish
+  #       data_template:
+  #         topic: "/playnite/game/started/ps5"
+  #         qos: 2
+  #         payload: "{{ trigger.to_state.state }}"
+
+  - alias: Poll for PlayStation 5 state
+    trigger:
+      - platform: time_pattern
+        seconds: "/10"
+    action:
+      - service: mqtt.publish
+        data:
+          topic: "/ps5/state/request"
+          payload: !secret gaming_room_playstation_5_ip
+
+  - alias: Turning on PS5 starts unknown game
+    trigger:
+      - platform: state
+        entity_id: media_player.gaming_room_universal_playstation_5
+        from: "off"
+    action:
+      - service: mqtt.publish
+        data:
+          topic: "/playnite/game/started/ps5"
+          qos: 2
+
+  - alias: Keep AVR connected
+    trigger:
+      - platform: time
+        at: "03:00:00"
+    action:
+      - service: media_player.turn_off
+        entity_id: media_player.gaming_room_avr
+      - delay: "00:01:00"
+      - service: media_player.turn_on
+        entity_id: media_player.gaming_room_avr

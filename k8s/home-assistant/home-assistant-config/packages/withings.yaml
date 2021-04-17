@@ -1,6 +1,4 @@
-withings_package:
-  withings:
-    client_id: !secret withings_client_id
-    client_secret: !secret withings_client_secret
-    use_webhook: true
- 
+withings:
+  client_id: !secret withings_client_id
+  client_secret: !secret withings_client_secret
+  use_webhook: true
