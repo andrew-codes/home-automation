@@ -1,0 +1,10 @@
+shell_command:
+  update_vpn_dns: !secret update_vpn_dns_command
+
+automation:
+  - alias: Update VPN DNS
+    trigger:
+      - platform: time_pattern
+        hours: "/1"
+    action:
+      - service: shell_command.update_vpn_dns

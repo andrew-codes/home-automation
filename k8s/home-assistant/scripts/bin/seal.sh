@@ -62,6 +62,7 @@ ms_teams_status_off_webhook_id: $MS_TEAMS_STATUS_OFF_WEBHOOK_ID
 ms_teams_status_available_idle_webhook_id: $MS_TEAMS_STATUS_AVAILABLE_IDLE_WEBHOOK_ID
 valheim_ddns_rest_url: "https://${VALHEIM_GOOGLE_DOMAIN_USERNAME}:${VALHEIM_GOOGLE_DOMAIN_PASSWORD}@domains.google.com/nic/update?hostname=${VALHEIM_DOMAIN}"
 github_authorization_header: "Bearer $GITHUB_ISSUES_TOKEN"
+update_vpn_dns_command: curl -X POST "https://$VPN_DNS_USERNAME:$VPN_DNS_PASSWORD@domains.google.com/nic/update?hostname=$VPN_DOMAIN&myip=\$(curl https://checkip.amazonaws.com)"
 EOL
 
 kubectl create secret generic secrets --dry-run=client --namespace="home-automation" --from-file=yml=".secrets/secrets.yaml" -o json >".secrets/secrets.json"
