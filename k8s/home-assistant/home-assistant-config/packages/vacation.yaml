@@ -4,14 +4,15 @@ automation:
       - platform: state
         entity_id: calendar.vacation
         to: "on"
-    actions:
+    action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.enabled_front_door_5
+
   - alias: Vacation events disable PIN for pet sitter
     trigger:
       - platform: state
         entity_id: calendar.vacation
         to: "off"
-    actions:
+    action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.enabled_front_door_5
