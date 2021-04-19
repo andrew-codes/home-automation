@@ -1,14 +1,24 @@
+sensor:
+  - platform: random
+    name: guest_pin_code
+    maximum: 9234
+    minimum: 1234
+
 automation:
-  - alias: Vacation events enable PIN for pet sitter
+  - alias: Guest calendar events enable PIN for pet sitter
     trigger:
       - platform: state
         entity_id: calendar.vacation
         to: "on"
     action:
+      - service: input_text.set_value
+        data_template:
+          entity_id: input_text.front_door_pin_5
+          value: "{{ states('sensor.guest_pin_code') }}"
       - service: input_boolean.turn_on
         entity_id: input_boolean.enabled_front_door_5
 
-  - alias: Vacation events disable PIN for pet sitter
+  - alias: Guest calendar events disable PIN for pet sitter
     trigger:
       - platform: state
         entity_id: calendar.vacation
