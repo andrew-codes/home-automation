@@ -1,110 +1,28 @@
-sensor:
-  - platform: random
-    name: pet_sitter_pin_code
-    maximum: 9234
-    minimum: 1234
-  - platform: random
-    name: guest_1_pin_code
-    maximum: 9234
-    minimum: 1234
-  - platform: random
-    name: guest_2_pin_code
-    maximum: 9234
-    minimum: 1234
-  - platform: random
-    name: guest_3_pin_code
-    maximum: 9234
-    minimum: 1234
-
 automation:
-  - alias: Guest calendar events enable PIN for pet sitter
+  - automation: Update guest PIN code
     trigger:
-      - platform: state
-        entity_id: calendar.guests
-        to: "on"
-    condition: "{{ 'pet' in (state_attr('calendar.guests', 'message') | lower) }}"
+      - platform: mqtt
+        topic: /homeassistant/guest-pin/set
     action:
       - service: input_text.set_value
         data_template:
-          entity_id: input_text.front_door_pin_5
-          value: "{{ states('sensor.pet_sitter_pin_code') }}"
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.enabled_front_door_5
-  - alias: Guest calendar events disable PIN for pet sitter
-    trigger:
-      - platform: state
-        entity_id: calendar.guests
-        to: "off"
-    condition: "{{ 'pet' in (state_attr('calendar.guests', 'message') | lower) }}"
-    action:
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.enabled_front_door_5
+          entity_id: "{{ trigger.payload_json.payload.entity_id }}"
+          value: "{{ trigger.payload_json.payload.pin }}"
 
-  - alias: Guest calendar events enable PIN for Guest 1
+  - automation: Enable guest PIN code
     trigger:
-      - platform: state
-        entity_id: calendar.guests
-        to: "on"
-    condition: "{{ 'guest 1' in (state_attr('calendar.guests', 'message') | lower) }}"
+      - platform: mqtt
+        topic: /homeassistant/guest-pin/enable
     action:
-      - service: input_text.set_value
-        data_template:
-          entity_id: input_text.front_door_pin_6
-          value: "{{ states('sensor.guest_1_pin_code') }}"
       - service: input_boolean.turn_on
-        entity_id: input_boolean.enabled_front_door_6
-  - alias: Guest calendar events disable PIN for Guest 1
-    trigger:
-      - platform: state
-        entity_id: calendar.guests
-        to: "off"
-    condition: "{{ 'guest 1' in (state_attr('calendar.guests', 'message') | lower) }}"
-    action:
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.enabled_front_door_6
+        data_template:
+          entity_id: "{{ trigger.payload_json.payload.entity_id }}"
 
-  - alias: Guest calendar events enable PIN for Guest 2
+  - automation: Disable guest PIN code
     trigger:
-      - platform: state
-        entity_id: calendar.guests
-        to: "on"
-    condition: "{{ 'guest 2' in (state_attr('calendar.guests', 'message') | lower) }}"
-    action:
-      - service: input_text.set_value
-        data_template:
-          entity_id: input_text.front_door_pin_7
-          value: "{{ states('sensor.guest_2_pin_code') }}"
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.enabled_front_door_7
-  - alias: Guest calendar events disable PIN for Guest 2
-    trigger:
-      - platform: state
-        entity_id: calendar.guests
-        to: "off"
-    condition: "{{ 'guest 2' in (state_attr('calendar.guests', 'message') | lower) }}"
+      - platform: mqtt
+        topic: /homeassistant/guest-pin/enable
     action:
       - service: input_boolean.turn_off
-        entity_id: input_boolean.enabled_front_door_7
-
-  - alias: Guest calendar events enable PIN for Guest 3
-    trigger:
-      - platform: state
-        entity_id: calendar.guests
-        to: "on"
-    condition: "{{ 'guest 3' in (state_attr('calendar.guests', 'message') | lower) }}"
-    action:
-      - service: input_text.set_value
         data_template:
-          entity_id: input_text.front_door_pin_8
-          value: "{{ states('sensor.guest_3_pin_code') }}"
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.enabled_front_door_8
-  - alias: Guest calendar events disable PIN for Guest 3
-    trigger:
-      - platform: state
-        entity_id: calendar.guests
-        to: "off"
-    condition: "{{ 'guest 3' in (state_attr('calendar.guests', 'message') | lower) }}"
-    action:
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.enabled_front_door_8
+          entity_id: "{{ trigger.payload_json.payload.entity_id }}"
