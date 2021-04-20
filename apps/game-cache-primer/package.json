@@ -17,6 +17,7 @@
     "wakeonlan": "^0.1.0"
   },
   "devDependencies": {
+    "@ha/ts-config": "^0.0.1",
     "@zeit/ncc": "^0.22.3",
     "nodemon": "^2.0.6",
     "ts-node": "^9.1.1",
