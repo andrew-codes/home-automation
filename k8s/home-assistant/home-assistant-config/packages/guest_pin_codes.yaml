@@ -8,8 +8,9 @@ automation:
   - alias: Guest calendar events enable PIN for pet sitter
     trigger:
       - platform: state
-        entity_id: calendar.vacation
+        entity_id: calendar.guests
         to: "on"
+    condition: "{{ 'pet' in (state_attr('calendar.guests', 'message') | lower) }}"
     action:
       - service: input_text.set_value
         data_template:
@@ -21,8 +22,9 @@ automation:
   - alias: Guest calendar events disable PIN for pet sitter
     trigger:
       - platform: state
-        entity_id: calendar.vacation
+        entity_id: calendar.guests
         to: "off"
+    condition: "{{ 'pet' in (state_attr('calendar.guests', 'message') | lower) }}"
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.enabled_front_door_5
