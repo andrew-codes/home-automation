@@ -130,7 +130,7 @@ const run = async () => {
     },
     null,
     true,
-    "America/New York"
+    "America/New_York"
   )
 
   checkForCalendarEvents.start()
