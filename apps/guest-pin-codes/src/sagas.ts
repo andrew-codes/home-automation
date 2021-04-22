@@ -1,18 +1,13 @@
 import createDebugger from "debug"
-const fetch = require("node-fetch")
-import qs from "querystring"
 import { call, fork, put, takeLatest } from "redux-saga/effects"
 import { defaultTo, merge } from "lodash"
+import { get } from "lodash/fp"
+import { calendar_v3, google, Common } from "googleapis"
 import { FETCH_NEW_CALENDAR_EVENTS } from "./actions"
-import jwt from "jsonwebtoken"
 import { addNewCalendarEvents } from "./actionCreators"
 
-const debug = createDebugger("@ha/guest-pin-code/sagas")
-const {
-  GOOGLE_CALENDAR_ID,
-  GOOGLE_PRIVATE_KEY,
-  GOOGLE_SERVICE_ACCOUNT,
-} = process.env
+const debug = createDebugger("@ha/guest-pin-codes/sagas")
+const { GOOGLE_CALENDAR_ID, GOOGLE_PRIVATE_KEY } = process.env
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max)
@@ -24,57 +19,47 @@ function getRandomPin(digits) {
     .join("")
 }
 
-async function* fetchNewCalendarEvents(action) {
+function* fetchNewCalendarEvents(action) {
   try {
     debug("Fetching calendar events")
-    const accessTokenRequestJwt = jwt.sign(
-      {
-        iss: GOOGLE_SERVICE_ACCOUNT,
-        scope: "https://www.googleapis.com/auth/calendar.events",
-        aud: "https://oauth2.googleapis.com/token",
-      },
-      GOOGLE_PRIVATE_KEY,
-      { algorithm: "RS256" }
-    )
-    debug("JWT request token", accessTokenRequestJwt)
-    const accessTokenRequestBody = qs.stringify({
-      grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
-      assertion: accessTokenRequestJwt,
+    const creds = JSON.parse(GOOGLE_PRIVATE_KEY as string)
+    const auth = new google.auth.JWT({
+      email: creds.client_email,
+      key: creds.private_key,
+      scopes: ["https://www.googleapis.com/auth/calendar.events"],
+      subject: "andrew@andrew.codes",
     })
-    const accessTokenResponse = yield call(fetch, [
-      "https://oauth2.googleapis.com/token",
+    const calendar = google.calendar({
+      version: "v3",
+      auth,
+    })
+    debug(new Date().toUTCString())
+    const { data } = yield call<
+      calendar_v3.Calendar,
+      (
+        params?: calendar_v3.Params$Resource$Events$List,
+        options?: Common.MethodOptions
+      ) => Common.GaxiosPromise<calendar_v3.Schema$Events>
+    >(
+      [calendar, calendar.events.list],
       {
-        method: "POST",
-        body: accessTokenRequestBody,
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        calendarId: GOOGLE_CALENDAR_ID as string,
       },
-    ])
-    const { accessToken, expiresIn } = await accessTokenResponse.json()
-    debug(`Token expires in ${expiresIn}`)
-
-    const listCalendarEventsRequest = yield call(fetch, [
-      `https://www.googleapis.com/calendar/v3/calendars/${GOOGLE_CALENDAR_ID}/events`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      },
-    ])
-    const { items } = await listCalendarEventsRequest.json()
-
-    const nowTimeStamp = Date.now()
-    const futureCalendarEventsWithPin = items
-      .filter((calendarEvent) => {
-        const startDateTime = new Date(
-          defaultTo(calendarEvent.start.startDateTime, calendarEvent.start.date)
+      {}
+    )
+    const futureCalendarEventsWithPin = data.items
+      ?.filter((calendarEvent) => {
+        const start = defaultTo(
+          calendarEvent.start.dateTime,
+          calendarEvent.start.date
         )
-        return nowTimeStamp < startDateTime.getMilliseconds()
+        return new Date(start).getTime() >= Date.now()
       })
       .map((calendarEvent) => {
         const pin = `${getRandomPin(4)}`
         return merge({}, calendarEvent, { pin })
       })
+    debug(futureCalendarEventsWithPin.map(get("summary")))
     yield put(addNewCalendarEvents(futureCalendarEventsWithPin))
   } catch (error) {
     debug(error)

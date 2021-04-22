@@ -1,12 +1,27 @@
 import { get } from "lodash/fp"
+import { isEmpty } from "lodash"
 import { createSelector } from "reselect"
 
-const getUnscheduledEvents = (state) => state.toBeScheduled || []
+const getEventList = (state) =>
+  !isEmpty(state.calendarEvents) ? Object.values(state.calendarEvents) : []
 
-const getLockEntries = (state) => Object.entries(state.locks)
+const getUnscheduledEvents = createSelector<any, any[], any[]>(
+  getEventList,
+  (calendarEvents) =>
+    calendarEvents.filter((calendarInvite) => !calendarInvite.isScheduled)
+)
 
-const getAvailableLocks = createSelector(getLockEntries, (locks) =>
+const getLockSlots = (state) => Object.entries(state.locks)
+
+const getAvailableLockSlots = createSelector(getLockSlots, (locks) =>
   locks.filter(([key, value]) => !value).map(get(0))
 )
 
-export { getAvailableLocks, getLockEntries, getUnscheduledEvents }
+const getDoorLocks = (state) => state.doorLocks
+
+export {
+  getAvailableLockSlots,
+  getDoorLocks,
+  getLockSlots,
+  getUnscheduledEvents,
+}

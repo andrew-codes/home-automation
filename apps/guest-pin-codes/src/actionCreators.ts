@@ -1,7 +1,9 @@
 import {
+  ADD_DOOR_LOCKS,
   ADD_FUTURE_CALENDAR_EVENTS,
-  CALENDAR_EVENT_SCHEDULED,
+  CALENDAR_EVENTS_SCHEDULED,
   FETCH_NEW_CALENDAR_EVENTS,
+  SET_GUEST_SLOTS,
   SET_LOCK_PIN,
   UNSET_LOCK_PIN,
 } from "./actions"
@@ -14,30 +16,38 @@ const fetchNewCalendarEvents = () => ({
   type: FETCH_NEW_CALENDAR_EVENTS,
   payload: null,
 })
-const calendarEventScheduled = (calendarEvent) => ({
-  type: CALENDAR_EVENT_SCHEDULED,
-  payload: {
-    calendarEvent,
-  },
+const calendarEventsScheduled = (calendarEvents) => ({
+  type: CALENDAR_EVENTS_SCHEDULED,
+  payload: calendarEvents,
 })
-const setLockPin = (entity_id, pin) => ({
+const setLockPin = (slotNumber, pin) => ({
   type: SET_LOCK_PIN,
   payload: {
-    entity_id,
+    slotNumber,
     pin,
   },
 })
-const unsetLockPin = (entity_id) => ({
+const unsetLockPin = (slotNumber) => ({
   type: UNSET_LOCK_PIN,
-  payload: {
-    entity_id,
-  },
+  payload: slotNumber,
+})
+
+const addDoorLocks = (doorLocks) => ({
+  type: ADD_DOOR_LOCKS,
+  payload: doorLocks,
+})
+
+const setGuestSlots = (numberOfSlots) => ({
+  type: SET_GUEST_SLOTS,
+  payload: numberOfSlots,
 })
 
 export {
+  addDoorLocks,
   addNewCalendarEvents,
-  calendarEventScheduled,
+  calendarEventsScheduled,
   fetchNewCalendarEvents,
+  setGuestSlots,
   setLockPin,
   unsetLockPin,
 }
