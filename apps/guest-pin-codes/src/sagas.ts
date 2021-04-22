@@ -2,7 +2,7 @@ import createDebugger from "debug"
 const fetch = require("node-fetch")
 import qs from "querystring"
 import { call, fork, put, takeLatest } from "redux-saga/effects"
-import { defaultsTo, merge } from "lodash"
+import { defaultTo, merge } from "lodash"
 import { FETCH_NEW_CALENDAR_EVENTS } from "./actions"
 import jwt from "jsonwebtoken"
 import { addNewCalendarEvents } from "./actionCreators"
@@ -67,10 +67,7 @@ async function* fetchNewCalendarEvents(action) {
     const futureCalendarEventsWithPin = items
       .filter((calendarEvent) => {
         const startDateTime = new Date(
-          defaultsTo(
-            calendarEvent.start.startDateTime,
-            calendarEvent.start.date
-          )
+          defaultTo(calendarEvent.start.startDateTime, calendarEvent.start.date)
         )
         return nowTimeStamp < startDateTime.getMilliseconds()
       })
