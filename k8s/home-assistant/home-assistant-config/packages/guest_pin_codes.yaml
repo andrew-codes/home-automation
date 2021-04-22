@@ -6,8 +6,8 @@ automation:
     action:
       - service: input_text.set_value
         data_template:
-          entity_id: "{{ trigger.payload_json.payload.entity_id }}"
-          value: "{{ trigger.payload_json.payload.pin }}"
+          entity_id: "{{ trigger.payload_json.entity_id }}"
+          value: "{{ trigger.payload_json.pin }}"
 
   - automation: Enable guest PIN code
     trigger:
@@ -16,7 +16,7 @@ automation:
     action:
       - service: input_boolean.turn_on
         data_template:
-          entity_id: "{{ trigger.payload_json.payload.entity_id }}"
+          entity_id: "{{ trigger.payload_json.entity_id }}"
 
   - automation: Disable guest PIN code
     trigger:
@@ -25,4 +25,4 @@ automation:
     action:
       - service: input_boolean.turn_off
         data_template:
-          entity_id: "{{ trigger.payload_json.payload.entity_id }}"
+          entity_id: "{{ trigger.payload_json.entity_id }}"

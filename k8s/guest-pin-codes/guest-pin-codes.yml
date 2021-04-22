@@ -22,6 +22,8 @@ spec:
           image: docker.smith-simms.family:5000/guest-pin-codes:latest
           imagePullPolicy: Always
           env:
+            - name: NUMBER_OF_GUEST_CODES
+              value: "4"
             - name: DEBUG
               value: "@ha/guest-pin-codes/*"
             - name: MQTT_USERNAME
@@ -48,6 +50,11 @@ spec:
                 secretKeyRef:
                   name: google-guest-calendar-secrets
                   key: private_key
+            - name: DOOR_LOCKS
+              valueFrom:
+                secretKeyRef:
+                  name: guest-lock-entity-secrets
+                  key: guest_lock_entity_prefixes
             - name: GOOGLE_SERVICE_ACCOUNT
               valueFrom:
                 secretKeyRef:
