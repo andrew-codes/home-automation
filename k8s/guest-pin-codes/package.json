@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "@ha/guest-pin-codes",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "deploy": "scripts/bin/deploy.sh",
+    "postdeploy": "kubectl rollout restart deployment guest-pin-codes --namespace home-automation",
+    "seal": "scripts/bin/seal.sh"
+  },
+  "dependencies": {
+    "@ha/guest-pin-codes-app": "^0.0.1"
+  }
+}

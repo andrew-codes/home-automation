@@ -21,7 +21,7 @@ automation:
   - automation: Disable guest PIN code
     trigger:
       - platform: mqtt
-        topic: /homeassistant/guest-pin/enable
+        topic: /homeassistant/guest-pin/disable
     action:
       - service: input_boolean.turn_off
         data_template:
