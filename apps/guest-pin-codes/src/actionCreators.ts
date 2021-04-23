@@ -37,9 +37,9 @@ const addDoorLocks = (doorLocks) => ({
   payload: doorLocks,
 })
 
-const setGuestSlots = (numberOfSlots) => ({
+const setGuestSlots = (numberOfGuestCodes, guestCodeOffset) => ({
   type: SET_GUEST_SLOTS,
-  payload: numberOfSlots,
+  payload: { guestCodeOffset, numberOfGuestCodes },
 })
 
 export {

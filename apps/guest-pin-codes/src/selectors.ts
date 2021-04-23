@@ -11,10 +11,10 @@ const getUnscheduledEvents = createSelector<any, any[], any[]>(
     calendarEvents.filter((calendarInvite) => !calendarInvite.isScheduled)
 )
 
-const getLockSlots = (state) => Object.entries(state.locks)
+const getLockSlots = (state) => Object.entries(state.guestSlots)
 
-const getAvailableLockSlots = createSelector(getLockSlots, (locks) =>
-  locks.filter(([key, value]) => !value).map(get(0))
+const getAvailableLockSlots = createSelector(getLockSlots, (slots) =>
+  slots.filter(([key, value]) => !value).map(get(0))
 )
 
 const getDoorLocks = (state) => state.doorLocks

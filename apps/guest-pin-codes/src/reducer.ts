@@ -13,7 +13,7 @@ const debug = createDebugger("@ha/guest-pin-codes/reducer")
 
 const defaultState = {
   calendarEvents: {},
-  guestSLots: {},
+  guestSlots: {},
   doorLocks: [],
 }
 const reducer = (state = defaultState, { type, payload }) => {
@@ -42,28 +42,27 @@ const reducer = (state = defaultState, { type, payload }) => {
 
     case SET_LOCK_PIN:
       return merge({}, state, {
-        locks: {
+        guestSlots: {
           [payload.slotNumber]: payload.pin,
         },
       })
 
     case UNSET_LOCK_PIN:
       return merge({}, state, {
-        locks: {
+        guestSlots: {
           [payload]: null,
         },
       })
 
     case SET_GUEST_SLOTS:
-      debug(
-        new Array(payload)
-          .fill("")
-          .reduce((acc, v, index) => merge(acc, { [index + 1]: null }), {})
-      )
       return merge({}, state, {
-        guestSLots: new Array(payload)
+        guestSlots: new Array(payload.numberOfGuestCodes)
           .fill("")
-          .reduce((acc, v, index) => merge(acc, { [index + 1]: null }), {}),
+          .reduce(
+            (acc, v, index) =>
+              merge(acc, { [index + 1 + payload.guestCodeOffset]: null }),
+            {}
+          ),
       })
 
     case ADD_DOOR_LOCKS:

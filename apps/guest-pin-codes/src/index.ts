@@ -24,6 +24,7 @@ import {
 const {
   DOOR_LOCKS,
   NUMBER_OF_GUEST_CODES,
+  GUEST_CODE_INDEX_OFFSET,
   MQTT_HOST,
   MQTT_PASSWORD,
   MQTT_PORT,
@@ -49,8 +50,11 @@ const run = async () => {
   })
 
   const numberOfGuestCodes = parseInt(NUMBER_OF_GUEST_CODES as string, 10)
-  debug(`Number of guest codes: ${numberOfGuestCodes}`)
-  store.dispatch(setGuestSlots(numberOfGuestCodes))
+  const guestCodeOffset = parseInt(GUEST_CODE_INDEX_OFFSET as string, 10)
+  debug(
+    `Number of guest codes: ${numberOfGuestCodes}, offset by ${guestCodeOffset}`
+  )
+  store.dispatch(setGuestSlots(numberOfGuestCodes, guestCodeOffset))
   store.dispatch(addDoorLocks(DOOR_LOCKS?.split(",") ?? []))
 
   store.subscribe(() => {
@@ -72,16 +76,19 @@ const run = async () => {
           new Date(startDateTime),
           async () => {
             try {
+              debug(
+                `Setting and enabling PIN for event ${calendarEvent.summary}`
+              )
               const storeState = store.getState()
               const slotNumber = first(getAvailableLockSlots(storeState))
               const doorLocks = getDoorLocks(storeState)
               await Promise.all(
                 doorLocks.map(async (door) => {
-                  const doorId = `${door}_${slotNumber}`
+                  const doorPinId = `${door}_pin_${slotNumber}`
                   await mqtt.publish(
                     "/homeassistant/guest-pin/set",
                     JSON.stringify({
-                      entity_id: `input_text.${doorId}`,
+                      entity_id: `input_text.${doorPinId}`,
                       pin: calendarEvent.pin,
                     }),
                     {
@@ -91,7 +98,7 @@ const run = async () => {
                   await mqtt.publish(
                     "/homeassistant/guest-pin/enable",
                     JSON.stringify({
-                      entity_id: `input_boolean.enabled_${doorId}`,
+                      entity_id: `input_boolean.enabled_${door}_${slotNumber}`,
                     }),
                     {
                       qos: 2,
@@ -110,16 +117,19 @@ const run = async () => {
         )
 
         const endDateTime = defaultTo(
-          calendarEvent.start.dateTime,
-          calendarEvent.start.date
+          calendarEvent.end.dateTime,
+          calendarEvent.end.date
         )
         debug(`Scheduling calendar event end at ${endDateTime}`)
         const calendarEventOver = new CronJob(
           new Date(endDateTime),
           async () => {
             try {
+              debug(`Disabling PIN for event ${calendarEvent.summary}`)
               const storeState = store.getState()
-              const lockEntry = getLockSlots(storeState).find(
+              const lockSlots = getLockSlots(storeState)
+              debug(lockSlots)
+              const lockEntry = lockSlots.find(
                 ([key, value]) => value === calendarEvent.pin
               )
 
@@ -162,7 +172,7 @@ const run = async () => {
   sagaMiddleware.run(sagas)
 
   const checkForCalendarEvents = new CronJob(
-    "*/5 * * * *",
+    "*/4 * * * *",
     () => {
       store.dispatch(fetchNewCalendarEvents())
     },
@@ -172,7 +182,7 @@ const run = async () => {
   )
 
   store.dispatch(fetchNewCalendarEvents())
-  // checkForCalendarEvents.start()
+  checkForCalendarEvents.start()
 }
 
 run()
