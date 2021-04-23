@@ -19,9 +19,9 @@ RUN sudo apt-get install -y \
   docker-ce \
   apt-transport-https gnupg2 kubectl \
   lxc ca-certificates iptables \
-  software-properties-common ansible python3.8 python-pip python3-pip \
+  software-properties-common ansible python3.8 python3-pip \
   etherwake
-RUN pip install "pywinrm>=0.3.0"
+RUN pip3 install "pywinrm>=0.3.0"
 RUN export KUBECONFIG=/home/runner/.kube/config
 RUN mkdir -p /home/runner/.docker
 RUN sudo yarn global add lerna
