@@ -3,7 +3,9 @@ import { isEmpty } from "lodash"
 import { createSelector } from "reselect"
 
 const getEventList = (state) =>
-  !isEmpty(state.calendarEvents) ? Object.values(state.calendarEvents) : []
+  !isEmpty(state.calendarEvents)
+    ? Object.values(state.calendarEvents).filter((value) => !!value)
+    : []
 
 const getUnscheduledEvents = createSelector<any, any[], any[]>(
   getEventList,
@@ -19,12 +21,10 @@ const getAvailableLockSlots = createSelector(getLockSlots, (slots) =>
 
 const getDoorLocks = (state) => state.doorLocks
 
-const getCalendarEvents = (state) => Object.values(state.calendarEvents)
-
 export {
   getAvailableLockSlots,
-  getCalendarEvents,
   getDoorLocks,
+  getEventList,
   getLockSlots,
   getUnscheduledEvents,
 }

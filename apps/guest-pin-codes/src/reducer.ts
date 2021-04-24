@@ -8,6 +8,7 @@ import {
   SET_LOCK_PIN,
   UNSET_LOCK_PIN,
   SET_GUEST_SLOTS,
+  REMOVE_CALENDAR_EVENT,
 } from "./actions"
 
 const debug = createDebugger("@ha/guest-pin-codes/reducer")
@@ -29,6 +30,13 @@ const getNextCodeIndex = (length, currentIndex, offset) => {
 
 const reducer = (state = defaultState, { type, payload }) => {
   switch (type) {
+    case REMOVE_CALENDAR_EVENT:
+      return merge({}, state, {
+        calendarEvents: {
+          [payload.id]: undefined,
+        },
+      })
+
     case ADD_FUTURE_CALENDAR_EVENTS:
       const processedCalenderEventIds = Object.keys(state.calendarEvents)
       const newCalendarEvents: any[] = payload

@@ -7,8 +7,8 @@ import {
   ADD_FUTURE_CALENDAR_EVENTS,
   FETCH_NEW_CALENDAR_EVENTS,
 } from "./actions"
-import { addNewCalendarEvents } from "./actionCreators"
-import { getCalendarEvents } from "./selectors"
+import { addNewCalendarEvents, removeCalendarEvents } from "./actionCreators"
+import { getEventList } from "./selectors"
 
 const debug = createDebugger("@ha/guest-pin-codes/sagas")
 const { GOOGLE_CALENDAR_ID, GOOGLE_PRIVATE_KEY } = process.env
@@ -49,6 +49,14 @@ function* fetchNewCalendarEvents(action) {
       return new Date(start).getTime() >= Date.now()
     })
     debug(futureCalendarEvents.map(get("summary")))
+
+    const existingCalendarEvents = yield select(getEventList)
+    const removedEvents = existingCalendarEvents.filter(
+      (calendarEvent) => !data.items.find(({ id }) => id === calendarEvent.id)
+    )
+    debug(`Removing events: ${removedEvents.map(get("id")).join(",")}`)
+    yield put(removeCalendarEvents(removedEvents))
+
     const calendarEventsToAdd: any[] = []
     for (
       let eventIndex = 0;
@@ -98,8 +106,7 @@ function* updateCalendarEventsWithPin(action) {
       version: "v3",
       auth,
     })
-    const allCalendarEvents = yield select(getCalendarEvents)
-    debug(JSON.stringify(allCalendarEvents))
+    const allCalendarEvents = yield select(getEventList)
     const events = allCalendarEvents.filter((calendarEvent) =>
       action.payload.find(({ id }) => id === calendarEvent.id)
     )

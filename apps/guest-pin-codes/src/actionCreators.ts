@@ -4,6 +4,7 @@ import {
   ADD_FUTURE_CALENDAR_EVENTS,
   CALENDAR_EVENTS_SCHEDULED,
   FETCH_NEW_CALENDAR_EVENTS,
+  REMOVE_CALENDAR_EVENT,
   SET_GUEST_SLOTS,
   SET_LOCK_PIN,
   UNSET_LOCK_PIN,
@@ -52,12 +53,18 @@ const addCodesToPool = (codes: string[]) => ({
   payload: codes,
 })
 
+const removeCalendarEvents = (calendarEvent) => ({
+  type: REMOVE_CALENDAR_EVENT,
+  payload: calendarEvent,
+})
+
 export {
   addCodesToPool,
   addDoorLocks,
   addNewCalendarEvents,
   calendarEventsScheduled,
   fetchNewCalendarEvents,
+  removeCalendarEvents,
   setGuestSlots,
   setLockPin,
   unsetLockPin,

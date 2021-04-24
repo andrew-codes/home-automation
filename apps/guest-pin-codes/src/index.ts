@@ -18,6 +18,7 @@ import {
   addDoorLocks,
   calendarEventsScheduled,
   fetchNewCalendarEvents,
+  removeCalendarEvents,
   setGuestSlots,
   setLockPin,
   unsetLockPin,
@@ -162,6 +163,7 @@ const run = async () => {
                 })
               )
               store.dispatch(unsetLockPin(slotNumber))
+              store.dispatch(removeCalendarEvents([calendarEvent]))
             } catch (error) {
               debug(error)
             }
