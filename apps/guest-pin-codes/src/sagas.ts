@@ -1,10 +1,14 @@
 import createDebugger from "debug"
 import { call, fork, put, select, takeLatest } from "redux-saga/effects"
-import { defaultTo, merge } from "lodash"
+import { defaultTo } from "lodash"
 import { get } from "lodash/fp"
 import { calendar_v3, google, Common } from "googleapis"
-import { FETCH_NEW_CALENDAR_EVENTS } from "./actions"
+import {
+  ADD_FUTURE_CALENDAR_EVENTS,
+  FETCH_NEW_CALENDAR_EVENTS,
+} from "./actions"
 import { addNewCalendarEvents } from "./actionCreators"
+import { getCalendarEvents } from "./selectors"
 
 const debug = createDebugger("@ha/guest-pin-codes/sagas")
 const { GOOGLE_CALENDAR_ID, GOOGLE_PRIVATE_KEY } = process.env
@@ -37,18 +41,82 @@ function* fetchNewCalendarEvents(action) {
       },
       {}
     )
-    const futureCalendarEventsWithPin = data.items?.filter((calendarEvent) => {
+    const futureCalendarEvents = data.items?.filter((calendarEvent) => {
       const start = defaultTo(
         calendarEvent.start.dateTime,
         calendarEvent.start.date
       )
       return new Date(start).getTime() >= Date.now()
     })
-    debug(futureCalendarEventsWithPin.map(get("summary")))
-    yield put(addNewCalendarEvents(futureCalendarEventsWithPin))
+    debug(futureCalendarEvents.map(get("summary")))
+    yield put(addNewCalendarEvents(futureCalendarEvents))
   } catch (error) {
     debug(error)
   }
+}
+
+function* updateCalendarEventsWithPin(action) {
+  try {
+    debug("Updating calendar events with their PINs")
+    const creds = JSON.parse(GOOGLE_PRIVATE_KEY as string)
+    const auth = new google.auth.JWT({
+      email: creds.client_email,
+      key: creds.private_key,
+      scopes: ["https://www.googleapis.com/auth/calendar.events"],
+      subject: "andrew@andrew.codes",
+    })
+    const calendar = google.calendar({
+      version: "v3",
+      auth,
+    })
+    const allCalendarEvents = yield select(getCalendarEvents)
+    const events = allCalendarEvents.filter((calendarEvent) =>
+      action.payload.find(({ id }) => id === calendarEvent.id)
+    )
+    for (let eventIndex = 0; eventIndex < events.length; eventIndex++) {
+      try {
+        const calendarEvent = events[eventIndex]
+        const response = yield call<
+          calendar_v3.Calendar,
+          (
+            params?: calendar_v3.Params$Resource$Events$Update,
+            options?: Common.MethodOptions
+          ) => Common.GaxiosPromise<calendar_v3.Schema$Events>
+        >(
+          [calendar, calendar.events.update],
+          {
+            calendarId: GOOGLE_CALENDAR_ID as string,
+            eventId: calendarEvent.id,
+            requestBody: {
+              ...calendarEvent,
+              description: `=================
+ACCESS CODE: ${calendarEvent.pin}
+=================
+
+This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code, please do one of the following:
+
+- email Andrew at andrew@andrew.codes
+- call or text Dorri: (706) 957-3270
+- call or text Andrew: (470) 535-9093
+
+Thank you!
+`,
+            },
+          },
+          {}
+        )
+        debug(`Updated calendar event: ${response.data.id}`)
+      } catch (err) {
+        debug(err)
+      }
+    }
+  } catch (error) {
+    debug(error)
+  }
+}
+
+function* updateCalendarEventsWithPinSaga() {
+  yield takeLatest(ADD_FUTURE_CALENDAR_EVENTS, updateCalendarEventsWithPin)
 }
 
 function* fetchNewCalendarEventsSaga() {
@@ -57,6 +125,7 @@ function* fetchNewCalendarEventsSaga() {
 
 function* sagas() {
   yield fork(fetchNewCalendarEventsSaga)
+  yield fork(updateCalendarEventsWithPinSaga)
 }
 
 export default sagas

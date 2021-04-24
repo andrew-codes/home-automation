@@ -1,5 +1,5 @@
 import createDebugger from "debug"
-import { keyBy, last, merge } from "lodash"
+import { keyBy, merge } from "lodash"
 import {
   ADD_CODES_TO_POOL,
   ADD_DOOR_LOCKS,

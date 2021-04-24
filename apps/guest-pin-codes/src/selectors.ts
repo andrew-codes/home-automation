@@ -19,8 +19,11 @@ const getAvailableLockSlots = createSelector(getLockSlots, (slots) =>
 
 const getDoorLocks = (state) => state.doorLocks
 
+const getCalendarEvents = (state) => Object.values(state.calendarEvents)
+
 export {
   getAvailableLockSlots,
+  getCalendarEvents,
   getDoorLocks,
   getLockSlots,
   getUnscheduledEvents,
