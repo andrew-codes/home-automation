@@ -1,5 +1,5 @@
 import createDebugger from "debug"
-import { keyBy, merge } from "lodash"
+import { keyBy, last, merge } from "lodash"
 import {
   ADD_CODES_TO_POOL,
   ADD_DOOR_LOCKS,
@@ -21,8 +21,8 @@ const defaultState = {
 }
 
 const getNextCodeIndex = (length, currentIndex, offset) => {
-  if (currentIndex + offset > length) {
-    return currentIndex + offset - length
+  if (currentIndex + offset >= length) {
+    return (currentIndex + offset) % length
   }
   return currentIndex + offset
 }
@@ -31,7 +31,7 @@ const reducer = (state = defaultState, { type, payload }) => {
   switch (type) {
     case ADD_FUTURE_CALENDAR_EVENTS:
       const processedCalenderEventIds = Object.keys(state.calendarEvents)
-      const newCalendarEvents = payload
+      const newCalendarEvents: any[] = payload
         .filter(
           (calendarEvent) =>
             !processedCalenderEventIds.includes(calendarEvent.id) &&
@@ -40,17 +40,19 @@ const reducer = (state = defaultState, { type, payload }) => {
         .map((calendarEvent, index) => {
           const pin =
             state.codes[
-              getNextCodeIndex(state.codes.length, state.codeIndex, index + 1)
+              getNextCodeIndex(state.codes.length, state.codeIndex, index)
             ]
           return merge(calendarEvent, {
             pin,
           })
         })
-      debug(newCalendarEvents)
+
+      const newCodeIndex =
+        (state.codeIndex + newCalendarEvents.length) % state.codes.length
 
       return merge({}, state, {
         calendarEvents: keyBy(newCalendarEvents, "id"),
-        codeIndex: state.codeIndex + newCalendarEvents.length,
+        codeIndex: newCodeIndex,
       })
 
     case CALENDAR_EVENTS_SCHEDULED:

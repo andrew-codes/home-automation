@@ -62,11 +62,8 @@ const run = async () => {
   store.dispatch(addDoorLocks(DOOR_LOCKS?.split(",") ?? []))
 
   const exclusionCodes = GUEST_LOCK_CODE_EXCLUSIONS?.split(",") ?? []
-  store.dispatch(
-    addCodesToPool(
-      shuffle(candiateCodes.filter((code) => exclusionCodes.includes(code)))
-    )
-  )
+  const codes = candiateCodes.filter((code) => !exclusionCodes.includes(code))
+  store.dispatch(addCodesToPool(shuffle(codes)))
 
   store.subscribe(() => {
     const state = store.getState()

@@ -47,7 +47,7 @@ const setGuestSlots = (numberOfGuestCodes, guestCodeOffset) => ({
   payload: { guestCodeOffset, numberOfGuestCodes },
 })
 
-const addCodesToPool = (codes) => ({
+const addCodesToPool = (codes: string[]) => ({
   type: ADD_CODES_TO_POOL,
   payload: codes,
 })
