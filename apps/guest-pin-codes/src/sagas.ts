@@ -49,7 +49,36 @@ function* fetchNewCalendarEvents(action) {
       return new Date(start).getTime() >= Date.now()
     })
     debug(futureCalendarEvents.map(get("summary")))
-    yield put(addNewCalendarEvents(futureCalendarEvents))
+    const calendarEventsToAdd: any[] = []
+    for (
+      let eventIndex = 0;
+      eventIndex < futureCalendarEvents.length;
+      eventIndex++
+    ) {
+      try {
+        const calendarEvent = futureCalendarEvents[eventIndex]
+        const response = yield call<
+          calendar_v3.Calendar,
+          (
+            params?: calendar_v3.Params$Resource$Events$Get,
+            options?: Common.MethodOptions
+          ) => Common.GaxiosPromise<calendar_v3.Schema$Event>
+        >(
+          [calendar, calendar.events.get],
+          {
+            calendarId: GOOGLE_CALENDAR_ID as string,
+            eventId: calendarEvent.id,
+          },
+          {}
+        )
+        if (response.data) {
+          calendarEventsToAdd.push(response.data)
+        }
+      } catch (err) {
+        debug(err)
+      }
+    }
+    yield put(addNewCalendarEvents(calendarEventsToAdd))
   } catch (error) {
     debug(error)
   }
@@ -70,6 +99,7 @@ function* updateCalendarEventsWithPin(action) {
       auth,
     })
     const allCalendarEvents = yield select(getCalendarEvents)
+    debug(JSON.stringify(allCalendarEvents))
     const events = allCalendarEvents.filter((calendarEvent) =>
       action.payload.find(({ id }) => id === calendarEvent.id)
     )
@@ -87,10 +117,10 @@ function* updateCalendarEventsWithPin(action) {
           {
             calendarId: GOOGLE_CALENDAR_ID as string,
             eventId: calendarEvent.id,
+            sendUpdates: "all",
             requestBody: {
               ...calendarEvent,
-              description: `=================
-ACCESS CODE: ${calendarEvent.pin}
+              description: `ACCESS CODE: ${calendarEvent.pin}
 =================
 
 This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code, please do one of the following:
