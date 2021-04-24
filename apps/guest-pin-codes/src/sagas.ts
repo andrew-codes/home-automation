@@ -1,5 +1,5 @@
 import createDebugger from "debug"
-import { call, fork, put, takeLatest } from "redux-saga/effects"
+import { call, fork, put, select, takeLatest } from "redux-saga/effects"
 import { defaultTo, merge } from "lodash"
 import { get } from "lodash/fp"
 import { calendar_v3, google, Common } from "googleapis"
@@ -8,16 +8,6 @@ import { addNewCalendarEvents } from "./actionCreators"
 
 const debug = createDebugger("@ha/guest-pin-codes/sagas")
 const { GOOGLE_CALENDAR_ID, GOOGLE_PRIVATE_KEY } = process.env
-
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max)
-}
-function getRandomPin(digits) {
-  return new Array(digits)
-    .fill("")
-    .map(() => getRandomInt(9))
-    .join("")
-}
 
 function* fetchNewCalendarEvents(action) {
   try {
@@ -47,18 +37,13 @@ function* fetchNewCalendarEvents(action) {
       },
       {}
     )
-    const futureCalendarEventsWithPin = data.items
-      ?.filter((calendarEvent) => {
-        const start = defaultTo(
-          calendarEvent.start.dateTime,
-          calendarEvent.start.date
-        )
-        return new Date(start).getTime() >= Date.now()
-      })
-      .map((calendarEvent) => {
-        const pin = `${getRandomPin(4)}`
-        return merge({}, calendarEvent, { pin })
-      })
+    const futureCalendarEventsWithPin = data.items?.filter((calendarEvent) => {
+      const start = defaultTo(
+        calendarEvent.start.dateTime,
+        calendarEvent.start.date
+      )
+      return new Date(start).getTime() >= Date.now()
+    })
     debug(futureCalendarEventsWithPin.map(get("summary")))
     yield put(addNewCalendarEvents(futureCalendarEventsWithPin))
   } catch (error) {

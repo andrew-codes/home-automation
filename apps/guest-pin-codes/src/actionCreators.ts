@@ -1,4 +1,5 @@
 import {
+  ADD_CODES_TO_POOL,
   ADD_DOOR_LOCKS,
   ADD_FUTURE_CALENDAR_EVENTS,
   CALENDAR_EVENTS_SCHEDULED,
@@ -12,14 +13,17 @@ const addNewCalendarEvents = (calendarEvents) => ({
   type: ADD_FUTURE_CALENDAR_EVENTS,
   payload: calendarEvents,
 })
+
 const fetchNewCalendarEvents = () => ({
   type: FETCH_NEW_CALENDAR_EVENTS,
   payload: null,
 })
+
 const calendarEventsScheduled = (calendarEvents) => ({
   type: CALENDAR_EVENTS_SCHEDULED,
   payload: calendarEvents,
 })
+
 const setLockPin = (slotNumber, pin) => ({
   type: SET_LOCK_PIN,
   payload: {
@@ -27,6 +31,7 @@ const setLockPin = (slotNumber, pin) => ({
     pin,
   },
 })
+
 const unsetLockPin = (slotNumber) => ({
   type: UNSET_LOCK_PIN,
   payload: slotNumber,
@@ -42,7 +47,13 @@ const setGuestSlots = (numberOfGuestCodes, guestCodeOffset) => ({
   payload: { guestCodeOffset, numberOfGuestCodes },
 })
 
+const addCodesToPool = (codes) => ({
+  type: ADD_CODES_TO_POOL,
+  payload: codes,
+})
+
 export {
+  addCodesToPool,
   addDoorLocks,
   addNewCalendarEvents,
   calendarEventsScheduled,

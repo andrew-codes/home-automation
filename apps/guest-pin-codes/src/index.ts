@@ -3,7 +3,8 @@ import createSagaMiddleware from "redux-saga"
 import { connectAsync } from "async-mqtt"
 import { createStore, applyMiddleware } from "redux"
 import { CronJob } from "cron"
-import { defaultTo, first, isEmpty, merge } from "lodash"
+import { defaultTo, first, isEmpty } from "lodash"
+import candiateCodes from "./candidateCodes"
 import reducer from "./reducer"
 import sagas from "./sagas"
 import {
@@ -13,6 +14,7 @@ import {
   getUnscheduledEvents,
 } from "./selectors"
 import {
+  addCodesToPool,
   addDoorLocks,
   calendarEventsScheduled,
   fetchNewCalendarEvents,
@@ -20,15 +22,17 @@ import {
   setLockPin,
   unsetLockPin,
 } from "./actionCreators"
+import { shuffle } from "./shuffle"
 
 const {
   DOOR_LOCKS,
-  NUMBER_OF_GUEST_CODES,
   GUEST_CODE_INDEX_OFFSET,
+  GUEST_LOCK_CODE_EXCLUSIONS,
   MQTT_HOST,
   MQTT_PASSWORD,
   MQTT_PORT,
   MQTT_USERNAME,
+  NUMBER_OF_GUEST_CODES,
 } = process.env
 const debug = createDebugger("@ha/guest-pin-codes/index")
 
@@ -56,6 +60,13 @@ const run = async () => {
   )
   store.dispatch(setGuestSlots(numberOfGuestCodes, guestCodeOffset))
   store.dispatch(addDoorLocks(DOOR_LOCKS?.split(",") ?? []))
+
+  const exclusionCodes = GUEST_LOCK_CODE_EXCLUSIONS?.split(",") ?? []
+  store.dispatch(
+    addCodesToPool(
+      shuffle(candiateCodes.filter((code) => exclusionCodes.includes(code)))
+    )
+  )
 
   store.subscribe(() => {
     const state = store.getState()
