@@ -1,99 +1,120 @@
-import createDebugger from "debug"
-import { keyBy, last, merge } from "lodash"
-import {
-  ADD_CODES_TO_POOL,
-  ADD_DOOR_LOCKS,
-  ADD_FUTURE_CALENDAR_EVENTS,
-  CALENDAR_EVENTS_SCHEDULED,
-  SET_LOCK_PIN,
-  UNSET_LOCK_PIN,
-  SET_GUEST_SLOTS,
-} from "./actions"
+import { keyBy, merge } from "lodash"
+import { get } from "lodash/fp"
+import { ASSIGNED_GUEST_SLOT, LAST_USED_CODE, UPDATE_EVENTS } from "./actions"
 
-const debug = createDebugger("@ha/guest-pin-codes/reducer")
-
-const defaultState = {
-  calendarEvents: {},
+export const defaultState = {
+  events: {},
+  eventOrder: [],
   doorLocks: [],
   codes: [],
   codeIndex: 0,
   guestSlots: {},
 }
 
-const getNextCodeIndex = (length, currentIndex, offset) => {
-  if (currentIndex + offset >= length) {
-    return (currentIndex + offset) % length
-  }
-  return currentIndex + offset
-}
-
 const reducer = (state = defaultState, { type, payload }) => {
   switch (type) {
-    case ADD_FUTURE_CALENDAR_EVENTS:
-      const processedCalenderEventIds = Object.keys(state.calendarEvents)
-      const newCalendarEvents: any[] = payload
-        .filter(
-          (calendarEvent) =>
-            !processedCalenderEventIds.includes(calendarEvent.id) &&
-            !calendarEvent.isScheduled
-        )
-        .map((calendarEvent, index) => {
-          const pin =
-            state.codes[
-              getNextCodeIndex(state.codes.length, state.codeIndex, index)
-            ]
-          return merge(calendarEvent, {
-            pin,
-          })
-        })
+    case UPDATE_EVENTS:
+      return {
+        ...state,
+        events: keyBy(payload, "id"),
+        eventOrder: payload.map(get("id")),
+      }
 
-      const newCodeIndex =
-        (state.codeIndex + newCalendarEvents.length) % state.codes.length
+    case LAST_USED_CODE:
+      return merge({}, state, { codeIndex: state.codes.indexOf(payload) })
 
-      return merge({}, state, {
-        calendarEvents: keyBy(newCalendarEvents, "id"),
-        codeIndex: newCodeIndex,
-      })
+    case ASSIGNED_GUEST_SLOT:
+      return merge({}, state, { guestSlots: { [payload.id]: payload.eventId } })
 
-    case CALENDAR_EVENTS_SCHEDULED:
-      const newStateEventsScheduled = merge({}, state)
-      payload.forEach((calEvent) => {
-        newStateEventsScheduled.calendarEvents[calEvent.id].isScheduled = true
-      })
-      return newStateEventsScheduled
+    // case REMOVE_CALENDAR_EVENT:
+    //   return merge({}, state, {
+    //     calendarEvents: {
+    //       [payload.id]: undefined,
+    //     },
+    //   })
 
-    case SET_LOCK_PIN:
-      return merge({}, state, {
-        guestSlots: {
-          [payload.slotNumber]: payload.pin,
-        },
-      })
+    // case ADD_FUTURE_CALENDAR_EVENTS:
+    //   const processedCalenderEventIds = Object.keys(state.calendarEvents)
+    //   const newCalendarEvents: any[] = payload
+    //     .filter(
+    //       (calendarEvent) =>
+    //         !processedCalenderEventIds.includes(calendarEvent.id) &&
+    //         !calendarEvent.isScheduled
+    //     )
+    //     .map((calendarEvent, index) => {
+    //       const pin =
+    //         state.codes[
+    //           getNextCodeIndex(state.codes.length, state.codeIndex, index)
+    //         ]
+    //       return merge(calendarEvent, {
+    //         pin,
+    //       })
+    //     })
 
-    case UNSET_LOCK_PIN:
-      return merge({}, state, {
-        guestSlots: {
-          [payload]: null,
-        },
-      })
+    //   const newCodeIndex =
+    //     (state.codeIndex + newCalendarEvents.length) % state.codes.length
 
-    case SET_GUEST_SLOTS:
-      return merge({}, state, {
-        guestSlots: new Array(payload.numberOfGuestCodes)
-          .fill("")
-          .reduce(
-            (acc, v, index) =>
-              merge(acc, { [index + 1 + payload.guestCodeOffset]: null }),
-            {}
-          ),
-      })
+    //   return merge({}, state, {
+    //     calendarEvents: keyBy(newCalendarEvents, "id"),
+    //     codeIndex: newCodeIndex,
+    //   })
 
-    case ADD_DOOR_LOCKS:
-      return merge({}, state, { doorLocks: payload })
+    // case CALENDAR_EVENTS_SCHEDULED:
+    //   const scheduledEvents = payload.reduce(
+    //     (acc, calEvent) => merge(acc, { [calEvent.id]: { isScheduled: true } }),
+    //     {}
+    //   )
+    //   return merge({}, state, {
+    //     calendarEvents: scheduledEvents,
+    //   })
 
-    case ADD_CODES_TO_POOL:
-      return merge({}, state, {
-        codes: payload,
-      })
+    // case CALENDAR_EVENTS_NEED_RESCHEDULING:
+    //   const eventsToReschedule = payload.reduce(
+    //     (acc, calEvent) =>
+    //       merge(acc, {
+    //         [calEvent.id]: {
+    //           isScheduled: false,
+    //           sequence: calEvent.sequence + 1,
+    //         },
+    //       }),
+    //     {}
+    //   )
+    //   return merge({}, state, {
+    //     calendarEvents: eventsToReschedule,
+    //   })
+
+    // case SET_LOCK_PIN:
+    //   return merge({}, state, {
+    //     guestSlots: {
+    //       [payload.slotNumber]: payload.pin,
+    //     },
+    //   })
+
+    // case UNSET_LOCK_PIN:
+    //   return merge({}, state, {
+    //     guestSlots: {
+    //       [payload]: null,
+    //     },
+    //   })
+
+    // case SET_GUEST_SLOTS:
+    //   return merge({}, state, {
+    //     guestSlots: new Array(payload.numberOfGuestCodes)
+    //       .fill("")
+    //       .reduce(
+    //         (acc, v, index) =>
+    //           merge(acc, { [index + 1 + payload.guestCodeOffset]: null }),
+    //         {}
+    //       ),
+    //   })
+
+    // case ADD_DOOR_LOCKS:
+    //   return merge({}, state, { doorLocks: payload })
+
+    // case ADD_CODES_TO_POOL:
+    //   return merge({}, state, {
+    //     codes: payload,
+    //   })
 
     default:
       return state
