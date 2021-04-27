@@ -9,9 +9,7 @@ const getCodes = (state) => state.codes
 const getCurrentCodeIndex = (state) => state.codeIndex
 
 const getEventList = (state) =>
-  !isEmpty(state.events)
-    ? Object.values(state.events).filter((value) => !!value)
-    : []
+  !isEmpty(state.events) ? Object.values(state.events) : []
 
 const getUnscheduledEvents = createSelector<any, any[], any[]>(
   getEventList,

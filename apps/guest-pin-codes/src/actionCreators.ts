@@ -2,48 +2,19 @@ import { calendar_v3 } from "googleapis"
 import {
   ADD_CODES_TO_POOL,
   ADD_DOOR_LOCKS,
-  ADD_FUTURE_CALENDAR_EVENTS,
-  CALENDAR_EVENTS_NEED_RESCHEDULING,
-  CALENDAR_EVENTS_SCHEDULED,
-  SCHEDULE_EVENTS,
-  FETCH_EVENTS,
-  REMOVE_CALENDAR_EVENT,
-  SET_GUEST_SLOTS,
-  SET_LOCK_PIN,
-  UNSET_LOCK_PIN,
-  UPDATE_EVENTS as UPDATE_EVENTS,
-  LAST_USED_CODE,
-  DISABLED_EVENTS,
   ASSIGNED_GUEST_SLOT,
+  DISABLED_EVENTS,
+  FETCH_EVENTS,
+  LAST_USED_CODE,
+  SCHEDULE_EVENTS,
+  SET_GUEST_SLOTS,
+  UPDATE_EVENTS,
 } from "./actions"
 import getMinuteAccurateDate from "./getMinuteAccurateDate"
-
-const addNewCalendarEvents = (calendarEvents) => ({
-  type: ADD_FUTURE_CALENDAR_EVENTS,
-  payload: calendarEvents,
-})
 
 const fetchEvents = (end: Date) => ({
   type: FETCH_EVENTS,
   payload: getMinuteAccurateDate(end),
-})
-
-const calendarEventsScheduled = (calendarEvents) => ({
-  type: CALENDAR_EVENTS_SCHEDULED,
-  payload: calendarEvents,
-})
-
-const setLockPin = (slotNumber, pin) => ({
-  type: SET_LOCK_PIN,
-  payload: {
-    slotNumber,
-    pin,
-  },
-})
-
-const unsetLockPin = (slotNumber) => ({
-  type: UNSET_LOCK_PIN,
-  payload: slotNumber,
 })
 
 const addDoorLocks = (doorLocks) => ({
@@ -59,16 +30,6 @@ const setGuestSlots = (numberOfGuestCodes, guestCodeOffset) => ({
 const addCodesToPool = (codes: string[]) => ({
   type: ADD_CODES_TO_POOL,
   payload: codes,
-})
-
-const removeCalendarEvents = (calendarEvent) => ({
-  type: REMOVE_CALENDAR_EVENT,
-  payload: calendarEvent,
-})
-
-const rescheduleEvents = (calendarEvents) => ({
-  type: CALENDAR_EVENTS_NEED_RESCHEDULING,
-  payload: calendarEvents,
 })
 
 const scheduleEvents = (start: Date) => ({
@@ -91,7 +52,7 @@ const disabledEvents = (events: calendar_v3.Schema$Event[]) => ({
   payload: events,
 })
 
-const assignedGuestSlot = (slotId: string, eventId: string) => ({
+const assignedGuestSlot = (slotId: string, eventId: string | null) => ({
   type: ASSIGNED_GUEST_SLOT,
   payload: { id: slotId, eventId },
 })
@@ -103,13 +64,7 @@ export {
   updateEvents,
   addCodesToPool,
   addDoorLocks,
-  addNewCalendarEvents,
-  calendarEventsScheduled,
   scheduleEvents,
   fetchEvents,
-  removeCalendarEvents,
-  rescheduleEvents,
   setGuestSlots,
-  setLockPin,
-  unsetLockPin,
 }

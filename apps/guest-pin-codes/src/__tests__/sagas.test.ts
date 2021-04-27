@@ -259,7 +259,6 @@ Thank you!`,
     store.start(sagas)
     store.dispatch(scheduleEvents(nowPlusTwoMinutes))
     await store.waitFor(LAST_USED_CODE)
-    console.log(mqtt.publish.mock.calls)
 
     expect(mqtt.publish).toHaveBeenCalledWith(
       "/homeassistant/guest-pin/set",

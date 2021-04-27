@@ -11,12 +11,7 @@ import { defaultTo } from "lodash"
 import { calendar_v3, Common } from "googleapis"
 import { createCalendarClient } from "./googleClient"
 import createMqttClient from "./mqtt"
-import {
-  ASSIGNED_GUEST_SLOT,
-  FETCH_EVENTS,
-  LAST_USED_CODE,
-  SCHEDULE_EVENTS,
-} from "./actions"
+import { FETCH_EVENTS, SCHEDULE_EVENTS } from "./actions"
 import {
   assignedGuestSlot,
   disabledEvents,
@@ -155,7 +150,6 @@ Thank you!`,
           doorLockIndex < doorLocks.length;
           doorLockIndex++
         ) {
-          console.log(code, slotNumber)
           const door = doorLocks[doorLockIndex]
           const doorPinId = `${door}_pin_${slotNumber}`
           yield call<
