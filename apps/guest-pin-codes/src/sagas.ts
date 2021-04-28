@@ -94,7 +94,7 @@ function* startEvent(action) {
       const start = getMinuteAccurateDate(
         new Date(defaultTo(event.start.dateTime, event.start.date))
       )
-      return start.getTime() === now.getTime()
+      return start.toLocaleString() === now.toLocaleString()
     })
     const codes = yield select(getCodes)
     const doorLocks = yield select(getDoorLocks)
@@ -112,7 +112,7 @@ function* startEvent(action) {
         const nextCodeIndex = getNextCodeIndex(
           codes.length,
           currentCodeIndex,
-          eventIndex
+          eventIndex + 1
         )
         code = codes[nextCodeIndex]
 
@@ -212,7 +212,7 @@ function* endEvent(action) {
       const end = getMinuteAccurateDate(
         new Date(defaultTo(event.end.dateTime, event.end.date))
       )
-      return now.getTime() === end.getTime()
+      return now.toLocaleString() === end.toLocaleString()
     })
     const occupiedSlots = yield select(getLockSlots)
     const doorLocks = yield select(getDoorLocks)
@@ -241,6 +241,7 @@ function* endEvent(action) {
     yield put(disabledEvents(eventsToStop))
   } catch (error) {
     console.log(error)
+    debug(error)
   }
 }
 

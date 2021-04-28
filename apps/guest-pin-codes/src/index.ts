@@ -28,9 +28,12 @@ const run = async () => {
   debug("Started")
 
   const store = createStore(reducer, applyMiddleware(sagaMiddleware))
+  store.subscribe(() => {
+    debug(store.getState())
+  })
 
   const numberOfGuestCodes = parseInt(NUMBER_OF_GUEST_CODES as string, 10)
-  const guestCodeOffset = parseInt(GUEST_CODE_INDEX_OFFSET as string, 10)
+  const guestCodeOffset = parseInt(GUEST_CODE_INDEX_OFFSET as string, 10) + 1
   debug(
     `Number of guest codes: ${numberOfGuestCodes}, offset by ${guestCodeOffset}`
   )

@@ -17,12 +17,15 @@ const fetchEvents = (end: Date) => ({
   payload: getMinuteAccurateDate(end),
 })
 
-const addDoorLocks = (doorLocks) => ({
+const addDoorLocks = (doorLocks: string[]) => ({
   type: ADD_DOOR_LOCKS,
   payload: doorLocks,
 })
 
-const setGuestSlots = (numberOfGuestCodes, guestCodeOffset) => ({
+const setGuestSlots = (
+  numberOfGuestCodes: number,
+  guestCodeOffset: number
+) => ({
   type: SET_GUEST_SLOTS,
   payload: { guestCodeOffset, numberOfGuestCodes },
 })

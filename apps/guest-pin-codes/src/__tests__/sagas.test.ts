@@ -19,6 +19,7 @@ let calendarClient = {
 const mqtt = {
   publish: jest.fn(),
 }
+
 beforeEach(() => {
   jest.resetAllMocks()
   ;(createCalendarClient as jest.Mock).mockReturnValue(calendarClient)
@@ -203,7 +204,7 @@ describe("start event saga", () => {
         },
         eventOrder: ["2", "1", "4", "3"],
         codes,
-        codeIndex: 0,
+        codeIndex: -1,
         doorLocks: ["front_door", "car_port_door"],
         guestSlots: { "1": null, "2": null },
       },
@@ -215,7 +216,7 @@ describe("start event saga", () => {
   test("no events are starting at specified time", async () => {
     const now = new Date(2021, 0, 1, 12, 0, 0, 0)
     store.dispatch(scheduleEvents(now))
-    expect(store.getState().codeIndex).toEqual(0)
+    expect(store.getState().codeIndex).toEqual(-1)
   })
 
   test("events starting are assigned a the next code and the calendar event is updated with this code", async () => {
@@ -335,7 +336,7 @@ Thank you!`,
         },
         eventOrder: ["2", "1", "4", "3"],
         codes,
-        codeIndex: codes.length,
+        codeIndex: codes.length - 1,
         doorLocks: ["front_door", "car_port_door"],
         guestSlots: { "1": null },
       },
@@ -381,6 +382,23 @@ Thank you!`,
   test("errors will not crash the saga", async () => {
     const now = new Date(2021, 0, 1, 12, 2)
     calendarClient.events.update.mockRejectedValue({})
+    store.dispatch(scheduleEvents(now))
+    store.dispatch(scheduleEvents(now))
+
+    store = new SagaTester({
+      initialState: {
+        events: {
+          "1": {},
+        },
+        eventOrder: ["2"],
+        codes,
+        codeIndex: codes.length - 1,
+        doorLocks: ["front_door", "car_port_door"],
+        guestSlots: { "1": null },
+      },
+      reducers: reducer,
+    })
+    store.start(sagas)
     store.dispatch(scheduleEvents(now))
     store.dispatch(scheduleEvents(now))
   })
@@ -470,5 +488,47 @@ describe("ending event saga", () => {
       }),
       { qos: 2 }
     )
+  })
+
+  test("exceptions do not crash saga", () => {
+    store = new SagaTester({
+      initialState: {
+        events: {
+          "1": {},
+        },
+        eventOrder: ["2"],
+        codes,
+        codeIndex: codes.length - 1,
+        doorLocks: ["front_door", "car_port_door"],
+        guestSlots: { "1": null },
+      },
+      reducers: reducer,
+    })
+    store.start(sagas)
+    store.dispatch(scheduleEvents(new Date()))
+    store.dispatch(scheduleEvents(new Date()))
+  })
+
+  test("ending events without a code/guest slot are ignored", async () => {
+    store = new SagaTester({
+      initialState: {
+        events: {
+          [laterEvent2.id]: laterEvent2,
+          [lastEvent.id]: lastEvent,
+        },
+        eventOrder: ["4", "3"],
+        codes,
+        codeIndex: codes.length - 1,
+        doorLocks: ["front_door", "car_port_door"],
+        guestSlots: { "1": null },
+      },
+      reducers: reducer,
+    })
+    store.start(sagas)
+    const now = new Date(2021, 0, 1, 13, 1)
+    store.dispatch(scheduleEvents(now))
+    await store.waitFor(DISABLED_EVENTS)
+
+    expect(store.getState().guestSlots).toEqual({ "1": null })
   })
 })
