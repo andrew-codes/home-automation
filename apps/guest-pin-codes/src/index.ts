@@ -22,25 +22,27 @@ const {
 } = process.env
 const debug = createDebugger("@ha/guest-pin-codes/index")
 
-const sagaMiddleware = createSagaMiddleware()
-
-const run = async () => {
+const run = async (
+  doorLocks: string,
+  codeExclusions: string,
+  guestCodeOffset: number,
+  numberOfGuestCodes: number
+) => {
   debug("Started")
-
+  const sagaMiddleware = createSagaMiddleware()
   const store = createStore(reducer, applyMiddleware(sagaMiddleware))
+
   store.subscribe(() => {
     debug(store.getState())
   })
 
-  const numberOfGuestCodes = parseInt(NUMBER_OF_GUEST_CODES as string, 10)
-  const guestCodeOffset = parseInt(GUEST_CODE_INDEX_OFFSET as string, 10) + 1
   debug(
     `Number of guest codes: ${numberOfGuestCodes}, offset by ${guestCodeOffset}`
   )
   store.dispatch(setGuestSlots(numberOfGuestCodes, guestCodeOffset))
-  store.dispatch(addDoorLocks(DOOR_LOCKS?.split(",") ?? []))
+  store.dispatch(addDoorLocks(doorLocks.split(",").filter((lock) => !!lock)))
 
-  const exclusionCodes = GUEST_LOCK_CODE_EXCLUSIONS?.split(",") ?? []
+  const exclusionCodes = codeExclusions.split(",")
   const codes = candiateCodes.filter((code) => !exclusionCodes.includes(code))
   store.dispatch(addCodesToPool(shuffle(codes)))
 
@@ -64,7 +66,6 @@ const run = async () => {
     true,
     "America/New_York"
   )
-
   const now = new Date()
   store.dispatch(fetchEvents(now))
   store.dispatch(scheduleEvents(now))
@@ -72,4 +73,13 @@ const run = async () => {
   scheduledEventsJob.start()
 }
 
-run()
+if (require.main === module) {
+  run(
+    DOOR_LOCKS,
+    GUEST_LOCK_CODE_EXCLUSIONS,
+    parseInt(GUEST_CODE_INDEX_OFFSET, 10) + 1,
+    parseInt(NUMBER_OF_GUEST_CODES, 10)
+  )
+}
+
+export default run
