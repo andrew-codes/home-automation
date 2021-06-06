@@ -3080,12 +3080,12 @@ anymatch@~3.1.1:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
-apicalypse@^0.1.6:
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/apicalypse/-/apicalypse-0.1.7.tgz#893ffedb50eefa6e181031e9d2c712d3f03499e7"
-  integrity sha512-QNhNg8hhp2Kirb7zptWQMJKES57EeGutbniMenLugjFHEjCxE3B2s/2YQ6XYeFnTw6FKey0OuU7TMuwFwlJF+Q==
+apicalypse@^0.1.9:
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/apicalypse/-/apicalypse-0.1.9.tgz#03b1a9ade1a3208c7700cf843d0f3dd71779684d"
+  integrity sha512-RSGXxVjvSE4DqqK7OY7SI5CWEAwYiOVKl6TjcYitnXu6567xKsQUHUeY81fN3N4WidqZxtIvGSXrbVC2hTNgaw==
   dependencies:
-    axios "^0.20.0"
+    axios "^0.21.1"
     better-queue "^3.8.10"
     better-queue-memory "^1.0.4"
 
@@ -3433,10 +3433,10 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
   integrity sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
 
-axios@^0.20.0:
-  version "0.20.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.20.0.tgz#057ba30f04884694993a8cd07fa394cff11c50bd"
-  integrity sha512-ANA4rr2BDcmmAQLOKft2fufrtuvlqR+cXNNinUmvfeSNCOF98PZL+7M/v1zIdGo7OLjEA9J2gXJL+j4zGsl0bA==
+axios@^0.21.1:
+  version "0.21.1"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
+  integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
   dependencies:
     follow-redirects "^1.10.0"
 
@@ -4619,11 +4619,6 @@ deep-is@~0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/deep-is/-/deep-is-0.1.3.tgz#b369d6fb5dbc13eecf524f91b070feedc357cf34"
   integrity sha1-s2nW+128E+7PUk+RsHD+7cNXzzQ=
-
-deepmerge@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-3.3.0.tgz#d3c47fd6f3a93d517b14426b0628a17b0125f5f7"
-  integrity sha512-GRQOafGHwMHpjPx9iCvTgpu9NojZ49q794EEL94JVEw6VaeA8XTUyBKvAkOOjBX9oJNiV6G3P+T+tihFjo2TqA==
 
 deepmerge@^4.2.2:
   version "4.2.2"
@@ -6147,13 +6142,13 @@ ieee754@^1.1.13:
   integrity sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==
 
 igdb-api-node@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/igdb-api-node/-/igdb-api-node-5.0.0.tgz#bffc0bf943ffd30f63ababf122e6a5339bd06c52"
-  integrity sha512-OX+2Ph90kAihk6jGy4yZmzJ7ncwxbRTDPaT8via7iUsATaTDmmvU4CIS95OaWBKGRwH+qt8eCFFcD4jDLLsPqg==
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/igdb-api-node/-/igdb-api-node-5.0.1.tgz#2109f3349054e281a86cb0fbed92fd856aa1906a"
+  integrity sha512-74YJX8lUkQnF2CtC+0wxBxzquuSZ1HpoFF5KOz2ziH2Q2l2dgK91lO6NhStHdMMAHYWRPUoTYoAMW59//UPDOQ==
   dependencies:
-    apicalypse "^0.1.6"
-    deepmerge "^3.3.0"
-    is-plain-object "^3.0.0"
+    apicalypse "^0.1.9"
+    deepmerge "^4.2.2"
+    is-plain-object "^4.0.0"
 
 ignore-by-default@^1.0.1:
   version "1.0.1"
@@ -6547,10 +6542,10 @@ is-plain-object@^2.0.3, is-plain-object@^2.0.4:
   dependencies:
     isobject "^3.0.1"
 
-is-plain-object@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/is-plain-object/-/is-plain-object-3.0.1.tgz#662d92d24c0aa4302407b0d45d21f2251c85f85b"
-  integrity sha512-Xnpx182SBMrr/aBik8y+GuR4U1L9FqMSojwDQwPMmxyC6bvEqly9UBCxhauBF5vNh2gwWJNX6oDV7O+OM4z34g==
+is-plain-object@^4.0.0:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/is-plain-object/-/is-plain-object-4.1.1.tgz#1a14d6452cbd50790edc7fdaa0aed5a40a35ebb5"
+  integrity sha512-5Aw8LLVsDlZsETVMhoMXzqsXwQqr/0vlnBYzIXJbYo2F4yYlhLHs+Ez7Bod7IIQKWkJbJfxrWD7pA1Dw1TKrwA==
 
 is-plain-object@^5.0.0:
   version "5.0.0"
