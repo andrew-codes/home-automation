@@ -180,3 +180,12 @@ export VALHEIM_GAME_1_PORT=""
 export VALHEIM_GAME_2_PORT=""
 export VALHEIM_GAME_3_PORT=""
 # ===============================
+
+# ====================
+# Required for OpenVPN
+# ====================
+export OPENVPN_PASSWORD=""
+export VPN_DOMAIN=""
+export VPN_DNS_USERNAME=""
+export VPN_DNS_PASSWORD=""
+# ===============================

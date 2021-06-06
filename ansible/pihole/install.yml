@@ -3,7 +3,7 @@
   become: yes
 
   tasks:
-    - name: Installing Prerequisites for Kubernetes
+    - name: Installing Prerequisites
       apt:
         name:
           - curl

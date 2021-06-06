@@ -1,0 +1,29 @@
+---
+- hosts: openvpn
+  become: yes
+
+  tasks:
+    - name: Installing Prerequisites
+      apt:
+        name:
+          - wget
+          - ca-certificates
+          - net-tools
+          - gnupg
+          - curl
+        state: present
+
+    - name: Setup apt key
+      ansible.builtin.apt_key:
+        url: https://as-repository.openvpn.net/as-repo-public.gpg
+        state: present
+
+    - name: Add apt source
+      shell: echo "deb http://as-repository.openvpn.net/as/debian buster main">/etc/apt/sources.list.d/openvpn-as-repo.list
+
+    - name: Installing OpenVPN AS
+      apt:
+        name:
+          - openvpn-as
+        state: present
+        update_cache: yes

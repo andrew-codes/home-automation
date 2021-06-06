@@ -52,3 +52,10 @@ cat >ansible/pihole/.secrets/pihole.yml <<EOL
 ---
 pihole_password: "$PIHOLE_PASSWORD"
 EOL
+
+mkdir -p ansible/openvpn-as/.secrets
+cat >ansible/openvpn-as/.secrets/openvpn.yml <<EOL
+---
+openvpn_password: "$OPENVPN_PASSWORD"
+EOL
+
