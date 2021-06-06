@@ -8,5 +8,5 @@
   remote_user: hl
 
   tasks:
-    - name: Schedule 5 day rolling backup of zwave namespace
-      shell: velero schedule create zwave-daily-backup --schedule "0 7 * * *" --ttl "120h" --include-namespaces zwave
+    - name: Schedule 5 day rolling backup of gaming namespace
+      shell: velero schedule create gaming-daily-backup --schedule "0 7 * * *" --ttl "120h" --include-namespaces gaming
