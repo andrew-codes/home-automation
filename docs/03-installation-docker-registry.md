@@ -33,6 +33,14 @@ Point your `$DOCKER_REGISTRY_DOMAIN` to the `$CLUSTER_IP` via a DNS entry. As an
 
 > Note: use the local cluster IP! Do not use or expose the docker registry to the public Internet.
 
+## Developer Machine Docker Config
+
+Ensure you can push to your new registry from your local developer machine by adding the following to Docker's engine configuration and restarting Docker.
+
+```json
+"insecure-registries": ["$DOCKER_REGISTRY_DOMAIN:5000"]
+```
+
 ## Testing: Push Images to Registry
 
 ```bash
