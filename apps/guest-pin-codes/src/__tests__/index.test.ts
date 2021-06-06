@@ -3,9 +3,8 @@ jest.mock("redux-saga")
 jest.mock("../reducer")
 jest.mock("../sagas")
 jest.mock("../shuffle")
-const cronJob = jest.fn()
 jest.mock("cron", () => ({
-  CronJob: cronJob,
+  CronJob: jest.fn(),
 }))
 const codes = ["0", "1", "2"]
 jest.mock("../candidateCodes", () => codes)
@@ -13,6 +12,7 @@ jest.mock("../getMinuteAccurateDate")
 import { applyMiddleware, createStore } from "redux"
 import createSagaMiddleware from "redux-saga"
 import { when } from "jest-when"
+import { CronJob as mockCronJob } from 'cron'
 import run from "../index"
 import getMinuteAccurateDate from "../getMinuteAccurateDate"
 import reducer from "../reducer"
@@ -35,7 +35,7 @@ beforeEach(() => {
   sagaMiddleware = { run: jest.fn() }
   ;(createSagaMiddleware as jest.Mock).mockReturnValue(sagaMiddleware)
   start = jest.fn()
-  cronJob.mockImplementation(() => ({ start }))
+  mockCronJob.mockImplementation(() => ({ start }))
 })
 
 test("store is created with the reducer and redux saga middleware", async () => {
@@ -121,7 +121,7 @@ test("every 5th minute, fetch events is dispatched with the current date", async
   const now = new Date()
   jest.spyOn(global, "Date").mockImplementation(() => now as any)
   when(getMinuteAccurateDate).calledWith(now).mockReturnValue(now)
-  cronJob.mockImplementationOnce((timePattern, cb) => {
+  mockCronJob.mockImplementationOnce((timePattern, cb) => {
     expect(timePattern).toEqual("*/5 * * * *")
     cb()
     expect(store.dispatch.mock.calls[3]).toEqual([
@@ -144,8 +144,8 @@ test("every minute, events are processed to be scheduled", async () => {
   const now = new Date()
   jest.spyOn(global, "Date").mockImplementation(() => now as any)
   when(getMinuteAccurateDate).calledWith(now).mockReturnValue(now)
-  cronJob.mockImplementationOnce(() => ({ start }))
-  cronJob.mockImplementationOnce((timePattern, cb) => {
+  mockCronJob.mockImplementationOnce(() => ({ start }))
+  mockCronJob.mockImplementationOnce((timePattern, cb) => {
     expect(timePattern).toEqual("*/1 * * * *")
     cb()
     expect(store.dispatch.mock.calls[3]).toEqual([
