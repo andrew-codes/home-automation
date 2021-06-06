@@ -75,10 +75,10 @@ const run = async (
 
 if (require.main === module) {
   run(
-    DOOR_LOCKS,
-    GUEST_LOCK_CODE_EXCLUSIONS,
-    parseInt(GUEST_CODE_INDEX_OFFSET, 10) + 1,
-    parseInt(NUMBER_OF_GUEST_CODES, 10)
+    DOOR_LOCKS as string,
+    GUEST_LOCK_CODE_EXCLUSIONS as string,
+    parseInt(GUEST_CODE_INDEX_OFFSET as string, 10) + 1,
+    parseInt(NUMBER_OF_GUEST_CODES as string, 10)
   )
 }
 
