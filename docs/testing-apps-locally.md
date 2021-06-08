@@ -1,6 +1,6 @@
 # Testing Apps Locally
 
-When developing applications, it is useful to have them running locally to test. However, it is very likely that any given app will depend or communicate with another app/service within the cluster. For example, in order for the GraphQL API app to run, it needs an instance of Home Assistant, an MQTT connection, and an Unifi USG connection. Although we could attempt to run all the required services locally as well, this is not a scalable strategy.
+When developing applications, it is useful to have them running locally to test. However, any given app will likely depend on or communicate with another app/service within the cluster. For example, for the GraphQL API app to run, it needs an instance of Home Assistant, an MQTT connection, and an Unifi USG connection. Although we could attempt to run all the required services locally as well, this is not a scalable strategy.
 
 Instead, we can run an application locally and have it think it is running in the real cluster. All communication with other cluster apps/services will be proxied to the real cluster. This means that not only will apps run locally, but you will be testing with actual, real data, too.
 
