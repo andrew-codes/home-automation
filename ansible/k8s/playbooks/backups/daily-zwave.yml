@@ -9,4 +9,4 @@
 
   tasks:
     - name: Schedule 5 day rolling backup of zwave namespace
-      shell: velero schedule create zwave-daily-backup --schedule "0 7 * * *" --ttl "120h" --include-namespaces zwave
+      shell: velero schedule create zwave-daily-backup --schedule "0 7 * * *" --ttl "720h" --include-namespaces zwave

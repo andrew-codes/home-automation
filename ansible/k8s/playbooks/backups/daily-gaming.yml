@@ -9,4 +9,4 @@
 
   tasks:
     - name: Schedule 5 day rolling backup of gaming namespace
-      shell: velero schedule create gaming-daily-backup --schedule "0 7 * * *" --ttl "120h" --include-namespaces gaming
+      shell: velero schedule create gaming-daily-backup --schedule "0 7 * * *" --ttl "720h" --include-namespaces gaming

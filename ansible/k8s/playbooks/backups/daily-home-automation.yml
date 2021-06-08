@@ -9,4 +9,4 @@
 
   tasks:
     - name: Schedule 5 day rolling backup of home-automation namespace
-      shell: velero schedule create home-automation-daily-backup --schedule "0 7 * * *" --ttl "120h" --include-namespaces home-automation
+      shell: velero schedule create home-automation-daily-backup --schedule "0 7 * * *" --ttl "720h" --include-namespaces home-automation

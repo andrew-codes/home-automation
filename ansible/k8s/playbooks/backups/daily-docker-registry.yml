@@ -9,4 +9,4 @@
 
   tasks:
     - name: Schedule 5 day rolling backup of docker-registry namespace
-      shell: velero schedule create docker-registry-daily-backup --schedule "0 7 * * *" --ttl "120h" --include-namespaces docker-registry
+      shell: velero schedule create docker-registry-daily-backup --schedule "0 7 * * *" --ttl "720h" --include-namespaces docker-registry
