@@ -34,3 +34,8 @@ mqtt:
 google:
   client_id: !secret google_calendar_client_id
   client_secret: !secret google_calendar_client_secret
+
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 192.168.100.0/24
