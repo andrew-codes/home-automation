@@ -65,6 +65,8 @@ github_authorization_header: "Bearer $GITHUB_ISSUES_TOKEN"
 update_vpn_dns_command: curl -X POST "https://$VPN_DNS_USERNAME:$VPN_DNS_PASSWORD@domains.google.com/nic/update?hostname=$VPN_DOMAIN&myip=\$(curl https://checkip.amazonaws.com)"
 google_calendar_client_id: "$GOOGLE_CALENDAR_CLIENT_ID"
 google_calendar_client_secret: "$GOOGLE_CALENDAR_CLIENT_SECRET"
+spotify_client_id: "$SPOTIFY_CLIENT_ID"
+spotify_client_secret: "$SPOTIFY_CLIENT_SECRET"
 EOL
 
 kubectl create secret generic secrets --dry-run=client --namespace="home-automation" --from-file=yml=".secrets/secrets.yaml" -o json >".secrets/secrets.json"

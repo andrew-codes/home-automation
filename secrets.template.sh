@@ -151,6 +151,9 @@ export MS_TEAMS_STATUS_DO_NOT_DISTURB_WEBHOOK_ID=""
 export MS_TEAMS_STATUS_OFFLINE_WEBHOOK_ID=""
 export MS_TEAMS_STATUS_OFF_WEBHOOK_ID=""
 export MS_TEAMS_STATUS_AVAILABLE_IDLE_WEBHOOK_ID=""
+
+export SPOTIFY_CLIENT_ID=""
+export SPOTIFY_CLIENT_SECRET=""
 # ===============================
 
 # ====================
