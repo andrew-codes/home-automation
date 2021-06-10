@@ -43,3 +43,10 @@ http:
 spotify:
   client_id: !secret spotify_client_id
   client_secret: !secret spotify_client_secret
+spotcast:
+  sp_dc: !secret spotcast_dc
+  sp_key: !secret spotcast_key
+  accounts:
+    secondary:
+      sp_dc: !secret spotcast_dc_2
+      sp_key: !secret spotcast_key_2

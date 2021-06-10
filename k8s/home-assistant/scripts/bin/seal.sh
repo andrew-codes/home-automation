@@ -67,6 +67,10 @@ google_calendar_client_id: "$GOOGLE_CALENDAR_CLIENT_ID"
 google_calendar_client_secret: "$GOOGLE_CALENDAR_CLIENT_SECRET"
 spotify_client_id: "$SPOTIFY_CLIENT_ID"
 spotify_client_secret: "$SPOTIFY_CLIENT_SECRET"
+spotcast_dc: "$SPOTCAST_DC"
+spotcast_key: "$SPOTCAST_KEY"
+spotcast_dc_2: "$SPOTCAST_DC_2"
+spotcast_key_2: "$SPOTCAST_KEY_2"
 EOL
 
 kubectl create secret generic secrets --dry-run=client --namespace="home-automation" --from-file=yml=".secrets/secrets.yaml" -o json >".secrets/secrets.json"

@@ -154,6 +154,10 @@ export MS_TEAMS_STATUS_AVAILABLE_IDLE_WEBHOOK_ID=""
 
 export SPOTIFY_CLIENT_ID=""
 export SPOTIFY_CLIENT_SECRET=""
+export SPOTCAST_DC=""
+export SPOTCAST_KEY=""
+export SPOTCAST_DC_2=""
+export SPOTCAST_KEY_2=""
 # ===============================
 
 # ====================
