@@ -204,4 +204,7 @@ export FRONT_DOOR_RTSP_DETECT=""
 export CAR_PORT_RTSP_DETECT=""
 export FRONT_DOOR_RTSP=""
 export CAR_PORT_RTSP=""
+export COMPREFACE_POSTGRES_DB=""
+export COMPREFACE_POSTGRES_USERNAME=""
+export COMPREFACE_POSTGRES_PASSWORD=""
 # ===============================

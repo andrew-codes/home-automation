@@ -1,0 +1,83 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: compreface-postgres-pv-volume
+  namespace: home-automation
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 30Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data/compreface-postgres"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: compreface-postgres-claim
+  namespace: home-automation
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 30Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: compreface-postgres
+  namespace: home-automation
+  labels:
+    app.kubernetes.io/name: compreface-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: compreface-postgres
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: compreface-postgres
+    spec:
+      containers:
+        - name: compreface-postgres
+          image: postgres:11.5
+          imagePullPolicy: Always
+          ports:
+            - name: db
+              containerPort: 5432
+              protocol: TCP
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: compreface-postgres-secrets
+                  key: user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: compreface-postgres-secrets
+                  key: password
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: compreface-postgres-secrets
+                  key: db
+          volumeMounts:
+            - name: postgres-db-data
+              mountPath: /var/lib/postgresql/data
+          securityContext:
+            privileged: true
+            allowPrivilegeEscalation: true
+      volumes:
+        - name: postgres-db-data
+          persistentVolumeClaim:
+            claimName: compreface-postgres-claim
