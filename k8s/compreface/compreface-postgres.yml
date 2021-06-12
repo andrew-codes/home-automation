@@ -54,13 +54,12 @@ spec:
           ports:
             - name: db
               containerPort: 5432
-              protocol: TCP
           env:
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
                   name: compreface-postgres-secrets
-                  key: user
+                  key: username
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -74,10 +73,24 @@ spec:
           volumeMounts:
             - name: postgres-db-data
               mountPath: /var/lib/postgresql/data
-          securityContext:
-            privileged: true
-            allowPrivilegeEscalation: true
       volumes:
         - name: postgres-db-data
           persistentVolumeClaim:
             claimName: compreface-postgres-claim
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: compreface-postgres
+  namespace: home-automation
+  labels:
+    app.kubernetes.io/name: compreface-postgres
+spec:
+  type: ClusterIP
+  ports:
+    - name: db
+      port: 5432
+      targetPort: db
+  selector:
+    app.kubernetes.io/name: compreface-postgres

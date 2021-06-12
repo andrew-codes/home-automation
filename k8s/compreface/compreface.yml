@@ -1,0 +1,191 @@
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: compreface-api
+  namespace: home-automation
+  labels:
+    app.kubernetes.io/name: compreface-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: compreface-api
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: compreface-api
+    spec:
+      initContainers:
+        - name: check-db-ready
+          image: postgres:11.5
+          command: ['sh', '-c', 
+            'until pg_isready -h compreface-postgres -p 5432; 
+            do echo waiting for database; sleep 2; done;']
+      containers:
+        - name: compreface-api
+          image: exadel/compreface-api:0.5.1
+          imagePullPolicy: Always
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: compreface-postgres-secrets
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: compreface-postgres-secrets
+                  key: password
+            - name: POSTGRES_URL
+              valueFrom:
+                secretKeyRef:
+                  name: compreface-api-secrets
+                  key: db_url
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev
+            - name: API_JAVA_OPTS
+              value: ""
+            - name: SAVE_IMAGES_TO_DB
+              value: "True"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: compreface-admin
+  namespace: home-automation
+  labels:
+    app.kubernetes.io/name: compreface-admin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: compreface-admin
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: compreface-admin
+    spec:
+      initContainers:
+        - name: check-db-ready
+          image: postgres:11.5
+          command: ['sh', '-c', 
+            'until pg_isready -h compreface-postgres -p 5432; 
+            do echo waiting for database; sleep 2; done;']
+      containers:
+        - name: compreface-admin
+          image: exadel/compreface-admin:0.5.1
+          imagePullPolicy: Always
+          ports:
+            - name: web
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: compreface-postgres-secrets
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: compreface-postgres-secrets
+                  key: password
+            - name: POSTGRES_URL
+              valueFrom:
+                secretKeyRef:
+                  name: compreface-api-secrets
+                  key: db_url
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev
+            - name: ADMIN_JAVA_OPTS
+              value: ""
+            - name: ENABLE_EMAIL_SERVER
+              value: "false"
+            - name: EMAIL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: compreface-admin-secrets
+                  key: email_host
+            - name: EMAIL_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: compreface-admin-secrets
+                  key: email_username
+            - name: EMAIL_FROM
+              valueFrom:
+                secretKeyRef:
+                  name: compreface-admin-secrets
+                  key: email_from
+            - name: EMAIL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: compreface-admin-secrets
+                  key: email_password
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: compreface-fe
+  namespace: home-automation
+  labels:
+    app.kubernetes.io/name: compreface-fe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: compreface-fe
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: compreface-fe
+    spec:
+      initContainers:
+        - name: check-db-ready
+          image: postgres:11.5
+          command: ['sh', '-c', 
+            'until pg_isready -h compreface-postgres -p 5432; 
+            do echo waiting for database; sleep 2; done;']
+      containers:
+        - name: compreface-fe
+          image: exadel/compreface-fe:0.5.1
+          imagePullPolicy: Always
+          ports:
+            - name: web
+              containerPort: 80
+              protocol: TCP
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: compreface-core
+  namespace: home-automation
+  labels:
+    app.kubernetes.io/name: compreface-core
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: compreface-core
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: compreface-core
+    spec:
+      initContainers:
+        - name: check-db-ready
+          image: postgres:11.5
+          command: ['sh', '-c', 
+            'until pg_isready -h compreface-postgres -p 5432; 
+            do echo waiting for database; sleep 2; done;']
+      containers:
+        - name: compreface-core
+          image: exadel/compreface-core:0.5.1
+          imagePullPolicy: Always
+          env:
+            - name: ML_PORT
+              value: "3000"

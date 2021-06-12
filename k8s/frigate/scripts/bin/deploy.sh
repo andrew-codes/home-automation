@@ -2,6 +2,7 @@
 
 source ../../external-port-vars.sh
 yq eval '.spec.ports[0].nodePort=env(EXTERNAL_FRIGATE_PORT)' -i service.yml
+yq eval '.spec.ports[1].nodePort=env(EXTERNAL_FRIGATE_RMTP_PORT)' -i service.yml
 
 kubectl apply -f namespace.yml
 kubectl apply -f secrets

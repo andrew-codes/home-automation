@@ -1,11 +1,11 @@
 {
     "private": true,
-    "name": "@ha/compreface-postgres",
+    "name": "@ha/compreface",
     "version": "0.0.1",
     "license": "MIT",
     "scripts": {
       "deploy": "scripts/bin/deploy.sh",
-      "postdeploy": "kubectl rollout restart deployment compreface-postgres --namespace home-automation",
+      "postdeploy": "scripts/bin/postdeploy.sh",
       "seal": "scripts/bin/seal.sh"
     },
     "dependencies": {

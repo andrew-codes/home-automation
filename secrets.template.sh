@@ -207,4 +207,8 @@ export CAR_PORT_RTSP=""
 export COMPREFACE_POSTGRES_DB=""
 export COMPREFACE_POSTGRES_USERNAME=""
 export COMPREFACE_POSTGRES_PASSWORD=""
+export EMAIL_HOST=""
+export EMAIL_USERNAME=""
+export EMAIL_FROM=""
+export EMAIL_PASSWORD=""
 # ===============================
