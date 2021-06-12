@@ -200,7 +200,6 @@ export VPN_DNS_PASSWORD=""
 # ==========================================================
 # Required for Frigate, object detection, facial recognition
 # ==========================================================
-export FRIGATE_RTSP_PASSWORD=""
 export FRONT_DOOR_RTSP_DETECT=""
 export CAR_PORT_RTSP_DETECT=""
 export FRONT_DOOR_RTSP=""

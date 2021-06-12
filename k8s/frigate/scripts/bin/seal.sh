@@ -161,9 +161,3 @@ kubectl create secret generic config-secrets --dry-run=client --namespace="home-
 kubeseal --namespace "home-automation" <".secrets/config-secrets.json" >"secrets/config-secrets.json"
 rm -rf .secrets/config-secrets.json
 rm -rf .secrets/config-secrets.yaml
-
-echo "$FRIGATE_RTSP_PASSWORD" >.secrets/rtsp-password
-kubectl create secret generic nvr-secrets --dry-run=client --namespace="home-automation" --from-file=rtsp-password=".secrets/rtsp-password" -o json >".secrets/rtp-password.json"
-kubeseal --namespace "home-automation" <".secrets/rtp-password.json" >"secrets/rtp-password.json"
-rm -rf .secrets/rtp-password
-rm -rf .secrets/rtp-password.json

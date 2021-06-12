@@ -58,12 +58,6 @@ spec:
             - name: rtmp
               containerPort: 1935
               protocol: TCP
-          env:
-            - name: FRIGATE_RTSP_PASSWORD
-              valueFrom:
-                  secretKeyRef:
-                    name: nvr-secrets
-                    key: rtsp-password
           volumeMounts:
             # - name: localtime
             #   mountPath: /etc/localtime

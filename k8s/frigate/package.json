@@ -1,6 +1,6 @@
 {
     "private": true,
-    "name": "@ha/nvr",
+    "name": "@ha/frigate",
     "version": "0.0.1",
     "license": "MIT",
     "scripts": {
