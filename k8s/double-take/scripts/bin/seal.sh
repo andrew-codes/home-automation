@@ -5,7 +5,7 @@ source ../../secrets.sh
 mkdir -p secrets
 mkdir -p .secrets
 
-cat >.secrets/config-secrets.yaml <<EOL
+cat >.secrets/double-take-secrets.yaml <<EOL
 mqtt:
   host: mqtt
   username: $MQTT_USERNAME
