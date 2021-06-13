@@ -183,9 +183,6 @@ export VALHEIM_DOMAIN=""
 export VALHEIM_GOOGLE_DOMAIN_USERNAME=""
 export VALHEIM_GOOGLE_DOMAIN_PASSWORD=""
 export VALHEIM_SERVER_PASSWORD=""
-export VALHEIM_GAME_1_PORT=""
-export VALHEIM_GAME_2_PORT=""
-export VALHEIM_GAME_3_PORT=""
 # ===============================
 
 # ====================
