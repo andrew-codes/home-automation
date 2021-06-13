@@ -27,10 +27,6 @@ spec:
                 secretKeyRef:
                   name: facebox-secrets
                   key: mb_key
-            - name: MB_ADDRESS
-              value: "127.0.0.1"
-            - name: MB_PORT
-              value: "8080"
           ports:
             - name: web
               containerPort: 8080
