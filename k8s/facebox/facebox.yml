@@ -1,0 +1,33 @@
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: facebox
+  namespace: home-automation
+  labels:
+    app.kubernetes.io/name: facebox
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: facebox
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: facebox
+    spec:
+      containers:
+        - name: facebox
+          image: machinebox/facebox
+          imagePullPolicy: Always
+          env:
+            - name: MB_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: facebox-secrets
+                  key: mb_key
+          ports:
+            - name: web
+              containerPort: 8080
+              protocol: TCP

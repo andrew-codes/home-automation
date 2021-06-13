@@ -1,6 +1,6 @@
 {
     "private": true,
-    "name": "@ha/compreface",
+    "name": "@ha/facebox",
     "version": "0.0.1",
     "license": "MIT",
     "scripts": {

@@ -3,6 +3,8 @@
 kubectl apply -f namespace.yml
 kubectl apply -f secrets
 
+source ../../external-port-vars.sh
+
 mkdir -p tmp
 cp service.yml tmp/service.yml
 yq eval ".spec.externalIPs[0]=\"$CLUSTER_IP\"" -i tmp/service.yml
