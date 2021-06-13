@@ -38,3 +38,6 @@ automation:
         data_template:
           title: Someone is at the Front Door
           message_template: "People at front door: {{ trigger.payload_json.matches.length }}"
+          data:
+            image: "{{ state_attr('camera.front_doorbell', 'entity_picture') }}"
+            video: "{{ state_attr('camera.front_doorbell', 'entity_picture') }}"
