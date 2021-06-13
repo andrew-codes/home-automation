@@ -5,7 +5,7 @@
     "license": "MIT",
     "scripts": {
       "deploy": "scripts/bin/deploy.sh",
-      "postdeploy": "scripts/bin/postdeploy.sh",
+      "postdeploy": "kubectl rollout restart deployment facebox --namespace home-automation",
       "seal": "scripts/bin/seal.sh"
     },
     "dependencies": {
