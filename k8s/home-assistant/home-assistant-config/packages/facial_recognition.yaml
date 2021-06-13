@@ -6,3 +6,35 @@ sensor:
     json_attributes_topic: "double-take/matches/andrew"
     value_template: "{{ value_json.camera }}"
     availability_topic: "double-take/available"
+
+automation:
+  - alias: Notify that Andrew's face was recognized
+    trigger:
+      - platform: state
+        entity_id: sensor.andrew_s_face_match
+    action:
+      - service: notify.mobile_app_andrew_s_iphone
+        data_template:
+          title: Andrew Appeared
+          message_template: "Andrew appeared at the {{ state_attr('sensor.andrew_s_face_match', 'camera') }}"
+
+  - alias: Someone was detected at the front door
+    trigger:
+      - platform: mqtt
+        topic: "double-take/cameras/FRONT_DOOR"
+    action:
+      - service: notify.mobile_app_andrew_s_iphone
+        data_template:
+          title: Someone is at the Front Door
+          message_template: >
+            Recognized at the front door: {{ trigger.payload_json.matches | map(attribute='name') | join(', ')}}
+
+  - alias: Count of people detected at the front door
+    trigger:
+      - platform: mqtt
+        topic: "double-take/cameras/FRONT_DOOR"
+    action:
+      - service: notify.mobile_app_andrew_s_iphone
+        data_template:
+          title: Someone is at the Front Door
+          message_template: "People at front door: {{ trigger.payload_json.matches.length }}"
