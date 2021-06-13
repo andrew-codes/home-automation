@@ -1,0 +1,8 @@
+sensor:
+  - platform: mqtt
+    name: Andrew's Face Match
+    icon: mdi:account
+    state_topic: "double-take/matches/andrew"
+    json_attributes_topic: "double-take/matches/andrew"
+    value_template: "{{ value_json.camera }}"
+    availability_topic: "double-take/available"
