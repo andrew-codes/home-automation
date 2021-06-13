@@ -1,0 +1,71 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: double-take-pv-volume
+  namespace: home-automation
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 60Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data/double-take"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: double-take-data-store-pv-claim
+  namespace: home-automation
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 60Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: double-take
+  namespace: home-automation
+  labels:
+    app.kubernetes.io/name: double-take
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: double-take
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: double-take
+    spec:
+      containers:
+        - name: double-take
+          image: jakowenko/double-take
+          imagePullPolicy: Always
+          ports:
+            - name: web
+              containerPort: 3000
+              protocol: TCP
+          volumeMounts:
+            - name: data-store
+              mountPath: "/.storage"
+            - name: config-file
+              subPath: yml
+              mountPath: "/double-take/config.yml"
+      volumes:
+        - name: data-store
+          persistentVolumeClaim:
+            claimName: double-take-data-store-pv-claim
+        - name: config-file
+          secret:
+            secretName: double-take-secrets
+
