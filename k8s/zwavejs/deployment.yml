@@ -48,6 +48,7 @@ spec:
       containers:
         - name: zwave
           image: zwavejs/zwavejs2mqtt:latest
+          imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 12
             httpGet:
