@@ -25,16 +25,6 @@ objects:
   track:
     - person
     - car
-  filters:
-    person:
-      # Optional: minimum width*height of the bounding box for the detected object (default: 0)
-      min_area: 5000
-      # Optional: maximum width*height of the bounding box for the detected object (default: 24000000)
-      max_area: 100000
-      # Optional: minimum score for the object to initiate tracking (default: shown below)
-      min_score: 0.5
-      # Optional: minimum decimal percentage for tracked object's computed score to be considered a true positive (default: shown below)
-      threshold: 0.7
 
 record:
   enabled: True
@@ -46,14 +36,13 @@ detectors:
   cpu2:
     type: cpu
 
+clips:
+  max_seconds: 300
+
 logger:
   default: debug
   logs:
     frigate.mqtt: error
-
-# rtmp:
-#   # Required: Enable the live stream (default: True)
-#   enabled: True
 
 cameras:
   front_door:

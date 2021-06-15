@@ -36,6 +36,7 @@
           - gnupg-agent
           - jq
           - software-properties-common
+          - qemu-guest-agent
         state: present
 
     - name: Installing yq
