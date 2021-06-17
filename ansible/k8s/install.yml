@@ -1,4 +1,5 @@
 ---
+- import_playbook: ../docker/install.yml
 - import_playbook: playbooks/setup_nodes.yml
 - import_playbook: playbooks/setup_main_nodes.yml
 - import_playbook: playbooks/setup_worker_nodes.yml

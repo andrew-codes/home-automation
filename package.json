@@ -31,7 +31,7 @@
   "workspaces": {
     "packages": [
       "apps/*",
-      "k8s/*",
+      "deployments/*",
       "packages/*"
     ]
   },

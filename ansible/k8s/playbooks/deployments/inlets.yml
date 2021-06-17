@@ -7,7 +7,7 @@
   connection: ssh
   remote_user: hl
   vars_files:
-    - ../../.secrets/setup_k8s.yml
+    - ../../../.secrets/ansible_secrets.yml
 
   tasks:
     - name: Create secrets directory

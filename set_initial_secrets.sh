@@ -2,8 +2,8 @@
 
 source secrets.sh
 
-mkdir -p ansible/k8s/.secrets
-cat >ansible/k8s/.secrets/setup_k8s.yml <<EOL
+mkdir -p ansible/.secrets
+cat >ansible/.secrets/ansible_secrets.yml <<EOL
 ---
 docker_registry_domain: "$DOCKER_REGISTRY_DOMAIN"
 pod_network_cidr: "$POD_NETWORK_CIDR"

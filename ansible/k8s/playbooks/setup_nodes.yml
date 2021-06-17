@@ -6,18 +6,9 @@
   gather_facts: yes
   connection: ssh
   vars_files:
-    - ../.secrets/setup_k8s.yml
+    - ../../.secrets/ansible_secrets.yml
 
   tasks:
-    - name: Disabling Swap on all nodes
-      shell: swapoff -a
-
-    - name: Commenting Swap entries in /etc/fstab
-      replace:
-        path: /etc/fstab
-        regexp: "(^/.*swap*)"
-        replace: '# \1'
-
     - name: Add IPs to /etc/hosts on master and workers
       lineinfile:
         dest: /etc/hosts
@@ -41,29 +32,6 @@
 
     - name: Installing yq
       shell: wget https://github.com/mikefarah/yq/releases/download/v4.6.3/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
-
-    - name: Add Docker’s official GPG key
-      apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
-        state: present
-
-    - name: Add Docker Repository
-      apt_repository:
-        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
-        state: present
-        filename: docker
-        mode: 0600
-
-    - name: Install Docker Engine
-      apt:
-        name:
-          - docker.io
-        state: present
-
-    - name: Enable service docker, and enable persistently
-      service:
-        name: docker
-        enabled: yes
 
     - name: Add Google official GPG key
       apt_key:
@@ -89,18 +57,6 @@
       service:
         name: kubelet
         enabled: yes
-
-    - name: Setup docker daemon config.
-      shell: "echo '{ \"exec-opts\": [\"native.cgroupdriver=systemd\"], \"insecure-registries\": [\"{{ docker_registry_domain }}:5000\", \"{{ docker_registry_domain }}\"], \"log-driver\": \"json-file\", \"log-opts\": {\"max-size\": \"10m\", \"max-file\": \"3\"} }' > /etc/docker/daemon.json"
-
-    - name: Restart docker.
-      command: "{{ item }}"
-      become_user: root
-      become_method: sudo
-      become: yes
-      with_items:
-        - systemctl daemon-reload
-        - systemctl restart docker
 
     - name: Reboot all the kubernetes nodes.
       reboot:
