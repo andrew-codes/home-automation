@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+
+  tasks:
+    - name: Initialize Vault
+      shell: vault operator init --address http://127.0.0.1:8200
+      register: vault_init
+
+    - name: Copy keys
+      become: no
+      local_action: copy content="{{ vault_init.stdout_lines }}" dest="{{ playbook_dir }}/.secrets/vault_init.json" mode=0777
