@@ -12,15 +12,12 @@ User=root
 Group=root
 ExecStart=/usr/bin/vault server -config=/etc/vault.d/vault.hcl
 ExecReload=/bin/kill --signal HUP $MAINPID
-StandardOutput=/opt/vault/logs/output.log
-StandardError=/opt/vault/logs/error.log
 KillMode=process
 KillSignal=SIGINT
 Restart=on-failure
 RestartSec=5
 TimeoutStopSec=30
 StartLimitInterval=60
-StartLimitIntervalSec=60
 StartLimitBurst=3
 LimitNOFILE=65536
 LimitMEMLOCK=infinity
