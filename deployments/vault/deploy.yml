@@ -1,0 +1,82 @@
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+
+  tasks:
+    - name: Installing Prerequisites
+      apt:
+        name:
+          - qemu-guest-agent
+        state: present
+    
+    - name: Add key
+      apt_key:
+        url: https://apt.releases.hashicorp.com/gpg
+        state: present
+
+    - name: Add repository
+      apt_repository:
+        repo: deb [arch=amd64] https://apt.releases.hashicorp.com xenial main
+        state: present
+        filename: kubernetes
+        mode: "0600"
+
+    - name: Installing
+      apt:
+        name:
+          - vault
+        state: present
+
+    - name: Vault directory
+      file:
+        path: /etc/vault.d
+        state: directory
+
+    - name: Data directory
+      file:
+        path: /etc/vault.d/data
+        state: directory
+        owner: root
+        group: root
+
+    - name: Logs directory
+      file:
+        path: /opt/vault/logs
+        state: directory
+        owner: root
+        group: root
+
+    - name: Copy config
+      copy:
+        src: ./vault.hcl
+        dest: /etc/vault.d/vault.hcl
+        owner: root
+        group: root
+
+    - name: Copy service config
+      copy:
+        src: ./vault.service
+        dest: /etc/systemd/system/vault.service
+        owner: root
+
+    - name: Reload service config
+      become_user: root
+      become_method: sudo
+      become: yes
+      shell: systemctl daemon-reload
+
+    - name: Enable service
+      become_user: root
+      become_method: sudo
+      become: yes
+      shell: systemctl enable vault
+
+    - name: Start service
+      become_user: root
+      become_method: sudo
+      become: yes
+      shell: systemctl start vault

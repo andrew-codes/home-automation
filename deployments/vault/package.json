@@ -1,0 +1,11 @@
+{
+    "private": true,
+    "name": "@ha/vault",
+    "version": "0.0.1",
+    "license": "MIT",
+    "scripts": {
+      "deploy": "scripts/bin/deploy.sh"
+    },
+    "dependencies": {}
+  }
+  
