@@ -1,12 +1,12 @@
 {
   "private": true,
-  "name": "@ha/vault",
+  "name": "@ha/vault-infra",
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
-    "deploy": "scripts/bin/deploy.sh"
+    "provision": "scripts/bin/provision.sh"
   },
   "dependencies": {
-    "@ha/vault-infra": "*"
+    "@ha/pihole": "*"
   }
 }
