@@ -7,6 +7,5 @@
     "provision": "scripts/bin/provision.sh"
   },
   "dependencies": {
-    "@ha/pihole": "*"
   }
 }

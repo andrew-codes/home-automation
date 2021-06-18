@@ -1,0 +1,12 @@
+{
+    "private": true,
+    "name": "@ha/ubuntu-server-infra",
+    "version": "0.0.1",
+    "license": "MIT",
+    "scripts": {
+      "provision": "scripts/bin/provision.sh"
+    },
+    "dependencies": {
+    }
+  }
+  

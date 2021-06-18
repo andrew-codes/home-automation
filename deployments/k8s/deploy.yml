@@ -1,12 +1,12 @@
 ---
-- hosts: docker
+- hosts: all
   become: yes
   become_method: sudo
   become_user: root
   gather_facts: yes
   connection: ssh
   vars_files:
-    - ../.secrets/ansible_secrets.yml
+    - .secrets/ansible-secrets.yml
 
   tasks:
     - name: Disabling Swap on all nodes

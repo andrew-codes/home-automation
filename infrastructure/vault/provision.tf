@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "proxmox" {
-  pm_api_url      = "https://pve.smith-simms.family:8006/api2/json"
+  pm_api_url      = "https://192.168.1.3:8006/api2/json"
   pm_user         = "root@pam"
   pm_tls_insecure = true
   pm_log_enable   = true
@@ -32,6 +32,7 @@ resource "proxmox_lxc" "vault" {
   start        = true
   onboot       = true
   startup      = "2,up=30"
+  vmid        = 105
 
   rootfs {
     storage = "local-lvm"

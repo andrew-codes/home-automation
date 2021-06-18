@@ -18,7 +18,7 @@
     "patch": "patch-package",
     "preinstall": "yarn global add typescript ts-node",
     "postintall": "yarn patch",
-    "provision": "lerna run provision",
+    "provision": "lerna run provision --stream",
     "seal": "lerna run seal",
     "start": "lerna run start --stream",
     "start/cleanup": "kubectl get pods -A -l telepresence -o json | jq -r '.items[] |select((.metadata.creationTimestamp | now - fromdateiso8601) > 86400) | @sh \"kubectl delete --grace-period=1 -n \\(.metadata.namespace) pod/\\(.metadata.name)\"' | xargs",

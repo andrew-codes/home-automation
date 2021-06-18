@@ -8,6 +8,6 @@
     "provision": "scripts/bin/provision.sh"
   },
   "dependencies": {
-    "@ha/openvpn-as-infra": "*"
+    "@ha/openvpn-as-infra": "^0.0.1"
   }
 }

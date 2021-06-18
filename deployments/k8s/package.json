@@ -1,0 +1,13 @@
+{
+    "private": true,
+    "name": "@ha/k8s",
+    "version": "0.0.1",
+    "license": "MIT",
+    "scripts": {
+      "provision": "scripts/bin/deploy.sh"
+    },
+    "dependencies": {
+      "@ha/k8s-infra": "^0.0.1"
+    }
+  }
+  

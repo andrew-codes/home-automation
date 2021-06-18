@@ -23,36 +23,50 @@ variable "ssh_key" {
   default = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDHGX0BrMpr5mm/maYDNJJhBrn1lvjgy+9//ufn+QV5rC8MQpkakTKi3qzEQ22Xw4bOPb59C80TkH8T6ur4Ygb0oPMhFCQoBpd1rabQCIISSwi+I4bth58h8Jl/tXdiNclfTyPHNBPxRTjOGG9Op+Zu8EQtd4QUinf3iFFKJ4Wyk9cuHbKGYkhKnQG/u1LD+IJ6y2pt4Cdh2hnO2HIsSKOp6djx8zuCOMyguN1giFsa4gmd3/TcNO/O/p6G1Xs3v1H9KWWtXVL0gRRd1NTbnbqyuBmlBu2wKWVbznlf7Jjkb0asophnHBSsIcwJU079YGWfCVeZ0eoq/goDcI2Nj+FkNTJsJxuOwCUCBCikPZwUstU1cRAhTP72pu08ZQXM/B+uF2lDCLVu+Kui2bZQbOjNGunRnsFfer7XGpfqIeaYd8zJNFQPQIoE5N+iRMRQ/M1NHY1+E0TtdxWIi3pN11r7d9SLV4XYYdU5OgZFBKeQXULY5tKYG/ZMQj0MPmpksZ8="
 }
 
-resource "proxmox_lxc" "vpn" {
-  count        = 1
-  hostname     = "vpn"
-  target_node  = "pve"
-  ostemplate   = "local:vztmpl/debian-10-standard_10.7-1_amd64.tar.gz"
-  unprivileged = false
-  start        = true
-  onboot       = true
-  startup      = "2,up=30"
-  vmid        = 106
+resource "proxmox_vm_qemu" "docker-registry" {
+  count       = 1
+  name        = "docker-registry"
+  target_node = "pve"
+  clone       = "ubuntu-server"
+  onboot      = true
+  cpu         = "host"
+  sockets     = "1"
+  cores       = 12
+  memory      = 65536
+  os_type     = "cloud-init"
+  scsihw      = "virtio-scsi-pci"
+  bootdisk    = "scsi0"
+  vmid        = 100
 
-  rootfs {
-    storage = "local-lvm"
+  disk {
     size    = "20G"
+    type    = "scsi"
+    storage = "local-lvm"
+    format  = "ext4"
+    ssd     = 1
+  }
+  disk {
+    size    = "320G"
+    type    = "scsi"
+    storage = "local-lvm"
+    format  = "ext4"
+    ssd     = 1
+  }
+  network {
+    model  = "virtio"
+    bridge = "vmbr0"
+  }
+  lifecycle {
+    ignore_changes = [
+      network,
+    ]
   }
 
-  ssh_public_keys = <<-EOT
+  sshkeys = <<-EOT
     ${var.ssh_key}
   EOT
 
-  nameserver = "192.168.3.1"
-
-  network {
-    name   = "eth0"
-    bridge = "vmbr0"
-    ip     = "192.168.3.2/24"
-    ip6    = "auto"
-    gw     = "192.168.1.0"
-  }
-
-  cores  = 2
-  memory = 2048
+  nameserver   = "192.168.3.1"
+  searchdomain = "smith-simms.family"
+  ipconfig0    = "ip=192.168.3.4/24,gw=192.168.1.0"
 }

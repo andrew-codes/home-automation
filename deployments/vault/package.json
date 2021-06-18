@@ -7,6 +7,6 @@
     "deploy": "scripts/bin/deploy.sh"
   },
   "dependencies": {
-    "@ha/vault-infra": "*"
+    "@ha/vault-infra": "^0.0.1"
   }
 }

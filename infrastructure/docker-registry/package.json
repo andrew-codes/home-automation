@@ -1,12 +1,11 @@
 {
   "private": true,
-  "name": "@ha/pihole",
+  "name": "@ha/docker-registry-infra",
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
-    "deploy": "scripts/bin/deploy.sh"
+    "provision": "scripts/bin/provision.sh"
   },
   "dependencies": {
-    "@ha/pihole-infra": "^0.0.1"
   }
 }

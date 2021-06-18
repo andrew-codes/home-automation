@@ -32,6 +32,7 @@ resource "proxmox_lxc" "pihole" {
   start        = true
   onboot       = true
   startup      = "1"
+  vmid        = 103
 
   rootfs {
     storage = "local-lvm"

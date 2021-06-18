@@ -9,6 +9,6 @@
     "seal": "scripts/bin/seal.sh"
   },
   "dependencies": {
-    "@ha/ps5-wake-app": "*"
+    "@ha/ps5-wake-app": "^0.0.1"
   }
 }
