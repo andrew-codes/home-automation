@@ -12,3 +12,6 @@ dist
 *.env
 image.tar
 coverage/
+.terraform
+*lock.hcl
+terraform.tfstate

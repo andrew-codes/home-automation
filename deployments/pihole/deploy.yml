@@ -1,0 +1,34 @@
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+  vars_files:
+    - .secrets/ansible-secrets.yml
+
+  tasks:
+    - name: Installing Prerequisites
+      apt:
+        name:
+          - curl
+        state: present
+
+    - name: Install pihole
+      become_user: root
+      become_method: sudo
+      become: yes
+      shell: curl -sSL https://install.pi-hole.net | bash /dev/stdin --unattended
+
+    - name: Update pihole
+      become_user: root
+      become_method: sudo
+      become: yes
+      shell: pihole -up
+
+    - name: Set password
+      become_user: root
+      become_method: sudo
+      become: yes
+      shell: pihole -a -p "{{ pihole_password }}"
