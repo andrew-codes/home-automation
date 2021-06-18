@@ -5,6 +5,8 @@
   become_user: root
   gather_facts: yes
   connection: ssh
+  vars_files:
+    - .secrets/ansible-secrets.yml
 
   tasks:
     - name: Installing Prerequisites
@@ -35,3 +37,9 @@
           - openvpn-as
         state: present
         update_cache: yes
+
+    - name: Change user password
+      user:
+        name: openvpn
+        update_password: always
+        password: "{{ openvpn_password|password_hash('sha512') }}"

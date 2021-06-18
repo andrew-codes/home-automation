@@ -33,6 +33,7 @@
     "packages": [
       "apps/*",
       "deployments/*",
+      "infrastructure/*",
       "packages/*"
     ]
   },

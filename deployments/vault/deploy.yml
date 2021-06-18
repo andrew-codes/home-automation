@@ -12,7 +12,7 @@
         name:
           - qemu-guest-agent
         state: present
-    
+
     - name: Add key
       apt_key:
         url: https://apt.releases.hashicorp.com/gpg
