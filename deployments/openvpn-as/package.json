@@ -1,0 +1,12 @@
+{
+    "private": true,
+    "name": "@ha/openvpn-as",
+    "version": "0.0.1",
+    "license": "MIT",
+    "scripts": {
+      "deploy": "scripts/bin/deploy.sh",
+      "provision": "scripts/bin/provision.sh"
+    },
+    "dependencies": {}
+  }
+  
