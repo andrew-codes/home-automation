@@ -14,7 +14,7 @@
     "clean": "lerna run clean --include-filtered-dependencies",
     "compile": "lerna run compile --include-filtered-dependencies",
     "dashboard": "lerna run dashboard --stream --parallel",
-    "deploy": "lerna run deploy --include-filtered-dependencies",
+    "deploy": "lerna run deploy --include-filtered-dependencies --stream",
     "patch": "patch-package",
     "preinstall": "yarn global add typescript ts-node",
     "postintall": "yarn patch",
