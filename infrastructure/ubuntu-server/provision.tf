@@ -19,9 +19,17 @@ provider "proxmox" {
   }
 }
 
+variable "name" {
+  type = string
+  validation {
+    condition     = length(var.name) > 0
+    error_message = "Name is required."
+  }
+}
+
 resource "proxmox_vm_qemu" "ubuntu-server" {
   count       = 1
-  name        = "ubuntu-server"
+  name        = var.name
   target_node = "pve"
   iso         = "local:iso/ubuntu-20.04.1-live-server-amd64.iso"
   onboot      = false

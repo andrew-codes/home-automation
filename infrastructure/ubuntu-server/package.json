@@ -4,7 +4,7 @@
     "version": "0.0.1",
     "license": "MIT",
     "scripts": {
-      "provision": "scripts/bin/provision.sh"
+      "provision": "../../scripts/bin/provision.sh"
     },
     "dependencies": {
     }

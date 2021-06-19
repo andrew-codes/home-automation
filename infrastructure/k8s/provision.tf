@@ -20,14 +20,57 @@ provider "proxmox" {
 }
 
 variable "ssh_key" {
+  type    = string
   default = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDHGX0BrMpr5mm/maYDNJJhBrn1lvjgy+9//ufn+QV5rC8MQpkakTKi3qzEQ22Xw4bOPb59C80TkH8T6ur4Ygb0oPMhFCQoBpd1rabQCIISSwi+I4bth58h8Jl/tXdiNclfTyPHNBPxRTjOGG9Op+Zu8EQtd4QUinf3iFFKJ4Wyk9cuHbKGYkhKnQG/u1LD+IJ6y2pt4Cdh2hnO2HIsSKOp6djx8zuCOMyguN1giFsa4gmd3/TcNO/O/p6G1Xs3v1H9KWWtXVL0gRRd1NTbnbqyuBmlBu2wKWVbznlf7Jjkb0asophnHBSsIcwJU079YGWfCVeZ0eoq/goDcI2Nj+FkNTJsJxuOwCUCBCikPZwUstU1cRAhTP72pu08ZQXM/B+uF2lDCLVu+Kui2bZQbOjNGunRnsFfer7XGpfqIeaYd8zJNFQPQIoE5N+iRMRQ/M1NHY1+E0TtdxWIi3pN11r7d9SLV4XYYdU5OgZFBKeQXULY5tKYG/ZMQj0MPmpksZ8="
 }
 
-resource "proxmox_vm_qemu" "k8s-main-node" {
+variable "name" {
+  type    = string
+  default = "k8s"
+  validation {
+    condition     = length(var.name) > 0
+    error_message = "Name is required."
+  }
+}
+
+variable "ip" {
+  type = string
+  validation {
+    condition     = length(var.ip) > 0
+    error_message = "Ip is required."
+  }
+}
+
+variable "nameserver" {
+  type = string
+  validation {
+    condition     = length(var.nameserver) > 0
+    error_message = "Nameserver is required."
+  }
+}
+
+variable "domain" {
+  type    = string
+  default = "docker.smith-simms.family"
+  validation {
+    condition     = length(var.domain) > 0
+    error_message = "Domain is required."
+  }
+}
+
+variable "gateway" {
+  type = string
+  validation {
+    condition     = length(var.gateway) > 0
+    error_message = "Gateway is required."
+  }
+}
+
+resource "proxmox_vm_qemu" "k8s-node" {
   count       = 1
-  name        = "k8s-main-node"
+  name        = var.name
   target_node = "pve"
-  clone         = "ubuntu-server"
+  clone       = "ubuntu-server"
   onboot      = true
   cpu         = "host"
   sockets     = "1"
@@ -66,7 +109,7 @@ resource "proxmox_vm_qemu" "k8s-main-node" {
     ${var.ssh_key}
   EOT
 
-  nameserver   = "192.168.3.1"
-  searchdomain = "smith-simms.family"
-  ipconfig0    = "ip=192.168.3.50/24,gw=192.168.1.0"
+  nameserver   = var.nameserver
+  searchdomain = var.domain
+  ipconfig0    = "ip=${var.ip},gw=${var.gateway}"
 }
