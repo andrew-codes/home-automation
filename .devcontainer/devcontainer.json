@@ -1,0 +1,38 @@
+{
+  "name": "Home Automation",
+  "dockerFile": "Dockerfile",
+
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+
+  "extensions": [
+    "capaj.vscode-exports-autocomplete",
+    "christian-kohler.npm-intellisense",
+    "cmstead.jsrefactor",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "foxundermoon.shell-format",
+    "fredwangwang.vscode-hcl-format",
+    "hashicorp.terraform",
+    "keesschollaart.vscode-home-assistant",
+    "kisstkondoros.vscode-codemetrics",
+    "mikestead.dotenv",
+    "ms-azuretools.vscode-docker",
+    "paulmolluzzo.convert-css-in-js",
+    "pflannery.vscode-versionlens",
+    "silvenon.mdx",
+    "wallabyjs.wallaby-vscode"
+  ],
+
+  "forwardPorts": [],
+
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+    "source=${env:HOME}${env:USERPROFILE}/.kube,target=/root/.kube,type=bind"
+    // Uncomment the next line to also sync certs in your .minikube folder
+    // "source=${env:HOME}${env:USERPROFILE}/.minikube,target=/usr/local/share/minikube-localhost,type=bind"
+  ],
+
+  "postCreateCommand": "yarn install"
+}
