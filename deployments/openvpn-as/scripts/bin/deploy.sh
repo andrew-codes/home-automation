@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
- 
+
 pushd .
 cd ../../
 source scripts/bin/vault.sh
 popd
-export OPENVPN_PASSWORD=$(vault kv get -format=json home-automation-secrets/openvpn | jq .data.data.password)
+export OPENVPN_PASSWORD=$(vault kv get -format=json cubbyhole/openvpn | jq .data.data.password)
 
 mkdir -p .secrets
 cat >.secrets/ansible-secrets.yml <<EOL
