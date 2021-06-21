@@ -6,7 +6,7 @@ RUN apt-get install -y \
     curl \
     wget \
     software-properties-common
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
 RUN curl -s https://packagecloud.io/install/repositories/datawireio/telepresence/script.deb.sh | bash
