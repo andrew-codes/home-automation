@@ -12,7 +12,7 @@ spec:
   dockerdWithinRunnerContainer: false
   imagePullSecrets:
     - name: regcred
-  image: docker.smith-simms.family:5000/github-action-runner:latest
+  image: docker-registry:5000/github-action-runner:latest
   imagePullPolicy: Always
   resources:
     limits:
@@ -61,7 +61,7 @@ spec:
   dockerdWithinRunnerContainer: false
   imagePullSecrets:
     - name: regcred
-  image: docker.smith-simms.family:5000/github-action-runner:latest
+  image: docker-registry:5000/github-action-runner:latest
   imagePullPolicy: Always
   resources:
     limits:

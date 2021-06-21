@@ -20,7 +20,7 @@ spec:
         - name: regcred
       containers:
         - name: ps5-wake
-          image: docker.smith-simms.family:5000/ps5-wake:latest
+          image: docker-registry:5000/ps5-wake:latest
           imagePullPolicy: Always
           env:
             - name: DEBUG

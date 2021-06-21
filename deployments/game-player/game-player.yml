@@ -19,7 +19,7 @@ spec:
         - name: regcred
       containers:
         - name: game-player
-          image: docker.smith-simms.family:5000/game-player:latest
+          image: docker-registry:5000/game-player:latest
           imagePullPolicy: Always
           env:
             - name: NODE_ENV

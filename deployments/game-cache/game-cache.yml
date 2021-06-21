@@ -19,7 +19,7 @@ spec:
         - name: regcred
       initContainers:
         - name: game-cache-primer
-          image: docker.smith-simms.family:5000/game-cache-primer:latest
+          image: docker-registry:5000/game-cache-primer:latest
           imagePullPolicy: Always
           env:
             - name: DEBUG
@@ -45,7 +45,7 @@ spec:
                   key: mac
       containers:
         - name: game-cache
-          image: docker.smith-simms.family:5000/game-cache:latest
+          image: docker-registry:5000/game-cache:latest
           imagePullPolicy: Always
           env:
             - name: DEBUG
@@ -96,7 +96,7 @@ spec:
                   name: twitch-secrets
                   key: client-secret
         - name: game-state-updater
-          image: docker.smith-simms.family:5000/game-state-updater:latest
+          image: docker-registry:5000/game-state-updater:latest
           imagePullPolicy: Always
           env:
             - name: DEBUG

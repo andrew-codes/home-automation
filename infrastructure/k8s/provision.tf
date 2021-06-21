@@ -50,8 +50,7 @@ variable "nameserver" {
 }
 
 variable "domain" {
-  type    = string
-  default = "docker.smith-simms.family"
+  type = string
   validation {
     condition     = length(var.domain) > 0
     error_message = "Domain is required."

@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@ha/k8s",
+  "name": "@ha/velero",
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {

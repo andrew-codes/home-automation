@@ -19,7 +19,7 @@ spec:
         - name: regcred
       containers:
         - name: graphql-api
-          image: docker.smith-simms.family:5000/graphql-api:latest
+          image: docker-registry:5000/graphql-api:latest
           imagePullPolicy: Always
           ports:
             - name: http

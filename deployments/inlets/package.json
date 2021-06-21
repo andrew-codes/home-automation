@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@ha/k8s",
+  "name": "@ha/inlets",
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {

@@ -19,7 +19,7 @@ spec:
         - name: regcred
       containers:
         - name: guest-pin-codes
-          image: docker.smith-simms.family:5000/guest-pin-codes:latest
+          image: docker-registry:5000/guest-pin-codes:latest
           imagePullPolicy: Always
           env:
             - name: GUEST_LOCK_CODE_EXCLUSIONS
