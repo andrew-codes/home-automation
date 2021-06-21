@@ -15,6 +15,7 @@
     "compile": "lerna run compile --include-filtered-dependencies",
     "dashboard": "lerna run dashboard --stream --parallel",
     "deploy": "lerna run deploy --include-filtered-dependencies --stream",
+    "initialize-secrets": "lerna run initialize-secrets --stream",
     "patch": "patch-package",
     "preinstall": "yarn global add typescript ts-node",
     "postintall": "yarn patch",
