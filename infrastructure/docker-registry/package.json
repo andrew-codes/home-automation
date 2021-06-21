@@ -3,9 +3,6 @@
   "name": "@ha/docker-registry-infra",
   "version": "0.0.1",
   "license": "MIT",
-  "scripts": {
-    "provision": "../../scripts/bin/provision.sh"
-  },
-  "dependencies": {
-  }
+  "scripts": {},
+  "dependencies": {}
 }
