@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "deploy": "scripts/bin/deploy.sh",
-    "postdeploy": "kubectl rollout restart deployment guest-pin-codes --namespace home-automation",
-    "seal": "scripts/bin/seal.sh"
+    "initialize-secrets": "scripts/bininitialize-secrets.sh",
+    "postdeploy": "kubectl rollout restart deployment guest-pin-codes --namespace home-automation"
   },
   "dependencies": {
     "@ha/guest-pin-codes-app": "^0.0.1"

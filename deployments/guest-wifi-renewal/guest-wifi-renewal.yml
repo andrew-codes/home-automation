@@ -23,24 +23,11 @@ spec:
           imagePullPolicy: Always
           env:
             - name: DEBUG
-              value: "@ha/guest-wifi-renewal/*"
             - name: GRAPHQL_API_HOST
               value: graphql-api/graphql
             - name: GRAPHQL_API_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: graphql-secrets
-                  key: token
             - name: MQTT_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: mqtt-secrets
-                  key: mqtt-username
             - name: MQTT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mqtt-secrets
-                  key: mqtt-password
             - name: MQTT_HOST
               value: mqtt
             - name: MQTT_PORT
