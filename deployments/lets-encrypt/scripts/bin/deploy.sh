@@ -5,6 +5,6 @@ cd ../../
 source scripts/bin/vault.sh
 popd
 
-export EMAIL=$(vault kv get -format=json cubbyhole/lets-encrypt | jq .data.data.email)
+export EMAIL=$(vault kv get -format=json cubbyhole/lets-encrypt | jq .data.data.email | sed 's/"//g')
 
 envsubst <issuers.yml | kubectl apply -f -

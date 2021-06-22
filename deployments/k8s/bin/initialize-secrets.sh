@@ -6,4 +6,5 @@ source scripts/bin/vault.sh
 popd
 
 vault kv write cubbyhole/k8s \
-    pod_network_cidr=""
+    pod-network-cidr="" \
+    machine-password=""

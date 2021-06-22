@@ -5,7 +5,7 @@ cd ../../
 source scripts/bin/vault.sh
 popd
 
-vault kv write cubbyhole/k8s \
+vault kv write cubbyhole/velero \
     azure_blob_container="" \
     azure_backup_resource_group="" \
     azure_storage_account_id="" \

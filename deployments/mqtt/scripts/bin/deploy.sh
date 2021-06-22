@@ -8,8 +8,8 @@ source .external-ports.env
 set +o allexport
 popd
 
-export MQTT_USERNAME=$(vault kv get -format=json cubbyhole/mqtt | jq .data.data.username)
-export MQTT_PASSWORD=$(vault kv get -format=json cubbyhole/mqtt | jq .data.data.password)
+export MQTT_USERNAME=$(vault kv get -format=json cubbyhole/mqtt | jq .data.data.username | sed 's/"//g')
+export MQTT_PASSWORD=$(vault kv get -format=json cubbyhole/mqtt | jq .data.data.password | sed 's/"//g')
 
 yq eval '.spec.ports[0].nodePort=env(EXTERNAL_MQTT_PORT)' -i service.yml
 
