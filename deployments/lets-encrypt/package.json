@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
-    "deploy": "scripts/bin/deploy.sh"
+    "deploy": "scripts/bin/deploy.sh",
+    "intialize-secrets": "scripts/bin/initialize-secrets.sh"
   }
 }
