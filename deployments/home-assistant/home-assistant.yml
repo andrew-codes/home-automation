@@ -1,7 +1,31 @@
 apiVersion: v1
-kind: Namespace
+kind: ConfigMap
 metadata:
-  name: home-automation
+  name: repo-private-ssh-key
+  namespace: home-automation
+data: |
+  $REPO_PRIVATE_SSH_KEY
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: home-automation-keys
+  namespace: home-automation
+data:
+  pub: |
+    $HOME_AUTOMATION_PUBLIC_SSH_KEY
+  private: |
+    $HOME_AUTOMATION_PRIVATE_SSH_KEY
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: secrets-yml
+  namespace: home-automation
+data: |
+  $SECRETS_YML
 
 ---
 apiVersion: v1
@@ -64,12 +88,8 @@ spec:
           imagePullPolicy: Always
           env:
             - name: GIT_BRANCH
-              value: main
             - name: REPOSITORY
-              valueFrom:
-                secretKeyRef:
-                  key: value
-                  name: repo-url
+              value: "git@github.com:andrew-codes/home-automation.git"
             - name: CHECKOUT_PATH
               value: k8s/home-assistant/home-assistant-config
           volumeMounts:
@@ -77,7 +97,6 @@ spec:
               mountPath: /config
             - name: ssh-secrets-volume
               mountPath: /root/.ssh/id_rsa
-              subPath: id_rsa
       containers:
         - name: home-assistant
           image: homeassistant/home-assistant:2021.6.3
@@ -119,7 +138,6 @@ spec:
               mountPath: /home-automation
             - name: ha-secrets-volume
               mountPath: /home-automation/k8s/home-assistant/home-assistant-config/secrets.yaml
-              subPath: yml
             - name: home-automation-ssh
               mountPath: /root/.ssh/id_rsa.pub
               subPath: pub
@@ -151,15 +169,15 @@ spec:
 
       volumes:
         - name: ha-secrets-volume
-          secret:
-            secretName: secrets
+          configMap:
+            name: secrets-yml
         - name: ssh-secrets-volume
-          secret:
-            secretName: ssh
+          configMap:
+            name: repo-private-ssh-key
             defaultMode: 0600
         - name: home-automation-ssh
-          secret:
-            secretName: home-automation-ssh
+          configMap:
+            name: home-automation-keys
             defaultMode: 0600
         - name: home-assistant-config-volume
           persistentVolumeClaim:
