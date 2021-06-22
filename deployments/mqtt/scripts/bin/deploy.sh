@@ -1,9 +1,17 @@
 #!/usr/bin/env bash
 
-source ../../external-port-vars.sh
+pushd .
+cd ../../
+source scripts/bin/vault.sh
+set -o allexport
+source .external-ports.env
+set +o allexport
+popd
+
+export MQTT_USERNAME=$(vault kv get -format=json cubbyhole/mqtt | jq .data.data.username)
+export MQTT_PASSWORD=$(vault kv get -format=json cubbyhole/mqtt | jq .data.data.password)
+
 yq eval '.spec.ports[0].nodePort=env(EXTERNAL_MQTT_PORT)' -i service.yml
 
-kubectl apply -f namespace.yml
-kubectl apply -f secrets
 kubectl apply -f mqtt.yml
 kubectl apply -f service.yml

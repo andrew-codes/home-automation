@@ -6,7 +6,9 @@
   "scripts": {
     "deploy": "scripts/bin/deploy.sh",
     "postdeploy": "kubectl rollout restart deployment mqtt --namespace home-automation",
-    "seal": "scripts/bin/seal.sh"
+    "initialize-secrets": "scripts/bin/initialize-secrets.sh"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@ha/home-automation-namespace": "^0.0.1"
+  }
 }

@@ -16,6 +16,7 @@ data:
     persistence true
     persistence_location /mosquitto/data/
     log_dest file /mosquitto/log/mosquitto.log
+
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -27,6 +28,7 @@ data:
     #!/usr/bin env sh
     echo -n "$MQTT_USERNAME:$MQTT_PASSWORD" > /mosquitto/passwd
     mosquitto_passwd -U /mosquitto/passwd
+
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -43,6 +45,7 @@ spec:
     - ReadWriteOnce
   hostPath:
     path: "/mnt/data/mosquitto"
+
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -56,6 +59,7 @@ spec:
   resources:
     requests:
       storage: 5Gi
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -90,15 +94,7 @@ spec:
             - "source /mosquitto/set_credentials.sh && /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf"
           env:
             - name: MQTT_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: mqtt-secrets
-                  key: mqtt-username
             - name: MQTT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mqtt-secrets
-                  key: mqtt-password
           volumeMounts:
             - name: mosquitto-config
               mountPath: /mosquitto/config/mosquitto.conf
