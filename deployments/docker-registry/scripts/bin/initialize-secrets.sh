@@ -7,4 +7,5 @@ popd
 
 vault kv write cubbyhole/docker-registry \
     username="" \
-    password=""
+    password="" \
+    email=""
