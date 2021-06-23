@@ -3,6 +3,7 @@
 1. [Before you begin](./installation/before-you-begin.md)
 1. [Install Proxmox](./installation/proxmox.md)
 1. [Provision Vault](./installation/vault.md)
+1. [Provision Pihole](./installation/pihole.md) for DNS
 1. [Setup Kubernetes Cluster](./02-installation-kubernetes.md)
 1. [Installing Docker Registry](./03-installation-docker-registry)
 1. [Enable Automated Deploys via GitHub Actions](./04-installation-github-actions.md)
