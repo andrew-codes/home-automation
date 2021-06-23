@@ -6,7 +6,7 @@ pushd .
 cd ../../
 source scripts/bin/vault.sh
 popd
-export PIHOLE_PASSWORD=$(vault kv get -format=json cubbyhole/pihole | jq .data.data.password | sed 's/"//g')
+export PIHOLE_PASSWORD=$(vault kv get -format=json cubbyhole/pihole | jq .data.password | sed 's/"//g')
 
 mkdir -p .secrets
 cat >.secrets/ansible-secrets.yml <<EOL

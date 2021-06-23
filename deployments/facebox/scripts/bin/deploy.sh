@@ -8,7 +8,7 @@ source .external-ports.env
 set +o allexport
 popd
 
-export MB_KEY=$(vault kv get -format=json cubbyhole/facebox | jq .data.data.mb-key | sed 's/"//g')
+export MB_KEY=$(vault kv get -format=json cubbyhole/facebox | jq .data.mb-key | sed 's/"//g')
 
 kubectl apply -f facebox.yml
 

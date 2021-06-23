@@ -8,8 +8,8 @@ source .external-ports.env
 set +o allexport
 popd
 
-export MQTT_USERNAME=$(vault kv get -format=json cubbyhole/mqtt | jq .data.data.username | sed 's/"//g')
-export MQTT_PASSWORD=$(vault kv get -format=json cubbyhole/mqtt | jq .data.data.password | sed 's/"//g')
+export MQTT_USERNAME=$(vault kv get -format=json cubbyhole/mqtt | jq .data.username | sed 's/"//g')
+export MQTT_PASSWORD=$(vault kv get -format=json cubbyhole/mqtt | jq .data.password | sed 's/"//g')
 
 kubectl apply -f double-take.yml
 

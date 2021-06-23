@@ -8,11 +8,11 @@ source .external-ports.env
 set +o allexport
 popd
 
-export CLUSTER_IP=$(vault kv get -format=json cubbyhole/k8s | jq .data.data.cluster-ip | sed 's/"//g')
-export MQTT_USERNAME=$(vault kv get -format=json cubbyhole/mqtt | jq .data.data.username | sed 's/"//g')
-export MQTT_PASSWORD=$(vault kv get -format=json cubbyhole/mqtt | jq .data.data.password | sed 's/"//g')
-export FRONT_DOOR_RTSP=$(vault kv get -format=json cubbyhole/frigate | jq .data.data.front-door-rtsp | sed 's/"//g')
-export CAR_PORT_DOOR_RTSP=$(vault kv get -format=json cubbyhole/frigate | jq .data.data.car-port-door-rtsp | sed 's/"//g')
+export CLUSTER_IP=$(vault kv get -format=json cubbyhole/k8s | jq .data.cluster-ip | sed 's/"//g')
+export MQTT_USERNAME=$(vault kv get -format=json cubbyhole/mqtt | jq .data.username | sed 's/"//g')
+export MQTT_PASSWORD=$(vault kv get -format=json cubbyhole/mqtt | jq .data.password | sed 's/"//g')
+export FRONT_DOOR_RTSP=$(vault kv get -format=json cubbyhole/frigate | jq .data.front-door-rtsp | sed 's/"//g')
+export CAR_PORT_DOOR_RTSP=$(vault kv get -format=json cubbyhole/frigate | jq .data.car-port-door-rtsp | sed 's/"//g')
 
 kubectl apply -f frigate.yml
 

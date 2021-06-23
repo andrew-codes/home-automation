@@ -6,9 +6,9 @@ pushd .
 cd ../../
 source scripts/bin/vault.sh
 popd
-export USERNAME=$(vault kv get -format=json cubbyhole/docker-registry | jq .data.data.username)
-export PASSWORD=$(vault kv get -format=json cubbyhole/docker-registry | jq .data.data.password)
-export EMAIL=$(vault kv get -format=json cubbyhole/docker-registry | jq .data.data.email)
+export USERNAME=$(vault kv get -format=json cubbyhole/docker-registry | jq .data.username)
+export PASSWORD=$(vault kv get -format=json cubbyhole/docker-registry | jq .data.password)
+export EMAIL=$(vault kv get -format=json cubbyhole/docker-registry | jq .data.email)
 
 mkdir -p .secrets
 cat >.secrets/ansible-secrets.yml <<EOL
