@@ -49,7 +49,7 @@ spec:
     spec:
       containers:
         - name: double-take
-          image: jakowenko/double-take
+          image: docker-registry/double-take:latest
           imagePullPolicy: Always
           ports:
             - name: web
@@ -58,14 +58,7 @@ spec:
           volumeMounts:
             - name: data-store
               mountPath: "/.storage"
-            - name: config-file
-              subPath: yml
-              mountPath: "/double-take/config.yml"
       volumes:
         - name: data-store
           persistentVolumeClaim:
             claimName: double-take-data-store-pv-claim
-        - name: config-file
-          secret:
-            secretName: double-take-secrets
-

@@ -253,6 +253,6 @@
   tasks:
     - name: Fetch kubeconfig
       fetch:
-        dest: ./secrets/.kube/config
+        dest: ./.secrets/.kube/config
         flat: yes
         src: /home/{{ ansible_user }}/.kube/config

@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
 
-source ../../external-port-vars.sh
-yq eval '.spec.ports[0].nodePort=env(EXTERNAL_CAPTIVE_PORTAL_PORT)' -i service.yml
+pushd .
+cd ../../
+source scripts/bin/vault.sh
+set -o allexport
+source .external-ports.env
+set +o allexport
+popd
 
-kubectl apply -f namespace.yml
+export GRAPHQL_API_TOKEN=$(vault kv get -format=json cubbyhole/graphql-api | jq .data.data.token | sed 's/"//g')
+
 kubectl apply -f captive-portal.yml
+
+yq eval '.spec.ports[0].nodePort=env(EXTERNAL_CAPTIVE_PORTAL_PORT)' -i service.yml
 kubectl apply -f service.yml

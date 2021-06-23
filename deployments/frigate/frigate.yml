@@ -49,7 +49,7 @@ spec:
     spec:
       containers:
         - name: frigate
-          image: blakeblackshear/frigate:stable-amd64
+          image: docker-registry/frigate
           imagePullPolicy: Always
           ports:
             - name: http
@@ -59,8 +59,8 @@ spec:
               containerPort: 1935
               protocol: TCP
           volumeMounts:
-            # - name: localtime
-            #   mountPath: /etc/localtime
+            - name: localtime
+              mountPath: /etc/localtime
             - name: config
               mountPath: /config/config.yml
               subPath: yml

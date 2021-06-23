@@ -7,4 +7,5 @@ popd
 
 vault kv write cubbyhole/k8s \
     pod-network-cidr="" \
-    machine-password=""
+    machine-password="" \
+    cluster-ip="192.168.3.50"

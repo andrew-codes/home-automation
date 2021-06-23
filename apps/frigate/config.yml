@@ -1,13 +1,3 @@
-#!/usr/bin/env bash
-
-source ../../secrets.sh
-source ../../external-port-vars.sh
-
-mkdir -p secrets
-mkdir -p .secrets
-
-# Frigate Config Secrets
-cat >.secrets/config-secrets.yaml <<EOL
 mqtt:
   host: $CLUSTER_IP
   port: $EXTERNAL_MQTT_PORT
@@ -136,9 +126,3 @@ cameras:
           person: 15
     rtmp:
       enabled: True
-EOL
-
-kubectl create secret generic config-secrets --dry-run=client --namespace="home-automation" --from-file=yml=".secrets/config-secrets.yaml" -o json >".secrets/config-secrets.json"
-kubeseal --namespace "home-automation" <".secrets/config-secrets.json" >"secrets/config-secrets.json"
-rm -rf .secrets/config-secrets.json
-rm -rf .secrets/config-secrets.yaml

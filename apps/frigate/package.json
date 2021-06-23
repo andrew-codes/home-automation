@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "name": "@ha/frigate-app",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry/frigate:latest\" --context dir:///workspace/ --insecure"
+  },
+  "dependencies": {}
+}

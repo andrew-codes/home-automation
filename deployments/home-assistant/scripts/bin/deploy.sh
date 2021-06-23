@@ -15,8 +15,8 @@ export TIME_ZONE=$(vault kv get -format=json cubbyhole/home-assistant | jq .data
 export UNIT_SYSTEM=$(vault kv get -format=json cubbyhole/home-assistant | jq .data.data.unit-system | sed 's/"//g')
 export HA_URL=$(vault kv get -format=json cubbyhole/home-assistant | jq .data.data.ha-url | sed 's/"//g')
 export HA_TOKEN=$(vault kv get -format=json cubbyhole/home-assistant | jq .data.data.ha-token | sed 's/"//g')
-export MQTT_USERNAME=$(vault kv get -format=json cubbyhole/home-assistant | jq .data.data.mqtt-username | sed 's/"//g')
-export MQTT_PASSWORD=$(vault kv get -format=json cubbyhole/home-assistant | jq .data.data.mqtt-password | sed 's/"//g')
+export MQTT_USERNAME=$(vault kv get -format=json cubbyhole/mqtt | jq .data.data.username | sed 's/"//g')
+export MQTT_PASSWORD=$(vault kv get -format=json cubbyhole/mqtt | jq .data.data.password | sed 's/"//g')
 export APPDAEMON_URL=$(vault kv get -format=json cubbyhole/home-assistant | jq .data.data.appdaemon-url | sed 's/"//g')
 export APPDAEMON_PASSWORD=$(vault kv get -format=json cubbyhole/home-assistant | jq .data.data.appdaemon-password | sed 's/"//g')
 export WITHINGS_CLIENT_ID=$(vault kv get -format=json cubbyhole/home-assistant | jq .data.data.withings-client-id | sed 's/"//g')
@@ -29,7 +29,7 @@ export GAMING_ROOM_GAMING_PC_MAC=$(vault kv get -format=json cubbyhole/home-assi
 export GAMING_ROOM_GAMING_PC_IP=$(vault kv get -format=json cubbyhole/home-assistant | jq .data.data.gaming-room-gaming-pc-ip | sed 's/"//g')
 export ROUTER_IP=$(vault kv get -format=json cubbyhole/home-assistant | jq .data.data.router-ip | sed 's/"//g')
 export GRAPHQL_URL=$(vault kv get -format=json cubbyhole/home-assistant | jq .data.data.graphql-url | sed 's/"//g')
-export GRAPHQL_AUTHORIZATION=$(vault kv get -format=json cubbyhole/home-assistant | jq .data.data.graphql-authorization | sed 's/"//g')
+export GRAPHQL_API_TOKEN=$(vault kv get -format=json cubbyhole/graphql-api | jq .data.data.token | sed 's/"//g')
 export TURN_OFF_GAMING_ROOM_GAMING_PC_COMMAND=$(vault kv get -format=json cubbyhole/home-assistant | jq .data.data.turn-off-gaming-room-gaming-pc-command | sed 's/"//g')
 export GAMING_ROOM_PLAYSTATION_5_IP=$(vault kv get -format=json cubbyhole/home-assistant | jq .data.data.gaming-room-playstation-5-ip | sed 's/"//g')
 export MS_TEAMS_STATUS_ACTIVE_WEBHOOK_ID=$(vault kv get -format=json cubbyhole/home-assistant | jq .data.data.ms-teams-status-active-webhook-id | sed 's/"//g')
@@ -55,7 +55,6 @@ export SPOTCAST_DC=$(vault kv get -format=json cubbyhole/home-assistant | jq .da
 export SPOTCAST_KEY=$(vault kv get -format=json cubbyhole/home-assistant | jq .data.data.spotcast-key | sed 's/"//g')
 export SPOTCAST_DC_2=$(vault kv get -format=json cubbyhole/home-assistant | jq .data.data.spotcast-dc-2 | sed 's/"//g')
 export SPOTCAST_KEY=$(vault kv get -format=json cubbyhole/home-assistant | jq .data.data.spotcast-key | sed 's/"//g')
-
 export SECRETS_YML=$(
     cat <<EOL
 latitude: "$LATITUDE"
@@ -103,4 +102,39 @@ spotcast_key_2: "$SPOTCAST_KEY_2"
 EOL
 )
 
+mkdir -p .secrets
+echo -n "$(
+    cat <<EOL
+apiVersion: v1
+kind: ConfigMap
+metadata:
+name: repo-private-ssh-key
+namespace: home-automation
+data: |
+    $REPO_PRIVATE_SSH_KEY
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+name: home-automation-keys
+namespace: home-automation
+data:
+pub: |
+    $HOME_AUTOMATION_PUBLIC_SSH_KEY
+private: |
+    $HOME_AUTOMATION_PRIVATE_SSH_KEY
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+name: secrets-yml
+namespace: home-automation
+data: |
+    $SECRETS_YML
+EOL
+)" >>.secrets/config-maps.yml
+
+kubectl apply -f .secrets/config-maps.yml
 envsubst <home-assistant.yml | kubectl apply -f -

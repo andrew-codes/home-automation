@@ -1,8 +1,7 @@
----
 apiVersion: actions.summerwind.dev/v1alpha1
 kind: Runner
 metadata:
-  name: github-action-runner-1
+  name: github-action-runner-amd-1
   namespace: actions-runner-system
 spec:
   labels:
@@ -25,18 +24,16 @@ spec:
   volumeMounts:
     - name: kubectl-config-volume
       mountPath: /home/runner/.kube/config
-      subPath: kubectl-config
     - name: ssh-volume
       mountPath: /home/runner/.ssh/id_rsa
-      subPath: id_rsa
   volumes:
     - name: kubectl-config-volume
-      secret:
-        secretName: kubectl-config
+      configMap:
+        name: kube-config
     - name: ssh-volume
-      secret:
-        defaultMode: 0600
-        secretName: ssh-secrets
+      configMap:
+        name: home-automation-private-key
+        defaultMode: "0600"
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -51,7 +48,7 @@ spec:
 apiVersion: actions.summerwind.dev/v1alpha1
 kind: Runner
 metadata:
-  name: github-action-runner-2
+  name: github-action-runner-amd-2
   namespace: actions-runner-system
 spec:
   labels:
@@ -74,18 +71,16 @@ spec:
   volumeMounts:
     - name: kubectl-config-volume
       mountPath: /home/runner/.kube/config
-      subPath: kubectl-config
     - name: ssh-volume
       mountPath: /home/runner/.ssh/id_rsa
-      subPath: id_rsa
   volumes:
     - name: kubectl-config-volume
-      secret:
-        secretName: kubectl-config
+      configMap:
+        name: kube-config
     - name: ssh-volume
-      secret:
-        defaultMode: 0600
-        secretName: ssh-secrets
+      configMap:
+        name: home-automation-private-key
+        defaultMode: "0600"
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:

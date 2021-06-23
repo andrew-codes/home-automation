@@ -29,12 +29,7 @@ spec:
             - name: PORT
               value: "80"
             - name: DEBUG
-              value: "*"
             - name: GRAPHQL_API_HOST
               value: graphql-api/graphql
             - name: GRAPHQL_API_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: graphql-secrets
-                  key: token
 

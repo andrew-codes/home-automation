@@ -23,10 +23,6 @@ spec:
           imagePullPolicy: Always
           env:
             - name: MB_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: facebox-secrets
-                  key: mb_key
           ports:
             - name: web
               containerPort: 8080

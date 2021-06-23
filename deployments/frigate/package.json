@@ -1,14 +1,16 @@
 {
-    "private": true,
-    "name": "@ha/frigate",
-    "version": "0.0.1",
-    "license": "MIT",
-    "scripts": {
-      "deploy": "scripts/bin/deploy.sh",
-      "postdeploy": "kubectl rollout restart deployment frigate --namespace home-automation",
-      "seal": "scripts/bin/seal.sh"
-    },
-    "dependencies": {
-    }
+  "private": true,
+  "name": "@ha/frigate",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "deploy": "scripts/bin/deploy.sh",
+    "initialize-secrets": "scripts/bininitialize-secrets.sh",
+    "postdeploy": "kubectl rollout restart deployment frigate --namespace home-automation"
+  },
+  "dependencies": {
+    "@ha/frigate-app": "^0.0.1",
+    "@ha/home-automation-namespace": "^0.0.1",
+    "@ha/mqtt": "^0.0.1"
   }
-  
+}

@@ -20,8 +20,6 @@ vault kv write cubbyhole/home-assistant \
     unit-system="" \
     ha-url="" \
     ha-token="" \
-    mqtt-username="" \
-    mqtt-password="" \
     appdaemon-url="" \
     appdaemon-password="" \
     withings-client-id="" \
@@ -33,8 +31,6 @@ vault kv write cubbyhole/home-assistant \
     gaming-room-gaming-pc-mac="" \
     gaming-room-gaming-pc-ip="" \
     router-ip="" \
-    graphql-url="" \
-    graphql-authorization="" \
     turn-off-gaming-room-gaming-pc-command="" \
     gaming-room-playstation-5-ip="" \
     ms-teams-status-active-webhook-id="" \

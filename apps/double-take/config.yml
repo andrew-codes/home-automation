@@ -1,11 +1,3 @@
-#!/usr/bin/env bash
-
-source ../../secrets.sh
-
-mkdir -p secrets
-mkdir -p .secrets
-
-cat >.secrets/double-take-secrets.yaml <<EOL
 mqtt:
   host: mqtt
   username: $MQTT_USERNAME
@@ -49,10 +41,3 @@ detectors:
 time:
   format: F
   timezone: America/New_York
-EOL
-
-kubectl create secret generic double-take-secrets --dry-run=client --namespace="home-automation" --from-file=yml=".secrets/double-take-secrets.yaml" -o json >".secrets/double-take-secrets.json"
-kubeseal --namespace "home-automation" <".secrets/double-take-secrets.json" >"secrets/double-take-secrets.json"
-rm -rf .secrets/double-take-secrets.json
-rm -rf .secrets/double-take-secrets.yaml
-

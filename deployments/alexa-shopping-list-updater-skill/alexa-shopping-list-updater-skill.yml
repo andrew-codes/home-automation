@@ -27,31 +27,15 @@ spec:
               protocol: TCP
           env:
             - name: API_URL
-              valueFrom:
-                secretKeyRef:
-                  name: graphql-secrets
-                  key: host
+              value: "http://graphql-api/graphql"
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: "0"
             - name: PORT
               value: "8085"
             - name: DEBUG
-              value: "@ha/alexa-shopping-list-updater-skill/*"
             - name: GRAPHQL_API_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: graphql-secrets
-                  key: token
             - name: MQTT_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: mqtt-secrets
-                  key: mqtt-username
             - name: MQTT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mqtt-secrets
-                  key: mqtt-password
             - name: MQTT_HOST
               value: mqtt
             - name: MQTT_PORT

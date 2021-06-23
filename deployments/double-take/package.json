@@ -1,16 +1,17 @@
 {
-    "private": true,
-    "name": "@ha/double-take",
-    "version": "0.0.1",
-    "license": "MIT",
-    "scripts": {
-      "deploy": "scripts/bin/deploy.sh",
-      "postdeploy": "kubectl rollout restart deployment double-take --namespace home-automation",
-      "seal": "scripts/bin/seal.sh"
-    },
-    "dependencies": {
-      "@ha/frigate": "^0.0.1",
-      "@ha/facebox": "^0.0.1"
-    }
+  "private": true,
+  "name": "@ha/double-take",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "deploy": "scripts/bin/deploy.sh",
+    "postdeploy": "kubectl rollout restart deployment double-take --namespace home-automation"
+  },
+  "dependencies": {
+    "@ha/double-take-app": "^0.0.1",
+    "@ha/frigate": "^0.0.1",
+    "@ha/facebox": "^0.0.1",
+    "@ha/home-automation-namespace": "^0.0.1",
+    "@ha/mqtt": "^0.0.1"
   }
-  
+}
