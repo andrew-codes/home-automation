@@ -23,14 +23,14 @@ Ensure the following is installed on your DEV machine.
 
 All required software to run, develop, and deploy are within a Docker container and leverage the Remote Containers vscode extension. To run commands, start the workspace by typing `Remote-container: Open Folder in Container` from the command palette (Ctrl/Cmd + Shift + P). This will automatically build the container and run yarn to install dependencies.
 
-## Create Blank Secrets File
+## Create Secrets .env file
 
-> **Do not commit** `secrets.sh`
+> **Do not commit** `.secrets.env`
 
 ```
-cp secrets.template.sh secrets.sh
+cp secrets.template.env .secrets.env
 ```
 
 # Next
 
-[Install Proxmox](./01-installation-proxmox.md) on your HYPERVISOR.
+[Install Proxmox](./proxmox.md) on your HYPERVISOR.
