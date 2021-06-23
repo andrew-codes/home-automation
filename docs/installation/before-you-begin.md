@@ -30,7 +30,3 @@ All required software to run, develop, and deploy are within a Docker container 
 ```
 cp secrets.template.env .secrets.env
 ```
-
-# Next
-
-[Install Proxmox](./proxmox.md) on your HYPERVISOR.

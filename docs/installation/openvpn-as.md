@@ -19,7 +19,7 @@ lxc.hook.autodev = sh -c "modprobe tun; cd ${LXC_ROOTFS_MOUNT}/dev; mkdir net; m
 yarn initialize-secrets --scope @ha/openvpn-as
 ```
 
-> Set via the Vault UI
+> Set secrets via the Vault UI.
 
 ## Deploy
 

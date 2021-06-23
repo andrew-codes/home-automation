@@ -16,7 +16,7 @@ yarn provision docker-registry prod.env
 yarn initialize-secrets --scope @ha/docker-registry
 ```
 
-and set secrets via Vault's UI.
+> Set secrets via the Vault UI.
 
 ## Deploy
 
