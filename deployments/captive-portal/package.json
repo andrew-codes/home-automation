@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "@ha/captive-portal-app": "^0.0.1",
-    "@ha/graphql-api": "^0.0.1",
     "@ha/home-assistant": "^0.0.1",
     "@ha/home-automation-namespace": "^0.0.1"
   }

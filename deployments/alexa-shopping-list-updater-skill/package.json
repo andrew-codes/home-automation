@@ -13,7 +13,6 @@
   "dependencies": {
     "@ha/alexa-shopping-list-updater-skill-app": "^0.0.1",
     "@ha/home-automation-namespace": "^0.0.1",
-    "@ha/graphql-api": "^0.0.1",
     "@ha/mqtt": "^0.0.1"
   }
 }

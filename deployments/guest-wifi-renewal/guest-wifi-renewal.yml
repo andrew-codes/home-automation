@@ -23,9 +23,6 @@ spec:
           imagePullPolicy: Always
           env:
             - name: DEBUG
-            - name: GRAPHQL_API_HOST
-              value: graphql-api/graphql
-            - name: GRAPHQL_API_TOKEN
             - name: MQTT_USERNAME
             - name: MQTT_PASSWORD
             - name: MQTT_HOST

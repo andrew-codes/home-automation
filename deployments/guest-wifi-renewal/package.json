@@ -8,7 +8,6 @@
     "postdeploy": "kubectl rollout restart deployment guest-wifi-renewal --namespace home-automation"
   },
   "dependencies": {
-    "@ha/graphql-api": "^0.0.1",
     "@ha/guest-wifi-renewal-app": "^0.0.1",
     "@ha/mqtt": "^0.0.1",
     "@ha/home-assistant": "^0.0.1",

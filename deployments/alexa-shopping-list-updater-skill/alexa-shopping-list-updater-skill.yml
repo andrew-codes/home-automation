@@ -26,14 +26,11 @@ spec:
               containerPort: 8085
               protocol: TCP
           env:
-            - name: API_URL
-              value: "http://graphql-api/graphql"
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: "0"
             - name: PORT
               value: "8085"
             - name: DEBUG
-            - name: GRAPHQL_API_TOKEN
             - name: MQTT_USERNAME
             - name: MQTT_PASSWORD
             - name: MQTT_HOST
