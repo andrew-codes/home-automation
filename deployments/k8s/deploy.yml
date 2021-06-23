@@ -141,7 +141,7 @@
         mode: 0755
 
     - name: Copy /etc/kubernetes/admin.conf to user's home directory /home/{{ ansible_user }}/.kube/config.
-      become_user: hl
+      become_user: root
       become_method: sudo
       become: yes
       copy:
