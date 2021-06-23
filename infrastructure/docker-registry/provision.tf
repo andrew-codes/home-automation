@@ -108,5 +108,5 @@ resource "proxmox_vm_qemu" "docker-registry" {
 
   nameserver   = var.nameserver
   searchdomain = var.domain
-  ipconfig0    = "ip=${var.ip},gw=${var.gatewayd}"
+  ipconfig0    = "ip=${var.ip},gw=${var.gateway}"
 }

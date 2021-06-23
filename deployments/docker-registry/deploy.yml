@@ -5,6 +5,8 @@
   become_user: root
   gather_facts: yes
   connection: ssh
+  vars_files:
+    - .secrets/ansible-secrets.yml
 
   tasks:
     - name: Disabling Swap on all nodes
@@ -66,8 +68,13 @@
         - systemctl daemon-reload
         - systemctl restart docker
 
-    - name: Volume
-      shell: mkdir -p /mnt/registry
+    - name: Registry directory
+      become_user: hl
+      become_method: sudo
+      become: yes
+      file:
+        path: /mnt/registry
+        state: directory
 
     - name: Stop registry
       shell: docker stop registry || true
@@ -75,8 +82,16 @@
     - name: Remove container
       shell: docker container rm registry || true
 
+    - name: Auth directory
+      become_user: hl
+      become_method: sudo
+      become: yes
+      file:
+        path: /auth
+        state: directory
+
     - name: Create creds
-      shell: docker run --rm --entrypoint htpasswd httpd:2 -Bbn {{ username }} {{ password }} | Set-Content -Encoding ASCII auth/htpasswd
+      shell: docker run --rm --entrypoint htpasswd httpd:2 -Bbn "{{ username }}" "{{ password }}" >> /auth/htpasswd
 
     - name: Run registry as service
       shell: >

@@ -8,4 +8,5 @@ popd
 vault kv put cubbyhole/docker-registry \
     username="" \
     password="" \
-    email=""
+    email="" \
+    machine-password=""

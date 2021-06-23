@@ -5,8 +5,8 @@
 1. [Deploy Vault](./installation/vault.md)
 1. [Deploy Pihole](./installation/pihole.md) for DNS
 1. [Deploy OpenVPN Access Server](./installation/openvpn-as.md) for VPN (optional)
+1. [Deploy Docker Registry](./installation/docker-registry)
 1. [Setup Kubernetes Cluster](./02-installation-kubernetes.md)
-1. [Installing Docker Registry](./03-installation-docker-registry)
 1. [Enable Automated Deploys via GitHub Actions](./04-installation-github-actions.md)
 1. [Set Remaining Secrets](./05-installation-secrets-catalog.md)
 1. [View Dashboard & other Features](./kubernetes-cluster-features.md)
