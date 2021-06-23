@@ -6,8 +6,8 @@ pushd .
 cd ../../
 source scripts/bin/vault.sh
 popd
-export POD_NETWORK_CIDR=$(vault kv get -format=json cubbyhole/k8s | jq .data.pod-network-cidr | sed 's/"//g')
-export MACHINE_PASSWORD=$(vault kv get -format=json cubbyhole/k8s | jq .data.machine-password | sed 's/"//g')
+export POD_NETWORK_CIDR=$(vault kv get -format=json cubbyhole/k8s | jq .data.POD_NETWORK_CIDR | sed 's/"//g')
+export MACHINE_PASSWORD=$(vault kv get -format=json cubbyhole/k8s | jq .data.MACHINE_PASSWORD | sed 's/"//g')
 
 mkdir -p .secrets
 cat >.secrets/ansible-secrets.yml <<EOL

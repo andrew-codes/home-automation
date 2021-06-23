@@ -214,7 +214,6 @@
       become: yes
       shell: kubectl taint nodes --all node-role.kubernetes.io/master-
 
----
 - hosts: workers
   remote_user: root
   become: yes

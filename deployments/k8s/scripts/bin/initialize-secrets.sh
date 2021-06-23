@@ -6,6 +6,6 @@ source scripts/bin/vault.sh
 popd
 
 vault kv put cubbyhole/k8s \
-    pod-network-cidr="" \
-    machine-password="" \
-    cluster-ip="192.168.3.50"
+    POD_NETWORK_CIDR="" \
+    MACHINE_PASSWORD="" \
+    CLUSTER_IP="192.168.3.50"
