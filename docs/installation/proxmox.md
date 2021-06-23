@@ -1,4 +1,4 @@
-# Installing Proxmox
+# Install Proxmox
 
 The goal is to install the Kubernetes cluster on an Ubuntu Server VM. Although we could install the cluster on an Ubuntu server directly running on the physical machine, running the cluster in a VM enables backup/restores. In doing so, we will be able to backup/restore the entire VM, including the cluster, containers, and the container's drives.
 
