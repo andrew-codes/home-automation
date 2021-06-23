@@ -5,6 +5,6 @@ cd ../../
 source scripts/bin/vault.sh
 popd
 
-vault kv write cubbyhole/mqtt \
+vault kv put cubbyhole/mqtt \
     username="" \
     password=""

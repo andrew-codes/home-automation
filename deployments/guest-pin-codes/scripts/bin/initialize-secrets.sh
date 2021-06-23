@@ -5,7 +5,7 @@ cd ../../
 source scripts/bin/vault.sh
 popd
 
-vault kv write cubbyhole/guest-pin-codes \
+vault kv put cubbyhole/guest-pin-codes \
     google-calendar-id="" \
     google-private-key="" \
     google-service-account="" \

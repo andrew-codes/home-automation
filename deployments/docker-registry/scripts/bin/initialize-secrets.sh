@@ -5,7 +5,7 @@ cd ../../
 source scripts/bin/vault.sh
 popd
 
-vault kv write cubbyhole/docker-registry \
+vault kv put cubbyhole/docker-registry \
     username="" \
     password="" \
     email=""

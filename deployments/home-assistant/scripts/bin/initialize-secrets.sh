@@ -5,7 +5,7 @@ cd ../../
 source scripts/bin/vault.sh
 popd
 
-vault kv write cubbyhole/home-assistant \
+vault kv put cubbyhole/home-assistant \
     repo-private-ssh-key="" \
     home-automation-public-ssh-key= "" \
     home-automation-private-ssh-key= "" \
