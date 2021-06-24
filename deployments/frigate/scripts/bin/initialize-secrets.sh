@@ -6,5 +6,5 @@ source scripts/bin/vault.sh
 popd
 
 vault kv put cubbyhole/frigate \
-  front-door-rtsp="" \
-  car-port-rtsp=""
+  FRONT_DOOR_RTSP="" \
+  CAR_PORT_DOOR_RTSP=""

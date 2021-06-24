@@ -6,7 +6,7 @@ source scripts/bin/vault.sh
 popd
 
 vault kv put cubbyhole/alexa-shopping-list-skill \
-    dns-username="" \
-    dns-password="" \
-    dns-domain="" \
-    inlets-ip=""
+    DNS_USERNAME="" \
+    DNS_PASSWORD="" \
+    DNS_DOMAIN="" \
+    INLETS_IP=""

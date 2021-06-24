@@ -8,7 +8,7 @@ source .external-ports.env
 set +o allexport
 popd
 
-export GRAPHQL_API_TOKEN=$(vault kv get -format=json cubbyhole/graphql-api | jq .data.token | sed 's/"//g')
+export GRAPHQL_API_TOKEN=$(vault kv get -format=json cubbyhole/graphql-api | jq .data.TOKEN | sed 's/"//g')
 
 kubectl apply -f captive-portal.yml
 

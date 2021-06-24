@@ -15,4 +15,9 @@ cat >.secrets/ansible-secrets.yml <<EOL
 pod_network_cidr: "$POD_NETWORK_CIDR"
 EOL
 
+mkdir -p .secrets
+cat >./.secrets/flannel-pod-network-cidr.json <<EOL
+{"Network": "$POD_NETWORK_CIDR","Backend":{"Type":"vxlan"}}
+EOL
+
 ansible-playbook ./deploy.yml -i ./hosts.yml --extra-vars "ansible_become_pass='$MACHINE_PASSWORD'"

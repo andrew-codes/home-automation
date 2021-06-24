@@ -6,5 +6,5 @@ source scripts/bin/vault.sh
 popd
 
 vault kv put cubbyhole/mqtt \
-    username="" \
-    password=""
+    USERNAME="" \
+    PASSWORD=""

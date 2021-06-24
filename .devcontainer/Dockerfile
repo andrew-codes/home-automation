@@ -55,3 +55,4 @@ RUN wget https://github.com/mikefarah/yq/releases/download/v4.6.3/yq_linux_amd64
 RUN chmod +x /usr/bin/yq
 RUN mkdir -p /usr/local/bin
 RUN ln -s /usr/bin/gpg /usr/local/bin/gpg
+RUN mkdir -p /root/.kube

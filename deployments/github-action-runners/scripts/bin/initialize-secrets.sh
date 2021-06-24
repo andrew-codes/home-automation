@@ -6,6 +6,6 @@ source scripts/bin/vault.sh
 popd
 
 vault kv put cubbyhole/github-action-runners \
-    kube-config="$(cat ../k8s/.secrets/.kube/config)" \
-    github-token="" \
-    home-automation-private-ssh-key=""
+    KUBE_CONFIG="$(cat ../k8s/.secrets/.kube/config)" \
+    GITHUB_TOKEN="" \
+    HOME_AUTOMATION_PRIVATE_SSH_KEY=""

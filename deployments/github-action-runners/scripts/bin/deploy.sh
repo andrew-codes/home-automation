@@ -5,9 +5,9 @@ cd ../../
 source scripts/bin/vault.sh
 popd
 
-export KUBE_CONFIG=$(vault kv get -format=json cubbyhole/github-action-runners | jq .data.kube-config | sed 's/"//g')
-export GITHUB_TOKEN=$(vault kv get -format=json cubbyhole/github-action-runners | jq .data.github-token | sed 's/"//g')
-export HOME_AUTOMATION_PRIVATE_SSH_KEY=$(vault kv get -format=json cubbyhole/github-action-runners | jq .data.home-automation-private-ssh-key | sed 's/"//g')
+export KUBE_CONFIG=$(vault kv get -format=json cubbyhole/github-action-runners | jq .data.KUBE_CONFIG | sed 's/"//g')
+export GITHUB_TOKEN=$(vault kv get -format=json cubbyhole/github-action-runners | jq .data.GITHUB_TOKEN | sed 's/"//g')
+export HOME_AUTOMATION_PRIVATE_SSH_KEY=$(vault kv get -format=json cubbyhole/github-action-runners | jq .data.HOME_AUTOMATION_PRIVATE_SSH_KEY | sed 's/"//g')
 
 mkdir -p .secrets
 echo -n "$(

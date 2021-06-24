@@ -6,7 +6,7 @@ source scripts/bin/vault.sh
 popd
 
 vault kv put cubbyhole/docker-registry \
-    username="" \
-    password="" \
-    email="" \
-    machine-password=""
+    USERNAME="" \
+    PASSWORD="" \
+    EMAIL="" \
+    MACHINE_PASSWORD=""

@@ -6,8 +6,8 @@ source scripts/bin/vault.sh
 popd
 
 vault kv put cubbyhole/guest-pin-codes \
-    google-calendar-id="" \
-    google-private-key="" \
-    google-service-account="" \
-    guest-lock-entity-prefixes="" \
-    guest-lock-code-exclusions=""
+    GOOGLE_CALENDAR_ID="" \
+    GOOGLE_PRIVATE_KEY="" \
+    GOOGLE_SERVICE_ACCOUNT="" \
+    DOOR_LOCKS="" \
+    GUEST_LOCK_CODE_EXCLUSIONS=""

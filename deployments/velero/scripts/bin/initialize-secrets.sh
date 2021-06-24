@@ -6,10 +6,10 @@ source scripts/bin/vault.sh
 popd
 
 vault kv put cubbyhole/velero \
-    azure_blob_container="" \
-    azure_backup_resource_group="" \
-    azure_storage_account_id="" \
-    azure_backup_subscription_id="" \
-    azure_tenant_id="" \
-    azure_client_id="" \
-    azure_client_secret=""
+    AZURE_BLOB_CONTAINER="" \
+    AZURE_BACKUP_RESOURCE_GROUP="" \
+    AZURE_STORAGE_ACCOUNT_ID="" \
+    AZURE_BACKUP_SUBSCRIPTION_ID="" \
+    AZURE_TENANT_ID="" \
+    AZURE_CLIENT_ID="" \
+    AZURE_CLIENT_SECRET=""

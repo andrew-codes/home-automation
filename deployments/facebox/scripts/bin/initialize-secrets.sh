@@ -6,4 +6,4 @@ source scripts/bin/vault.sh
 popd
 
 vault kv put cubbyhole/facebox \
-    mb_key=""
+    MB_KEY=""
