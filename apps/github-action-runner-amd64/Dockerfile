@@ -17,16 +17,17 @@ RUN sudo apt-get install -y \
   nodejs \
   yarn \
   docker-ce \
+  jq \
   apt-transport-https gnupg2 kubectl \
   lxc ca-certificates iptables \
   software-properties-common ansible python3.8 python3-pip \
   etherwake
 RUN pip3 install "pywinrm>=0.3.0"
 RUN export KUBECONFIG=/home/runner/.kube/config
-RUN mkdir -p /home/runner/.docker
 RUN sudo yarn global add lerna
-RUN ansible-galaxy collection install ansible.windows
-RUN ansible-galaxy collection install community.windows
+RUN mkdir -p /home/runner/.docker
+RUN sudo ansible-galaxy collection install ansible.windows
+RUN sudo ansible-galaxy collection install community.windows
 RUN sudo wget https://github.com/containerd/containerd/releases/download/v1.4.3/containerd-1.4.3-linux-amd64.tar.gz
 RUN sudo mkdir -p containerd
 RUN sudo tar -xvf containerd-1.4.3-linux-amd64.tar.gz --directory containerd
