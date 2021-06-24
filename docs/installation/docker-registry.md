@@ -34,6 +34,6 @@ Point "docker-registry to the VM IP (192.168.3.4 or what is configured in `./.pr
 
 ```bash
 docker pull alpine:latest
-docker tag alpine:latest "docker-registry/alpine:latest"
-docker push "docker-registry/alpine:latest"
+docker tag alpine:latest "docker-registry:5000alpine:latest"
+docker push "docker-registry:5000alpine:latest"
 ```

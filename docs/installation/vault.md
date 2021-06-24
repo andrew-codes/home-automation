@@ -1,8 +1,10 @@
 # Vault
 
+[Vault](https://www.vaultproject.io/) is what is used to manage secrets for these applications.
+
 ## Provision Vault
 
-[Vault](https://www.vaultproject.io/) is what is used to manage secrets for these applications. It may be provisioned and deployed via the following:
+It may be provisioned and deployed via the following:
 
 ```sh
 yarn provision vault prod.env

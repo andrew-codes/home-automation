@@ -4,6 +4,6 @@
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
-    "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"$docker-registry/github-action-runner:latest\" --context dir:///workspace/ --insecure"
+    "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/github-action-runner:latest\" --context dir:///workspace/ --insecure"
   }
 }

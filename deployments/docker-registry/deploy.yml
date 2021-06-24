@@ -82,25 +82,11 @@
     - name: Remove container
       shell: docker container rm registry || true
 
-    - name: Auth directory
-      become_user: hl
-      become_method: sudo
-      become: yes
-      file:
-        path: /auth
-        state: directory
-
-    - name: Create creds
-      shell: docker run --rm --entrypoint htpasswd httpd:2 -Bbn "{{ username }}" "{{ password }}" >> /auth/htpasswd
-
     - name: Run registry as service
       shell: >
         docker run -d \
           --name registry \
           -v /mnt/registry:/var/lib/registry \
-          -e "REGISTRY_HTTP_ADDR=0.0.0.0:80" \
-          -e "REGISTRY_AUTH=htpasswd" \
-          -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \
-          -e "REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd" \
-          -p 80:80 \
+          -e "REGISTRY_HTTP_ADDR=0.0.0.0:5000" \
+          -p 5000:5000 \
           registry:2

@@ -19,7 +19,7 @@ spec:
         - name: regcred
       containers:
         - name: alexa-shopping-list-updater-skill
-          image: docker-registry/alexa-shopping-list-updater-skill:latest
+          image: docker-registry:5000alexa-shopping-list-updater-skill:latest
           imagePullPolicy: Always
           ports:
             - name: alexa-http

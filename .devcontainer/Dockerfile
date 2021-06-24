@@ -1,5 +1,6 @@
 FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND=noninteractive
+USER root
 
 RUN apt update -y
 RUN apt-get install -y \
@@ -56,3 +57,9 @@ RUN chmod +x /usr/bin/yq
 RUN mkdir -p /usr/local/bin
 RUN ln -s /usr/bin/gpg /usr/local/bin/gpg
 RUN mkdir -p /root/.kube
+
+ADD ./wrapdocker.sh /usr/local/bin/wrapdocker.sh
+RUN chmod +x /usr/local/bin/wrapdocker.sh
+VOLUME /var/lib/docker
+RUN mkdir -p /etc/docker
+RUN echo '{ "exec-opts": [], "insecure-registries": ["docker-registry"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' > /etc/docker/daemon.json

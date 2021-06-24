@@ -37,6 +37,12 @@ yarn initialize-secrets --scope @ha/github-action-runners
 
 > Set secrets via the Vault UI.
 
+### Build Image
+
+```bash
+yarn image/push --scope @ha/github-action-runner-amd64
+```
+
 ### Deploy
 
 ```bash

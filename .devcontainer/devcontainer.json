@@ -28,9 +28,10 @@
   "forwardPorts": [],
 
   "mounts": [
-    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+    // "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
     "source=${localWorkspaceFolder}/deployments/k8s/.secrets/.kube,target=/root/.kube,type=bind"
   ],
 
-  "postCreateCommand": "yarn install"
+  "postCreateCommand": "wrapdocker.sh && yarn install",
+  "runArgs": ["--privileged"]
 }

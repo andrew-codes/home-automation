@@ -11,7 +11,7 @@ spec:
   dockerdWithinRunnerContainer: false
   imagePullSecrets:
     - name: regcred
-  image: docker-registry/github-action-runner:latest
+  image: docker-registry:5000github-action-runner:latest
   imagePullPolicy: Always
   resources:
     limits:
@@ -58,7 +58,7 @@ spec:
   dockerdWithinRunnerContainer: false
   imagePullSecrets:
     - name: regcred
-  image: docker-registry/github-action-runner:latest
+  image: docker-registry:5000github-action-runner:latest
   imagePullPolicy: Always
   resources:
     limits:
