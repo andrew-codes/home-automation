@@ -150,7 +150,7 @@
         remote_src: yes
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"
-        mode: "0600"
+        mode: 0600
 
     - pause: seconds=10
 
@@ -167,21 +167,21 @@
         src: ./src/flannel.yml
         dest: /home/{{ ansible_user }}/flannel.yml
         owner: root
-        mode: "0644"
+        mode: 0644
     
     - name: Copy flannel network config
       copy:
         src: ./src/flannel-network-config.yml
         dest: /home/{{ ansible_user }}/flannel-network-config.yml
         owner: root
-        mode: "0644"
+        mode: 0644
     
     - name: Copy flannel network config value
       copy:
         src: ./.secrets/flannel-pod-network-cidr.json
         dest: /home/{{ ansible_user }}/flannel-pod-network-cidr.json
         owner: root
-        mode: "0644"
+        mode: 0644
 
     - name: Update flannel network config
       shell: NET_JSON=$(cat /home/{{ ansible_user }}/flannel-pod-network-cidr.json) yq eval -i '.data."net-conf.json" =strenv(NET_JSON)' /home/{{ ansible_user }}/flannel-network-config.yml
