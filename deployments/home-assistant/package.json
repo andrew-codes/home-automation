@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@ha/docker-registry-creds": "^0.0.1",
-    "@ha/home-assistant-config-applicator": "^0.0.1",
+    "@ha/home-assistant-app": "^0.0.1",
     "@ha/home-automation-namespace": "^0.0.1",
     "@ha/mqtt": "^0.0.1"
   }

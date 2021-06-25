@@ -53,30 +53,15 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       imagePullSecrets:
         - name: regcred
-      initContainers:
-        - name: home-assistant-config-applicator
-          image: docker-registry:5000/home-assistant-config-applicator:latest
-          imagePullPolicy: Always
-          env:
-            - name: GIT_BRANCH
-            - name: REPOSITORY
-              value: "git@github.com:andrew-codes/home-automation.git"
-            - name: CHECKOUT_PATH
-              value: k8s/home-assistant/home-assistant-config
-          volumeMounts:
-            - name: home-assistant-config-volume
-              mountPath: /config
-            - name: ssh-secrets-volume
-              mountPath: /root/.ssh/id_rsa
       containers:
         - name: home-assistant
-          image: homeassistant/home-assistant:2021.6.3
+          image: docker-registry:5000/home-assistant:latest
           imagePullPolicy: Always
           command:
             - "sh"
           args:
             - "-c"
-            - "hass --config /home-automation/k8s/home-assistant/home-assistant-config"
+            - "hass --config /root/config"
           ports:
             - name: api
               containerPort: 8123
@@ -108,7 +93,7 @@ spec:
             - name: home-assistant-config-volume
               mountPath: /home-automation
             - name: ha-secrets-volume
-              mountPath: /home-automation/k8s/home-assistant/home-assistant-config/secrets.yaml
+              mountPath: /root/config/secrets.yaml
             - name: home-automation-ssh
               mountPath: /root/.ssh/id_rsa.pub
               subPath: pub
@@ -126,7 +111,7 @@ spec:
             - sh
           args:
             - "-c"
-            - "ln -s /home-automation/k8s/home-assistant/home-assistant-config/appdaemon.yaml /conf/appdaemon.yaml && ln -s /home-automation/k8s/home-assistant/home-assistant-config/apps /conf/apps && ln -s /home-automation/k8s/home-assistant/home-assistant-config/dashboards /conf/dashboards && ./dockerStart.sh"
+            - "ln -s /root/config/appdaemon.yaml /conf/appdaemon.yaml && ln -s /root/config/apps /conf/apps && ln -s /root/config/dashboards /conf/dashboards && ./dockerStart.sh"
           ports:
             - name: appdaemon
               containerPort: 5050
