@@ -1,6 +1,6 @@
 # Home Assistant Configuration
 
-The Home Assistant [configuration directory](https://www.home-assistant.io/docs/configuration/) is located in the `./k8s/home-assistant/home-assistant-config` directory. The configuration files are committed and versioned in git.
+The Home Assistant [configuration directory](https://www.home-assistant.io/docs/configuration/) is located in the `./apps/home-assistant/src` directory. The configuration files are committed and versioned in git.
 
 A recommended, basic configuration to start with is:
 
@@ -30,11 +30,3 @@ homeassistant:
 frontend:
   themes: !include_dir_merge_named themes
 ```
-
-## Deploying Configuration
-
-Although you can deploy Home Assistant, the configuration directory is not deployed from your local box. Instead, on deployment, it is pulled from your git repository (`$HOME_ASSISTANT_REPO_URL`).
-
-## Next Steps
-
-Update your configuration, commit and push to master. The changes should be automatically deployed by the [local GitHub action runner](./../../../docs/04-installation-github-actions.md).

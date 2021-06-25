@@ -15,3 +15,7 @@ Instead, we can run an application locally and have it think it is running in th
 1. Editing an app's code will auto-restart the application
 
 > See the read me of each app for more details on ports, etc.
+
+## Clean up
+
+Once done developing, run `yarn start/cleanup` to clean up telepresence.

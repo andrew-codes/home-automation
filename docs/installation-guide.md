@@ -11,3 +11,4 @@
 1. [SSL via Let's Encrypt](./installation/lets-encrypt.md)
 1. [Backups via Velero](./installation/velero.md)
 1. [Enable Automated Deploys via GitHub Actions](./installation/github-actions.md)
+1. [Install application(s)](./installation/applications.md)
