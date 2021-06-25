@@ -10,15 +10,14 @@ export GITHUB_TOKEN=$(vault kv get -format=json cubbyhole/github-action-runners 
 export HOME_AUTOMATION_PRIVATE_SSH_KEY=$(vault kv get -format=json cubbyhole/github-action-runners | jq .data.HOME_AUTOMATION_PRIVATE_SSH_KEY | sed 's/"//g')
 
 mkdir -p .secrets
-echo -n "$(
-  cat <<EOL
+cat <<EOL >.secrets/config-maps.yml
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: kube-config
   namespace: actions-runner-system
-data: |
-  $KUBE_CONFIG
+data:
+  value: "$KUBE_CONFIG"
 
 ---
 apiVersion: v1
@@ -26,12 +25,9 @@ kind: ConfigMap
 metadata:
   name: home-automation-private-key
   namespace: actions-runner-system
-data: |
-  $HOME_AUTOMATION_PRIVATE_SSH_KEY
-
----
+data:
+  value: "$HOME_AUTOMATION_PRIVATE_SSH_KEY"
 EOL
-)" >>.secrets/config-maps.yml
 
 kubectl apply -f namespace.yml
 kubectl apply -f .secrets/config-maps.yml

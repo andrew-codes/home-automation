@@ -24,8 +24,10 @@ spec:
   volumeMounts:
     - name: kubectl-config-volume
       mountPath: /home/runner/.kube/config
+      subPath: value
     - name: ssh-volume
       mountPath: /home/runner/.ssh/id_rsa
+      subPath: value
   volumes:
     - name: kubectl-config-volume
       configMap:
@@ -71,8 +73,10 @@ spec:
   volumeMounts:
     - name: kubectl-config-volume
       mountPath: /home/runner/.kube/config
+      subPath: value
     - name: ssh-volume
       mountPath: /home/runner/.ssh/id_rsa
+      subPath: value
   volumes:
     - name: kubectl-config-volume
       configMap:
