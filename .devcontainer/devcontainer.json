@@ -28,8 +28,8 @@
   "forwardPorts": [],
 
   "mounts": [
-    // "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
-    "source=${localWorkspaceFolder}/deployments/k8s/.secrets/.kube,target=/root/.kube,type=bind"
+    "source=${localWorkspaceFolder}/deployments/k8s/.secrets/.kube,target=/root/.kube,type=bind",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/root/.gitconfig,type=bind"
   ],
 
   "postCreateCommand": "wrapdocker.sh && yarn install",
