@@ -7,7 +7,7 @@
   connection: ssh
   remote_user: hl
   vars_files:
-    - ./.secrets/ansible_secrets.yml
+    - .secrets/ansible-secrets.yml
 
   tasks:
     - name: Install Velero CLI
