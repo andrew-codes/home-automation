@@ -4,11 +4,6 @@ When developing applications, it is useful to have them running locally to test.
 
 Instead, we can run an application locally and have it think it is running in the real cluster. All communication with other cluster apps/services will be proxied to the real cluster. This means that not only will apps run locally, but you will be testing with actual, real data, too.
 
-## Prerequisite Software
-
-- [docker](https://docs.docker.com/get-docker/)
-- [telepresence](https://www.telepresence.io/reference/install)
-
 ## Running Applications Locally
 
 > This assumes, and **only works**, with a working **deployed cluster**. Be sure to follow the [installation guide](./installation-guide.md) first.

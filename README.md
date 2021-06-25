@@ -4,8 +4,8 @@ This mono-repo consists of several applications and services I use to create my 
 
 ## Topics
 
+1. [Code, Architecture, and Deployment Overview](./docs/overview.md)
 1. [Installation guide](./docs/installation-guide.md)
-1. [Viewing the Kubernetes dashboard](./docs/kubernetes-dashboard.md)
 1. [Kubernetes cluster backup and restore](./docs/kubernetes-backup-and-restore.md)
 1. [Testing/running apps/services locally](./docs/testing-apps-locally.md)
 
@@ -24,7 +24,3 @@ Application documentation is within its deployment configuration in the `./k8s/*
 
 - [Burning Installation Images to USB](./packages/image/README.md)
 - [Automating the Addition of Github Secrets](./packages/github-secrets/README.md)
-
-## Automations
-
-See a [list of automations](./docs/automations.md) for regression testing purposes.
