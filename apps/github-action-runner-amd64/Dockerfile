@@ -25,7 +25,7 @@ RUN sudo apt-get install -y \
   gettext-base
 RUN pip3 install "pywinrm>=0.3.0"
 RUN export KUBECONFIG=/home/runner/.kube/config
-RUN sudo yarn global add lerna
+RUN yarn global add lerna
 RUN mkdir -p /home/runner/.docker
 RUN sudo ansible-galaxy collection install ansible.windows
 RUN sudo ansible-galaxy collection install community.windows
