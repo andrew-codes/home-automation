@@ -8,6 +8,7 @@
 1. [Deploy Docker Registry](./installation/docker-registry.md)
 1. [Deploy Kubernetes Cluster](./installation/kubernetes.md)
 1. [Enable Automated Deploys via GitHub Actions](./installation/github-actions.md)
+1. [Deploy Inlets](./installation/inlets.md)
 1. [SSL via Let's Encrypt](./installation/lets-encrypt.md)
 
 ---

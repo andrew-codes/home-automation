@@ -18,9 +18,7 @@ cat >.secrets/ansible-secrets.yml <<EOL
 ---
 azure_inlets_subscription_id: $SUBSCRIPTION_ID
 EOL
-
-cat >.secrets/inlets-pro.license=$INLETS_PRO_LICENSE
-
+echo -n $INLETS_PRO_LICENSE >.secrets/inlets-pro.license
 cat >.secrets/azure-cloud-credentials.json <<EOL
 {
     "clientId": "$CLIENT_ID",
