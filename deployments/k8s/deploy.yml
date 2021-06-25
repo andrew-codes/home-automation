@@ -54,7 +54,7 @@
         enabled: yes
 
     - name: Setup docker daemon config.
-      shell: "echo '{ \"exec-opts\": [\"native.cgroupdriver=systemd\"], \"insecure-registries\": [\"docker-registry\"], \"log-driver\": \"json-file\", \"log-opts\": {\"max-size\": \"10m\", \"max-file\": \"3\"} }' > /etc/docker/daemon.json"
+      shell: "echo '{ \"exec-opts\": [\"native.cgroupdriver=systemd\"], \"insecure-registries\": [\"docker-registry:5000\"], \"log-driver\": \"json-file\", \"log-opts\": {\"max-size\": \"10m\", \"max-file\": \"3\"} }' > /etc/docker/daemon.json"
 
     - name: Restart docker.
       command: "{{ item }}"
@@ -98,6 +98,12 @@
       service:
         name: kubelet
         enabled: yes
+
+    - name: Set resolution of docker-registry
+      become_user: root
+      become_method: sudo
+      become: yes
+      shell: echo "{{ docker-ip }}" docker-registry >> /etc/hosts
 
     # - name: Reboot all the kubernetes nodes.
     #   reboot:
