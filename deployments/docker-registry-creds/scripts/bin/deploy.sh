@@ -8,4 +8,4 @@ export USERNAME=$(vault kv get -format=json cubbyhole/docker-registry | jq .data
 export PASSWORD=$(vault kv get -format=json cubbyhole/docker-registry | jq .data.PASSWORD | sed 's/"//g')
 export EMAIL=$(vault kv get -format=json cubbyhole/docker-registry | jq .data.EMAIL | sed 's/"//g')
 
-kubectl create secret docker-registry regcred --docker-username="$USERNAME" --docker-password="$PASSWORD" --docker-email="$EMAIL" --docker-server="docker-registry"
+kubectl create secret docker-registry regcred --docker-username="$USERNAME" --docker-password="$PASSWORD" --docker-email="$EMAIL" --docker-server="docker-registry" || true
