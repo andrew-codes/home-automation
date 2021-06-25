@@ -11,7 +11,7 @@ spec:
   dockerdWithinRunnerContainer: false
   imagePullSecrets:
     - name: regcred
-  image: docker-registry:5000github-action-runner:latest
+  image: docker-registry:5000/github-action-runner:latest
   imagePullPolicy: Always
   resources:
     limits:
@@ -24,8 +24,10 @@ spec:
   volumeMounts:
     - name: kubectl-config-volume
       mountPath: /home/runner/.kube/config
+      subPath: value
     - name: ssh-volume
       mountPath: /home/runner/.ssh/id_rsa
+      subPath: value
   volumes:
     - name: kubectl-config-volume
       configMap:
@@ -33,7 +35,7 @@ spec:
     - name: ssh-volume
       configMap:
         name: home-automation-private-key
-        defaultMode: "0600"
+        defaultMode: 0600
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -58,7 +60,7 @@ spec:
   dockerdWithinRunnerContainer: false
   imagePullSecrets:
     - name: regcred
-  image: docker-registry:5000github-action-runner:latest
+  image: docker-registry:5000/github-action-runner:latest
   imagePullPolicy: Always
   resources:
     limits:
@@ -71,8 +73,10 @@ spec:
   volumeMounts:
     - name: kubectl-config-volume
       mountPath: /home/runner/.kube/config
+      subPath: value
     - name: ssh-volume
       mountPath: /home/runner/.ssh/id_rsa
+      subPath: value
   volumes:
     - name: kubectl-config-volume
       configMap:
@@ -80,7 +84,7 @@ spec:
     - name: ssh-volume
       configMap:
         name: home-automation-private-key
-        defaultMode: "0600"
+        defaultMode: 0600
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:

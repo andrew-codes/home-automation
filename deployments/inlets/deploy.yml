@@ -7,7 +7,7 @@
   connection: ssh
   remote_user: hl
   vars_files:
-    - ../../../.secrets/ansible_secrets.yml
+    - .secrets/ansible-secrets.yml
 
   tasks:
     - name: Install Arkade
@@ -27,14 +27,14 @@
         src: ./.secrets/azure-cloud-credentials.json
         dest: /home/{{ ansible_user }}/secrets/azure-cloud-credentials.json
         owner: hl
-        mode: "0644"
+        mode: 0644
 
     - name: Copy inlets license
       copy:
         src: ./.secrets/inlets-pro.license
         dest: /home/{{ ansible_user }}/secrets/inlets-pro.license
         owner: hl
-        mode: "0644"
+        mode: 0644
 
     - name: Inlets for Azure
       become_user: hl
