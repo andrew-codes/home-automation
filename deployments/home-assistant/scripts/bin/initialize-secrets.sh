@@ -6,7 +6,6 @@ source scripts/bin/vault.sh
 popd
 
 vault kv put cubbyhole/home-assistant \
-    REPO_PRIVATE_SSH_KEY="" \
     HOME_AUTOMATION_PUBLIC_SSH_KEY= "" \
     HOME_AUTOMATION_PRIVATE_SSH_KEY= "" \
     HOME_ASSISTANT_DNS_USERNAME="" \

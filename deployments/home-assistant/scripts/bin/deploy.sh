@@ -5,7 +5,6 @@ cd ../../
 source scripts/bin/vault.sh
 popd
 
-export REPO_PRIVATE_SSH_KEY=$(vault kv get -format=json cubbyhole/home-assistant | jq .data.REPO_PRIVATE_SSH_KEY | sed 's/"//g')
 export HOME_AUTOMATION_PUBLIC_SSH_KEY=$(vault kv get -format=json cubbyhole/home-assistant | jq .data.HOME_AUTOMATION_PUBLIC_SSH_KEY | sed 's/"//g')
 export HOME_AUTOMATION_PRIVATE_SSH_KEY=$(vault kv get -format=json cubbyhole/home-assistant | jq .data.HOME_AUTOMATION_PRIVATE_SSH_SSH | sed 's/"//g')
 export LATITUDE=$(vault kv get -format=json cubbyhole/home-assistant | jq .data.LATITUDE | sed 's/"//g')
@@ -104,15 +103,6 @@ EOL
 mkdir -p .secrets
 echo -n "$(
     cat <<EOL
-apiVersion: v1
-kind: ConfigMap
-metadata:
-name: repo-private-ssh-key
-namespace: home-automation
-data: |
-    $REPO_PRIVATE_SSH_KEY
-
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
