@@ -5,6 +5,6 @@
   "license": "MIT",
   "scripts": {
     "deploy": "scripts/bin/deploy.sh",
-    "intialize-secrets": "scripts/bin/initialize-secrets.sh"
+    "initialize-secrets": "scripts/bin/initialize-secrets.sh"
   }
 }

@@ -40,7 +40,8 @@ RUN apt-get install -y \
     iptables \
     ansible \
     python3.8 \
-    python3-pip
+    python3-pip \
+    gettext-base
 RUN apt install -y --no-install-recommends telepresence
 RUN setcap cap_ipc_lock= /usr/bin/vault
 
