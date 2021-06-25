@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "compile": "ncc build src/index.ts -o dist -m",
-    "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000alexa-shopping-list-updater-skill:latest\" --context dir:///workspace/ --insecure --cache=true",
+    "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/alexa-shopping-list-updater-skill:latest\" --context dir:///workspace/ --insecure --cache=true",
     "start": "scripts/bin/start.sh",
     "start/dev": "nodemon src/index.ts --inspect=0.0.0.0:9233"
   },
