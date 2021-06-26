@@ -1,6 +1,6 @@
 rest_command:
   update_valheim_ddns:
-    url: !secret valheim_ddns_rest_url
+    url: !secret valheim_ddns_rest_command
 
 automation:
   - alias: Update Valheim DNS

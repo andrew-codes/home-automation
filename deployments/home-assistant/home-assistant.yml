@@ -53,9 +53,10 @@ data:
     {{ end }}
     {{ with secret "kv/home-assistant" }}
     turn_off_gaming_room_gaming_pc_command: ssh -n -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa {{ .Data.GAMING_ROOM_MACHINE_USERNAME }}@{{ .Data.GAMING_ROOM_GAMING_PC_IP }} "C:\Windows\System32\rundll32.exe powrprof.dll,SetSuspendState Standby"
-    valheim_ddns_rest_url: "https://{{ .Data.VALHEIM_GOOGLE_DOMAIN_USERNAME }}:{{ .Data.VALHEIM_GOOGLE_DOMAIN_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.VALHEIM_DOMAIN }}"
+    valheim_ddns_rest_command: curl -X POST "https://{{ .Data.VALHEIM_GOOGLE_DOMAIN_USERNAME }}:{{ .Data.VALHEIM_GOOGLE_DOMAIN_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.VALHEIM_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"
     github_authorization_header: "Bearer {{ .Data.GITHUB_ISSUES_TOKEN }}"
-    update_vpn_dns_command: curl -X POST "https://{{ .Data.VPN_DNS_USERNAME }}:{{ .Data.VPN_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.VPN_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"
+    vpn_ddns_rest_command: curl -X POST "https://{{ .Data.VPN_DNS_USERNAME }}:{{ .Data.VPN_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.VPN_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"
+    ha_ddns_rest_command: curl -X POST "https://{{ .Data.HOME_ASSISTANT_DNS_USERNAME }}:{{ .Data.HOME_ASSISTANT_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.HOME_ASSISTANT_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"
     {{ end }}
 
 ---

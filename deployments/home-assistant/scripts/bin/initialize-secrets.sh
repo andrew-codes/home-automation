@@ -17,6 +17,9 @@ vault kv put kv/home-assistant \
     ELEVATION="" \
     TIME_ZONE="" \
     UNIT_SYSTEM="" \
+    HA_DOMAIN="" \
+    HA_DNS_USERNAME="" \
+    HA_DNS_PASSWORD="" \
     HA_URL="" \
     HA_TOKEN="" \
     APPDAEMON_URL="" \
@@ -30,7 +33,6 @@ vault kv put kv/home-assistant \
     GAMING_ROOM_GAMING_PC_MAC="" \
     GAMING_ROOM_GAMING_PC_IP="" \
     ROUTER_IP="" \
-    TURN_OFF_GAMING_ROOM_GAMING_PC_COMMAND="" \
     GAMING_ROOM_PLAYSTATION_5_IP="" \
     MS_TEAMS_STATUS_ACTIVE_WEBHOOK_ID="" \
     MS_TEAMS_STATUS_BUSY_WEBHOOK_ID="" \
