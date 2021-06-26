@@ -2,9 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mqtt
-  namespace: home-automation
+  namespace: default
   labels:
-    app: home-automation
+    app: app
 spec:
   type: NodePort
   ports:
@@ -16,4 +16,4 @@ spec:
       port: 9001
       targetPort: web-socket
   selector:
-    app: home-automation
+    app: app
