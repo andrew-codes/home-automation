@@ -26,7 +26,7 @@ metadata:
 data:
   set_credentials.sh: |
     #!/usr/bin env sh
-    echo -n "$MQTT_USERNAME:$MQTT_PASSWORD" > /mosquitto/passwd
+    echo -n "$USERNAME:$PASSWORD" > /mosquitto/passwd
     mosquitto_passwd -U /mosquitto/passwd
 
 ---
