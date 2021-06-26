@@ -1,2 +1,3 @@
 FROM homeassistant/home-assistant:2021.6.3
-COPY src/ /root/config
+RUN mkdir -p /root/config
+COPY ./src/ /root/config

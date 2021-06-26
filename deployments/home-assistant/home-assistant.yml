@@ -38,26 +38,10 @@ metadata:
 data:
   set_ssh_keys.sh: |
     #!/usr/bin env sh
+    mkdir -p /root/.ssh
     echo -n "$HOME_AUTOMATION_PRIVATE_SSH_KEY" > /root/.ssh/id_rsa
     echo -n "$HOME_AUTOMATION_PUBLIC_SSH_KEY" > /root/.ssh/id_rsa.pub
     chmod 0600 /root/.ssh/*
-  secrets.yaml: |
-    {{ with secret "kv/home-assistant" }}
-        {{ range $k, $v := .Data }}
-    {{ $k }}="{{ $v }}"
-        {{ end }}
-    {{ end }}
-    {{ with secret "kv/mqtt" }}
-    MQTT_USERNAME="{{ .Data.USERNAME }}"
-    MQTT_PASSWORD="{{ .Data.PASSWORD }}"
-    {{ end }}
-    {{ with secret "kv/home-assistant" }}
-    turn_off_gaming_room_gaming_pc_command: ssh -n -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa {{ .Data.GAMING_ROOM_MACHINE_USERNAME }}@{{ .Data.GAMING_ROOM_GAMING_PC_IP }} "C:\Windows\System32\rundll32.exe powrprof.dll,SetSuspendState Standby"
-    valheim_ddns_rest_command: curl -X POST "https://{{ .Data.VALHEIM_GOOGLE_DOMAIN_USERNAME }}:{{ .Data.VALHEIM_GOOGLE_DOMAIN_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.VALHEIM_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"
-    github_authorization_header: "Bearer {{ .Data.GITHUB_ISSUES_TOKEN }}"
-    vpn_ddns_rest_command: curl -X POST "https://{{ .Data.VPN_DNS_USERNAME }}:{{ .Data.VPN_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.VPN_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"
-    ha_ddns_rest_command: curl -X POST "https://{{ .Data.HOME_ASSISTANT_DNS_USERNAME }}:{{ .Data.HOME_ASSISTANT_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.HOME_ASSISTANT_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"
-    {{ end }}
 
 ---
 apiVersion: apps/v1
@@ -65,7 +49,8 @@ kind: Deployment
 metadata:
   name: home-assistant
   namespace: default
-  labels:
+  labels:    
+    app: app
     app.kubernetes.io/name: home-assistant
 spec:
   replicas: 1
@@ -73,21 +58,38 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      app.kubernetes.io/name: home-assistant
+      app: app
   template:
     metadata:
       labels:
+        app: app
         app.kubernetes.io/name: home-assistant
       annotations:
         vault.hashicorp.com/agent-inject: 'true'
         vault.hashicorp.com/role: 'app'
-        vault.hashicorp.com/agent-configmap: 'secrets'
         vault.hashicorp.com/agent-inject-secret-env.sh: 'kv/home-assistant'
         vault.hashicorp.com/agent-inject-template-env.sh: |
-          {{ with secret "kv/mqtt" }}
+          {{ with secret "kv/home-assistant" }}
+          export HOME_AUTOMATION_PRIVATE_SSH_KEY="{{ .Data.HOME_AUTOMATION_PRIVATE_SSH_KEY }}"
+          export HOME_AUTOMATION_PUBLIC_SSH_KEY="{{ .Data.HOME_AUTOMATION_PUBLIC_SSH_KEY }}"
+          {{ end }}
+        vault.hashicorp.com/agent-inject-secret-secrets.yaml: 'kv/home-assistant'
+        vault.hashicorp.com/agent-inject-template-secrets.yaml: |
+          {{ with secret "kv/home-assistant" }}
               {{ range $k, $v := .Data }}
-          export {{ $k }}="{{ $v }}"
+          {{ $k }}="{{ $v }}"
               {{ end }}
+          {{ end }}
+          {{ with secret "kv/mqtt" }}
+          MQTT_USERNAME="{{ .Data.USERNAME }}"
+          MQTT_PASSWORD="{{ .Data.PASSWORD }}"
+          {{ end }}
+          {{ with secret "kv/home-assistant" }}
+          turn_off_gaming_room_gaming_pc_command: ssh -n -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa {{ .Data.GAMING_ROOM_MACHINE_USERNAME }}@{{ .Data.GAMING_ROOM_GAMING_PC_IP }} "C:\Windows\System32\rundll32.exe powrprof.dll,SetSuspendState Standby"
+          valheim_ddns_rest_command: curl -X POST "https://{{ .Data.VALHEIM_GOOGLE_DOMAIN_USERNAME }}:{{ .Data.VALHEIM_GOOGLE_DOMAIN_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.VALHEIM_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"
+          github_authorization_header: "Bearer {{ .Data.GITHUB_ISSUES_TOKEN }}"
+          vpn_ddns_rest_command: curl -X POST "https://{{ .Data.VPN_DNS_USERNAME }}:{{ .Data.VPN_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.VPN_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"
+          ha_ddns_rest_command: curl -X POST "https://{{ .Data.HOME_ASSISTANT_DNS_USERNAME }}:{{ .Data.HOME_ASSISTANT_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.HOME_ASSISTANT_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"
           {{ end }}
     spec:
       serviceAccountName: app
@@ -103,7 +105,7 @@ spec:
             - "sh"
           args:
             - "-c"
-            - "hass --config /root/config"
+            - "source /vault/secrets/env.sh && source /root/set_ssh_keys.sh && cp /vault/secrets/secrets.yaml /root/config/ && hass --config /root/config"
           ports:
             - name: api
               containerPort: 8123
