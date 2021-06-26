@@ -16,24 +16,24 @@ logger:
   default: info
 
 homeassistant:
-  external_url: !secret ha_url
-  internal_url: !secret ha_url
-  time_zone: !secret time_zone
-  latitude: !secret latitude
-  longitude: !secret longitude
-  unit_system: !secret unit_system
+  external_url: !secret HA_URL
+  internal_url: !secret HA_URL
+  time_zone: !secret TIME_ZONE
+  latitude: !secret LATITUDE
+  longitude: !secret LONGITUDE
+  unit_system: !secret UNIT_SYSTEM
   packages: !include_dir_named packages
 frontend:
   themes: !include_dir_merge_named themes
 
 mqtt:
   broker: mqtt
-  username: !secret mqtt_username
-  password: !secret mqtt_password
+  username: !secret MQTT_USERNAME
+  password: !secret MQTT_PASSWORD
 
 google:
-  client_id: !secret google_calendar_client_id
-  client_secret: !secret google_calendar_client_secret
+  client_id: !secret GOOGLE_CALENDAR_CLIENT_ID
+  client_secret: !secret GOOGLE_CALENDAR_CLIENT_SECRET
 
 http:
   use_x_forwarded_for: true
@@ -41,12 +41,12 @@ http:
     - 192.168.100.0/24
 
 spotify:
-  client_id: !secret spotify_client_id
-  client_secret: !secret spotify_client_secret
+  client_id: !secret SPOTIFY_CLIENT_ID
+  client_secret: !secret SPOTIFY_CLIENT_SECRET
 spotcast:
-  sp_dc: !secret spotcast_dc
-  sp_key: !secret spotcast_key
+  sp_dc: !secret SPOTCAST_DC
+  sp_key: !secret SPOTCAST_KEY
   accounts:
     secondary:
-      sp_dc: !secret spotcast_dc_2
-      sp_key: !secret spotcast_key_2
+      sp_dc: !secret SPOTCAST_DC_2
+      sp_key: !secret SPOTCAST_KEY_2

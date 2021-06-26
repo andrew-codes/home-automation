@@ -2,11 +2,11 @@ wake_on_lan:
 
 webostv:
   name: Gaming Room TV
-  host: !secret gaming_room_tv_ip
+  host: !secret GAMING_ROOM_TV_IP
   turn_on_action:
     service: wake_on_lan.send_magic_packet
     data:
-      mac: !secret gaming_room_tv_mac
+      mac: !secret GAMING_ROOM_TV_MAC
 
 input_boolean:
   gaming_room_nintendo_switch_power_state:
@@ -17,7 +17,7 @@ input_boolean:
 binary_sensor:
   - name: Gaming Room Gaming PC Power State
     platform: ping
-    host: !secret gaming_room_gaming_pc_ip
+    host: !secret GAMING_ROOM_GAMING_PC_IP
     scan_interval: 20
 
 sensor:
@@ -31,8 +31,8 @@ script:
     sequence:
       - service: wake_on_lan.send_magic_packet
         data:
-          mac: !secret gaming_room_gaming_pc_mac
-          broadcast_address: !secret gaming_room_gaming_pc_ip
+          mac: !secret GAMING_ROOM_GAMING_PC_MAC
+          broadcast_address: !secret GAMING_ROOM_GAMING_PC_IP
   gaming_room_turn_off_gaming_pc:
     sequence:
       - service: shell_command.turn_off_gaming_room_gaming_pc
@@ -52,7 +52,7 @@ script:
           entity_id: media_player.gaming_room_tv
 
 shell_command:
-  turn_off_gaming_room_gaming_pc: !secret turn_off_gaming_room_gaming_pc_command
+  turn_off_gaming_room_gaming_pc: !secret TURN_OFF_GAMING_ROOM_GAMING_PC_COMMAND
 
 media_player:
     # This is the primary media player for automations.
@@ -116,7 +116,7 @@ media_player:
 
   - name: Gaming Room NVIDIA Shield Pro
     platform: androidtv
-    host: !secret gaming_room_nvidia_shield_ip
+    host: !secret GAMING_ROOM_NVIDIA_SHIELD_IP
     exclude_unnamed_apps: true
     apps:
       com.amazon.amazonvideo.livingroom: Prime
@@ -518,7 +518,7 @@ automation:
       - service: mqtt.publish
         data:
           topic: "/ps5/state/request"
-          payload: !secret gaming_room_playstation_5_ip
+          payload: !secret GAMING_ROOM_PLAYSTATION_5_IP
 
   - alias: Turning on PS5 starts unknown game
     trigger:

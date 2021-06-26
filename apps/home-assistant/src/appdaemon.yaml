@@ -1,20 +1,20 @@
 appdaemon:
-  time_zone: !secret time_zone
-  latitude: !secret latitude
-  longitude: !secret longitude
-  elevation: !secret elevation
+  time_zone: !secret TIME_ZONE
+  latitude: !secret LATITUDE
+  longitude: !secret LONGITUDE
+  elevation: !secret ELEVATION
   plugins:
     HASS:
       type: hass
-      ha_url: !secret ha_url
-      token: !secret ha_token
+      ha_url: !secret HA_URL
+      token: !secret HA_TOKEN
     MQTT:
       type: mqtt
       namespace: mqtt
       verbose: True
       client_host: mqtt
-      client_user: !secret mqtt_username
-      client_password: !secret mqtt_password
+      client_user: !secret MQTT_USERNAME
+      client_password: !secret MQTT_PASSWORD
       client_qos: 2
       birth_topic: /appdaemon/birth
       event_name: MQTT_MESSAGE
@@ -23,7 +23,7 @@ appdaemon:
           - /homeassistant/guest/track-other-device
 
 http:
-  url: !secret appdaemon_url
-  password: !secret appdaemon_password
+  url: !secret APPDAEMON_URL
+  password: !secret APPDAEMON_PASSWORD
 admin:
 api:

@@ -1,5 +1,5 @@
 shell_command:
-  update_vpn_dns: !secret vpn_ddns_rest_command
+  update_vpn_dns: !secret VPN_DDNS_REST_COMMAND
 
 automation:
   - alias: Update VPN DNS

@@ -1,5 +1,5 @@
 shell_command:
-  update_vpn_dns: !secret ha_ddns_rest_command
+  update_vpn_dns: !secret HA_DDNS_REST_COMMAND
 
 automation:
   - alias: Update Home Assistant DNS
