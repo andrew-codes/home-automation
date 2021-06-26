@@ -3,7 +3,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: home-assistant-pv-volume
-  namespace: home-automation
+  namespace: default
   labels:
     type: local
 spec:
@@ -20,7 +20,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: home-assistant-pv-claim
-  namespace: home-automation
+  namespace: default
 spec:
   storageClassName: manual
   accessModes:
@@ -30,11 +30,40 @@ spec:
       storage: 10Gi
 
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: secrets
+  namespace: default
+data:
+  set_ssh_keys.sh: |
+    #!/usr/bin env sh
+    echo -n "$HOME_AUTOMATION_PRIVATE_SSH_KEY" > /root/.ssh/id_rsa
+    echo -n "$HOME_AUTOMATION_PUBLIC_SSH_KEY" > /root/.ssh/id_rsa.pub
+    chmod 0600 /root/.ssh/*
+  secrets.yaml: |
+    {{ with secret "kv/home-assistant" }}
+        {{ range $k, $v := .Data }}
+    {{ $k }}="{{ $v }}"
+        {{ end }}
+    {{ end }}
+    {{ with secret "kv/mqtt" }}
+    MQTT_USERNAME="{{ .Data.USERNAME }}"
+    MQTT_PASSWORD="{{ .Data.PASSWORD }}"
+    {{ end }}
+    {{ with secret "kv/home-assistant" }}
+    turn_off_gaming_room_gaming_pc_command: ssh -n -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa {{ .Data.GAMING_ROOM_MACHINE_USERNAME }}@{{ .Data.GAMING_ROOM_GAMING_PC_IP }} "C:\Windows\System32\rundll32.exe powrprof.dll,SetSuspendState Standby"
+    valheim_ddns_rest_url: "https://{{ .Data.VALHEIM_GOOGLE_DOMAIN_USERNAME }}:{{ .Data.VALHEIM_GOOGLE_DOMAIN_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.VALHEIM_DOMAIN }}"
+    github_authorization_header: "Bearer {{ .Data.GITHUB_ISSUES_TOKEN }}"
+    update_vpn_dns_command: curl -X POST "https://{{ .Data.VPN_DNS_USERNAME }}:{{ .Data.VPN_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.VPN_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"
+    {{ end }}
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: home-assistant
-  namespace: home-automation
+  namespace: default
   labels:
     app.kubernetes.io/name: home-assistant
 spec:
@@ -48,7 +77,19 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: home-assistant
+      annotations:
+        vault.hashicorp.com/agent-inject: 'true'
+        vault.hashicorp.com/role: 'app'
+        vault.hashicorp.com/agent-configmap: 'secrets'
+        vault.hashicorp.com/agent-inject-secret-env.sh: 'kv/home-assistant'
+        vault.hashicorp.com/agent-inject-template-env.sh: |
+          {{ with secret "kv/mqtt" }}
+              {{ range $k, $v := .Data }}
+          export {{ $k }}="{{ $v }}"
+              {{ end }}
+          {{ end }}
     spec:
+      serviceAccountName: app
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       imagePullSecrets:
@@ -91,15 +132,13 @@ spec:
             periodSeconds: 10
           volumeMounts:
             - name: home-assistant-config-volume
-              mountPath: /home-automation
+              mountPath: /root/config
+            - name: ha-secrets-volume
+              mountPath: /root/set_ssh_keys.sh
+              subPath: set_ssh_keys.sh
             - name: ha-secrets-volume
               mountPath: /root/config/secrets.yaml
-            - name: home-automation-ssh
-              mountPath: /root/.ssh/id_rsa.pub
-              subPath: pub
-            - name: home-automation-ssh
-              mountPath: /root/.ssh/id_rsa
-              subPath: private
+              subPath: secrets.yaml
           securityContext:
             privileged: true
             allowPrivilegeEscalation: true
@@ -118,23 +157,15 @@ spec:
               protocol: TCP
           volumeMounts:
             - name: home-assistant-config-volume
-              mountPath: /home-automation
+              mountPath: /root/config
             - name: ha-secrets-volume
               mountPath: /conf/secrets.yaml
-              subPath: yml
+              subPath: secrets.yaml
 
       volumes:
         - name: ha-secrets-volume
           configMap:
-            name: secrets-yml
-        - name: ssh-secrets-volume
-          configMap:
-            name: repo-private-ssh-key
-            defaultMode: 0600
-        - name: home-automation-ssh
-          configMap:
-            name: home-automation-keys
-            defaultMode: 0600
+            name: secrets
         - name: home-assistant-config-volume
           persistentVolumeClaim:
             claimName: home-assistant-pv-claim
@@ -154,7 +185,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: home-assistant
-  namespace: home-automation
+  namespace: default
   labels:
     app.kubernetes.io/name: home-assistant
 spec:
