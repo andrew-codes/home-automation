@@ -66,8 +66,9 @@ spec:
         app.kubernetes.io/name: home-assistant
       annotations:
         vault.hashicorp.com/agent-inject: 'true'
-        vault.hashicorp.com/role: 'app'
-        vault.hashicorp.com/agent-inject-secret-env.sh: 'kv/home-assistant'
+        vault.hashicorp.com/role: app
+        vault.hashicorp.com/agent-inject-status: update
+        vault.hashicorp.com/agent-inject-secret-env.sh: kv/home-assistant
         vault.hashicorp.com/agent-inject-template-env.sh: |
           {{ with secret "kv/home-assistant" }}
           export HOME_AUTOMATION_PRIVATE_SSH_KEY="{{ .Data.HOME_AUTOMATION_PRIVATE_SSH_KEY }}"
@@ -77,19 +78,19 @@ spec:
         vault.hashicorp.com/agent-inject-template-secrets.yaml: |
           {{ with secret "kv/home-assistant" }}
               {{ range $k, $v := .Data }}
-          {{ $k }}="{{ $v }}"
+          {{ $k }}: "{{ $v }}"
               {{ end }}
           {{ end }}
           {{ with secret "kv/mqtt" }}
-          MQTT_USERNAME="{{ .Data.USERNAME }}"
-          MQTT_PASSWORD="{{ .Data.PASSWORD }}"
+          MQTT_USERNAME: "{{ .Data.USERNAME }}"
+          MQTT_PASSWORD: "{{ .Data.PASSWORD }}"
           {{ end }}
           {{ with secret "kv/home-assistant" }}
-          turn_off_gaming_room_gaming_pc_command: ssh -n -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa {{ .Data.GAMING_ROOM_MACHINE_USERNAME }}@{{ .Data.GAMING_ROOM_GAMING_PC_IP }} "C:\Windows\System32\rundll32.exe powrprof.dll,SetSuspendState Standby"
-          valheim_ddns_rest_command: curl -X POST "https://{{ .Data.VALHEIM_GOOGLE_DOMAIN_USERNAME }}:{{ .Data.VALHEIM_GOOGLE_DOMAIN_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.VALHEIM_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"
-          github_authorization_header: "Bearer {{ .Data.GITHUB_ISSUES_TOKEN }}"
-          vpn_ddns_rest_command: curl -X POST "https://{{ .Data.VPN_DNS_USERNAME }}:{{ .Data.VPN_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.VPN_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"
-          ha_ddns_rest_command: curl -X POST "https://{{ .Data.HOME_ASSISTANT_DNS_USERNAME }}:{{ .Data.HOME_ASSISTANT_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.HOME_ASSISTANT_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"
+          TURN_OFF_GAMING_ROOM_GAMING_PC_COMMAND: 'ssh -n -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa {{ .Data.GAMING_ROOM_MACHINE_USERNAME }}@{{ .Data.GAMING_ROOM_GAMING_PC_IP }} "C:\Windows\System32\rundll32.exe powrprof.dll,SetSuspendState Standby"'
+          VALHEIM_DDNS_REST_COMMAND: 'curl -X POST "https://{{ .Data.VALHEIM_GOOGLE_DOMAIN_USERNAME }}:{{ .Data.VALHEIM_GOOGLE_DOMAIN_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.VALHEIM_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"'
+          GITHUB_AUTHORIZATION_HEADER: "Bearer {{ .Data.GITHUB_ISSUES_TOKEN }}"
+          VPN_DDNS_REST_COMMAND: 'curl -X POST "https://{{ .Data.VPN_DNS_USERNAME }}:{{ .Data.VPN_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.VPN_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"'
+          HA_DDNS_REST_COMMAND: 'curl -X POST "https://{{ .Data.HOME_ASSISTANT_DNS_USERNAME }}:{{ .Data.HOME_ASSISTANT_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.HOME_ASSISTANT_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"'
           {{ end }}
     spec:
       serviceAccountName: app
@@ -105,7 +106,7 @@ spec:
             - "sh"
           args:
             - "-c"
-            - "source /vault/secrets/env.sh && source /root/set_ssh_keys.sh && cp -i /vault/secrets/secrets.yaml /home-assistant/ && hass --config /home-assistant"
+            - "source /vault/secrets/env.sh && source /root/set_ssh_keys.sh && cp -rf /home-assistant-src/* /home-assistant && rm -rf /home-assistant/secrets.yaml && cp -rf /vault/secrets/secrets.yaml /home-assistant && hass --config /home-assistant"
           ports:
             - name: api
               containerPort: 8123
@@ -150,7 +151,7 @@ spec:
             - sh
           args:
             - "-c"
-            - "ln -s /home-assistant/appdaemon.yaml /conf/appdaemon.yaml && ln -s /home-assistant/apps /conf/apps && ln -s /home-assistant/dashboards /conf/dashboards && ./dockerStart.sh"
+            - "ln -s /home-assistant/appdaemon.yaml /conf/appdaemon.yaml && ln -s /home-assistant/apps /conf/apps && ln -s /home-assistant/dashboards /conf/dashboards && ln -s /home-assistant/secrets.yaml /conf/secrets.yaml && ./dockerStart.sh"
           ports:
             - name: appdaemon
               containerPort: 5050
