@@ -5,7 +5,7 @@ cd ../../
 source scripts/bin/vault.sh
 popd
 
-vault kv put cubbyhole/inlets \
+vault kv put kv/inlets \
     INLETS_PRO_LICENSE="" \
     CLIENT_ID="" \
     CLIENT_SECRET="" \

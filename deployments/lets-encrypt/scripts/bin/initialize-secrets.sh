@@ -5,5 +5,5 @@ cd ../../
 source scripts/bin/vault.sh
 popd
 
-vault kv put cubbyhole/lets-encrypt \
+vault kv put kv/lets-encrypt \
     EMAIL=""

@@ -5,5 +5,5 @@ cd ../../
 source scripts/bin/vault.sh
 popd
 
-vault kv put cubbyhole/facebox \
+vault kv put kv/facebox \
     MB_KEY=""

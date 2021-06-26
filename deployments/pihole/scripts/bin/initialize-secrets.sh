@@ -5,4 +5,4 @@ cd ../../
 source scripts/bin/vault.sh
 popd
 
-vault kv put cubbyhole/pihole password=""
+vault kv put kv/pihole PASSWORD=""

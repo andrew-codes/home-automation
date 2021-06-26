@@ -5,5 +5,5 @@ cd ../../
 source scripts/bin/vault.sh
 popd
 
-vault kv put cubbyhole/openvpn \
+vault kv put kv/openvpn \
     PASSWORD=""

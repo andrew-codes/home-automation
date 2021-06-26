@@ -5,7 +5,7 @@ cd ../../
 source scripts/bin/vault.sh
 popd
 
-vault kv put cubbyhole/alexa-shopping-list-skill \
+vault kv put kv/alexa-shopping-list-skill \
     DNS_USERNAME="" \
     DNS_PASSWORD="" \
     DNS_DOMAIN="" \
