@@ -105,7 +105,7 @@ spec:
             - "sh"
           args:
             - "-c"
-            - "source /vault/secrets/env.sh && source /root/set_ssh_keys.sh && cp /vault/secrets/secrets.yaml /root/config/ && hass --config /root/config"
+            - "source /vault/secrets/env.sh && source /root/set_ssh_keys.sh && cp -i /vault/secrets/secrets.yaml /home-assistant/ && hass --config /home-assistant"
           ports:
             - name: api
               containerPort: 8123
@@ -135,13 +135,10 @@ spec:
             periodSeconds: 10
           volumeMounts:
             - name: home-assistant-config-volume
-              mountPath: /root/config
+              mountPath: /home-assistant
             - name: ha-secrets-volume
               mountPath: /root/set_ssh_keys.sh
               subPath: set_ssh_keys.sh
-            - name: ha-secrets-volume
-              mountPath: /root/config/secrets.yaml
-              subPath: secrets.yaml
           securityContext:
             privileged: true
             allowPrivilegeEscalation: true
@@ -153,17 +150,14 @@ spec:
             - sh
           args:
             - "-c"
-            - "ln -s /root/config/appdaemon.yaml /conf/appdaemon.yaml && ln -s /root/config/apps /conf/apps && ln -s /root/config/dashboards /conf/dashboards && ./dockerStart.sh"
+            - "ln -s /home-assistant/appdaemon.yaml /conf/appdaemon.yaml && ln -s /home-assistant/apps /conf/apps && ln -s /home-assistant/dashboards /conf/dashboards && ./dockerStart.sh"
           ports:
             - name: appdaemon
               containerPort: 5050
               protocol: TCP
           volumeMounts:
             - name: home-assistant-config-volume
-              mountPath: /root/config
-            - name: ha-secrets-volume
-              mountPath: /conf/secrets.yaml
-              subPath: secrets.yaml
+              mountPath: /home-assistant
 
       volumes:
         - name: ha-secrets-volume
