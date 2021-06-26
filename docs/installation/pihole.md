@@ -21,7 +21,7 @@ curl -sSL https://install.pi-hole.net | bash /dev/stdin
 
 ## Create PiHole Password Secret
 
-First initialize the secret via `yarn initialize-secrets --scope @ha/pihole`. This will create a blank secret in vault at `cubbyhole/pihole password`.
+First initialize the secret via `yarn initialize-secrets --scope @ha/pihole`. This will create a blank secret in vault at `kv/pihole password`.
 
 > Set secrets via the Vault UI.
 

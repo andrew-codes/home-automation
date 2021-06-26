@@ -6,12 +6,12 @@ pushd .
 cd ../../
 source scripts/bin/vault.sh
 popd
-export INLETS_PRO_LICENSE=$(vault kv get -format=json cubbyhole/inlets | jq .data.INLETS_PRO_LICENSE | sed 's/"//g')
-export CLIENT_ID=$(vault kv get -format=json cubbyhole/inlets | jq .data.CLIENT_ID | sed 's/"//g')
-export CLIENT_SECRET=$(vault kv get -format=json cubbyhole/inlets | jq .data.CLIENT_SECRET | sed 's/"//g')
-export SUBSCRIPTION_ID=$(vault kv get -format=json cubbyhole/inlets | jq .data.SUBSCRIPTION_ID | sed 's/"//g')
-export TENANT_ID=$(vault kv get -format=json cubbyhole/inlets | jq .data.TENANT_ID | sed 's/"//g')
-export MACHINE_PASSWORD=$(vault kv get -format=json cubbyhole/k8s | jq .data.MACHINE_PASSWORD | sed 's/"//g')
+export INLETS_PRO_LICENSE=$(vault kv get -format=json kv/inlets | jq .data.INLETS_PRO_LICENSE | sed 's/"//g')
+export CLIENT_ID=$(vault kv get -format=json kv/inlets | jq .data.CLIENT_ID | sed 's/"//g')
+export CLIENT_SECRET=$(vault kv get -format=json kv/inlets | jq .data.CLIENT_SECRET | sed 's/"//g')
+export SUBSCRIPTION_ID=$(vault kv get -format=json kv/inlets | jq .data.SUBSCRIPTION_ID | sed 's/"//g')
+export TENANT_ID=$(vault kv get -format=json kv/inlets | jq .data.TENANT_ID | sed 's/"//g')
+export MACHINE_PASSWORD=$(vault kv get -format=json kv/k8s | jq .data.MACHINE_PASSWORD | sed 's/"//g')
 
 mkdir -p .secrets
 cat >.secrets/ansible-secrets.yml <<EOL
