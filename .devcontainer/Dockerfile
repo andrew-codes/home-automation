@@ -68,3 +68,6 @@ RUN curl -fsSL -o velero.tar.gz https://github.com/vmware-tanzu/velero/releases/
 RUN tar -xvf velero.tar.gz
 RUN mv velero-v1.5.3-linux-amd64/velero /usr/local/bin
 RUN chmod +x /usr/local/bin/velero
+RUN curl -fsSL -o helm.tar.gz  https://get.helm.sh/helm-v3.6.1-linux-amd64.tar.gz
+RUN tar -zxvf helm.tar.gz
+RUN mv linux-amd64/helm /usr/local/bin/helm

@@ -35,4 +35,9 @@ RUN sudo tar -xvf containerd-1.4.3-linux-amd64.tar.gz --directory containerd
 RUN sudo mv containerd/bin/* /usr/bin
 RUN sudo wget https://github.com/mikefarah/yq/releases/download/v4.6.3/yq_linux_amd64 -O /usr/bin/yq
 RUN sudo chmod +x /usr/bin/yq
-RUN echo '{ "exec-opts": [], "insecure-registries": ["docker-registry"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' > /etc/docker/daemon.json
+RUN sudo mkdir -p /etc/docker
+RUN sudo echo '{ "exec-opts": [], "insecure-registries": ["docker-registry"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' > /etc/docker/daemon.json
+RUN curl -fsSL -o helm.tar.gz  https://get.helm.sh/helm-v3.6.1-linux-amd64.tar.gz
+RUN tar -zxvf helm.tar.gz
+RUN sudo mv linux-amd64/helm /usr/local/bin/helm
+RUN sudo chmod +x /usr/local/bin/helm
