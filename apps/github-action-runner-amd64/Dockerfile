@@ -9,6 +9,8 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 RUN curl -sS https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 RUN echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable" | sudo tee -a /etc/apt/sources.list.d/docker.list
+RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+RUN sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 RUN sudo apt-add-repository -y --update ppa:ansible/ansible
 RUN sudo add-apt-repository ppa:deadsnakes/ppa
 RUN sudo apt update -y
@@ -22,7 +24,9 @@ RUN sudo apt-get install -y \
   lxc ca-certificates iptables \
   software-properties-common ansible python3.8 python3-pip \
   etherwake \
-  gettext-base
+  gettext-base \
+  vault
+RUN sudo setcap cap_ipc_lock= /usr/bin/vault
 RUN pip3 install "pywinrm>=0.3.0"
 RUN export KUBECONFIG=/home/runner/.kube/config
 RUN yarn global add lerna
