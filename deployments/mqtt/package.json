@@ -8,7 +8,5 @@
     "postdeploy": "kubectl rollout restart deployment mqtt",
     "initialize-secrets": "scripts/bin/initialize-secrets.sh"
   },
-  "dependencies": {
-    "@ha/home-automation-namespace": "^0.0.1"
-  }
+  "dependencies": {}
 }

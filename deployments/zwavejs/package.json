@@ -7,7 +7,6 @@
     "deploy": "scripts/bin/deploy.sh"
   },
   "dependencies": {
-    "@ha/home-automation-namespace": "^0.0.1",
     "@ha/mqtt": "^0.0.1"
   }
 }
