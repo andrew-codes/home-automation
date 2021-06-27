@@ -2,13 +2,10 @@
 
 pushd .
 cd ../../
-source scripts/bin/vault.sh
 set -o allexport
 source .external-ports.env
 set +o allexport
 popd
-
-export MB_KEY=$(vault kv get -format=json kv/facebox | jq .data.MB_KEY | sed 's/"//g')
 
 kubectl apply -f facebox.yml
 

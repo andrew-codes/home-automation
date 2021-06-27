@@ -2,13 +2,10 @@
 
 pushd .
 cd ../../
-source scripts/bin/vault.sh
 set -o allexport
 source .external-ports.env
 set +o allexport
 popd
-
-export GRAPHQL_API_TOKEN=$(vault kv get -format=json kv/graphql-api | jq .data.TOKEN | sed 's/"//g')
 
 kubectl apply -f captive-portal.yml
 

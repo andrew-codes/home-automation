@@ -14,7 +14,23 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: ps5-wake
+      annotations:
+        vault.hashicorp.com/agent-inject: 'true'
+        vault.hashicorp.com/role: app
+        vault.hashicorp.com/agent-inject-status: update
+        vault.hashicorp.com/agent-inject-secret-env.sh: kv/mqtt
+        vault.hashicorp.com/agent-inject-template-env.sh: |
+          {{ with secret "kv/mqtt" }}
+          export MQTT_USERNAME="{{ .Data.USERNAME }}"
+          export MQTT_PASSWORD="{{ .Data.PASSWORD }}"
+          {{ end }}
+          {{ with secret "kv/ps5-wake" }}
+              {{ range $k, $v := .Data }}
+          export {{ $k }}="{{ $v }}"
+              {{ end }}
+          {{ end }}
     spec:
+      serviceAccountName: app
       hostNetwork: true
       imagePullSecrets:
         - name: regcred
@@ -22,31 +38,14 @@ spec:
         - name: ps5-wake
           image: docker-registry:5000/ps5-wake:latest
           imagePullPolicy: Always
+          command:
+            - "sh"
+          args:
+            - "-c"
+            - "source /vault/secrets/env.sh && start.sh"
           env:
             - name: DEBUG
-              value: "@ha/ps5-wake-app/*"
-            - name: MQTT_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: mqtt-secrets
-                  key: mqtt-username
-            - name: MQTT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mqtt-secrets
-                  key: mqtt-password
             - name: MQTT_HOST
-              valueFrom:
-                secretKeyRef:
-                  key: mqtt-host
-                  name: ps5-wake-secrets
+              value: mqtt
             - name: MQTT_PORT
-              valueFrom:
-                secretKeyRef:
-                  key: mqtt-port
-                  name: ps5-wake-secrets
-            - name: PS5_USER_CREDENTIALS
-              valueFrom:
-                secretKeyRef:
-                  name: ps5-wake-secrets
-                  key: ps5-user-credentials
+              value: "1883"

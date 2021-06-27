@@ -14,27 +14,41 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: guest-pin-codes
+      annotations:
+        vault.hashicorp.com/agent-inject: 'true'
+        vault.hashicorp.com/role: app
+        vault.hashicorp.com/agent-inject-status: update
+        vault.hashicorp.com/agent-inject-secret-env.sh: kv/guest-pin-codes
+        vault.hashicorp.com/agent-inject-template-env.sh: |
+          {{ with secret "kv/mqtt" }}
+          export MQTT_USERNAME="{{ .Data.USERNAME }}"
+          export MQTT_PASSWORD="{{ .Data.PASSWORD }}"
+          {{ end }}
+          {{ with secret "kv/guest-pin-codes" }}
+              {{ range $k, $v := .Data }}
+          export {{ $k }}="{{ $v }}"
+              {{ end }}
+          {{ end }}
     spec:
+      serviceAccountName: app
       imagePullSecrets:
         - name: regcred
       containers:
         - name: guest-pin-codes
           image: docker-registry:5000/guest-pin-codes:latest
           imagePullPolicy: Always
+          command:
+            - "sh"
+          args:
+            - "-c"
+            - "source /vault/secrets/env.sh && start.sh"
           env:
-            - name: GUEST_LOCK_CODE_EXCLUSIONS
             - name: NUMBER_OF_GUEST_CODES
               value: "4"
             - name: GUEST_CODE_INDEX_OFFSET
               value: "4"
             - name: DEBUG
-            - name: MQTT_USERNAME
-            - name: MQTT_PASSWORD
             - name: MQTT_HOST
               value: mqtt
             - name: MQTT_PORT
               value: "1883"
-            - name: GOOGLE_CALENDAR_ID
-            - name: GOOGLE_PRIVATE_KEY
-            - name: DOOR_LOCKS
-            - name: GOOGLE_SERVICE_ACCOUNT

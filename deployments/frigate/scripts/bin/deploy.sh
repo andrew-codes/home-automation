@@ -1,18 +1,10 @@
 #!/usr/bin/env bash
 
 pushd .
-cd ../../
-source scripts/bin/vault.sh
 set -o allexport
 source .external-ports.env
 set +o allexport
 popd
-
-export CLUSTER_IP=$(vault kv get -format=json kv/k8s | jq .data.CLUSTER_IP | sed 's/"//g')
-export MQTT_USERNAME=$(vault kv get -format=json kv/mqtt | jq .data.USERNAME | sed 's/"//g')
-export MQTT_PASSWORD=$(vault kv get -format=json kv/mqtt | jq .data.PASSWORD | sed 's/"//g')
-export FRONT_DOOR_RTSP=$(vault kv get -format=json kv/frigate | jq .data.FRONT_DOOR_RTSP | sed 's/"//g')
-export CAR_PORT_DOOR_RTSP=$(vault kv get -format=json kv/frigate | jq .data.CAR_PORT_DOOR_RTSP | sed 's/"//g')
 
 kubectl apply -f frigate.yml
 

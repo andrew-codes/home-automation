@@ -6,7 +6,7 @@
   "scripts": {
     "seal": "scripts/bin/seal.sh",
     "deploy": "scripts/bin/deploy.sh",
-    "postdeploy": "kubectl rollout restart deployment graphql-api --namespace home-automation"
+    "postdeploy": "kubectl rollout restart deployment graphql-api "
   },
   "dependencies": {
     "@ha/game-cache": "^0.0.1",

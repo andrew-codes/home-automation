@@ -9,4 +9,4 @@ if [ "$NODE_APP_IMAGE_COUNT_BY_REFERENCE" -ne "2" ]; then
     yarn image/local
 fi
 
-telepresence --namespace "home-automation" --swap-deployment "ps5-wake" --docker-run --rm -t -v "$PWD/../../:/app" "node-app:latest" yarn lerna run start/dev --scope "@ha/ps5-wake-app" --stream <<<$DEV_MACHINE_PASSWORD
+telepresence --swap-deployment "ps5-wake" --docker-run --rm -t -v "$PWD/../../:/app" "node-app:latest" yarn lerna run start/dev --scope "@ha/ps5-wake-app" --stream <<<$DEV_MACHINE_PASSWORD

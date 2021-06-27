@@ -1,9 +1,0 @@
-{
-  "private": true,
-  "name": "@ha/gaming-namespace",
-  "version": "0.0.1",
-  "license": "MIT",
-  "scripts": {
-    "deploy": "scripts/bin/deploy.sh"
-  }
-}

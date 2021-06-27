@@ -46,11 +46,35 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: frigate
+      annotations:
+        vault.hashicorp.com/agent-inject: 'true'
+        vault.hashicorp.com/role: app
+        vault.hashicorp.com/agent-inject-status: update
+        vault.hashicorp.com/agent-inject-secret-env.sh: kv/frigate
+        vault.hashicorp.com/agent-inject-template-env.sh: |
+          {{ with secret "kv/mqtt" }}
+          export MQTT_USERNAME="{{ .Data.USERNAME }}"
+          export MQTT_PASSWORD="{{ .Data.PASSWORD }}"
+          {{ end }}
+          {{ with secret "kv/k8s" }}
+          export CLUSTER_IP="{{ .Data.CLUSTER_IP }}"
+          {{ end }}
+          {{ with secret "kv/frigate" }}
+              {{ range $k, $v := .Data }}
+          export {{ $k }}="{{ $v }}"
+              {{ end }}
+          {{ end }}
     spec:
+      serviceAccountName: app
       containers:
         - name: frigate
           image: docker-registry:5000/frigate
           imagePullPolicy: Always
+          command:
+            - "sh"
+          args:
+            - "-c"
+            - "source /vault/secrets/env.sh && /start.sh"
           ports:
             - name: http
               containerPort: 5000
@@ -61,8 +85,6 @@ spec:
           volumeMounts:
             - name: localtime
               mountPath: /etc/localtime
-            - name: config
-              mountPath: /config/config.yml
               subPath: yml
             - name: media-frigate
               mountPath: /media/frigate
@@ -70,9 +92,6 @@ spec:
             privileged: true
             allowPrivilegeEscalation: true
       volumes:
-        - name: config
-          secret:
-            secretName: config-secrets
         - name: media-frigate
           persistentVolumeClaim:
             claimName: frigate-media-claim

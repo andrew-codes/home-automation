@@ -16,13 +16,28 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: facebox
+      annotations:
+        vault.hashicorp.com/agent-inject: 'true'
+        vault.hashicorp.com/role: app
+        vault.hashicorp.com/agent-inject-status: update
+        vault.hashicorp.com/agent-inject-secret-env.sh: kv/facebox
+        vault.hashicorp.com/agent-inject-template-env.sh: |
+          {{ with secret "kv/facebox" }}
+              {{ range $k, $v := .Data }}
+          export {{ $k }}="{{ $v }}"
+              {{ end }}
+          {{ end }}
     spec:
+      serviceAccountName: app
       containers:
         - name: facebox
           image: machinebox/facebox
           imagePullPolicy: Always
-          env:
-            - name: MB_KEY
+          command:
+            - "sh"
+          args:
+            - "-c"
+            - "source /vault/secrets/env.sh && /app/facebox"
           ports:
             - name: web
               containerPort: 8080

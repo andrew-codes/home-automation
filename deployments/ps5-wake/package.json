@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "deploy": "scripts/bin/deploy.sh",
-    "postdeploy": "kubectl rollout restart deployment ps5-wake --namespace home-automation",
-    "seal": "scripts/bin/seal.sh"
+    "postdeploy": "kubectl rollout restart deployment ps5-wake ",
+    "initialize-secrets": "scripts/bin/initialize-secrets.sh"
   },
   "dependencies": {
     "@ha/ps5-wake-app": "^0.0.1"

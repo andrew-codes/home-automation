@@ -14,10 +14,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - $ALEXA_SHOPPING_LIST_SKILL_DOMAIN
+        - $DNS_DOMAIN
       secretName: alexa-shopping-list-updater-skill-tls
   rules:
-    - host: $ALEXA_SHOPPING_LIST_SKILL_DOMAIN
+    - host: $DNS_DOMAIN
       http:
         paths:
           - path: "/"

@@ -13,4 +13,4 @@ WORKDIR /build/ps5-wake
 RUN make
 RUN cp ps5-wake /ps5-wake
 WORKDIR /
-ENTRYPOINT ["node", "dist/index.js"]
+ENTRYPOINT ["start.sh"]

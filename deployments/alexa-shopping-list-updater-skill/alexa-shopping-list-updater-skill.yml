@@ -14,13 +14,29 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: alexa-shopping-list-updater-skill
+      annotations:
+        vault.hashicorp.com/agent-inject: 'true'
+        vault.hashicorp.com/role: app
+        vault.hashicorp.com/agent-inject-status: update
+        vault.hashicorp.com/agent-inject-secret-env.sh: kv/mqtt
+        vault.hashicorp.com/agent-inject-template-env.sh: |
+          {{ with secret "kv/mqtt" }}
+          export MQTT_USERNAME="{{ .Data.USERNAME }}"
+          export MQTT_PASSWORD="{{ .Data.PASSWORD }}"
+          {{ end }}
     spec:
+      serviceAccountName: app
       imagePullSecrets:
         - name: regcred
       containers:
         - name: alexa-shopping-list-updater-skill
           image: docker-registry:5000/alexa-shopping-list-updater-skill:latest
           imagePullPolicy: Always
+          command:
+            - "sh"
+          args:
+            - "-c"
+            - "source /vault/secrets/env.sh && /start.sh"
           ports:
             - name: alexa-http
               containerPort: 8085
@@ -31,8 +47,6 @@ spec:
             - name: PORT
               value: "8085"
             - name: DEBUG
-            - name: MQTT_USERNAME
-            - name: MQTT_PASSWORD
             - name: MQTT_HOST
               value: mqtt
             - name: MQTT_PORT

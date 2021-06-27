@@ -2,4 +2,6 @@
 node_modules
 src
 .DS_Store
-.env
+scripts/
+tsconfig.json
+nodemon.json
