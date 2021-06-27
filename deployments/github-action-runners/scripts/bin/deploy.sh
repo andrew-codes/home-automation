@@ -8,7 +8,7 @@ popd
 
 export GITHUB_RUNNER_TOKEN=$(vault kv get -format=json kv/github-action-runners | jq .data.GITHUB_TOKEN | sed 's/"//g')
 yarn seal-github-secret andrew-codes home-automation VAULT_TOKEN "$VAULT_TOKEN"
-yarn seal-github-secret andrew-codes home-automation VAULT_ADDR "$VAULT_ADDR"
+yarn seal-github-secret andrew-codes home-automation VAULT_ADDR "http://vault:8200"
 
 export KUBE_CONFIG=$(vault kv get -format=json kv/github-action-runners | jq .data.KUBE_CONFIG | sed 's/"//g')
 export GITHUB_TOKEN=$(vault kv get -format=json kv/github-action-runners | jq .data.GITHUB_TOKEN | sed 's/"//g')
