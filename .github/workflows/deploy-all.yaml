@@ -43,6 +43,7 @@ jobs:
       - name: Deploy
         run: yarn lerna run deploy --stream --ignore @ha/lets-encrypt --ignore @ha/docker-registry --ignore @ha/k8s --ignore @ha/inlets --ignore --ignore @ha/openvpn-as --ignore @ha/pihole --ignore @ha/vault --ignore @ha/velero @ha/playnite-game-data-exporter --include-filtered-dependencies
         env:
+          VAULT_TOKEN: "${{ secrets.VAULT_TOKEN }}"
           MACHINE_PASSWORD: '${{ secrets.MACHINE_PASSWORD }}'
           GAMING_ROOM_GAMING_PC_USERNAME: "${{ secrets.GAMING_ROOM_GAMING_PC_USERNAME }}"
           GAMING_ROOM_GAMING_PC_MAC: "${{ secrets.GAMING_ROOM_GAMING_PC_MAC }}"

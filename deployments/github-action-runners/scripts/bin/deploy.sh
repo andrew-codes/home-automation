@@ -6,6 +6,9 @@ source scripts/bin/vault.sh
 source .external-ports.env
 popd
 
+export GITHUB_RUNNER_TOKEN=$(vault kv get -format=json kv/github-action-runners | jq .data.GITHUB_TOKEN | sed 's/"//g')
+yarn seal-github-secret andrew-codes home-automation VAULT_TOKEN "$VAULT_TOKEN"
+
 export KUBE_CONFIG=$(vault kv get -format=json kv/github-action-runners | jq .data.KUBE_CONFIG | sed 's/"//g')
 export GITHUB_TOKEN=$(vault kv get -format=json kv/github-action-runners | jq .data.GITHUB_TOKEN | sed 's/"//g')
 export HOME_AUTOMATION_PRIVATE_SSH_KEY=$(vault kv get -format=json kv/github-action-runners | jq .data.HOME_AUTOMATION_PRIVATE_SSH_KEY | sed 's/"//g')
@@ -36,7 +39,6 @@ kubectl create secret generic controller-manager --namespace="actions-runner-sys
 kubectl apply -f https://github.com/summerwind/actions-runner-controller/releases/download/v0.16.1/actions-runner-controller.yaml
 kubectl apply -f runners.yml
 
-export GITHUB_RUNNER_TOKEN=$(vault kv get -format=json kv/github-action-runners | jq .data.GITHUB_TOKEN | sed 's/"//g')
 export GITHUB_ACTION_JEST_REPORTER_TOKEN=$(vault kv get -format=json kv/github-action-runners | jq .data.GITHUB_ACTION_JEST_REPORTER_TOKEN | sed 's/"//g')
 yarn seal-github-secret andrew-codes home-automation JEST_REPORTER_TOKEN "$GITHUB_ACTION_JEST_REPORTER_TOKEN"
 
