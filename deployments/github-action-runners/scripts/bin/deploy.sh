@@ -36,13 +36,14 @@ kubectl create secret generic controller-manager --namespace="actions-runner-sys
 kubectl apply -f https://github.com/summerwind/actions-runner-controller/releases/download/v0.16.1/actions-runner-controller.yaml
 kubectl apply -f runners.yml
 
-export GITHUB_ACTION_JEST_REPORTER_TOKEN=$(vault kv get -format=json kv/github-action-runner | jq .data.GITHUB_ACTION_JEST_REPORTER_TOKEN)
+export GITHUB_RUNNER_TOKEN=$(vault kv get -format=json kv/github-action-runners | jq .data.GITHUB_TOKEN | sed 's/"//g')
+export GITHUB_ACTION_JEST_REPORTER_TOKEN=$(vault kv get -format=json kv/github-action-runners | jq .data.GITHUB_ACTION_JEST_REPORTER_TOKEN | sed 's/"//g')
 yarn seal-github-secret andrew-codes home-automation JEST_REPORTER_TOKEN "$GITHUB_ACTION_JEST_REPORTER_TOKEN"
 
 # Move these to relevant packages ===
-export MQTT_PASSWORD=$(vault kv get -format=json kv/mqtt | jq .data.MQTT_PASSWORD)
-export MQTT_USERNAME=$(vault kv get -format=json kv/mqtt | jq .data.MQTT_USERNAME)
-export GAMING_ROOM_GAMING_PC_MAC=$(vault kv get -format=json kv/home-assistant | jq .data.GAMING_ROOM_GAMING_PC_MAC)
+export MQTT_PASSWORD=$(vault kv get -format=json kv/mqtt | jq .data.MQTT_PASSWORD | sed 's/"//g')
+export MQTT_USERNAME=$(vault kv get -format=json kv/mqtt | jq .data.MQTT_USERNAME | sed 's/"//g')
+export GAMING_ROOM_GAMING_PC_MAC=$(vault kv get -format=json kv/home-assistant | jq .data.GAMING_ROOM_GAMING_PC_MAC | sed 's/"//g')
 yarn seal-github-secret andrew-codes home-automation GAMING_ROOM_GAMING_PC_MAC "$GAMING_ROOM_GAMING_PC_MAC"
 yarn seal-github-secret andrew-codes home-automation MACHINE_PASSWORD "$MACHINE_PASSWORD"
 yarn seal-github-secret andrew-codes home-automation MQTT_CONNECTION "$(

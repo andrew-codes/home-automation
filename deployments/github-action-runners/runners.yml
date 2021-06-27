@@ -2,7 +2,7 @@ apiVersion: actions.summerwind.dev/v1alpha1
 kind: Runner
 metadata:
   name: github-action-runner-amd-1
-  namespace: default
+  namespace: actions-runner-system
 spec:
   labels:
     - amd64-runner
@@ -13,11 +13,6 @@ spec:
     - name: regcred
   image: docker-registry:5000/github-action-runner:latest
   imagePullPolicy: Always
-  resources:
-    limits:
-      memory: "8Gi"
-    requests:
-      memory: "4Gi"
   env:
     - name: DOCKER_HOST
       value: localhost:2736
@@ -51,7 +46,7 @@ apiVersion: actions.summerwind.dev/v1alpha1
 kind: Runner
 metadata:
   name: github-action-runner-amd-2
-  namespace: default
+  namespace: actions-runner-system
 spec:
   labels:
     - amd64-runner
@@ -62,11 +57,6 @@ spec:
     - name: regcred
   image: docker-registry:5000/github-action-runner:latest
   imagePullPolicy: Always
-  resources:
-    limits:
-      memory: "8Gi"
-    requests:
-      memory: "4Gi"
   env:
     - name: DOCKER_HOST
       value: localhost:2736
