@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: valheim-server
-  namespace: gaming
+  namespace: default
 spec:
   ports:
     - name: game1

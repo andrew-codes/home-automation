@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: valheim-pv-volume
-  namespace: gaming
+  namespace: default
   labels:
     type: local
 spec:
@@ -18,7 +18,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: valheim-pv-claim
-  namespace: gaming
+  namespace: default
   labels:
     app: valheim-server
 spec:

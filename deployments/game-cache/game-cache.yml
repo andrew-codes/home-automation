@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: game-cache
-  namespace: home-automation
+  namespace: default
   labels:
     app.kubernetes.io/name: game-cache
 spec:
@@ -137,7 +137,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: mongodb-game-cache-pv
-  namespace: home-automation
+  namespace: default
   labels:
     type: local
 spec:
@@ -154,7 +154,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mongodb-game-cache-pv-claim
-  namespace: home-automation
+  namespace: default
 spec:
   storageClassName: manual
   accessModes:
@@ -168,7 +168,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mongodb
-  namespace: home-automation
+  namespace: default
   labels:
     app.kubernetes.io/name: mongodb
 spec:
@@ -217,7 +217,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mongodb
-  namespace: home-automation
+  namespace: default
   labels:
     app.kubernetes.io/name: mongodb
 spec:

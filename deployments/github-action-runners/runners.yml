@@ -2,7 +2,7 @@ apiVersion: actions.summerwind.dev/v1alpha1
 kind: Runner
 metadata:
   name: github-action-runner-amd-1
-  namespace: actions-runner-system
+  namespace: default
 spec:
   labels:
     - amd64-runner
@@ -51,7 +51,7 @@ apiVersion: actions.summerwind.dev/v1alpha1
 kind: Runner
 metadata:
   name: github-action-runner-amd-2
-  namespace: actions-runner-system
+  namespace: default
 spec:
   labels:
     - amd64-runner

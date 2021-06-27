@@ -8,7 +8,5 @@
     "postdeploy": "kubectl rollout restart deployment valheim-server --namespace gaming",
     "seal": "scripts/bin/seal.sh"
   },
-  "dependencies": {
-    "@ha/gaming-namespace": "^0.0.1"
-  }
+  "dependencies": {}
 }

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ps5-wake
-  namespace: home-automation
+  namespace: default
   labels:
     app.kubernetes.io/name: ps5-wake
 spec:

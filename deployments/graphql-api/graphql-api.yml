@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: graphql-api
-  namespace: home-automation
+  namespace: default
   labels:
     app.kubernetes.io/name: graphql-api
 spec:

@@ -10,7 +10,7 @@ metadata:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-staging
   name: home-assistant
-  namespace: home-automation
+  namespace: default
 spec:
   tls:
     - hosts:

@@ -4,7 +4,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: facebox
-  namespace: home-automation
+  namespace: default
   labels:
     app.kubernetes.io/name: facebox
 spec:

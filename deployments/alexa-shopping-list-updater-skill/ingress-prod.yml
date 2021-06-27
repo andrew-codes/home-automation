@@ -10,7 +10,7 @@ metadata:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-prod
   name: alexa-shopping-list-updater-skill
-  namespace: home-automation
+  namespace: default
 spec:
   tls:
     - hosts:
