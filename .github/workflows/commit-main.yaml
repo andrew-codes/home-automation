@@ -39,23 +39,13 @@ jobs:
         env:
           MQTT_CONNECTION: ${{ secrets.MQTT_CONNECTION }}
           GAMING_ROOM_GAMING_PC_USERNAME: "${{ secrets.GAMING_ROOM_GAMING_PC_USERNAME }}"
-          MQTT_HOST: "${{ secrets.MQTT_HOST }}"
-          MQTT_PASSWORD: "${{ secrets.MQTT_PASSWORD }}"
-          MQTT_PORT: "${{ secrets.MQTT_PORT }}"
-          MQTT_USERNAME: "${{ secrets.MQTT_USERNAME }}"
       - name: Run tests
         run: yarn test
       - name: Build and push images
-        env:
-          DOCKER_REGISTRY_DOMAIN: ${{ secrets.DOCKER_REGISTRY_DOMAIN }}
         run: yarn lerna run image/push --stream --since HEAD~
       - name: Deploy
-        run: yarn lerna run deploy --stream --ignore @ha/lets-encrypt --ignore @ha/docker-registry --include-filtered-dependencies --since HEAD~
+        run: yarn lerna run deploy --stream --ignore @ha/lets-encrypt --ignore @ha/docker-registry --ignore @ha/k8s --ignore @ha/inlets --ignore --ignore @ha/openvpn-as --ignore @ha/pihole --ignore @ha/vault --ignore @ha/velero --include-filtered-dependencies --since HEAD~
         env:
           MACHINE_PASSWORD: '${{ secrets.MACHINE_PASSWORD }}'
           GAMING_ROOM_GAMING_PC_USERNAME: "${{ secrets.GAMING_ROOM_GAMING_PC_USERNAME }}"
           GAMING_ROOM_GAMING_PC_MAC: "${{ secrets.GAMING_ROOM_GAMING_PC_MAC }}"
-          MQTT_HOST: "${{ secrets.MQTT_HOST }}"
-          MQTT_PASSWORD: "${{ secrets.MQTT_PASSWORD }}"
-          MQTT_PORT: "${{ secrets.MQTT_PORT }}"
-          MQTT_USERNAME: "${{ secrets.MQTT_USERNAME }}"

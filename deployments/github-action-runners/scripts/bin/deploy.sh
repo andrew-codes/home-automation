@@ -3,6 +3,7 @@
 pushd .
 cd ../../
 source scripts/bin/vault.sh
+source .external-ports.env
 popd
 
 export KUBE_CONFIG=$(vault kv get -format=json kv/github-action-runners | jq .data.KUBE_CONFIG | sed 's/"//g')
@@ -34,3 +35,22 @@ kubectl apply -f .secrets/config-maps.yml
 kubectl create secret generic controller-manager --namespace="actions-runner-system" --from-literal=github_token="$GITHUB_TOKEN"
 kubectl apply -f https://github.com/summerwind/actions-runner-controller/releases/download/v0.16.1/actions-runner-controller.yaml
 kubectl apply -f runners.yml
+
+export GITHUB_ACTION_JEST_REPORTER_TOKEN=$(vault kv get -format=json kv/github-action-runner | jq .data.GITHUB_ACTION_JEST_REPORTER_TOKEN)
+yarn seal-github-secret andrew-codes home-automation JEST_REPORTER_TOKEN "$GITHUB_ACTION_JEST_REPORTER_TOKEN"
+
+# Move these to relevant packages ===
+export MQTT_PASSWORD=$(vault kv get -format=json kv/mqtt | jq .data.MQTT_PASSWORD)
+export MQTT_USERNAME=$(vault kv get -format=json kv/mqtt | jq .data.MQTT_USERNAME)
+export GAMING_ROOM_GAMING_PC_MAC=$(vault kv get -format=json kv/home-assistant | jq .data.GAMING_ROOM_GAMING_PC_MAC)
+yarn seal-github-secret andrew-codes home-automation GAMING_ROOM_GAMING_PC_MAC "$GAMING_ROOM_GAMING_PC_MAC"
+yarn seal-github-secret andrew-codes home-automation MACHINE_PASSWORD "$MACHINE_PASSWORD"
+yarn seal-github-secret andrew-codes home-automation MQTT_CONNECTION "$(
+  cat <<EOL
+\$MQTT_HOST = "192.168.3.51"
+\$MQTT_PORT = $EXTERNAL_MQTT_PORT
+\$MQTT_USERNAME = "$MQTT_USERNAME"
+\$MQTT_PASSWORD = "$MQTT_PASSWORD"
+EOL
+)"
+# ===

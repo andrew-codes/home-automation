@@ -13,8 +13,6 @@ jobs:
       - name: Docker system prune
         run: docker system prune -f
       - name: Build/push docker image
-        env:
-          DOCKER_REGISTRY_DOMAIN: ${{ secrets.DOCKER_REGISTRY_DOMAIN }}
         run: yarn image/push --scope @ha/github-action-runner-amd64 --stream
       - name: Purge registry of old images
-        run: docker run --rm anoxis/registry-cli -r "http://${{ secrets.DOCKER_REGISTRY_DOMAIN }}:5000" --delete --num 5 -l "$DOCKER_REGISTRY_USERNAME:$DOCKER_REGISTRY_PASSWORD"
+        run: docker run --rm anoxis/registry-cli -r "http://docker-registry:5000" --delete --num 5
