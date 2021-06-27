@@ -13,6 +13,11 @@ spec:
     - name: regcred
   image: docker-registry:5000/github-action-runner:latest
   imagePullPolicy: Always
+  command:
+    - sh
+  args:
+    - "-c"
+    - "wrapdocker.sh && /entrypoint.sh"  
   env:
     - name: DOCKER_HOST
       value: localhost:2736
@@ -56,6 +61,11 @@ spec:
   imagePullSecrets:
     - name: regcred
   image: docker-registry:5000/github-action-runner:latest
+  command:
+    - sh
+  args:
+    - "-c"
+    - "wrapdocker.sh && /entrypoint.sh"   
   imagePullPolicy: Always
   env:
     - name: DOCKER_HOST

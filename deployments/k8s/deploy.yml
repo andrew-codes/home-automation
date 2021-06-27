@@ -201,6 +201,21 @@
         - kubectl apply -f /home/{{ ansible_user }}/flannel-network-config.yml
         - kubectl apply -f /home/{{ ansible_user }}/flannel.yml
 
+    - name: Copy resource quota
+      copy:
+        src: ./src/resource-quota.yml
+        dest: /home/{{ ansible_user }}/resource-quota.yml
+        owner: root
+        mode: 0644
+    
+    - name: Create resource quota
+      become_user: hl
+      become_method: sudo
+      become: yes
+      command: "{{ item }}"
+      with_items:
+        - kubectl apply -f /home/{{ ansible_user }}/resource-quota.yml
+
     - pause: seconds=30
 
     - name: Get the token for joining the nodes with Kuberentes master.
