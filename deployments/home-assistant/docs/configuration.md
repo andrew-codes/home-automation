@@ -2,7 +2,7 @@
 
 The Home Assistant [configuration directory](https://www.home-assistant.io/docs/configuration/) is located in the `./apps/home-assistant/src` directory. The configuration files are committed and versioned in git.
 
-A recommended, basic configuration to start with is:
+> A recommended, basic configuration to start with is:
 
 ```yaml
 # Configure a default setup of Home Assistant (frontend, api, etc)
