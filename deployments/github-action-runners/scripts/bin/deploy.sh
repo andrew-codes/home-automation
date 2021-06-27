@@ -47,7 +47,7 @@ yarn seal-github-secret andrew-codes home-automation GAMING_ROOM_GAMING_PC_MAC "
 yarn seal-github-secret andrew-codes home-automation MACHINE_PASSWORD "$MACHINE_PASSWORD"
 yarn seal-github-secret andrew-codes home-automation MQTT_CONNECTION "$(
   cat <<EOL
-\$MQTT_HOST = "192.168.3.51"
+\$MQTT_HOST = "$PROD_K8S_MAIN_NODE_IP"
 \$MQTT_PORT = $EXTERNAL_MQTT_PORT
 \$MQTT_USERNAME = "$MQTT_USERNAME"
 \$MQTT_PASSWORD = "$MQTT_PASSWORD"
