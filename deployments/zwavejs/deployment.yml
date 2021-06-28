@@ -68,13 +68,6 @@ spec:
             - containerPort: 3000
               name: ws
               protocol: TCP
-          resources:
-            limits:
-              cpu: '1'
-              memory: 512Mi
-            requests:
-              cpu: '1'
-              memory: 400Mi
           securityContext:
             allowPrivilegeEscalation: true
             privileged: true
