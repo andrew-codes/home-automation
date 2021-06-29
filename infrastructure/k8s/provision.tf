@@ -25,8 +25,7 @@ variable "ssh_key" {
 }
 
 variable "name" {
-  type    = string
-  default = "k8s"
+  type = string
   validation {
     condition     = length(var.name) > 0
     error_message = "Name is required."
@@ -81,19 +80,13 @@ resource "proxmox_vm_qemu" "k8s-node" {
   vmid        = 101
 
   disk {
-    size    = "20G"
+    size    = "250G"
     type    = "scsi"
     storage = "local-lvm"
     format  = "ext4"
     ssd     = 1
   }
-  disk {
-    size    = "350G"
-    type    = "scsi"
-    storage = "local-lvm"
-    format  = "ext4"
-    ssd     = 1
-  }
+
   network {
     model  = "virtio"
     bridge = "vmbr0"

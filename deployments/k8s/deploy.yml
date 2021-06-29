@@ -16,6 +16,17 @@
         regexp: "(^/.*swap*)"
         replace: '# \1'
 
+    - name: Set hostname
+      hostname:
+        name: "{{ hostname }}"
+
+    - name: Add myself to /etc/hosts
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '^127\.0\.0\.1[ \t]+localhost'
+        line: '127.0.0.1 localhost {{ hostname }}'
+        state: present
+
     - name: Installing Prerequisites
       apt:
         name:
@@ -99,11 +110,11 @@
         name: kubelet
         enabled: yes
 
-    - name: Set resolution of docker-registry
-      become_user: root
-      become_method: sudo
-      become: yes
-      shell: echo "{{ docker-ip }}" docker-registry >> /etc/hosts
+    - name: Set resolution of docker-registry in /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        line: "{{ docker-ip }} docker-registry"
+        create: yes
 
     # - name: Reboot all the kubernetes nodes.
     #   reboot:
