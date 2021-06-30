@@ -26,6 +26,13 @@ variable "name" {
     error_message = "Name is required."
   }
 }
+variable "disksize" {
+  type = string
+  validation {
+    condition     = length(var.disksize) > 0
+    error_message = "Disksize is required."
+  }
+}
 
 resource "proxmox_vm_qemu" "ubuntu-server" {
   count       = 1
@@ -43,7 +50,7 @@ resource "proxmox_vm_qemu" "ubuntu-server" {
   vmid        = 104
 
   disk {
-    size    = "20G"
+    size    = var.disksize
     type    = "scsi"
     storage = "local-lvm"
     format  = "ext4"
