@@ -50,6 +50,7 @@ yarn seal-github-secret andrew-codes home-automation JEST_REPORTER_TOKEN "$GITHU
 export MQTT_PASSWORD=$(vault kv get -format=json kv/mqtt | jq .data.PASSWORD | sed 's/"//g')
 export MQTT_USERNAME=$(vault kv get -format=json kv/mqtt | jq .data.USERNAME | sed 's/"//g')
 export GAMING_ROOM_GAMING_PC_MAC=$(vault kv get -format=json kv/home-assistant | jq .data.GAMING_ROOM_GAMING_PC_MAC | sed 's/"//g')
+export MACHINE_PASSWORD=$(vault kv get -format=json kv/k8s | jq .data.MACHINE_PASSWORD | sed 's/"//g')
 yarn seal-github-secret andrew-codes home-automation GAMING_ROOM_GAMING_PC_MAC "$GAMING_ROOM_GAMING_PC_MAC"
 yarn seal-github-secret andrew-codes home-automation MACHINE_PASSWORD "$MACHINE_PASSWORD"
 yarn seal-github-secret andrew-codes home-automation MQTT_CONNECTION "$(
