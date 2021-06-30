@@ -76,22 +76,15 @@ resource "proxmox_vm_qemu" "docker-registry" {
   os_type     = "cloud-init"
   scsihw      = "virtio-scsi-pci"
   bootdisk    = "scsi0"
-  vmid        = 100
 
   disk {
-    size    = "20G"
+    size    = "250G"
     type    = "scsi"
     storage = "local-lvm"
     format  = "ext4"
     ssd     = 1
   }
-  disk {
-    size    = "320G"
-    type    = "scsi"
-    storage = "local-lvm"
-    format  = "ext4"
-    ssd     = 1
-  }
+
   network {
     model  = "virtio"
     bridge = "vmbr0"

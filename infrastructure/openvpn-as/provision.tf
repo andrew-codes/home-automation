@@ -72,7 +72,6 @@ resource "proxmox_lxc" "vpn" {
   start        = true
   onboot       = true
   startup      = "2,up=30"
-  vmid         = 106
 
   rootfs {
     storage = "local-lvm"

@@ -72,7 +72,6 @@ resource "proxmox_lxc" "vault" {
   start        = true
   onboot       = true
   startup      = "2,up=30"
-  vmid         = 105
 
   rootfs {
     storage = "local-lvm"

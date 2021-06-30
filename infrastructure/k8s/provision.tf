@@ -77,7 +77,6 @@ resource "proxmox_vm_qemu" "k8s-node" {
   os_type     = "cloud-init"
   scsihw      = "virtio-scsi-pci"
   bootdisk    = "scsi0"
-  vmid        = 101
 
   disk {
     size    = "250G"
