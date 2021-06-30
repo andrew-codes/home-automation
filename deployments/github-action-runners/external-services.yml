@@ -48,7 +48,7 @@ subsets:
 kind: Service
 apiVersion: v1
 metadata:
-  name: "k8s-main-node"
+  name: kubernetes
   namespace: actions-runner-system
 spec:
   ports:
@@ -61,7 +61,7 @@ spec:
 kind: Endpoints
 apiVersion: v1
 metadata:
-  name: "k8s-main-node"
+  name: kubernetes
   namespace: actions-runner-system
 subsets:
   - addresses:
