@@ -16,7 +16,7 @@ mkdir -p .secrets
 cat >.secrets/ansible-secrets.yml <<EOL
 ---
 pod_network_cidr: "$POD_NETWORK_CIDR"
-docker-ip: "$PROD_DOCKER_IP"
+docker_ip: "$PROD_DOCKER_IP"
 EOL
 
 mkdir -p .secrets

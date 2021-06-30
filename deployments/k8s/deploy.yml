@@ -4,7 +4,9 @@
   become_method: sudo
   become_user: root
   gather_facts: yes
-  connection: ssh
+  connection: ssh 
+  vars_files:
+    - .secrets/ansible-secrets.yml
 
   tasks:
     - name: Disabling Swap on all nodes
@@ -110,10 +112,10 @@
         name: kubelet
         enabled: yes
 
-    - name: Set resolution of docker-registry in /etc/hosts
+    - name: "Set resolution of docker-registry in /etc/hosts"
       lineinfile:
         path: /etc/hosts
-        line: "{{ docker-ip }} docker-registry"
+        line: "{{ docker_ip }} docker-registry"
         create: yes
 
     # - name: Reboot all the kubernetes nodes.
