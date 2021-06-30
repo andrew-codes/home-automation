@@ -72,7 +72,7 @@ resource "proxmox_vm_qemu" "docker-registry" {
   cpu         = "host"
   sockets     = "1"
   cores       = 4
-  memory      = 65536
+  memory      = 10240
   os_type     = "cloud-init"
   scsihw      = "virtio-scsi-pci"
   bootdisk    = "scsi0"
