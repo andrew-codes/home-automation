@@ -3,7 +3,10 @@
 pushd .
 cd ../../
 source scripts/bin/vault.sh
+set -o allexport
 source .external-ports.env
+source ./.provision-vars.env
+set +o allexport
 popd
 
 export GITHUB_RUNNER_TOKEN=$(vault kv get -format=json kv/github-action-runners | jq .data.GITHUB_TOKEN | sed 's/"//g' | sed 's/"//g')
@@ -34,6 +37,7 @@ data:
 EOL
 
 kubectl apply -f namespace.yml
+envsubst <external-services.yml | kubectl apply -f -
 kubectl apply -f .secrets/config-maps.yml
 kubectl create secret generic controller-manager --namespace="actions-runner-system" --from-literal=github_token="$GITHUB_RUNNER_TOKEN"
 kubectl apply -f https://github.com/summerwind/actions-runner-controller/releases/download/v0.16.1/actions-runner-controller.yaml

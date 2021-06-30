@@ -1,0 +1,26 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: "ubuntu-server"
+  namespace: actions-runner-system
+spec:
+  ports:
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 6443
+
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: "ubuntu-server"
+  namespace: actions-runner-system
+subsets:
+  - addresses:
+      - ip: $PROD_K8S_MAIN_NODE_IP
+    ports:
+      - name: https
+        port: 6443
+        protocol: TCP
