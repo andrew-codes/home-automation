@@ -5,6 +5,8 @@
   become_user: root
   gather_facts: yes
   connection: ssh
+  vars:
+    hostname: docker-registry
   vars_files:
     - .secrets/ansible-secrets.yml
 
@@ -17,6 +19,17 @@
         path: /etc/fstab
         regexp: "(^/.*swap*)"
         replace: '# \1'
+
+    - name: Set hostname
+      hostname:
+        name: "{{ hostname }}"
+
+    - name: Add myself to /etc/hosts
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '^127\.0\.0\.1[ \t]+localhost'
+        line: '127.0.0.1 localhost {{ hostname }}'
+        state: present
 
     - name: Installing Prerequisites
       apt:
@@ -69,11 +82,11 @@
         - systemctl restart docker
 
     - name: Registry directory
-      become_user: hl
+      become_user: root
       become_method: sudo
       become: yes
       file:
-        path: /mnt/registry
+        path: /data/registry
         state: directory
 
     - name: Stop registry
@@ -86,7 +99,7 @@
       shell: >
         docker run -d \
           --name registry \
-          -v /mnt/registry:/var/lib/registry \
+          -v /data/registry:/var/lib/registry \
           -e "REGISTRY_HTTP_ADDR=0.0.0.0:5000" \
           -p 5000:5000 \
           registry:2
