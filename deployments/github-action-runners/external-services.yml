@@ -15,7 +15,7 @@ spec:
 kind: Endpoints
 apiVersion: v1
 metadata:
-  name: "ubuntu-server"
+  name: "k8s-main-node"
   namespace: actions-runner-system
 subsets:
   - addresses:
