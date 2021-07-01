@@ -13,25 +13,14 @@ export GITHUB_RUNNER_TOKEN=$(vault kv get -format=json kv/github-action-runners 
 yarn seal-github-secret andrew-codes home-automation VAULT_TOKEN "$VAULT_TOKEN"
 yarn seal-github-secret andrew-codes home-automation VAULT_ADDR "http://vault:8200"
 
-export KUBE_CONFIG=$(vault kv get -format=json kv/github-action-runners | jq .data.KUBE_CONFIG | sed -e 's/^"//' -e 's/"$//')
 export HOME_AUTOMATION_PRIVATE_SSH_KEY=$(vault kv get -format=json kv/github-action-runners | jq .data.HOME_AUTOMATION_PRIVATE_SSH_KEY | sed -e 's/^"//' -e 's/"$//')
-
 mkdir -p .secrets
 cat <<EOL >.secrets/config-maps.yml
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kube-config
-  namespace: actions-runner-system
-data:
-  value: "$KUBE_CONFIG"
-
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
   name: home-automation-private-key
-  namespace: actions-runner-system
+  namespace: default
 data:
   value: "$HOME_AUTOMATION_PRIVATE_SSH_KEY"
 EOL

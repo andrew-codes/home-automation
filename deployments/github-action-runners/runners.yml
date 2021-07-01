@@ -1,106 +1,84 @@
-apiVersion: actions.summerwind.dev/v1alpha1
-kind: Runner
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: github-action-runner-amd-1
-  namespace: actions-runner-system
-spec:
-  labels:
-    app: github-action-runner
-  repository: andrew-codes/home-automation
-  dockerEnabled: true
-  dockerdWithinRunnerContainer: false
-  imagePullSecrets:
-    - name: regcred
-  image: docker-registry:5000/github-action-runner:latest
-  imagePullPolicy: Always
-  command:
-    - sh
-  args:
-    - "-c"
-    - "wrapdocker.sh && /entrypoint.sh"
-  resources:
-    requests:
-      ephemeral-storage: "2Gi"
-    limits:
-      ephemeral-storage: "4Gi"
-  env:
-    - name: DOCKER_HOST
-      value: localhost:2736
-  volumeMounts:
-    - name: kubectl-config-volume
-      mountPath: /home/runner/.kube/config
-      subPath: value
-    - name: ssh-volume
-      mountPath: /home/runner/.ssh/id_rsa
-      subPath: value
-  volumes:
-    - name: kubectl-config-volume
-      configMap:
-        name: kube-config
-    - name: ssh-volume
-      configMap:
-        name: home-automation-private-key
-        defaultMode: 0600
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-              - key: kubernetes.io/arch
-                operator: In
-                values:
-                  - amd64
+  name: k8s
+subjects:
+- kind: ServiceAccount
+  name: k8s
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: k8s
 
 ---
 apiVersion: actions.summerwind.dev/v1alpha1
-kind: Runner
+kind: RunnerDeployment
 metadata:
-  name: github-action-runner-amd-2
-  namespace: actions-runner-system
+  name: github-runner-deployment
 spec:
-  labels:
-    app: github-action-runner
-  repository: andrew-codes/home-automation
-  dockerEnabled: true
-  dockerdWithinRunnerContainer: false
-  imagePullSecrets:
-    - name: regcred
-  image: docker-registry:5000/github-action-runner:latest
-  command:
-    - sh
-  args:
-    - "-c"
-    - "wrapdocker.sh && /entrypoint.sh"
-  resources:
-    requests:
-      ephemeral-storage: "2Gi"
-    limits:
-      ephemeral-storage: "4Gi"
-  imagePullPolicy: Always
-  env:
-    - name: DOCKER_HOST
-      value: localhost:2736
-  volumeMounts:
-    - name: kubectl-config-volume
-      mountPath: /home/runner/.kube/config
-      subPath: value
-    - name: ssh-volume
-      mountPath: /home/runner/.ssh/id_rsa
-      subPath: value
-  volumes:
-    - name: kubectl-config-volume
-      configMap:
-        name: kube-config
-    - name: ssh-volume
-      configMap:
-        name: home-automation-private-key
-        defaultMode: 0600
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-              - key: kubernetes.io/arch
-                operator: In
-                values:
-                  - amd64
+  template:
+    spec:
+      serviceAccountName: k8s
+      repository: andrew-codes/home-automation
+      labels:
+        - amd64-runner
+        - github-action-runner
+      dockerEnabled: true
+      dockerdWithinRunnerContainer: false
+      imagePullSecrets:
+        - name: regcred
+      image: docker-registry:5000/github-action-runner:latest
+      command:
+        - sh
+      args:
+        - "-c"
+        - "wrapdocker.sh && /entrypoint.sh"
+      resources:
+        requests:
+          ephemeral-storage: "2Gi"
+        limits:
+          ephemeral-storage: "4Gi"
+      imagePullPolicy: Always
+      env:
+        - name: DOCKER_HOST
+          value: localhost:2736
+      volumeMounts:
+        - name: ssh-volume
+          mountPath: /home/runner/.ssh/id_rsa
+          subPath: value
+      volumes:
+        - name: ssh-volume
+          configMap:
+            name: home-automation-private-key
+            defaultMode: 0600
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                      - amd64
+---
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: HorizontalRunnerAutoscaler
+metadata:
+  name: runner-deployment-autoscaler
+spec:
+  scaleDownDelaySecondsAfterScaleOut: 60
+  scaleTargetRef:
+    name: github-runner-deployment
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: TotalNumberOfQueuedAndInProgressWorkflowRuns
+    repositoryNames:
+    - andrew-codes/home-automation

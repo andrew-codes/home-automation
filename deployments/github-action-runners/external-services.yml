@@ -1,12 +1,9 @@
----
 apiVersion: v1
 kind: Service
 metadata:
   name: vault
-  namespace: actions-runner-system
+  namespace: default
 spec:
-  selectors:
-    app: github-action-runner
   ports:
   - protocol: TCP
     port: 8200
@@ -16,19 +13,19 @@ apiVersion: v1
 kind: Endpoints
 metadata:
   name: vault
-  namespace: actions-runner-system
+  namespace: default
 subsets:
   - addresses:
       - ip: $PROD_VAULT_IP
     ports:
-      - port: 8200.
+      - port: 8200
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: docker-registry
-  namespace: actions-runner-system
+  namespace: default
 spec:
   ports:
   - protocol: TCP
@@ -39,47 +36,9 @@ apiVersion: v1
 kind: Endpoints
 metadata:
   name: docker-registry
-  namespace: actions-runner-system
-  labels:
-    endpointslice.kubernetes.io/skip-mirror: 'true'
+  namespace: default
 subsets:
   - addresses:
       - ip: $PROD_DOCKER_IP
     ports:
       - port: 5000
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: k8s-main-node
-  namespace: actions-runner-system
-  labels:
-    component: apiserver
-    provider: kubernetes
-spec:
-  selector:
-    app: github-action-runner
-  type: ClusterIP
-  ipFamilies:
-    - IPv4
-  ipFamilyPolicy: SingleStack
-  ports:
-    - name: https
-      protocol: TCP
-      port: 443
-      targetPort: 6443
-
----
-kind: Endpoints
-apiVersion: v1
-metadata:
-  name: k8s-main-node
-  namespace: actions-runner-system
-subsets:
-  - addresses:
-      - ip: $PROD_K8S_MAIN_NODE_IP
-    ports:
-      - name: https
-        port: 6443
-        protocol: TCP
