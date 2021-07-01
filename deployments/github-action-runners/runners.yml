@@ -5,7 +5,7 @@ metadata:
   namespace: actions-runner-system
 spec:
   labels:
-    - amd64-runner
+    app: github-action-runner
   repository: andrew-codes/home-automation
   dockerEnabled: true
   dockerdWithinRunnerContainer: false
@@ -59,7 +59,7 @@ metadata:
   namespace: actions-runner-system
 spec:
   labels:
-    - amd64-runner
+    app: github-action-runner
   repository: andrew-codes/home-automation
   dockerEnabled: true
   dockerdWithinRunnerContainer: false

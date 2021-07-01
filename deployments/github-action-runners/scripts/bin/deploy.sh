@@ -4,8 +4,8 @@ pushd .
 cd ../../
 source scripts/bin/vault.sh
 set -o allexport
-source .external-ports.env
 source ./.provision-vars.env
+source .external-ports.env
 set +o allexport
 popd
 
@@ -24,7 +24,7 @@ metadata:
   name: kube-config
   namespace: actions-runner-system
 data:
-  value: "$KUBE_CONFIG"
+  value: ""
 
 ---
 apiVersion: v1
@@ -39,7 +39,7 @@ EOL
 kubectl apply -f namespace.yml
 envsubst <external-services.yml | kubectl apply -f -
 kubectl apply -f .secrets/config-maps.yml
-kubectl create secret generic controller-manager --namespace="actions-runner-system" --from-literal=github_token="$GITHUB_RUNNER_TOKEN"
+kubectl create secret generic controller-manager --namespace=actions-runner-system --from-literal=github_token="$GITHUB_RUNNER_TOKEN"
 kubectl apply -f https://github.com/summerwind/actions-runner-controller/releases/download/v0.16.1/actions-runner-controller.yaml
 kubectl apply -f runners.yml
 
@@ -61,4 +61,3 @@ yarn seal-github-secret andrew-codes home-automation MQTT_CONNECTION "$(
 \$MQTT_PASSWORD = "$MQTT_PASSWORD"
 EOL
 )"
-# ===
