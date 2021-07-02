@@ -26,23 +26,25 @@ RUN apt update -y
 RUN apt-get remove docker docker-engine docker.io containerd
 
 RUN apt-get install -y \
-    jq \
-    terraform \
-    vault \
-    nodejs \
-    yarn \
-    docker-ce \
+    ansible \
     apt-transport-https \
+    ca-certificates \
+    docker-ce \
+    gettext-base \
     gnupg2 \
+    iptables \
+    iputils-ping \
+    jq \
     kubectl \
     lxc \
-    ca-certificates \
-    iptables \
-    ansible \
-    python3.8 \
+    net-tools \
+    nodejs \
     python3-pip \
-    gettext-base \
-    unzip
+    python3.8 \
+    terraform \
+    unzip \
+    vault \
+    yarn 
 RUN apt install -y --no-install-recommends telepresence
 RUN setcap cap_ipc_lock= /usr/bin/vault
 
