@@ -38,7 +38,7 @@ google:
 http:
   use_x_forwarded_for: true
   trusted_proxies:
-    - 172.16.0.217
+    - 172.16.0.0/12
 
 spotify:
   client_id: !secret SPOTIFY_CLIENT_ID
