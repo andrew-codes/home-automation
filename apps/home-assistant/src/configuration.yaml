@@ -38,7 +38,7 @@ google:
 http:
   use_x_forwarded_for: true
   trusted_proxies:
-    - 192.168.100.0/24
+    - 172-16-0-217.ingress-nginx-controller-admission.default.svc.cluster.local
 
 spotify:
   client_id: !secret SPOTIFY_CLIENT_ID
