@@ -30,6 +30,7 @@
 
   "mounts": [
     "source=${localWorkspaceFolder}/deployments/k8s/.secrets/.kube,target=/root/.kube,type=bind",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/root/.ssh,type=bind",
     "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/root/.gitconfig,type=bind"
   ],
 
