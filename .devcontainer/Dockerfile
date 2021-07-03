@@ -19,13 +19,14 @@ RUN curl -sS https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 RUN echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable" | tee -a /etc/apt/sources.list.d/docker.list
 RUN echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu focal main"
 RUN apt-add-repository -y --update ppa:ansible/ansible
-RUN add-apt-repository ppa:deadsnakes/ppa
-RUN apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+RUN add-apt-repository -y --update ppa:deadsnakes/ppa
+RUN apt-add-repository -y --update "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 RUN apt update -y
+RUN apt-get upgrade -y
 
 RUN apt-get remove docker docker-engine docker.io containerd
 
-RUN apt-get install -y \
+RUN apt-get install -y  \
     ansible \
     apt-transport-https \
     ca-certificates \
@@ -74,3 +75,14 @@ RUN chmod +x /usr/local/bin/velero
 RUN curl -fsSL -o helm.tar.gz  https://get.helm.sh/helm-v3.6.1-linux-amd64.tar.gz
 RUN tar -zxvf helm.tar.gz
 RUN mv linux-amd64/helm /usr/local/bin/helm
+RUN  mkdir -p /root/developer/repos/workspace
+WORKDIR  /root/developer/repos
+RUN git clone https://github.com/andrew-codes/devtools.git
+WORKDIR /root/developer/repos/devtools
+RUN cat bash_features.sh | sed 's/[1]/0/g' \
+    | sed 's/ADDITIONAL_GIT_FUNCTIONALITY=0/ADDITIONAL_GIT_FUNCTIONALITY=1/' \
+    | sed 's/GIT_PROMPT=0/GIT_PROMPT=1/' \
+    | sed 's/GIT_ALIAS=0/GIT_ALIAS=1/'
+RUN ./add-devtools-to-bash_profile.sh
+RUN echo "source /root/.bash_profile" >> /root/.bashrc
+WORKDIR /root/developer/repos/workspace
