@@ -733,3 +733,749 @@ views:
                       - input_boolean.sat_inc_front_door_3
                       - input_datetime.sat_start_date_front_door_3
                       - input_datetime.sat_end_date_front_door_3
+# =========================
+# =========================
+# =========================
+# =========================
+# =========================
+# =========================
+# =========================
+# =========================
+# =========================
+# =========================
+# =========================
+# =========================
+  - title: Car Port Door
+    path: keypad-car-port-door
+    icon: 'mdi:lock-smart'
+    panel: false
+    badges:
+      - input_text.car_port_door_lockname
+      - input_boolean.car_port_door_lock_notifications
+      - input_boolean.car_port_door_dooraccess_notifications
+      - input_boolean.car_port_door_garageacess_notifications
+      - entity: >-
+          lock.car_port_deadbolt
+      - entity: >-
+          binary_sensor.node_18_the_current_status_of_the_door
+    cards:
+      - type: vertical-stack
+        cards:
+          - content: |
+              ## Code 4
+            type: markdown
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: input_text.car_port_door_name_4
+              - entity: input_text.car_port_door_pin_4
+              - entity: input_boolean.enabled_car_port_door_4
+              - entity: input_boolean.notify_car_port_door_4
+              - type: divider
+              - entity: sensor.connected_car_port_door_4
+                state_color: true
+              - entity: binary_sensor.active_car_port_door_4
+                state_color: true
+              - type: 'custom:fold-entity-row'
+                head:
+                  type: section
+                  label: Advanced Options
+                entities:
+                  - entity: input_boolean.reset_codeslot_car_port_door_4
+                  - type: divider
+                  - entity: input_boolean.accesslimit_car_port_door_4
+                  - entity: input_number.accesscount_car_port_door_4
+                    type: 'custom:numberbox-card'
+                    icon: 'mdi:key-variant'
+                    speed: 250
+                  - type: divider
+                  - entity: input_boolean.daterange_car_port_door_4
+                  - entity: input_datetime.start_date_car_port_door_4
+                  - entity: input_datetime.end_date_car_port_door_4
+                  - type: 'custom:fold-entity-row'
+                    head:
+                      type: section
+                      label: Custom Weekdays
+                    entities:
+                      - input_boolean.sun_car_port_door_4
+                      - input_boolean.sun_inc_car_port_door_4
+                      - input_datetime.sun_start_date_car_port_door_4
+                      - input_datetime.sun_end_date_car_port_door_4
+                      - type: divider
+                      - input_boolean.mon_car_port_door_4
+                      - input_boolean.mon_inc_car_port_door_4
+                      - input_datetime.mon_start_date_car_port_door_4
+                      - input_datetime.mon_end_date_car_port_door_4
+                      - type: divider
+                      - input_boolean.tue_car_port_door_4
+                      - input_boolean.tue_inc_car_port_door_4
+                      - input_datetime.tue_start_date_car_port_door_4
+                      - input_datetime.tue_end_date_car_port_door_4
+                      - type: divider
+                      - input_boolean.wed_car_port_door_4
+                      - input_boolean.wed_inc_car_port_door_4
+                      - input_datetime.wed_start_date_car_port_door_4
+                      - input_datetime.wed_end_date_car_port_door_4
+                      - type: divider
+                      - input_boolean.thu_car_port_door_4
+                      - input_boolean.thu_inc_car_port_door_4
+                      - input_datetime.thu_start_date_car_port_door_4
+                      - input_datetime.thu_end_date_car_port_door_4
+                      - type: divider
+                      - input_boolean.fri_car_port_door_4
+                      - input_boolean.fri_inc_car_port_door_4
+                      - input_datetime.fri_start_date_car_port_door_4
+                      - input_datetime.fri_end_date_car_port_door_4
+                      - type: divider
+                      - input_boolean.sat_car_port_door_4
+                      - input_boolean.sat_inc_car_port_door_4
+                      - input_datetime.sat_start_date_car_port_door_4
+                      - input_datetime.sat_end_date_car_port_door_4
+      - type: vertical-stack
+        cards:
+          - content: |
+              ## Code 5
+            type: markdown
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: input_text.car_port_door_name_5
+              - entity: input_text.car_port_door_pin_5
+              - entity: input_boolean.enabled_car_port_door_5
+              - entity: input_boolean.notify_car_port_door_5
+              - type: divider
+              - entity: sensor.connected_car_port_door_5
+                state_color: true
+              - entity: binary_sensor.active_car_port_door_5
+                state_color: true
+              - type: 'custom:fold-entity-row'
+                head:
+                  type: section
+                  label: Advanced Options
+                entities:
+                  - entity: input_boolean.reset_codeslot_car_port_door_5
+                  - type: divider
+                  - entity: input_boolean.accesslimit_car_port_door_5
+                  - entity: input_number.accesscount_car_port_door_5
+                    type: 'custom:numberbox-card'
+                    icon: 'mdi:key-variant'
+                    speed: 250
+                  - type: divider
+                  - entity: input_boolean.daterange_car_port_door_5
+                  - entity: input_datetime.start_date_car_port_door_5
+                  - entity: input_datetime.end_date_car_port_door_5
+                  - type: 'custom:fold-entity-row'
+                    head:
+                      type: section
+                      label: Custom Weekdays
+                    entities:
+                      - input_boolean.sun_car_port_door_5
+                      - input_boolean.sun_inc_car_port_door_5
+                      - input_datetime.sun_start_date_car_port_door_5
+                      - input_datetime.sun_end_date_car_port_door_5
+                      - type: divider
+                      - input_boolean.mon_car_port_door_5
+                      - input_boolean.mon_inc_car_port_door_5
+                      - input_datetime.mon_start_date_car_port_door_5
+                      - input_datetime.mon_end_date_car_port_door_5
+                      - type: divider
+                      - input_boolean.tue_car_port_door_5
+                      - input_boolean.tue_inc_car_port_door_5
+                      - input_datetime.tue_start_date_car_port_door_5
+                      - input_datetime.tue_end_date_car_port_door_5
+                      - type: divider
+                      - input_boolean.wed_car_port_door_5
+                      - input_boolean.wed_inc_car_port_door_5
+                      - input_datetime.wed_start_date_car_port_door_5
+                      - input_datetime.wed_end_date_car_port_door_5
+                      - type: divider
+                      - input_boolean.thu_car_port_door_5
+                      - input_boolean.thu_inc_car_port_door_5
+                      - input_datetime.thu_start_date_car_port_door_5
+                      - input_datetime.thu_end_date_car_port_door_5
+                      - type: divider
+                      - input_boolean.fri_car_port_door_5
+                      - input_boolean.fri_inc_car_port_door_5
+                      - input_datetime.fri_start_date_car_port_door_5
+                      - input_datetime.fri_end_date_car_port_door_5
+                      - type: divider
+                      - input_boolean.sat_car_port_door_5
+                      - input_boolean.sat_inc_car_port_door_5
+                      - input_datetime.sat_start_date_car_port_door_5
+                      - input_datetime.sat_end_date_car_port_door_5
+      - type: vertical-stack
+        cards:
+          - content: |
+              ## Code 6
+            type: markdown
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: input_text.car_port_door_name_6
+              - entity: input_text.car_port_door_pin_6
+              - entity: input_boolean.enabled_car_port_door_6
+              - entity: input_boolean.notify_car_port_door_6
+              - type: divider
+              - entity: sensor.connected_car_port_door_6
+                state_color: true
+              - entity: binary_sensor.active_car_port_door_6
+                state_color: true
+              - type: 'custom:fold-entity-row'
+                head:
+                  type: section
+                  label: Advanced Options
+                entities:
+                  - entity: input_boolean.reset_codeslot_car_port_door_6
+                  - type: divider
+                  - entity: input_boolean.accesslimit_car_port_door_6
+                  - entity: input_number.accesscount_car_port_door_6
+                    type: 'custom:numberbox-card'
+                    icon: 'mdi:key-variant'
+                    speed: 250
+                  - type: divider
+                  - entity: input_boolean.daterange_car_port_door_6
+                  - entity: input_datetime.start_date_car_port_door_6
+                  - entity: input_datetime.end_date_car_port_door_6
+                  - type: 'custom:fold-entity-row'
+                    head:
+                      type: section
+                      label: Custom Weekdays
+                    entities:
+                      - input_boolean.sun_car_port_door_6
+                      - input_boolean.sun_inc_car_port_door_6
+                      - input_datetime.sun_start_date_car_port_door_6
+                      - input_datetime.sun_end_date_car_port_door_6
+                      - type: divider
+                      - input_boolean.mon_car_port_door_6
+                      - input_boolean.mon_inc_car_port_door_6
+                      - input_datetime.mon_start_date_car_port_door_6
+                      - input_datetime.mon_end_date_car_port_door_6
+                      - type: divider
+                      - input_boolean.tue_car_port_door_6
+                      - input_boolean.tue_inc_car_port_door_6
+                      - input_datetime.tue_start_date_car_port_door_6
+                      - input_datetime.tue_end_date_car_port_door_6
+                      - type: divider
+                      - input_boolean.wed_car_port_door_6
+                      - input_boolean.wed_inc_car_port_door_6
+                      - input_datetime.wed_start_date_car_port_door_6
+                      - input_datetime.wed_end_date_car_port_door_6
+                      - type: divider
+                      - input_boolean.thu_car_port_door_6
+                      - input_boolean.thu_inc_car_port_door_6
+                      - input_datetime.thu_start_date_car_port_door_6
+                      - input_datetime.thu_end_date_car_port_door_6
+                      - type: divider
+                      - input_boolean.fri_car_port_door_6
+                      - input_boolean.fri_inc_car_port_door_6
+                      - input_datetime.fri_start_date_car_port_door_6
+                      - input_datetime.fri_end_date_car_port_door_6
+                      - type: divider
+                      - input_boolean.sat_car_port_door_6
+                      - input_boolean.sat_inc_car_port_door_6
+                      - input_datetime.sat_start_date_car_port_door_6
+                      - input_datetime.sat_end_date_car_port_door_6
+      - type: vertical-stack
+        cards:
+          - content: |
+              ## Code 7
+            type: markdown
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: input_text.car_port_door_name_7
+              - entity: input_text.car_port_door_pin_7
+              - entity: input_boolean.enabled_car_port_door_7
+              - entity: input_boolean.notify_car_port_door_7
+              - type: divider
+              - entity: sensor.connected_car_port_door_7
+                state_color: true
+              - entity: binary_sensor.active_car_port_door_7
+                state_color: true
+              - type: 'custom:fold-entity-row'
+                head:
+                  type: section
+                  label: Advanced Options
+                entities:
+                  - entity: input_boolean.reset_codeslot_car_port_door_7
+                  - type: divider
+                  - entity: input_boolean.accesslimit_car_port_door_7
+                  - entity: input_number.accesscount_car_port_door_7
+                    type: 'custom:numberbox-card'
+                    icon: 'mdi:key-variant'
+                    speed: 250
+                  - type: divider
+                  - entity: input_boolean.daterange_car_port_door_7
+                  - entity: input_datetime.start_date_car_port_door_7
+                  - entity: input_datetime.end_date_car_port_door_7
+                  - type: 'custom:fold-entity-row'
+                    head:
+                      type: section
+                      label: Custom Weekdays
+                    entities:
+                      - input_boolean.sun_car_port_door_7
+                      - input_boolean.sun_inc_car_port_door_7
+                      - input_datetime.sun_start_date_car_port_door_7
+                      - input_datetime.sun_end_date_car_port_door_7
+                      - type: divider
+                      - input_boolean.mon_car_port_door_7
+                      - input_boolean.mon_inc_car_port_door_7
+                      - input_datetime.mon_start_date_car_port_door_7
+                      - input_datetime.mon_end_date_car_port_door_7
+                      - type: divider
+                      - input_boolean.tue_car_port_door_7
+                      - input_boolean.tue_inc_car_port_door_7
+                      - input_datetime.tue_start_date_car_port_door_7
+                      - input_datetime.tue_end_date_car_port_door_7
+                      - type: divider
+                      - input_boolean.wed_car_port_door_7
+                      - input_boolean.wed_inc_car_port_door_7
+                      - input_datetime.wed_start_date_car_port_door_7
+                      - input_datetime.wed_end_date_car_port_door_7
+                      - type: divider
+                      - input_boolean.thu_car_port_door_7
+                      - input_boolean.thu_inc_car_port_door_7
+                      - input_datetime.thu_start_date_car_port_door_7
+                      - input_datetime.thu_end_date_car_port_door_7
+                      - type: divider
+                      - input_boolean.fri_car_port_door_7
+                      - input_boolean.fri_inc_car_port_door_7
+                      - input_datetime.fri_start_date_car_port_door_7
+                      - input_datetime.fri_end_date_car_port_door_7
+                      - type: divider
+                      - input_boolean.sat_car_port_door_7
+                      - input_boolean.sat_inc_car_port_door_7
+                      - input_datetime.sat_start_date_car_port_door_7
+                      - input_datetime.sat_end_date_car_port_door_7
+      - type: vertical-stack
+        cards:
+          - content: |
+              ## Code 8
+            type: markdown
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: input_text.car_port_door_name_8
+              - entity: input_text.car_port_door_pin_8
+              - entity: input_boolean.enabled_car_port_door_8
+              - entity: input_boolean.notify_car_port_door_8
+              - type: divider
+              - entity: sensor.connected_car_port_door_8
+                state_color: true
+              - entity: binary_sensor.active_car_port_door_8
+                state_color: true
+              - type: 'custom:fold-entity-row'
+                head:
+                  type: section
+                  label: Advanced Options
+                entities:
+                  - entity: input_boolean.reset_codeslot_car_port_door_8
+                  - type: divider
+                  - entity: input_boolean.accesslimit_car_port_door_8
+                  - entity: input_number.accesscount_car_port_door_8
+                    type: 'custom:numberbox-card'
+                    icon: 'mdi:key-variant'
+                    speed: 250
+                  - type: divider
+                  - entity: input_boolean.daterange_car_port_door_8
+                  - entity: input_datetime.start_date_car_port_door_8
+                  - entity: input_datetime.end_date_car_port_door_8
+                  - type: 'custom:fold-entity-row'
+                    head:
+                      type: section
+                      label: Custom Weekdays
+                    entities:
+                      - input_boolean.sun_car_port_door_8
+                      - input_boolean.sun_inc_car_port_door_8
+                      - input_datetime.sun_start_date_car_port_door_8
+                      - input_datetime.sun_end_date_car_port_door_8
+                      - type: divider
+                      - input_boolean.mon_car_port_door_8
+                      - input_boolean.mon_inc_car_port_door_8
+                      - input_datetime.mon_start_date_car_port_door_8
+                      - input_datetime.mon_end_date_car_port_door_8
+                      - type: divider
+                      - input_boolean.tue_car_port_door_8
+                      - input_boolean.tue_inc_car_port_door_8
+                      - input_datetime.tue_start_date_car_port_door_8
+                      - input_datetime.tue_end_date_car_port_door_8
+                      - type: divider
+                      - input_boolean.wed_car_port_door_8
+                      - input_boolean.wed_inc_car_port_door_8
+                      - input_datetime.wed_start_date_car_port_door_8
+                      - input_datetime.wed_end_date_car_port_door_8
+                      - type: divider
+                      - input_boolean.thu_car_port_door_8
+                      - input_boolean.thu_inc_car_port_door_8
+                      - input_datetime.thu_start_date_car_port_door_8
+                      - input_datetime.thu_end_date_car_port_door_8
+                      - type: divider
+                      - input_boolean.fri_car_port_door_8
+                      - input_boolean.fri_inc_car_port_door_8
+                      - input_datetime.fri_start_date_car_port_door_8
+                      - input_datetime.fri_end_date_car_port_door_8
+                      - type: divider
+                      - input_boolean.sat_car_port_door_8
+                      - input_boolean.sat_inc_car_port_door_8
+                      - input_datetime.sat_start_date_car_port_door_8
+                      - input_datetime.sat_end_date_car_port_door_8
+      - type: vertical-stack
+        cards:
+          - content: |
+              ## Code 9
+            type: markdown
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: input_text.car_port_door_name_9
+              - entity: input_text.car_port_door_pin_9
+              - entity: input_boolean.enabled_car_port_door_9
+              - entity: input_boolean.notify_car_port_door_9
+              - type: divider
+              - entity: sensor.connected_car_port_door_9
+                state_color: true
+              - entity: binary_sensor.active_car_port_door_9
+                state_color: true
+              - type: 'custom:fold-entity-row'
+                head:
+                  type: section
+                  label: Advanced Options
+                entities:
+                  - entity: input_boolean.reset_codeslot_car_port_door_9
+                  - type: divider
+                  - entity: input_boolean.accesslimit_car_port_door_9
+                  - entity: input_number.accesscount_car_port_door_9
+                    type: 'custom:numberbox-card'
+                    icon: 'mdi:key-variant'
+                    speed: 250
+                  - type: divider
+                  - entity: input_boolean.daterange_car_port_door_9
+                  - entity: input_datetime.start_date_car_port_door_9
+                  - entity: input_datetime.end_date_car_port_door_9
+                  - type: 'custom:fold-entity-row'
+                    head:
+                      type: section
+                      label: Custom Weekdays
+                    entities:
+                      - input_boolean.sun_car_port_door_9
+                      - input_boolean.sun_inc_car_port_door_9
+                      - input_datetime.sun_start_date_car_port_door_9
+                      - input_datetime.sun_end_date_car_port_door_9
+                      - type: divider
+                      - input_boolean.mon_car_port_door_9
+                      - input_boolean.mon_inc_car_port_door_9
+                      - input_datetime.mon_start_date_car_port_door_9
+                      - input_datetime.mon_end_date_car_port_door_9
+                      - type: divider
+                      - input_boolean.tue_car_port_door_9
+                      - input_boolean.tue_inc_car_port_door_9
+                      - input_datetime.tue_start_date_car_port_door_9
+                      - input_datetime.tue_end_date_car_port_door_9
+                      - type: divider
+                      - input_boolean.wed_car_port_door_9
+                      - input_boolean.wed_inc_car_port_door_9
+                      - input_datetime.wed_start_date_car_port_door_9
+                      - input_datetime.wed_end_date_car_port_door_9
+                      - type: divider
+                      - input_boolean.thu_car_port_door_9
+                      - input_boolean.thu_inc_car_port_door_9
+                      - input_datetime.thu_start_date_car_port_door_9
+                      - input_datetime.thu_end_date_car_port_door_9
+                      - type: divider
+                      - input_boolean.fri_car_port_door_9
+                      - input_boolean.fri_inc_car_port_door_9
+                      - input_datetime.fri_start_date_car_port_door_9
+                      - input_datetime.fri_end_date_car_port_door_9
+                      - type: divider
+                      - input_boolean.sat_car_port_door_9
+                      - input_boolean.sat_inc_car_port_door_9
+                      - input_datetime.sat_start_date_car_port_door_9
+                      - input_datetime.sat_end_date_car_port_door_9
+      - type: vertical-stack
+        cards:
+          - content: |
+              ## Code 10
+            type: markdown
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: input_text.car_port_door_name_10
+              - entity: input_text.car_port_door_pin_10
+              - entity: input_boolean.enabled_car_port_door_10
+              - entity: input_boolean.notify_car_port_door_10
+              - type: divider
+              - entity: sensor.connected_car_port_door_10
+                state_color: true
+              - entity: binary_sensor.active_car_port_door_10
+                state_color: true
+              - type: 'custom:fold-entity-row'
+                head:
+                  type: section
+                  label: Advanced Options
+                entities:
+                  - entity: input_boolean.reset_codeslot_car_port_door_10
+                  - type: divider
+                  - entity: input_boolean.accesslimit_car_port_door_10
+                  - entity: input_number.accesscount_car_port_door_10
+                    type: 'custom:numberbox-card'
+                    icon: 'mdi:key-variant'
+                    speed: 250
+                  - type: divider
+                  - entity: input_boolean.daterange_car_port_door_10
+                  - entity: input_datetime.start_date_car_port_door_10
+                  - entity: input_datetime.end_date_car_port_door_10
+                  - type: 'custom:fold-entity-row'
+                    head:
+                      type: section
+                      label: Custom Weekdays
+                    entities:
+                      - input_boolean.sun_car_port_door_10
+                      - input_boolean.sun_inc_car_port_door_10
+                      - input_datetime.sun_start_date_car_port_door_10
+                      - input_datetime.sun_end_date_car_port_door_10
+                      - type: divider
+                      - input_boolean.mon_car_port_door_10
+                      - input_boolean.mon_inc_car_port_door_10
+                      - input_datetime.mon_start_date_car_port_door_10
+                      - input_datetime.mon_end_date_car_port_door_10
+                      - type: divider
+                      - input_boolean.tue_car_port_door_10
+                      - input_boolean.tue_inc_car_port_door_10
+                      - input_datetime.tue_start_date_car_port_door_10
+                      - input_datetime.tue_end_date_car_port_door_10
+                      - type: divider
+                      - input_boolean.wed_car_port_door_10
+                      - input_boolean.wed_inc_car_port_door_10
+                      - input_datetime.wed_start_date_car_port_door_10
+                      - input_datetime.wed_end_date_car_port_door_10
+                      - type: divider
+                      - input_boolean.thu_car_port_door_10
+                      - input_boolean.thu_inc_car_port_door_10
+                      - input_datetime.thu_start_date_car_port_door_10
+                      - input_datetime.thu_end_date_car_port_door_10
+                      - type: divider
+                      - input_boolean.fri_car_port_door_10
+                      - input_boolean.fri_inc_car_port_door_10
+                      - input_datetime.fri_start_date_car_port_door_10
+                      - input_datetime.fri_end_date_car_port_door_10
+                      - type: divider
+                      - input_boolean.sat_car_port_door_10
+                      - input_boolean.sat_inc_car_port_door_10
+                      - input_datetime.sat_start_date_car_port_door_10
+                      - input_datetime.sat_end_date_car_port_door_10
+      - type: vertical-stack
+        cards:
+          - content: |
+              ## Code 11
+            type: markdown
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: input_text.car_port_door_name_11
+              - entity: input_text.car_port_door_pin_11
+              - entity: input_boolean.enabled_car_port_door_11
+              - entity: input_boolean.notify_car_port_door_11
+              - type: divider
+              - entity: sensor.connected_car_port_door_11
+                state_color: true
+              - entity: binary_sensor.active_car_port_door_11
+                state_color: true
+              - type: 'custom:fold-entity-row'
+                head:
+                  type: section
+                  label: Advanced Options
+                entities:
+                  - entity: input_boolean.reset_codeslot_car_port_door_11
+                  - type: divider
+                  - entity: input_boolean.accesslimit_car_port_door_11
+                  - entity: input_number.accesscount_car_port_door_11
+                    type: 'custom:numberbox-card'
+                    icon: 'mdi:key-variant'
+                    speed: 250
+                  - type: divider
+                  - entity: input_boolean.daterange_car_port_door_11
+                  - entity: input_datetime.start_date_car_port_door_11
+                  - entity: input_datetime.end_date_car_port_door_11
+                  - type: 'custom:fold-entity-row'
+                    head:
+                      type: section
+                      label: Custom Weekdays
+                    entities:
+                      - input_boolean.sun_car_port_door_11
+                      - input_boolean.sun_inc_car_port_door_11
+                      - input_datetime.sun_start_date_car_port_door_11
+                      - input_datetime.sun_end_date_car_port_door_11
+                      - type: divider
+                      - input_boolean.mon_car_port_door_11
+                      - input_boolean.mon_inc_car_port_door_11
+                      - input_datetime.mon_start_date_car_port_door_11
+                      - input_datetime.mon_end_date_car_port_door_11
+                      - type: divider
+                      - input_boolean.tue_car_port_door_11
+                      - input_boolean.tue_inc_car_port_door_11
+                      - input_datetime.tue_start_date_car_port_door_11
+                      - input_datetime.tue_end_date_car_port_door_11
+                      - type: divider
+                      - input_boolean.wed_car_port_door_11
+                      - input_boolean.wed_inc_car_port_door_11
+                      - input_datetime.wed_start_date_car_port_door_11
+                      - input_datetime.wed_end_date_car_port_door_11
+                      - type: divider
+                      - input_boolean.thu_car_port_door_11
+                      - input_boolean.thu_inc_car_port_door_11
+                      - input_datetime.thu_start_date_car_port_door_11
+                      - input_datetime.thu_end_date_car_port_door_11
+                      - type: divider
+                      - input_boolean.fri_car_port_door_11
+                      - input_boolean.fri_inc_car_port_door_11
+                      - input_datetime.fri_start_date_car_port_door_11
+                      - input_datetime.fri_end_date_car_port_door_11
+                      - type: divider
+                      - input_boolean.sat_car_port_door_11
+                      - input_boolean.sat_inc_car_port_door_11
+                      - input_datetime.sat_start_date_car_port_door_11
+                      - input_datetime.sat_end_date_car_port_door_11
+      - type: vertical-stack
+        cards:
+          - content: |
+              ## Code 12
+            type: markdown
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: input_text.car_port_door_name_12
+              - entity: input_text.car_port_door_pin_12
+              - entity: input_boolean.enabled_car_port_door_12
+              - entity: input_boolean.notify_car_port_door_12
+              - type: divider
+              - entity: sensor.connected_car_port_door_12
+                state_color: true
+              - entity: binary_sensor.active_car_port_door_12
+                state_color: true
+              - type: 'custom:fold-entity-row'
+                head:
+                  type: section
+                  label: Advanced Options
+                entities:
+                  - entity: input_boolean.reset_codeslot_car_port_door_12
+                  - type: divider
+                  - entity: input_boolean.accesslimit_car_port_door_12
+                  - entity: input_number.accesscount_car_port_door_12
+                    type: 'custom:numberbox-card'
+                    icon: 'mdi:key-variant'
+                    speed: 250
+                  - type: divider
+                  - entity: input_boolean.daterange_car_port_door_12
+                  - entity: input_datetime.start_date_car_port_door_12
+                  - entity: input_datetime.end_date_car_port_door_12
+                  - type: 'custom:fold-entity-row'
+                    head:
+                      type: section
+                      label: Custom Weekdays
+                    entities:
+                      - input_boolean.sun_car_port_door_12
+                      - input_boolean.sun_inc_car_port_door_12
+                      - input_datetime.sun_start_date_car_port_door_12
+                      - input_datetime.sun_end_date_car_port_door_12
+                      - type: divider
+                      - input_boolean.mon_car_port_door_12
+                      - input_boolean.mon_inc_car_port_door_12
+                      - input_datetime.mon_start_date_car_port_door_12
+                      - input_datetime.mon_end_date_car_port_door_12
+                      - type: divider
+                      - input_boolean.tue_car_port_door_12
+                      - input_boolean.tue_inc_car_port_door_12
+                      - input_datetime.tue_start_date_car_port_door_12
+                      - input_datetime.tue_end_date_car_port_door_12
+                      - type: divider
+                      - input_boolean.wed_car_port_door_12
+                      - input_boolean.wed_inc_car_port_door_12
+                      - input_datetime.wed_start_date_car_port_door_12
+                      - input_datetime.wed_end_date_car_port_door_12
+                      - type: divider
+                      - input_boolean.thu_car_port_door_12
+                      - input_boolean.thu_inc_car_port_door_12
+                      - input_datetime.thu_start_date_car_port_door_12
+                      - input_datetime.thu_end_date_car_port_door_12
+                      - type: divider
+                      - input_boolean.fri_car_port_door_12
+                      - input_boolean.fri_inc_car_port_door_12
+                      - input_datetime.fri_start_date_car_port_door_12
+                      - input_datetime.fri_end_date_car_port_door_12
+                      - type: divider
+                      - input_boolean.sat_car_port_door_12
+                      - input_boolean.sat_inc_car_port_door_12
+                      - input_datetime.sat_start_date_car_port_door_12
+                      - input_datetime.sat_end_date_car_port_door_12
+      - type: vertical-stack
+        cards:
+          - content: |
+              ## Code 13
+            type: markdown
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: input_text.car_port_door_name_13
+              - entity: input_text.car_port_door_pin_13
+              - entity: input_boolean.enabled_car_port_door_13
+              - entity: input_boolean.notify_car_port_door_13
+              - type: divider
+              - entity: sensor.connected_car_port_door_13
+                state_color: true
+              - entity: binary_sensor.active_car_port_door_13
+                state_color: true
+              - type: 'custom:fold-entity-row'
+                head:
+                  type: section
+                  label: Advanced Options
+                entities:
+                  - entity: input_boolean.reset_codeslot_car_port_door_13
+                  - type: divider
+                  - entity: input_boolean.accesslimit_car_port_door_13
+                  - entity: input_number.accesscount_car_port_door_13
+                    type: 'custom:numberbox-card'
+                    icon: 'mdi:key-variant'
+                    speed: 250
+                  - type: divider
+                  - entity: input_boolean.daterange_car_port_door_13
+                  - entity: input_datetime.start_date_car_port_door_13
+                  - entity: input_datetime.end_date_car_port_door_13
+                  - type: 'custom:fold-entity-row'
+                    head:
+                      type: section
+                      label: Custom Weekdays
+                    entities:
+                      - input_boolean.sun_car_port_door_13
+                      - input_boolean.sun_inc_car_port_door_13
+                      - input_datetime.sun_start_date_car_port_door_13
+                      - input_datetime.sun_end_date_car_port_door_13
+                      - type: divider
+                      - input_boolean.mon_car_port_door_13
+                      - input_boolean.mon_inc_car_port_door_13
+                      - input_datetime.mon_start_date_car_port_door_13
+                      - input_datetime.mon_end_date_car_port_door_13
+                      - type: divider
+                      - input_boolean.tue_car_port_door_13
+                      - input_boolean.tue_inc_car_port_door_13
+                      - input_datetime.tue_start_date_car_port_door_13
+                      - input_datetime.tue_end_date_car_port_door_13
+                      - type: divider
+                      - input_boolean.wed_car_port_door_13
+                      - input_boolean.wed_inc_car_port_door_13
+                      - input_datetime.wed_start_date_car_port_door_13
+                      - input_datetime.wed_end_date_car_port_door_13
+                      - type: divider
+                      - input_boolean.thu_car_port_door_13
+                      - input_boolean.thu_inc_car_port_door_13
+                      - input_datetime.thu_start_date_car_port_door_13
+                      - input_datetime.thu_end_date_car_port_door_13
+                      - type: divider
+                      - input_boolean.fri_car_port_door_13
+                      - input_boolean.fri_inc_car_port_door_13
+                      - input_datetime.fri_start_date_car_port_door_13
+                      - input_datetime.fri_end_date_car_port_door_13
+                      - type: divider
+                      - input_boolean.sat_car_port_door_13
+                      - input_boolean.sat_inc_car_port_door_13
+                      - input_datetime.sat_start_date_car_port_door_13
+                      - input_datetime.sat_end_date_car_port_door_13
