@@ -664,75 +664,75 @@ views:
       - type: vertical-stack
         cards:
           - content: |
-              ## Code 3
+              ## Code 13
             type: markdown
           - type: entities
             show_header_toggle: false
             entities:
-              - entity: input_text.front_door_name_3
-              - entity: input_text.front_door_pin_3
-              - entity: input_boolean.enabled_front_door_3
-              - entity: input_boolean.notify_front_door_3
+              - entity: input_text.front_door_name_13
+              - entity: input_text.front_door_pin_13
+              - entity: input_boolean.enabled_front_door_13
+              - entity: input_boolean.notify_front_door_13
               - type: divider
-              - entity: sensor.connected_front_door_3
+              - entity: sensor.connected_front_door_13
                 state_color: true
-              - entity: binary_sensor.active_front_door_3
+              - entity: binary_sensor.active_front_door_13
                 state_color: true
               - type: 'custom:fold-entity-row'
                 head:
                   type: section
                   label: Advanced Options
                 entities:
-                  - entity: input_boolean.reset_codeslot_front_door_3
+                  - entity: input_boolean.reset_codeslot_front_door_13
                   - type: divider
-                  - entity: input_boolean.accesslimit_front_door_3
-                  - entity: input_number.accesscount_front_door_3
+                  - entity: input_boolean.accesslimit_front_door_13
+                  - entity: input_number.accesscount_front_door_13
                     type: 'custom:numberbox-card'
                     icon: 'mdi:key-variant'
                     speed: 250
                   - type: divider
-                  - entity: input_boolean.daterange_front_door_3
-                  - entity: input_datetime.start_date_front_door_3
-                  - entity: input_datetime.end_date_front_door_3
+                  - entity: input_boolean.daterange_front_door_13
+                  - entity: input_datetime.start_date_front_door_13
+                  - entity: input_datetime.end_date_front_door_13
                   - type: 'custom:fold-entity-row'
                     head:
                       type: section
                       label: Custom Weekdays
                     entities:
-                      - input_boolean.sun_front_door_3
-                      - input_boolean.sun_inc_front_door_3
-                      - input_datetime.sun_start_date_front_door_3
-                      - input_datetime.sun_end_date_front_door_3
+                      - input_boolean.sun_front_door_13
+                      - input_boolean.sun_inc_front_door_13
+                      - input_datetime.sun_start_date_front_door_13
+                      - input_datetime.sun_end_date_front_door_13
                       - type: divider
-                      - input_boolean.mon_front_door_3
-                      - input_boolean.mon_inc_front_door_3
-                      - input_datetime.mon_start_date_front_door_3
-                      - input_datetime.mon_end_date_front_door_3
+                      - input_boolean.mon_front_door_13
+                      - input_boolean.mon_inc_front_door_13
+                      - input_datetime.mon_start_date_front_door_13
+                      - input_datetime.mon_end_date_front_door_13
                       - type: divider
-                      - input_boolean.tue_front_door_3
-                      - input_boolean.tue_inc_front_door_3
-                      - input_datetime.tue_start_date_front_door_3
-                      - input_datetime.tue_end_date_front_door_3
+                      - input_boolean.tue_front_door_13
+                      - input_boolean.tue_inc_front_door_13
+                      - input_datetime.tue_start_date_front_door_13
+                      - input_datetime.tue_end_date_front_door_13
                       - type: divider
-                      - input_boolean.wed_front_door_3
-                      - input_boolean.wed_inc_front_door_3
-                      - input_datetime.wed_start_date_front_door_3
-                      - input_datetime.wed_end_date_front_door_3
+                      - input_boolean.wed_front_door_13
+                      - input_boolean.wed_inc_front_door_13
+                      - input_datetime.wed_start_date_front_door_13
+                      - input_datetime.wed_end_date_front_door_13
                       - type: divider
-                      - input_boolean.thu_front_door_3
-                      - input_boolean.thu_inc_front_door_3
-                      - input_datetime.thu_start_date_front_door_3
-                      - input_datetime.thu_end_date_front_door_3
+                      - input_boolean.thu_front_door_13
+                      - input_boolean.thu_inc_front_door_13
+                      - input_datetime.thu_start_date_front_door_13
+                      - input_datetime.thu_end_date_front_door_13
                       - type: divider
-                      - input_boolean.fri_front_door_3
-                      - input_boolean.fri_inc_front_door_3
-                      - input_datetime.fri_start_date_front_door_3
-                      - input_datetime.fri_end_date_front_door_3
+                      - input_boolean.fri_front_door_13
+                      - input_boolean.fri_inc_front_door_13
+                      - input_datetime.fri_start_date_front_door_13
+                      - input_datetime.fri_end_date_front_door_13
                       - type: divider
-                      - input_boolean.sat_front_door_3
-                      - input_boolean.sat_inc_front_door_3
-                      - input_datetime.sat_start_date_front_door_3
-                      - input_datetime.sat_end_date_front_door_3
+                      - input_boolean.sat_front_door_13
+                      - input_boolean.sat_inc_front_door_13
+                      - input_datetime.sat_start_date_front_door_13
+                      - input_datetime.sat_end_date_front_door_13
 # =========================
 # =========================
 # =========================
