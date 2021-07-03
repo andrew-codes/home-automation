@@ -100,7 +100,7 @@ spec:
         - name: regcred
       containers:
         - name: home-assistant
-          image: docker-registry:5000/home-assistant:latest
+          image: docker-registry:5000/home-assistant:$DEPLOYMENT
           imagePullPolicy: Always
           command:
             - "sh"

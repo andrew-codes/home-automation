@@ -1,9 +1,9 @@
-name: "Deploy to Prod"
+name: "Deploy to Stage"
 
 on:
   push:
     branches:
-      - main
+      - stage
 
 jobs:
   deploy:
@@ -39,17 +39,17 @@ jobs:
         env:
           MQTT_CONNECTION: ${{ secrets.MQTT_CONNECTION }}
           GAMING_ROOM_GAMING_PC_USERNAME: "${{ secrets.GAMING_ROOM_GAMING_PC_USERNAME }}"
-      - name: Run tests
-        run: yarn test
       - name: Build and push images
         run: yarn lerna run image/push --stream --since HEAD~
         env:
-          DEPLOYMENT: "latest"
+          DEPLOYMENT: "stage"
+      - name: Deploy stage namespace
+        run: yarn lerna run deploy --scope @ha/stage-namespace
       - name: Deploy
         run: yarn lerna run deploy --stream --ignore @ha/lets-encrypt --ignore @ha/docker-registry --ignore @ha/k8s --ignore @ha/inlets --ignore @ha/openvpn-as --ignore @ha/pihole --ignore @ha/vault --ignore @ha/velero --include-filtered-dependencies --since HEAD~
         env:
-          DEPLOYMENT: "latest"
-          DEPLOYMENT_NAMESPACE: "default"
+          DEPLOYMENT: "stage"
+          DEPLOYMENT_NAMESPACE: "stage"
           VAULT_TOKEN: "${{ secrets.VAULT_TOKEN }}"
           VAULT_ADDR: "${{ secrets.VAULT_ADDR }}"
           MACHINE_PASSWORD: '${{ secrets.MACHINE_PASSWORD }}'

@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-kubectl apply -f home-assistant.yml
+envsubst <home-assistant.yml | kubectl apply -f -

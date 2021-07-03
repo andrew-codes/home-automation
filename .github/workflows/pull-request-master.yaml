@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+      - stage
 
 jobs:
   run_tests:
