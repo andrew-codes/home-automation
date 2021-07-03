@@ -34,6 +34,6 @@
     "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/root/.gitconfig,type=bind"
   ],
 
-  "postCreateCommand": "wrapdocker.sh && yarn install",
+  "postCreateCommand": "wrapdocker.sh && rm ~/.ssh/environment && source ~/developer/repos/devtools/bash/features/ssh-credentials/index.sh",
   "runArgs": ["--privileged"]
 }
