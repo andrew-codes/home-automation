@@ -102,4 +102,5 @@
           -v /data/registry:/var/lib/registry \
           -e "REGISTRY_HTTP_ADDR=0.0.0.0:5000" \
           -p 5000:5000 \
+          --restart always \
           registry:2
