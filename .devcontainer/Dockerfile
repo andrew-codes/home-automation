@@ -42,6 +42,7 @@ RUN apt-get install -y  \
     nodejs \
     python3-pip \
     python3.8 \
+    sudo \
     terraform \
     unzip \
     vault \
@@ -67,7 +68,7 @@ ADD ./wrapdocker.sh /usr/local/bin/wrapdocker.sh
 RUN chmod +x /usr/local/bin/wrapdocker.sh
 VOLUME /var/lib/docker
 RUN mkdir -p /etc/docker
-RUN echo '{ "exec-opts": [], "insecure-registries": ["docker-registry"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' > /etc/docker/daemon.json
+RUN echo '{ "exec-opts": [], "insecure-registries": ["docker-registry:5000"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' > /etc/docker/daemon.json
 RUN curl -fsSL -o velero.tar.gz https://github.com/vmware-tanzu/velero/releases/download/v1.5.3/velero-v1.5.3-linux-amd64.tar.gz
 RUN tar -xvf velero.tar.gz
 RUN mv velero-v1.5.3-linux-amd64/velero /usr/local/bin
