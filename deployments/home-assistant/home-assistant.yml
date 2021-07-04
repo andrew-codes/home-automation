@@ -102,11 +102,6 @@ spec:
         - name: home-assistant
           image: docker-registry:5000/home-assistant:latest
           imagePullPolicy: Always
-          command:
-            - "sh"
-          args:
-            - "-c"
-            - "source /vault/secrets/env.sh && source /root/set_ssh_keys.sh && cp -rf /home-assistant-src/* /home-assistant && rm -rf /home-assistant/secrets.yaml && cp -rf /vault/secrets/secrets.yaml /home-assistant && hass --config /home-assistant"
           ports:
             - name: api
               containerPort: 8123
