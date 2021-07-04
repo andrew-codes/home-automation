@@ -30,10 +30,10 @@
 
   "mounts": [
     "source=${localWorkspaceFolder}/deployments/k8s/.secrets/.kube,target=/root/.kube,type=bind",
-    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/root/.ssh,type=bind",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh/id_rsa.pub,target=/root/.ssh/id_rsa.pub,type=bind",
     "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/root/.gitconfig,type=bind"
   ],
 
-  "postCreateCommand": "wrapdocker.sh && rm ~/.ssh/environment && source ~/developer/repos/devtools/bash/features/ssh-credentials/index.sh",
+  "postCreateCommand": "wrapdocker.sh && source ~/developer/repos/devtools/bash/features/ssh-credentials/index.sh",
   "runArgs": ["--privileged"]
 }
