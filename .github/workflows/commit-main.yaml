@@ -1,4 +1,4 @@
-name: "Deploy"
+name: "Deploy to Production"
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    name: Compile, Push, Deploy
+    name: Compile, Test, Push, Deploy
     runs-on: amd64-runner
     steps:
       - uses: actions/checkout@v2
