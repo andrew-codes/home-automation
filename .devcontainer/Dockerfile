@@ -75,16 +75,3 @@ RUN chmod +x /usr/local/bin/velero
 RUN curl -fsSL -o helm.tar.gz  https://get.helm.sh/helm-v3.6.1-linux-amd64.tar.gz
 RUN tar -zxvf helm.tar.gz
 RUN mv linux-amd64/helm /usr/local/bin/helm
-RUN  mkdir -p /root/developer/repos/workspace
-WORKDIR  /root/developer/repos
-RUN git clone https://github.com/andrew-codes/devtools.git
-WORKDIR /root/developer/repos/devtools
-RUN cat bash_features.sh | sed 's/[1]/0/g' \
-    | sed 's/ADDITIONAL_GIT_FUNCTIONALITY=0/ADDITIONAL_GIT_FUNCTIONALITY=1/' \
-    | sed 's/GIT_PROMPT=0/GIT_PROMPT=1/' \
-    | sed 's/GIT_ALIAS=0/GIT_ALIAS=1/' \
-    | sed 's/SSH_CREDENTIALS=0/SSH_CREDENTIALS=1/' \
-    | sed 's/GPG=0/GPG=1/'
-RUN ./add-devtools-to-bash_profile.sh
-RUN echo "source /root/.bash_profile" >> /root/.bashrc
-WORKDIR /root/developer/repos/workspace
