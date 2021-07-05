@@ -1,0 +1,8 @@
+*
+!apps/
+!dashboards/
+!/lovelace
+!/packages/
+!appdaemon.yaml
+!configuration.yaml
+!.gitignore
