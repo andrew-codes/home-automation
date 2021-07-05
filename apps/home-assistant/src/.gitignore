@@ -1,0 +1,9 @@
+secrets.yaml
+.HA_VERSION
+.cloud
+.storage
+.google.token
+google_calendars.yaml
+*.log
+*.db*
+webostv.conf
