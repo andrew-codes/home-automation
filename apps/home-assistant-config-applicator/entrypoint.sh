@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-source /root/set_ssh_keys.sh
-
 GIT_REMOTE=origin
 
 #### functions ####
@@ -32,7 +30,7 @@ function git-clone() {
 
     # git clone
     echo "[Info] Start git clone"
-    git clone $REPOSITORY /config || {
+    git clone $REPOSITORY /new-config || {
         echo "[Error] Git clone failed"
         exit 1
     }
@@ -85,7 +83,7 @@ function git-synchronize() {
             echo "[Info] Staying on currently checked out branch: $GIT_CURRENT_BRANCH..."
         else
             echo "[Info] Switching branches - start git checkout of branch $GIT_BRANCH..."
-            git checkout "$GIT_BRANCH" || {
+            git checkout "$GIT_BRANCH" -- $CHECKOUT_PATH || {
                 echo "[Error] Git checkout failed"
                 exit 1
             }
@@ -106,6 +104,8 @@ function git-synchronize() {
         echo "[Warn] Git repostory doesn't exist"
         git-clone
     fi
+
+    rsync --recursive -I "/new-config/$CHECKOUT_PATH/." /config
 }
 
 function validate-config() {

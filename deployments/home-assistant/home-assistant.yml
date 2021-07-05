@@ -70,8 +70,8 @@ data:
   set_ssh_keys.sh: |
     #!/usr/bin env sh
     mkdir -p /root/.ssh
-    echo -n "$HOME_AUTOMATION_PRIVATE_SSH_KEY" > /root/.ssh/id_rsa
-    echo -n "$HOME_AUTOMATION_PUBLIC_SSH_KEY" > /root/.ssh/id_rsa.pub
+    echo -e "${HOME_AUTOMATION_PRIVATE_SSH_KEY}" > /root/.ssh/id_rsa
+    echo -e "${HOME_AUTOMATION_PUBLIC_SSH_KEY}" > /root/.ssh/id_rsa.pub
     chmod 0600 /root/.ssh/*
 
 ---
@@ -141,15 +141,12 @@ spec:
             - name: GIT_BRANCH
               value: main
             - name: REPOSITORY
-              value: "git@github.com:andrew-codes/home-automation.git"
+              value: "https://github.com/andrew-codes/home-automation.git"
             - name: CHECKOUT_PATH
               value: apps/home-assistant/src
           volumeMounts:
             - name: home-assistant-config-volume
               mountPath: /config
-            - name: ha-secrets-volume
-              mountPath: /root/set_ssh_keys.sh
-              subPath: set_ssh_keys.sh
       containers:
         - name: home-assistant
           image: docker-registry:5000/home-assistant:latest
