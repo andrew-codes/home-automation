@@ -31,6 +31,37 @@ spec:
 
 ---
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: home-assistant-db-pv-volume
+  namespace: default
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 40Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data/home-assistant-db"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: home-assistant-db-pv-claim
+  namespace: default
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 40Gi
+
+---
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: secrets
@@ -73,6 +104,9 @@ spec:
           {{ with secret "kv/home-assistant" }}
           export HOME_AUTOMATION_PRIVATE_SSH_KEY="{{ .Data.HOME_AUTOMATION_PRIVATE_SSH_KEY }}"
           export HOME_AUTOMATION_PUBLIC_SSH_KEY="{{ .Data.HOME_AUTOMATION_PUBLIC_SSH_KEY }}"
+          export POSTGRES_DB="{{ .Data.POSTGRES_DB }}"
+          export POSTGRES_PASSWORD="{{ .Data.POSTGRES_PASSWORD }}"
+          export POSTGRES_USER="{{ .Data.POSTGRES_USER }}"
           {{ end }}
         vault.hashicorp.com/agent-inject-secret-secrets.yaml: 'kv/home-assistant'
         vault.hashicorp.com/agent-inject-template-secrets.yaml: |
@@ -91,6 +125,7 @@ spec:
           GITHUB_AUTHORIZATION_HEADER: "Bearer {{ .Data.GITHUB_ISSUES_TOKEN }}"
           VPN_DDNS_REST_COMMAND: 'curl -X POST "https://{{ .Data.VPN_DNS_USERNAME }}:{{ .Data.VPN_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.VPN_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"'
           HA_DDNS_REST_COMMAND: 'curl -X POST "https://{{ .Data.HOME_ASSISTANT_DNS_USERNAME }}:{{ .Data.HOME_ASSISTANT_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.HOME_ASSISTANT_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"'
+          DB_URL: "postgresql://{{ .Data.POSTGRES_USER }}:{{ .Data.POSTGRES_PASSWORD }}@home-assistant:5432/{{ .Data.POSTGRES_DB }}"
           {{ end }}
     spec:
       serviceAccountName: app
@@ -155,6 +190,22 @@ spec:
             - name: home-assistant-config-volume
               mountPath: /home-assistant
 
+        - name: postgres
+          image: postgres:13.3-alpine
+          imagePullPolicy: Always
+          command:
+            - bash
+          args:
+            - "-c"
+            - "source /vault/secrets/env.sh && docker-entrypoint.sh postgres"
+          ports:
+            - name: db
+              containerPort: 5432
+              protocol: TCP
+          volumeMounts:
+            - name: home-assistant-db-volume
+              mountPath: /var/lib/postgresql/data
+
       volumes:
         - name: ha-secrets-volume
           configMap:
@@ -162,6 +213,9 @@ spec:
         - name: home-assistant-config-volume
           persistentVolumeClaim:
             claimName: home-assistant-pv-claim
+        - name: home-assistant-db-volume
+          persistentVolumeClaim:
+            claimName: home-assistant-db-pv-claim
 
       affinity:
         nodeAffinity:
@@ -199,5 +253,9 @@ spec:
       port: 5050
       protocol: TCP
       targetPort: appdaemon
+    - name: db
+      port: 5432
+      protocol: TCP
+      targetPort: db
   selector:
     app.kubernetes.io/name: home-assistant
