@@ -135,7 +135,7 @@ spec:
         - name: regcred
       initContainers:
         - name: home-assistant-config-applicator
-          image: docker.smith-simms.family:5000/home-assistant-config-applicator:latest
+          image: docker-registry:5000/home-assistant-config-applicator:latest
           imagePullPolicy: Always
           env:
             - name: GIT_BRANCH
