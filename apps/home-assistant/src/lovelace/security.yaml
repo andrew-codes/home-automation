@@ -11,7 +11,7 @@ views:
       - entity: >-
           lock.front_door_deadbolt
       - entity: >-
-          binary_sensor.node_19_the_current_status_of_the_door
+          binary_sensor.front_door_deadbolt_the_current_status_of_the_door
     cards:
       - type: vertical-stack
         cards:
@@ -757,7 +757,7 @@ views:
       - entity: >-
           lock.car_port_deadbolt
       - entity: >-
-          binary_sensor.node_18_the_current_status_of_the_door
+          binary_sensor.car_port_deadbolt_the_current_status_of_the_door
     cards:
       - type: vertical-stack
         cards:
