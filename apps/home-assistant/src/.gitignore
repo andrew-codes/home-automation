@@ -8,3 +8,4 @@ google_calendars.yaml
 *.db*
 webostv.conf
 __pycache__
+custom_components
