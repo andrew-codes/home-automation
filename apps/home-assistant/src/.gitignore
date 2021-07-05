@@ -7,3 +7,4 @@ google_calendars.yaml
 *.log
 *.db*
 webostv.conf
+__pycache__
