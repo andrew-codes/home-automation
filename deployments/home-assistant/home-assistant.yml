@@ -2,6 +2,23 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
+  name: home-assistant-pv-volume-new-config
+  namespace: default
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data/home-assistant-new-config"
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
   name: home-assistant-pv-volume
   namespace: default
   labels:
@@ -20,6 +37,20 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: home-assistant-pv-claim
+  namespace: default
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: home-assistant-pv-claim-new-config
   namespace: default
 spec:
   storageClassName: manual
@@ -147,6 +178,8 @@ spec:
           volumeMounts:
             - name: home-assistant-config-volume
               mountPath: /config
+            - name: home-assistant-new-config-volume
+              mountPath: /new-config
       containers:
         - name: home-assistant
           image: docker-registry:5000/home-assistant:latest
@@ -180,10 +213,12 @@ spec:
             periodSeconds: 10
           volumeMounts:
             - name: home-assistant-config-volume
-              mountPath: /home-assistant
+              mountPath: /config
             - name: ha-secrets-volume
               mountPath: /root/set_ssh_keys.sh
               subPath: set_ssh_keys.sh
+            - name: home-assistant-new-config-volume
+              mountPath: /new-config
           securityContext:
             privileged: true
             allowPrivilegeEscalation: true
@@ -227,6 +262,9 @@ spec:
         - name: home-assistant-config-volume
           persistentVolumeClaim:
             claimName: home-assistant-pv-claim
+        - name: home-assistant-new-config-volume
+          persistentVolumeClaim:
+            claimName: home-assistant-pv-claim-new-config
         - name: home-assistant-db-volume
           persistentVolumeClaim:
             claimName: home-assistant-db-pv-claim

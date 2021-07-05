@@ -104,8 +104,6 @@ function git-synchronize() {
         echo "[Warn] Git repostory doesn't exist"
         git-clone
     fi
-
-    rsync --recursive -I "/new-config/$CHECKOUT_PATH/." /config
 }
 
 function validate-config() {
@@ -128,14 +126,18 @@ function validate-config() {
 ###################
 
 #### Main program ####
-cd /config || {
+cd /new-config || {
     echo "[Error] Failed to cd into /config"
     exit 1
 }
 
 check-ssh-key
 if git-synchronize; then
+    cd "/new-config/$CHECKOUT_PATH"
+    echo "Validating config"
     validate-config
+    echo "Copying config"
+    rsync --recursive -I . /config
 fi
 
 ###################
