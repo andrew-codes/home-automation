@@ -133,6 +133,23 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       imagePullSecrets:
         - name: regcred
+      initContainers:
+        - name: home-assistant-config-applicator
+          image: docker.smith-simms.family:5000/home-assistant-config-applicator:latest
+          imagePullPolicy: Always
+          env:
+            - name: GIT_BRANCH
+              value: main
+            - name: REPOSITORY
+              value: "git@github.com:andrew-codes/home-automation.git"
+            - name: CHECKOUT_PATH
+              value: apps/home-assistant/src
+          volumeMounts:
+            - name: home-assistant-config-volume
+              mountPath: /config
+            - name: ha-secrets-volume
+              mountPath: /root/set_ssh_keys.sh
+              subPath: set_ssh_keys.sh
       containers:
         - name: home-assistant
           image: docker-registry:5000/home-assistant:latest

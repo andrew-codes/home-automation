@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source /root/set_ssh_keys.sh
+
 GIT_REMOTE=origin
 
 #### functions ####
