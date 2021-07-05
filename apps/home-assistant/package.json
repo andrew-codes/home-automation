@@ -6,5 +6,8 @@
   "scripts": {
     "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/home-assistant:latest\" --context dir:///workspace/ --insecure --cache=true",
     "start": "scripts/bin/start.sh"
+  },
+  "dependencies": {
+    "@ha/home-assistant-config-applicator": "^0.0.1"
   }
 }
