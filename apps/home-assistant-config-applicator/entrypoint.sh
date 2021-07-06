@@ -112,12 +112,12 @@ function validate-config() {
     NEW_COMMIT=$(git rev-parse HEAD)
     if [ "$NEW_COMMIT" != "$OLD_COMMIT" ]; then
         echo "[Info] Something has changed, checking Home-Assistant config..."
-        if ha --no-progress core check; then
-            echo "Config validation was successful."
-        else
-            echo "[Error] Configuration updated but it does not pass the config check. Do not restart until this is fixed!"
-            # TODO: rollback to previous commit???
-        fi
+        # if ha --no-progress core check; then
+        #     echo "Config validation was successful."
+        # else
+        #     echo "[Error] Configuration updated but it does not pass the config check. Do not restart until this is fixed!"
+        #     # TODO: rollback to previous commit???
+        # fi
     else
         echo "[Info] Nothing has changed."
     fi
