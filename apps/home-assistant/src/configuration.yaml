@@ -29,7 +29,7 @@ frontend:
 lovelace:
   mode: storage
   dashboards:
-    lovelace-yaml:
+    security:
       mode: yaml
       title: Security
       icon: mdi:security

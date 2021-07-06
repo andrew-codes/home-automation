@@ -107,6 +107,8 @@ spec:
           export POSTGRES_DB="{{ .Data.POSTGRES_DB }}"
           export POSTGRES_PASSWORD="{{ .Data.POSTGRES_PASSWORD }}"
           export POSTGRES_USER="{{ .Data.POSTGRES_USER }}"
+          export HASS_SERVER="{{ .Data.HA_URL }}"
+          export HASS_TOKEN="{{ .Data.HA_TOKEN }}"
           {{ end }}
         vault.hashicorp.com/agent-inject-secret-secrets.yaml: 'kv/home-assistant'
         vault.hashicorp.com/agent-inject-template-secrets.yaml: |

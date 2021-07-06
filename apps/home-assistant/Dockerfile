@@ -1,7 +1,11 @@
 FROM homeassistant/home-assistant:2021.6.6
-RUN mkdir -p /home-assistant
 RUN apk --no-cache add \
+    bash \
+    curl \
+    sudo \
     rsync \
-    sudo
+    yarn
 COPY ./entrypoint.sh /entrypoint.sh
+RUN yarn global add chokidar-cli
+WORKDIR /config
 ENTRYPOINT ["/entrypoint.sh"]
