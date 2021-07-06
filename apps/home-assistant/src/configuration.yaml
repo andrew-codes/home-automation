@@ -27,31 +27,7 @@ homeassistant:
 frontend:
   themes: !include_dir_merge_named themes
 lovelace:
-  mode: yaml
-  resources:
-    - url: /hacsfiles/lovelace-card-mod/card-mod.js
-      type: module
-    - url: /hacsfiles/lovelace-fold-entity-row/fold-entity-row.js
-      type: module
-    - url: /hacsfiles/stack-in-card/stack-in-card.js
-      type: module
-    - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
-      type: module
-    - url: /hacsfiles/kiosk-mode/kiosk-mode.js
-      type: module
-    - url: /hacsfiles/simple-thermostat/simple-thermostat.js
-      type: module
-    - url: /hacsfiles/ha-floorplan/floorplan.js
-      type: module
-    - url: /hacsfiles/numberbox-card/numberbox-card.js
-      type: module
-  dashboards:
-    lovelace-security:
-      mode: yaml
-      title: Security
-      icon: mdi:security
-      show_in_sidebar: true
-      filename: lovelace/security.yaml
+  mode: storage
 
 mqtt:
   broker: mqtt
