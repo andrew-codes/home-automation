@@ -8,7 +8,6 @@
     "postdeploy": "kubectl rollout restart deployment captive-portal "
   },
   "dependencies": {
-    "@ha/captive-portal-app": "^0.0.1",
-    "@ha/home-assistant": "^0.0.1"
+    "@ha/captive-portal-app": "^0.0.1"
   }
 }

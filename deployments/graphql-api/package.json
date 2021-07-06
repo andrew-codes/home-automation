@@ -11,7 +11,6 @@
   "dependencies": {
     "@ha/game-cache": "^0.0.1",
     "@ha/graphql-api-app": "^0.0.1",
-    "@ha/mqtt": "^0.0.1",
-    "@ha/home-assistant": "^0.0.1"
+    "@ha/mqtt": "^0.0.1"
   }
 }
