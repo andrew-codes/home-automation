@@ -15,6 +15,7 @@ sensor:
     version: "2c"
     unit_of_measurement: octets
     scan_interval: 10
+    accept_errors: true
 
   - platform: snmp
     name: snmp_wan_out
@@ -24,6 +25,7 @@ sensor:
     version: "2c"
     unit_of_measurement: octets
     scan_interval: 10
+    accept_errors: true
 
   - platform: template
     sensors:
