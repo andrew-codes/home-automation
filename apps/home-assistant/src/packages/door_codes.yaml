@@ -1,12 +1,33 @@
 automation:
   - alias: Setting Code 6 will set for all door locks
+    id: set_code_will_set_for_all_door_locks
     trigger:
       - platform: state
+        id: "6"
         entity_id:
           - input_text.front_door_pin_6
+      - platform: state
+        id: "7"
+        entity_id:
+          - input_text.front_door_pin_7
     action:
-      - service: input_text.set_value
-        target:
-          entity_id: input_text.car_port_door_pin_6
-        data_template:
-          value: "{{ trigger.to_state | int }}"
+      - choose:
+        - conditions:
+          - condition: trigger
+            id: "6"
+          sequence:
+            - service: input_text.set_value
+              target:
+                entity_id: input_text.car_port_door_pin_6
+              data_template:
+                value: "{{ trigger.to_state | int }}"
+      - choose:
+        - conditions:
+          - condition: trigger
+            id: "7"
+          sequence:
+            - service: input_text.set_value
+              target:
+                entity_id: input_text.car_port_door_pin_7
+              data_template:
+                value: "{{ trigger.to_state | int }}"
