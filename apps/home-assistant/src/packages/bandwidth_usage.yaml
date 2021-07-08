@@ -50,7 +50,8 @@ utility_meter:
     cycle: monthly
 
 automation:
-  - alias: Monitor inbound Internet traffic
+  - alias: Monitor inbound Internet traffic.
+    id: montior_inbound_internet_traffic
     trigger:
       platform: state
       entity_id: sensor.snmp_wan_in
@@ -60,6 +61,7 @@ automation:
           entity_id: input_number.wan_traffic_delta_in
           value: "{{ ((trigger.to_state.state | int - trigger.from_state.state | int) * 8 ) / ( as_timestamp(trigger.to_state.last_updated) - as_timestamp(trigger.from_state.last_updated) ) }}"
   - alias: Monitor outbound Internet traffic
+    id: monitor_outbound_internet_traffic
     trigger:
       platform: state
       entity_id: sensor.snmp_wan_out
