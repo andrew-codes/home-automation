@@ -1,5 +1,5 @@
 automation:
-  - alias: Setting Code 6 will set for all door locks
+  - alias: Set code will set for all door locks
     id: set_code_will_set_for_all_door_locks
     trigger:
       - platform: state
@@ -20,7 +20,7 @@ automation:
               target:
                 entity_id: input_text.car_port_door_pin_6
               data_template:
-                value: "{{ trigger.to_state | int }}"
+                value: "{{ trigger.to_state.state | int }}"
       - choose:
         - conditions:
           - condition: trigger
@@ -30,4 +30,4 @@ automation:
               target:
                 entity_id: input_text.car_port_door_pin_7
               data_template:
-                value: "{{ trigger.to_state | int }}"
+                value: "{{ trigger.to_state.state | int }}"
