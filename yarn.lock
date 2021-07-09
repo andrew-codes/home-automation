@@ -5924,6 +5924,11 @@ hoist-non-react-statics@^3.3.2:
   dependencies:
     react-is "^16.7.0"
 
+home-assistant-js-websocket@^5.10.0:
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/home-assistant-js-websocket/-/home-assistant-js-websocket-5.10.0.tgz#b59fd4f20a8295571b1a2589530c995d0d910c49"
+  integrity sha512-QiK26d62wuQCuaXHRZ90yvaMXeHkYbQrSGQvCrF6hqxdibLXEwSXQM2uzWYUgP25Q3iKy3PLQspMBRnuBKczbQ==
+
 homeassistant@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/homeassistant/-/homeassistant-0.2.0.tgz#a59437c97bc22be5ebab4751a2612612cce24ae7"
@@ -11462,6 +11467,11 @@ ws@^6.1.0:
   integrity sha512-zmhltoSR8u1cnDsD43TX59mzoMZsLKqUweyYBAIvTngR3shc0W6aOZylZmq/7hqyVxPdi+5Ud2QInblgyE72fw==
   dependencies:
     async-limiter "~1.0.0"
+
+ws@^7.5.2:
+  version "7.5.2"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.2.tgz#09cc8fea3bec1bc5ed44ef51b42f945be36900f6"
+  integrity sha512-lkF7AWRicoB9mAgjeKbGqVUekLnSNO4VjKVnuPHpQeOxZOErX6BPXwJk70nFslRCEEA8EVW7ZjKwXaP9N+1sKQ==
 
 xdg-basedir@^4.0.0:
   version "4.0.0"
