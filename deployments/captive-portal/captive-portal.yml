@@ -14,6 +14,21 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: captive-portal
+      annotations:
+        vault.hashicorp.com/agent-inject: 'true'
+        vault.hashicorp.com/role: app
+        vault.hashicorp.com/agent-inject-status: update
+        vault.hashicorp.com/agent-inject-secret-env.sh: kv/home-assistant
+        vault.hashicorp.com/agent-inject-template-env.sh: |
+          {{ with secret "kv/mqtt" }}
+          export MQTT_USERNAME="{{ .Data.USERNAME }}"
+          export MQTT_PASSWORD="{{ .Data.PASSWORD }}"
+          export MQTT_HOST="mqtt"
+          export UNIFI_IP="{{ .Data.IP }}"
+          export UNIFI_PORT="{{ .Data.PORT }}"
+          export UNIFI_USERNAME="{{ .Data.USERNAME }}"
+          export UNIFI_PASSWORD="{{ .Data.PASSWORD }}"
+          {{ end }}
     spec:
       imagePullSecrets:
         - name: regcred
@@ -21,6 +36,11 @@ spec:
         - name: captive-portal
           image: docker-registry:5000/captive-portal:latest
           imagePullPolicy: Always
+          command:
+            - sh
+          args:
+            - "-c"
+            - "source /secrets/vault/env.sh && entrypoint.sh"
           ports:
             - name: http
               containerPort: 80
