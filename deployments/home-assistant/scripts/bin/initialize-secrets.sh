@@ -8,6 +8,7 @@ popd
 vault kv put kv/home-assistant \
     APPDAEMON_PASSWORD="" \
     APPDAEMON_URL="" \
+    DOMAIN="" \
     ELEVATION="" \
     GAMING_ROOM_GAMING_PC_IP="" \
     GAMING_ROOM_GAMING_PC_MAC="" \

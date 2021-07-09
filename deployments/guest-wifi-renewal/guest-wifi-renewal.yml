@@ -26,7 +26,7 @@ spec:
           {{ end }}
           {{ with secret "kv/home-assistant" }}
           export HA_TOKEN="{{ .Data.HA_TOKEN }}"
-          export HA_URL="{{ .Data.HA_URL }}"
+          export HA_URL="{{ .Data.DOMAIN }}"
           {{ end }}
           {{ with secret "kv/unifi" }}
           export UNIFI_IP="{{ .Data.IP }}"
