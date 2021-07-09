@@ -3,4 +3,4 @@ WORKDIR /app
 ENV DEBUG captive-portal*
 ENV NODE_ENV production
 COPY . .
-ENTRYPOINT ["start.sh"]
+ENTRYPOINT ["entrypoint.sh"]
