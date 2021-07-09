@@ -21,6 +21,8 @@ spec:
         vault.hashicorp.com/agent-inject-secret-env.sh: kv/mqtt
         vault.hashicorp.com/agent-inject-template-env.sh: |
           {{ with secret "kv/mqtt" }}
+          export MQTT_HOST="mqtt"
+          export MQTT_PORT="1883"
           export MQTT_USERNAME="{{ .Data.USERNAME }}"
           export MQTT_PASSWORD="{{ .Data.PASSWORD }}"
           {{ end }}
@@ -49,7 +51,3 @@ spec:
             - "source /vault/secrets/env.sh && /app/entrypoint.sh"
           env:
             - name: DEBUG
-            - name: MQTT_HOST
-              value: mqtt
-            - name: MQTT_PORT
-              value: "1883"
