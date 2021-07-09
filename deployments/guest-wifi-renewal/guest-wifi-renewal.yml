@@ -46,7 +46,7 @@ spec:
             - "sh"
           args:
             - "-c"
-            - "source /vault/secrets/env.sh && start.sh"
+            - "source /vault/secrets/env.sh && entrypoint.sh"
           env:
             - name: DEBUG
             - name: MQTT_HOST
