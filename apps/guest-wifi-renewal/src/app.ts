@@ -21,7 +21,6 @@ const run = async (): Promise<void> => {
     UNIFI_PORT,
     UNIFI_USERNAME,
   } = process.env
-
   const mqtt = await connectAsync(`tcp://${MQTT_HOST}`, {
     password: MQTT_PASSWORD,
     port: parseInt(MQTT_PORT ?? "1883", 10),
@@ -38,22 +37,44 @@ const run = async (): Promise<void> => {
   const connection = await createConnection({
     auth,
     createSocket: async () => {
-      return new WebSocket(`wss://${HA_URL}`) as unknown as HaWebSocket
+      const ws = new WebSocket(`wss://${HA_URL}/api/websocket`)
+      const handleOpen = async (): Promise<void> => {
+        try {
+          if (auth.expired) {
+            await auth.refreshAccessToken()
+          }
+          ws.send(
+            JSON.stringify({
+              type: "auth",
+              access_token: auth.accessToken,
+            })
+          )
+        } catch (err) {
+          ws.close()
+        }
+      }
+      ws.on("open", handleOpen)
+      return ws as unknown as HaWebSocket
     },
   })
 
   mqtt.on("message", async (topic) => {
-    if (topic !== "/homeassistant/guest/renew-devices") return
-    const states = await getStates(connection)
-    const guestGroup = states.find(
-      ({ entity_id }) => entity_id === "group.guests"
-    )
-    const guestDeviceIds = guestGroup?.attributes?.entity_id ?? []
-    const guestDevices = states.filter((entity) =>
-      guestDeviceIds.includes(entity.entity_id)
-    )
-    for (const device of guestDevices) {
-      await unifi.authorize_guest(device.attributes.mac, 4320)
+    try {
+      if (topic !== "/homeassistant/guest/renew-devices") return
+      const states = await getStates(connection)
+      const guestGroup = states.find(
+        ({ entity_id }) => entity_id === "group.guests"
+      )
+      const guestDeviceIds = guestGroup?.attributes?.entity_id ?? []
+      const guestDevices = states.filter((entity) =>
+        guestDeviceIds.includes(entity.entity_id)
+      )
+      for (const guestDevice of guestDevices) {
+        console.log(guestDevice)
+        await unifi.authorize_guest(guestDevice.attributes.mac, 4320)
+      }
+    } catch (error) {
+      console.log(error)
     }
   })
 }
