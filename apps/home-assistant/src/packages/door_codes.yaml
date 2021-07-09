@@ -4,6 +4,12 @@ automation:
     trigger:
       - platform: state
         entity_id:
+          - input_text.front_door_pin_4
+      - platform: state
+        entity_id:
+          - input_text.front_door_pin_5
+      - platform: state
+        entity_id:
           - input_text.front_door_pin_6
       - platform: state
         entity_id:
@@ -39,6 +45,12 @@ automation:
     trigger:
       - platform: state
         entity_id:
+          - input_boolean.enabled_front_door_4
+      - platform: state
+        entity_id:
+          - input_boolean.enabled_front_door_5
+      - platform: state
+        entity_id:
           - input_boolean.enabled_front_door_6
       - platform: state
         entity_id:
@@ -72,6 +84,12 @@ automation:
     trigger:
       - platform: state
         entity_id:
+          - input_boolean.daterange_front_door_4
+      - platform: state
+        entity_id:
+          - input_boolean.daterange_front_door_5
+      - platform: state
+        entity_id:
           - input_boolean.daterange_front_door_6
       - platform: state
         entity_id:
@@ -103,6 +121,12 @@ automation:
   - alias: Set code name enable will set for all door locks
     id: set_code_name_will_set_for_all_door_locks
     trigger:
+      - platform: state
+        entity_id:
+          - input_text.front_door_name_4
+      - platform: state
+        entity_id:
+          - input_text.front_door_name_5
       - platform: state
         entity_id:
           - input_text.front_door_name_6
@@ -140,6 +164,12 @@ automation:
     trigger:
       - platform: state
         entity_id:
+          - input_datetime.start_date_front_door_4
+      - platform: state
+        entity_id:
+          - input_datetime.start_date_front_door_5
+      - platform: state
+        entity_id:
           - input_datetime.start_date_front_door_6
       - platform: state
         entity_id:
@@ -173,6 +203,12 @@ automation:
   - alias: Set code end date will set for all door locks
     id: set_code_end_date_will_set_for_all_door_locks
     trigger:
+      - platform: state
+        entity_id:
+          - input_datetime.end_date_front_door_4
+      - platform: state
+        entity_id:
+          - input_datetime.end_date_front_door_5
       - platform: state
         entity_id:
           - input_datetime.end_date_front_door_6
