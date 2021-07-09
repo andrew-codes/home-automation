@@ -24,6 +24,16 @@ spec:
           export MQTT_USERNAME="{{ .Data.USERNAME }}"
           export MQTT_PASSWORD="{{ .Data.PASSWORD }}"
           {{ end }}
+          {{ with secret "kv/home-assistant" }}
+          expoirt HA_TOKEN="{{ .Data.HA_TOKEN }}"
+          expoirt HA_URL="{{ .Data.HA_URL }}"
+          {{ end }}
+          {{ with secret "kv/unifi" }}
+          expoirt UNIFI_IP="{{ .Data.IP }}"
+          expoirt UNIFI_PASSWORD="{{ .Data.PASSWORD }}"
+          expoirt UNIFI_PORT="{{ .Data.PORT }}"
+          expoirt UNIFI_USERNAME="{{ .Data.USERNAME }}"
+          {{ end }}
     spec:
       serviceAccountName: app
       imagePullSecrets:
