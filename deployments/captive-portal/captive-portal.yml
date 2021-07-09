@@ -42,7 +42,7 @@ spec:
             - sh
           args:
             - "-c"
-            - "source /secrets/vault/env.sh && entrypoint.sh"
+            - "source /secrets/vault/env.sh && /app/entrypoint.sh"
           ports:
             - name: http
               containerPort: 80
