@@ -38,7 +38,7 @@ const run = async (): Promise<void> => {
   const connection = await createConnection({
     auth,
     createSocket: async () => {
-      return new WebSocket(`ws://${HA_URL}`) as unknown as HaWebSocket
+      return new WebSocket(`wss://${HA_URL}`) as unknown as HaWebSocket
     },
   })
 

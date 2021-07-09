@@ -90,7 +90,7 @@ describe("app", () => {
       createSocket: expect.any(Function),
     })
     const ws = (createConnection as jest.Mock).mock.calls[0][0].createSocket()
-    expect(WebSocket).toHaveBeenCalledWith(`ws://${hassUrl}`)
+    expect(WebSocket).toHaveBeenCalledWith(`wss://${hassUrl}`)
   })
 
   test("messages with topics other than device renewal do not authorize devices", async () => {
