@@ -13,5 +13,5 @@ function start-locally() {
     telepresence --namespace "$1" --swap-deployment "$2" --docker-run --rm -t \
         -v "$PWD/../../:/app" \
         -p "$4:80" "$3" \
-        bash -c "./scripts/bin/mount-telepresence-volumes.sh && yarn start/dev --scope @ha/$2-app"
+        bash -c "source \${TELEPRESENCE_ROOT}/vault/secrets/env.sh && yarn start/dev --scope @ha/$2-app"
 }
