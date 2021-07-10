@@ -25,6 +25,9 @@ describe("app", () => {
   const subscribe = jest.fn()
   const onMock = jest.fn()
   const authorize_guest = jest.fn()
+  const send = jest.fn()
+  const wsOn = jest.fn()
+  const close = jest.fn()
 
   beforeEach(() => {
     jest.resetAllMocks()
@@ -74,7 +77,9 @@ describe("app", () => {
   test("connects to home assistant", async () => {
     process.env.HA_URL = hassUrl
     process.env.HA_TOKEN = authCode
-    const auth = { auth: true }
+    const auth = {
+      accessToken: "token",
+    }
     ;(connectAsync as jest.Mock).mockResolvedValue({
       on: onMock,
       subscribe,
@@ -83,14 +88,69 @@ describe("app", () => {
     when(createLongLivedTokenAuth)
       .calledWith(hassUrl, authCode)
       .mockResolvedValue(auth)
+    let wsOnHandler
+    wsOn.mockImplementation((type, handler) => {
+      wsOnHandler = handler
+    })
+    ;(WebSocket as unknown as jest.Mock).mockImplementation(() => ({
+      send,
+      on: wsOn,
+    }))
 
     await run()
     expect(createConnection).toHaveBeenCalledWith({
       auth,
       createSocket: expect.any(Function),
     })
+
     const ws = (createConnection as jest.Mock).mock.calls[0][0].createSocket()
-    expect(WebSocket).toHaveBeenCalledWith(`wss://${hassUrl}`)
+    await wsOnHandler()
+    expect(WebSocket).toHaveBeenCalledWith(`wss://${hassUrl}/api/websocket`)
+    expect(send).toHaveBeenCalledWith(
+      JSON.stringify({
+        type: "auth",
+        access_token: "token",
+      })
+    )
+  })
+
+  test("errors on websocket connection to Home Assistant close socket connection", async () => {
+    process.env.HA_URL = hassUrl
+    process.env.HA_TOKEN = authCode
+    const auth = {
+      accessToken: "token",
+    }
+    ;(connectAsync as jest.Mock).mockResolvedValue({
+      on: onMock,
+      subscribe,
+    })
+    ;(createUnifi as jest.Mock).mockReturnValue({ authorize_guest })
+    when(createLongLivedTokenAuth)
+      .calledWith(hassUrl, authCode)
+      .mockResolvedValue(auth)
+    let wsOnHandler
+    wsOn.mockImplementation((type, handler) => {
+      wsOnHandler = handler
+    })
+    ;(WebSocket as unknown as jest.Mock).mockImplementation(() => ({
+      send,
+      on: wsOn,
+      close,
+    }))
+    send.mockImplementation(() => {
+      throw new Error("ws issue")
+    })
+
+    await run()
+    expect(createConnection).toHaveBeenCalledWith({
+      auth,
+      createSocket: expect.any(Function),
+    })
+
+    const ws = (createConnection as jest.Mock).mock.calls[0][0].createSocket()
+    await wsOnHandler()
+    expect(WebSocket).toHaveBeenCalledWith(`wss://${hassUrl}/api/websocket`)
+    expect(close).toHaveBeenCalled()
   })
 
   test("messages with topics other than device renewal do not authorize devices", async () => {
@@ -108,6 +168,25 @@ describe("app", () => {
 
     await messageHandler("another/message", "{}")
     expect(authorize_guest).not.toHaveBeenCalled()
+  })
+
+  test("errors thrown by home assistant getStates does not crash the program", async () => {
+    ;(connectAsync as jest.Mock).mockResolvedValue({
+      on: onMock,
+      subscribe,
+    })
+    let messageHandler
+    when(onMock)
+      .calledWith("message", expect.any(Function))
+      .mockImplementation((type, handler) => {
+        messageHandler = handler
+      })
+    ;(getStates as jest.Mock).mockRejectedValue("error")
+    await run()
+
+    expect(
+      messageHandler("/homeassistant/guest/renew-devices", "{}")
+    ).resolves.toEqual(undefined)
   })
 
   test("messages with device renewal topic will authorize all registered guest devices from Home Assistant", async () => {

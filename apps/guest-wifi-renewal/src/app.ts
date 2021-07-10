@@ -1,3 +1,4 @@
+import createDebug from "debug"
 import { connectAsync } from "async-mqtt"
 import {
   createConnection,
@@ -7,6 +8,7 @@ import {
 } from "home-assistant-js-websocket"
 import createUnifi from "node-unifiapi"
 import WebSocket from "ws"
+const debug = createDebug("@ha/guest-wifi-renewal/apo")
 
 const run = async (): Promise<void> => {
   const {
@@ -40,9 +42,6 @@ const run = async (): Promise<void> => {
       const ws = new WebSocket(`wss://${HA_URL}/api/websocket`)
       const handleOpen = async (): Promise<void> => {
         try {
-          if (auth.expired) {
-            await auth.refreshAccessToken()
-          }
           ws.send(
             JSON.stringify({
               type: "auth",
@@ -70,7 +69,7 @@ const run = async (): Promise<void> => {
         guestDeviceIds.includes(entity.entity_id)
       )
       for (const guestDevice of guestDevices) {
-        console.log(guestDevice)
+        debug(guestDevice)
         await unifi.authorize_guest(guestDevice.attributes.mac, 4320)
       }
     } catch (error) {
