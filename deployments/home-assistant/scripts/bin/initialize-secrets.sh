@@ -44,6 +44,9 @@ vault kv put kv/home-assistant \
     POSTGRES_DB="" \
     POSTGRES_PASSWORD="" \
     POSTGRES_USER="" \
+    PROXMOX_HOST="" \
+    PROXMOX_PASSWORD="" \
+    PROXMOX_USERNAME="" \
     ROUTER_IP="" \
     SPOTCAST_DC_2="" \
     SPOTCAST_DC="" \
