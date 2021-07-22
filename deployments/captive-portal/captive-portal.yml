@@ -32,6 +32,7 @@ spec:
           export UNIFI_PASSWORD="{{ .Data.PASSWORD }}"
           {{ end }}
     spec:
+      serviceAccountName: app
       imagePullSecrets:
         - name: regcred
       initContainers:
