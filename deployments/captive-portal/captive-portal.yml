@@ -18,7 +18,7 @@ spec:
         vault.hashicorp.com/agent-inject: 'true'
         vault.hashicorp.com/role: app
         vault.hashicorp.com/agent-inject-status: update
-        vault.hashicorp.com/agent-inject-secret-env.sh: kv/home-assistant
+        vault.hashicorp.com/agent-inject-secret-env.sh: kv/mqtt
         vault.hashicorp.com/agent-inject-template-env.sh: |
           {{ with secret "kv/mqtt" }}
           export MQTT_USERNAME="{{ .Data.USERNAME }}"
@@ -59,7 +59,7 @@ spec:
             - sh
           args:
             - "-c"
-            - "source /secrets/vault/env.sh && /app/entrypoint.sh"
+            - "source /vault/secrets/env.sh && /app/entrypoint.sh"
           ports:
             - name: http
               containerPort: 80
