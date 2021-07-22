@@ -40,6 +40,15 @@ spec:
       serviceAccountName: app
       imagePullSecrets:
         - name: regcred
+      initContainers:
+        - name: mqtt-is-ready
+          image: docker-registry:5000/mqtt-client:latest
+          imagePullPolicy: Always
+          command:
+            - "sh"
+          args:
+            - "-c"
+            - "timeout 10 sub -h mqtt -t '$SYS/#' -C 1 | grep -v Error || exit 1"
       containers:
         - name: guest-wifi-renewal
           image: docker-registry:5000/guest-wifi-renewal:latest

@@ -8,6 +8,7 @@
     "postdeploy": "kubectl rollout restart deployment captive-portal "
   },
   "dependencies": {
-    "@ha/captive-portal-app": "^0.0.1"
+    "@ha/captive-portal-app": "^0.0.1",
+    "@ha/mqtt": "^0.0.1"
   }
 }

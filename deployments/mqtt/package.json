@@ -8,5 +8,7 @@
     "postdeploy": "kubectl rollout restart deployment mqtt",
     "initialize-secrets": "scripts/bin/initialize-secrets.sh"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@ha/mqtt-app": "^0.0.1"
+  }
 }
