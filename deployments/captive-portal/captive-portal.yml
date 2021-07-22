@@ -43,6 +43,13 @@ spec:
           args:
             - "-c"
             - "timeout 10 sub -h mqtt -t '$SYS/#' -C 1 | grep -v Error || exit 1"
+        - name: home-assistant-is-ready
+          image: curlimages/curl:latest
+          command:
+            - "sh"
+          args:
+            - "-c"
+            - "timeout 10 curl --fail --insecure --silent --output /dev/null --write-out 'HTTP Code %{http_code}' 'http://home-assistant:8123' || exit 1"
       containers:
         - name: captive-portal
           image: docker-registry:5000/captive-portal:latest
