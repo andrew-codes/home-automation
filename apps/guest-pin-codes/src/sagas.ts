@@ -7,32 +7,25 @@ import {
   takeEvery,
   takeLatest,
 } from "redux-saga/effects"
-import { defaultTo } from "lodash"
 import { calendar_v3, Common } from "googleapis"
 import { createCalendarClient } from "./googleClient"
 import createMqttClient from "./mqtt"
-import { FETCH_EVENTS, SCHEDULE_EVENTS } from "./actions"
-import {
-  assignedGuestSlot,
-  disabledEvents,
-  lastUsedCode,
-  updateEvents,
-} from "./actionCreators"
+import { assignedGuestSlot, lastUsedCode, setEvents } from "./actionCreators"
 import {
   getAvailableLockSlots,
-  getUnassignedChronologicalEvents,
   getCodes,
   getCurrentCodeIndex,
   getDoorLocks,
-  getChronologicalEvents,
   getLockSlots,
+  getEndingEvents,
+  getStartingEvents,
 } from "./selectors"
-import getMinuteAccurateDate from "./getMinuteAccurateDate"
 import {
   AsyncMqttClient,
   IClientPublishOptions,
   IPublishPacket,
 } from "async-mqtt"
+import { ScheduleEventsAction } from "./actions"
 
 const debug = createDebugger("@ha/guest-pin-codes/sagas")
 const { GOOGLE_CALENDAR_ID } = process.env
@@ -55,23 +48,7 @@ function* fetchEvents(action) {
       },
       {}
     )
-    const targetEvents = data.items
-      ?.filter((event) => {
-        const end = defaultTo(event.end.dateTime, event.end.date)
-        return getMinuteAccurateDate(new Date(end)).getTime() > now.getTime()
-      })
-      .sort((a, b) => {
-        const startA = new Date(defaultTo(a.start.dateTime, a.start.date))
-        const startB = new Date(defaultTo(b.start.dateTime, b.start.date))
-        if (startA.getTime() < startB.getTime()) {
-          return -1
-        }
-        if (startA.getTime() > startB.getTime()) {
-          return 1
-        }
-        return 0
-      })
-    yield put(updateEvents(targetEvents))
+    yield put(setEvents(data.items ?? []))
   } catch (error) {
     debug(error)
   }
@@ -88,27 +65,21 @@ function* startEvent(action) {
   try {
     const now = action.payload as Date
     debug(`Scheduling events to start; ${now.toTimeString()}`)
-    const calendar = createCalendarClient()
-    const chronologicalEvents = yield select(getUnassignedChronologicalEvents)
-    const eventsToStart = chronologicalEvents.filter((event) => {
-      const start = getMinuteAccurateDate(
-        new Date(defaultTo(event.start.dateTime, event.start.date))
-      )
-      return start.toLocaleString() === now.toLocaleString()
-    })
+    const startingEvents = yield select(getStartingEvents)
     const codes = yield select(getCodes)
     const doorLocks = yield select(getDoorLocks)
     let availableSlots = yield select(getAvailableLockSlots)
     const currentCodeIndex = yield select(getCurrentCodeIndex)
     let code = codes[currentCodeIndex]
-    for (let eventIndex = 0; eventIndex < eventsToStart.length; eventIndex++) {
+    const calendar = createCalendarClient()
+    for (let eventIndex = 0; eventIndex < startingEvents.length; eventIndex++) {
       try {
         const slotNumber = availableSlots[eventIndex]
         if (!slotNumber) {
           continue
         }
 
-        const calendarEvent = eventsToStart[eventIndex]
+        const calendarEvent = startingEvents[eventIndex]
         const nextCodeIndex = getNextCodeIndex(
           codes.length,
           currentCodeIndex,
@@ -188,13 +159,13 @@ Thank you!`,
         debug(err)
       }
     }
-    for (let eventIndex = 0; eventIndex < eventsToStart.length; eventIndex++) {
+    for (let eventIndex = 0; eventIndex < startingEvents.length; eventIndex++) {
       const slotNumber = availableSlots[eventIndex]
       if (!slotNumber) {
         continue
       }
 
-      const calendarEvent = eventsToStart[eventIndex]
+      const calendarEvent = startingEvents[eventIndex]
       yield put(assignedGuestSlot(slotNumber, calendarEvent.id))
     }
     yield put(lastUsedCode(code))
@@ -203,23 +174,17 @@ Thank you!`,
   }
 }
 
-function* endEvent(action) {
-  const now = action.payload as Date
+function* endEvent(action: ScheduleEventsAction) {
   try {
+    const now = action.payload
     debug(`Scheduling events to end; ${now.toTimeString()}`)
-    const chronologicalEvents = yield select(getChronologicalEvents)
-    const eventsToStop = chronologicalEvents.filter((event) => {
-      const end = getMinuteAccurateDate(
-        new Date(defaultTo(event.end.dateTime, event.end.date))
-      )
-      return now.toLocaleString() === end.toLocaleString()
-    })
+    const endingEvents = yield select(getEndingEvents)
     const occupiedSlots = yield select(getLockSlots)
     const doorLocks = yield select(getDoorLocks)
     const mqtt = yield call(createMqttClient)
 
-    for (let eventIndex = 0; eventIndex < eventsToStop.length; eventIndex++) {
-      const event = eventsToStop[eventIndex]
+    for (let eventIndex = 0; eventIndex < endingEvents.length; eventIndex++) {
+      const event = endingEvents[eventIndex]
       const slot = occupiedSlots.find(([key, value]) => value === event.id)
       if (!slot) {
         continue
@@ -238,7 +203,6 @@ function* endEvent(action) {
         )
       }
     }
-    yield put(disabledEvents(eventsToStop))
   } catch (error) {
     console.log(error)
     debug(error)
@@ -246,10 +210,10 @@ function* endEvent(action) {
 }
 
 function* startEventSaga() {
-  yield takeEvery(SCHEDULE_EVENTS, startEvent)
+  yield takeEvery("SCHEDULE_EVENTS", startEvent)
 }
 function* endEventSaga() {
-  yield takeEvery(SCHEDULE_EVENTS, endEvent)
+  yield takeEvery("SCHEUDLE_EVENTS", endEvent)
 }
 function* scheduleEventsSaga() {
   yield fork(startEventSaga)
@@ -257,7 +221,7 @@ function* scheduleEventsSaga() {
 }
 
 function* fetchEventsSaga() {
-  yield takeLatest(FETCH_EVENTS, fetchEvents)
+  yield takeLatest("FETCH_EVENTS", fetchEvents)
 }
 
 function* sagas() {

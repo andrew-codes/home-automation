@@ -12,18 +12,11 @@ jest.mock("../getMinuteAccurateDate")
 import { applyMiddleware, createStore } from "redux"
 import createSagaMiddleware from "redux-saga"
 import { when } from "jest-when"
-import { CronJob as mockCronJob } from 'cron'
+import { CronJob as mockCronJob } from "cron"
 import run from "../index"
 import getMinuteAccurateDate from "../getMinuteAccurateDate"
 import reducer from "../reducer"
 import sagas from "../sagas"
-import {
-  ADD_CODES_TO_POOL,
-  ADD_DOOR_LOCKS,
-  FETCH_EVENTS,
-  SCHEDULE_EVENTS,
-  SET_GUEST_SLOTS,
-} from "../actions"
 import { shuffle } from "../shuffle"
 
 let store
@@ -52,7 +45,7 @@ test("guest slots and door locks are configured in the store", async () => {
   await run("front_door,back_door", "", 1, 5)
 
   expect(store.dispatch).toBeCalledWith({
-    type: SET_GUEST_SLOTS,
+    type: "SET_GUEST_SLOTS",
     payload: {
       guestCodeOffset: 1,
       numberOfGuestCodes: 5,
@@ -60,7 +53,7 @@ test("guest slots and door locks are configured in the store", async () => {
   })
 
   expect(store.dispatch).toBeCalledWith({
-    type: ADD_DOOR_LOCKS,
+    type: "ADD_DOOR_LOCKS",
     payload: ["front_door", "back_door"],
   })
 })
@@ -70,7 +63,7 @@ test("empty door locks string is converted to an empty list to be dispatched", a
   await run("", "", 1, 5)
 
   expect(store.dispatch).toBeCalledWith({
-    type: ADD_DOOR_LOCKS,
+    type: "ADD_DOOR_LOCKS",
     payload: [],
   })
 })
@@ -82,7 +75,7 @@ test("store is loaded with available codes; excluding specified codes and in a s
   await run("front_door,back_door", "1", 1, 5)
 
   expect(store.dispatch).toBeCalledWith({
-    type: ADD_CODES_TO_POOL,
+    type: "ADD_CODES_TO_POOL",
     payload: expectedCodes,
   })
 })
@@ -94,7 +87,7 @@ test("empty code exclusions string excludes no codes", async () => {
   await run("front_door,back_door", "", 1, 5)
 
   expect(store.dispatch).toBeCalledWith({
-    type: ADD_CODES_TO_POOL,
+    type: "ADD_CODES_TO_POOL",
     payload: expectedCodes,
   })
 })
@@ -107,11 +100,11 @@ test("immediately fetches events and processes events to be scheduled", async ()
   await run("front_door,back_door", "", 1, 5)
 
   expect(store.dispatch).toBeCalledWith({
-    type: FETCH_EVENTS,
+    type: "FETCH_EVENTS",
     payload: now,
   })
   expect(store.dispatch).toBeCalledWith({
-    type: SCHEDULE_EVENTS,
+    type: "SCHEDULE_EVENTS",
     payload: now,
   })
 })
@@ -126,7 +119,7 @@ test("every 5th minute, fetch events is dispatched with the current date", async
     cb()
     expect(store.dispatch.mock.calls[3]).toEqual([
       {
-        type: FETCH_EVENTS,
+        type: "FETCH_EVENTS",
         payload: now,
       },
     ])
@@ -150,7 +143,7 @@ test("every minute, events are processed to be scheduled", async () => {
     cb()
     expect(store.dispatch.mock.calls[3]).toEqual([
       {
-        type: SCHEDULE_EVENTS,
+        type: "SCHEDULE_EVENTS",
         payload: now,
       },
     ])

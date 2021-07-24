@@ -1,28 +1,78 @@
+import { calendar_v3 } from "googleapis"
+import { defaultTo } from "lodash"
 import { get } from "lodash/fp"
-import { isEmpty } from "lodash"
-import { createSelector } from "reselect"
+import { createSelector, Selector } from "reselect"
+import getMinuteAccurateDate from "./getMinuteAccurateDate"
+import { State } from "./reducer"
 
-const getEvents = (state) => state?.events ?? {}
-const getEventOrder = (state) => state?.eventOrder ?? []
+type Entry<X extends string, Y> = [X, Y]
 
-const getCodes = (state) => state.codes
-const getCurrentCodeIndex = (state) => state.codeIndex
+const getEvents: Selector<State, Record<string, calendar_v3.Schema$Event>> = (
+  state
+) => state?.events ?? {}
+const getEventOrder: Selector<State, string[]> = (state) =>
+  state?.eventOrder ?? []
+const getLastScheduleTime: Selector<State, Date> = (state) =>
+  state.lastScheduledTime
+const getCodes: Selector<State, string[]> = (state) => state.codes
+const getCurrentCodeIndex: Selector<State, number> = (state) => state.codeIndex
+const getDoorLocks: Selector<State, string[]> = (state) => state.doorLocks
 
-const getLockSlots = (state) => Object.entries(state?.guestSlots ?? {})
+const getLockSlots: Selector<State, Entry<string, string>[]> = (state) =>
+  Object.entries(state?.guestSlots ?? {})
 
-const getAvailableLockSlots = createSelector(getLockSlots, (slots) =>
-  slots.filter(([key, value]) => !value).map(get(0))
+const getAvailableLockSlots = createSelector<
+  State,
+  Entry<string, string>[],
+  string[]
+>(getLockSlots, (slots) => slots.filter(([key, value]) => !value).map(get(0)))
+
+const getChronologicalEvents = createSelector<
+  State,
+  Record<string, calendar_v3.Schema$Event>,
+  string[],
+  calendar_v3.Schema$Event[]
+>([getEvents, getEventOrder], (events, eventOrder) =>
+  eventOrder.map((id) => events[id])
 )
-const getChronologicalEvents = createSelector(
-  [getEvents, getEventOrder, getLockSlots],
-  (events, eventOrder) => eventOrder.map((id) => events[id])
-)
-const getUnassignedChronologicalEvents = createSelector(
-  [getChronologicalEvents, getLockSlots],
-  (events, slots) => events.filter((id) => !Object.values(slots).includes(id))
+const getUnassignedChronologicalEvents = createSelector<
+  State,
+  calendar_v3.Schema$Event[],
+  Entry<string, string>[],
+  calendar_v3.Schema$Event[]
+>([getChronologicalEvents, getLockSlots], (events, slots) =>
+  events.filter((id) => !slots.map(get(1)).includes(id))
 )
 
-const getDoorLocks = (state) => state.doorLocks
+const getEndingEvents = createSelector<
+  State,
+  calendar_v3.Schema$Event[],
+  Date,
+  calendar_v3.Schema$Event[]
+>([getChronologicalEvents, getLastScheduleTime], (events, scheduleTime) =>
+  events.filter((event) => {
+    const end = getMinuteAccurateDate(
+      new Date(defaultTo(event.end.dateTime, event.end.date))
+    )
+    return end.toLocaleString() === scheduleTime.toLocaleString()
+  })
+)
+
+const getStartingEvents = createSelector<
+  State,
+  calendar_v3.Schema$Event[],
+  Date,
+  calendar_v3.Schema$Event[]
+>(
+  [getUnassignedChronologicalEvents, getLastScheduleTime],
+  (events, scheduleTime) =>
+    events.filter((event) => {
+      const start = getMinuteAccurateDate(
+        new Date(defaultTo(event.start.dateTime, event.start.date))
+      )
+      return start.toLocaleString() === scheduleTime.toLocaleString()
+    })
+)
 
 export {
   getUnassignedChronologicalEvents,
@@ -31,5 +81,7 @@ export {
   getChronologicalEvents,
   getCurrentCodeIndex,
   getDoorLocks,
+  getEndingEvents,
   getLockSlots,
+  getStartingEvents,
 }

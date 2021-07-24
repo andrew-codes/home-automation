@@ -1,57 +1,95 @@
-import { keyBy, merge } from "lodash"
+import { calendar_v3 } from "googleapis"
+import { defaultTo, keyBy, merge, uniq } from "lodash"
 import { get } from "lodash/fp"
-import {
-  ADD_CODES_TO_POOL,
-  ADD_DOOR_LOCKS,
-  ASSIGNED_GUEST_SLOT,
-  LAST_USED_CODE,
-  SET_GUEST_SLOTS,
-  UPDATE_EVENTS,
-} from "./actions"
+import { AnyAction } from "./actions"
+import getMinuteAccurateDate from "./getMinuteAccurateDate"
 
-export const defaultState = {
+type State = {
+  events: Record<string, calendar_v3.Schema$Event>
+  eventOrder: string[]
+  doorLocks: string[]
+  codes: string[]
+  codeIndex: number
+  guestSlots: Record<string, string>
+  lastScheduledTime?: Date
+}
+const defaultState: State = {
   events: {},
   eventOrder: [],
   doorLocks: [],
   codes: [],
   codeIndex: 0,
   guestSlots: {},
+  lastScheduledTime: null,
 }
 
-const reducer = (state = defaultState, { type, payload }) => {
-  switch (type) {
-    case UPDATE_EVENTS:
+const reducer = (state = defaultState, action: AnyAction) => {
+  switch (action.type) {
+    case "SET_EVENTS":
+      const events = action.payload.filter((event) => {
+        const end = defaultTo(event.end.dateTime, event.end.date)
+        return getMinuteAccurateDate(new Date(end)).getTime() > Date.now()
+      })
+      const eventOrder = events.sort((a, b) => {
+        const startA = new Date(defaultTo(a.start.dateTime, a.start.date))
+        const startB = new Date(defaultTo(b.start.dateTime, b.start.date))
+        if (startA.getTime() < startB.getTime()) {
+          return -1
+        }
+        if (startA.getTime() > startB.getTime()) {
+          return 1
+        }
+        return 0
+      })
+
       return {
         ...state,
-        events: keyBy(payload, "id"),
-        eventOrder: payload.map(get("id")),
+        events: keyBy(events, "id"),
+        eventOrder: events.map(get("id")),
       }
 
-    case LAST_USED_CODE:
-      if (!payload) {
+    case "SCHEDULE_EVENTS":
+      const scheduledEventsState = merge({}, state, {
+        lastScheduledTime: action.payload,
+      })
+
+      return scheduledEventsState
+
+    case "LAST_USED_CODE":
+      if (!action.payload) {
         return state
       }
-      const codeIndex = Math.max(0, (state.codes as string[]).indexOf(payload))
+      const codeIndex = Math.max(
+        0,
+        (state.codes as string[]).indexOf(action.payload)
+      )
       return merge({}, state, {
         codeIndex,
       })
 
-    case ASSIGNED_GUEST_SLOT:
-      return merge({}, state, { guestSlots: { [payload.id]: payload.eventId } })
-
-    case SET_GUEST_SLOTS:
+    case "ASSIGNED_GUEST_SLOT":
       return merge({}, state, {
-        guestSlots: new Array(payload.numberOfGuestCodes)
+        guestSlots: { [action.payload.id]: action.payload.eventId },
+      })
+
+    case "SET_GUEST_SLOTS":
+      return merge({}, state, {
+        guestSlots: new Array(action.payload.numberOfGuestCodes)
           .fill("")
-          .map((v, index) => index + payload.guestCodeOffset)
+          .map((v, index) => index + action.payload.guestCodeOffset)
           .reduce((acc, val) => merge(acc, { [val]: null }), {}),
       })
 
-    case ADD_CODES_TO_POOL:
-      return merge({}, state, { codes: state.codes.concat(payload) })
+    case "ADD_CODES_TO_POOL":
+      return merge({}, state, { codes: state.codes.concat(action.payload) })
 
-    case ADD_DOOR_LOCKS:
-      return merge({}, state, { doorLocks: state.doorLocks.concat(payload) })
+    case "ADD_DOOR_LOCKS":
+      const stateWithNewDoorLocks = merge({}, state)
+      stateWithNewDoorLocks.doorLocks = uniq(
+        state.doorLocks.concat(action.payload),
+        false
+      )
+      return stateWithNewDoorLocks
 
     default:
       return state
@@ -59,3 +97,4 @@ const reducer = (state = defaultState, { type, payload }) => {
 }
 
 export default reducer
+export { defaultState, State }

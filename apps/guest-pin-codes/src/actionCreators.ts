@@ -1,70 +1,66 @@
 import { calendar_v3 } from "googleapis"
 import {
-  ADD_CODES_TO_POOL,
-  ADD_DOOR_LOCKS,
-  ASSIGNED_GUEST_SLOT,
-  DISABLED_EVENTS,
-  FETCH_EVENTS,
-  LAST_USED_CODE,
-  SCHEDULE_EVENTS,
-  SET_GUEST_SLOTS,
-  UPDATE_EVENTS,
+  AddCodesToPoolAction,
+  AddDoorLocksAction,
+  FetchEventAction,
+  SetGuestSlotsAction,
+  ScheduleEventsAction,
+  LastUsedCodeAction,
+  SetEventsAction,
+  AssignGuestSlotAction,
 } from "./actions"
 import getMinuteAccurateDate from "./getMinuteAccurateDate"
 
-const fetchEvents = (end: Date) => ({
-  type: FETCH_EVENTS,
+const fetchEvents = (end: Date): FetchEventAction => ({
+  type: "FETCH_EVENTS",
   payload: getMinuteAccurateDate(end),
 })
 
-const addDoorLocks = (doorLocks: string[]) => ({
-  type: ADD_DOOR_LOCKS,
+const addDoorLocks = (doorLocks: string[]): AddDoorLocksAction => ({
+  type: "ADD_DOOR_LOCKS",
   payload: doorLocks,
 })
 
 const setGuestSlots = (
   numberOfGuestCodes: number,
   guestCodeOffset: number
-) => ({
-  type: SET_GUEST_SLOTS,
+): SetGuestSlotsAction => ({
+  type: "SET_GUEST_SLOTS",
   payload: { guestCodeOffset, numberOfGuestCodes },
 })
 
-const addCodesToPool = (codes: string[]) => ({
-  type: ADD_CODES_TO_POOL,
+const addCodesToPool = (codes: string[]): AddCodesToPoolAction => ({
+  type: "ADD_CODES_TO_POOL",
   payload: codes,
 })
 
-const scheduleEvents = (start: Date) => ({
-  type: SCHEDULE_EVENTS,
+const scheduleEvents = (start: Date): ScheduleEventsAction => ({
+  type: "SCHEDULE_EVENTS",
   payload: getMinuteAccurateDate(start),
 })
 
-const updateEvents = (events: calendar_v3.Schema$Event[]) => ({
-  type: UPDATE_EVENTS,
+const setEvents = (events: calendar_v3.Schema$Event[]): SetEventsAction => ({
+  type: "SET_EVENTS",
   payload: events,
 })
 
-const lastUsedCode = (code: string) => ({
-  type: LAST_USED_CODE,
+const lastUsedCode = (code: string): LastUsedCodeAction => ({
+  type: "LAST_USED_CODE",
   payload: code,
 })
 
-const disabledEvents = (events: calendar_v3.Schema$Event[]) => ({
-  type: DISABLED_EVENTS,
-  payload: events,
-})
-
-const assignedGuestSlot = (slotId: string, eventId: string | null) => ({
-  type: ASSIGNED_GUEST_SLOT,
+const assignedGuestSlot = (
+  slotId: string,
+  eventId: string | null
+): AssignGuestSlotAction => ({
+  type: "ASSIGNED_GUEST_SLOT",
   payload: { id: slotId, eventId },
 })
 
 export {
   assignedGuestSlot,
-  disabledEvents,
   lastUsedCode,
-  updateEvents,
+  setEvents,
   addCodesToPool,
   addDoorLocks,
   scheduleEvents,
