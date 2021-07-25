@@ -27,12 +27,12 @@ const reducer = (state = defaultState, action: AnyAction) => {
   switch (action.type) {
     case "SET_EVENTS":
       const events = action.payload.filter((event) => {
-        const end = defaultTo(event.end.dateTime, event.end.date)
+        const end = defaultTo(event?.end?.dateTime, event?.end?.date)
         return getMinuteAccurateDate(new Date(end)).getTime() > Date.now()
       })
       const eventOrder = events.sort((a, b) => {
-        const startA = new Date(defaultTo(a.start.dateTime, a.start.date))
-        const startB = new Date(defaultTo(b.start.dateTime, b.start.date))
+        const startA = new Date(defaultTo(a?.start?.dateTime, a?.start?.date))
+        const startB = new Date(defaultTo(b?.start?.dateTime, b?.start?.date))
         if (startA.getTime() < startB.getTime()) {
           return -1
         }
