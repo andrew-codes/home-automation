@@ -11,7 +11,7 @@ type State = {
   codes: string[]
   codeIndex: number
   guestSlots: Record<string, string>
-  lastScheduledTime?: Date
+  lastScheduledTime: Date | null
 }
 const defaultState: State = {
   events: {},
