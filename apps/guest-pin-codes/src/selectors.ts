@@ -47,21 +47,21 @@ const getUnassignedChronologicalEvents = createSelector<
 const getEndingEvents = createSelector<
   State,
   calendar_v3.Schema$Event[],
-  Date,
+  Date | null,
   calendar_v3.Schema$Event[]
 >([getChronologicalEvents, getLastScheduleTime], (events, scheduleTime) =>
   events.filter((event) => {
     const end = getMinuteAccurateDate(
       new Date(defaultTo(event?.end?.dateTime, event?.end?.date))
     )
-    return end.toLocaleString() === scheduleTime.toLocaleString()
+    return end.toLocaleString() === scheduleTime?.toLocaleString()
   })
 )
 
 const getStartingEvents = createSelector<
   State,
   calendar_v3.Schema$Event[],
-  Date,
+  Date | null,
   calendar_v3.Schema$Event[]
 >(
   [getUnassignedChronologicalEvents, getLastScheduleTime],
@@ -70,7 +70,7 @@ const getStartingEvents = createSelector<
       const start = getMinuteAccurateDate(
         new Date(defaultTo(event?.start?.dateTime, event?.start?.date))
       )
-      return start.toLocaleString() === scheduleTime.toLocaleString()
+      return start.toLocaleString() === scheduleTime?.toLocaleString()
     })
 )
 
