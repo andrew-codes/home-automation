@@ -31,6 +31,7 @@ vault kv put kv/home-assistant \
     HOME_AUTOMATION_PRIVATE_SSH_KEY= "" \
     HOME_AUTOMATION_PUBLIC_SSH_KEY= "" \
     INLETS_IP="" \
+    JIRA_API_TOKEN="" \
     LATITUDE="" \
     LONGITUDE="" \
     MS_TEAMS_STATUS_ACTIVE_WEBHOOK_ID="" \
