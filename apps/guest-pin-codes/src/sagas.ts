@@ -28,10 +28,10 @@ import {
 import { ScheduleEventsAction } from "./actions"
 
 const debug = createDebugger("@ha/guest-pin-codes/sagas")
-const { GOOGLE_CALENDAR_ID } = process.env
 
 function* fetchEvents(action) {
   try {
+    const { GOOGLE_CALENDAR_ID } = process.env
     const now = action.payload as Date
     debug(`Fetching calendar events ending after ${now.toTimeString()}`)
     const calendar = createCalendarClient()
@@ -61,8 +61,10 @@ const getNextCodeIndex = (length, currentIndex, offset) => {
   return currentIndex + offset
 }
 
-function* startEvent(action) {
+function* startEvent(action: ScheduleEventsAction) {
   try {
+    const { GOOGLE_CALENDAR_ID } = process.env
+
     const now = action.payload as Date
     debug(`Scheduling events to start; ${now.toTimeString()}`)
     const startingEvents = yield select(getStartingEvents)
@@ -204,7 +206,6 @@ function* endEvent(action: ScheduleEventsAction) {
       }
     }
   } catch (error) {
-    console.log(error)
     debug(error)
   }
 }
@@ -213,7 +214,7 @@ function* startEventSaga() {
   yield takeEvery("SCHEDULE_EVENTS", startEvent)
 }
 function* endEventSaga() {
-  yield takeEvery("SCHEUDLE_EVENTS", endEvent)
+  yield takeEvery("SCHEDULE_EVENTS", endEvent)
 }
 function* scheduleEventsSaga() {
   yield fork(startEventSaga)

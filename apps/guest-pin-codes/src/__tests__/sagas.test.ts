@@ -1,234 +1,209 @@
 jest.mock("../googleClient")
-jest.mock("../mqtt")
-import SagaTester from "redux-saga-tester"
-import { fetchEvents, scheduleEvents } from "../actionCreators"
+import { expectSaga } from "redux-saga-test-plan"
+import { throwError } from "redux-saga-test-plan/providers"
+import * as matchers from "redux-saga-test-plan/matchers"
 import sagas from "../sagas"
-import reducer from "../reducer"
-import { DISABLED_EVENTS, LAST_USED_CODE, UPDATE_EVENTS } from "../actions"
 import { createCalendarClient } from "../googleClient"
-import codes from "../candidateCodes"
+import { call, select } from "redux-saga/effects"
+import { assignedGuestSlot, setEvents } from "../actionCreators"
+import {
+  getAvailableLockSlots,
+  getCodes,
+  getCurrentCodeIndex,
+  getDoorLocks,
+  getEndingEvents,
+  getLockSlots,
+  getStartingEvents,
+} from "../selectors"
 import createMqttClient from "../mqtt"
 
-let store
-let calendarClient = {
+const calendarClient = {
   events: {
     list: jest.fn(),
     update: jest.fn(),
   },
 }
-const mqtt = {
+let mqtt = {
   publish: jest.fn(),
 }
-
 beforeEach(() => {
   jest.resetAllMocks()
   ;(createCalendarClient as jest.Mock).mockReturnValue(calendarClient)
-  store = new SagaTester({
-    initialState: null,
-    reducers: reducer,
-  })
-  ;(createMqttClient as jest.Mock).mockResolvedValue(mqtt)
-  store.start(sagas)
+  process.env.GOOGLE_CALENDAR_ID = "cal_id"
 })
 
-describe("fetching events saga", () => {
-  test("errors in fetching do not crash the saga", () => {
-    const now = new Date(2021, 0, 1, 12, 0, 0, 0)
-    calendarClient.events.list.mockRejectedValue({})
-    store.dispatch(fetchEvents(now))
-    store.dispatch(fetchEvents(now))
-    store.dispatch(fetchEvents(now))
+describe("fetching events", () => {
+  test("with error does not crash saga", () => {
+    return expectSaga(sagas)
+      .provide([
+        [
+          matchers.call.fn(calendarClient.events.list),
+          throwError(new Error("Google Error")),
+        ],
+      ])
+      .dispatch({ type: "FETCH_EVENTS", payload: new Date() })
+      .run()
   })
 
-  test("fetching no events", async () => {
-    const now = new Date(2021, 0, 1, 12, 0, 0, 0)
-    calendarClient.events.list.mockResolvedValue({
-      data: { items: [] },
-    })
-    store.dispatch(fetchEvents(now))
-
-    await store.waitFor(UPDATE_EVENTS)
-    expect(store.getState().events).toEqual({})
+  test("successfully, but with no events", () => {
+    const fakeResults = { data: { items: null } }
+    return expectSaga(sagas)
+      .provide([[matchers.call.fn(calendarClient.events.list), fakeResults]])
+      .put({
+        type: "SET_EVENTS",
+        payload: [],
+      })
+      .dispatch({ type: "FETCH_EVENTS", payload: new Date() })
+      .run()
   })
 
-  test("fetching events excludes events ending before the specified time", async () => {
-    const now = new Date(2021, 0, 1, 12, 0, 0, 0)
-    calendarClient.events.list.mockResolvedValue({
+  test("successfully, with events", () => {
+    const fakeResults = {
       data: {
         items: [
           {
             id: "1",
-            end: {
-              dateTime: "2020-01-01",
-            },
           },
         ],
       },
-    })
-    store.dispatch(fetchEvents(now))
-
-    await store.waitFor(UPDATE_EVENTS)
-    expect(store.getState().events).toEqual({})
-  })
-
-  test("fetching events includes events ending after the specified time", async () => {
-    const now = new Date(2021, 0, 1, 12, 0, 0, 0)
-    const nowPlusAMinute = new Date(2021, 0, 1, 12, 1)
-    const inProgressEvent = {
-      id: "1",
-      end: {
-        dateTime: nowPlusAMinute.toLocaleString(),
-      },
     }
-    calendarClient.events.list.mockResolvedValue({
-      data: {
-        items: [inProgressEvent],
-      },
-    })
-    store.dispatch(fetchEvents(now))
-
-    await store.waitFor(UPDATE_EVENTS)
-    expect(store.getState().events).toEqual({
-      "1": inProgressEvent,
-    })
-  })
-
-  test("fetching events sorts them chronologically", async () => {
-    const now = new Date(2021, 0, 1, 12, 0, 0, 0)
-    const nowPlusAMinute = new Date(2021, 0, 1, 12, 1)
-    const nowPlusTwoMinutes = new Date(2021, 0, 1, 12, 2)
-    const nowPlusAnHour = new Date(2021, 0, 1, 13, 0)
-    const nowPlusAnHourAndAMinute = new Date(2021, 0, 1, 13, 1)
-    const laterEvent = {
-      id: "1",
-      start: {
-        dateTime: nowPlusTwoMinutes.toLocaleString(),
-      },
-      end: {
-        dateTime: nowPlusAnHour.toLocaleString(),
-      },
-    }
-    const earlierEvent = {
-      id: "2",
-      start: {
-        dateTime: nowPlusAMinute.toLocaleString(),
-      },
-      end: {
-        dateTime: nowPlusAnHour.toLocaleString(),
-      },
-    }
-    const lastEvent = {
-      id: "3",
-      start: {
-        dateTime: nowPlusAnHour.toLocaleString(),
-      },
-      end: {
-        dateTime: nowPlusAnHourAndAMinute.toLocaleString(),
-      },
-    }
-    const laterEvent2 = {
-      id: "4",
-      start: {
-        dateTime: nowPlusTwoMinutes.toLocaleString(),
-      },
-      end: {
-        dateTime: nowPlusAnHour.toLocaleString(),
-      },
-    }
-    calendarClient.events.list.mockResolvedValue({
-      data: {
-        items: [laterEvent, laterEvent2, lastEvent, earlierEvent],
-      },
-    })
-    store.dispatch(fetchEvents(now))
-
-    await store.waitFor(UPDATE_EVENTS)
-    expect(store.getState().eventOrder).toEqual(["2", "1", "4", "3"])
+    return expectSaga(sagas)
+      .provide([[matchers.call.fn(calendarClient.events.list), fakeResults]])
+      .put({
+        type: "SET_EVENTS",
+        payload: [
+          {
+            id: "1",
+          },
+        ],
+      })
+      .dispatch({ type: "FETCH_EVENTS", payload: new Date() })
+      .run()
   })
 })
 
-describe("start event saga", () => {
-  let laterEvent
-  let laterEvent2
-  let lastEvent
-  let earlierEvent
-
-  beforeEach(() => {
-    const nowPlusAMinute = new Date(2021, 0, 1, 12, 1)
-    const nowPlusTwoMinutes = new Date(2021, 0, 1, 12, 2)
-    const nowPlusAnHour = new Date(2021, 0, 1, 13, 0)
-    const nowPlusAnHourAndAMinute = new Date(2021, 0, 1, 13, 1)
-    laterEvent = {
-      id: "1",
-      start: {
-        dateTime: nowPlusTwoMinutes.toLocaleString(),
-      },
-      end: {
-        dateTime: nowPlusAnHour.toLocaleString(),
-      },
-    }
-    earlierEvent = {
-      id: "2",
-      start: {
-        dateTime: nowPlusAMinute.toLocaleString(),
-      },
-      end: {
-        dateTime: nowPlusAnHour.toLocaleString(),
-      },
-    }
-    lastEvent = {
-      id: "3",
-      start: {
-        dateTime: nowPlusAnHour.toLocaleString(),
-      },
-      end: {
-        dateTime: nowPlusAnHourAndAMinute.toLocaleString(),
-      },
-    }
-    laterEvent2 = {
-      id: "4",
-      start: {
-        dateTime: nowPlusTwoMinutes.toLocaleString(),
-      },
-      end: {
-        dateTime: nowPlusAnHour.toLocaleString(),
-      },
-    }
-    store = new SagaTester({
-      initialState: {
-        events: {
-          "1": laterEvent,
-          "2": earlierEvent,
-          "3": lastEvent,
-          "4": laterEvent2,
-        },
-        eventOrder: ["2", "1", "4", "3"],
-        codes,
-        codeIndex: -1,
-        doorLocks: ["front_door", "car_port_door"],
-        guestSlots: { "1": null, "2": null },
-      },
-      reducers: reducer,
-    })
-    store.start(sagas)
+describe("starting events", () => {
+  test("general errors do not crash the saga", () => {
+    const startingEvents = []
+    return expectSaga(sagas)
+      .provide([[select(getStartingEvents), throwError(new Error("error"))]])
+      .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
+      .not.call.fn(calendarClient.events.update)
+      .run()
   })
 
-  test("no events are starting at specified time", async () => {
-    const now = new Date(2021, 0, 1, 12, 0, 0, 0)
-    store.dispatch(scheduleEvents(now))
-    expect(store.getState().codeIndex).toEqual(-1)
+  test("google calendar update or mqtt errors do not crash the saga", () => {
+    const startingEvents = [{ id: "1" }]
+    return expectSaga(sagas)
+      .provide([
+        [select(getStartingEvents), startingEvents],
+        [select(getCodes), ["0002", "0001", "0003"]],
+        [select(getDoorLocks), ["front_door"]],
+        [select(getCurrentCodeIndex), 1],
+        [select(getAvailableLockSlots), ["1", "2", "3"]],
+        [
+          matchers.call.fn(calendarClient.events.update),
+          throwError(new Error("500")),
+        ],
+        [call(createMqttClient), mqtt],
+      ])
+      .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
+      .run()
   })
 
-  test("events starting are assigned a the next code and the calendar event is updated with this code", async () => {
-    const now = new Date(2021, 0, 1, 12, 2)
-    store.dispatch(scheduleEvents(now))
-    await store.waitFor(LAST_USED_CODE)
+  test("with no starting events", () => {
+    const startingEvents = []
+    return expectSaga(sagas)
+      .provide([
+        [select(getStartingEvents), startingEvents],
+        [select(getCodes), ["0002", "0001"]],
+        [select(getDoorLocks), ["front_door"]],
+        [select(getCurrentCodeIndex), 1],
+      ])
+      .put({
+        type: "LAST_USED_CODE",
+        payload: "0001",
+      })
+      .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
+      .not.call.fn(calendarClient.events.update)
+      .run()
+  })
 
-    expect(calendarClient.events.update.mock.calls[0][0]).toMatchObject({
-      eventId: "1",
-      requestBody: {
-        ...laterEvent,
-        description: `ACCESS CODE: ${codes[0]}
+  test("with starting events, but no available code slots", () => {
+    const startingEvents = [
+      { id: "1", sequence: 0 },
+      { id: "2", sequence: 0 },
+      { id: "3", sequence: 0 },
+    ]
+    return expectSaga(sagas)
+      .provide([
+        [select(getStartingEvents), startingEvents],
+        [select(getCodes), ["0002", "0001"]],
+        [select(getDoorLocks), ["front_door"]],
+        [select(getCurrentCodeIndex), 1],
+        [select(getAvailableLockSlots), []],
+      ])
+      .put({
+        type: "LAST_USED_CODE",
+        payload: "0001",
+      })
+      .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
+      .not.call.fn(calendarClient.events.update)
+      .run()
+  })
+
+  test("with starting events and available code slots, more events than remaining codes will reset to start at the beginning of the codes collection", () => {
+    const startingEvents = [
+      { id: "1", sequence: 0 },
+      { id: "2", sequence: 0 },
+      { id: "3", sequence: 0 },
+    ]
+    return (
+      expectSaga(sagas)
+        .provide([
+          [select(getStartingEvents), startingEvents],
+          [select(getCodes), ["0002", "0001", "0003"]],
+          [select(getDoorLocks), ["front_door"]],
+          [select(getCurrentCodeIndex), 1],
+          [select(getAvailableLockSlots), ["1", "2", "3"]],
+          [call(createMqttClient), mqtt],
+        ])
+        .put({
+          type: "LAST_USED_CODE",
+          payload: "0001",
+        })
+        .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
+        // .call.like({ fn: calendarClient.events.update })
+        .run()
+    )
+  })
+
+  test("with starting events and available code slots, each event on Google Calendar is updated with the next access code", () => {
+    const startingEvents = [
+      { id: "1", sequence: 0 },
+      { id: "2", sequence: 0 },
+      { id: "3", sequence: 0 },
+    ]
+    return expectSaga(sagas)
+      .provide([
+        [select(getStartingEvents), startingEvents],
+        [select(getCodes), ["0002", "0001", "0003"]],
+        [select(getDoorLocks), ["front_door"]],
+        [select(getCurrentCodeIndex), 0],
+        [select(getAvailableLockSlots), ["1", "2", "3"]],
+        [call(createMqttClient), mqtt],
+      ])
+      .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
+      .call.like({
+        fn: calendarClient.events.update,
+        args: [
+          {
+            calendarId: "cal_id",
+            eventId: "1",
+            sendUpdates: "all",
+            requestBody: {
+              sequence: 1,
+              description: `ACCESS CODE: 0001
 =================
 
 This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code, please do one of the following:
@@ -236,13 +211,20 @@ This code will work on all doors for the duration of this calendar invite. If fo
 - email Andrew or Dorri
 
 Thank you!`,
-      },
-    })
-    expect(calendarClient.events.update.mock.calls[1][0]).toMatchObject({
-      eventId: "4",
-      requestBody: {
-        ...laterEvent2,
-        description: `ACCESS CODE: ${codes[1]}
+            },
+          },
+        ],
+      })
+      .call.like({
+        fn: calendarClient.events.update,
+        args: [
+          {
+            calendarId: "cal_id",
+            eventId: "2",
+            sendUpdates: "all",
+            requestBody: {
+              sequence: 1,
+              description: `ACCESS CODE: 0003
 =================
 
 This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code, please do one of the following:
@@ -250,285 +232,333 @@ This code will work on all doors for the duration of this calendar invite. If fo
 - email Andrew or Dorri
 
 Thank you!`,
-      },
-    })
-    expect(store.getState().codeIndex).toEqual(1)
+            },
+          },
+        ],
+      })
+      .call.like({
+        fn: calendarClient.events.update,
+        args: [
+          {
+            calendarId: "cal_id",
+            eventId: "3",
+            sendUpdates: "all",
+            requestBody: {
+              sequence: 1,
+              description: `ACCESS CODE: 0002
+=================
+
+This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code, please do one of the following:
+
+- email Andrew or Dorri
+
+Thank you!`,
+            },
+          },
+        ],
+      })
+      .run()
   })
 
-  test("starting multiple concurrent events enable the assigned code via publising a MQTT message for the number of concurrent guest slots available", async () => {
-    const nowPlusTwoMinutes = new Date(2021, 0, 1, 12, 2)
-    store.start(sagas)
-    store.dispatch(scheduleEvents(nowPlusTwoMinutes))
-    await store.waitFor(LAST_USED_CODE)
-
-    expect(mqtt.publish).toHaveBeenCalledWith(
-      "/homeassistant/guest-pin/set",
-      JSON.stringify({
-        entity_id: `input_text.front_door_pin_1`,
-        pin: codes[0],
-      }),
-      { qos: 2 }
-    )
-    expect(mqtt.publish).toHaveBeenCalledWith(
-      "/homeassistant/guest-pin/set",
-      JSON.stringify({
-        entity_id: `input_text.car_port_door_pin_1`,
-        pin: codes[0],
-      }),
-      { qos: 2 }
-    )
-    expect(mqtt.publish).toHaveBeenCalledWith(
-      "/homeassistant/guest-pin/enable",
-      JSON.stringify({
-        entity_id: `input_boolean.enabled_front_door_1`,
-      }),
-      { qos: 2 }
-    )
-    expect(mqtt.publish).toHaveBeenCalledWith(
-      "/homeassistant/guest-pin/enable",
-      JSON.stringify({
-        entity_id: `input_boolean.enabled_car_port_door_1`,
-      }),
-      { qos: 2 }
-    )
-    expect(mqtt.publish).toHaveBeenCalledWith(
-      "/homeassistant/guest-pin/set",
-      JSON.stringify({
-        entity_id: `input_text.front_door_pin_2`,
-        pin: codes[1],
-      }),
-      { qos: 2 }
-    )
-    expect(mqtt.publish).toHaveBeenCalledWith(
-      "/homeassistant/guest-pin/set",
-      JSON.stringify({
-        entity_id: `input_text.car_port_door_pin_2`,
-        pin: codes[1],
-      }),
-      { qos: 2 }
-    )
-    expect(mqtt.publish).toHaveBeenCalledWith(
-      "/homeassistant/guest-pin/enable",
-      JSON.stringify({
-        entity_id: `input_boolean.enabled_front_door_2`,
-      }),
-      { qos: 2 }
-    )
-    expect(mqtt.publish).toHaveBeenCalledWith(
-      "/homeassistant/guest-pin/enable",
-      JSON.stringify({
-        entity_id: `input_boolean.enabled_car_port_door_2`,
-      }),
-      { qos: 2 }
-    )
-
-    expect(store.getState().guestSlots).toEqual({ "1": "1", "2": "4" })
-  })
-
-  test("recycles through PIN codes", async () => {
-    store = new SagaTester({
-      initialState: {
-        events: {
-          "1": laterEvent,
-          "2": earlierEvent,
-          "3": lastEvent,
-          "4": laterEvent2,
-        },
-        eventOrder: ["2", "1", "4", "3"],
-        codes,
-        codeIndex: codes.length - 1,
-        doorLocks: ["front_door", "car_port_door"],
-        guestSlots: { "1": null },
-      },
-      reducers: reducer,
-    })
-    store.start(sagas)
-    const now = new Date(2021, 0, 1, 12, 2)
-    store.dispatch(scheduleEvents(now))
-    await store.waitFor(LAST_USED_CODE)
-
-    expect(mqtt.publish).toHaveBeenCalledWith(
-      "/homeassistant/guest-pin/set",
-      JSON.stringify({
-        entity_id: `input_text.front_door_pin_1`,
-        pin: codes[0],
-      }),
-      { qos: 2 }
-    )
-    expect(mqtt.publish).toHaveBeenCalledWith(
-      "/homeassistant/guest-pin/set",
-      JSON.stringify({
-        entity_id: `input_text.car_port_door_pin_1`,
-        pin: codes[0],
-      }),
-      { qos: 2 }
-    )
-    expect(mqtt.publish).toHaveBeenCalledWith(
-      "/homeassistant/guest-pin/enable",
-      JSON.stringify({
-        entity_id: `input_boolean.enabled_front_door_1`,
-      }),
-      { qos: 2 }
-    )
-    expect(mqtt.publish).toHaveBeenCalledWith(
-      "/homeassistant/guest-pin/enable",
-      JSON.stringify({
-        entity_id: `input_boolean.enabled_car_port_door_1`,
-      }),
-      { qos: 2 }
+  test("with starting events and available code slots, topics are published to enable and set each event's code for each door lock", () => {
+    const startingEvents = [
+      { id: "1", sequence: 0 },
+      { id: "2", sequence: 0 },
+    ]
+    return (
+      expectSaga(sagas)
+        .provide([
+          [select(getStartingEvents), startingEvents],
+          [select(getCodes), ["0002", "0001", "0003"]],
+          [select(getDoorLocks), ["front_door", "car_port_door"]],
+          [select(getCurrentCodeIndex), 0],
+          [select(getAvailableLockSlots), ["1", "2", "3"]],
+          [call(createMqttClient), mqtt],
+        ])
+        .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
+        // Event 1
+        .call.like({
+          fn: mqtt.publish,
+          args: [
+            "/homeassistant/guest-pin/set",
+            JSON.stringify({
+              entity_id: "input_text.front_door_pin_1",
+              pin: "0001",
+            }),
+            { qos: 2 },
+          ],
+        })
+        .call.like({
+          fn: mqtt.publish,
+          args: [
+            "/homeassistant/guest-pin/set",
+            JSON.stringify({
+              entity_id: "input_text.car_port_door_pin_1",
+              pin: "0001",
+            }),
+            { qos: 2 },
+          ],
+        })
+        .call.like({
+          fn: mqtt.publish,
+          args: [
+            "/homeassistant/guest-pin/enable",
+            JSON.stringify({
+              entity_id: "input_boolean.enabled_front_door_1",
+            }),
+            { qos: 2 },
+          ],
+        })
+        .call.like({
+          fn: mqtt.publish,
+          args: [
+            "/homeassistant/guest-pin/enable",
+            JSON.stringify({
+              entity_id: "input_boolean.enabled_car_port_door_1",
+            }),
+            { qos: 2 },
+          ],
+        })
+        // Event 2
+        .call.like({
+          fn: mqtt.publish,
+          args: [
+            "/homeassistant/guest-pin/set",
+            JSON.stringify({
+              entity_id: "input_text.front_door_pin_2",
+              pin: "0003",
+            }),
+            { qos: 2 },
+          ],
+        })
+        .call.like({
+          fn: mqtt.publish,
+          args: [
+            "/homeassistant/guest-pin/set",
+            JSON.stringify({
+              entity_id: "input_text.car_port_door_pin_2",
+              pin: "0003",
+            }),
+            { qos: 2 },
+          ],
+        })
+        .call.like({
+          fn: mqtt.publish,
+          args: [
+            "/homeassistant/guest-pin/enable",
+            JSON.stringify({
+              entity_id: "input_boolean.enabled_front_door_2",
+            }),
+            { qos: 2 },
+          ],
+        })
+        .call.like({
+          fn: mqtt.publish,
+          args: [
+            "/homeassistant/guest-pin/enable",
+            JSON.stringify({
+              entity_id: "input_boolean.enabled_car_port_door_2",
+            }),
+            { qos: 2 },
+          ],
+        })
+        .run()
     )
   })
 
-  test("errors will not crash the saga", async () => {
-    const now = new Date(2021, 0, 1, 12, 2)
-    calendarClient.events.update.mockRejectedValue({})
-    store.dispatch(scheduleEvents(now))
-    store.dispatch(scheduleEvents(now))
+  test("with starting events and available code slots, assigns each event to a code slot", () => {
+    const startingEvents = [
+      { id: "1", sequence: 0 },
+      { id: "2", sequence: 0 },
+    ]
+    return expectSaga(sagas)
+      .provide([
+        [select(getStartingEvents), startingEvents],
+        [select(getCodes), ["0002", "0001", "0003"]],
+        [select(getDoorLocks), ["front_door", "car_port_door"]],
+        [select(getCurrentCodeIndex), 0],
+        [select(getAvailableLockSlots), ["1", "2", "3"]],
+        [call(createMqttClient), mqtt],
+      ])
+      .put(assignedGuestSlot("1", "1"))
+      .put(assignedGuestSlot("2", "2"))
+      .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
+      .run()
+  })
 
-    store = new SagaTester({
-      initialState: {
-        events: {
-          "1": {},
-        },
-        eventOrder: ["2"],
-        codes,
-        codeIndex: codes.length - 1,
-        doorLocks: ["front_door", "car_port_door"],
-        guestSlots: { "1": null },
-      },
-      reducers: reducer,
-    })
-    store.start(sagas)
-    store.dispatch(scheduleEvents(now))
-    store.dispatch(scheduleEvents(now))
+  test("with starting events and not enough available code slots, assigns as many events to code slots as possible", () => {
+    const startingEvents = [
+      { id: "1", sequence: 0 },
+      { id: "2", sequence: 0 },
+    ]
+    return expectSaga(sagas)
+      .provide([
+        [select(getStartingEvents), startingEvents],
+        [select(getCodes), ["0002", "0001", "0003"]],
+        [select(getDoorLocks), ["front_door", "car_port_door"]],
+        [select(getCurrentCodeIndex), 0],
+        [select(getAvailableLockSlots), ["1"]],
+        [call(createMqttClient), mqtt],
+      ])
+      .put(assignedGuestSlot("1", "1"))
+      .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
+      .run()
   })
 })
 
-describe("ending event saga", () => {
-  let laterEvent2
-  let lastEvent
-
-  beforeEach(() => {
-    const nowPlusTwoMinutes = new Date(2021, 0, 1, 12, 2)
-    const nowPlusAnHour = new Date(2021, 0, 1, 13, 0)
-    const nowPlusAnHourAndAMinute = new Date(2021, 0, 1, 13, 1)
-    lastEvent = {
-      id: "3",
-      start: {
-        dateTime: nowPlusAnHour.toLocaleString(),
-      },
-      end: {
-        dateTime: nowPlusAnHourAndAMinute.toLocaleString(),
-      },
-    }
-    laterEvent2 = {
-      id: "4",
-      start: {
-        dateTime: nowPlusTwoMinutes.toLocaleString(),
-      },
-      end: {
-        dateTime: nowPlusAnHourAndAMinute.toLocaleString(),
-      },
-    }
-    store = new SagaTester({
-      initialState: {
-        events: {
-          "4": laterEvent2,
-          "3": lastEvent,
-        },
-        eventOrder: ["4", "3"],
-        codes,
-        codeIndex: 0,
-        doorLocks: ["front_door", "car_port_door"],
-        guestSlots: { "1": "4", "2": "3" },
-      },
-      reducers: reducer,
-    })
-    store.start(sagas)
+describe("ending events", () => {
+  test("errors do not crash saga", () => {
+    return expectSaga(sagas)
+      .provide([
+        [select(getStartingEvents), []],
+        [select(getEndingEvents), throwError(new Error("error"))],
+        [select(getCodes), ["0002", "0001", "0003"]],
+        [select(getDoorLocks), ["front_door", "car_port_door"]],
+        [select(getCurrentCodeIndex), 0],
+        [select(getAvailableLockSlots), ["1"]],
+        [call(createMqttClient), mqtt],
+      ])
+      .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
+      .not.call.fn(mqtt.publish)
+      .run()
   })
 
-  test("no events to stop", async () => {
-    const now = new Date(2021, 0, 1, 0, 0)
-    store.dispatch(scheduleEvents(now))
-    await store.waitFor(DISABLED_EVENTS)
-    expect(mqtt.publish).not.toHaveBeenCalled()
+  test("with no events ending now", () => {
+    const endingEvents = []
+    return expectSaga(sagas)
+      .provide([
+        [select(getStartingEvents), []],
+        [select(getEndingEvents), endingEvents],
+        [select(getCodes), ["0002", "0001", "0003"]],
+        [select(getDoorLocks), ["front_door", "car_port_door"]],
+        [select(getCurrentCodeIndex), 0],
+        [select(getAvailableLockSlots), ["1"]],
+        [call(createMqttClient), mqtt],
+      ])
+      .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
+      .not.call.fn(mqtt.publish)
+      .run()
   })
 
-  test("ended events disable their PIN codes via publishing MQTT messages", async () => {
-    const now = new Date(2021, 0, 1, 13, 1)
-    store.dispatch(scheduleEvents(now))
-    await store.waitFor(DISABLED_EVENTS)
-    expect(store.getState().guestSlots).toEqual({ "1": null, "2": null })
-    expect(mqtt.publish).toHaveBeenCalledWith(
-      "/homeassistant/guest-pin/disable",
-      JSON.stringify({
-        entity_id: "input_boolean.enabled_front_door_1",
-      }),
-      { qos: 2 }
-    )
-    expect(mqtt.publish).toHaveBeenCalledWith(
-      "/homeassistant/guest-pin/disable",
-      JSON.stringify({
-        entity_id: "input_boolean.enabled_car_port_door_1",
-      }),
-      { qos: 2 }
-    )
-
-    expect(mqtt.publish).toHaveBeenCalledWith(
-      "/homeassistant/guest-pin/disable",
-      JSON.stringify({
-        entity_id: "input_boolean.enabled_front_door_2",
-      }),
-      { qos: 2 }
-    )
-    expect(mqtt.publish).toHaveBeenCalledWith(
-      "/homeassistant/guest-pin/disable",
-      JSON.stringify({
-        entity_id: "input_boolean.enabled_car_port_door_2",
-      }),
-      { qos: 2 }
-    )
+  test("with ending events and with events not recorded to a slot, ignores the events without a slot", () => {
+    const event1Id = "1"
+    const event2Id = "2"
+    const endingEvents = [
+      { id: event1Id, sequence: 0 },
+      { id: event2Id, sequence: 0 },
+    ]
+    return expectSaga(sagas)
+      .provide([
+        [select(getStartingEvents), []],
+        [select(getEndingEvents), endingEvents],
+        [select(getLockSlots), []],
+        [select(getDoorLocks), []],
+        [call(createMqttClient), mqtt],
+      ])
+      .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
+      .not.call.fn(mqtt.publish)
+      .run()
   })
 
-  test("exceptions do not crash saga", () => {
-    store = new SagaTester({
-      initialState: {
-        events: {
-          "1": {},
-        },
-        eventOrder: ["2"],
-        codes,
-        codeIndex: codes.length - 1,
-        doorLocks: ["front_door", "car_port_door"],
-        guestSlots: { "1": null },
-      },
-      reducers: reducer,
-    })
-    store.start(sagas)
-    store.dispatch(scheduleEvents(new Date()))
-    store.dispatch(scheduleEvents(new Date()))
+  test("with ending events, unassign code slot for each ending event", () => {
+    const event1Id = "1"
+    const event2Id = "2"
+    const endingEvents = [
+      { id: event1Id, sequence: 0 },
+      { id: event2Id, sequence: 0 },
+    ]
+    return expectSaga(sagas)
+      .provide([
+        [select(getStartingEvents), []],
+        [select(getEndingEvents), endingEvents],
+        [
+          select(getLockSlots),
+          [
+            ["2", event1Id],
+            ["3", event2Id],
+          ],
+        ],
+        [select(getDoorLocks), []],
+        [call(createMqttClient), mqtt],
+      ])
+      .put({
+        type: "ASSIGNED_GUEST_SLOT",
+        payload: { id: "2", eventId: null },
+      })
+      .put({
+        type: "ASSIGNED_GUEST_SLOT",
+        payload: { id: "3", eventId: null },
+      })
+      .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
+      .run()
   })
 
-  test("ending events without a code/guest slot are ignored", async () => {
-    store = new SagaTester({
-      initialState: {
-        events: {
-          [laterEvent2.id]: laterEvent2,
-          [lastEvent.id]: lastEvent,
-        },
-        eventOrder: ["4", "3"],
-        codes,
-        codeIndex: codes.length - 1,
-        doorLocks: ["front_door", "car_port_door"],
-        guestSlots: { "1": null },
-      },
-      reducers: reducer,
-    })
-    store.start(sagas)
-    const now = new Date(2021, 0, 1, 13, 1)
-    store.dispatch(scheduleEvents(now))
-    await store.waitFor(DISABLED_EVENTS)
-
-    expect(store.getState().guestSlots).toEqual({ "1": null })
+  test("with ending events, disable each event's code for each door", () => {
+    const event1Id = "1"
+    const event2Id = "2"
+    const endingEvents = [
+      { id: event1Id, sequence: 0 },
+      { id: event2Id, sequence: 0 },
+    ]
+    return (
+      expectSaga(sagas)
+        .provide([
+          [select(getStartingEvents), []],
+          [select(getEndingEvents), endingEvents],
+          [
+            select(getLockSlots),
+            [
+              ["2", event1Id],
+              ["3", event2Id],
+            ],
+          ],
+          [select(getDoorLocks), ["front_door", "car_port_door"]],
+          [call(createMqttClient), mqtt],
+        ])
+        .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
+        // Event 1
+        .call.like({
+          fn: mqtt.publish,
+          args: [
+            "/homeassistant/guest-pin/disable",
+            JSON.stringify({
+              entity_id: "input_boolean.enabled_front_door_2",
+            }),
+            { qos: 2 },
+          ],
+        })
+        .call.like({
+          fn: mqtt.publish,
+          args: [
+            "/homeassistant/guest-pin/disable",
+            JSON.stringify({
+              entity_id: "input_boolean.enabled_car_port_door_2",
+            }),
+            { qos: 2 },
+          ],
+        })
+        // Event 2
+        .call.like({
+          fn: mqtt.publish,
+          args: [
+            "/homeassistant/guest-pin/disable",
+            JSON.stringify({
+              entity_id: "input_boolean.enabled_front_door_3",
+            }),
+            { qos: 2 },
+          ],
+        })
+        .call.like({
+          fn: mqtt.publish,
+          args: [
+            "/homeassistant/guest-pin/disable",
+            JSON.stringify({
+              entity_id: "input_boolean.enabled_car_port_door_3",
+            }),
+            { qos: 2 },
+          ],
+        })
+        .run()
+    )
   })
 })
