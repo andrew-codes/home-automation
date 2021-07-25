@@ -42,7 +42,7 @@ type AssignGuestSlotAction = {
   type: "ASSIGNED_GUEST_SLOT"
   payload: {
     id: string
-    eventId: string
+    eventId: string | null
   }
 }
 

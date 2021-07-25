@@ -12,8 +12,8 @@ const getEvents: Selector<State, Record<string, calendar_v3.Schema$Event>> = (
 ) => state?.events ?? {}
 const getEventOrder: Selector<State, string[]> = (state) =>
   state?.eventOrder ?? []
-const getLastScheduleTime: Selector<State, Date> = (state) =>
-  state.lastScheduledTime
+const getLastScheduleTime: Selector<State, Date | null> = (state) =>
+  state?.lastScheduledTime
 const getCodes: Selector<State, string[]> = (state) => state.codes
 const getCurrentCodeIndex: Selector<State, number> = (state) => state.codeIndex
 const getDoorLocks: Selector<State, string[]> = (state) => state.doorLocks
@@ -52,7 +52,7 @@ const getEndingEvents = createSelector<
 >([getChronologicalEvents, getLastScheduleTime], (events, scheduleTime) =>
   events.filter((event) => {
     const end = getMinuteAccurateDate(
-      new Date(defaultTo(event.end.dateTime, event.end.date))
+      new Date(defaultTo(event?.end?.dateTime, event?.end?.date))
     )
     return end.toLocaleString() === scheduleTime.toLocaleString()
   })
@@ -68,7 +68,7 @@ const getStartingEvents = createSelector<
   (events, scheduleTime) =>
     events.filter((event) => {
       const start = getMinuteAccurateDate(
-        new Date(defaultTo(event.start.dateTime, event.start.date))
+        new Date(defaultTo(event?.start?.dateTime, event?.start?.date))
       )
       return start.toLocaleString() === scheduleTime.toLocaleString()
     })
