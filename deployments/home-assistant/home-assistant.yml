@@ -128,7 +128,7 @@ spec:
           VPN_DDNS_REST_COMMAND: 'curl -X POST "https://{{ .Data.VPN_DNS_USERNAME }}:{{ .Data.VPN_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.VPN_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"'
           HA_DDNS_REST_COMMAND: 'curl -X POST "https://{{ .Data.HOME_ASSISTANT_DNS_USERNAME }}:{{ .Data.HOME_ASSISTANT_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.HOME_ASSISTANT_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"'
           DB_URL: "postgresql://{{ .Data.POSTGRES_USER }}:{{ .Data.POSTGRES_PASSWORD }}@home-assistant-postgres:5432/{{ .Data.POSTGRES_DB }}"
-          JIRA_AUTHORIZATION_HEADER: "Basic $(echo -n '{{ .Data.JIRA_API_TOKEN }}' | base64)"
+          JIRA_AUTHORIZATION_HEADER: "Basic {{ .Data.JIRA_AUTHORIZATION_HEADER }}"
           {{ end }}
     spec:
       serviceAccountName: app
