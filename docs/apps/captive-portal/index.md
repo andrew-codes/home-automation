@@ -1,13 +1,12 @@
 # Captive Portal for Guest Detection
 
-This application is a node express app that serves a registration page to guests when they connect to the guest network hotspot. The intention is to capture the guest's device's MAC address (sent from the USG/router) and register it with Home Assistant. In doing so, the device can be used as a presence sensor and inform any automation if a guest is present.
+A node express, web application serving a registration page to guests when they connect to the guest network hotspot. The intention is to capture the guest's device's MAC address (sent from the USG/router) and register it with Home Assistant. In doing so, the device can be used as a presence sensor and inform any automation if a guest is present.
 
 ## Prerequisite Setup
 
 1. A Ubiquiti USG/router
 1. Enable a guest network as a hotspot in the USG
 1. Add the `$CLUSTER_IP` to the list of [pre-authorized access IPs](https://help.ui.com/hc/en-us/articles/115000166827-UniFi-Guest-Network-Guest-Portal-and-Hotspot-System) for the hotspot
-1. Appropriate secrets setup for the USG; see [secrets catalog](../../docs/secrets-catalog.md) for more details.
 1. Setup the [Unifi Home Assistant integration](https://www.home-assistant.io/integrations/unifi/)
 1. Create a group in Home Assitant named `guests`; this is where registered guests devices will be assigned
 
@@ -26,12 +25,4 @@ This application is a node express app that serves a registration page to guests
 
 ## Example Image of Captive Portal
 
-![Captive Portal Web UI](./docs/captive-portal-web-ui.png)
-
-## Developing Locally
-
-> See the [testing applications locally guide](../../docs/testing-apps-locally.md) for more details.
-
-1. Ensure you have a working cluster running (follow the [brand new installation guide](../../README.md))
-1. `yarn start --scope @ha/captive-portal-app`
-1. Visit `http://localhost:8081?mac=123` to view the site.
+![Captive Portal Web UI](./captive-portal-web-ui.png)
