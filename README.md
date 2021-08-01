@@ -9,17 +9,6 @@ This mono-repo consists of several applications and services I use to create my 
 1. [Kubernetes cluster backup and restore](./docs/kubernetes-backup-and-restore.md)
 1. [Testing/running apps/services locally](./docs/testing-apps-locally.md)
 
-## Applications
-
-Application documentation is within its deployment configuration in the `./k8s/*` directories. Application source code is in the `./apps/*` directories.
-
-- [MQTT](./k8s/mqtt/README.md)
-- [Home Assistant](./k8s/home-assistant/README.md)
-- [GraphQL Home API](./k8s/graphql-api/README.md)
-- [Guest Detection: Captive Portal](./k8s/captive-portal/README.md)
-- [Guest Detection: Guest Device Wifi Renewals](./k8s/guest-wifi-renewal/README.md)
-- [Metrics with Prometheus and Grafana](./k8s/metrics/README.md)
-
 ## Packages
 
 - [Burning Installation Images to USB](./packages/image/README.md)
