@@ -107,9 +107,10 @@ function* startEvent(action: ScheduleEventsAction) {
               description: `ACCESS CODE: ${code}
 =================
 
-This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code, please do one of the following:
+This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code contact Andrew or Dorri.
 
-- email Andrew or Dorri
+* To Unlock the door, enter the access code above.
+* To Lock the door when you leave, press the "Schalge" logo at the top of the keypad.
 
 Thank you!`,
             },
