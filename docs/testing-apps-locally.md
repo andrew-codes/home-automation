@@ -9,12 +9,10 @@ Instead, we can run an application locally and have it think it is running in th
 > This assumes, and **only works**, with a working **deployed cluster**. Be sure to follow the [installation guide](./installation-guide.md) first.
 
 1. To run an app locally, you must build the application development images. You can do this via `yarn image/local`.
-1. Ensure you set the DEV machine's admin password in `./secrets.sh`
-1. Run the start of the respective **app package**; `yarn start --scope @ha/graphql-api-app`
-1. See the console output for connecting to the service locally. In this example, `http://localhost:8080/graphql`.
+   > `yarn image/local` does not accept a `--scope` parameter.
+1. Run the start of the respective **app package**; e.g., `yarn start --scope @ha/captive-portal-app`
+1. See the console output for connecting to the service locally. In this example, `http://localhost:8081/`.
 1. Editing an app's code will auto-restart the application
-
-> See the read me of each app for more details on ports, etc.
 
 ## Clean up
 
