@@ -26,7 +26,7 @@ spec:
           {{ end }}
           {{ with secret "kv/guest-pin-codes" }}
               {{ range $k, $v := .Data }}
-          export {{ $k }}="{{ $v }}"
+          export {{ $k }}='{{ $v }}'
               {{ end }}
           {{ end }}
     spec:
@@ -41,7 +41,7 @@ spec:
             - "sh"
           args:
             - "-c"
-            - "source /vault/secrets/env.sh && start.sh"
+            - "source /vault/secrets/env.sh && /app/entrypoint.sh"
           env:
             - name: NUMBER_OF_GUEST_CODES
               value: "6"
