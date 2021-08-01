@@ -20,26 +20,48 @@ yesterday.setDate(new Date().getDate() - 1)
 
 describe("set events", () => {
   test("set events with no events", () => {
-    const actual = reducer(null, setEvents([]))
+    const actual = reducer(undefined, setEvents([]))
     expect(actual.events).toEqual({})
   })
 
-  test("set events overwrites old events", () => {
-    const state = createState({
-      events: {
-        "2": createEvent(),
+  test("setting events with a deleted event (present in state, but not in fetched events), will mark event as deleted", () => {
+    const deletedEvent = createEvent({
+      summary: "my other event",
+      end: {
+        date: tomorrow.toDateString(),
       },
     })
+    const state = createState({
+      eventOrder: [deletedEvent.id],
+      events: {
+        [deletedEvent.id]: deletedEvent,
+      },
+    })
+
+    const actual = reducer(state, setEvents([]))
+    expect(actual.events).toEqual({})
+    expect(actual.deletedEvents).toEqual({
+      [deletedEvent.id]: deletedEvent,
+    })
+  })
+
+  test("set events overwrites existing events with new events", () => {
     const event = createEvent({
       summary: "my other event",
       end: {
         date: tomorrow.toDateString(),
       },
     })
+    const state = createState({
+      events: {
+        [event.id]: event,
+      },
+    })
+    event.end.date = nextWeek
     const actual = reducer(state, setEvents([event]))
 
     expect(actual.events).toEqual({
-      "1": event,
+      [event.id]: event,
     })
   })
 
