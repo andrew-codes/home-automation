@@ -1,3 +1,5 @@
+import { merge } from "lodash"
+import { defaultState } from "../reducer"
 import { getChronologicalEvents } from "../selectors"
 
 test("getting events with no event data in state", () => {
@@ -6,17 +8,19 @@ test("getting events with no event data in state", () => {
 })
 
 test("getting events in chronological order", () => {
-  const actual = getChronologicalEvents({
-    events: {
-      "1": {
-        id: "1",
+  const actual = getChronologicalEvents(
+    merge({}, defaultState, {
+      events: {
+        "1": {
+          id: "1",
+        },
+        "2": {
+          id: "2",
+        },
       },
-      "2": {
-        id: "2",
-      },
-    },
-    eventOrder: ["2", "1"],
-  })
+      eventOrder: ["2", "1"],
+    })
+  )
   expect(actual).toEqual([
     {
       id: "2",
