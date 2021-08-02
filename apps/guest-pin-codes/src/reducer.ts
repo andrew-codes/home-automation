@@ -97,6 +97,17 @@ const reducer = (state = defaultState, action: AnyAction) => {
       )
       return stateWithNewDoorLocks
 
+    case "REMOVE_EVENTS":
+      const stateWithRemovedEvents = merge({}, state)
+      stateWithRemovedEvents.eventOrder = state.eventOrder.filter(
+        (id) => !action.payload.find((event) => event.id === id)
+      )
+      action.payload.forEach((removedEvent) => {
+        delete stateWithRemovedEvents.events[removedEvent.id]
+        delete stateWithRemovedEvents.deletedEvents[removedEvent.id]
+      })
+      return stateWithRemovedEvents
+
     default:
       return state
   }

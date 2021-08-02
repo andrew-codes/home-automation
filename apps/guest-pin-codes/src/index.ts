@@ -33,6 +33,7 @@ const run = async (
   const store = createStore(reducer, applyMiddleware(sagaMiddleware))
 
   store.subscribe(() => {
+    console.log(store.getState())
     debug(store.getState())
   })
 

@@ -46,24 +46,31 @@ type AssignGuestSlotAction = {
   }
 }
 
+type RemoveEventsAction = {
+  type: "REMOVE_EVENTS"
+  payload: calendar_v3.Schema$Event[]
+}
+
 type AnyAction =
   | AddCodesToPoolAction
   | AddDoorLocksAction
-  | FetchEventAction
-  | SetGuestSlotsAction
-  | ScheduleEventsAction
-  | LastUsedCodeAction
-  | SetEventsAction
   | AssignGuestSlotAction
+  | FetchEventAction
+  | LastUsedCodeAction
+  | RemoveEventsAction
+  | ScheduleEventsAction
+  | SetEventsAction
+  | SetGuestSlotsAction
 
 export {
-  AnyAction,
   AddCodesToPoolAction,
   AddDoorLocksAction,
-  FetchEventAction,
-  SetGuestSlotsAction,
-  ScheduleEventsAction,
-  LastUsedCodeAction,
-  SetEventsAction,
+  AnyAction,
   AssignGuestSlotAction,
+  FetchEventAction,
+  LastUsedCodeAction,
+  RemoveEventsAction,
+  ScheduleEventsAction,
+  SetEventsAction,
+  SetGuestSlotsAction,
 }

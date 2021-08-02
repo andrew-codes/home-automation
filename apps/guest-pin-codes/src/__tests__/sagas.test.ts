@@ -564,4 +564,33 @@ describe("ending events", () => {
         .run()
     )
   })
+
+  test("ended events dispatch to be removed from state", () => {
+    const event1Id = "1"
+    const event2Id = "2"
+    const endingEvents = [
+      { id: event1Id, sequence: 0 },
+      { id: event2Id, sequence: 0 },
+    ]
+    return expectSaga(sagas)
+      .provide([
+        [select(getStartingEvents), []],
+        [select(getEndingEvents), endingEvents],
+        [
+          select(getLockSlots),
+          [
+            ["2", event1Id],
+            ["3", event2Id],
+          ],
+        ],
+        [select(getDoorLocks), ["front_door", "car_port_door"]],
+        [call(createMqttClient), mqtt],
+      ])
+      .put({
+        type: "REMOVE_EVENTS",
+        payload: endingEvents,
+      })
+      .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
+      .run()
+  })
 })

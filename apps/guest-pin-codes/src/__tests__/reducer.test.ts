@@ -176,6 +176,46 @@ describe("scheudule events", () => {
   })
 })
 
+test("scheduled ending events are deleted from deleted events and events", () => {
+  const deletedEvent = createEvent({
+    summary: "my other event",
+    end: {
+      date: tomorrow.toDateString(),
+    },
+  })
+  const futureEvent = createEvent({
+    summary: "future event",
+    end: {
+      date: tomorrow.toDateString(),
+    },
+  })
+  const scheduledEndingEvent = createEvent({
+    summary: "ended event",
+    end: {
+      date: tomorrow.toDateString(),
+    },
+  })
+  const state = createState({
+    eventOrder: [scheduledEndingEvent.id, futureEvent.id],
+    events: {
+      [futureEvent.id]: futureEvent,
+      [scheduledEndingEvent.id]: scheduledEndingEvent,
+    },
+    deletedEvents: {
+      [deletedEvent.id]: deletedEvent,
+    },
+  })
+  const actual = reducer(state, {
+    type: "REMOVE_EVENTS",
+    payload: [scheduledEndingEvent, deletedEvent],
+  })
+  expect(actual.eventOrder).toEqual([futureEvent.id])
+  expect(actual.events).toEqual({
+    [futureEvent.id]: futureEvent,
+  })
+  expect(actual.deletedEvents).toEqual({})
+})
+
 test("set the guest slots by a continguous block starting at an offset index", () => {
   const state = createState()
   const actual = reducer(state, setGuestSlots(5, 2))

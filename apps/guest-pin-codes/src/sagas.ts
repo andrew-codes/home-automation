@@ -10,7 +10,12 @@ import {
 import { calendar_v3, Common } from "googleapis"
 import { createCalendarClient } from "./googleClient"
 import createMqttClient from "./mqtt"
-import { assignedGuestSlot, lastUsedCode, setEvents } from "./actionCreators"
+import {
+  assignedGuestSlot,
+  lastUsedCode,
+  removeEvents,
+  setEvents,
+} from "./actionCreators"
 import {
   getAvailableLockSlots,
   getCodes,
@@ -206,6 +211,7 @@ function* endEvent(action: ScheduleEventsAction) {
         )
       }
     }
+    yield put(removeEvents(endingEvents))
   } catch (error) {
     debug(error)
   }

@@ -8,6 +8,7 @@ import {
   LastUsedCodeAction,
   SetEventsAction,
   AssignGuestSlotAction,
+  RemoveEventsAction,
 } from "./actions"
 import getMinuteAccurateDate from "./getMinuteAccurateDate"
 
@@ -44,6 +45,13 @@ const setEvents = (events: calendar_v3.Schema$Event[]): SetEventsAction => ({
   payload: events,
 })
 
+const removeEvents = (
+  events: calendar_v3.Schema$Event[]
+): RemoveEventsAction => ({
+  type: "REMOVE_EVENTS",
+  payload: events,
+})
+
 const lastUsedCode = (code: string): LastUsedCodeAction => ({
   type: "LAST_USED_CODE",
   payload: code,
@@ -58,12 +66,13 @@ const assignedGuestSlot = (
 })
 
 export {
-  assignedGuestSlot,
-  lastUsedCode,
-  setEvents,
   addCodesToPool,
   addDoorLocks,
-  scheduleEvents,
+  assignedGuestSlot,
   fetchEvents,
+  lastUsedCode,
+  removeEvents,
+  scheduleEvents,
+  setEvents,
   setGuestSlots,
 }
