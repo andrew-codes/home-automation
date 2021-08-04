@@ -483,6 +483,7 @@ describe("ending events", () => {
         ],
         [select(getDoorLocks), []],
         [call(createMqttClient), mqtt],
+        [matchers.call.fn(calendarClient.events.update), {}],
       ])
       .put({
         type: "ASSIGNED_GUEST_SLOT",
@@ -517,6 +518,7 @@ describe("ending events", () => {
           ],
           [select(getDoorLocks), ["front_door", "car_port_door"]],
           [call(createMqttClient), mqtt],
+          [matchers.call.fn(calendarClient.events.update), {}],
         ])
         .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
         // Event 1
@@ -585,12 +587,132 @@ describe("ending events", () => {
         ],
         [select(getDoorLocks), ["front_door", "car_port_door"]],
         [call(createMqttClient), mqtt],
+        [matchers.call.fn(calendarClient.events.update), {}],
       ])
       .put({
         type: "REMOVE_EVENTS",
         payload: endingEvents,
       })
       .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
+      .run()
+  })
+
+  test("ended events's description is updated to remove PIN code", () => {
+    const event1Id = "1"
+    const event2Id = "2"
+    const endingEvents = [
+      { id: event1Id, sequence: 0 },
+      { id: event2Id, sequence: 0 },
+    ]
+    return expectSaga(sagas)
+      .provide([
+        [select(getStartingEvents), []],
+        [select(getEndingEvents), endingEvents],
+        [
+          select(getLockSlots),
+          [
+            ["2", event1Id],
+            ["3", event2Id],
+          ],
+        ],
+        [select(getDoorLocks), ["front_door", "car_port_door"]],
+        [call(createMqttClient), mqtt],
+        [matchers.call.fn(calendarClient.events.update), {}],
+      ])
+      .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
+      .call.like({
+        fn: calendarClient.events.update,
+        args: [
+          {
+            calendarId: "cal_id",
+            eventId: "1",
+            requestBody: {
+              id: "1",
+              sequence: 1,
+              description: `The access code for this event has expired. If you feel this is in error, please contact Andrew or Dorri.
+
+Thank you!`,
+            },
+          },
+        ],
+      })
+      .call.like({
+        fn: calendarClient.events.update,
+        args: [
+          {
+            calendarId: "cal_id",
+            eventId: "2",
+            requestBody: {
+              id: "2",
+              sequence: 1,
+              description: `The access code for this event has expired. If you feel this is in error, please contact Andrew or Dorri.
+
+Thank you!`,
+            },
+          },
+        ],
+      })
+      .run()
+  })
+
+  test("failing to update an ended calendar event will not halt the update of other calendar events", () => {
+    const event1Id = "1"
+    const event2Id = "2"
+    const endingEvents = [
+      { id: event1Id, sequence: 0 },
+      { id: event2Id, sequence: 0 },
+    ]
+    return expectSaga(sagas)
+      .provide([
+        [select(getStartingEvents), []],
+        [select(getEndingEvents), endingEvents],
+        [
+          select(getLockSlots),
+          [
+            ["2", event1Id],
+            ["3", event2Id],
+          ],
+        ],
+        [select(getDoorLocks), ["front_door", "car_port_door"]],
+        [call(createMqttClient), mqtt],
+        [
+          matchers.call.fn(calendarClient.events.update),
+          throwError(new Error("500")),
+        ],
+      ])
+      .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
+      .call.like({
+        fn: calendarClient.events.update,
+        args: [
+          {
+            calendarId: "cal_id",
+            eventId: "1",
+            requestBody: {
+              id: "1",
+              sequence: 1,
+              description: `The access code for this event has expired. If you feel this is in error, please contact Andrew or Dorri.
+
+Thank you!`,
+            },
+          },
+        ],
+      })
+      .call.like({
+        fn: calendarClient.events.update,
+        args: [
+          {
+            calendarId: "cal_id",
+            eventId: "2",
+            requestBody: {
+              id: "2",
+              sequence: 1,
+              description: `The access code for this event has expired. If you feel this is in error, please contact Andrew or Dorri.
+
+Thank you!`,
+            },
+          },
+        ],
+      })
       .run()
   })
 })
