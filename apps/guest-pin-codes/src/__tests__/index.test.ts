@@ -139,7 +139,7 @@ test("every minute, events are processed to be scheduled", async () => {
   when(getMinuteAccurateDate).calledWith(now).mockReturnValue(now)
   mockCronJob.mockImplementationOnce(() => ({ start }))
   mockCronJob.mockImplementationOnce((timePattern, cb) => {
-    expect(timePattern).toEqual("*/1 * * * *")
+    expect(timePattern).toEqual("10 */1 * * * *")
     cb()
     expect(store.dispatch.mock.calls[3]).toEqual([
       {

@@ -59,7 +59,7 @@ const run = async (
     "America/New_York"
   )
   const scheduledEventsJob = new CronJob(
-    "*/1 * * * *",
+    "10 */1 * * * *",
     () => {
       store.dispatch(scheduleEvents(new Date()))
     },
