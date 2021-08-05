@@ -10,7 +10,12 @@ import {
 import { calendar_v3, Common } from "googleapis"
 import { createCalendarClient } from "./googleClient"
 import createMqttClient from "./mqtt"
-import { assignedGuestSlot, lastUsedCode, setEvents } from "./actionCreators"
+import {
+  assignedGuestSlot,
+  lastUsedCode,
+  removeEvents,
+  setEvents,
+} from "./actionCreators"
 import {
   getAvailableLockSlots,
   getCodes,
@@ -107,9 +112,10 @@ function* startEvent(action: ScheduleEventsAction) {
               description: `ACCESS CODE: ${code}
 =================
 
-This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code, please do one of the following:
+This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code contact Andrew or Dorri.
 
-- email Andrew or Dorri
+* To Unlock the door, enter the access code above.
+* To Lock the door when you leave, press the "Schalge" logo at the top of the keypad.
 
 Thank you!`,
             },
@@ -178,7 +184,9 @@ Thank you!`,
 
 function* endEvent(action: ScheduleEventsAction) {
   try {
+    const { GOOGLE_CALENDAR_ID } = process.env
     const now = action.payload
+    const calendar = createCalendarClient()
     debug(`Scheduling events to end; ${now.toTimeString()}`)
     const endingEvents = yield select(getEndingEvents)
     const occupiedSlots = yield select(getLockSlots)
@@ -204,7 +212,33 @@ function* endEvent(action: ScheduleEventsAction) {
           { qos: 2 }
         )
       }
+      try {
+        yield call<
+          calendar_v3.Calendar,
+          (
+            params?: calendar_v3.Params$Resource$Events$Update,
+            options?: Common.MethodOptions
+          ) => Common.GaxiosPromise<calendar_v3.Schema$Event>
+        >(
+          [calendar, calendar.events.update],
+          {
+            calendarId: GOOGLE_CALENDAR_ID as string,
+            eventId: event.id,
+            requestBody: {
+              ...event,
+              sequence: event.sequence + 1,
+              description: `The access code for this event has expired. If you feel this is in error, please contact Andrew or Dorri.
+
+Thank you!`,
+            },
+          },
+          {}
+        )
+      } catch (calendarApiError) {
+        debug(calendarApiError)
+      }
     }
+    yield put(removeEvents(endingEvents))
   } catch (error) {
     debug(error)
   }

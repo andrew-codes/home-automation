@@ -33,6 +33,7 @@ const run = async (
   const store = createStore(reducer, applyMiddleware(sagaMiddleware))
 
   store.subscribe(() => {
+    console.log(store.getState())
     debug(store.getState())
   })
 
@@ -58,7 +59,7 @@ const run = async (
     "America/New_York"
   )
   const scheduledEventsJob = new CronJob(
-    "*/1 * * * *",
+    "10 */1 * * * *",
     () => {
       store.dispatch(scheduleEvents(new Date()))
     },

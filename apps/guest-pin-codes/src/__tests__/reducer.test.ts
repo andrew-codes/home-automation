@@ -20,26 +20,48 @@ yesterday.setDate(new Date().getDate() - 1)
 
 describe("set events", () => {
   test("set events with no events", () => {
-    const actual = reducer(null, setEvents([]))
+    const actual = reducer(undefined, setEvents([]))
     expect(actual.events).toEqual({})
   })
 
-  test("set events overwrites old events", () => {
-    const state = createState({
-      events: {
-        "2": createEvent(),
+  test("setting events with a deleted event (present in state, but not in fetched events), will mark event as deleted", () => {
+    const deletedEvent = createEvent({
+      summary: "my other event",
+      end: {
+        date: tomorrow.toDateString(),
       },
     })
+    const state = createState({
+      eventOrder: [deletedEvent.id],
+      events: {
+        [deletedEvent.id]: deletedEvent,
+      },
+    })
+
+    const actual = reducer(state, setEvents([]))
+    expect(actual.events).toEqual({})
+    expect(actual.deletedEvents).toEqual({
+      [deletedEvent.id]: deletedEvent,
+    })
+  })
+
+  test("set events overwrites existing events with new events", () => {
     const event = createEvent({
       summary: "my other event",
       end: {
         date: tomorrow.toDateString(),
       },
     })
+    const state = createState({
+      events: {
+        [event.id]: event,
+      },
+    })
+    event.end.date = nextWeek
     const actual = reducer(state, setEvents([event]))
 
     expect(actual.events).toEqual({
-      "1": event,
+      [event.id]: event,
     })
   })
 
@@ -152,6 +174,46 @@ describe("scheudule events", () => {
     const tomorrowMinutePrecision = getMinuteAccurateDate(tomorrow)
     expect(actual.lastScheduledTime).toEqual(tomorrowMinutePrecision)
   })
+})
+
+test("scheduled ending events are deleted from deleted events and events", () => {
+  const deletedEvent = createEvent({
+    summary: "my other event",
+    end: {
+      date: tomorrow.toDateString(),
+    },
+  })
+  const futureEvent = createEvent({
+    summary: "future event",
+    end: {
+      date: tomorrow.toDateString(),
+    },
+  })
+  const scheduledEndingEvent = createEvent({
+    summary: "ended event",
+    end: {
+      date: tomorrow.toDateString(),
+    },
+  })
+  const state = createState({
+    eventOrder: [scheduledEndingEvent.id, futureEvent.id],
+    events: {
+      [futureEvent.id]: futureEvent,
+      [scheduledEndingEvent.id]: scheduledEndingEvent,
+    },
+    deletedEvents: {
+      [deletedEvent.id]: deletedEvent,
+    },
+  })
+  const actual = reducer(state, {
+    type: "REMOVE_EVENTS",
+    payload: [scheduledEndingEvent, deletedEvent],
+  })
+  expect(actual.eventOrder).toEqual([futureEvent.id])
+  expect(actual.events).toEqual({
+    [futureEvent.id]: futureEvent,
+  })
+  expect(actual.deletedEvents).toEqual({})
 })
 
 test("set the guest slots by a continguous block starting at an offset index", () => {

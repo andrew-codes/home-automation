@@ -10,6 +10,10 @@ type Entry<X extends string, Y> = [X, Y]
 const getEvents: Selector<State, Record<string, calendar_v3.Schema$Event>> = (
   state
 ) => state?.events ?? {}
+const getDeletedEventDictionary: Selector<
+  State,
+  Record<string, calendar_v3.Schema$Event>
+> = (state) => state.deletedEvents ?? {}
 const getEventOrder: Selector<State, string[]> = (state) =>
   state?.eventOrder ?? []
 const getLastScheduleTime: Selector<State, Date | null> = (state) =>
@@ -20,6 +24,12 @@ const getDoorLocks: Selector<State, string[]> = (state) => state.doorLocks
 
 const getLockSlots: Selector<State, Entry<string, string>[]> = (state) =>
   Object.entries(state?.guestSlots ?? {})
+
+const getDeletedEvents = createSelector<
+  State,
+  Record<string, calendar_v3.Schema$Event>,
+  calendar_v3.Schema$Event[]
+>(getDeletedEventDictionary, (events) => Object.values(events))
 
 const getAvailableLockSlots = createSelector<
   State,
@@ -41,21 +51,26 @@ const getUnassignedChronologicalEvents = createSelector<
   Entry<string, string>[],
   calendar_v3.Schema$Event[]
 >([getChronologicalEvents, getLockSlots], (events, slots) =>
-  events.filter((id) => !slots.map(get(1)).includes(id))
+  events.filter(({ id }) => !slots.map(get(1)).includes(id))
 )
 
 const getEndingEvents = createSelector<
   State,
   calendar_v3.Schema$Event[],
+  calendar_v3.Schema$Event[],
   Date | null,
   calendar_v3.Schema$Event[]
->([getChronologicalEvents, getLastScheduleTime], (events, scheduleTime) =>
-  events.filter((event) => {
-    const end = getMinuteAccurateDate(
-      new Date(defaultTo(event?.end?.dateTime, event?.end?.date))
-    )
-    return end.toLocaleString() === scheduleTime?.toLocaleString()
-  })
+>(
+  [getChronologicalEvents, getDeletedEvents, getLastScheduleTime],
+  (events, deletedEvents, scheduleTime) =>
+    events
+      .filter((event) => {
+        const end = getMinuteAccurateDate(
+          new Date(defaultTo(event?.end?.dateTime, event?.end?.date))
+        )
+        return end.toLocaleString() === scheduleTime?.toLocaleString()
+      })
+      .concat(deletedEvents)
 )
 
 const getStartingEvents = createSelector<
@@ -70,7 +85,10 @@ const getStartingEvents = createSelector<
       const start = getMinuteAccurateDate(
         new Date(defaultTo(event?.start?.dateTime, event?.start?.date))
       )
-      return start.toLocaleString() === scheduleTime?.toLocaleString()
+      if (!scheduleTime) {
+        return false
+      }
+      return start.getTime() <= scheduleTime?.getTime()
     })
 )
 

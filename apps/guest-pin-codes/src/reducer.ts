@@ -5,20 +5,22 @@ import { AnyAction } from "./actions"
 import getMinuteAccurateDate from "./getMinuteAccurateDate"
 
 type State = {
-  events: Record<string, calendar_v3.Schema$Event>
-  eventOrder: string[]
-  doorLocks: string[]
-  codes: string[]
   codeIndex: number
+  codes: string[]
+  deletedEvents: Record<string, calendar_v3.Schema$Event>
+  doorLocks: string[]
+  eventOrder: string[]
+  events: Record<string, calendar_v3.Schema$Event>
   guestSlots: Record<string, string>
   lastScheduledTime: Date | null
 }
 const defaultState: State = {
-  events: {},
-  eventOrder: [],
-  doorLocks: [],
-  codes: [],
   codeIndex: 0,
+  codes: [],
+  deletedEvents: {},
+  doorLocks: [],
+  eventOrder: [],
+  events: {},
   guestSlots: {},
   lastScheduledTime: null,
 }
@@ -30,7 +32,7 @@ const reducer = (state = defaultState, action: AnyAction) => {
         const end = defaultTo(event?.end?.dateTime, event?.end?.date)
         return getMinuteAccurateDate(new Date(end)).getTime() > Date.now()
       })
-      const eventOrder = events.sort((a, b) => {
+      const orderedEvents = events.sort((a, b) => {
         const startA = new Date(defaultTo(a?.start?.dateTime, a?.start?.date))
         const startB = new Date(defaultTo(b?.start?.dateTime, b?.start?.date))
         if (startA.getTime() < startB.getTime()) {
@@ -41,11 +43,15 @@ const reducer = (state = defaultState, action: AnyAction) => {
         }
         return 0
       })
+      const deletedEvents = state.eventOrder
+        .filter((id) => !events.find((event) => event.id === id))
+        .map((id) => state.events[id])
 
       return {
         ...state,
+        deletedEvents: keyBy(deletedEvents, "id"),
+        eventOrder: orderedEvents.map(get("id")),
         events: keyBy(events, "id"),
-        eventOrder: events.map(get("id")),
       }
 
     case "SCHEDULE_EVENTS":
@@ -90,6 +96,17 @@ const reducer = (state = defaultState, action: AnyAction) => {
         false
       )
       return stateWithNewDoorLocks
+
+    case "REMOVE_EVENTS":
+      const stateWithRemovedEvents = merge({}, state)
+      stateWithRemovedEvents.eventOrder = state.eventOrder.filter(
+        (id) => !action.payload.find((event) => event.id === id)
+      )
+      action.payload.forEach((removedEvent) => {
+        delete stateWithRemovedEvents.events[removedEvent.id]
+        delete stateWithRemovedEvents.deletedEvents[removedEvent.id]
+      })
+      return stateWithRemovedEvents
 
     default:
       return state
