@@ -51,7 +51,7 @@ const getUnassignedChronologicalEvents = createSelector<
   Entry<string, string>[],
   calendar_v3.Schema$Event[]
 >([getChronologicalEvents, getLockSlots], (events, slots) =>
-  events.filter((id) => !slots.map(get(1)).includes(id))
+  events.filter(({ id }) => !slots.map(get(1)).includes(id))
 )
 
 const getEndingEvents = createSelector<
@@ -85,7 +85,10 @@ const getStartingEvents = createSelector<
       const start = getMinuteAccurateDate(
         new Date(defaultTo(event?.start?.dateTime, event?.start?.date))
       )
-      return start.toLocaleString() === scheduleTime?.toLocaleString()
+      if (!scheduleTime) {
+        return false
+      }
+      return start.getTime() <= scheduleTime?.getTime()
     })
 )
 
