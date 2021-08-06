@@ -3326,9 +3326,9 @@ asap@^2.0.0:
   integrity sha1-5QNHYR1+aQlDIIu9r+vLwvuGbUY=
 
 ask-sdk-core@^2.10.2:
-  version "2.10.2"
-  resolved "https://registry.yarnpkg.com/ask-sdk-core/-/ask-sdk-core-2.10.2.tgz#db846ae27c91e13a9859b46175075ffc12af359e"
-  integrity sha512-HaH/ditTlB5nqXB2rx8D36fwG8PMP6OXQK3kHQDoTV8b4jgOij1eESJ3sGRilXwLfK/BUz92Ya2laIEnNvzhEA==
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/ask-sdk-core/-/ask-sdk-core-2.11.0.tgz#9b343dfc52d44998c186b1ba7c1598c6f0191b5f"
+  integrity sha512-NBhVNiLuDLRb34vMCuJIe30lK5lb0+y7UkGti9BVZPvkiKkXTxYAjG/tZyGGYqeu3ZAltwvMTUjZB+aTkRyk2g==
   dependencies:
     ask-sdk-runtime "^2.10.2"
 
