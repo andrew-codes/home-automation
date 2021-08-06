@@ -3333,9 +3333,9 @@ ask-sdk-core@^2.10.2:
     ask-sdk-runtime "^2.10.2"
 
 ask-sdk-express-adapter@^2.10.2:
-  version "2.10.2"
-  resolved "https://registry.yarnpkg.com/ask-sdk-express-adapter/-/ask-sdk-express-adapter-2.10.2.tgz#c186686fedc65c2d4dae9c7947cf5fd80b495145"
-  integrity sha512-h/WuqFMRF+vpPcUq8fGbJr89lZDJG7Qb0V3255E0+aA26i8L4VdD5KfkxHrpnpFUACaT1tjoNq+EONSevAiIyQ==
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/ask-sdk-express-adapter/-/ask-sdk-express-adapter-2.11.0.tgz#9b00e667c3b2605c2912373d48904e2203cd8cc4"
+  integrity sha512-sdwrKYCZUy1hEXC+FZbl6PZ4eAFwoz8V3MQ3Dqnsb5pbNvlNnk6MveIUIbvDHFqwnit+wLOih6jWFBH+8AXgxg==
   dependencies:
     body-parser "^1.18.2"
     node-forge "^0.10.0"
