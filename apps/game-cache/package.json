@@ -17,7 +17,7 @@
     "debug": "^4.3.1",
     "igdb-api-node": "^5.0.0",
     "lodash": "^4.17.21",
-    "mongodb": "^3.6.3",
+    "mongodb": "^4.1.0",
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
