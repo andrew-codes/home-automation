@@ -35,6 +35,6 @@
     "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/root/.gitconfig,type=bind"
   ],
 
-  "postCreateCommand": "wrapdocker.sh",
+  "postStartCommand": "wrapdocker.sh",
   "runArgs": ["--privileged"]
 }
