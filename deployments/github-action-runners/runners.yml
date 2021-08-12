@@ -77,7 +77,7 @@ spec:
   scaleTargetRef:
     name: github-runner-deployment
   minReplicas: 1
-  maxReplicas: 3
+  maxReplicas: 5
   metrics:
   - type: TotalNumberOfQueuedAndInProgressWorkflowRuns
     repositoryNames:
