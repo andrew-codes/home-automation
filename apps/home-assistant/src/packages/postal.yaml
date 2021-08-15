@@ -1,6 +1,34 @@
+automation:
+  - alias: Notify family members that packages have been delivered
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.are_packages_delivered
+        to: "on"
+    action:
+      - service: notify.mobile_app_andrew_s_iphone
+        data_template:
+          title: Package Delivery
+          message: "You have delivered packages"
+          data:
+            url: /lovelace/mail
+            push:
+              thread-id: deliveries
+      - service: notify.mobile_app_dorri_s_iphone
+        data_template:
+          title: Package Delivery
+          message: "You have delivered packages"
+          data:
+            url: /lovelace/mail
+            push:
+              thread-id: deliveries
+
 sensor:
   - platform: template
     sensors:
+      number_of_packages:
+        friendly_name: Number of Packages
+        value_template: >
+          {{(states("sensor.mail_usps_delivering")|int) + (states("sensor.mail_fedex_delivering")|int) + (states("sensor.mail_ups_delivering")|int) + (states("sensor.mail_amazon_packages")|int)}}
       mail_deliveries_message:
         friendly_name: Deliveries Summary
         value_template: > 
@@ -68,3 +96,12 @@ sensor:
                 {{' '}}in transit.{{' '}}
             {%- endmacro %}
           {{deliveries_sentence()}}
+
+binary_sensor:
+  - platform: template
+    sensors:
+      are_packages_delivered:
+        friendly_name: Package Delivery
+        value_template: >
+          {{states("sensor.number_of_packages")|int > 0}}
+
