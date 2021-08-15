@@ -59,6 +59,9 @@ automation:
               # waiting for the specific action avoids accidentally continuing
               # for another script/automation's notification action
               action: "{{ action_lock }}"
+        timeout:
+          minutes: 5
+        continue_on_timeout: false
       - service: lock.lock
         data:
           entity_id: lock.front_door_deadbolt
