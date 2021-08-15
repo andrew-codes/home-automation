@@ -6,8 +6,8 @@ group:
       - group.guests
 
 automation:
-  - alias: Notify family members when door is left unlocked when no one is home
-    id: notify_unlocked_doors
+  - alias: Lock all doors when everyone is not home
+    id: auto_lock_doors_when_away
     trigger:
       - platform: state
         entity_id: group.tracked_presence
@@ -19,52 +19,79 @@ automation:
             entity_id: lock.front_door_deadbolt
             state: unlocked
             for:
-              minutes: 5
+              minutes: 3
           - condition: state
             entity_id: lock.car_port_deadbolt
             state: unlocked
             for:
-              minutes: 5
+              minutes: 3
     action:
-      - alias: "Set up variables for the door lock action"
-        variables:
-          action_lock: "{{ 'DOOR_LOCK' ~ context.id }}"
-      - service: notify.mobile_app_andrew_s_iphone
-        data_template:
-          title: Door left unlocked
-          message: "A door was left unlocked"
-          data:
-            actions:
-              - action: "{{ action_lock }}"
-                title: Lock Doors
-                authenticationRequired: false
-            push:
-              thread-id: security
-      - service: notify.mobile_app_dorri_s_iphone
-        data_template:
-          title: Door left unlocked
-          message: "A door was left unlocked"
-          data:
-            actions:
-              - action: "{{ action_lock }}"
-                title: Lock Doors
-                authenticationRequired: false
-            push:
-              thread-id: security
-      - alias: "Wait for a action lock response"
-        wait_for_trigger:
-          - platform: event
-            event_type: mobile_app_notification_action
-            event_data:
-              # waiting for the specific action avoids accidentally continuing
-              # for another script/automation's notification action
-              action: "{{ action_lock }}"
-        timeout:
-          minutes: 5
-        continue_on_timeout: false
       - service: lock.lock
         data:
           entity_id: lock.front_door_deadbolt
       - service: lock.lock
         data:
           entity_id: lock.car_port_deadbolt
+
+  # - alias: Notify family members when door is left unlocked when no one is home
+  #   id: notify_unlocked_doors
+  #   trigger:
+  #     - platform: state
+  #       entity_id: group.tracked_presence
+  #       to: "not_home"
+  #   condition:
+  #     - condition: or
+  #       conditions:
+  #         - condition: state
+  #           entity_id: lock.front_door_deadbolt
+  #           state: unlocked
+  #           for:
+  #             minutes: 5
+  #         - condition: state
+  #           entity_id: lock.car_port_deadbolt
+  #           state: unlocked
+  #           for:
+  #             minutes: 5
+  #   action:
+  #     - alias: "Set up variables for the door lock action"
+  #       variables:
+  #         action_lock: "{{ 'DOOR_LOCK' ~ context.id }}"
+  #     - service: notify.mobile_app_andrew_s_iphone
+  #       data_template:
+  #         title: Door left unlocked
+  #         message: "A door was left unlocked"
+  #         data:
+  #           actions:
+  #             - action: "{{ action_lock }}"
+  #               title: Lock Doors
+  #               authenticationRequired: false
+  #           push:
+  #             thread-id: security
+  #     - service: notify.mobile_app_dorri_s_iphone
+  #       data_template:
+  #         title: Door left unlocked
+  #         message: "A door was left unlocked"
+  #         data:
+  #           actions:
+  #             - action: "{{ action_lock }}"
+  #               title: Lock Doors
+  #               authenticationRequired: false
+  #           push:
+  #             thread-id: security
+  #     - alias: "Wait for a action lock response"
+  #       wait_for_trigger:
+  #         - platform: event
+  #           event_type: mobile_app_notification_action
+  #           event_data:
+  #             # waiting for the specific action avoids accidentally continuing
+  #             # for another script/automation's notification action
+  #             action: "{{ action_lock }}"
+  #       timeout:
+  #         minutes: 5
+  #       continue_on_timeout: false
+  #     - service: lock.lock
+  #       data:
+  #         entity_id: lock.front_door_deadbolt
+  #     - service: lock.lock
+  #       data:
+  #         entity_id: lock.car_port_deadbolt
