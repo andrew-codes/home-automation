@@ -1,0 +1,40 @@
+group:
+  deadbolts:
+    entities:
+      - sensor.car_port_deadbolt_battery_level
+      - sensor.front_door_deadbolt_battery_level
+
+sensor:
+  - platform: template
+    sensors:
+      doors_needing_new_batteries_notification_message:
+        friendly_name: Doors that require new batteries
+        value_template: >
+          {{ expand(['group.deadbolts']) | select("lessthan", 15) | map(attribute="friendly_name") | join(", ") }}
+
+automation:
+  - alias: Notify family members when deadbolt batteries need to be changed
+    id: low_battery_notification_deadbolts
+    trigger:
+      - platform: time
+        at: "18:30:00"
+    condition:
+      - condition: or
+        conditions:
+          - alias: "Low battery car port deadbolt"
+            condition: numeric_state
+            entity_id: sensor.car_port_deadbolt_battery_level
+            below: 15
+          - alias: "Low battery front door deadbolt"
+            condition: numeric_state
+            entity_id: sensor.front_door_deadbolt_battery_level
+            below: 15
+    action:
+      - service: notify.mobile_app_andrew_s_iphone
+        data_template:
+          title: Change Batteries
+          message: "{{ states('sensor.doors_needing_new_batteries_notification_message')}}"
+      - service: notify.mobile_app_dorri_s_iphone
+        data_template:
+          title: Change Batteries
+          message: "{{ states('sensor.doors_needing_new_batteries_notification_message')}}"
