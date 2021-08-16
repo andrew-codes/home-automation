@@ -12,8 +12,10 @@ sensor:
         value_template: >
           {% set entities = expand('group.deadbolts') %}
           {% for x in entities if x.state|int < 15 %}
-            {%- if not loop.first %}, {% endif -%}
-            {{- x.name -}}
+            {%- if not loop.first and not loop.last %}, {% endif -%}
+            {%- if not loop.first and loop.last %}, and {% endif -%}
+            {%- if loop.first %}{{- x.name -}}{% endif -%}
+            {%- if not loop.first %}{{- x.name|lower -}}{% endif -%}
           {% endfor %}
 
 automation:
