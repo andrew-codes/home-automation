@@ -10,7 +10,11 @@ sensor:
       doors_needing_new_batteries_notification_message:
         friendly_name: Doors that require new batteries
         value_template: >
-          {{ expand(['group.deadbolts']) | select("lessthan", 15) | map(attribute="friendly_name") | join(", ") }}
+          {% set entities = expand('group.deadbolts') %}
+          {% for x in entities if x.state|int < 15 %}
+            {%- if not loop.first %}, {% endif -%}
+            {{- x.name -}}
+          {% endfor %}
 
 automation:
   - alias: Notify family members when deadbolt batteries need to be changed
