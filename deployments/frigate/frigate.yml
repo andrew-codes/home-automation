@@ -47,7 +47,7 @@ spec:
       labels:
         app.kubernetes.io/name: frigate
       annotations:
-        vault.hashicorp.com/agent-inject: 'true'
+        vault.hashicorp.com/agent-inject: "true"
         vault.hashicorp.com/role: app
         vault.hashicorp.com/agent-inject-status: update
         vault.hashicorp.com/agent-inject-secret-env.sh: kv/frigate
@@ -65,7 +65,7 @@ spec:
       serviceAccountName: app
       containers:
         - name: frigate
-          image: docker-registry:5000/frigate
+          image: docker-registry:5000/frigate:latest
           imagePullPolicy: Always
           command:
             - "sh"
@@ -81,7 +81,7 @@ spec:
               protocol: TCP
           volumeMounts:
             - name: coral
-              mountPath: /dev/bus/usb/003
+              mountPath: /dev/bus/usb
             - name: media-frigate
               mountPath: /media/frigate
           securityContext:
@@ -90,7 +90,7 @@ spec:
       volumes:
         - name: coral
           hostPath:
-            path: /dev/bus/usb/003
+            path: /dev/bus/usb
         - name: media-frigate
           persistentVolumeClaim:
             claimName: frigate-media-claim
