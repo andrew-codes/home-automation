@@ -1,6 +1,6 @@
 mqtt:
-  host: $CLUSTER_IP
-  port: $EXTERNAL_MQTT_PORT
+  host: mqtt
+  port: 1883
   topic_prefix: frigate
   client_id: frigate
   user: $MQTT_USERNAME
@@ -20,10 +20,9 @@ record:
   retain_days: 7
 
 detectors:
-  cpu1:
-    type: cpu
-  cpu2:
-    type: cpu
+  coral:
+    type: edgetpu
+    device: usb
 
 clips:
   max_seconds: 300

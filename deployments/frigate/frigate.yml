@@ -9,7 +9,7 @@ metadata:
 spec:
   storageClassName: manual
   capacity:
-    storage: 60Gi
+    storage: 120Gi
   accessModes:
     - ReadWriteMany
   hostPath:
@@ -27,7 +27,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 60Gi
+      storage: 120Gi
 
 ---
 apiVersion: apps/v1
@@ -56,9 +56,6 @@ spec:
           export MQTT_USERNAME="{{ .Data.USERNAME }}"
           export MQTT_PASSWORD="{{ .Data.PASSWORD }}"
           {{ end }}
-          {{ with secret "kv/k8s" }}
-          export CLUSTER_IP="{{ .Data.CLUSTER_IP }}"
-          {{ end }}
           {{ with secret "kv/frigate" }}
               {{ range $k, $v := .Data }}
           export {{ $k }}="{{ $v }}"
@@ -83,12 +80,17 @@ spec:
               containerPort: 1935
               protocol: TCP
           volumeMounts:
+            - name: coral
+              mountPath: /dev/bus/usb/003
             - name: media-frigate
               mountPath: /media/frigate
           securityContext:
             privileged: true
             allowPrivilegeEscalation: true
       volumes:
+        - name: coral
+          hostPath:
+            path: /dev/bus/usb/003
         - name: media-frigate
           persistentVolumeClaim:
             claimName: frigate-media-claim
