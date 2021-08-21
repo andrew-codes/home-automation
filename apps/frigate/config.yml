@@ -22,7 +22,7 @@ record:
 detectors:
   coral:
     type: edgetpu
-    device: usb:7
+    device: usb
   cpu1:
     type: cpu
 
