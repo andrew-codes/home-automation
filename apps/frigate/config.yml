@@ -23,6 +23,8 @@ detectors:
   coral:
     type: edgetpu
     device: usb
+  cpu1:
+    type: cpu
 
 clips:
   max_seconds: 300
