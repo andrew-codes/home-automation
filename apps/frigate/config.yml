@@ -26,6 +26,9 @@ detectors:
 
 clips:
   max_seconds: 300
+  retain:
+    # Required: Default retention days (default: shown below)
+    default: 7
 
 logger:
   default: debug
@@ -67,10 +70,7 @@ cameras:
       # Optional: Camera override for retention settings (default: global values)
       retain:
         # Required: Default retention days (default: shown below)
-        default: 10
-        # Optional: Per object retention days
-        objects:
-          person: 15
+        default: 7
     rtmp:
       enabled: True
 
@@ -108,9 +108,7 @@ cameras:
       # Optional: Camera override for retention settings (default: global values)
       retain:
         # Required: Default retention days (default: shown below)
-        default: 10
+        default: 7
         # Optional: Per object retention days
-        objects:
-          person: 15
     rtmp:
       enabled: True
