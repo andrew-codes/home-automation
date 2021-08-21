@@ -34,6 +34,11 @@ logger:
 
 cameras:
   front_door:
+    mqtt:
+      timestamp: False
+      bounding_box: False
+      crop: True
+      height: 500
     ffmpeg:
       inputs:
         - path: $FRONT_DOOR_RTSP
@@ -52,9 +57,9 @@ cameras:
       # This value can be set via MQTT and will be updated in startup based on retained value
       enabled: True
       # Optional: print a timestamp on the snapshots (default: shown below)
-      timestamp: True
+      timestamp: False
       # Optional: draw bounding box on the snapshots (default: shown below)
-      bounding_box: True
+      bounding_box: False
       # Optional: crop the snapshot (default: shown below)
       crop: False
       # Optional: height to resize the snapshot to (default: original size)
@@ -70,6 +75,11 @@ cameras:
       enabled: True
 
   car_port_door:
+    mqtt:
+      timestamp: False
+      bounding_box: False
+      crop: True
+      height: 500
     ffmpeg:
       inputs:
         - path: $CAR_PORT_DOOR_RTSP
@@ -88,9 +98,9 @@ cameras:
       # This value can be set via MQTT and will be updated in startup based on retained value
       enabled: True
       # Optional: print a timestamp on the snapshots (default: shown below)
-      timestamp: True
+      timestamp: False
       # Optional: draw bounding box on the snapshots (default: shown below)
-      bounding_box: True
+      bounding_box: False
       # Optional: crop the snapshot (default: shown below)
       crop: False
       # Optional: height to resize the snapshot to (default: original size)
