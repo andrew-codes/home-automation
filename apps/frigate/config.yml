@@ -72,10 +72,10 @@ cameras:
   car_port_door:
     ffmpeg:
       inputs:
-        - path: $CAR_PORT_RTSP
+        - path: $CAR_PORT_DOOR_RTSP
           roles:
             - detect
-        - path: $CAR_PORT_RTSP
+        - path: $CAR_PORT_DOOR_RTSP
           roles:
             - clips
             - rtmp
