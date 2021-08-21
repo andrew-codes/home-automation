@@ -12,11 +12,9 @@ spec:
       port: 5000
       protocol: TCP
       targetPort: http
-      nodePort: 30523
     - name: rtmp
       port: 1935
       protocol: TCP
       targetPort: rtmp
-      nodePort: 30524
   selector:
     app.kubernetes.io/name: frigate
