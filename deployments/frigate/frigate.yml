@@ -71,7 +71,7 @@ spec:
             - "sh"
           args:
             - "-c"
-            - "source /vault/secrets/env.sh && /start.sh"
+            - ". /vault/secrets/env.sh && /start.sh"
           ports:
             - name: http
               containerPort: 5000

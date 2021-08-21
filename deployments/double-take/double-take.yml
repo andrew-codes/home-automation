@@ -58,15 +58,15 @@ spec:
           {{ end }}
     spec:
       serviceAccountName: app
-      command:
-        - "sh"
-      args:
-        - "-c"
-        - "source /vault/secrets/env.sh && /start.sh"
       containers:
         - name: double-take
           image: docker-registry:5000/double-take:latest
           imagePullPolicy: Always
+          command:
+            - "sh"
+          args:
+            - "-c"
+            - ". /vault/secrets/env.sh && /start.sh"
           ports:
             - name: web
               containerPort: 3000
