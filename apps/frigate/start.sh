@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-envsubst </config/config.yml >/config/config.yml
+envsubst </config/config-raw.yml >/config/config.yml
 /run.sh
