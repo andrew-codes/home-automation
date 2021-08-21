@@ -81,7 +81,7 @@ spec:
               protocol: TCP
           volumeMounts:
             - name: coral
-              mountPath: /dev/bus/usb/007
+              mountPath: /dev/bus/usb
             - name: media-frigate
               mountPath: /media/frigate
           securityContext:
@@ -90,7 +90,7 @@ spec:
       volumes:
         - name: coral
           hostPath:
-            path: /dev/bus/usb/007
+            path: /dev/bus/usb
         - name: media-frigate
           persistentVolumeClaim:
             claimName: frigate-media-claim
