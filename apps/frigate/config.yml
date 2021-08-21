@@ -55,6 +55,23 @@ cameras:
     width: 1600
     height: 1200
     fps: 5
+    clips:
+      # Required: enables clips for the camera (default: shown below)
+      # This value can be set via MQTT and will be updated in startup based on retained value
+      enabled: True
+      # Optional: Number of seconds before the event to include in the clips (default: shown below)
+      pre_capture: 5
+      # Optional: Number of seconds after the event to include in the clips (default: shown below)
+      post_capture: 5
+      # Optional: Objects to save clips for. (default: all tracked objects)
+      objects:
+        - person
+      # Optional: Restrict clips to objects that entered any of the listed zones (default: no required zones)
+      required_zones: []
+      # Optional: Camera override for retention settings (default: global values)
+      retain:
+        # Required: Default retention days (default: shown below)
+        default: 7
     snapshots:
       # Optional: Enable writing jpg snapshot to /media/frigate/clips (default: shown below)
       # This value can be set via MQTT and will be updated in startup based on retained value
@@ -93,6 +110,23 @@ cameras:
     width: 1600
     height: 1200
     fps: 5
+    clips:
+      # Required: enables clips for the camera (default: shown below)
+      # This value can be set via MQTT and will be updated in startup based on retained value
+      enabled: True
+      # Optional: Number of seconds before the event to include in the clips (default: shown below)
+      pre_capture: 5
+      # Optional: Number of seconds after the event to include in the clips (default: shown below)
+      post_capture: 5
+      # Optional: Objects to save clips for. (default: all tracked objects)
+      objects:
+        - person
+      # Optional: Restrict clips to objects that entered any of the listed zones (default: no required zones)
+      required_zones: []
+      # Optional: Camera override for retention settings (default: global values)
+      retain:
+        # Required: Default retention days (default: shown below)
+        default: 7
     snapshots:
       # Optional: Enable writing jpg snapshot to /media/frigate/clips (default: shown below)
       # This value can be set via MQTT and will be updated in startup based on retained value
