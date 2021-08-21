@@ -20,9 +20,9 @@ record:
   retain_days: 7
 
 detectors:
-  # coral:
-  #   type: edgetpu
-  #   device: usb
+  coral:
+    type: edgetpu
+    device: usb
   cpu1:
     type: cpu
 
