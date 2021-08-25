@@ -31,9 +31,11 @@ automation:
       - condition: state
         entity_id: binary_sensor.doorbell_carport_doorbell
         state: "off"
+        for: "00:00:25"
       - condition: state
         entity_id: binary_sensor.doorbell_front_doorbell
         state: "off"
+        for: "00:00:25"
     action:
       - choose:
           # IF front door
