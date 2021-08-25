@@ -25,9 +25,9 @@ automation:
         value_template: "{% if states('sensor.car_port_door_person') > 0 %}true{% endif %}"
         for: "00:00:25"
     condition:
-      - condition: state
-        entity_id: group.family
-        state: not_home
+      # - condition: state
+      #   entity_id: group.family
+      #   state: not_home
       - condition: state
         entity_id: binary_sensor.doorbell_carport_doorbell
         state: "off"
@@ -88,9 +88,9 @@ automation:
         entity_id: binary_sensor.doorbell_carport_doorbell
         to: "on"
     condition:
-      - condition: state
-        entity_id: group.family
-        state: not_home
+      # - condition: state
+      #   entity_id: group.family
+      #   state: not_home
     action:
       - alias: "Set up variables for the door lock action"
         variables:
