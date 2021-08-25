@@ -17,7 +17,7 @@ objects:
 
 record:
   enabled: True
-  retain_days: 7
+  retain_days: 1
 
 detectors:
   cpu1:
@@ -27,7 +27,7 @@ clips:
   max_seconds: 300
   retain:
     # Required: Default retention days (default: shown below)
-    default: 7
+    default: 1
 
 logger:
   default: debug
@@ -70,7 +70,7 @@ cameras:
       # Optional: Camera override for retention settings (default: global values)
       retain:
         # Required: Default retention days (default: shown below)
-        default: 7
+        default: 1
     snapshots:
       # Optional: Enable writing jpg snapshot to /media/frigate/clips (default: shown below)
       # This value can be set via MQTT and will be updated in startup based on retained value
@@ -86,7 +86,7 @@ cameras:
       # Optional: Camera override for retention settings (default: global values)
       retain:
         # Required: Default retention days (default: shown below)
-        default: 7
+        default: 1
     rtmp:
       enabled: True
 
@@ -125,7 +125,7 @@ cameras:
       # Optional: Camera override for retention settings (default: global values)
       retain:
         # Required: Default retention days (default: shown below)
-        default: 7
+        default: 1
     snapshots:
       # Optional: Enable writing jpg snapshot to /media/frigate/clips (default: shown below)
       # This value can be set via MQTT and will be updated in startup based on retained value
@@ -141,7 +141,7 @@ cameras:
       # Optional: Camera override for retention settings (default: global values)
       retain:
         # Required: Default retention days (default: shown below)
-        default: 7
+        default: 1
         # Optional: Per object retention days
     rtmp:
       enabled: True
