@@ -89,25 +89,26 @@ automation:
         id: car_port_door
         entity_id: binary_sensor.doorbell_carport_doorbell
         to: "on"
-    # condition:
-    # - condition: state
-    #   entity_id: group.family
-    #   state: not_home
+    condition:
+      - condition: state
+        entity_id: group.family
+        state: not_home
     action:
       - service: notify.mobile_app_andrew_s_iphone
         data_template:
           title: "Doorbell rung"
           message: >
-            message_prefix: "{% if trigger.id == 'car_port_door' %}{{ states('sensor.car_port_door_person') }} {% if states('sensor.car_port_door_person')|int > 1 %}people{% else %}person{% endif %}{% else %}{{ states('sensor.front_door_person') }} {% if states('sensor.front_door_person')|int > 1 %}people{% else %}person{% endif %}{% endif %} at {% if trigger.id == 'car_port_door' %}car port door{% else %}front door{% endif %}.
+            {% if trigger.id == 'car_port_door' %}{{ states('sensor.car_port_door_person') }} {% if states('sensor.car_port_door_person')|int > 1 %}people{% else %}person{% endif %}{% else %}{{ states('sensor.front_door_person') }} {% if states('sensor.front_door_person')|int > 1 %}people{% else %}person{% endif %}{% endif %} at {% if trigger.id == 'car_port_door' %}car port door{% else %}front door{% endif %}.
           data:
             url: /lovelace/home
             push:
               thread-id: security
-      # - service: notify.mobile_app_dorri_s_iphone
-      #   data_template:
-      #     title: "Doorbell rung"
-      #     message: ""
-      #     data:
-      #       url: /lovelace/home
-      #       push:
-      #         thread-id: security
+      - service: notify.mobile_app_dorri_s_iphone
+        data_template:
+          title: "Doorbell rung"
+          message: >
+            {% if trigger.id == 'car_port_door' %}{{ states('sensor.car_port_door_person') }} {% if states('sensor.car_port_door_person')|int > 1 %}people{% else %}person{% endif %}{% else %}{{ states('sensor.front_door_person') }} {% if states('sensor.front_door_person')|int > 1 %}people{% else %}person{% endif %}{% endif %} at {% if trigger.id == 'car_port_door' %}car port door{% else %}front door{% endif %}.
+          data:
+            url: /lovelace/home
+            push:
+              thread-id: security
