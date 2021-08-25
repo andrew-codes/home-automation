@@ -25,9 +25,9 @@ automation:
         value_template: "{% if states('sensor.car_port_door_person')|int > 0 %}true{% endif %}"
         for: "00:00:25"
     condition:
-      # - condition: state
-      #   entity_id: group.family
-      #   state: not_home
+      - condition: state
+        entity_id: group.family
+        state: not_home
       - condition: state
         entity_id: binary_sensor.doorbell_carport_doorbell
         state: "off"
@@ -46,17 +46,15 @@ automation:
             url: /lovelace/home
             push:
               thread-id: security
-      # - service: notify.mobile_app_dorri_s_iphone
-      #   data_template:
-      #     title: "People at {{ door }}"
-      #     message: ""
-      #     data:
-      #       actions:
-      #         - action: "{{ action_lock }}"
-      #           title: "Unlock {{ door }}"
-      #           authenticationRequired: false
-      #       push:
-      #         thread-id: security
+      - service: notify.mobile_app_dorri_s_iphone
+        data_template:
+          title: "Guests at the door"
+          message: >
+            {% if trigger.id == 'car_port_door' %}{{ states('sensor.car_port_door_person') }} {% if states('sensor.car_port_door_person')|int > 1 %}people{% else %}person{% endif %}{% else %}{{ states('sensor.front_door_person') }} {% if states('sensor.front_door_person')|int > 1 %}people{% else %}person{% endif %}{% endif %} at {% if trigger.id == 'car_port_door' %}car port door{% else %}front door{% endif %}.
+          data:
+            url: /lovelace/home
+            push:
+              thread-id: security
 
   - alias: Notify family members when someone rings doorbell and no one is home
     id: notify_guests_ring_doorbell
