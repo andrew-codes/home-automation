@@ -92,9 +92,6 @@ automation:
     #   entity_id: group.family
     #   state: not_home
     action:
-      - alias: "Set up variables for the door lock action"
-        variables:
-          action_lock: "{{ 'DOOR_LOCK' ~ context.id }}"
       - choose:
           # IF front door
           - conditions:
