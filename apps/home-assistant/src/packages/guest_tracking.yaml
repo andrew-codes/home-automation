@@ -35,9 +35,6 @@ automation:
         entity_id: binary_sensor.doorbell_front_doorbell
         state: "off"
     action:
-      - alias: "Set up variables for the door lock action"
-        variables:
-          action_lock: "{{ 'DOOR_LOCK' ~ context.id }}"
       - choose:
           # IF front door
           - conditions:
@@ -48,6 +45,7 @@ automation:
                 variables:
                   door: "front door"
                   lock_entity: lock.front_door_deadbolt
+                  message_prefix: "{{ states('sensor.front_door_person') }} {% if states('sensor.front_door_person') > 1 %}people{% else %}person{% endif %}"
           # else if car port door
           - conditions:
               - condition: trigger
@@ -63,10 +61,7 @@ automation:
           title: "{{ message_prefix }} at {{ door }}"
           message: ""
           data:
-            actions:
-              - action: "{{ action_lock }}"
-                title: "Unlock {{ door }}"
-                authenticationRequired: false
+            url: /lovelace/home
             push:
               thread-id: security
       # - service: notify.mobile_app_dorri_s_iphone
@@ -80,17 +75,58 @@ automation:
       #           authenticationRequired: false
       #       push:
       #         thread-id: security
-      - alias: "Wait for a action lock response"
-        wait_for_trigger:
-          - platform: event
-            event_type: mobile_app_notification_action
-            event_data:
-              # waiting for the specific action avoids accidentally continuing
-              # for another script/automation's notification action
-              action: "{{ action_lock }}"
-        timeout:
-          minutes: 5
-        continue_on_timeout: false
-      - service: lock.unlock
-        data:
-          entity_id: "{{ lock_entity }}"
+
+  - alias: Notify family members when someone rings doorbell and no one is home
+    id: notify_guests_ring_doorbell
+    trigger:
+      - platform: state
+        id: front_door
+        entity_id: binary_sensor.doorbell_front_doorbell
+        to: "on"
+      - platform: state
+        id: car_port_door
+        entity_id: binary_sensor.doorbell_carport_doorbell
+        to: "on"
+    condition:
+      - condition: state
+        entity_id: group.family
+        state: not_home
+    action:
+      - alias: "Set up variables for the door lock action"
+        variables:
+          action_lock: "{{ 'DOOR_LOCK' ~ context.id }}"
+      - choose:
+          # IF front door
+          - conditions:
+              - condition: trigger
+                id: front_door
+            sequence:
+              - alias: "Set up variables for the front door"
+                variables:
+                  door: "front door"
+                  message_prefix: "{{ states('sensor.front_door_person') }} {% if states('sensor.front_door_person') > 1 %}people{% else %}person{% endif %}"
+          # else if car port door
+          - conditions:
+              - condition: trigger
+                id: car_port_door
+            sequence:
+              - alias: "Set up variables for the front door"
+                variables:
+                  door: "car port door"
+                  message_prefix: "{{ states('sensor.car_port_door_person') }} {% if states('sensor.car_port_door_person') > 1 %}people{% else %}person{% endif %}"
+      - service: notify.mobile_app_andrew_s_iphone
+        data_template:
+          title: "Doorbell rung"
+          message: "{{ message_prefix }} at {{ door }}"
+          data:
+            url: /lovelace/home
+            push:
+              thread-id: security
+      # - service: notify.mobile_app_dorri_s_iphone
+      #   data_template:
+      #     title: "Doorbell rung"
+      #     message: ""
+      #     data:
+      #       url: /lovelace/home
+      #       push:
+      #         thread-id: security
