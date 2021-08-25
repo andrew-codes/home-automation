@@ -87,10 +87,10 @@ automation:
         id: car_port_door
         entity_id: binary_sensor.doorbell_carport_doorbell
         to: "on"
-    condition:
-      # - condition: state
-      #   entity_id: group.family
-      #   state: not_home
+    # condition:
+    # - condition: state
+    #   entity_id: group.family
+    #   state: not_home
     action:
       - alias: "Set up variables for the door lock action"
         variables:
