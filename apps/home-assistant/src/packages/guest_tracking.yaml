@@ -18,11 +18,11 @@ automation:
     trigger:
       - platform: template
         id: front_door
-        value_template: "{% if states('sensor.front_door_person') > 0 %}true{% endif %}"
+        value_template: "{% if states('sensor.front_door_person')|int > 0 %}true{% endif %}"
         for: "00:00:25"
       - platform: template
         id: car_port_door
-        value_template: "{% if states('sensor.car_port_door_person') > 0 %}true{% endif %}"
+        value_template: "{% if states('sensor.car_port_door_person')|int > 0 %}true{% endif %}"
         for: "00:00:25"
     condition:
       # - condition: state
@@ -45,7 +45,7 @@ automation:
                 variables:
                   door: "front door"
                   lock_entity: lock.front_door_deadbolt
-                  message_prefix: "{{ states('sensor.front_door_person') }} {% if states('sensor.front_door_person') > 1 %}people{% else %}person{% endif %}"
+                  message_prefix: "{{ states('sensor.front_door_person') }} {% if states('sensor.front_door_person')|int > 1 %}people{% else %}person{% endif %}"
           # else if car port door
           - conditions:
               - condition: trigger
@@ -55,7 +55,7 @@ automation:
                 variables:
                   door: "car port door"
                   lock_entity: lock.car_port_deadbolt
-                  message_prefix: "{{ states('sensor.car_port_door_person') }} {% if states('sensor.car_port_door_person') > 1 %}people{% else %}person{% endif %}"
+                  message_prefix: "{{ states('sensor.car_port_door_person') }} {% if states('sensor.car_port_door_person')|int > 1 %}people{% else %}person{% endif %}"
       - service: notify.mobile_app_andrew_s_iphone
         data_template:
           title: "{{ message_prefix }} at {{ door }}"
@@ -104,7 +104,7 @@ automation:
               - alias: "Set up variables for the front door"
                 variables:
                   door: "front door"
-                  message_prefix: "{{ states('sensor.front_door_person') }} {% if states('sensor.front_door_person') > 1 %}people{% else %}person{% endif %}"
+                  message_prefix: "{{ states('sensor.front_door_person') }} {% if states('sensor.front_door_person')|int > 1 %}people{% else %}person{% endif %}"
           # else if car port door
           - conditions:
               - condition: trigger
@@ -113,7 +113,7 @@ automation:
               - alias: "Set up variables for the front door"
                 variables:
                   door: "car port door"
-                  message_prefix: "{{ states('sensor.car_port_door_person') }} {% if states('sensor.car_port_door_person') > 1 %}people{% else %}person{% endif %}"
+                  message_prefix: "{{ states('sensor.car_port_door_person') }} {% if states('sensor.car_port_door_person')|int > 1 %}people{% else %}person{% endif %}"
       - service: notify.mobile_app_andrew_s_iphone
         data_template:
           title: "Doorbell rung"
