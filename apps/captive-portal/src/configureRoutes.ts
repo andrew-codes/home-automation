@@ -12,7 +12,8 @@ const configureRoutes = (
   mqtt: AsyncMqttClient,
   unifi: {
     authorize_guest: (mac: string, authorizationTime: number) => Promise<null>
-  }
+  },
+  appPassPhrase: string
 ): Application => {
   app.use(express.static(staticDir))
   app.get("/", async (req, res) => {
@@ -31,9 +32,12 @@ const configureRoutes = (
   // app.use(express.urlencoded({ extended: true }))
   app.post("/register", async (req, res) => {
     try {
-      const { mac, isPrimaryDevice } = req.body
+      const { mac, isPrimaryDevice, passPhrase } = req.body
       if (!mac) {
         throw new Error("No MAC address found in request body")
+      }
+      if (passPhrase !== appPassPhrase) {
+        throw new Error("Incorrect pass phrase")
       }
       debug("mac", mac)
       debug("isPrimaryDevice", isPrimaryDevice)
@@ -41,17 +45,6 @@ const configureRoutes = (
       if (isPrimaryDevice) {
         await mqtt.publish("/homeassistant/guest/track-device", mac)
       }
-      // await gql({
-      //   query: `mutation track($mac: String, $isPrimary: Boolean) {
-      //   trackGuestDevice(mac: $mac, isPrimary: $isPrimary) {
-      //     id
-      //   }
-      // }`,
-      //   variables: {
-      //     mac,
-      //     isPrimary: !!isPrimaryDevice,
-      //   },
-      // })
       res.sendFile(thankYouPage)
     } catch (e) {
       debug(e)

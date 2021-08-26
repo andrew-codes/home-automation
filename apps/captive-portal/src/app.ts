@@ -10,6 +10,7 @@ const run = async () => {
     MQTT_PASSWORD,
     MQTT_PORT,
     MQTT_USERNAME,
+    PASS_PHRASE,
     PORT,
     UNIFI_IP,
     UNIFI_PORT,
@@ -28,7 +29,7 @@ const run = async () => {
     username: UNIFI_USERNAME,
     password: UNIFI_PASSWORD,
   })
-  configureRoutes(app, mqtt, unifi)
+  configureRoutes(app, mqtt, unifi, PASS_PHRASE)
   app.listen(PORT, () => {
     debug(`listening on port ${PORT}`)
   })

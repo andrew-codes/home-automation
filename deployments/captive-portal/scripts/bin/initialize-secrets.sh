@@ -10,3 +10,6 @@ vault kv put kv/unifi \
     PORT="" \
     USERNAME="" \
     PASSWORD=""
+
+vault kv put kv/captive-portal \
+    PASS_PHRASE=""

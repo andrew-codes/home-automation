@@ -26,6 +26,7 @@ describe("app", () => {
     process.env.UNIFI_PORT = "863"
     process.env.UNIFI_USERNAME = "unifi-username"
     process.env.UNIFI_PASSWORD = "unifi-password"
+    process.env.PASS_PHRASE = "12345"
   })
 
   test("express app listens on PORT provided as env var", async () => {
@@ -35,7 +36,7 @@ describe("app", () => {
     expect(app.listen).toBeCalledWith(port, expect.any(Function))
   })
 
-  test("creates Routes with express app and configured mqtt, unifi clients", async () => {
+  test("creates Routes with express app and configured mqtt, unifi clients, and pass phrase", async () => {
     const app = { listen: jest.fn() }
     const mqtt = jest.fn()
     const unifi = jest.fn()
@@ -55,7 +56,7 @@ describe("app", () => {
       })
       .mockReturnValue(unifi)
     await run()
-    expect(configureRoutes).toHaveBeenCalledWith(app, mqtt, unifi)
+    expect(configureRoutes).toHaveBeenCalledWith(app, mqtt, unifi, "12345")
   })
 
   test("defaults to port 1883 for mqtt", async () => {
@@ -79,6 +80,6 @@ describe("app", () => {
       })
       .mockReturnValue(unifi)
     await run()
-    expect(configureRoutes).toHaveBeenCalledWith(app, mqtt, unifi)
+    expect(configureRoutes).toHaveBeenCalledWith(app, mqtt, unifi, "12345")
   })
 })

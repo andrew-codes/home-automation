@@ -26,7 +26,7 @@ describe("configureRoutes", () => {
     when(express.static)
       .calledWith(path.join(__dirname, "..", "static"))
       .mockReturnValue("./path/to/static")
-    configureRoutes(app, mqtt, unifi)
+    configureRoutes(app, mqtt, unifi, "12345")
 
     expect(app.use).toHaveBeenCalledWith("./path/to/static")
   })
@@ -39,7 +39,7 @@ describe("configureRoutes", () => {
       .mockImplementation((route, handler) => {
         routeHandler = handler
       })
-    configureRoutes(app, mqtt, unifi)
+    configureRoutes(app, mqtt, unifi, "12345")
     await routeHandler({ query: { mac: "value" } }, { sendFile })
     expect(sendFile).toHaveBeenCalledWith(
       path.join(__dirname, "..", "static", "register.html")
@@ -54,7 +54,7 @@ describe("configureRoutes", () => {
         routeHandler = handler
       })
     const sendStatus = jest.fn()
-    configureRoutes(app, mqtt, unifi)
+    configureRoutes(app, mqtt, unifi, "12345")
     await routeHandler({ query: {} }, { sendStatus })
     expect(sendStatus).toHaveBeenCalledWith(500)
   })
@@ -67,8 +67,24 @@ describe("configureRoutes", () => {
         routeHandler = handler
       })
     const sendStatus = jest.fn()
-    configureRoutes(app, mqtt, unifi)
+    configureRoutes(app, mqtt, unifi, "12345")
     await routeHandler({ body: {} }, { sendStatus })
+    expect(sendStatus).toHaveBeenCalledWith(500)
+  })
+
+  test("register route responds with a 500 if passphrase does not match app pass phrase", async () => {
+    let routeHandler
+    when(app.post)
+      .calledWith("/register", expect.anything())
+      .mockImplementation((route, handler) => {
+        routeHandler = handler
+      })
+    const sendStatus = jest.fn()
+    configureRoutes(app, mqtt, unifi, "12345")
+    await routeHandler(
+      { body: { mac: "address", isPrimaryDevice: true, passPhrase: "123" } },
+      { sendStatus }
+    )
     expect(sendStatus).toHaveBeenCalledWith(500)
   })
 
@@ -80,9 +96,9 @@ describe("configureRoutes", () => {
         routeHandler = handler
       })
     const sendFile = jest.fn()
-    configureRoutes(app, mqtt, unifi)
+    configureRoutes(app, mqtt, unifi, "12345")
     await routeHandler(
-      { body: { mac: "address", isPrimaryDevice: false } },
+      { body: { mac: "address", isPrimaryDevice: false, passPhrase: "12345" } },
       { sendFile }
     )
 
@@ -100,9 +116,9 @@ describe("configureRoutes", () => {
         routeHandler = handler
       })
     const sendFile = jest.fn()
-    configureRoutes(app, mqtt, unifi)
+    configureRoutes(app, mqtt, unifi, "12345")
     await routeHandler(
-      { body: { mac: "address", isPrimaryDevice: true } },
+      { body: { mac: "address", isPrimaryDevice: true, passPhrase: "12345" } },
       { sendFile }
     )
 
@@ -120,14 +136,16 @@ describe("configureRoutes", () => {
         routeHandler = handler
       })
     const sendFile = jest.fn()
-    configureRoutes(app, mqtt, unifi)
+    configureRoutes(app, mqtt, unifi, "12345")
     await routeHandler(
-      { body: { mac: "address", isPrimaryDevice: true } },
+      { body: { mac: "address", isPrimaryDevice: true, passPhrase: "12345" } },
       { sendFile }
     )
     expect(unifi.authorize_guest).toHaveBeenCalledWith("address", 4320)
     await routeHandler(
-      { body: { mac: "address-2", isPrimaryDevice: false } },
+      {
+        body: { mac: "address-2", isPrimaryDevice: false, passPhrase: "12345" },
+      },
       { sendFile }
     )
     expect(unifi.authorize_guest).toHaveBeenCalledWith("address-2", 4320)
