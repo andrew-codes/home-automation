@@ -29,6 +29,13 @@ describe("app", () => {
     process.env.PASS_PHRASE = "12345"
   })
 
+  test("app throws exception when no pass phrase is provided from env var", async () => {
+    delete process.env.PASS_PHRASE
+    await expect(run()).rejects.toEqual(
+      new Error("PASS_PHRASE env var is required")
+    )
+  })
+
   test("express app listens on PORT provided as env var", async () => {
     const app = { listen: jest.fn() }
     ;(express as unknown as jest.Mock).mockReturnValue(app)

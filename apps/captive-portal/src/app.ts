@@ -17,6 +17,9 @@ const run = async () => {
     UNIFI_USERNAME,
     UNIFI_PASSWORD,
   } = process.env
+  if (!PASS_PHRASE) {
+    throw new Error("PASS_PHRASE env var is required")
+  }
   const app = express()
   const mqttPort = !MQTT_PORT ? "1883" : MQTT_PORT
   const mqtt = await connectAsync(`tcp://${MQTT_HOST}`, {
