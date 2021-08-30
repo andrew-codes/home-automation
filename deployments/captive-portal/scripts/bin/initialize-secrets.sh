@@ -12,4 +12,5 @@ vault kv put kv/unifi \
     PASSWORD=""
 
 vault kv put kv/captive-portal \
+    DOMAIN="" \
     PASS_PHRASE=""

@@ -5,11 +5,11 @@
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
+    "compile": "next build",
     "clean": "rm -rf dist",
-    "compile": "ncc build src/index.ts -o dist -m",
     "start": "scripts/bin/start.sh",
-    "start/dev": "nodemon src/index.ts --inspect=0.0.0.0:9229",
-    "postcompile": "cp -r src/static dist/static",
+    "start/dev": "next dev -p 80",
+    "start/prod": "next start",
     "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/captive-portal:latest\" --context dir:///workspace/ --insecure --cache=true"
   },
   "dependencies": {
@@ -22,8 +22,7 @@
   "devDependencies": {
     "@ha/ts-config": "^0.0.1",
     "@types/express": "^4.17.13",
-    "@zeit/ncc": "^0.22.3",
-    "nodemon": "^2.0.6",
+    "jest-when": "^3.2.1",
     "ts-jest": "^27.0.3"
   }
 }

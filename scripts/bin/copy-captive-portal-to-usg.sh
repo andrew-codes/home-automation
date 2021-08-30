@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-source secrets.sh
+source scripts/bin/vault.sh
+
+export DOMAIN=$(vault kv get -format=json kv/captive-portal | jq .data.DOMAIN | sed -e 's/^"//' -e 's/"$//')
+export UNIFI_IP=$(vault kv get -format=json kv/unifi | jq .data.IP | sed -e 's/^"//' -e 's/"$//')
 
 mkdir -p .secrets
 
@@ -9,7 +12,7 @@ cat >.secrets/captive-portal.html <<EOL
 <html>
   <head>
     <title>Smith-Simms Wifi</title>
-    <meta http-equiv="refresh" content="0;url=http://$CLUSTER_IP:$EXTERNAL_CAPTIVE_PORTAL_PORT?mac=<unifi var="mac" />">
+    <meta http-equiv="refresh" content="0;url=https://$DOMAIN?mac=<unifi var="mac" />">
   </head>
   <body>
   </body>
