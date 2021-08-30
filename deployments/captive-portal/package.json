@@ -5,7 +5,9 @@
   "license": "MIT",
   "scripts": {
     "deploy": "scripts/bin/deploy.sh",
-    "postdeploy": "kubectl rollout restart deployment captive-portal "
+    "postdeploy": "kubectl rollout restart deployment captive-portal",
+    "ingress/prod": "scripts/bin/ingress.sh ingress-prod.yml",
+    "ingress/stage": "scripts/bin/ingress.sh ingress-staging.yml"
   },
   "dependencies": {
     "@ha/captive-portal-app": "^0.0.1",
