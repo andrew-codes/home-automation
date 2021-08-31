@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 function start-locally() {
     : ${1?"Usage: $0; first argument must the k8s namespace"} ${2?"Usage: $0; second argument is the deployment name"} ${3?"Usage: $0; third argument is dev docker image"}
