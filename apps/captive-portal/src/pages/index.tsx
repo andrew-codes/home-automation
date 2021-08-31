@@ -41,7 +41,9 @@ function Index() {
           onChange={changeIsPrimaryDevice}
         />
       </label>
-      <button onClick={submit}>Connect</button>
+      <button type="button" onClick={submit}>
+        Connect
+      </button>
     </form>
   )
 }
