@@ -7,19 +7,19 @@ const debug = createDebug("@ha/captive-portal/api/register")
 const macExp = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    res.status(400)
+    res.status(400).end("Method Not Allowed")
     return
   }
   try {
     const payload = JSON.parse(req.body)
     const { PASS_PHRASE } = process.env
     if (!PASS_PHRASE || payload.passPhrase !== PASS_PHRASE) {
-      res.status(403)
+      res.status(403).end("Not Authorized")
       return
     }
 
     if (!payload.mac || !macExp.test(payload.mac)) {
-      res.status(400)
+      res.status(400).end("No MAC address")
       return
     }
 
@@ -41,9 +41,9 @@ export default async function handler(req, res) {
       })
       await mqtt.publish("/homeassistant/guest/track-device", payload.mac)
     }
-    res.status(200)
+    res.status(200).json(true)
   } catch (error) {
     debug(error)
-    res.status(500)
+    res.status(500).end("Server error")
   }
 }
