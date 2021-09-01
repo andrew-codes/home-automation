@@ -5,6 +5,7 @@ import createUnifi from "node-unifiapi"
 const debug = createDebug("@ha/captive-portal/api/register")
 
 const macExp = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.status(400).end("Method Not Allowed")
@@ -19,7 +20,7 @@ export default async function handler(req, res) {
     }
 
     if (!payload.mac || !macExp.test(payload.mac)) {
-      res.status(400).end("No MAC address")
+      res.status(400).end("Incorrect Parameters")
       return
     }
 
@@ -44,6 +45,6 @@ export default async function handler(req, res) {
     res.status(200).json(true)
   } catch (error) {
     debug(error)
-    res.status(500).end("Server error")
+    res.status(500).end("Server Error")
   }
 }
