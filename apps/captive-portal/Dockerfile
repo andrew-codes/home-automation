@@ -1,7 +1,7 @@
 FROM node:16.4.0-alpine AS builder
 WORKDIR /app
 COPY package.json package.json
-RUN yarn install --production --ignore-scripts --no-lockfile
+RUN yarn install --ignore-scripts --no-lockfile
 
 # Production image, copy all the files and run next
 FROM node:16.4.0-alpine AS runner
