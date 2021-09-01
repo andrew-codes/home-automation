@@ -24,7 +24,11 @@ function Index() {
         mac: router.query.mac,
         passPhrase,
       }),
-    }).then(() => router.push("/thank-you"))
+    }).then((resp) => {
+      if (resp.ok) {
+        router.push("/thank-you")
+      }
+    })
   }, [isPrimaryDevice, router.query.mac, passPhrase, router.push])
 
   return (

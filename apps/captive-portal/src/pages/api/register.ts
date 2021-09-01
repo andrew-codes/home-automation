@@ -1,12 +1,13 @@
 import { connectAsync } from "async-mqtt"
 import createDebug from "debug"
 import createUnifi from "node-unifiapi"
+import { NextApiRequest, NextApiResponse } from 'next'
 
 const debug = createDebug("@ha/captive-portal/api/register")
 
 const macExp = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") {
     res.status(400).end("Method Not Allowed")
     return
@@ -42,7 +43,7 @@ export default async function handler(req, res) {
       })
       await mqtt.publish("/homeassistant/guest/track-device", payload.mac)
     }
-    res.status(200).json(true)
+    res.status(200).send("")
   } catch (error) {
     debug(error)
     res.status(500).end("Server Error")
