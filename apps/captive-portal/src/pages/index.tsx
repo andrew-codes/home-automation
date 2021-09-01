@@ -1,5 +1,18 @@
 import * as React from "react"
 import { useRouter } from "next/router"
+import styled from "styled-components"
+
+const Form = styled.form`
+  width: 100%;
+`
+const Label = styled.label`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+`
+const TextField = styled.input`
+  flex: 1;
+`
 
 function Index() {
   const router = useRouter()
@@ -32,23 +45,24 @@ function Index() {
   }, [isPrimaryDevice, router.query.mac, passPhrase, router.push])
 
   return (
-    <form>
-      <label>
-        Pass Phrase:
-        <input type="text" value={passPhrase} onChange={changePassPhrase} />
-      </label>
-      <label>
-        Is this a phone?:
+    <Form>
+      <h1>Welcome to Smith-Simms Wifi</h1>
+      <Label>
+        Pass Phrase
+        <TextField type="text" value={passPhrase} onChange={changePassPhrase} />
+      </Label>
+      <Label>
+        Is this a phone?
         <input
           type="checkbox"
           checked={isPrimaryDevice}
           onChange={changeIsPrimaryDevice}
         />
-      </label>
+      </Label>
       <button type="button" onClick={submit}>
         Connect
       </button>
-    </form>
+    </Form>
   )
 }
 

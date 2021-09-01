@@ -16,11 +16,13 @@
     "async-mqtt": "^2.6.1",
     "debug": "^4.3.1",
     "express": "^4.17.1",
-    "node-unifiapi": "^0.0.54"
+    "node-unifiapi": "^0.0.54",
+    "styled-components": "^5.3.1"
   },
   "devDependencies": {
     "@ha/ts-config": "^0.0.1",
     "@types/express": "^4.17.13",
+    "babel-plugin-styled-components": "^1.13.2",
     "jest-when": "^3.2.1",
     "next-test-api-route-handler": "^2.2.1",
     "ts-jest": "^27.0.3"
