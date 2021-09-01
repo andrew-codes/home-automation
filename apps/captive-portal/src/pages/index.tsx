@@ -91,6 +91,7 @@ function Index() {
               }}
               label="Pass Phrase"
               onChange={changePassPhrase}
+              value={passPhrase}
             />
             {!isScanning ? (
               <Button onClick={startScan}>Scan QR Code</Button>
@@ -101,6 +102,7 @@ function Index() {
           <Grid item xs={12}>
             <QrScanner
               hidden={!isScanning}
+              onError={console.warn}
               onReady={setScanner}
               onScan={scanPassPhrase}
             />
