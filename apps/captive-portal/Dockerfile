@@ -17,7 +17,7 @@ RUN adduser -S nextjs -u 1001
 # You only need to copy next.config.js if you are NOT using the default configuration
 COPY entrypoint.sh ./entrypoint.sh
 COPY next.config.js ./
-COPY src/public ./src/public
+# COPY src/public ./src/public
 COPY --chown=nextjs:nodejs dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
