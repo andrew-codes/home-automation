@@ -1,17 +1,24 @@
 import * as React from "react"
 import { useRouter } from "next/router"
 import styled from "styled-components"
+import { CropFree } from "@material-ui/icons"
+import InputAdornment from "@material-ui/core/InputAdornment"
+import {
+  Button,
+  Checkbox,
+  Container,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  TextField,
+} from "@material-ui/core"
+import QrScanner, { Scanner } from "../QrScanner"
 
-const Form = styled.form`
-  width: 100%;
-`
+const Form = styled.form``
 const Label = styled.label`
   display: flex;
   flex-direction: column;
   margin-bottom: 16px;
-`
-const TextField = styled.input`
-  flex: 1;
 `
 
 function Index() {
@@ -44,24 +51,60 @@ function Index() {
     })
   }, [isPrimaryDevice, router.query.mac, passPhrase, router.push])
 
+  let scanner: Scanner
+  const setScanner = React.useCallback((s) => (scanner = s), [scanner])
+  const startScan = React.useCallback(() => scanner.start(), [scanner])
+  const stopScan = React.useCallback(() => scanner.stop(), [scanner])
+
   return (
     <Form>
-      <h1>Welcome to Smith-Simms Wifi</h1>
-      <Label>
-        Pass Phrase
-        <TextField type="text" value={passPhrase} onChange={changePassPhrase} />
-      </Label>
-      <Label>
-        Is this a phone?
-        <input
-          type="checkbox"
-          checked={isPrimaryDevice}
-          onChange={changeIsPrimaryDevice}
-        />
-      </Label>
-      <button type="button" onClick={submit}>
-        Connect
-      </button>
+      <Container>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <h1>Welcome to Smith-Simms Wifi</h1>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton aria-label="Scan QR Code" onClick={startScan}>
+                      <CropFree />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              label="Pass Phrase"
+              onChange={changePassPhrase}
+            />
+            <QrScanner
+              onError={console.log}
+              onReady={setScanner}
+              onScan={console.log}
+            />
+            <Button onClick={startScan}>Scan QR Code</Button>
+            <Button onClick={stopScan}>Stop Scanning</Button>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={isPrimaryDevice}
+                  onChange={changeIsPrimaryDevice}
+                  inputProps={{ "aria-label": "primary checkbox" }}
+                />
+              }
+              label="Is this device a phone?"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button color="primary" onClick={submit} variant="outlined">
+              Connect
+            </Button>
+          </Grid>
+        </Grid>
+      </Container>
     </Form>
   )
 }

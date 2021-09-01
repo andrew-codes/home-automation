@@ -30,6 +30,9 @@
     "test": "jest"
   },
   "workspaces": {
+    "nohoist": [
+      "apps/captive-portal/**/qr-scanner/**"
+    ],
     "packages": [
       "apps/*",
       "deployments/*",
