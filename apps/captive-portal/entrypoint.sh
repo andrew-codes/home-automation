@@ -1,3 +1,3 @@
-#!/usr/bin/env sh
+#!/bin/sh
 
 yarn start/prod
