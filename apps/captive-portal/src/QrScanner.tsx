@@ -1,7 +1,12 @@
 import * as React from "react"
 import QrScanner from "qr-scanner"
+import styled from "styled-components"
 import QrScannerWorkerPath from "!!file-loader!../../../node_modules/qr-scanner/qr-scanner-worker.min.js"
 QrScanner.WORKER_PATH = QrScannerWorkerPath
+
+const VideoContainer = styled.div`
+  display: ${({ hidden }) => (hidden ? "none" : "block")} !important;
+`
 
 type Scanner = {
   start: () => void
@@ -9,10 +14,11 @@ type Scanner = {
 }
 
 const QrScannerComponent: React.FC<{
+  hidden?: boolean
   onError: (error: string) => void
   onScan: (code: string) => void
   onReady: (scanner: Scanner) => void
-}> = ({ onError, onReady, onScan }) => {
+}> = ({ hidden = false, onError, onReady, onScan }) => {
   const videoRef = React.useRef()
   let scanner
   React.useEffect(() => {
@@ -20,7 +26,11 @@ const QrScannerComponent: React.FC<{
     onReady(scanner)
   }, [])
 
-  return <video ref={videoRef} />
+  return (
+    <VideoContainer hidden={hidden}>
+      <video ref={videoRef} />
+    </VideoContainer>
+  )
 }
 
 export default QrScannerComponent

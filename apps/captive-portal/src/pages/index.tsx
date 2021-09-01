@@ -52,9 +52,23 @@ function Index() {
   }, [isPrimaryDevice, router.query.mac, passPhrase, router.push])
 
   let scanner: Scanner
+  const [isScanning, setIsScanning] = React.useState(false)
   const setScanner = React.useCallback((s) => (scanner = s), [scanner])
-  const startScan = React.useCallback(() => scanner.start(), [scanner])
-  const stopScan = React.useCallback(() => scanner.stop(), [scanner])
+  const startScan = React.useCallback(() => {
+    setIsScanning(true)
+    scanner.start()
+  }, [scanner, setIsScanning])
+  const stopScan = React.useCallback(() => {
+    setIsScanning(false)
+    scanner.stop()
+  }, [scanner, setIsScanning])
+  const scanPassPhrase = React.useCallback(
+    (code) => {
+      setPassPhrase(code)
+      stopScan()
+    },
+    [stopScan, setPassPhrase]
+  )
 
   return (
     <Form>
@@ -78,13 +92,18 @@ function Index() {
               label="Pass Phrase"
               onChange={changePassPhrase}
             />
+            {!isScanning ? (
+              <Button onClick={startScan}>Scan QR Code</Button>
+            ) : (
+              <Button onClick={stopScan}>Stop Scanning</Button>
+            )}
+          </Grid>
+          <Grid item xs={12}>
             <QrScanner
-              onError={console.log}
+              hidden={!isScanning}
               onReady={setScanner}
-              onScan={console.log}
+              onScan={scanPassPhrase}
             />
-            <Button onClick={startScan}>Scan QR Code</Button>
-            <Button onClick={stopScan}>Stop Scanning</Button>
           </Grid>
           <Grid item xs={12} sm={6}>
             <FormControlLabel
