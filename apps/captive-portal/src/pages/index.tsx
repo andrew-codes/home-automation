@@ -70,6 +70,8 @@ function Index() {
     [stopScan, setPassPhrase]
   )
 
+  const noop = React.useCallback(() => {}, [])
+
   return (
     <Form>
       <Container>
@@ -102,7 +104,7 @@ function Index() {
           <Grid item xs={12}>
             <QrScanner
               hidden={!isScanning}
-              onError={console.warn}
+              onError={noop}
               onReady={setScanner}
               onScan={scanPassPhrase}
             />
