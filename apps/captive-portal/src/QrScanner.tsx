@@ -28,9 +28,10 @@ const QrScannerComponent: React.FC<{
     onReady(scanner)
 
     return function cleanup() {
+      scanner.destory()
       scanner = null
     }
-  }, [])
+  }, [onScan, onError])
 
   return (
     <VideoContainer hidden={hidden} ref={containerRef}>
