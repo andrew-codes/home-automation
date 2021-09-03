@@ -24,17 +24,19 @@ const QrScannerComponent: React.FC<{
   let scanner
   React.useEffect(() => {
     scanner = new QrScanner(videoRef.current, onScan, onError)
-    while (containerRef.current.firstChild) {
-      containerRef.current.firstChild.remove()
-    }
-    containerRef.current.appendChild(scanner.$canvas)
     onReady(scanner)
 
     return function cleanup() {
-      scanner.destory()
+      scanner.destroy()
       scanner = null
     }
-  }, [onScan, onError])
+  }, [onError, onReady, onScan])
+
+  React.useEffect(() => {
+    if (containerRef.current.children.length === 0) {
+      containerRef.current.appendChild(scanner.$canvas)
+    }
+  }, [])
 
   return (
     <VideoContainer hidden={hidden}>
