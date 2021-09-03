@@ -32,16 +32,16 @@ const QrScannerComponent: React.FC<{
     }
   }, [onError, onReady, onScan])
 
-  React.useEffect(() => {
-    if (containerRef.current.children.length === 0) {
-      containerRef.current.appendChild(scanner.$canvas)
-    }
-  }, [])
+  // React.useEffect(() => {
+  //   if (containerRef.current.children.length === 0) {
+  //     containerRef.current.appendChild(scanner.$canvas)
+  //   }
+  // }, [])
 
   return (
     <VideoContainer hidden={hidden}>
       <div ref={containerRef} />
-      <video style={{ display: "none" }} ref={videoRef} />
+      <video ref={videoRef} />
     </VideoContainer>
   )
 }
