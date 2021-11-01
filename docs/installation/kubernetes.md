@@ -30,10 +30,6 @@ path "auth/kubernetes/role/app" {
 path "sys/auth/kubernetes" {
     capabilities = ["create", "update"]
 }
-
-path "kv/*" {
-    capabilities: ["create", "read", "update", "delete", "list"]
-}
 ```
 
 Then create a new policy, named app, and save the following to it:
