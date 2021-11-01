@@ -6,12 +6,12 @@ pushd .
 cd ../../
 source scripts/bin/vault.sh
 popd
-export INLETS_PRO_LICENSE=$(vault kv get -format=json kv/inlets | jq .data.INLETS_PRO_LICENSE | sed -e 's/^"//' -e 's/"$//')
-export CLIENT_ID=$(vault kv get -format=json kv/inlets | jq .data.CLIENT_ID | sed -e 's/^"//' -e 's/"$//')
-export CLIENT_SECRET=$(vault kv get -format=json kv/inlets | jq .data.CLIENT_SECRET | sed -e 's/^"//' -e 's/"$//')
-export SUBSCRIPTION_ID=$(vault kv get -format=json kv/inlets | jq .data.SUBSCRIPTION_ID | sed -e 's/^"//' -e 's/"$//')
-export TENANT_ID=$(vault kv get -format=json kv/inlets | jq .data.TENANT_ID | sed -e 's/^"//' -e 's/"$//')
-export MACHINE_PASSWORD=$(vault kv get -format=json kv/k8s | jq .data.MACHINE_PASSWORD | sed -e 's/^"//' -e 's/"$//')
+export INLETS_PRO_LICENSE=$(vault kv get -format=json kv/inlets | jq .data.data.INLETS_PRO_LICENSE | sed -e 's/^"//' -e 's/"$//')
+export CLIENT_ID=$(vault kv get -format=json kv/inlets | jq .data.data.CLIENT_ID | sed -e 's/^"//' -e 's/"$//')
+export CLIENT_SECRET=$(vault kv get -format=json kv/inlets | jq .data.data.CLIENT_SECRET | sed -e 's/^"//' -e 's/"$//')
+export SUBSCRIPTION_ID=$(vault kv get -format=json kv/inlets | jq .data.data.SUBSCRIPTION_ID | sed -e 's/^"//' -e 's/"$//')
+export TENANT_ID=$(vault kv get -format=json kv/inlets | jq .data.data.TENANT_ID | sed -e 's/^"//' -e 's/"$//')
+export MACHINE_PASSWORD=$(vault kv get -format=json kv/k8s | jq .data.data.MACHINE_PASSWORD | sed -e 's/^"//' -e 's/"$//')
 
 mkdir -p .secrets
 cat >.secrets/ansible-secrets.yml <<EOL

@@ -6,14 +6,14 @@ pushd .
 cd ../../
 source scripts/bin/vault.sh
 popd
-export AZURE_BACKUP_RESOURCE_GROUP=$(vault kv get -format=json kv/velero | jq .data.AZURE_BACKUP_RESOURCE_GROUP | sed -e 's/^"//' -e 's/"$//')
-export AZURE_STORAGE_ACCOUNT_ID=$(vault kv get -format=json kv/velero | jq .data.AZURE_STORAGE_ACCOUNT_ID | sed -e 's/^"//' -e 's/"$//')
-export AZURE_BACKUP_SUBSCRIPTION_ID=$(vault kv get -format=json kv/velero | jq .data.AZURE_BACKUP_SUBSCRIPTION_ID | sed -e 's/^"//' -e 's/"$//')
-export AZURE_BLOB_CONTAINER=$(vault kv get -format=json kv/velero | jq .data.AZURE_BLOB_CONTAINER | sed -e 's/^"//' -e 's/"$//')
-export AZURE_TENANT_ID=$(vault kv get -format=json kv/velero | jq .data.AZURE_TENANT_ID | sed -e 's/^"//' -e 's/"$//')
-export AZURE_CLIENT_ID=$(vault kv get -format=json kv/velero | jq .data.AZURE_CLIENT_ID | sed -e 's/^"//' -e 's/"$//')
-export AZURE_CLIENT_SECRET=$(vault kv get -format=json kv/velero | jq .data.AZURE_CLIENT_SECRET | sed -e 's/^"//' -e 's/"$//')
-export MACHINE_PASSWORD=$(vault kv get -format=json kv/k8s | jq .data.MACHINE_PASSWORD | sed -e 's/^"//' -e 's/"$//')
+export AZURE_BACKUP_RESOURCE_GROUP=$(vault kv get -format=json kv/velero | jq .data.data.AZURE_BACKUP_RESOURCE_GROUP | sed -e 's/^"//' -e 's/"$//')
+export AZURE_STORAGE_ACCOUNT_ID=$(vault kv get -format=json kv/velero | jq .data.data.AZURE_STORAGE_ACCOUNT_ID | sed -e 's/^"//' -e 's/"$//')
+export AZURE_BACKUP_SUBSCRIPTION_ID=$(vault kv get -format=json kv/velero | jq .data.data.AZURE_BACKUP_SUBSCRIPTION_ID | sed -e 's/^"//' -e 's/"$//')
+export AZURE_BLOB_CONTAINER=$(vault kv get -format=json kv/velero | jq .data.data.AZURE_BLOB_CONTAINER | sed -e 's/^"//' -e 's/"$//')
+export AZURE_TENANT_ID=$(vault kv get -format=json kv/velero | jq .data.data.AZURE_TENANT_ID | sed -e 's/^"//' -e 's/"$//')
+export AZURE_CLIENT_ID=$(vault kv get -format=json kv/velero | jq .data.data.AZURE_CLIENT_ID | sed -e 's/^"//' -e 's/"$//')
+export AZURE_CLIENT_SECRET=$(vault kv get -format=json kv/velero | jq .data.data.AZURE_CLIENT_SECRET | sed -e 's/^"//' -e 's/"$//')
+export MACHINE_PASSWORD=$(vault kv get -format=json kv/k8s | jq .data.data.MACHINE_PASSWORD | sed -e 's/^"//' -e 's/"$//')
 
 mkdir -p .secrets
 cat >.secrets/ansible-secrets.yml <<EOL

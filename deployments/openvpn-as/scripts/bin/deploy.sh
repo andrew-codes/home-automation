@@ -6,7 +6,7 @@ pushd .
 cd ../../
 source scripts/bin/vault.sh
 popd
-export OPENVPN_PASSWORD=$(vault kv get -format=json kv/openvpn | jq .data.PASSWORD | sed -e 's/^"//' -e 's/"$//')
+export OPENVPN_PASSWORD=$(vault kv get -format=json kv/openvpn | jq .data.data.PASSWORD | sed -e 's/^"//' -e 's/"$//')
 
 mkdir -p .secrets
 cat >.secrets/ansible-secrets.yml <<EOL

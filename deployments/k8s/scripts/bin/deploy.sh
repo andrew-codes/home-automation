@@ -9,8 +9,8 @@ set -o allexport
 source ./.provision-vars.env
 set +o allexport
 popd
-export POD_NETWORK_CIDR=$(vault kv get -format=json kv/k8s | jq .data.POD_NETWORK_CIDR | sed -e 's/^"//' -e 's/"$//')
-export MACHINE_PASSWORD=$(vault kv get -format=json kv/k8s | jq .data.MACHINE_PASSWORD | sed -e 's/^"//' -e 's/"$//')
+export POD_NETWORK_CIDR=$(vault kv get -format=json kv/k8s | jq .data.data.POD_NETWORK_CIDR | sed -e 's/^"//' -e 's/"$//')
+export MACHINE_PASSWORD=$(vault kv get -format=json kv/k8s | jq .data.data.MACHINE_PASSWORD | sed -e 's/^"//' -e 's/"$//')
 
 mkdir -p .secrets
 cat >.secrets/ansible-secrets.yml <<EOL

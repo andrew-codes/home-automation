@@ -2,8 +2,8 @@
 
 source scripts/bin/vault.sh
 
-export DOMAIN=$(vault kv get -format=json kv/captive-portal | jq .data.DOMAIN | sed -e 's/^"//' -e 's/"$//')
-export UNIFI_IP=$(vault kv get -format=json kv/unifi | jq .data.IP | sed -e 's/^"//' -e 's/"$//')
+export DOMAIN=$(vault kv get -format=json kv/captive-portal | jq .data.data.DOMAIN | sed -e 's/^"//' -e 's/"$//')
+export UNIFI_IP=$(vault kv get -format=json kv/unifi | jq .data.data.IP | sed -e 's/^"//' -e 's/"$//')
 
 mkdir -p .secrets
 
