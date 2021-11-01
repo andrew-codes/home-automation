@@ -3,6 +3,7 @@
 pushd .
 cd ../../
 source scripts/bin/vault.sh
+source scripts/bin/k8s.sh
 popd
 
 export EMAIL=$(vault kv get -format=json kv/lets-encrypt | jq .data.data.EMAIL | sed -e 's/^"//' -e 's/"$//')
