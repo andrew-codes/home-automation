@@ -68,7 +68,7 @@ resource "proxmox_lxc" "vpn" {
   hostname     = var.name
   target_node  = "pve"
   ostemplate   = "local:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz"
-  unprivileged = false
+  unprivileged = true
   start        = true
   onboot       = true
   startup      = "2,up=30"
