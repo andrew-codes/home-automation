@@ -269,9 +269,12 @@
   connection: ssh
 
   tasks:
-    - name: Fetch kubeconfig
+    - name: Fetch kubeconfig to repo secrets
+      become_user: hl
+      become_method: sudo
+      become: yes
       fetch:
-        dest: ~/.kube/config
+        dest: .secrets/.kubeconfig
         flat: yes
         src: /home/{{ ansible_user }}/.kube/config
 

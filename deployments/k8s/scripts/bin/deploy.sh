@@ -26,6 +26,8 @@ EOL
 
 ansible-playbook ./deploy.yml -i ./hosts.yml --extra-vars "ansible_become_pass='$MACHINE_PASSWORD'"
 
+export KUBECONFIG=.secrets/.kubeconfig
+
 envsubst <external-services.yml | kubectl apply -f -
 
 kubectl create sa app
