@@ -72,14 +72,14 @@ resource "proxmox_vm_qemu" "k8s-node" {
   onboot      = true
   cpu         = "host"
   sockets     = "1"
-  cores       = 12
-  memory      = 65536
+  cores       = 8
+  memory      = 16384
   os_type     = "cloud-init"
   scsihw      = "virtio-scsi-pci"
   bootdisk    = "scsi0"
 
   disk {
-    size    = "250G"
+    size    = "1000G"
     type    = "scsi"
     storage = "local-lvm"
     format  = "ext4"
