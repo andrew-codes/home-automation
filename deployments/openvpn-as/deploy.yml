@@ -18,7 +18,6 @@
     - name: Installing Prerequisites
       apt:
         name:
-          - wget
           - ca-certificates
           - net-tools
           - gnupg
@@ -32,7 +31,7 @@
 
     - name: Add repository
       apt_repository:
-        repo: deb http://as-repository.openvpn.net/as/debian buster main
+        repo: deb http://as-repository.openvpn.net/as/debian focal main
         state: present
         filename: openvpn-as
         mode: 0600
