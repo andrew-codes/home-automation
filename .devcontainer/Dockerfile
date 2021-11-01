@@ -42,6 +42,7 @@ RUN apt-get install -y  \
     nodejs \
     python3-pip \
     python3.8 \
+    python-apt \
     snmp \
     sudo \
     terraform \
