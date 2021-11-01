@@ -1,5 +1,9 @@
 # Kubernetes
 
+## Prepare
+
+Create a VM in Proxmox named `ubuntu-server` and install ubuntu server 20.x. This will act as the base for the docker-registry. Ensure the username is hl and password is `{PM_PASSWORD}`.
+
 ## Provision
 
 ```bash
