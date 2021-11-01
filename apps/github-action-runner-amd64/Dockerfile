@@ -46,3 +46,4 @@ RUN sudo chmod +x /usr/local/bin/helm
 ADD ./wrapdocker.sh /usr/local/bin/wrapdocker.sh
 RUN sudo chmod +x /usr/local/bin/wrapdocker.sh
 ENV DOCKER_DAEMON_ARGS "--insecure-registry docker-registry:5000"
+ENTRYPOINT [ "sh" "-c" "\"wrapdocker.sh && /entrypoint.sh\"" ]
