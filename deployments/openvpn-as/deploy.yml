@@ -9,6 +9,12 @@
     - .secrets/ansible-secrets.yml
 
   tasks:
+    - name: Update apt
+      become_user: root
+      become_method: sudo
+      become: yes
+      shell: apt-get update --allow-releaseinfo-change
+
     - name: Installing Prerequisites
       apt:
         name:

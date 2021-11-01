@@ -28,8 +28,14 @@
       lineinfile:
         dest: /etc/hosts
         regexp: '^127\.0\.0\.1[ \t]+localhost'
-        line: '127.0.0.1 localhost {{ hostname }}'
+        line: "127.0.0.1 localhost {{ hostname }}"
         state: present
+
+    - name: Update apt
+      become_user: root
+      become_method: sudo
+      become: yes
+      shell: apt-get update --allow-releaseinfo-change
 
     - name: Installing Prerequisites
       apt:
@@ -70,7 +76,7 @@
         enabled: yes
 
     - name: Setup docker daemon config.
-      shell: "echo '{ \"exec-opts\": [\"native.cgroupdriver=systemd\"], \"insecure-registries\": [\"docker-registry\"], \"log-driver\": \"json-file\", \"log-opts\": {\"max-size\": \"10m\", \"max-file\": \"3\"} }' > /etc/docker/daemon.json"
+      shell: 'echo ''{ "exec-opts": ["native.cgroupdriver=systemd"], "insecure-registries": ["docker-registry"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }'' > /etc/docker/daemon.json'
 
     - name: Restart docker.
       command: "{{ item }}"
@@ -104,4 +110,4 @@
           -e "REGISTRY_STORAGE_DELETE_ENABLED=true" \
           -p 5000:5000 \
           --restart always \
-          registry:2.2
+          registry:2.7.1
