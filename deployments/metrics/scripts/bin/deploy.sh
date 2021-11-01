@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export KUBECONFIG=~/.kubeconfig
+
 mkdir -p tmp
 curl -fsSL -o tmp/kube-prometheus.zip https://github.com/prometheus-operator/kube-prometheus/archive/refs/tags/v0.7.0.zip
 unzip tmp/kube-prometheus.zip
