@@ -31,7 +31,7 @@ kubectl apply -f namespace.yml
 envsubst <external-services.yml | kubectl apply -f -
 kubectl apply -f .secrets/config-maps.yml
 kubectl create secret generic controller-manager --namespace=actions-runner-system --from-literal=github_token="$GITHUB_RUNNER_TOKEN"
-kubectl apply -f https://github.com/summerwind/actions-runner-controller/releases/download/v0.16.1/actions-runner-controller.yaml
+kubectl apply -f https://github.com/actions-runner-controller/actions-runner-controller/releases/download/v0.20.2/actions-runner-controller.yaml
 kubectl apply -f runners.yml
 
 export GITHUB_ACTION_JEST_REPORTER_TOKEN=$(vault kv get -format=json kv/github-action-runners | jq .data.data.GITHUB_ACTION_JEST_REPORTER_TOKEN | sed -e 's/^"//' -e 's/"$//')
