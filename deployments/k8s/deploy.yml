@@ -4,7 +4,7 @@
   become_method: sudo
   become_user: root
   gather_facts: yes
-  connection: ssh 
+  connection: ssh
   vars_files:
     - .secrets/ansible-secrets.yml
 
@@ -26,8 +26,14 @@
       lineinfile:
         dest: /etc/hosts
         regexp: '^127\.0\.0\.1[ \t]+localhost'
-        line: '127.0.0.1 localhost {{ hostname }}'
+        line: "127.0.0.1 localhost {{ hostname }}"
         state: present
+
+    - name: Update apt
+      become_user: root
+      become_method: sudo
+      become: yes
+      shell: apt-get update --allow-releaseinfo-change
 
     - name: Installing Prerequisites
       apt:
@@ -67,7 +73,7 @@
         enabled: yes
 
     - name: Setup docker daemon config.
-      shell: "echo '{ \"exec-opts\": [\"native.cgroupdriver=systemd\"], \"insecure-registries\": [\"docker-registry:5000\"], \"log-driver\": \"json-file\", \"log-opts\": {\"max-size\": \"10m\", \"max-file\": \"3\"}, \"default-shm-size\": \"256M\" }' > /etc/docker/daemon.json"
+      shell: 'echo ''{ "exec-opts": ["native.cgroupdriver=systemd"], "insecure-registries": ["docker-registry:5000"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"}, "default-shm-size": "256M" }'' > /etc/docker/daemon.json'
 
     - name: Restart docker.
       command: "{{ item }}"
@@ -133,7 +139,7 @@
   connection: ssh
   vars_files:
     - .secrets/ansible-secrets.yml
-  
+
   tasks:
     - name: Remove networking CNI config
       shell: rm -rf /etc/cni/net.d/*
@@ -180,21 +186,21 @@
       file:
         path: /home/{{ ansible_user }}/.kube/cache
         state: absent
-    
+
     - name: Copy flannel setup
       copy:
         src: ./src/flannel.yml
         dest: /home/{{ ansible_user }}/flannel.yml
         owner: root
         mode: 0644
-    
+
     - name: Copy flannel network config
       copy:
         src: ./src/flannel-network-config.yml
         dest: /home/{{ ansible_user }}/flannel-network-config.yml
         owner: root
         mode: 0644
-    
+
     - name: Copy flannel network config value
       copy:
         src: ./.secrets/flannel-pod-network-cidr.json
