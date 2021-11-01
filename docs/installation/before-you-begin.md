@@ -30,3 +30,17 @@ All required software to run, develop, and deploy are within a Docker container 
 ```
 cp secrets.template.env .secrets.env
 ```
+
+Fill in Proxmox's password value `PM_PASS=""`.
+
+## Fill in `.provision-vars.env`
+
+Ensure to fill in the values for `.provision-vars.env`.
+
+## Update Proxmox IP
+
+Search fro `pm_api_url` in all `provision.tf` files and update the IP to your Proxmox IP.
+
+```tf
+pm_api_url      = "https://{PROXMOX_IP}:8006/api2/json"
+```

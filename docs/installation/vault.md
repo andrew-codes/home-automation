@@ -12,6 +12,8 @@ yarn provision vault prod.env
 
 ## Deploy Vault
 
+Update `./deployments/vault/hosts.yml` with `{PROD_VAULT_IP}`.
+
 ```bash
 yarn deploy --scope @ha/vault
 ```
@@ -22,6 +24,20 @@ Once deployed, ensure the contents of the file `./deployments/vault/.secrets/vau
 
 ## Sign into Vault
 
-Navigate to http://192.168.3.3:8200 in a browser. Use any 3 of the 5 keys found in `./deployments/vault/.secrets/vault_init.json` to unseal the vault and then login with the root token (also found in `./deployments/vault/.secrets/vault_init.json`).
+Navigate to http://{PROD_VAULT_IP}:8200 in a browser. Use any 3 of the 5 keys found in `./deployments/vault/.secrets/vault_init.json` to unseal the vault and then login with the root token (also found in `./deployments/vault/.secrets/vault_init.json`).
 
-Finally, copy the root token and save it to your `.secrets.env` file. Also ensure the VAULT_ADDR secret is pointing to your vault URL and port.
+Copy the root token and save it to your `.secrets.env` file. Also ensure the VAULT_ADDR secret is pointing to your vault URL and port.
+
+## Additional Vault Configuration
+
+Sign into the Vault UI. Add the following to the default policy:
+
+```hcl
+path "kv/*" {
+    capabilities = ["create", "read", "update", "delete", "list"]
+}
+```
+
+## kv Secrets engine
+
+Next, create a `kv` v2 secrets engine. This is where all the secrets will be stored.

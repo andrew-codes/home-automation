@@ -13,9 +13,9 @@ yarn provision pihole prod.env
 Currently, to deploy pihole, you will need to SSH into the provisioned container from above and execute the installation command. This is due to it requiring user input during installation.
 
 ```bash
-ssh root@192.168.3.1
-apt-get update
-apt-get install -y curl
+ssh root@{PROD_PIHOLE_IP}
+apt-get update --allow-releaseinfo-change
+apt-get install -y curl dnsmasq
 curl -sSL https://install.pi-hole.net | bash /dev/stdin
 ```
 
@@ -23,6 +23,10 @@ curl -sSL https://install.pi-hole.net | bash /dev/stdin
 
 First initialize the secret via `yarn initialize-secrets --scope @ha/pihole`. This will create a blank secret in vault at `kv/pihole password`.
 
-> Set secrets via the Vault UI.
+> **DO NOT FORGET** to set secrets via the Vault UI.
 
-Finally, run `yarn deploy --scope @ha/pihole` to set the password in PiHole.
+Update `./deployments/pihole/hosts.yml` with `{PROD_PIHOLE_IP}`, then run `yarn deploy --scope @ha/pihole` to set the password in PiHole.
+
+## Set Pihole as your network's DNS
+
+Configure your router to use `{PROD_PIHOLE_IP}` as the only DNS server when handing out IP leases.

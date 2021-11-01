@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "proxmox" {
-  pm_api_url      = "https://192.168.3.6:8006/api2/json"
+  pm_api_url      = "https://192.168.1.13:8006/api2/json"
   pm_user         = "root@pam"
   pm_tls_insecure = true
   pm_log_enable   = true
@@ -67,7 +67,7 @@ resource "proxmox_lxc" "vpn" {
   count        = 1
   hostname     = var.name
   target_node  = "pve"
-  ostemplate   = "local:vztmpl/debian-10-standard_10.7-1_amd64.tar.gz"
+  ostemplate   = "local:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz"
   unprivileged = false
   start        = true
   onboot       = true

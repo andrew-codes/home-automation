@@ -29,4 +29,4 @@ yarn deploy --scope @ha/openvpn-as
 
 ## Sign into OpenVPN AS
 
-Navigate to `https://192.168.3.2:943/admin` and sign in with `openvpn` and the password secret set above.
+Navigate to `https://{PROD_VPN_IP}:943/admin` and sign in with `openvpn` and the password secret set above.
