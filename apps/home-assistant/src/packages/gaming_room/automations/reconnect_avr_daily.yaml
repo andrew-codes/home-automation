@@ -1,0 +1,11 @@
+automation:
+  - alias: Reconnect AVR daily
+    trigger:
+      - platform: time
+        at: "03:00:00"
+    action:
+      - service: media_player.turn_off
+        entity_id: media_player.gaming_room_avr
+      - delay: "00:01:00"
+      - service: media_player.turn_on
+        entity_id: media_player.gaming_room_avr

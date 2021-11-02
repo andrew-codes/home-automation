@@ -167,16 +167,6 @@ automation:
   #         qos: 2
   #         payload: "{{ trigger.to_state.state }}"
 
-  - alias: Poll for PlayStation 5 state
-    trigger:
-      - platform: time_pattern
-        seconds: "/10"
-    action:
-      - service: mqtt.publish
-        data:
-          topic: "/ps5/state/request"
-          payload: !secret GAMING_ROOM_PLAYSTATION_5_IP
-
   - alias: Turning on PS5 starts unknown game
     trigger:
       - platform: state
@@ -187,14 +177,3 @@ automation:
         data:
           topic: "/playnite/game/started/ps5"
           qos: 2
-
-  - alias: Keep AVR connected
-    trigger:
-      - platform: time
-        at: "03:00:00"
-    action:
-      - service: media_player.turn_off
-        entity_id: media_player.gaming_room_avr
-      - delay: "00:01:00"
-      - service: media_player.turn_on
-        entity_id: media_player.gaming_room_avr

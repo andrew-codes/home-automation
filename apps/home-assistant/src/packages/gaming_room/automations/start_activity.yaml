@@ -1,0 +1,21 @@
+automation:
+  - alias: Start a gaming room activity
+    trigger:
+      - platform: state
+        entity_id: media_player.gaming_room_media_player
+        from: "off"
+    condition:
+      - condition: state
+        entity_id: person.andrew_smith
+        state: "home"
+    action:
+      - service: media_player.turn_on
+        data:
+          entity_id: media_player.gaming_room_avr
+      - service: media_player.turn_on
+        data:
+          entity_id: media_player.gaming_room_tv
+      - service: media_player.select_sound_mode
+        data:
+          entity_id: media_player.gaming_room_avr
+          sound_mode: DOLBY DIGITAL
