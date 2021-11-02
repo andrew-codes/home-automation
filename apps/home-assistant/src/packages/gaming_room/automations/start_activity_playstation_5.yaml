@@ -1,0 +1,24 @@
+automation:
+ - alias: Start an activity on the gaming room playstation 5
+    trigger:
+      platform: state
+      entity_id: media_player.gaming_room_universal_playstation_5
+      from: "off"
+    action:
+      - service: media_player.select_source
+        data:
+          entity_id: media_player.gaming_room_avr
+          source: PS4
+      - service: media_player.turn_off
+        data:
+          entity_id: media_player.gaming_room_universal_media_player
+      - service: media_player.turn_off
+        data:
+          entity_id: media_player.gaming_room_universal_gaming_pc
+      - condition: state
+        entity_id: person.andrew_smith
+        state: "home"
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.gaming_room_universal_playstation_5
+          volume_level: 0.45

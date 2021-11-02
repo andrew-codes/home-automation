@@ -1,0 +1,18 @@
+automation:
+  - alias: Start an activity on the gaming room media player
+    trigger:
+      platform: state
+      entity_id: media_player.gaming_room_universal_media_player
+      from: "off"
+    action:
+      - service: media_player.select_source
+        data:
+          entity_id: media_player.gaming_room_avr
+          source: Media Player
+      - service: media_player.turn_off
+        data:
+          entity_id: media_player.gaming_room_universal_gaming_pc
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.gaming_room_media_player
+          volume_level: 0.50
