@@ -19,7 +19,7 @@
   "dependencies": {
     "@ha/string-utils": "^0.0.1",
     "@nexus/schema": "^0.20.1",
-    "apollo-server-express": "^2.19.1",
+    "apollo-server-express": "^3.4.0",
     "async-mqtt": "^2.6.1",
     "body-parser-graphql": "^1.1.0",
     "cors": "^2.8.5",
