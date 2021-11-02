@@ -15,17 +15,17 @@ spec:
       labels:
         app.kubernetes.io/name: ps5-wake
       annotations:
-        vault.hashicorp.com/agent-inject: 'true'
+        vault.hashicorp.com/agent-inject: "true"
         vault.hashicorp.com/role: app
         vault.hashicorp.com/agent-inject-status: update
         vault.hashicorp.com/agent-inject-secret-env.sh: kv/mqtt
         vault.hashicorp.com/agent-inject-template-env.sh: |
           {{ with secret "kv/mqtt" }}
-          export MQTT_USERNAME="{{ .Data.USERNAME }}"
-          export MQTT_PASSWORD="{{ .Data.PASSWORD }}"
+          export MQTT_USERNAME="{{ .Data.data.USERNAME }}"
+          export MQTT_PASSWORD="{{ .Data.data.PASSWORD }}"
           {{ end }}
           {{ with secret "kv/ps5-wake" }}
-              {{ range $k, $v := .Data }}
+              {{ range $k, $v := .Data.data }}
           export {{ $k }}="{{ $v }}"
               {{ end }}
           {{ end }}

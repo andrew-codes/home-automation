@@ -53,11 +53,11 @@ spec:
         vault.hashicorp.com/agent-inject-secret-env.sh: kv/frigate
         vault.hashicorp.com/agent-inject-template-env.sh: |
           {{ with secret "kv/mqtt" }}
-          export MQTT_USERNAME="{{ .Data.USERNAME }}"
-          export MQTT_PASSWORD="{{ .Data.PASSWORD }}"
+          export MQTT_USERNAME="{{ .Data.data.USERNAME }}"
+          export MQTT_PASSWORD="{{ .Data.data.PASSWORD }}"
           {{ end }}
           {{ with secret "kv/frigate" }}
-              {{ range $k, $v := .Data }}
+              {{ range $k, $v := .Data.data }}
           export {{ $k }}="{{ $v }}"
               {{ end }}
           {{ end }}

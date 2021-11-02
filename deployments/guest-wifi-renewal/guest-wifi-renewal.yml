@@ -15,7 +15,7 @@ spec:
       labels:
         app.kubernetes.io/name: guest-wifi-renewal
       annotations:
-        vault.hashicorp.com/agent-inject: 'true'
+        vault.hashicorp.com/agent-inject: "true"
         vault.hashicorp.com/role: app
         vault.hashicorp.com/agent-inject-status: update
         vault.hashicorp.com/agent-inject-secret-env.sh: kv/mqtt
@@ -23,18 +23,18 @@ spec:
           {{ with secret "kv/mqtt" }}
           export MQTT_HOST="mqtt"
           export MQTT_PORT="1883"
-          export MQTT_USERNAME="{{ .Data.USERNAME }}"
-          export MQTT_PASSWORD="{{ .Data.PASSWORD }}"
+          export MQTT_USERNAME="{{ .Data.data.USERNAME }}"
+          export MQTT_PASSWORD="{{ .Data.data.PASSWORD }}"
           {{ end }}
           {{ with secret "kv/home-assistant" }}
-          export HA_TOKEN="{{ .Data.HA_TOKEN }}"
-          export HA_URL="{{ .Data.DOMAIN }}"
+          export HA_TOKEN="{{ .Data.data.HA_TOKEN }}"
+          export HA_URL="{{ .Data.data.DOMAIN }}"
           {{ end }}
           {{ with secret "kv/unifi" }}
-          export UNIFI_IP="{{ .Data.IP }}"
-          export UNIFI_PASSWORD="{{ .Data.PASSWORD }}"
-          export UNIFI_PORT="{{ .Data.PORT }}"
-          export UNIFI_USERNAME="{{ .Data.USERNAME }}"
+          export UNIFI_IP="{{ .Data.data.IP }}"
+          export UNIFI_PASSWORD="{{ .Data.data.PASSWORD }}"
+          export UNIFI_PORT="{{ .Data.data.PORT }}"
+          export UNIFI_USERNAME="{{ .Data.data.USERNAME }}"
           {{ end }}
     spec:
       serviceAccountName: app

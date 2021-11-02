@@ -80,7 +80,7 @@ kind: Deployment
 metadata:
   name: home-assistant
   namespace: default
-  labels:    
+  labels:
     app: app
     app.kubernetes.io/name: home-assistant
 spec:
@@ -96,38 +96,38 @@ spec:
         app: app
         app.kubernetes.io/name: home-assistant
       annotations:
-        vault.hashicorp.com/agent-inject: 'true'
+        vault.hashicorp.com/agent-inject: "true"
         vault.hashicorp.com/role: app
         vault.hashicorp.com/agent-inject-status: update
         vault.hashicorp.com/agent-inject-secret-env.sh: kv/home-assistant
         vault.hashicorp.com/agent-inject-template-env.sh: |
           {{ with secret "kv/home-assistant" }}
-          export HOME_AUTOMATION_PRIVATE_SSH_KEY="{{ .Data.HOME_AUTOMATION_PRIVATE_SSH_KEY }}"
-          export HOME_AUTOMATION_PUBLIC_SSH_KEY="{{ .Data.HOME_AUTOMATION_PUBLIC_SSH_KEY }}"
-          export POSTGRES_DB="{{ .Data.POSTGRES_DB }}"
-          export POSTGRES_PASSWORD="{{ .Data.POSTGRES_PASSWORD }}"
-          export POSTGRES_USER="{{ .Data.POSTGRES_USER }}"
-          export HASS_SERVER="{{ .Data.HA_URL }}"
-          export HASS_TOKEN="{{ .Data.HA_TOKEN }}"
+          export HOME_AUTOMATION_PRIVATE_SSH_KEY="{{ .Data.data.HOME_AUTOMATION_PRIVATE_SSH_KEY }}"
+          export HOME_AUTOMATION_PUBLIC_SSH_KEY="{{ .Data.data.HOME_AUTOMATION_PUBLIC_SSH_KEY }}"
+          export POSTGRES_DB="{{ .Data.data.POSTGRES_DB }}"
+          export POSTGRES_PASSWORD="{{ .Data.data.POSTGRES_PASSWORD }}"
+          export POSTGRES_USER="{{ .Data.data.POSTGRES_USER }}"
+          export HASS_SERVER="{{ .Data.data.HA_URL }}"
+          export HASS_TOKEN="{{ .Data.data.HA_TOKEN }}"
           {{ end }}
-        vault.hashicorp.com/agent-inject-secret-secrets.yaml: 'kv/home-assistant'
+        vault.hashicorp.com/agent-inject-secret-secrets.yaml: "kv/home-assistant"
         vault.hashicorp.com/agent-inject-template-secrets.yaml: |
           {{ with secret "kv/home-assistant" }}
-              {{ range $k, $v := .Data }}
+              {{ range $k, $v := .Data.data }}
           {{ $k }}: "{{ $v }}"
               {{ end }}
           {{ end }}
           {{ with secret "kv/mqtt" }}
-          MQTT_USERNAME: "{{ .Data.USERNAME }}"
-          MQTT_PASSWORD: "{{ .Data.PASSWORD }}"
+          MQTT_USERNAME: "{{ .Data.data.USERNAME }}"
+          MQTT_PASSWORD: "{{ .Data.data.PASSWORD }}"
           {{ end }}
           {{ with secret "kv/home-assistant" }}
-          TURN_OFF_GAMING_ROOM_GAMING_PC_COMMAND: 'ssh -n -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa {{ .Data.GAMING_ROOM_MACHINE_USERNAME }}@{{ .Data.GAMING_ROOM_GAMING_PC_IP }} "C:\Windows\System32\rundll32.exe powrprof.dll,SetSuspendState Standby"'
-          VALHEIM_DDNS_REST_COMMAND: 'curl -X POST "https://{{ .Data.VALHEIM_GOOGLE_DOMAIN_USERNAME }}:{{ .Data.VALHEIM_GOOGLE_DOMAIN_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.VALHEIM_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"'
-          GITHUB_AUTHORIZATION_HEADER: "Bearer {{ .Data.GITHUB_ISSUES_TOKEN }}"
-          VPN_DDNS_REST_COMMAND: 'curl -X POST "https://{{ .Data.VPN_DNS_USERNAME }}:{{ .Data.VPN_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.VPN_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"'
-          HA_DDNS_REST_COMMAND: 'curl -X POST "https://{{ .Data.HOME_ASSISTANT_DNS_USERNAME }}:{{ .Data.HOME_ASSISTANT_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.HOME_ASSISTANT_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"'
-          DB_URL: "postgresql://{{ .Data.POSTGRES_USER }}:{{ .Data.POSTGRES_PASSWORD }}@home-assistant-postgres:5432/{{ .Data.POSTGRES_DB }}"
+          TURN_OFF_GAMING_ROOM_GAMING_PC_COMMAND: 'ssh -n -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa {{ .Data.data.GAMING_ROOM_MACHINE_USERNAME }}@{{ .Data.data.GAMING_ROOM_GAMING_PC_IP }} "C:\Windows\System32\rundll32.exe powrprof.dll,SetSuspendState Standby"'
+          VALHEIM_DDNS_REST_COMMAND: 'curl -X POST "https://{{ .Data.data.VALHEIM_GOOGLE_DOMAIN_USERNAME }}:{{ .Data.data.VALHEIM_GOOGLE_DOMAIN_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.data.VALHEIM_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"'
+          GITHUB_AUTHORIZATION_HEADER: "Bearer {{ .Data.data.GITHUB_ISSUES_TOKEN }}"
+          VPN_DDNS_REST_COMMAND: 'curl -X POST "https://{{ .Data.data.VPN_DNS_USERNAME }}:{{ .Data.data.VPN_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.data.VPN_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"'
+          HA_DDNS_REST_COMMAND: 'curl -X POST "https://{{ .Data.data.HOME_ASSISTANT_DNS_USERNAME }}:{{ .Data.data.HOME_ASSISTANT_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.data.HOME_ASSISTANT_DOMAIN }}&myip=\$(curl https://checkip.amazonaws.com)"'
+          DB_URL: "postgresql://{{ .Data.data.POSTGRES_USER }}:{{ .Data.data.POSTGRES_PASSWORD }}@home-assistant-postgres:5432/{{ .Data.data.POSTGRES_DB }}"
           {{ end }}
     spec:
       serviceAccountName: app

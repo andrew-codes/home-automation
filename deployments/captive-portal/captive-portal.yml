@@ -21,18 +21,18 @@ spec:
         vault.hashicorp.com/agent-inject-secret-env.sh: kv/mqtt
         vault.hashicorp.com/agent-inject-template-env.sh: |
           {{ with secret "kv/mqtt" }}
-          export MQTT_USERNAME="{{ .Data.USERNAME }}"
-          export MQTT_PASSWORD="{{ .Data.PASSWORD }}"
+          export MQTT_USERNAME="{{ .Data.data.USERNAME }}"
+          export MQTT_PASSWORD="{{ .Data.data.PASSWORD }}"
           export MQTT_HOST="mqtt"
           {{ end }}
           {{ with secret "kv/unifi" }}
-          export UNIFI_IP="{{ .Data.IP }}"
-          export UNIFI_PORT="{{ .Data.PORT }}"
-          export UNIFI_USERNAME="{{ .Data.USERNAME }}"
-          export UNIFI_PASSWORD="{{ .Data.PASSWORD }}"
+          export UNIFI_IP="{{ .Data.data.IP }}"
+          export UNIFI_PORT="{{ .Data.data.PORT }}"
+          export UNIFI_USERNAME="{{ .Data.data.USERNAME }}"
+          export UNIFI_PASSWORD="{{ .Data.data.PASSWORD }}"
           {{ end }}
           {{ with secret "kv/captive-portal" }}
-              {{ range $k, $v := .Data }}
+              {{ range $k, $v := .Data.data }}
           export {{ $k }}="{{ $v }}"
               {{ end }}
           {{ end }}
