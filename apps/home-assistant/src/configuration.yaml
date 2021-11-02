@@ -45,9 +45,9 @@ http:
   trusted_proxies:
     - 172.16.0.0/12
 
-# spotify:
-#   client_id: !secret SPOTIFY_CLIENT_ID
-#   client_secret: !secret SPOTIFY_CLIENT_SECRET
+spotify:
+  client_id: !secret SPOTIFY_CLIENT_ID
+  client_secret: !secret SPOTIFY_CLIENT_SECRET
 # spotcast:
 #   sp_dc: !secret SPOTCAST_DC
 #   sp_key: !secret SPOTCAST_KEY
