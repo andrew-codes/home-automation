@@ -1,5 +1,5 @@
 automation:
- - alias: Start an activity on the gaming room playstation 5
+  - alias: Start an activity on the gaming room playstation 5
     trigger:
       platform: state
       entity_id: media_player.gaming_room_universal_playstation_5
