@@ -1,0 +1,52 @@
+sensor:
+  - platform: mqtt
+    name: "PlayStation 5 State"
+    state_topic: "/ps5/state"
+    value_template: "{{ value_json.state }}"
+
+media_player:
+  - name: Gaming Room Universal PlayStation 5
+    platform: universal
+    children:
+      - media_player.gaming_room_avr
+      - media_player.gaming_room_tv
+    state_template: >
+      {% if is_state('sensor.playstation_5_state', 'standby') %}
+      off
+      {% elif is_state('sensor.playstation_5_state', 'idle') %}
+      on
+      {% elif is_state('sensor.playstation_5_state', 'on') %}
+      on
+      {% else %}
+      off
+      {% endif %}
+    commands:
+      # turn_off:
+      #   service: media_player.turn_off
+      #   data:
+      #     entity_id:
+      volume_set:
+        service: media_player.volume_set
+        data:
+          entity_id: media_player.gaming_room_avr
+        data_template:
+          volume_level: "{{ volume_level }}"
+      volume_up:
+        service: media_player.volume_up
+        data:
+          entity_id: media_player.gaming_room_avr
+      volume_down:
+        service: media_player.volume_down
+        data:
+          entity_id: media_player.gaming_room_avr
+      volume_mute:
+        service: media_player.volume_mute
+        data:
+          entity_id: media_player.gaming_room_avr
+        data_template:
+          is_volume_muted: "{{ is_volume_muted }}"
+    attributes:
+      is_volume_muted: media_player.gaming_room_avr|is_volume_muted
+      volume_level: media_player.gaming_room_avr|volume_level
+      source: PS4
+      source_list: media_player.gaming_room_avr|source_list

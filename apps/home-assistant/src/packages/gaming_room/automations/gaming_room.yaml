@@ -1,0 +1,200 @@
+wake_on_lan:
+
+automation:
+  - alias: Start a gaming room activity while Andrew is home
+    trigger:
+      - platform: state
+        entity_id: media_player.gaming_room_media_player
+        from: "off"
+    condition:
+      - condition: state
+        entity_id: person.andrew_smith
+        state: "home"
+    action:
+      - service: media_player.turn_on
+        data:
+          entity_id: media_player.gaming_room_avr
+      - service: media_player.turn_on
+        data:
+          entity_id: media_player.gaming_room_tv
+      - service: media_player.select_sound_mode
+        data:
+          entity_id: media_player.gaming_room_avr
+          sound_mode: DOLBY DIGITAL
+
+  - alias: Start a gaming room gaming activity while Andrew is not home
+    trigger:
+      - platform: state
+        entity_id: media_player.gaming_room_universal_playstation_5
+        from: "off"
+      - platform: state
+        entity_id: media_player.gaming_room_universal_gaming_pc
+        from: "off"
+    condition:
+      - condition: state
+        entity_id: person.andrew_smith
+        state: "not_home"
+    action:
+      - service: media_player.turn_on
+        data:
+          entity_id: media_player.gaming_room_avr
+      - service: media_player.select_sound_mode
+        data:
+          entity_id: media_player.gaming_room_avr
+          sound_mode: DOLBY DIGITAL
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.gaming_room_universal_gaming_pc
+          volume_level: 0
+
+  - alias: Start an activity on the gaming room gaming PC
+    trigger:
+      - platform: state
+        entity_id: media_player.gaming_room_universal_gaming_pc
+        from: "off"
+    action:
+      - service: media_player.select_source
+        data:
+          entity_id: media_player.gaming_room_avr
+          source: PC
+      - service: media_player.turn_off
+        data:
+          entity_id: media_player.gaming_room_universal_media_player
+      # - service: media_player.turn_off
+      #   data:
+      #     entity_id: media_player.gaming_room_universal_playstation_4_pro
+
+  - alias: Start an activity on the gaming room gaming PC while Andrew is home adjusts volume
+    trigger:
+      - platform: state
+        entity_id: media_player.gaming_room_universal_gaming_pc
+        from: "off"
+    condition:
+      - condition: state
+        entity_id: person.andrew_smith
+        state: "home"
+    action:
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.gaming_room_universal_gaming_pc
+          volume_level: 0.56
+
+  - alias: Start an activity on the gaming room playstation 5
+    trigger:
+      platform: state
+      entity_id: media_player.gaming_room_universal_playstation_5
+      from: "off"
+    action:
+      - service: media_player.select_source
+        data:
+          entity_id: media_player.gaming_room_avr
+          source: PS4
+      - service: media_player.turn_off
+        data:
+          entity_id: media_player.gaming_room_universal_media_player
+      - service: media_player.turn_off
+        data:
+          entity_id: media_player.gaming_room_universal_gaming_pc
+
+  - alias: Start an activity on the gaming room playstation 5 while Andrew is home adjusts volume
+    trigger:
+      - platform: state
+        entity_id: media_player.gaming_room_universal_playstation_5
+        from: "off"
+    condition:
+      - condition: state
+        entity_id: person.andrew_smith
+        state: "home"
+    action:
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.gaming_room_universal_playstation_5
+          volume_level: 0.45
+
+  - alias: Start an activity on the gaming room media player
+    trigger:
+      platform: state
+      entity_id: media_player.gaming_room_universal_media_player
+      from: "off"
+    action:
+      - service: media_player.select_source
+        data:
+          entity_id: media_player.gaming_room_avr
+          source: Media Player
+      # - service: media_player.turn_off
+      #   data:
+      #     entity_id: media_player.gaming_room_universal_playstation_4_pro
+      - service: media_player.turn_off
+        data:
+          entity_id: media_player.gaming_room_universal_gaming_pc
+
+  - alias: Stopping generalized media player activity turns off devices
+    trigger:
+      platform: state
+      entity_id: media_player.gaming_room_media_player
+      to: "off"
+    action:
+      - service: script.turn_on
+        data:
+          entity_id: script.gaming_room_turn_off_all_media_players
+
+  - alias: Stopping gaming room gaming activity publishes stop game topic
+    trigger:
+      - platform: state
+        entity_id: media_player.gaming_room_universal_playstation_5
+        to: "off"
+      - platform: state
+        entity_id: media_player.gaming_room_universal_gaming_pc
+        to: "off"
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: "/playnite/game/stopped"
+          qos: 2
+
+  # - alias: Changing PS source, stops previous game and starts next game (game state)
+  #   trigger:
+  #     - platform: state
+  #       entity_id: media_player.gaming_room_playstation_5_source
+  #   action:
+  #     - service: mqtt.publish
+  #       data_template:
+  #         topic: "/playnite/game/stopped"
+  #         qos: 2
+  #     - service: mqtt.publish
+  #       data_template:
+  #         topic: "/playnite/game/started/ps5"
+  #         qos: 2
+  #         payload: "{{ trigger.to_state.state }}"
+
+  - alias: Poll for PlayStation 5 state
+    trigger:
+      - platform: time_pattern
+        seconds: "/10"
+    action:
+      - service: mqtt.publish
+        data:
+          topic: "/ps5/state/request"
+          payload: !secret GAMING_ROOM_PLAYSTATION_5_IP
+
+  - alias: Turning on PS5 starts unknown game
+    trigger:
+      - platform: state
+        entity_id: media_player.gaming_room_universal_playstation_5
+        from: "off"
+    action:
+      - service: mqtt.publish
+        data:
+          topic: "/playnite/game/started/ps5"
+          qos: 2
+
+  - alias: Keep AVR connected
+    trigger:
+      - platform: time
+        at: "03:00:00"
+    action:
+      - service: media_player.turn_off
+        entity_id: media_player.gaming_room_avr
+      - delay: "00:01:00"
+      - service: media_player.turn_on
+        entity_id: media_player.gaming_room_avr

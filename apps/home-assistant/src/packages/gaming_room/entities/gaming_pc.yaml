@@ -1,0 +1,70 @@
+wake_on_lan:
+
+binary_sensor:
+  - name: Gaming Room Gaming PC Power State
+    platform: ping
+    host: !secret GAMING_ROOM_GAMING_PC_IP
+    scan_interval: 20
+
+script:
+  gaming_room_turn_on_gaming_pc:
+    sequence:
+      - service: wake_on_lan.send_magic_packet
+        data:
+          mac: !secret GAMING_ROOM_GAMING_PC_MAC
+          broadcast_address: !secret GAMING_ROOM_GAMING_PC_IP
+  gaming_room_turn_off_gaming_pc:
+    sequence:
+      - service: shell_command.turn_off_gaming_room_gaming_pc
+
+shell_command:
+  turn_off_gaming_room_gaming_pc: !secret TURN_OFF_GAMING_ROOM_GAMING_PC_COMMAND
+
+media_player:
+  - name: Gaming Room Universal Gaming PC
+    platform: universal
+    children:
+      - media_player.gaming_room_avr
+      - media_player.gaming_room_tv
+    state_template: >
+      {{ states('binary_sensor.gaming_room_gaming_pc_power_state') }}
+    commands:
+      turn_on:
+        service: script.turn_on
+        data:
+          entity_id: script.gaming_room_turn_on_gaming_pc
+      turn_off:
+        service: script.turn_on
+        data:
+          entity_id: script.gaming_room_turn_off_gaming_pc
+      volume_set:
+        service: media_player.volume_set
+        data:
+          entity_id: media_player.gaming_room_avr
+        data_template:
+          volume_level: "{{ volume_level }}"
+      volume_up:
+        service: media_player.volume_up
+        data:
+          entity_id: media_player.gaming_room_avr
+      volume_down:
+        service: media_player.volume_down
+        data:
+          entity_id: media_player.gaming_room_avr
+      volume_mute:
+        service: media_player.volume_mute
+        data:
+          entity_id: media_player.gaming_room_avr
+        data_template:
+          is_volume_muted: "{{ is_volume_muted }}"
+      select_source:
+        service: mqtt.publish
+        data_template:
+          topic: "/homeassistant/games/play/pc"
+          qos: 2
+          payload: "{{ source }}"
+    attributes:
+      is_volume_muted: media_player.gaming_room_avr|is_volume_muted
+      volume_level: media_player.gaming_room_avr|volume_level
+      source: PC
+      state: binary_sensor.gaming_room_gaming_pc_power_state

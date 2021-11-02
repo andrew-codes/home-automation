@@ -1,0 +1,60 @@
+media_player:
+  - name: Gaming Room NVIDIA Shield Pro
+    platform: androidtv
+    host: !secret GAMING_ROOM_NVIDIA_SHIELD_IP
+    exclude_unnamed_apps: true
+    apps:
+      com.amazon.amazonvideo.livingroom: Prime
+      com.google.android.youtube.tv: YouTube
+      com.hulu.livingroomplus: Hulu
+      com.netflix.ninja: Netflix
+      com.nvidia.tegrazone3: GameStream
+      com.waxrain.airplaydmr3: AirPlay
+
+  - name: Gaming Room Universal Media Player
+    platform: universal
+    children:
+      - media_player.gaming_room_nvidia_shield_pro
+      - media_player.gaming_room_avr
+      - media_player.gaming_room_tv
+    state_template: >
+      {{ states('media_player.gaming_room_nvidia_shield_pro') }}
+    commands:
+      turn_on:
+        service: media_player.turn_on
+        data:
+          entity_id: media_player.gaming_room_nvidia_shield_pro
+      turn_off:
+        service: media_player.turn_off
+        data:
+          entity_id: media_player.gaming_room_nvidia_shield_pro
+      volume_set:
+        service: media_player.volume_set
+        data:
+          entity_id: media_player.gaming_room_avr
+        data_template:
+          volume_level: "{{ volume_level }}"
+      volume_up:
+        service: media_player.volume_up
+        data:
+          entity_id: media_player.gaming_room_avr
+      volume_down:
+        service: media_player.volume_down
+        data:
+          entity_id: media_player.gaming_room_avr
+      volume_mute:
+        service: media_player.volume_mute
+        data:
+          entity_id: media_player.gaming_room_avr
+        data_template:
+          is_volume_muted: "{{ is_volume_muted }}"
+      select_source:
+        service: media_player.select_source
+        data:
+          entity_id: media_player.gaming_room_avr
+          source: Media Player
+    attributes:
+      is_volume_muted: media_player.gaming_room_avr|is_volume_muted
+      volume_level: media_player.gaming_room_avr|volume_level
+      source: Media Player
+      source_list: media_player.gaming_room_avr|source_list
