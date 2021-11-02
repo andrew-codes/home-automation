@@ -36,25 +36,25 @@ mqtt:
   username: !secret MQTT_USERNAME
   password: !secret MQTT_PASSWORD
 
-google:
-  client_id: !secret GOOGLE_CALENDAR_CLIENT_ID
-  client_secret: !secret GOOGLE_CALENDAR_CLIENT_SECRET
+# google:
+#   client_id: !secret GOOGLE_CALENDAR_CLIENT_ID
+#   client_secret: !secret GOOGLE_CALENDAR_CLIENT_SECRET
 
 http:
   use_x_forwarded_for: true
   trusted_proxies:
     - 172.16.0.0/12
 
-spotify:
-  client_id: !secret SPOTIFY_CLIENT_ID
-  client_secret: !secret SPOTIFY_CLIENT_SECRET
-spotcast:
-  sp_dc: !secret SPOTCAST_DC
-  sp_key: !secret SPOTCAST_KEY
-  accounts:
-    secondary:
-      sp_dc: !secret SPOTCAST_DC_2
-      sp_key: !secret SPOTCAST_KEY_2
+# spotify:
+#   client_id: !secret SPOTIFY_CLIENT_ID
+#   client_secret: !secret SPOTIFY_CLIENT_SECRET
+# spotcast:
+#   sp_dc: !secret SPOTCAST_DC
+#   sp_key: !secret SPOTCAST_KEY
+#   accounts:
+#     secondary:
+#       sp_dc: !secret SPOTCAST_DC_2
+#       sp_key: !secret SPOTCAST_KEY_2
 
 proxmoxve:
   - host: !secret PROXMOX_HOST
