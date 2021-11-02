@@ -9,8 +9,6 @@ source .external-ports.env
 set +o allexport
 popd
 
-export KUBECONFIG=~/.kubeconfig
-
 export GITHUB_RUNNER_TOKEN=$(vault kv get -format=json kv/github-action-runners | jq .data.data.GITHUB_TOKEN | sed -e 's/^"//' -e 's/"$//')
 yarn seal-github-secret andrew-codes home-automation VAULT_TOKEN "$VAULT_TOKEN"
 yarn seal-github-secret andrew-codes home-automation VAULT_ADDR "http://vault:8200"

@@ -25,8 +25,7 @@ cat >./.secrets/flannel-pod-network-cidr.json <<EOL
 EOL
 
 ansible-playbook ./deploy.yml -i ./hosts.yml --extra-vars "ansible_become_pass='$MACHINE_PASSWORD'"
-cp .secrets/.kubeconfig ~/.kubeconfig
-export KUBECONFIG=~/.kubeconfig
+export KUBECONFIG=.secrets/.kube/config
 
 envsubst <external-services.yml | kubectl apply -f -
 

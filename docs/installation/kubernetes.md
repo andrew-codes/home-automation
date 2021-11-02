@@ -49,3 +49,7 @@ path "kv/*" {
 ```bash
 yarn deploy --scope @ha/k8s
 ```
+
+## Post Deploy
+
+Rebuild the devcontainer used by VS Code.

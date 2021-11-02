@@ -274,7 +274,7 @@
       become_method: sudo
       become: yes
       fetch:
-        dest: .secrets/.kubeconfig
+        dest: .secrets/.kube/config
         flat: yes
         src: /home/{{ ansible_user }}/.kube/config
 

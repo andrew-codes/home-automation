@@ -1,1 +1,0 @@
-export KUBECONFIG=~/.kubeconfig
