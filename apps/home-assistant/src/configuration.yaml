@@ -61,7 +61,7 @@ proxmoxve:
     username: !secret PROXMOX_USERNAME
     password: !secret PROXMOX_PASSWORD
     verify_ssl: false
-    realm: pve
+    realm: pam
     nodes:
       - node: pve
         vms:
