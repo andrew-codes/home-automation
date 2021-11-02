@@ -16,15 +16,21 @@ RUN sudo add-apt-repository ppa:deadsnakes/ppa
 RUN sudo apt update -y
 RUN sudo apt-get remove docker docker-engine docker.io containerd
 RUN sudo apt-get install -y \
-  nodejs \
-  yarn \
+  ansible \ 
+  apt-transport-https \
+  bash \
   docker-ce \
-  jq \
-  apt-transport-https gnupg2 kubectl \
-  lxc ca-certificates iptables \
-  software-properties-common ansible python3.8 python3-pip \
   etherwake \
   gettext-base \
+  gnupg2 \
+  jq \
+  kubectl \
+  lxc ca-certificates iptables \
+  nodejs \
+  python3-pip \
+  python3.8 \
+  software-properties-common \ 
+  yarn \
   vault
 RUN sudo setcap cap_ipc_lock= /usr/bin/vault
 RUN pip3 install "pywinrm>=0.3.0"
@@ -46,4 +52,5 @@ RUN sudo chmod +x /usr/local/bin/helm
 ADD ./wrapdocker.sh /usr/local/bin/wrapdocker.sh
 RUN sudo chmod +x /usr/local/bin/wrapdocker.sh
 ENV DOCKER_DAEMON_ARGS "--insecure-registry docker-registry:5000"
-ENTRYPOINT [ "sh" "-c" "\"wrapdocker.sh && /entrypoint.sh\"" ]
+ENTRYPOINT [ "/entrypoint.sh" ]
+# ENTRYPOINT [ "/usr/local/bin/wrapdocker.sh" ]
