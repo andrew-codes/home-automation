@@ -64,11 +64,11 @@ proxmoxve:
     realm: pam
     nodes:
       - node: pve
-        vms:
+        containers:
           - "100"
           - "101"
           - "102"
-        containers:
+        vms:
           - "103"
           - "104"
           - "105"
