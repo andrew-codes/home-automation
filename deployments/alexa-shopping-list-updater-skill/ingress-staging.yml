@@ -1,5 +1,5 @@
 ---
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
@@ -21,6 +21,9 @@ spec:
       http:
         paths:
           - path: "/"
+            pathType: Exact
             backend:
-              serviceName: alexa-shopping-list-updater-skill
-              servicePort: 8085
+              service:
+                name: alexa-shopping-list-updater-skill
+                port:
+                  number: 8085

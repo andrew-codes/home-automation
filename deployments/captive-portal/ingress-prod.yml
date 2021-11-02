@@ -1,5 +1,5 @@
 ---
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
@@ -21,6 +21,9 @@ spec:
       http:
         paths:
           - path: "/"
+            pathType: Exact
             backend:
-              serviceName: captive-portal
-              servicePort: 80
+              service:
+                name: captive-portal
+                port:
+                  number: 80
