@@ -1,0 +1,9 @@
+automation:
+  - alias: Sync Alexa shopping list
+    trigger:
+      - platform: time_pattern
+        minutes: "/1"
+    action:
+      - service: mqtt.publish
+        data:
+          topic: /home/shopping-list/refresh

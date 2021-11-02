@@ -1,0 +1,9 @@
+zone:
+  - name: Kroger by InfoMart
+    latitude: 33.922950
+    longitude: -84.469949
+    icon: mdi:cart
+  - name: Costco at Cumberland Mall
+    latitude: 33.880650
+    longitude: -84.470763
+    icon: mdi:cart
