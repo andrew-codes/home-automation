@@ -6,7 +6,7 @@ websocket_api:
 # python_script:
 
 # # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
-# 
+#
 discovery:
 ios:
 
@@ -67,7 +67,7 @@ proxmoxve:
         vms:
           - "100"
           - "101"
-          - "102"  
+          - "102"
         containers:
           - "103"
           - "105"
