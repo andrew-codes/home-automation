@@ -1,5 +1,6 @@
 automation:
   - alias: Renew guest devices
+    id: guest_tracking_renew_guest_devices
     trigger:
       - platform: time
         at: 01:00:00

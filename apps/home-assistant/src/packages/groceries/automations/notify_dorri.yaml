@@ -1,5 +1,6 @@
 automation:
   - alias: Remind Dorri of the grocery list when she arrives at the grocery store
+    id: groceries_notify_dorri_at_grocery_store
     trigger:
       - platform: state
         entity_id: person.dorri_smith

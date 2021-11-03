@@ -1,5 +1,6 @@
 automation:
   - alias: Poll for PlayStation 5 state
+    id: gaming_room_poll_playstation_5_state
     trigger:
       - platform: time_pattern
         seconds: "/10"

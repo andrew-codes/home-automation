@@ -1,5 +1,6 @@
 automation:
   - alias: Stopping generalized media player activity turns off devices
+    id: gaming_room_stop_activity
     trigger:
       platform: state
       entity_id: media_player.gaming_room_media_player

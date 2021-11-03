@@ -1,6 +1,6 @@
 automation:
   - alias: Notify family members when someone is at the door and no one is home
-    id: notify_guests_at_door
+    id: door_bell_notifications_notify_guests_at_door
     trigger:
       - platform: template
         id: front_door

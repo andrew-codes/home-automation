@@ -1,5 +1,6 @@
 automation:
   - alias: Reconnect AVR daily
+    id: gaming_room_reconnect_avr_daily
     trigger:
       - platform: time
         at: "03:00:00"

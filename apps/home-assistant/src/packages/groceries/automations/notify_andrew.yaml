@@ -1,5 +1,6 @@
 automation:
   - alias: Remind Andrew of the grocery list when he arrives at the grocery store
+    id: groceries_notify_andrew_at_grocery_store
     trigger:
       - platform: state
         entity_id: person.andrew_smith

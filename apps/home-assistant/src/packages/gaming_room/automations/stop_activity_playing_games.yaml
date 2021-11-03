@@ -1,5 +1,6 @@
 automation:
   - alias: Stopping gaming room gaming activity publishes stop game topic
+    id: gaming_room_stop_activity_playing_games
     trigger:
       - platform: state
         entity_id: media_player.gaming_room_universal_playstation_5
