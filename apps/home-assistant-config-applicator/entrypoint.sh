@@ -137,7 +137,7 @@ if git-synchronize; then
     echo "Validating config"
     validate-config
     echo "Copying config"
-    rsync --recursive -I . /config
+    rsync --recursive -I --delete . /config
 fi
 
 ###################
