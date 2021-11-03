@@ -48,13 +48,13 @@ http:
 spotify:
   client_id: !secret SPOTIFY_CLIENT_ID
   client_secret: !secret SPOTIFY_CLIENT_SECRET
-# spotcast:
-#   sp_dc: !secret SPOTCAST_DC
-#   sp_key: !secret SPOTCAST_KEY
-#   accounts:
-#     secondary:
-#       sp_dc: !secret SPOTCAST_DC_2
-#       sp_key: !secret SPOTCAST_KEY_2
+spotcast:
+  sp_dc: !secret SPOTCAST_DC
+  sp_key: !secret SPOTCAST_KEY
+  accounts:
+    secondary:
+      sp_dc: !secret SPOTCAST_DC_2
+      sp_key: !secret SPOTCAST_KEY_2
 
 proxmoxve:
   - host: !secret PROXMOX_HOST
