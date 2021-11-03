@@ -1,0 +1,10 @@
+automation:
+  - alias: Update guest PIN code
+    trigger:
+      - platform: mqtt
+        topic: /homeassistant/guest-pin/set
+    action:
+      - service: input_text.set_value
+        data_template:
+          entity_id: "{{ trigger.payload_json.entity_id }}"
+          value: "{{ trigger.payload_json.pin }}"

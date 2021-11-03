@@ -1,0 +1,39 @@
+automation:
+  - alias: Set code date range will set for all door locks
+    id: set_code_date_range_will_set_for_all_door_locks
+    trigger:
+      - platform: state
+        entity_id:
+          - input_boolean.daterange_front_door_4
+      - platform: state
+        entity_id:
+          - input_boolean.daterange_front_door_5
+      - platform: state
+        entity_id:
+          - input_boolean.daterange_front_door_6
+      - platform: state
+        entity_id:
+          - input_boolean.daterange_front_door_7
+      - platform: state
+        entity_id:
+          - input_boolean.daterange_front_door_8
+      - platform: state
+        entity_id:
+          - input_boolean.daterange_front_door_9
+      - platform: state
+        entity_id:
+          - input_boolean.daterange_front_door_10
+      - platform: state
+        entity_id:
+          - input_boolean.daterange_front_door_11
+      - platform: state
+        entity_id:
+          - input_boolean.daterange_front_door_12
+      - platform: state
+        entity_id:
+          - input_boolean.daterange_front_door_13
+    action:
+      - service: input_boolean.toggle
+        target:
+          entity_id: |
+            input_boolean.daterange_car_port_{{ trigger.entity_id |regex_replace(find="^.*daterange_front_door_", replace="")}}
