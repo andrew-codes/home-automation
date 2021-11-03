@@ -1,0 +1,14 @@
+automation:
+  - alias: Family sleeping sets night time temperature
+    id: family_sleeping_sets_night_time_temperature
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.family_is_asleep
+        to: "on"
+    action:
+      - service: climate.set_temperature
+        target:
+          entity_id: climate.main_floor
+        data:
+          target_temp_high: 69
+          target_temp_low: 65

@@ -1,0 +1,30 @@
+input_boolean:
+  andrew_ios_sleep:
+    name: iOS Sleep
+    icon: mdi:sleep
+
+template:
+  - binary_sensor:
+      - name: Andrew is sleeping
+        icon: mdi:sleep
+        state: >
+          {{ is_state('binary_sensor.withings_in_bed_andrew_smith', 'on') or is_state('input_boolean.andrew_ios_sleep', 'on') }}
+
+  - binary_sensor:
+      - name: Andrew is awake
+        icon: mdi:sleep
+        state: >
+          {{ is_state('binary_sensor.withings_in_bed_andrew_smith', 'off') or is_state('input_boolean.andrew_ios_sleep', 'off') }}
+
+sensor:
+  - platform: template
+    sensors:
+      andrew_smith_state:
+        value_template: >-
+          {% if is_state('person.andrew_smith', 'home') and is_state('binary_sensor.andrew_is_sleeping', 'on') %}
+            Sleeping
+          {% elif (is_state('person.andrew_smith', 'not_home')) %}
+            Away
+          {% else %}
+            Home
+          {% endif %}

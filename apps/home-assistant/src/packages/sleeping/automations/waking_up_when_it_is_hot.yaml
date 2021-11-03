@@ -1,0 +1,16 @@
+automation:
+  - alias: Waking up when it is hot
+    id: waking_up_when_it_is_hot
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.someone_is_awake
+        to: "on"
+    condition:
+      - "{{ (state_attr('weather.home', 'temperature')|int) >= 75 }}"
+    action:
+      - service: climate.set_temperature
+        target:
+          entity_id: climate.main_floor
+        data:
+          target_temp_high: 71
+          target_temp_low: 67
