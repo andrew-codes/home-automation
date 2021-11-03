@@ -72,7 +72,7 @@ spec:
             allowPrivilegeEscalation: true
             privileged: true
           volumeMounts:
-            - mountPath: /dev/ttyUSB1
+            - mountPath: /dev/ttyACM0
               name: zwavestick
             - mountPath: /usr/src/app/store
               name: data
