@@ -1,0 +1,4 @@
+input_text:
+  defect_summary:
+    name: Defect Summary
+    initial: ""
