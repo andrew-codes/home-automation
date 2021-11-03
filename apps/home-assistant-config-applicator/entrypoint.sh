@@ -137,7 +137,13 @@ if git-synchronize; then
     echo "Validating config"
     validate-config
     echo "Copying config"
-    rsync --recursive -I --delete . /config
+    rsync --recursive -I --delete . /config/appdaemon.yaml
+    rsync --recursive -I --delete . /config/configuration.yaml
+    rsync --recursive -I --delete . /config/customize.yaml
+    rsync --recursive -I --delete . /config/apps
+    rsync --recursive -I --delete . /config/dashboards
+    rsync --recursive -I --delete . /config/lovelace
+    rsync --recursive -I --delete . /config/packages
 fi
 
 ###################
