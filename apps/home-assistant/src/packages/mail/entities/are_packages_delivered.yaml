@@ -1,0 +1,7 @@
+binary_sensor:
+  - platform: template
+    sensors:
+      are_packages_delivered:
+        friendly_name: Package Delivery
+        value_template: >
+          {{states("sensor.number_of_packages")|int > 0}}
