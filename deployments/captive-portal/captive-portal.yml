@@ -37,6 +37,10 @@ spec:
               {{ end }}
           {{ end }}
     spec:
+      tolerations:
+        - key: "node.kubernetes.io/disk-pressure"
+          operator: "Exists"
+          effect: "NoSchedule"
       serviceAccountName: app
       imagePullSecrets:
         - name: regcred

@@ -45,6 +45,10 @@ spec:
       labels:
         name: zwave
     spec:
+      tolerations:
+        - key: "node.kubernetes.io/disk-pressure"
+          operator: "Exists"
+          effect: "NoSchedule"
       containers:
         - name: zwave
           image: zwavejs/zwavejs2mqtt:latest

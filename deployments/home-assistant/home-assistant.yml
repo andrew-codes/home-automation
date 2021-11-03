@@ -130,6 +130,10 @@ spec:
           DB_URL: "postgresql://{{ .Data.data.POSTGRES_USER }}:{{ .Data.data.POSTGRES_PASSWORD }}@home-assistant-postgres:5432/{{ .Data.data.POSTGRES_DB }}"
           {{ end }}
     spec:
+      tolerations:
+        - key: "node.kubernetes.io/disk-pressure"
+          operator: "Exists"
+          effect: "NoSchedule"
       serviceAccountName: app
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
