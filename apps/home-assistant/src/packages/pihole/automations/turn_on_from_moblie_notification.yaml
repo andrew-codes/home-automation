@@ -1,0 +1,12 @@
+automation:
+  - alias: Turn on pihole from mobile notification
+    id: turn_on_pihole_from_mobile_notification
+    trigger:
+      platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: DISABLE_PIHOLE
+    action:
+      - service: switch.turn_off
+        target:
+          entity_id: switch.pi_hole

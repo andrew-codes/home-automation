@@ -1,9 +1,10 @@
 automation:
-  - alias: Notify users that pihole is enabled
+  - alias: Notify users that pihole was not turned back on
+    id: notify_users_pihole_was_not_turned_back_on
     trigger:
       platform: state
       entity_id: switch.pi_hole
-      to: 'off'
+      to: "off"
       for: "01:00:00"
     action:
       - service: switch.turn_on
@@ -23,27 +24,3 @@ automation:
           data:
             push:
               category: pihole
-  
-  - alias: Turn on pihole from mobile notification
-    trigger:
-      platform: event
-      event_type: ios.notification_action_fired
-      event_data:
-        actionName: DISABLE_PIHOLE
-    action:
-      - service: switch.turn_off
-        target:
-          entity_id: switch.pi_hole
-
-ios:
-  push:
-    categories:
-      - name: pihole
-        identifier: pihole
-        actions:
-          - identifier: DISABLE_PIHOLE
-            title: Disable PiHole
-            activationMode: background
-            authenticationRequired: false
-            destructive: true
-            behavior: default

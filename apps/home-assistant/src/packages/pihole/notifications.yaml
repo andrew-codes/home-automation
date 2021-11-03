@@ -1,0 +1,12 @@
+ios:
+  push:
+    categories:
+      - name: pihole
+        identifier: pihole
+        actions:
+          - identifier: DISABLE_PIHOLE
+            title: Disable PiHole
+            activationMode: background
+            authenticationRequired: false
+            destructive: true
+            behavior: default
