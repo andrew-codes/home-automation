@@ -8,13 +8,6 @@ mqtt:
   stats_interval: 60
 
 ffmpeg:
-  hwaccel_args:
-    - -hwaccel
-    - vaapi
-    - -hwaccel_device
-    - /dev/dri/renderD128
-    - -hwaccel_output_format
-    - yuv420p
   output_args:
     detect: -f rawvideo
 
