@@ -1,6 +1,0 @@
-template:
-  - binary_sensor:
-      - name: Someone is awake
-        icon: mdi:sleep
-        state: >
-          {{ is_state('binary_sensor.andrew_is_awake', 'on') }}

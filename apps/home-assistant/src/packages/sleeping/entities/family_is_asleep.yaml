@@ -1,6 +1,6 @@
-template:
-  - binary_sensor:
-      - name: Family is asleep
-        icon: mdi:sleep
-        state: >
-          {{ is_state('binary_sensor.andrew_is_asleep', 'on') }}
+group:
+  family_is_sleeping:
+    name: Family is sleeping
+    all: true
+    entities:
+      - binary_sensor.andrew_is_sleeping

@@ -3,10 +3,14 @@ automation:
     id: waking_up_when_it_is_hot
     trigger:
       - platform: state
-        entity_id: binary_sensor.someone_is_awake
-        to: "on"
+        entity_id: group.family_is_sleeping
+        to: "off"
     condition:
       - "{{ (state_attr('weather.home', 'temperature')|int) >= 75 }}"
+      - alias: "Morning time"
+        condition: time
+        after: "05:00:00"
+        before: "09:00:00"
     action:
       - service: climate.set_temperature
         target:

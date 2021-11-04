@@ -3,7 +3,7 @@ automation:
     id: family_sleeping_sets_night_time_temperature
     trigger:
       - platform: state
-        entity_id: binary_sensor.family_is_asleep
+        entity_id: group.family_is_sleeping
         to: "on"
     action:
       - service: climate.set_temperature

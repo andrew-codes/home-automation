@@ -10,12 +10,6 @@ template:
         state: >
           {{ is_state('binary_sensor.withings_in_bed_andrew_smith', 'on') or is_state('input_boolean.andrew_ios_sleep', 'on') }}
 
-  - binary_sensor:
-      - name: Andrew is awake
-        icon: mdi:sleep
-        state: >
-          {{ is_state('binary_sensor.withings_in_bed_andrew_smith', 'off') or is_state('input_boolean.andrew_ios_sleep', 'off') }}
-
 sensor:
   - platform: template
     sensors:
