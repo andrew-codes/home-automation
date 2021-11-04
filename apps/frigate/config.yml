@@ -8,6 +8,13 @@ mqtt:
   stats_interval: 60
 
 ffmpeg:
+  hwaccel_args:
+    - -hwaccel
+    - vaapi
+    - -hwaccel_device
+    - /dev/dri/renderD128
+    - -hwaccel_output_format
+    - yuv420p
   output_args:
     detect: -f rawvideo
 
@@ -23,16 +30,30 @@ detectors:
   cpu1:
     type: cpu
 
-clips:
-  max_seconds: 300
-  retain:
-    # Required: Default retention days (default: shown below)
-    default: 1
+rtmp:
+  enabled: True
 
 logger:
   default: debug
   logs:
     frigate.mqtt: error
+
+snapshots:
+  # Optional: Enable writing jpg snapshot to /media/frigate/clips (default: shown below)
+  # This value can be set via MQTT and will be updated in startup based on retained value
+  enabled: True
+  # Optional: print a timestamp on the snapshots (default: shown below)
+  timestamp: False
+  # Optional: draw bounding box on the snapshots (default: shown below)
+  bounding_box: False
+  # Optional: crop the snapshot (default: shown below)
+  crop: False
+  # Optional: height to resize the snapshot to (default: original size)
+  # Optional: Restrict snapshots to objects that entered any of the listed zones (default: no required zones)
+  # Optional: Camera override for retention settings (default: global values)
+  retain:
+    # Required: Default retention days (default: shown below)
+    default: 1
 
 cameras:
   front_door:
@@ -41,54 +62,21 @@ cameras:
       bounding_box: False
       crop: True
       height: 500
+      quality: 95
+    best_image_timeout: 120
     ffmpeg:
       inputs:
-        - path: $FRONT_DOOR_RTSP
+        - path: "$FRONT_DOOR_RTSP"
           roles:
             - detect
-        - path: $FRONT_DOOR_RTSP
+        - path: "$FRONT_DOOR_RTSP"
           roles:
-            - clips
             - rtmp
             - record
-    width: 1600
-    height: 1200
-    fps: 5
-    clips:
-      # Required: enables clips for the camera (default: shown below)
-      # This value can be set via MQTT and will be updated in startup based on retained value
-      enabled: True
-      # Optional: Number of seconds before the event to include in the clips (default: shown below)
-      pre_capture: 5
-      # Optional: Number of seconds after the event to include in the clips (default: shown below)
-      post_capture: 5
-      # Optional: Objects to save clips for. (default: all tracked objects)
-      objects:
-        - person
-      # Optional: Restrict clips to objects that entered any of the listed zones (default: no required zones)
-      required_zones: []
-      # Optional: Camera override for retention settings (default: global values)
-      retain:
-        # Required: Default retention days (default: shown below)
-        default: 1
-    snapshots:
-      # Optional: Enable writing jpg snapshot to /media/frigate/clips (default: shown below)
-      # This value can be set via MQTT and will be updated in startup based on retained value
-      enabled: True
-      # Optional: print a timestamp on the snapshots (default: shown below)
-      timestamp: False
-      # Optional: draw bounding box on the snapshots (default: shown below)
-      bounding_box: False
-      # Optional: crop the snapshot (default: shown below)
-      crop: False
-      # Optional: height to resize the snapshot to (default: original size)
-      # Optional: Restrict snapshots to objects that entered any of the listed zones (default: no required zones)
-      # Optional: Camera override for retention settings (default: global values)
-      retain:
-        # Required: Default retention days (default: shown below)
-        default: 1
-    rtmp:
-      enabled: True
+    detect:
+      width: 1600
+      height: 1200
+      fps: 5
 
   car_port_door:
     mqtt:
@@ -96,36 +84,20 @@ cameras:
       bounding_box: False
       crop: True
       height: 500
+      quality: 95
     ffmpeg:
       inputs:
-        - path: $CAR_PORT_DOOR_RTSP
+        - path: "$CAR_PORT_DOOR_RTSP"
           roles:
             - detect
-        - path: $CAR_PORT_DOOR_RTSP
+        - path: "$CAR_PORT_DOOR_RTSP"
           roles:
-            - clips
             - rtmp
             - record
-    width: 1600
-    height: 1200
-    fps: 5
-    clips:
-      # Required: enables clips for the camera (default: shown below)
-      # This value can be set via MQTT and will be updated in startup based on retained value
-      enabled: True
-      # Optional: Number of seconds before the event to include in the clips (default: shown below)
-      pre_capture: 5
-      # Optional: Number of seconds after the event to include in the clips (default: shown below)
-      post_capture: 5
-      # Optional: Objects to save clips for. (default: all tracked objects)
-      objects:
-        - person
-      # Optional: Restrict clips to objects that entered any of the listed zones (default: no required zones)
-      required_zones: []
-      # Optional: Camera override for retention settings (default: global values)
-      retain:
-        # Required: Default retention days (default: shown below)
-        default: 1
+    detect:
+      width: 1600
+      height: 1200
+      fps: 5
     snapshots:
       # Optional: Enable writing jpg snapshot to /media/frigate/clips (default: shown below)
       # This value can be set via MQTT and will be updated in startup based on retained value
@@ -143,5 +115,3 @@ cameras:
         # Required: Default retention days (default: shown below)
         default: 1
         # Optional: Per object retention days
-    rtmp:
-      enabled: True
