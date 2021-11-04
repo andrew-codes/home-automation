@@ -125,7 +125,7 @@ spec:
           TURN_OFF_GAMING_ROOM_GAMING_PC_COMMAND: 'ssh -n -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa {{ .Data.data.GAMING_ROOM_MACHINE_USERNAME }}@{{ .Data.data.GAMING_ROOM_GAMING_PC_IP }} "C:\Windows\System32\rundll32.exe powrprof.dll,SetSuspendState Standby"'
           GITHUB_AUTHORIZATION_HEADER: "Bearer {{ .Data.data.GITHUB_ISSUES_TOKEN }}"
           VPN_DDNS_REST_COMMAND: 'curl -X POST "https://{{ .Data.data.VPN_DNS_USERNAME }}:{{ .Data.data.VPN_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.data.VPN_DOMAIN }}&myip=$(curl https://checkip.amazonaws.com)"'
-          HA_DDNS_REST_COMMAND: 'curl -X POST "https://{{ .Data.data.HOME_ASSISTANT_DNS_USERNAME }}:{{ .Data.data.HOME_ASSISTANT_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.data.HOME_ASSISTANT_DOMAIN }}&myip=$(curl https://checkip.amazonaws.com)"'
+          HA_DDNS_REST_COMMAND: 'curl -X POST "https://{{ .Data.data.HOME_ASSISTANT_DNS_USERNAME }}:{{ .Data.data.HOME_ASSISTANT_DNS_PASSWORD }}@domains.google.com/nic/update?hostname={{ .Data.data.HOME_ASSISTANT_DOMAIN }}&myip={{ .Data.data.INLETS_IP }}"'
           DB_URL: "postgresql://{{ .Data.data.POSTGRES_USER }}:{{ .Data.data.POSTGRES_PASSWORD }}@home-assistant-postgres:5432/{{ .Data.data.POSTGRES_DB }}"
           {{ end }}
     spec:
