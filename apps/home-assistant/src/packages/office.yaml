@@ -1,127 +1,127 @@
-input_text:
-  andrew_teams_status:
-    name: Microsoft Teams status
-  andrew_teams_status_icon:
-    name: Microsoft Teams status icon
-  andrew_teams_activity:
-    name: Microsoft Teams activity
-  andrew_teams_activity_icon:
-    name: Microsoft Teams activity icon
+# input_text:
+#   andrew_teams_status:
+#     name: Microsoft Teams status
+#   andrew_teams_status_icon:
+#     name: Microsoft Teams status icon
+#   andrew_teams_activity:
+#     name: Microsoft Teams activity
+#   andrew_teams_activity_icon:
+#     name: Microsoft Teams activity icon
 
-sensor:
-  - platform: template
-    sensors:
-      andrew_teams_status: 
-        friendly_name: Andrew's Microsoft Teams status
-        value_template: "{{states('input_text.andrew_teams_status')}}"
-        icon_template: "{{states('input_text.andrew_teams_status_icon')}}"
-      andrew_teams_activity:
-        friendly_name: Andrew's Microsoft Teams activity
-        value_template: "{{states('input_text.teams_activity')}}"
-        icon_template: "{{states('input_text.teams_activity_icon')}}"
+# sensor:
+#   - platform: template
+#     sensors:
+#       andrew_teams_status:
+#         friendly_name: Andrew's Microsoft Teams status
+#         value_template: "{{states('input_text.andrew_teams_status')}}"
+#         icon_template: "{{states('input_text.andrew_teams_status_icon')}}"
+#       andrew_teams_activity:
+#         friendly_name: Andrew's Microsoft Teams activity
+#         value_template: "{{states('input_text.teams_activity')}}"
+#         icon_template: "{{states('input_text.teams_activity_icon')}}"
 
-automation:
-  - alias: Set Andrew's MS Teams active status
-    trigger:
-      platform: webhook
-      webhook_id: !secret MS_TEAMS_STATUS_ACTIVE_WEBHOOK_ID
-    action:
-      - service: input_text.set_value
-        entity_id: input_text.andrew_teams_status
-        data:
-          value: Available
-      - service: input_text.set_value
-        entity_id: input_text.andrew_teams_status_icon
-        data:
-          value: mdi:microsoft-teams
-  - alias: Set Andrew's MS Teams busy status
-    trigger:
-      platform: webhook
-      webhook_id: !secret MS_TEAMS_STATUS_BUSY_WEBHOOK_ID
-    action:
-      - service: input_text.set_value
-        entity_id: input_text.andrew_teams_status
-        data:
-          value: Busy
-      - service: input_text.set_value
-        entity_id: input_text.andrew_teams_status_icon
-        data:
-          value: mdi:microsoft-teams
-  - alias: Set Andrew's MS Teams be right back status
-    trigger:
-      platform: webhook
-      webhook_id: !secret MS_TEAMS_STATUS_BE_RIGHT_BACK_WEBHOOK_ID
-    action:
-      - service: input_text.set_value
-        entity_id: input_text.andrew_teams_status
-        data:
-          value: Be Right Back
-      - service: input_text.set_value
-        entity_id: input_text.andrew_teams_status_icon
-        data:
-          value: mdi:microsoft-teams
-  - alias: Set Andrew's MS Teams away status
-    trigger:
-      platform: webhook
-      webhook_id: !secret MS_TEAMS_STATUS_AWAY_WEBHOOK_ID
-    action:
-      - service: input_text.set_value
-        entity_id: input_text.andrew_teams_status
-        data:
-          value: Away
-      - service: input_text.set_value
-        entity_id: input_text.andrew_teams_status_icon
-        data:
-          value: mdi:microsoft-teams
-  - alias: Set Andrew's MS Teams do not disturb status
-    trigger:
-      platform: webhook
-      webhook_id: !secret MS_TEAMS_STATUS_DO_NOT_DISTURB_WEBHOOK_ID
-    action:
-      - service: input_text.set_value
-        entity_id: input_text.andrew_teams_status
-        data:
-          value: Do not Disturb
-      - service: input_text.set_value
-        entity_id: input_text.andrew_teams_status_icon
-        data:
-          value: mdi:microsoft-teams
-  - alias: Set Andrew's MS Teams offline status
-    trigger:
-      platform: webhook
-      webhook_id: !secret MS_TEAMS_STATUS_OFFLINE_WEBHOOK_ID
-    action:
-      - service: input_text.set_value
-        entity_id: input_text.andrew_teams_status
-        data:
-          value: Offline
-      - service: input_text.set_value
-        entity_id: input_text.andrew_teams_status_icon
-        data:
-          value: mdi:microsoft-teams
-  - alias: Set Andrew's MS Teams off status
-    trigger:
-      platform: webhook
-      webhook_id: !secret MS_TEAMS_STATUS_OFF_WEBHOOK_ID
-    action:
-      - service: input_text.set_value
-        entity_id: input_text.andrew_teams_status
-        data:
-          value: "Off"
-      - service: input_text.set_value
-        entity_id: input_text.andrew_teams_status_icon
-        data:
-          value: mdi:microsoft-teams
-  - alias: Set Andrew's MS Teams available idle status
-    trigger:
-      platform: webhook
-      webhook_id: !secret MS_TEAMS_STATUS_AVAILABLE_IDLE_WEBHOOK_ID
-    action:
-      - service: input_text.set_value
-        entity_id: input_text.andrew_teams_status
-        data:
-          value: Available Idle
-      - service: input_text.set_value
-        entity_id: input_text.andrew_teams_status_icon
-        data:
-          value: mdi:microsoft-teams
+# automation:
+#   - alias: Set Andrew's MS Teams active status
+#     trigger:
+#       platform: webhook
+#       webhook_id: !secret MS_TEAMS_STATUS_ACTIVE_WEBHOOK_ID
+#     action:
+#       - service: input_text.set_value
+#         entity_id: input_text.andrew_teams_status
+#         data:
+#           value: Available
+#       - service: input_text.set_value
+#         entity_id: input_text.andrew_teams_status_icon
+#         data:
+#           value: mdi:microsoft-teams
+#   - alias: Set Andrew's MS Teams busy status
+#     trigger:
+#       platform: webhook
+#       webhook_id: !secret MS_TEAMS_STATUS_BUSY_WEBHOOK_ID
+#     action:
+#       - service: input_text.set_value
+#         entity_id: input_text.andrew_teams_status
+#         data:
+#           value: Busy
+#       - service: input_text.set_value
+#         entity_id: input_text.andrew_teams_status_icon
+#         data:
+#           value: mdi:microsoft-teams
+#   - alias: Set Andrew's MS Teams be right back status
+#     trigger:
+#       platform: webhook
+#       webhook_id: !secret MS_TEAMS_STATUS_BE_RIGHT_BACK_WEBHOOK_ID
+#     action:
+#       - service: input_text.set_value
+#         entity_id: input_text.andrew_teams_status
+#         data:
+#           value: Be Right Back
+#       - service: input_text.set_value
+#         entity_id: input_text.andrew_teams_status_icon
+#         data:
+#           value: mdi:microsoft-teams
+#   - alias: Set Andrew's MS Teams away status
+#     trigger:
+#       platform: webhook
+#       webhook_id: !secret MS_TEAMS_STATUS_AWAY_WEBHOOK_ID
+#     action:
+#       - service: input_text.set_value
+#         entity_id: input_text.andrew_teams_status
+#         data:
+#           value: Away
+#       - service: input_text.set_value
+#         entity_id: input_text.andrew_teams_status_icon
+#         data:
+#           value: mdi:microsoft-teams
+#   - alias: Set Andrew's MS Teams do not disturb status
+#     trigger:
+#       platform: webhook
+#       webhook_id: !secret MS_TEAMS_STATUS_DO_NOT_DISTURB_WEBHOOK_ID
+#     action:
+#       - service: input_text.set_value
+#         entity_id: input_text.andrew_teams_status
+#         data:
+#           value: Do not Disturb
+#       - service: input_text.set_value
+#         entity_id: input_text.andrew_teams_status_icon
+#         data:
+#           value: mdi:microsoft-teams
+#   - alias: Set Andrew's MS Teams offline status
+#     trigger:
+#       platform: webhook
+#       webhook_id: !secret MS_TEAMS_STATUS_OFFLINE_WEBHOOK_ID
+#     action:
+#       - service: input_text.set_value
+#         entity_id: input_text.andrew_teams_status
+#         data:
+#           value: Offline
+#       - service: input_text.set_value
+#         entity_id: input_text.andrew_teams_status_icon
+#         data:
+#           value: mdi:microsoft-teams
+#   - alias: Set Andrew's MS Teams off status
+#     trigger:
+#       platform: webhook
+#       webhook_id: !secret MS_TEAMS_STATUS_OFF_WEBHOOK_ID
+#     action:
+#       - service: input_text.set_value
+#         entity_id: input_text.andrew_teams_status
+#         data:
+#           value: "Off"
+#       - service: input_text.set_value
+#         entity_id: input_text.andrew_teams_status_icon
+#         data:
+#           value: mdi:microsoft-teams
+#   - alias: Set Andrew's MS Teams available idle status
+#     trigger:
+#       platform: webhook
+#       webhook_id: !secret MS_TEAMS_STATUS_AVAILABLE_IDLE_WEBHOOK_ID
+#     action:
+#       - service: input_text.set_value
+#         entity_id: input_text.andrew_teams_status
+#         data:
+#           value: Available Idle
+#       - service: input_text.set_value
+#         entity_id: input_text.andrew_teams_status_icon
+#         data:
+#           value: mdi:microsoft-teams
