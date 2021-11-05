@@ -85,17 +85,12 @@ spec:
               containerPort: 1935
               protocol: TCP
           volumeMounts:
-            - name: coral
-              mountPath: /dev/bus/usb/003
             - name: media-frigate
               mountPath: /media/frigate
           securityContext:
             privileged: true
             allowPrivilegeEscalation: true
       volumes:
-        - name: coral
-          hostPath:
-            path: /dev/bus/usb/003
         - name: media-frigate
           persistentVolumeClaim:
             claimName: frigate-media-claim
