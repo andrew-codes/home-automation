@@ -48,6 +48,7 @@ RUN apt-get install -y  \
     terraform \
     unzip \
     vault \
+    xsel \
     yarn 
 RUN apt install -y --no-install-recommends telepresence
 RUN setcap cap_ipc_lock= /usr/bin/vault
