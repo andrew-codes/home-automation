@@ -22,8 +22,8 @@ COPY entrypoint.sh ./entrypoint.sh
 COPY next.config.js ./
 # COPY src/public ./src/public
 COPY --from=builder --chown=nextjs:nodejs /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
+RUN yarn install --ignore-scripts --no-lockfile
 
 USER nextjs
 
