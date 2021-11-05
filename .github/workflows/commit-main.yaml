@@ -22,14 +22,14 @@ jobs:
       - uses: actions/cache@v2
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
-          path: /.yarn-cache
+          path: .yarn-cache
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-v3
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install deps
         run: yarn
         env:
-          YARN_CACHE_FOLDER: "/.yarn-cache"
+          YARN_CACHE_FOLDER: ".yarn-cache"
       - name: Patch
         run: yarn patch
       - name: Compile apps
