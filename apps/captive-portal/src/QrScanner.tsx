@@ -1,7 +1,7 @@
 import * as React from "react"
 import QrScanner from "qr-scanner"
 import styled from "styled-components"
-import QrScannerWorkerPath from "!!file-loader!../../../node_modules/qr-scanner/qr-scanner-worker.min.js"
+import QrScannerWorkerPath from "!!file-loader!../node_modules/qr-scanner/qr-scanner-worker.min.js"
 QrScanner.WORKER_PATH = QrScannerWorkerPath
 
 const VideoContainer = styled.div`

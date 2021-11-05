@@ -31,7 +31,7 @@
   },
   "workspaces": {
     "nohoist": [
-      "apps/captive-portal/**/qr-scanner/**"
+      "qr-scanner/**"
     ],
     "packages": [
       "apps/*",
