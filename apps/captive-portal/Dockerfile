@@ -2,6 +2,9 @@ FROM node:16.4.0-alpine AS builder
 WORKDIR /app
 COPY package.json package.json
 RUN yarn install --ignore-scripts --no-lockfile
+ENV NODE_ENV production
+COPY . .
+RUN yarn compile
 
 # Production image, copy all the files and run next
 FROM node:16.4.0-alpine AS runner
