@@ -15,6 +15,7 @@ COPY next.config.js next.config.js
 # COPY src/public ./src/public
 COPY --chown=nextjs:nodejs dist dist
 COPY package.json package.json
+RUN yarn --ignore-scripts --no-lockfile
 
 USER nextjs
 
