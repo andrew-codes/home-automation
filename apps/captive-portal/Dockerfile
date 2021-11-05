@@ -26,7 +26,6 @@ COPY --from=builder /app/package.json ./package.json
 RUN --mount=type=cache,source=.yarn-cache,target=/root/.yarn YARN_CACHE_FOLDER=/root/.yarn yarn install --ignore-scripts --no-lockfile
 
 USER nextjs
-
 EXPOSE 80
 
 ENV NEXT_TELEMETRY_DISABLED 1
