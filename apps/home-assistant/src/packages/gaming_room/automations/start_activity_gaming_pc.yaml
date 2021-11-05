@@ -19,4 +19,4 @@ automation:
       - service: media_player.volume_set
         data:
           entity_id: media_player.gaming_room_media_player
-          volume_level: 0.56
+          volume_level: 0.44
