@@ -38,6 +38,8 @@ jobs:
         run: yarn test
       - name: Build and push images
         run: yarn lerna run image/push --stream
+        env:
+          DOCKER_BUILDKIT: 1
       - name: Deploy
         run: yarn lerna run deploy --stream --ignore @ha/lets-encrypt --ignore @ha/docker-registry --ignore @ha/k8s --ignore @ha/inlets --ignore --ignore @ha/openvpn-as --ignore @ha/pihole --ignore @ha/vault --ignore @ha/velero @ha/playnite-game-data-exporter --include-filtered-dependencies
         env:

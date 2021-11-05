@@ -73,7 +73,7 @@
         enabled: yes
 
     - name: Setup docker daemon config.
-      shell: 'echo ''{ "exec-opts": ["native.cgroupdriver=systemd"], "insecure-registries": ["docker-registry:5000"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"}, "default-shm-size": "256M" }'' > /etc/docker/daemon.json'
+      shell: 'echo ''{ "features": { "buildkit": true }, "exec-opts": ["native.cgroupdriver=systemd"], "insecure-registries": ["docker-registry:5000"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"}, "default-shm-size": "256M" }'' > /etc/docker/daemon.json'
 
     - name: Restart docker.
       command: "{{ item }}"
