@@ -1,7 +1,7 @@
 FROM node:16.4.0-alpine AS builder
 WORKDIR /app
 COPY package.json package.json
-RUN yarn install --ignore-scripts --no-lockfile
+RUN --mount=type=cache,source=/.yarn-cache,target=/root/.yarn YARN_CACHE_FOLDER=/root/.yarn yarn install --ignore-scripts --no-lockfile
 ENV NODE_ENV production
 COPY . .
 RUN yarn compile
@@ -23,7 +23,7 @@ COPY next.config.js ./
 # COPY src/public ./src/public
 COPY --from=builder --chown=nextjs:nodejs /app/dist ./dist
 COPY --from=builder /app/package.json ./package.json
-RUN yarn install --ignore-scripts --no-lockfile
+RUN --mount=type=cache,source=/.yarn-cache,target=/root/.yarn YARN_CACHE_FOLDER=/root/.yarn yarn install --ignore-scripts --no-lockfile
 
 USER nextjs
 
