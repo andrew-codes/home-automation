@@ -27,7 +27,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install deps
-        if: steps.cache.outputs.cache-hit != 'true'
         run: yarn
       - name: Patch
         run: yarn patch
