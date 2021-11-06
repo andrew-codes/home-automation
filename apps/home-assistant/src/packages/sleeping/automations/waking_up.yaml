@@ -16,7 +16,7 @@ automation:
           entity_id: climate.main_floor
         data:
           preset_mode: Home
-      - "{{ (state_attr('weather.home', 'temperature')|int) <= 50 }}"
+      - condition: "{{ (state_attr('weather.home', 'temperature')|int) <= 50 }}"
       - service: climate.set_temperature
         target:
           entity_id: climate.main_floor
