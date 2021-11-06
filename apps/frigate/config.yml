@@ -73,6 +73,15 @@ cameras:
       width: 1600
       height: 1200
       fps: 5
+    motion:
+      mask:
+        - 1600,0,1600,313,0,319,0,0
+    objects:
+      filters:
+        person:
+          mask:
+            - 138,812,615,806,745,652,584,587,119,655
+            - 1600,589,1600,985,1136,851,872,846,895,622
 
   car_port_door:
     mqtt:
@@ -111,3 +120,12 @@ cameras:
         # Required: Default retention days (default: shown below)
         default: 1
         # Optional: Per object retention days
+    motion:
+      mask:
+        - 1600,1200,1600,0,1026,0,1065,305,918,604,1071,1200
+    objects:
+      filters:
+        person:
+          mask:
+            - 0,710,157,661,627,688,633,810,100,1200,0,1200
+            - 1088,598,1089,645,926,662,918,604
