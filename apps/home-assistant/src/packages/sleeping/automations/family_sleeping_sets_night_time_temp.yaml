@@ -6,9 +6,8 @@ automation:
         entity_id: group.family_is_sleeping
         to: "on"
     action:
-      - service: climate.set_temperature
+      - service: climate.set_preset_mode
         target:
           entity_id: climate.main_floor
         data:
-          target_temp_high: 69
-          target_temp_low: 65
+          preset_mode: Sleep

@@ -1,17 +1,22 @@
 automation:
-  - alias: Waking up when it is cold
-    id: waking_up_when_it_is_cold
+  - alias: Waking up
+    id: waking_up
     trigger:
       - platform: state
         entity_id: group.family_is_sleeping
         to: "off"
     condition:
-      - "{{ (state_attr('weather.home', 'temperature')|int) <= 55 }}"
       - alias: "Morning time"
         condition: time
         after: "05:00:00"
-        before: "09:00:00"
+        before: "08:00:00"
     action:
+      - service: climate.set_preset_mode
+        target:
+          entity_id: climate.main_floor
+        data:
+          preset_mode: Home
+      - "{{ (state_attr('weather.home', 'temperature')|int) <= 50 }}"
       - service: climate.set_temperature
         target:
           entity_id: climate.main_floor
