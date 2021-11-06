@@ -1,0 +1,14 @@
+automation:
+  - alias: Someone arrives home
+    id: someone_arrives_home
+    trigger:
+      - platform: state
+        entity_id: group.tracked_presence
+        to: "home"
+    action:
+      # Set thermostat
+      - service: climate.set_preset_mode
+        target:
+          entity_id: climate.main_floor
+        data:
+          preset_mode: Home

@@ -1,0 +1,17 @@
+automation:
+  - alias: Everyone has left
+    id: everyone_has_left
+    trigger:
+      - platform: state
+        entity_id: group.tracked_presence
+        to: "not_home"
+    action:
+      # Set thermostat
+      - service: climate.set_preset_mode
+        target:
+          entity_id: climate.main_floor
+        data:
+          preset_mode: Away
+      # Lock all doors
+      # Turn off all lights
+      # Turn off TVs
