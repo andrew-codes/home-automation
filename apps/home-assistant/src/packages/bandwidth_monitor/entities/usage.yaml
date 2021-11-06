@@ -1,14 +1,14 @@
-# sensor:
-#   - platform: template
-#     sensors:
-#       internet_usage_in:
-#         value_template: "{{ ((states('sensor.snmp_wan_in')  | float ) / 1000000000 ) | round(3) }}"
-#         unit_of_measurement: "GB"
+sensor:
+  - platform: template
+    sensors:
+      internet_usage_in:
+        value_template: "{{ ((states('sensor.snmp_wan_in')  | float ) / 1000000000 ) | round(3) }}"
+        unit_of_measurement: "GB"
 
-#       internet_usage_out:
-#         value_template: "{{ ((states('sensor.snmp_wan_out') | float ) / 1000000000 ) | round(3) }}"
-#         unit_of_measurement: "GB"
+      internet_usage_out:
+        value_template: "{{ ((states('sensor.snmp_wan_out') | float ) / 1000000000 ) | round(3) }}"
+        unit_of_measurement: "GB"
 
-#       internet_usage:
-#         value_template: "{{ (states('sensor.internet_usage_in') | float) + (states('sensor.internet_usage_out') | float) | round(3) }}"
-#         unit_of_measurement: "GB"
+      internet_usage:
+        value_template: "{{ (states('sensor.internet_usage_in') | float) + (states('sensor.internet_usage_out') | float) | round(3) }}"
+        unit_of_measurement: "GB"
