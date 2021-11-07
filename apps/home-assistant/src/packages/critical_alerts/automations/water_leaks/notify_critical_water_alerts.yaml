@@ -1,0 +1,25 @@
+automation:
+  - alias: Notify family of water leak
+    id: notify_family_of_water_leak
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.pending_system_alerts
+        to: "on"
+    action:
+      - service: switch.turn_off
+        target:
+          entity_id: switch.shutoff_valve
+      - service: notify.mobile_app_andrew_s_iphone
+        data:
+          title: "Critical Alert: Water Leak"
+          message: Potential water leak detected. Water has been shut off.
+          data:
+            push:
+              category: critical_alert_water
+      - service: notify.mobile_app_dorri_s_iphone
+        data:
+          title: "Critical Alert: Water Leak"
+          message: Potential water leak detected. Water has been shut off.
+          data:
+            push:
+              category: critical_alert_water

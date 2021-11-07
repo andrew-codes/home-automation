@@ -1,0 +1,12 @@
+ios:
+  push:
+    categories:
+      - name: Critical Alert
+        identifier: critical_alert_water
+        actions:
+          - identifier: WATER_LEAK_NON_ISSUE
+            title: "Not an Issue: Dismiss"
+            activationMode: background
+            authenticationRequired: false
+            destructive: true
+            behavior: default
