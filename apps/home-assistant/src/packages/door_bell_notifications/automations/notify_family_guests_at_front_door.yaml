@@ -1,0 +1,32 @@
+automation:
+  - alias: Notify family guests at the front door
+    id: notify_family_guests_at_front_door
+    trigger:
+      platform: mqtt
+      topic: frigate/events
+    condition:
+      - "{{ trigger.payload_json['after']['camera'] == 'front_door' }}"
+      - "{{ trigger.payload_json['after']['label'] == 'person' }}"
+    action:
+      - service: notify.mobile_app_andrew_s_iphone
+        data_template:
+          title: "Guests at the door"
+          message: '{{ states('sensor.front_door_person') }} {% if states('sensor.front_door_person')|int > 1 %}people{% else %}person{% endif %} at the front door.'
+          data:
+            image: 'https://ha.smith-simms.family/api/frigate/notifications/{{trigger.payload_json["after"]["id"]}}/thumbnail.jpg?format=iphone'
+            tag: '{{trigger.payload_json["after"]["id"]}}'
+            when: '{{trigger.payload_json["after"]["start_time"]|int}}'
+            url:  /api/camera_proxy/camera.front_door
+            push:
+              thread-id: security
+      - service: notify.mobile_app_dorri_s_iphone
+        data_template:
+          title: "Guests at the door"
+          message: '{{ states('sensor.front_door_person') }} {% if states('sensor.front_door_person')|int > 1 %}people{% else %}person{% endif %} at the front door.'
+          data:
+            image: 'https://ha.smith-simms.family/api/frigate/notifications/{{trigger.payload_json["after"]["id"]}}/thumbnail.jpg?format=iphone'
+            tag: '{{trigger.payload_json["after"]["id"]}}'
+            when: '{{trigger.payload_json["after"]["start_time"]|int}}'
+            url:  /api/camera_proxy/camera.front_door
+            push:
+              thread-id: security
