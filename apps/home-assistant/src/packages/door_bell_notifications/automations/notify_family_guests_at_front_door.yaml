@@ -23,7 +23,7 @@ automation:
             image: 'https://ha.smith-simms.family/api/frigate/notifications/{{trigger.payload_json["after"]["id"]}}/thumbnail.jpg?format=iphone'
             tag: '{{trigger.payload_json["after"]["id"]}}'
             when: '{{trigger.payload_json["after"]["start_time"]|int}}'
-            url: "https://ha.smith-simms.family/api/camera_proxy/camera.front_door"
+            entity_id: camera.{{trigger.payload_json["after"]["camera"]}}
             push:
               thread-id: security
       - service: notify.mobile_app_dorri_s_iphone
@@ -34,6 +34,6 @@ automation:
             image: 'https://ha.smith-simms.family/api/frigate/notifications/{{trigger.payload_json["after"]["id"]}}/thumbnail.jpg?format=iphone'
             tag: '{{trigger.payload_json["after"]["id"]}}'
             when: '{{trigger.payload_json["after"]["start_time"]|int}}'
-            url: "https://ha.smith-simms.family/api/camera_proxy/camera.front_door"
+            entity_id: camera.{{trigger.payload_json["after"]["camera"]}}
             push:
               thread-id: security
