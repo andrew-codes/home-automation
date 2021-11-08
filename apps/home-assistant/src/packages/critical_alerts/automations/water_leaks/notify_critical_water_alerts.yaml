@@ -15,6 +15,10 @@ automation:
           message: Potential water leak detected. Water has been shut off.
           data:
             push:
+              sound:
+                name: default
+                critical: 1
+                volume: 1.0
               category: critical_alert_water
       - service: notify.mobile_app_dorri_s_iphone
         data:
@@ -22,4 +26,8 @@ automation:
           message: Potential water leak detected. Water has been shut off.
           data:
             push:
+              sound:
+                name: default
+                critical: 1
+                volume: 1.0
               category: critical_alert_water
