@@ -1,0 +1,4 @@
+input_boolean:
+  guest_at_front_door:
+    name: Guests detected at front door
+    icon: "mdi:account-multiple"

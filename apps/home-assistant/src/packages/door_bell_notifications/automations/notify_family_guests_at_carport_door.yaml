@@ -5,9 +5,16 @@ automation:
       platform: mqtt
       topic: frigate/events
     condition:
-      - "{{ trigger.payload_json['after']['camera'] == 'car_port_door' }}"
-      - "{{ trigger.payload_json['after']['label'] == 'person' }}"
+      - condition: and
+        conditions:
+          - "{{ trigger.payload_json['after']['camera'] == 'car_port_door' }}"
+          - "{{ trigger.payload_json['after']['label'] == 'person' }}"
+          - condition: state
+            entity_id: input_boolean.guest_at_carport_door
+            state: "off"
     action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.guest_at_carport_door
       - service: notify.mobile_app_andrew_s_iphone
         data_template:
           title: "Guests at the door"
