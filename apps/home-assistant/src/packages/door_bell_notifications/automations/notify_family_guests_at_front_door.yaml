@@ -23,7 +23,7 @@ automation:
             image: 'https://ha.smith-simms.family/api/frigate/notifications/{{trigger.payload_json["after"]["id"]}}/thumbnail.jpg?format=iphone'
             tag: '{{trigger.payload_json["after"]["id"]}}'
             when: '{{trigger.payload_json["after"]["start_time"]|int}}'
-            uri: "/lovelace/security"
+            uri: "/lovelace/door-bell"
             push:
               thread-id: security
       - service: notify.mobile_app_dorri_s_iphone
@@ -34,6 +34,6 @@ automation:
             image: 'https://ha.smith-simms.family/api/frigate/notifications/{{trigger.payload_json["after"]["id"]}}/thumbnail.jpg?format=iphone'
             tag: '{{trigger.payload_json["after"]["id"]}}'
             when: '{{trigger.payload_json["after"]["start_time"]|int}}'
-            uri: "/lovelace/security"
+            uri: "/lovelace/door-bell"
             push:
               thread-id: security
