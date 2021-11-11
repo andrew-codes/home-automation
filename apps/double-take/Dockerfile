@@ -1,4 +1,4 @@
-FROM jakowenko/double-take:0.10.2
+FROM jakowenko/double-take:1.6.0
 COPY ./config.yml /config.yml
 COPY start.sh /start.sh
 
