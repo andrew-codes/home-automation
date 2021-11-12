@@ -155,6 +155,13 @@ spec:
               mountPath: /config
             - name: home-assistant-new-config-volume
               mountPath: /new-config
+        - name: frigate-is-ready
+          image: curlimages/curl:latest
+          command:
+            - "sh"
+          args:
+            - "-c"
+            - "timeout 10 curl --fail --insecure --silent --output /dev/null --write-out 'HTTP Code %{http_code}' 'http://frigate:5000' || exit 1"
         - name: check-db-ready
           image: postgres:13.3-alpine
           command:
