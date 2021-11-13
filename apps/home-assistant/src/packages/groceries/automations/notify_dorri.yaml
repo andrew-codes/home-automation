@@ -18,6 +18,6 @@ automation:
           title: Check the grocery list
           message: "Don't forget to check the shopping list while you are at the grocery store"
           data:
-            url: /lovelace/groceries
+            url: /shopping-list
             push:
               thread-id: groceries
