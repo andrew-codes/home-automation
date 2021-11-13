@@ -10,7 +10,7 @@ rest_command:
       {
         "update": {},
         "fields": {
-          "summary": "{{ states("input_text.defect_summary")|replace('"', '\'') }}",
+          "summary": "{{ states("input_text.defect_summary")|tojson }}",
           "issuetype": {
             "id": "10004"
           },
