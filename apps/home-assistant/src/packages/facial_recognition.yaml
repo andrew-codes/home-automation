@@ -1,14 +1,6 @@
-sensor:
-  - platform: mqtt
-    name: Andrew's Face Match
-    icon: mdi:account
-    state_topic: "double-take/matches/andrew"
-    json_attributes_topic: "double-take/matches/andrew"
-    value_template: "{{ value_json.camera }}"
-    availability_topic: "double-take/available"
-
 automation:
   - alias: Notify that Andrew's face was recognized
+    id: notify_andrew_face_was_recognized
     trigger:
       - platform: state
         entity_id: sensor.andrew_s_face_match
@@ -18,7 +10,8 @@ automation:
           title: Andrew Appeared
           message_template: "Andrew appeared at the {{ state_attr('sensor.andrew_s_face_match', 'camera') }}"
 
-  - alias: Someone was detected at the front door
+  - alias: Notify that matched face is at front door
+    id: notify_matched_faces_at_front_door
     trigger:
       - platform: mqtt
         topic: "double-take/cameras/front_door"
@@ -28,29 +21,3 @@ automation:
           title: Someone is at the Front Door
           message_template: >
             Recognized at the front door: {{ trigger.payload_json.matches | map(attribute='name') | join(', ')}}
-
-  - alias: Count of people detected at the front door
-    trigger:
-      - platform: mqtt
-        topic: "double-take/cameras/front_door"
-    action:
-      - service: notify.mobile_app_andrew_s_iphone
-        data_template:
-          title: Media from camera entity
-          message_template: "People at front door: {{ trigger.payload_json.matches.length }}"
-          data:
-            image: "https://ha.smith-simms.family{{ state_attr('camera.front_doorbell', 'entity_picture') }}"
-            video: "https://ha.smith-simms.family{{ state_attr('camera.front_doorbell', 'entity_picture') }}"
-
-  - alias: Someone is at the front door
-    trigger:
-      - platform: mqtt
-        topic: "double-take/cameras/front_door"
-    action:
-      - service: notify.mobile_app_andrew_s_iphone
-        data_template:
-          title: Media from Frigate
-          message_template: "People at front door with frigate media"
-          data:
-            image: "https://ha.smith-simms.family/api/frigate/notifications/{{ trigger.payload_json.id }}}/front_door/thumbnail.jpg"
-            video: "https://ha.smith-simms.family/api/frigate/notifications/{{ trigger.payload_json.id }}}/front_door/clip.mp4"

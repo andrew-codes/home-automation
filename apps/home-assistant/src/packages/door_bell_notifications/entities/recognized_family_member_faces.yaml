@@ -1,0 +1,15 @@
+sensor:
+  - platform: mqtt
+    name: Andrew's Face Match
+    icon: mdi:account
+    state_topic: "double-take/matches/andrew_smith"
+    json_attributes_topic: "double-take/matches/andrew_smith"
+    value_template: "{{ value_json.camera }}"
+    availability_topic: "double-take/available"
+  - platform: mqtt
+    name: Dorri's Face Match
+    icon: mdi:account
+    state_topic: "double-take/matches/dorri_smith"
+    json_attributes_topic: "double-take/matches/dorri_smith"
+    value_template: "{{ value_json.camera }}"
+    availability_topic: "double-take/available"
