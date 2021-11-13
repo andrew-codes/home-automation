@@ -5,7 +5,7 @@ rest_command:
     headers:
       authorization: !secret JIRA_AUTHORIZATION_HEADER
       accept: "application/json, text/html"
-      user-agent: "Mozilla/5.0 {{ useragent }}"
+      user-agent: "Mozilla/5.0"
     payload: |
       {
         "update": {},
