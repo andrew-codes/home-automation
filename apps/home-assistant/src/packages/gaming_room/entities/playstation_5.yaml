@@ -23,7 +23,7 @@ media_player:
     commands:
       # turn_off:
       #   service: media_player.turn_off
-      #   data:
+      #   target:
       #     entity_id:
       volume_set:
         service: media_player.volume_set

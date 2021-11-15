@@ -31,11 +31,11 @@ media_player:
     commands:
       turn_on:
         service: script.turn_on
-        data:
+        target:
           entity_id: script.gaming_room_turn_on_gaming_pc
       turn_off:
         service: script.turn_on
-        data:
+        target:
           entity_id: script.gaming_room_turn_off_gaming_pc
       volume_set:
         service: media_player.volume_set

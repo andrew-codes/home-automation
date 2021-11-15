@@ -21,7 +21,7 @@ media_player:
     commands:
       turn_off:
         service: script.turn_on
-        data:
+        target:
           entity_id: script.gaming_room_turn_off_all_media_players
       volume_set:
         service: media_player.volume_set
