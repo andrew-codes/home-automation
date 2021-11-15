@@ -5,8 +5,23 @@ rest_command:
     headers:
       authorization: !secret JIRA_AUTHORIZATION_HEADER
       accept: "application/json, text/html"
-      content-type: "application/json"
+      user-agent: "Mozilla/5.0"
     payload: |
-      {"update": {},"fields": {"summary": {{ states("input_text.defect_summary")|replace('"', "'")|tojson }}, "issuetype": { "id": "10004" }, "project": { "id": "10000" }, "labels": [ "reported", "home-automation" ] } }
+      {
+        "update": {},
+        "fields": {
+          "summary": "{{ states("input_text.defect_summary")|replace('"', "'") }}",
+          "issuetype": {
+            "id": "10004"
+          },
+          "project": {
+            "id": "10000"
+          },
+          "labels": [
+            "reported",
+            "home-automation"
+          ]
+        }
+      }
     content_type: "application/json; charset=utf-8"
     verify_ssl: true
