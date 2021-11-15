@@ -13,7 +13,7 @@ automation:
             entity_id: input_boolean.guest_at_carport_door
             state: "off"
           - condition: template
-            value_template: "{{ (as_timestamp(now()) - as_timestamp(state_attr('automation.notify_family_guests_at_front_door', 'last_triggered') | default(0)) | int > 85)}}"
+            value_template: "{{ (as_timestamp(now()) - as_timestamp(state_attr('automation.notify_family_guests_at_carport_door', 'last_triggered') | default(0)) | int > 85)}}"
     action:
       - service: notify.mobile_app_andrew_s_iphone
         data_template:
