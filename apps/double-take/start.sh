@@ -2,4 +2,4 @@
 
 mkdir -p /.storage/config
 envsubst </config.yml >/.storage/config/config.yml
-nodemon --watch api/server.js
+nodemon --watch /.storage/config/config.yml api/server.js
