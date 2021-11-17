@@ -12,15 +12,13 @@ automation:
         before: "08:00:00"
     action:
       - service: climate.set_preset_mode
-        target:
-          entity_id: climate.main_floor
+        entity_id: climate.main_floor
         data:
           preset_mode: Home
       - condition: template
         value_template: "{{ (state_attr('weather.home', 'temperature')|int) <= 50 }}"
       - service: climate.set_temperature
-        target:
-          entity_id: climate.main_floor
+        entity_id: climate.main_floor
         data:
           target_temp_high: 74
           target_temp_low: 70

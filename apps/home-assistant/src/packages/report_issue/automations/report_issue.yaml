@@ -9,6 +9,6 @@ automation:
     action:
       - service: rest_command.create_jira_issue
       - service: input_text.set_value
+        entity_id: input_text.defect_summary
         data:
-          entity_id: input_text.defect_summary
           value: ""

@@ -7,7 +7,6 @@ automation:
         to: "on"
     action:
       - service: climate.set_preset_mode
-        target:
-          entity_id: climate.main_floor
+        entity_id: climate.main_floor
         data:
           preset_mode: Sleep

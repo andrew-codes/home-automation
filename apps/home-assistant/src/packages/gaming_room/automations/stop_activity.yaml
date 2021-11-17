@@ -7,5 +7,4 @@ automation:
       to: "off"
     action:
       - service: script.turn_on
-        data:
-          entity_id: script.gaming_room_turn_off_all_media_players
+        entity_id: script.gaming_room_turn_off_all_media_players

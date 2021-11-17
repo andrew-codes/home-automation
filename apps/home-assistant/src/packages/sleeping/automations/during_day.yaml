@@ -6,7 +6,6 @@ automation:
         at: "08:00:00"
     action:
       - service: climate.set_preset_mode
-        target:
-          entity_id: climate.main_floor
+        entity_id: climate.main_floor
         data:
           preset_mode: Home

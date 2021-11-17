@@ -7,8 +7,7 @@ automation:
         to: "on"
     action:
       - service: switch.turn_off
-        target:
-          entity_id: switch.shutoff_valve
+        entity_id: switch.shutoff_valve
       - service: notify.mobile_app_andrew_s_iphone
         data:
           title: "Critical Alert: Water Leak"

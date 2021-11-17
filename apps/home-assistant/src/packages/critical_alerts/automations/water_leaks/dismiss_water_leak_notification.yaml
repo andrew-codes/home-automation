@@ -8,5 +8,4 @@ automation:
         actionName: WATER_LEAK_NON_ISSUE
     action:
       - service: switch.turn_on
-        target:
-          entity_id: switch.shutoff_valve
+        entity_id: switch.shutoff_valve

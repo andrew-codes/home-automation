@@ -7,16 +7,14 @@ automation:
       from: "off"
     action:
       - service: media_player.select_source
+        entity_id: media_player.gaming_room_avr
         data:
-          entity_id: media_player.gaming_room_avr
           source: Media Player
       - service: media_player.turn_off
-        data:
-          entity_id: media_player.gaming_room_universal_playstation_5
+        entity_id: media_player.gaming_room_universal_playstation_5
       - service: media_player.turn_off
-        data:
-          entity_id: media_player.gaming_room_universal_gaming_pc
+        entity_id: media_player.gaming_room_universal_gaming_pc
       - service: media_player.volume_set
+        entity_id: media_player.gaming_room_media_player
         data:
-          entity_id: media_player.gaming_room_media_player
           volume_level: 0.50

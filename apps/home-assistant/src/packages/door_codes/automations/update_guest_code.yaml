@@ -5,6 +5,7 @@ automation:
         topic: /homeassistant/guest-pin/set
     action:
       - service: input_text.set_value
-        data_template:
+        target:
           entity_id: "{{ trigger.payload_json.entity_id }}"
+        data_template:
           value: "{{ trigger.payload_json.pin }}"

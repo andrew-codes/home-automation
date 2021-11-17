@@ -5,23 +5,8 @@ automation:
       - platform: state
         entity_id: group.tracked_presence
         to: "not_home"
-    condition:
-      - condition: or
-        conditions:
-          - condition: state
-            entity_id: lock.front_door_deadbolt
-            state: unlocked
-            for:
-              minutes: 3
-          - condition: state
-            entity_id: lock.car_port_deadbolt
-            state: unlocked
-            for:
-              minutes: 3
     action:
       - service: lock.lock
-        data:
-          entity_id: lock.front_door_deadbolt
+        entity_id: lock.front_door_deadbolt
       - service: lock.lock
-        data:
-          entity_id: lock.car_port_deadbolt
+        entity_id: lock.car_port_deadbolt

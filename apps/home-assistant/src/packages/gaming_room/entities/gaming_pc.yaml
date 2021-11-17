@@ -31,30 +31,24 @@ media_player:
     commands:
       turn_on:
         service: script.turn_on
-        target:
-          entity_id: script.gaming_room_turn_on_gaming_pc
+        entity_id: script.gaming_room_turn_on_gaming_pc
       turn_off:
         service: script.turn_on
-        target:
-          entity_id: script.gaming_room_turn_off_gaming_pc
+        entity_id: script.gaming_room_turn_off_gaming_pc
       volume_set:
         service: media_player.volume_set
-        data:
-          entity_id: media_player.gaming_room_avr
+        entity_id: media_player.gaming_room_avr
         data_template:
           volume_level: "{{ volume_level }}"
       volume_up:
         service: media_player.volume_up
-        data:
-          entity_id: media_player.gaming_room_avr
+        entity_id: media_player.gaming_room_avr
       volume_down:
         service: media_player.volume_down
-        data:
-          entity_id: media_player.gaming_room_avr
+        entity_id: media_player.gaming_room_avr
       volume_mute:
         service: media_player.volume_mute
-        data:
-          entity_id: media_player.gaming_room_avr
+        entity_id: media_player.gaming_room_avr
         data_template:
           is_volume_muted: "{{ is_volume_muted }}"
       select_source:
