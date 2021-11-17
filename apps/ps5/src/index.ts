@@ -1,15 +1,12 @@
 import createDebugger from "debug"
 import sh from "shelljs"
 import { connectAsync } from "async-mqtt"
-import { get } from "lodash/fp"
 import { isEmpty } from "lodash"
 
 const debug = createDebugger("@ha/ps5-app/index")
 
-const { MQTT_HOST, MQTT_PASSWORD, MQTT_PORT, MQTT_USERNAME } = process.env
-
-const getPS5State = ({ code }: { code: number }) =>
-  code === 200 ? "on" : code === 620 ? "standby" : "off"
+const { MQTT_HOST, MQTT_PASSWORD, MQTT_PORT, MQTT_USERNAME, PS5_NAMES } =
+  process.env
 
 async function run() {
   debug("Starting application")
@@ -19,13 +16,10 @@ async function run() {
     username: MQTT_USERNAME,
   })
 
-  const browseOutput = sh.exec(`playactor browse`).stdout
-  const parsedOutput = JSON.parse(browseOutput)
-  let foundDevices = parsedOutput
-  if (!Array.isArray(parsedOutput)) {
-    foundDevices.push(parsedOutput)
+  const ps5Names = (PS5_NAMES || "").split(",")
+  if (isEmpty(ps5Names)) {
+    debug("No PS Names provided.")
   }
-  const ps5Names = foundDevices.map(get("name"))
 
   await Promise.all(
     ps5Names.map(async (name) => {
