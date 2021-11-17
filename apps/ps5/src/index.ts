@@ -53,10 +53,10 @@ async function run() {
       if (command === "set") {
         if (messagePayload === "ON") {
           debug(sh.exec(`playactor wake --host-name ${ps5Name}`))
-          await mqtt.publish(`homeassistant/switch/${entityName}/state`, "ON")
+          checkState(ps5Name, entityName)
         } else if (messagePayload === "OFF") {
           debug(sh.exec(`playactor standby --host-name ${ps5Name}`))
-          await mqtt.publish(`homeassistant/switch/${entityName}/state`, "OFF")
+          checkState(ps5Name, entityName)
         }
         return
       }
