@@ -71,6 +71,7 @@ async function run() {
 
   while (true) {
     await sleep(1300)
+    debug("Polling all ps5 states")
     await Promise.all(ps5Names.map(checkState))
   }
 }
