@@ -62,6 +62,7 @@ async function run() {
       }
 
       if (command === "state" && isEmpty(messagePayload)) {
+        debug("Request for state")
         checkState(name)
       }
     } catch (e) {
