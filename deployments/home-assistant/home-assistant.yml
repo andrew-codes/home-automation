@@ -259,14 +259,6 @@ metadata:
     app.kubernetes.io/name: home-assistant
 spec:
   ports:
-    - name: ps4-port-1
-      protocol: UDP
-      port: 987
-      targetPort: 987
-    - name: ps4-port-2
-      protocol: TCP
-      port: 997
-      targetPort: 997
     - name: api
       port: 8123
       protocol: TCP
