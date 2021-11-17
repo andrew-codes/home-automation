@@ -3,9 +3,8 @@ automation:
     id: gaming_room_poll_playstation_5_state
     trigger:
       - platform: time_pattern
-        seconds: "/10"
+        seconds: "/5"
     action:
       - service: mqtt.publish
         data:
-          topic: "/ps5/state/request"
-          payload: !secret GAMING_ROOM_PLAYSTATION_5_IP
+          topic: "homeassistant/switch/PS5_538/state"
