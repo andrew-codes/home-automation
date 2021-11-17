@@ -4,4 +4,4 @@ binary_sensor:
       are_packages_delivered:
         friendly_name: Package Delivery
         value_template: >
-          {{states("sensor.number_of_packages")|default(0)|int > 0}}
+          {{states("sensor.mail_packages_delivered")|default(0)|int > 0}}
