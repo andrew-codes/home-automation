@@ -10,3 +10,6 @@ script:
       - service: media_player.turn_off
         data:
           entity_id: media_player.gaming_room_tv
+      - service: media_player.turn_off
+        data:
+          entity_id: media_player.gaming_room_universal_playstation_5

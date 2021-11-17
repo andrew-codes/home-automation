@@ -1,9 +1,3 @@
-sensor:
-  - platform: mqtt
-    name: "PlayStation 5 State"
-    state_topic: "/ps5/state"
-    value_template: "{{ value_json.state }}"
-
 media_player:
   - name: Gaming Room Universal PlayStation 5
     platform: universal
@@ -11,20 +5,16 @@ media_player:
       - media_player.gaming_room_avr
       - media_player.gaming_room_tv
     state_template: >
-      {% if is_state('sensor.playstation_5_state', 'standby') %}
-      off
-      {% elif is_state('sensor.playstation_5_state', 'idle') %}
-      on
-      {% elif is_state('sensor.playstation_5_state', 'on') %}
-      on
-      {% else %}
-      off
-      {% endif %}
+      {{ states('switch.gaming_room_ps5') }}
     commands:
-      # turn_off:
-      #   service: media_player.turn_off
-      #   target:
-      #     entity_id:
+      turn_off:
+        service: switch.turn_off
+        target:
+          entity_id: switch.gaming_room_ps5
+      turn_on:
+        service: switch.turn_on
+        target:
+          entity_id: switch.gaming_room_ps5
       volume_set:
         service: media_player.volume_set
         data:
