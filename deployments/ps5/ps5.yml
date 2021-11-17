@@ -55,7 +55,7 @@ spec:
             - "sh"
           args:
             - "-c"
-            - "timeout 10 curl --fail --insecure --silent --output /dev/null --write-out 'HTTP Code %{http_code}' 'http://ha.smith-simms.family' || exit 1"
+            - "timeout 10 curl --fail --insecure --silent --output /dev/null --write-out 'HTTP Code %{http_code}' 'https://ha.smith-simms.family' || exit 1"
       containers:
         - name: ps5
           image: docker-registry:5000/ps5:latest
