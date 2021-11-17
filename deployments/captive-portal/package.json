@@ -6,8 +6,6 @@
   "scripts": {
     "deploy": "scripts/bin/deploy.sh",
     "postdeploy": "kubectl rollout restart deployment captive-portal",
-    "ingress/prod": "scripts/bin/ingress.sh ingress-prod.yml",
-    "ingress/stage": "scripts/bin/ingress.sh ingress-staging.yml",
     "initialize-secrets": "scripts/bin/initialize-secrets.sh"
   },
   "dependencies": {
