@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "@ha/ps5",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "deploy": "scripts/bin/deploy.sh",
+    "postdeploy": "kubectl rollout restart deployment ps5",
+    "initialize-secrets": "scripts/bin/initialize-secrets.sh"
+  },
+  "dependencies": {
+    "@ha/ps5-app": "^0.0.1"
+  }
+}

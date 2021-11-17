@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ps5
+  namespace: default
+  labels:
+    app.kubernetes.io/name: ps5
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ps5
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ps5
+      annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/role: app
+        vault.hashicorp.com/agent-inject-status: update
+        vault.hashicorp.com/agent-inject-secret-env.sh: kv/mqtt
+        vault.hashicorp.com/agent-inject-template-env.sh: |
+          {{ with secret "kv/mqtt" }}
+          export MQTT_USERNAME="{{ .Data.data.USERNAME }}"
+          export MQTT_PASSWORD="{{ .Data.data.PASSWORD }}"
+          {{ end }}
+        vault.hashicorp.com/agent-inject-secret-credentials.json: kv/ps5
+        vault.hashicorp.com/agent-inject-template-credentials.json: |
+          {{ with secret "kv/ps5" }}{{ .Data.data.CREDENTIALS }}{{ end }}
+    spec:
+      tolerations:
+        - key: "node.kubernetes.io/disk-pressure"
+          operator: "Exists"
+          effect: "NoExecute"
+          tolerationSeconds: 300
+      serviceAccountName: app
+      hostNetwork: true
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: ps5
+          image: docker-registry:5000/ps5:latest
+          imagePullPolicy: Always
+          command:
+            - "sh"
+          args:
+            - "-c"
+            - "source /vault/secrets/env.sh && mv /vault/secrets/credentials.json ~/.config/playactor/credentials.json && /start.sh"
+          env:
+            - name: DEBUG
+            - name: MQTT_HOST
+              value: mqtt
+            - name: MQTT_PORT
+              value: "1883"

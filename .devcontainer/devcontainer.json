@@ -36,5 +36,5 @@
   ],
 
   "postStartCommand": "wrapdocker.sh",
-  "runArgs": ["--privileged"]
+  "runArgs": ["--privileged", "--network=host"]
 }
