@@ -38,14 +38,14 @@ async function run() {
   )
 
   const extractName = new RegExp(
-    "^homeassistant/switch/([a-zA-Z0-9_-]+)/((set)|(state)){1}"
+    "^homeassistant/switch/([a-zA-Z0-9_-]+)/([a-z]+){1}"
   )
 
   mqtt.on("message", async (topic, message) => {
     try {
       debug("topic", topic)
       const messagePayload = message.toString()
-      const [name, command] = extractName.exec(topic) ?? []
+      const [_, name, command] = extractName.exec(topic) ?? []
       debug(topic, name, command, messagePayload)
 
       if (command === "set") {
