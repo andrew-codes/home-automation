@@ -53,16 +53,16 @@ async function run() {
       if (command === "set") {
         if (messagePayload === "on") {
           debug(sh.exec(`playactor wake --host-name ${ps5Name}`))
-          await mqtt.publish(`homeassistant/switch/${ps5Name}/state`, "on")
+          await mqtt.publish(`homeassistant/switch/${name}/state`, "on")
         } else if (messagePayload === "off") {
           debug(sh.exec(`playactor standby --host-name ${ps5Name}`))
-          await mqtt.publish(`homeassistant/switch/${ps5Name}/state`, "off")
+          await mqtt.publish(`homeassistant/switch/${name}/state`, "off")
         }
         return
       }
 
       if (command === "state" && isEmpty(messagePayload)) {
-        checkState(ps5Name)
+        checkState(name)
       }
     } catch (e) {
       debug(e)
@@ -72,7 +72,9 @@ async function run() {
   while (true) {
     await sleep(1300)
     debug("Polling all ps5 states")
-    await Promise.all(ps5Names.map(checkState))
+    await Promise.all(
+      ps5Names.map((name) => name.replace("-", "_")).map(checkState)
+    )
   }
 }
 
