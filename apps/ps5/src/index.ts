@@ -46,26 +46,27 @@ async function run() {
       debug("topic", topic)
       const messagePayload = message.toString()
       const [_, name, command] = extractName.exec(topic) ?? []
-      debug(topic, name, command, messagePayload)
+      const ps5Name = name.replace('_', "-")
+      debug(topic, ps5Name, command, messagePayload)
 
       if (command === "set") {
         if (messagePayload === "ON") {
-          debug(sh.exec(`playactor wake --host-name ${name}`))
-          await mqtt.publish(`homeassistant/switch/${name}/state`, "ON")
+          debug(sh.exec(`playactor wake --host-name ${ps5Name}`))
+          await mqtt.publish(`homeassistant/switch/${ps5Name}/state`, "ON")
         } else if (messagePayload === "OFF") {
-          debug(sh.exec(`playactor standby --host-name ${name}`))
-          await mqtt.publish(`homeassistant/switch/${name}/state`, "OFF")
+          debug(sh.exec(`playactor standby --host-name ${ps5Name}`))
+          await mqtt.publish(`homeassistant/switch/${ps5Name}/state`, "OFF")
         }
         return
       }
 
       if (command === "state" && isEmpty(messagePayload)) {
-        const checkOutput = sh.exec(`playactor check --host-name ${name}`)
+        const checkOutput = sh.exec(`playactor check --host-name ${ps5Name}`)
         debug(checkOutput)
         const status = JSON.parse(checkOutput).status
         const state =
           status === "Awake" ? "ON" : status === "Standby" ? "OFF" : "OFF"
-        await mqtt.publish(`homeassistant/switch/${name}/state`, state)
+        await mqtt.publish(`homeassistant/switch/${ps5Name}/state`, state)
       }
     } catch (e) {
       debug(e)
