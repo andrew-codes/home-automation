@@ -1,24 +1,22 @@
 import { connectAsync } from "async-mqtt"
 import createDebug from "debug"
 import createUnifi from "node-unifiapi"
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from "next"
 
 const debug = createDebug("@ha/captive-portal/api/register")
 
 const macExp = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method !== "POST") {
     res.status(400).end("Method Not Allowed")
     return
   }
   try {
     const payload = JSON.parse(req.body)
-    const { PASS_PHRASE } = process.env
-    if (!PASS_PHRASE || payload.passPhrase !== PASS_PHRASE) {
-      res.status(403).end("Not Authorized")
-      return
-    }
 
     if (!payload.mac || !macExp.test(payload.mac)) {
       res.status(400).end("Incorrect Parameters")
