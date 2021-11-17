@@ -15,6 +15,7 @@ async function run() {
     port: parseInt(MQTT_PORT || "1883", 10),
     username: MQTT_USERNAME,
   })
+  const checkState = createCheckState(mqtt)
 
   const ps5Names = (PS5_NAMES || "").split(",")
   if (isEmpty(ps5Names)) {
@@ -61,17 +62,34 @@ async function run() {
       }
 
       if (command === "state" && isEmpty(messagePayload)) {
-        const checkOutput = sh.exec(`playactor check --host-name ${ps5Name}`)
-        debug(checkOutput)
-        const status = JSON.parse(checkOutput).status
-        const state =
-          status === "Awake" ? "on" : status === "Standby" ? "off" : "off"
-        await mqtt.publish(`homeassistant/switch/${ps5Name}/state`, state)
+        checkState(ps5Name)
       }
     } catch (e) {
       debug(e)
     }
   })
+
+  while (true) {
+    await sleep(1300)
+    await Promise.all(ps5Names.map(checkState))
+  }
 }
 
 run()
+
+function createCheckState(mqtt) {
+  return async (name) => {
+    const checkOutput = sh.exec(`playactor check --host-name ${name}`)
+    debug(checkOutput)
+    const status = JSON.parse(checkOutput).status
+    const state =
+      status === "Awake" ? "on" : status === "Standby" ? "off" : "off"
+    await mqtt.publish(`homeassistant/switch/${name}/state`, state)
+  }
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(true), ms)
+  })
+}
