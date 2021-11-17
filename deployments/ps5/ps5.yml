@@ -53,6 +53,7 @@ spec:
             - "source /vault/secrets/env.sh && cp /vault/secrets/credentials.json ~/.config/playactor/credentials.json && /start.sh"
           env:
             - name: DEBUG
+              value: "*"
             - name: MQTT_HOST
               value: mqtt
             - name: MQTT_PORT
