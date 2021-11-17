@@ -12,7 +12,6 @@ import {
   IconButton,
   TextField,
 } from "@material-ui/core"
-import QrScanner, { Scanner } from "../QrScanner"
 
 const Form = styled.form``
 const Label = styled.label`
@@ -24,16 +23,10 @@ const Label = styled.label`
 function Index() {
   const router = useRouter()
 
-  const [passPhrase, setPassPhrase] = React.useState("")
-  const changePassPhrase = React.useCallback(
-    (evt) => setPassPhrase(evt.target.value),
-    [setPassPhrase]
-  )
-
   const [isPrimaryDevice, setIsPrimaryDevice] = React.useState(false)
   const changeIsPrimaryDevice = React.useCallback(
     (evt) => setIsPrimaryDevice(evt.target.checked),
-    [setPassPhrase]
+    [setIsPrimaryDevice]
   )
 
   const submit = React.useCallback(() => {
@@ -42,35 +35,13 @@ function Index() {
       body: JSON.stringify({
         isPrimaryDevice,
         mac: router.query.mac,
-        passPhrase,
       }),
     }).then((resp) => {
       if (resp.ok) {
         router.push("/thank-you")
       }
     })
-  }, [isPrimaryDevice, router.query.mac, passPhrase, router.push])
-
-  let scanner: Scanner
-  const [isScanning, setIsScanning] = React.useState(false)
-  const setScanner = React.useCallback((s) => (scanner = s), [scanner])
-  const startScan = React.useCallback(() => {
-    setIsScanning(true)
-    scanner.start()
-  }, [scanner, setIsScanning])
-  const stopScan = React.useCallback(() => {
-    setIsScanning(false)
-    scanner.stop()
-  }, [scanner, setIsScanning])
-  const scanPassPhrase = React.useCallback(
-    (code) => {
-      setPassPhrase(code)
-      stopScan()
-    },
-    [stopScan, setPassPhrase]
-  )
-
-  const noop = React.useCallback(() => {}, [])
+  }, [isPrimaryDevice, router.query.mac, router.push])
 
   return (
     <Form>
@@ -78,36 +49,6 @@ function Index() {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <h1>Welcome to Smith-Simms Wifi</h1>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="start">
-                    <IconButton aria-label="Scan QR Code" onClick={startScan}>
-                      <CropFree />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              label="Pass Phrase"
-              onChange={changePassPhrase}
-              value={passPhrase}
-            />
-            {!isScanning ? (
-              <Button onClick={startScan}>Scan QR Code</Button>
-            ) : (
-              <Button onClick={stopScan}>Stop Scanning</Button>
-            )}
-          </Grid>
-          <Grid item xs={12}>
-            <QrScanner
-              hidden={!isScanning}
-              onError={noop}
-              onReady={setScanner}
-              onScan={scanPassPhrase}
-            />
           </Grid>
           <Grid item xs={12} sm={6}>
             <FormControlLabel

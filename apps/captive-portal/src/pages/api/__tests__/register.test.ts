@@ -54,43 +54,6 @@ test("mal-formed body responds with a 500", async () => {
   })
 })
 
-test("no pass phrase env var will return 403", async () => {
-  delete process.env.PASS_PHRASE
-  await testApiHandler({
-    handler: register,
-    url: "/api/register",
-    test: async ({ fetch }) => {
-      const resp = await fetch({ method: "POST", body: JSON.stringify({}) })
-      expect(resp.status).toEqual(403)
-    },
-  })
-})
-
-test("missing pass phrase address will respond with a 403", async () => {
-  await testApiHandler({
-    handler: register,
-    url: "/api/register",
-    test: async ({ fetch }) => {
-      const resp = await fetch({ method: "POST", body: JSON.stringify({}) })
-      expect(resp.status).toEqual(403)
-    },
-  })
-})
-
-test("invalid pass phrase will respond with a 403", async () => {
-  await testApiHandler({
-    handler: register,
-    url: "/api/register",
-    test: async ({ fetch }) => {
-      const resp = await fetch({
-        method: "POST",
-        body: JSON.stringify({ passPhrase: "not correct" }),
-      })
-      expect(resp.status).toEqual(403)
-    },
-  })
-})
-
 test("missing MAC address will respond with a 400", async () => {
   await testApiHandler({
     handler: register,
@@ -119,7 +82,7 @@ test("mal-formed MAC address will respond with a 400", async () => {
   })
 })
 
-test("valid pass phrase and MAC address will authorize guest", async () => {
+test("valid MAC address will authorize guest", async () => {
   when(createUnifi)
     .calledWith({
       baseUrl: "https://ip:port",
@@ -181,22 +144,22 @@ test("default mqtt port is 1883", async () => {
       username: "mqtt-username",
     })
     .mockResolvedValue(mqtt)
-    await testApiHandler({
-      handler: register,
-      url: "/api/register",
-      test: async ({ fetch }) => {
-        const resp = await fetch({
-          method: "POST",
-          body: JSON.stringify({
-            passPhrase: "pass phrase",
-            mac: "3D:F2:C9:A6:B3:4F",
-            isPrimaryDevice: true,
-          }),
-        })
-        expect(mqtt.publish).toBeCalledWith(
-          "/homeassistant/guest/track-device",
-          "3D:F2:C9:A6:B3:4F"
-        )
-      },
-    })
+  await testApiHandler({
+    handler: register,
+    url: "/api/register",
+    test: async ({ fetch }) => {
+      const resp = await fetch({
+        method: "POST",
+        body: JSON.stringify({
+          passPhrase: "pass phrase",
+          mac: "3D:F2:C9:A6:B3:4F",
+          isPrimaryDevice: true,
+        }),
+      })
+      expect(mqtt.publish).toBeCalledWith(
+        "/homeassistant/guest/track-device",
+        "3D:F2:C9:A6:B3:4F"
+      )
+    },
+  })
 })
