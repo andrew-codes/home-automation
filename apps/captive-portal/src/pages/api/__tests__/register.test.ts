@@ -1,9 +1,8 @@
-jest.mock("node-unifiapi")
+jest.mock("node-unifi")
 jest.mock("async-mqtt")
 import { testApiHandler } from "next-test-api-route-handler"
-import { merge } from "lodash"
 import register from "../register"
-import createUnifi from "node-unifiapi"
+import { Controller } from "node-unifi"
 import { connectAsync } from "async-mqtt"
 import { when } from "jest-when"
 
@@ -13,10 +12,16 @@ const unifi = {
 const mqtt = {
   publish: jest.fn(),
 }
+const authorizeGuest = jest.fn()
+const login = jest.fn()
 
 beforeEach(async () => {
   jest.resetAllMocks()
-  createUnifi.mockReturnValue(unifi)
+  console.log(Controller)
+  ;(Controller as jest.Mock).mockImplementation(() => ({
+    authorizeGuest,
+    login,
+  }))
   process.env.MQTT_HOST = "mqtt-host"
   process.env.MQTT_PASSWORD = "mqtt-password"
   process.env.MQTT_PORT = "8123"
@@ -83,13 +88,6 @@ test("mal-formed MAC address will respond with a 400", async () => {
 })
 
 test("valid MAC address will authorize guest", async () => {
-  when(createUnifi)
-    .calledWith({
-      baseUrl: "https://ip:port",
-      password: "unifi-password",
-      username: "unifi-username",
-    })
-    .mockReturnValue(unifi)
   await testApiHandler({
     handler: register,
     url: "/api/register",
@@ -102,7 +100,13 @@ test("valid MAC address will authorize guest", async () => {
         }),
       })
       expect(resp.status).toEqual(200)
-      expect(unifi.authorize_guest).toBeCalledWith("3D:F2:C9:A6:B3:4F", 4320)
+      expect(Controller).toBeCalledWith({
+        host: "ip",
+        port: "port",
+        sslverify: false,
+      })
+      expect(login).toBeCalledWith("unifi-username", "unifi-password")
+      expect(authorizeGuest).toBeCalledWith("3D:F2:C9:A6:B3:4F", 4320)
     },
   })
 })

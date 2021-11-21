@@ -1,6 +1,6 @@
 import { connectAsync } from "async-mqtt"
 import createDebug from "debug"
-import createUnifi from "node-unifiapi"
+import { Controller } from "node-unifi"
 import { NextApiRequest, NextApiResponse } from "next"
 
 const debug = createDebug("@ha/captive-portal/api/register")
@@ -24,12 +24,13 @@ export default async function handler(
     }
 
     const { UNIFI_IP, UNIFI_PORT, UNIFI_PASSWORD, UNIFI_USERNAME } = process.env
-    const unifi = createUnifi({
-      baseUrl: `https://${UNIFI_IP}:${UNIFI_PORT}`,
-      password: UNIFI_PASSWORD,
-      username: UNIFI_USERNAME,
+    const controller = new Controller({
+      host: UNIFI_IP,
+      port: UNIFI_PORT,
+      sslverify: false,
     })
-    unifi.authorize_guest(payload.mac, 4320)
+    await controller.login(UNIFI_USERNAME, UNIFI_PASSWORD)
+    await controller.authorizeGuest(payload.mac, 4320)
 
     if (payload.isPrimaryDevice) {
       const { MQTT_HOST, MQTT_PASSWORD, MQTT_PORT, MQTT_USERNAME } = process.env

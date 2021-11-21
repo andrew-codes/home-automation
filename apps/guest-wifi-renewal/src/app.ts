@@ -6,7 +6,7 @@ import {
   getStates,
   HaWebSocket,
 } from "home-assistant-js-websocket"
-import createUnifi from "node-unifiapi"
+import { Controller } from "node-unifi"
 import WebSocket from "ws"
 const debug = createDebug("@ha/guest-wifi-renewal/apo")
 
@@ -30,11 +30,12 @@ const run = async (): Promise<void> => {
   })
   mqtt.subscribe("/homeassistant/guest/renew-devices")
 
-  const unifi = createUnifi({
-    baseUrl: `https://${UNIFI_IP}:${UNIFI_PORT}`,
-    username: UNIFI_USERNAME,
-    password: UNIFI_PASSWORD,
+  const unifi = new Controller({
+    host: UNIFI_IP,
+    port: UNIFI_PORT,
+    sslverify: false,
   })
+  await unifi.login(UNIFI_USERNAME, UNIFI_PASSWORD)
   const auth = await createLongLivedTokenAuth(HA_URL ?? "", HA_TOKEN ?? "")
   const connection = await createConnection({
     auth,
@@ -70,7 +71,7 @@ const run = async (): Promise<void> => {
       )
       for (const guestDevice of guestDevices) {
         debug(guestDevice)
-        await unifi.authorize_guest(guestDevice.attributes.mac, 4320)
+        await unifi.authorizeGuest(guestDevice.attributes.mac, 4320)
       }
     } catch (error) {
       console.log(error)

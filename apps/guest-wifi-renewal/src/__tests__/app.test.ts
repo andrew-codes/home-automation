@@ -1,10 +1,10 @@
 jest.mock("async-mqtt")
-jest.mock("node-unifiapi")
+jest.mock("node-unifi")
 jest.mock("home-assistant-js-websocket")
 jest.mock("ws")
 import { connectAsync } from "async-mqtt"
 import { when } from "jest-when"
-import createUnifi from "node-unifiapi"
+import { Controller } from "node-unifi"
 import {
   createLongLivedTokenAuth,
   createConnection,
@@ -28,9 +28,15 @@ describe("app", () => {
   const send = jest.fn()
   const wsOn = jest.fn()
   const close = jest.fn()
+  const authorizeGuest = jest.fn()
+  const login = jest.fn()
 
   beforeEach(() => {
     jest.resetAllMocks()
+    ;(Controller as jest.Mock).mockImplementation(() => ({
+      authorizeGuest,
+      login,
+    }))
   })
 
   beforeEach(() => {
@@ -67,11 +73,12 @@ describe("app", () => {
     })
 
     await run()
-    expect(createUnifi).toBeCalledWith({
-      baseUrl: "https://123:456",
-      username: unifiUsername,
-      password: unifiPassword,
+    expect(Controller).toBeCalledWith({
+      host: "123",
+      port: "456",
+      sslverify: false,
     })
+    expect(login).toBeCalledWith(unifiUsername, unifiPassword)
   })
 
   test("connects to home assistant", async () => {
@@ -84,7 +91,6 @@ describe("app", () => {
       on: onMock,
       subscribe,
     })
-    ;(createUnifi as jest.Mock).mockReturnValue({ authorize_guest })
     when(createLongLivedTokenAuth)
       .calledWith(hassUrl, authCode)
       .mockResolvedValue(auth)
@@ -124,7 +130,6 @@ describe("app", () => {
       on: onMock,
       subscribe,
     })
-    ;(createUnifi as jest.Mock).mockReturnValue({ authorize_guest })
     when(createLongLivedTokenAuth)
       .calledWith(hassUrl, authCode)
       .mockResolvedValue(auth)
@@ -199,7 +204,6 @@ describe("app", () => {
     ;(onMock as jest.Mock).mockImplementation((type, handler) => {
       messageHandler = handler
     })
-    ;(createUnifi as jest.Mock).mockReturnValue({ authorize_guest })
     ;(createConnection as jest.Mock).mockResolvedValue(connection)
     when(getStates as jest.Mock)
       .calledWith(connection)
@@ -231,7 +235,7 @@ describe("app", () => {
     await run()
 
     await messageHandler("/homeassistant/guest/renew-devices", "{}")
-    expect(authorize_guest).toHaveBeenCalledWith("address", 4320)
-    expect(authorize_guest).not.toHaveBeenCalledWith("address-2", 4320)
+    expect(authorizeGuest).toHaveBeenCalledWith("address", 4320)
+    expect(authorizeGuest).not.toHaveBeenCalledWith("address-2", 4320)
   })
 })
