@@ -5,6 +5,8 @@ automation:
       - platform: state
         entity_id: group.family_is_sleeping
         to: "on"
+      - platform: time
+        at: "21:30:00"
     action:
       - service: climate.set_preset_mode
         entity_id: climate.main_floor

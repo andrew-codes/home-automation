@@ -3,7 +3,7 @@ automation:
     id: during_the_day_temperature
     trigger:
       - platform: time
-        at: "08:00:00"
+        at: "07:45:00"
     action:
       - service: climate.set_preset_mode
         entity_id: climate.main_floor
