@@ -12,8 +12,4 @@ vault kv put kv/unifi \
     PASSWORD=""
 
 vault kv put kv/captive-portal \
-    CAPTIVE_PORTAL_DNS_USERNAME="" \
-    CAPTIVE_PORTAL_DNS_PASSWORD="" \
-    DOMAIN="" \
-    INLETS_IP="" \
-    PASS_PHRASE=""
+    DOMAIN=""

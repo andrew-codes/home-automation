@@ -12,7 +12,7 @@ cat >.secrets/captive-portal.html <<EOL
 <html>
   <head>
     <title>Smith-Simms Wifi</title>
-    <meta http-equiv="refresh" content="0;url=https://$DOMAIN?mac=<unifi var="mac" />">
+    <meta http-equiv="refresh" content="0;url=http://$DOMAIN?mac=<unifi var="mac" />">
   </head>
   <body>
   </body>
