@@ -1,0 +1,36 @@
+automation:
+  - alias: Clear Andrew's facial detection after some time
+    id: clear_andrew_s_facial_detection
+    trigger:
+      - platform: state
+        id: andrew
+        entity_id: sensor.andrew_s_face_match
+        from: unknown
+        for:
+          minutes: 1
+          seconds: 25
+      - platform: state
+        id: dorri
+        entity_id: sensor.dorri_s_face_match
+        from: unknown
+        for:
+          minutes: 1
+          seconds: 25
+    action:
+      - choose:
+          - conditions:
+              condition: trigger
+              id: andrew
+            sequence:
+              - service: mqtt.publish
+                data:
+                  topic: double-take/matches/andrew_smith
+                  message: '{"camera":"unknown"}'
+          - conditions:
+              condition: trigger
+              id: dorri
+            sequence:
+              - service: mqtt.publish
+                data:
+                  topic: double-take/matches/dorri_smith
+                  message: '{"camera":"unknown"}'
