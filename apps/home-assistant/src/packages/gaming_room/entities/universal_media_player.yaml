@@ -11,7 +11,7 @@ media_player:
       on
       {% elif is_state('media_player.gaming_room_universal_gaming_pc', 'on') %}
       on
-      {% elif !is_state('media_player.gaming_room_universal_media_player', 'off') %}
+      {% elif is_state('media_player.gaming_room_universal_media_player', 'off') == false %}
       on
       {% else %}
       off
