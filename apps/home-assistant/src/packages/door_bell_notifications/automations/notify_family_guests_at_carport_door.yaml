@@ -18,7 +18,7 @@ automation:
           - alias: Andrew is not at the door
             conditions:
               - condition: template
-                value_template: "{{ !is_state('sensor.andrew_s_face_match', 'car_port_door') }}"
+                value_template: "{{ is_state('sensor.andrew_s_face_match', 'car_port_door') == false }}"
             sequence:
               - service: notify.mobile_app_andrew_s_iphone
                 data_template:
@@ -37,7 +37,7 @@ automation:
           - alias: Dorri is not at the door
             conditions:
               - condition: template
-                value_template: "{{ !is_state('sensor.dorri_s_face_match', 'car_port_door') }}"
+                value_template: "{{ is_state('sensor.dorri_s_face_match', 'car_port_door') == false }}"
             sequence:
               - service: notify.mobile_app_dorri_s_iphone
                 data_template:
