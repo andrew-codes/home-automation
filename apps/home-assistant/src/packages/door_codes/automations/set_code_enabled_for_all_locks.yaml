@@ -4,6 +4,15 @@ automation:
     trigger:
       - platform: state
         entity_id:
+          - input_boolean.enabled_front_door_1
+      - platform: state
+        entity_id:
+          - input_boolean.enabled_front_door_2
+      - platform: state
+        entity_id:
+          - input_boolean.enabled_front_door_3
+      - platform: state
+        entity_id:
           - input_boolean.enabled_front_door_4
       - platform: state
         entity_id:
@@ -32,6 +41,12 @@ automation:
       - platform: state
         entity_id:
           - input_boolean.enabled_front_door_13
+      - platform: state
+        entity_id:
+          - input_boolean.enabled_front_door_14
+      - platform: state
+        entity_id:
+          - input_boolean.enabled_front_door_15
     action:
       - service: input_boolean.toggle
         target:

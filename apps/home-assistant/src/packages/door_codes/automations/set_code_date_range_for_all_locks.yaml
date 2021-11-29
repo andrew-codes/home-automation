@@ -4,6 +4,15 @@ automation:
     trigger:
       - platform: state
         entity_id:
+          - input_boolean.daterange_front_door_1
+      - platform: state
+        entity_id:
+          - input_boolean.daterange_front_door_2
+      - platform: state
+        entity_id:
+          - input_boolean.daterange_front_door_3
+      - platform: state
+        entity_id:
           - input_boolean.daterange_front_door_4
       - platform: state
         entity_id:
@@ -32,8 +41,14 @@ automation:
       - platform: state
         entity_id:
           - input_boolean.daterange_front_door_13
+      - platform: state
+        entity_id:
+          - input_boolean.daterange_front_door_14
+      - platform: state
+        entity_id:
+          - input_boolean.daterange_front_door_15
     action:
       - service: input_boolean.toggle
         target:
           entity_id: |
-            input_boolean.daterange_car_port_{{ trigger.entity_id |regex_replace(find="^.*daterange_front_door_", replace="")}}
+            input_boolean.daterange_car_port_door{{ trigger.entity_id |regex_replace(find="^.*daterange_front_door_", replace="")}}

@@ -4,6 +4,15 @@ automation:
     trigger:
       - platform: state
         entity_id:
+          - input_text.front_door_name_1
+      - platform: state
+        entity_id:
+          - input_text.front_door_name_2
+      - platform: state
+        entity_id:
+          - input_text.front_door_name_3
+      - platform: state
+        entity_id:
           - input_text.front_door_name_4
       - platform: state
         entity_id:
@@ -32,6 +41,12 @@ automation:
       - platform: state
         entity_id:
           - input_text.front_door_name_13
+      - platform: state
+        entity_id:
+          - input_text.front_door_name_14
+      - platform: state
+        entity_id:
+          - input_text.front_door_name_15
     action:
       - service: input_text.set_value
         target:

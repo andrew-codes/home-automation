@@ -4,6 +4,15 @@ automation:
     trigger:
       - platform: state
         entity_id:
+          - input_text.front_door_pin_1
+      - platform: state
+        entity_id:
+          - input_text.front_door_pin_2
+      - platform: state
+        entity_id:
+          - input_text.front_door_pin_3
+      - platform: state
+        entity_id:
           - input_text.front_door_pin_4
       - platform: state
         entity_id:
@@ -32,6 +41,12 @@ automation:
       - platform: state
         entity_id:
           - input_text.front_door_pin_13
+      - platform: state
+        entity_id:
+          - input_text.front_door_pin_14
+      - platform: state
+        entity_id:
+          - input_text.front_door_pin_15
     action:
       - service: input_text.set_value
         target:
