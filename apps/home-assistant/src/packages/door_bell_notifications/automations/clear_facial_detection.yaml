@@ -25,7 +25,7 @@ automation:
               - service: mqtt.publish
                 data:
                   topic: double-take/matches/andrew_smith
-                  message: '{"camera":"unknown"}'
+                  payload: '{"camera":"unknown"}'
           - conditions:
               condition: trigger
               id: dorri
@@ -33,4 +33,4 @@ automation:
               - service: mqtt.publish
                 data:
                   topic: double-take/matches/dorri_smith
-                  message: '{"camera":"unknown"}'
+                  payload: '{"camera":"unknown"}'
