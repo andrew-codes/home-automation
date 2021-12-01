@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "proxmox" {
-  pm_api_url      = "https://192.168.1.13:8006/api2/json"
+  pm_api_url      = "https://192.168.1.36:8006/api2/json"
   pm_user         = "root@pam"
   pm_tls_insecure = true
   pm_log_enable   = true
@@ -66,7 +66,7 @@ variable "gateway" {
 resource "proxmox_vm_qemu" "docker-registry" {
   count       = 1
   name        = var.name
-  target_node = "pve"
+  target_node = "pve-main-01"
   clone       = "ubuntu-server"
   onboot      = true
   cpu         = "host"
@@ -80,7 +80,7 @@ resource "proxmox_vm_qemu" "docker-registry" {
   disk {
     size    = "250G"
     type    = "scsi"
-    storage = "local-lvm"
+    storage = "local-zfs"
     format  = "ext4"
     ssd     = 1
   }

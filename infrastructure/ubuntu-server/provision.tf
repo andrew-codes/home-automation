@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "proxmox" {
-  pm_api_url      = "https://192.168.1.13:8006/api2/json"
+  pm_api_url      = "https://192.168.1.36:8006/api2/json"
   pm_user         = "root@pam"
   pm_tls_insecure = true
   pm_log_enable   = true
@@ -37,7 +37,7 @@ variable "disksize" {
 resource "proxmox_vm_qemu" "ubuntu-server" {
   count       = 1
   name        = var.name
-  target_node = "pve"
+  target_node = "pve-main-01"
   iso         = "local:iso/ubuntu-20.04.1-live-server-amd64.iso"
   onboot      = false
   cpu         = "host"
@@ -52,7 +52,7 @@ resource "proxmox_vm_qemu" "ubuntu-server" {
   disk {
     size    = var.disksize
     type    = "scsi"
-    storage = "local-lvm"
+    storage = "local-zfs"
     format  = "ext4"
     ssd     = 1
   }

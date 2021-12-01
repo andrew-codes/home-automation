@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "proxmox" {
-  pm_api_url      = "https://192.168.1.13:8006/api2/json"
+  pm_api_url      = "https://192.168.1.36:8006/api2/json"
   pm_user         = "root@pam"
   pm_tls_insecure = true
   pm_log_enable   = true
@@ -66,7 +66,7 @@ variable "domain" {
 resource "proxmox_lxc" "vpn" {
   count        = 1
   hostname     = var.name
-  target_node  = "pve"
+  target_node  = "pve-main-01"
   ostemplate   = "local:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz"
   unprivileged = true
   start        = true
@@ -74,7 +74,7 @@ resource "proxmox_lxc" "vpn" {
   startup      = "2,up=30"
 
   rootfs {
-    storage = "local-lvm"
+    storage = "local-zfs"
     size    = "20G"
   }
 

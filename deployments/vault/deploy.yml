@@ -27,9 +27,9 @@
 
     - name: Add repository
       apt_repository:
-        repo: deb [arch=amd64] https://apt.releases.hashicorp.com xenial main
+        repo: deb [arch=amd64] https://apt.releases.hashicorp.com bullseye main
         state: present
-        filename: kubernetes
+        filename: vault
         mode: 0600
 
     - name: Installing

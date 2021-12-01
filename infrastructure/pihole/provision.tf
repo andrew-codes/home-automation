@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "proxmox" {
-  pm_api_url      = "https://192.168.1.13:8006/api2/json"
+  pm_api_url      = "https://192.168.1.36:8006/api2/json"
   pm_user         = "root@pam"
   pm_tls_insecure = true
   pm_log_enable   = true
@@ -66,15 +66,15 @@ variable "domain" {
 resource "proxmox_lxc" "pihole" {
   count        = 1
   hostname     = var.name
-  target_node  = "pve"
-  ostemplate   = "local:vztmpl/debian-10-standard_10.7-1_amd64.tar.gz"
+  target_node  = "pve-main-01"
+  ostemplate   = "local:vztmpl/debian-11-standard_11.0-1_amd64.tar.gz"
   unprivileged = false
   start        = true
   onboot       = true
   startup      = "1"
 
   rootfs {
-    storage = "local-lvm"
+    storage = "local-zfs"
     size    = "20G"
   }
 
