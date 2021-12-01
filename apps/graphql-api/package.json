@@ -30,7 +30,7 @@
     "graphql-subscriptions": "^1.1.0",
     "homeassistant": "^0.2.0",
     "lodash": "^4.17.21",
-    "mongodb": "^3.6.3",
+    "mongodb": "^4.2.1",
     "nexus": "^1.0.0",
     "node-cache": "^5.1.2",
     "node-fetch": "^2.6.1",
