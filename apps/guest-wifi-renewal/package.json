@@ -16,7 +16,7 @@
     "debug": "^4.3.1",
     "home-assistant-js-websocket": "^5.10.0",
     "node-unifi": "^2.0.3",
-    "ws": "^7.5.2"
+    "ws": "^8.3.0"
   },
   "devDependencies": {
     "@ha/ts-config": "^0.0.1",
