@@ -11,7 +11,31 @@ automation:
         entity_id: climate.main_floor
         data:
           preset_mode: Away
-      # Lock all doors
+      # Lock all doors that are not already locked
+      - choose:
+          - conditions:
+              condition: state
+              entity_id: lock.front_door
+              state: unlocked
+            sequence:
+              - service: lock.lock
+                entity_id: lock.front_door
+      - choose:
+          - conditions:
+              condition: state
+              entity_id: lock.car_port_door
+              state: unlocked
+            sequence:
+              - service: lock.lock
+                entity_id: lock.car_port_door
+      # - choose:
+      #     - conditions:
+      #         condition: state
+      #         entity_id: lock.basement_door
+      #         state: unlocked
+      #       sequence:
+      #         - service: lock.lock
+      #           entity_id: lock.basement_door
       # Turn off all lights
       # Turn off TVs
       - service: media_player.turn_off
