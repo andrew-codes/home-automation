@@ -74,7 +74,7 @@ resource "proxmox_lxc" "vault" {
   startup      = "2,up=30"
 
   rootfs {
-    storage = "local-zfs"
+    storage = "local-lvm"
     size    = "40G"
   }
 

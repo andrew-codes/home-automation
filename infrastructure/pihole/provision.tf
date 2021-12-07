@@ -66,7 +66,7 @@ variable "domain" {
 resource "proxmox_lxc" "pihole" {
   count        = 1
   hostname     = var.name
-  target_node  = "pve-main-01"
+  target_node  = "pve"
   ostemplate   = "local:vztmpl/debian-11-standard_11.0-1_amd64.tar.gz"
   unprivileged = false
   start        = true
@@ -74,7 +74,7 @@ resource "proxmox_lxc" "pihole" {
   startup      = "1"
 
   rootfs {
-    storage = "local-zfs"
+    storage = "local-lvm"
     size    = "20G"
   }
 

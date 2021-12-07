@@ -74,7 +74,7 @@ resource "proxmox_lxc" "vpn" {
   startup      = "2,up=30"
 
   rootfs {
-    storage = "local-zfs"
+    storage = "local-lvm"
     size    = "20G"
   }
 

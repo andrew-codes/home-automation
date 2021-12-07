@@ -80,7 +80,7 @@ resource "proxmox_vm_qemu" "docker-registry" {
   disk {
     size    = "250G"
     type    = "scsi"
-    storage = "local-zfs"
+    storage = "local-lvm"
     format  = "ext4"
     ssd     = 1
   }

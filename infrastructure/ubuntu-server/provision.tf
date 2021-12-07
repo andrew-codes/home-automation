@@ -52,7 +52,7 @@ resource "proxmox_vm_qemu" "ubuntu-server" {
   disk {
     size    = var.disksize
     type    = "scsi"
-    storage = "local-zfs"
+    storage = "local-lvm"
     format  = "ext4"
     ssd     = 1
   }

@@ -81,7 +81,7 @@ resource "proxmox_vm_qemu" "k8s-node" {
   disk {
     size    = "1000G"
     type    = "scsi"
-    storage = "local-zfs"
+    storage = "local-lvm"
     format  = "ext4"
     ssd     = 1
   }
