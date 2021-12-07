@@ -66,7 +66,7 @@ variable "gateway" {
 resource "proxmox_vm_qemu" "docker-registry" {
   count       = 1
   name        = var.name
-  target_node = "pve-main-01"
+  target_node = "pve"
   clone       = "ubuntu-server"
   onboot      = true
   cpu         = "host"

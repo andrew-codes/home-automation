@@ -66,7 +66,7 @@ variable "domain" {
 resource "proxmox_lxc" "vpn" {
   count        = 1
   hostname     = var.name
-  target_node  = "pve-main-01"
+  target_node  = "pve"
   ostemplate   = "local:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz"
   unprivileged = true
   start        = true

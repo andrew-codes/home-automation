@@ -67,7 +67,7 @@ proxmoxve:
     verify_ssl: false
     realm: pam
     nodes:
-      - node: pve-main-01
+      - node: pve
         containers:
           - "100"
           - "101"

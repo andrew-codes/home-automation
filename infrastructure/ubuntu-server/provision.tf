@@ -37,7 +37,7 @@ variable "disksize" {
 resource "proxmox_vm_qemu" "ubuntu-server" {
   count       = 1
   name        = var.name
-  target_node = "pve-main-01"
+  target_node = "pve"
   iso         = "local:iso/ubuntu-20.04.1-live-server-amd64.iso"
   onboot      = false
   cpu         = "host"
