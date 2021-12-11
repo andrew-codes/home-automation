@@ -6,4 +6,5 @@ source scripts/bin/vault.sh
 popd
 
 vault kv put kv/ps5 \
-    CREDENTIALS=""
+    CREDENTIALS="" \
+    PS5_NAMES=""
