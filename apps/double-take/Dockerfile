@@ -1,4 +1,4 @@
-FROM jakowenko/double-take:1.6.0
+FROM jakowenko/double-take:1.7.0
 RUN apt-get update
 RUN apt-get install -y gettext-base
 
