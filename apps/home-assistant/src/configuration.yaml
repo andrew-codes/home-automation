@@ -73,8 +73,8 @@ proxmoxve:
           - "101"
           - "102"
         vms:
+          - "103"
           - "104"
-          - "105"
 
 withings:
   client_id: !secret WITHINGS_CLIENT_ID
