@@ -10,3 +10,10 @@ ios:
             authenticationRequired: false
             destructive: true
             behavior: default
+
+notify:
+  - name: ALL_DEVICES
+    platform: group
+    services:
+      - service: mobile_app_andrew_s_iphone
+      - service: mobile_app_dorri_s_iphone

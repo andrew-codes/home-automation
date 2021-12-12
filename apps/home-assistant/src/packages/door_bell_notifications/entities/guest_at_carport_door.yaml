@@ -1,4 +1,0 @@
-input_boolean:
-  guest_at_carport_door:
-    name: Guests detected at carport door
-    icon: "mdi:account-multiple"

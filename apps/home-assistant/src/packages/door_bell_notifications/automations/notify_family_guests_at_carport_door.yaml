@@ -3,53 +3,26 @@ automation:
     id: notify_family_guests_at_carport_door
     trigger:
       platform: mqtt
-      topic: frigate/events
+      topic: double-take/matches/unknown
     condition:
       - condition: and
         conditions:
           - "{{ trigger.payload_json['after']['camera'] == 'car_port_door' }}"
-          - "{{ trigger.payload_json['after']['label'] == 'person' }}"
-          - condition: state
-            entity_id: input_boolean.guest_at_carport_door
-            state: "off"
-          - "{{ state_attr('automation.notify_family_guests_at_the_carport_door', 'last_triggered') == None or (as_timestamp(now()) - as_timestamp(state_attr('automation.notify_family_guests_at_the_carport_door', 'last_triggered')) | int > 85)}}"
+          - "{{ state_attr('automation.notify_family_guests_at_carport_door', 'last_triggered') == None or (as_timestamp(now()) - as_timestamp(state_attr('automation.notify_family_guests_at_carport_door', 'last_triggered')) | int > 85)}}"
     action:
-      - choose:
-          - alias: Andrew is not at the door
-            conditions:
-              - condition: template
-                value_template: "{{ is_state('sensor.andrew_s_face_match', 'car_port_door') == false }}"
-            sequence:
-              - service: notify.mobile_app_andrew_s_iphone
-                data_template:
-                  title: "Guests at the door"
-                  message: "Guests at the carport door."
-                  data:
-                    image: 'https://ha.smith-simms.family/api/frigate/notifications/{{trigger.payload_json["after"]["id"]}}/thumbnail.jpg?format=iphone'
-                    tag: '{{trigger.payload_json["after"]["id"]}}'
-                    when: '{{trigger.payload_json["after"]["start_time"]|int}}'
-                    actions:
-                      - action: "URI"
-                        title: "View Live Feed"
-                        uri: "/lovelace-security/door-bell"
-                    push:
-                      thread-id: security
-          - alias: Dorri is not at the door
-            conditions:
-              - condition: template
-                value_template: "{{ is_state('sensor.dorri_s_face_match', 'car_port_door') == false }}"
-            sequence:
-              - service: notify.mobile_app_dorri_s_iphone
-                data_template:
-                  title: "Guests at the door"
-                  message: "Guests at the carport door."
-                  data:
-                    image: 'https://ha.smith-simms.family/api/frigate/notifications/{{trigger.payload_json["after"]["id"]}}/thumbnail.jpg?format=iphone'
-                    tag: '{{trigger.payload_json["after"]["id"]}}'
-                    when: '{{trigger.payload_json["after"]["start_time"]|int}}'
-                    actions:
-                      - action: "URI"
-                        title: "View Live Feed"
-                        uri: "/lovelace-security/door-bell"
-                    push:
-                      thread-id: security
+      - service: notify.ALL_DEVICES
+        data_template:
+          title: "Guests at the door"
+          message: "Guests at the carport door."
+          data:
+            image: "http://192.168.1.18:30529/api/storage/matches/{{trigger.to_state.attributes.unknown.filename}}?box=true&token={{trigger.to_state.attributes.token}}"
+            tag: '{{trigger.payload_json["after"]["id"]}}'
+            when: '{{trigger.payload_json["after"]["timestamp"]|int}}'
+            url: /lovelace/security
+            click_action: /lovelace/security
+            actions:
+              - action: "URI"
+                title: "View Live Feed"
+                uri: "/lovelace/security"
+            push:
+              thread-id: security
