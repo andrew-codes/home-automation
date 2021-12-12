@@ -1,4 +1,4 @@
-FROM homeassistant/home-assistant:2021.11.2
+FROM homeassistant/home-assistant:2021.12
 RUN apk --no-cache add \
     bash \
     curl \
