@@ -7,7 +7,7 @@ binary_sensor:
   - platform: group
     unique_id: any_alerts
     name: Any alerts
-    device_class: none
+    device_class: None
     entities:
       - binary_sensor.front_door_person
       - binary_sensor.car_port_door_person
