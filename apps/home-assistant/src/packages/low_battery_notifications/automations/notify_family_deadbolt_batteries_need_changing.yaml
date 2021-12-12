@@ -16,11 +16,7 @@ automation:
             entity_id: sensor.front_door_deadbolt_battery_level
             below: 15
     action:
-      - service: notify.mobile_app_andrew_s_iphone
-        data_template:
-          title: Change Batteries
-          message: "{{ states('sensor.doors_needing_new_batteries_notification_message')}}"
-      - service: notify.mobile_app_dorri_s_iphone
+      - service: notify.ALL_DEVICES
         data_template:
           title: Change Batteries
           message: "{{ states('sensor.doors_needing_new_batteries_notification_message')}}"

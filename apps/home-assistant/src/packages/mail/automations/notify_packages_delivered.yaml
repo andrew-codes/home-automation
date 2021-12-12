@@ -6,19 +6,11 @@ automation:
         entity_id: binary_sensor.are_packages_delivered
         to: "on"
     action:
-      - service: notify.mobile_app_andrew_s_iphone
+      - service: notify.ALL_DEVICES
         data_template:
           title: Package Delivery
           message: "You have delivered packages"
           data:
-            url: /lovelace/mail
-            push:
-              thread-id: deliveries
-      - service: notify.mobile_app_dorri_s_iphone
-        data_template:
-          title: Package Delivery
-          message: "You have delivered packages"
-          data:
-            url: /lovelace/mail
+            url: /lovelace/default_view
             push:
               thread-id: deliveries

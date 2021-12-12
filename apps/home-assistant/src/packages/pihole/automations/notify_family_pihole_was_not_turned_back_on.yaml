@@ -9,14 +9,7 @@ automation:
     action:
       - service: switch.turn_on
         entity_id: switch.pi_hole
-      - service: notify.mobile_app_andrew_s_iphone
-        data:
-          title: "PiHole is re-enabled"
-          message: "PiHole has been disabled for an hour and is now re-enabled."
-          data:
-            push:
-              category: pihole
-      - service: notify.mobile_app_dorri_s_iphone
+      - service: notify.ALL_DEVICES
         data:
           title: "PiHole is re-enabled"
           message: "PiHole has been disabled for an hour and is now re-enabled."
