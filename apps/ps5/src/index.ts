@@ -77,15 +77,9 @@ function createCheckState(mqtt) {
   return async (ps5Name, entityName) => {
     const checkOutput = sh.exec(`playactor check --host-name ${ps5Name}`)
     debug(checkOutput)
-    const status = JSON.parse(checkOutput).status
+    const status = (JSON.parse(checkOutput).status as string).toLowerCase()
     const state =
-      status === "Awake" ? "ON" : status === "Standby" ? "OFF" : "OFF"
+      status === "awake" ? "ON" : status === "standby" ? "OFF" : "OFF"
     await mqtt.publish(`homeassistant/switch/${entityName}/state`, state)
   }
-}
-
-function sleep(ms) {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(true), ms)
-  })
 }
