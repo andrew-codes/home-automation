@@ -1,7 +1,7 @@
 group:
   deadbolts:
     entities:
-      - sensor.car_port_deadbolt_battery_level
+      - sensor.carport_deadbolt_battery_level
       - sensor.front_door_deadbolt_battery_level
 
 sensor:

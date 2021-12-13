@@ -4,53 +4,53 @@ automation:
     trigger:
       - platform: state
         entity_id:
-          - input_text.front_door_name_1
+          - input_text.front_door_deadbolt_name_1
       - platform: state
         entity_id:
-          - input_text.front_door_name_2
+          - input_text.front_door_deadbolt_name_2
       - platform: state
         entity_id:
-          - input_text.front_door_name_3
+          - input_text.front_door_deadbolt_name_3
       - platform: state
         entity_id:
-          - input_text.front_door_name_4
+          - input_text.front_door_deadbolt_name_4
       - platform: state
         entity_id:
-          - input_text.front_door_name_5
+          - input_text.front_door_deadbolt_name_5
       - platform: state
         entity_id:
-          - input_text.front_door_name_6
+          - input_text.front_door_deadbolt_name_6
       - platform: state
         entity_id:
-          - input_text.front_door_name_7
+          - input_text.front_door_deadbolt_name_7
       - platform: state
         entity_id:
-          - input_text.front_door_name_8
+          - input_text.front_door_deadbolt_name_8
       - platform: state
         entity_id:
-          - input_text.front_door_name_9
+          - input_text.front_door_deadbolt_name_9
       - platform: state
         entity_id:
-          - input_text.front_door_name_10
+          - input_text.front_door_deadbolt_name_10
       - platform: state
         entity_id:
-          - input_text.front_door_name_11
+          - input_text.front_door_deadbolt_name_11
       - platform: state
         entity_id:
-          - input_text.front_door_name_12
+          - input_text.front_door_deadbolt_name_12
       - platform: state
         entity_id:
-          - input_text.front_door_name_13
+          - input_text.front_door_deadbolt_name_13
       - platform: state
         entity_id:
-          - input_text.front_door_name_14
+          - input_text.front_door_deadbolt_name_14
       - platform: state
         entity_id:
-          - input_text.front_door_name_15
+          - input_text.front_door_deadbolt_name_15
     action:
       - service: input_text.set_value
         target:
           entity_id: |
-            input_text.car_port_door_name_{{ trigger.entity_id |regex_replace(find="^.*front_door_name_", replace="")}}
+            input_text.carport_deadbolt_name_{{ trigger.entity_id |regex_replace(find="^.*front_door_deadbolt_name_", replace="")}}
         data_template:
           value: "{{ trigger.to_state.state }}"

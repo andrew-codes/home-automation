@@ -4,51 +4,51 @@ automation:
     trigger:
       - platform: state
         entity_id:
-          - input_boolean.enabled_front_door_1
+          - input_boolean.enabled_front_door_deadbolt_1
       - platform: state
         entity_id:
-          - input_boolean.enabled_front_door_2
+          - input_boolean.enabled_front_door_deadbolt_2
       - platform: state
         entity_id:
-          - input_boolean.enabled_front_door_3
+          - input_boolean.enabled_front_door_deadbolt_3
       - platform: state
         entity_id:
-          - input_boolean.enabled_front_door_4
+          - input_boolean.enabled_front_door_deadbolt_4
       - platform: state
         entity_id:
-          - input_boolean.enabled_front_door_5
+          - input_boolean.enabled_front_door_deadbolt_5
       - platform: state
         entity_id:
-          - input_boolean.enabled_front_door_6
+          - input_boolean.enabled_front_door_deadbolt_6
       - platform: state
         entity_id:
-          - input_boolean.enabled_front_door_7
+          - input_boolean.enabled_front_door_deadbolt_7
       - platform: state
         entity_id:
-          - input_boolean.enabled_front_door_8
+          - input_boolean.enabled_front_door_deadbolt_8
       - platform: state
         entity_id:
-          - input_boolean.enabled_front_door_9
+          - input_boolean.enabled_front_door_deadbolt_9
       - platform: state
         entity_id:
-          - input_boolean.enabled_front_door_10
+          - input_boolean.enabled_front_door_deadbolt_10
       - platform: state
         entity_id:
-          - input_boolean.enabled_front_door_11
+          - input_boolean.enabled_front_door_deadbolt_11
       - platform: state
         entity_id:
-          - input_boolean.enabled_front_door_12
+          - input_boolean.enabled_front_door_deadbolt_12
       - platform: state
         entity_id:
-          - input_boolean.enabled_front_door_13
+          - input_boolean.enabled_front_door_deadbolt_13
       - platform: state
         entity_id:
-          - input_boolean.enabled_front_door_14
+          - input_boolean.enabled_front_door_deadbolt_14
       - platform: state
         entity_id:
-          - input_boolean.enabled_front_door_15
+          - input_boolean.enabled_front_door_deadbolt_15
     action:
       - service: input_boolean.toggle
         target:
           entity_id: |
-            input_boolean.enabled_car_port_door_{{ trigger.entity_id |regex_replace(find="^.*enabled_front_door_", replace="")}}
+            input_boolean.enabled_carport_deadbolt_{{ trigger.entity_id |regex_replace(find="^.*enabled_front_door_deadbolt_", replace="")}}
