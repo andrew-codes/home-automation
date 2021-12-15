@@ -52,3 +52,7 @@ automation:
         target:
           entity_id: |
             input_boolean.enabled_carport_deadbolt_{{ trigger.entity_id |regex_replace(find="^.*enabled_front_door_deadbolt_", replace="")}}
+      - service: automation.trigger
+        target:
+          entity_id: |
+            automation.synchronize_codeslot_carport_deadbolt_{{ trigger.entity_id |regex_replace(find="^.*enabled_front_door_deadbolt_", replace="")}}
