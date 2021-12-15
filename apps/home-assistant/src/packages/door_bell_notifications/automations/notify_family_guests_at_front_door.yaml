@@ -7,7 +7,7 @@ automation:
     condition:
       - condition: and
         conditions:
-          - "{{ trigger.payload_json['after']['camera'] == 'front_door' }}"
+          - "{{ trigger.payload_json['camera'] == 'front_door' }}"
           - "{{ state_attr('automation.notify_family_guests_at_front_door', 'last_triggered') == None or (as_timestamp(now()) - as_timestamp(state_attr('automation.notify_family_guests_at_front_door', 'last_triggered') | default(0)) | int > 85)}}"
     action:
       - service: notify.ALL_DEVICES
