@@ -18,6 +18,7 @@ logger:
   default: info
 
 homeassistant:
+  currency: USD
   external_url: !secret HA_URL
   internal_url: !secret HA_URL
   time_zone: !secret TIME_ZONE
