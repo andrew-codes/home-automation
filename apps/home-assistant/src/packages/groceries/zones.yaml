@@ -7,3 +7,15 @@ zone:
     latitude: 33.880650
     longitude: -84.470763
     icon: mdi:cart
+  - name: Publix at East Commons
+    latitude: 33.976061118061374
+    longitude: -84.47825576272511
+    icon: mdi:cart
+  - name: Publix at Sope Creek
+    latitude: 33.92284564983519
+    longitude: -84.4667677507694
+    icon: mdi:cart
+  - name: Kroger on Roswell
+    latitude: 33.967477800939236
+    longitude: -84.48795117328548
+    icon: mdi:cart

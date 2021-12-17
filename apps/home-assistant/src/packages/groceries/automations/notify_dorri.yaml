@@ -4,12 +4,27 @@ automation:
     trigger:
       - platform: state
         entity_id: person.dorri_smith
+        to: Kroger on Roswell
+        for:
+          minutes: 1
+      - platform: state
+        entity_id: person.dorri_smith
         to: Kroger by InfoMart
         for:
           minutes: 1
       - platform: state
         entity_id: person.dorri_smith
         to: Costco at Cumberland Mall
+        for:
+          minutes: 1
+      - platform: state
+        entity_id: person.dorri_smith
+        to: Publix at East Commons
+        for:
+          minutes: 1
+      - platform: state
+        entity_id: person.dorri_smith
+        to: Publix at Sope Creek
         for:
           minutes: 1
     action:
