@@ -10,6 +10,13 @@ websocket_api:
 discovery:
 ios:
 
+notify:
+  - platform: group
+    name: ALL_DEVICES
+    services:
+      - service: mobile_app_andrew_s_iphone
+      - service: mobile_app_dorri_s_iphone
+
 recorder:
   db_url: !secret DB_URL
   purge_keep_days: 14
