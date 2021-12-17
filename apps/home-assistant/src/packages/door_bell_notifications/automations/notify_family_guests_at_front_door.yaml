@@ -10,7 +10,7 @@ automation:
           - "{{ trigger.to_state.attributes.camera == 'front_door' }}"
           - "{{ state_attr('automation.notify_family_guests_at_front_door', 'last_triggered') == None or (as_timestamp(now()) - as_timestamp(state_attr('automation.notify_family_guests_at_front_door', 'last_triggered')) | int > 85)}}"
     action:
-      - service: notify.ALL_DEVICES
+      - service: notify.all_devices
         data_template:
           title: "Guests at the door"
           message: "Guests at the front door."

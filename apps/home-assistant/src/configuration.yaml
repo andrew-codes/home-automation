@@ -12,7 +12,7 @@ ios:
 
 notify:
   - platform: group
-    name: ALL_DEVICES
+    name: all_devices
     services:
       - service: mobile_app_andrew_s_iphone
       - service: mobile_app_dorri_s_iphone

@@ -16,7 +16,7 @@ automation:
             entity_id: sensor.front_door_deadbolt_battery_level
             below: 15
     action:
-      - service: notify.ALL_DEVICES
+      - service: notify.all_devices
         data_template:
           title: Change Batteries
           message: "{{ states('sensor.doors_needing_new_batteries_notification_message')}}"

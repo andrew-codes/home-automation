@@ -8,7 +8,7 @@ automation:
     action:
       - service: switch.turn_off
         entity_id: switch.shutoff_valve
-      - service: notify.ALL_DEVICES
+      - service: notify.all_devices
         data:
           title: "Critical Alert: Water Leak"
           message: Potential water leak detected. Water has been shut off.
