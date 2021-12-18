@@ -9,7 +9,7 @@ automation:
         conditions:
           - alias: "Low battery car port deadbolt"
             condition: numeric_state
-            entity_id: sensor.car_port_deadbolt_battery_level
+            entity_id: sensor.carport_deadbolt_battery_level
             below: 15
           - alias: "Low battery front door deadbolt"
             condition: numeric_state
