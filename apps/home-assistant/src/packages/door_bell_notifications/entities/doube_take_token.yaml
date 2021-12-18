@@ -1,0 +1,5 @@
+sensor:
+  - platform: template
+    sensors:
+      double_take_token:
+        value_template: !secret DOUBLE_TAKE_TOKEN
