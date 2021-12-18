@@ -17,7 +17,7 @@ automation:
           data:
             image: "http://192.168.1.18:30529/api/storage/matches/{{ trigger.to_state.attributes.unknown.filename }}?box=true&token={{ trigger.to_state.attributes.token }}"
             tag: "{{ trigger.to_state.attributes.id }}"
-            when: "{{ trigger.to_state.attributes.timestamp |int }}"
+            when: "{{ as_timestamp(trigger.to_state.attributes.timestamp) | int }}"
             url: /lovelace/security
             click_action: /lovelace/security
             actions:
