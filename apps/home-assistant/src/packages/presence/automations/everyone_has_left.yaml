@@ -15,19 +15,19 @@ automation:
       - choose:
           - conditions:
               condition: state
-              entity_id: lock.front_door
+              entity_id: lock.front_door_deadbolt
               state: unlocked
             sequence:
               - service: lock.lock
-                entity_id: lock.front_door
+                entity_id: lock.front_door_deadbolt
       - choose:
           - conditions:
               condition: state
-              entity_id: lock.car_port_door
+              entity_id: lock.carport_deadbolt
               state: unlocked
             sequence:
               - service: lock.lock
-                entity_id: lock.car_port_door
+                entity_id: lock.carport_deadbolt
       # - choose:
       #     - conditions:
       #         condition: state
