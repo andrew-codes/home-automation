@@ -50,6 +50,15 @@ spec:
           operator: "Exists"
           effect: "NoExecute"
           tolerationSeconds: 300
+      initContainers:
+        - name: mqtt-is-ready
+          image: docker-registry:5000/mqtt-client:latest
+          imagePullPolicy: Always
+          command:
+            - "sh"
+          args:
+            - "-c"
+            - "timeout 10 sub -h mqtt -t '$SYS/#' -C 1 | grep -v Error || exit 1"
       containers:
         - name: zwave
           image: zwavejs/zwavejs2mqtt:latest
