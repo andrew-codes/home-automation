@@ -79,3 +79,4 @@ RUN chmod +x /usr/local/bin/velero
 RUN curl -fsSL -o helm.tar.gz  https://get.helm.sh/helm-v3.6.1-linux-amd64.tar.gz
 RUN tar -zxvf helm.tar.gz
 RUN mv linux-amd64/helm /usr/local/bin/helm
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
