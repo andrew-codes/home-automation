@@ -61,7 +61,7 @@ spec:
             - name: HA_TOKEN
               value: "home-assistant-ha-token@azurekeyvault"
             - name: HA_URL
-              value: "home-assistant-ha-url@azurekeyvault"
+              value: "home-assistant-ha-domain@azurekeyvault"
             - name: UNIFI_IP
               value: "unifi-ip@azurekeyvault"
             - name: UNIFI_PORT
