@@ -544,6 +544,9 @@ spec:
             - name: ha-secrets-volume
               mountPath: /root/set_ssh_keys.sh
               subPath: set_ssh_keys.sh
+            - name: ha-secrets-volume
+              mountPath: /root/generate_secrets_yaml.sh
+              subPath: set_ssh_keys.sh
             - name: home-assistant-new-config-volume
               mountPath: /new-config
           securityContext:
