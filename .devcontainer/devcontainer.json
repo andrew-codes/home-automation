@@ -31,8 +31,9 @@
 
   "mounts": [
     "source=${localWorkspaceFolder}/deployments/k8s/.secrets/.kube,target=/root/.kube,type=bind",
-    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh/id_rsa,target=/root/.ssh/id_rsa,type=bind",
-    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/root/.gitconfig,type=bind"
+    "source=${localEnv:USERPROFILE}/.ssh/id_rsa,target=/root/.ssh/id_rsa,type=bind",
+    "source=${localEnv:USERPROFILE}/.gitconfig,target=/root/.gitconfig,type=bind",
+    "source=${localEnv:USERPROFILE}/Library/Caches/Yarn/v6,target=/root/.yarn/cache,type=cache"
   ],
 
   "postStartCommand": "wrapdocker.sh",
