@@ -8,6 +8,10 @@ spec:
     object:
       name: mqtt-USERNAME
       type: secret
+  output:
+    secret:
+      name: mqtt-username
+      dataKey: secret-value
 
 ---
 apiVersion: spv.no/v2beta1
@@ -20,6 +24,10 @@ spec:
     object:
       name: mqtt-PASSWORD
       type: secret
+  output:
+    secret:
+      name: mqtt-password
+      dataKey: secret-value
 
 ---
 apiVersion: v1
@@ -40,18 +48,6 @@ data:
     persistence true
     persistence_location /mosquitto/data/
     log_dest file /mosquitto/log/mosquitto.log
-
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: mosquitto-generate-password-script
-  namespace: default
-data:
-  set_credentials.sh: |
-    #!/usr/bin env sh
-    echo -n "$USERNAME:$PASSWORD" > /mosquitto/passwd
-    mosquitto_passwd -U /mosquitto/passwd
 
 ---
 apiVersion: v1
@@ -120,29 +116,24 @@ spec:
             - "sh"
           args:
             - "-c"
-            - "echo -n '$USERNAME:$PASSWORD' > /mosquitto/passwd && mosquitto_passwd -U /mosquitto/passwd && /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf"
+            - 'echo -n "$USERNAME:$PASSWORD" > /mosquitto/passwd && mosquitto_passwd -U /mosquitto/passwd && /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf'
           env:
-            - name: MQTT_USERNAME
+            - name: USERNAME
               value: "mqtt-username@azurekeyvault"
-            - name: MQTT_PASSWORD
+            - name: PASSWORD
               value: "mqtt-password@azurekeyvault"
+            - name: ENV_INJECTOR_LOG_LEVEL
+              value: debug
           volumeMounts:
             - name: mosquitto-config
               mountPath: /mosquitto/config/mosquitto.conf
               subPath: mosquitto.conf
-            - name: mosquitto-generate-password-script
-              mountPath: /mosquitto/set_credentials.sh
-              subPath: set_credentials.sh
             - name: mosquitto-data
               mountPath: /mosquitto/data
       volumes:
         - name: mosquitto-config
           configMap:
             name: mosquitto-config
-        - name: mosquitto-generate-password-script
-          configMap:
-            name: mosquitto-generate-password-script
-            defaultMode: 0777
         - name: mosquitto-data
           persistentVolumeClaim:
             claimName: mosquitto-volume-claim

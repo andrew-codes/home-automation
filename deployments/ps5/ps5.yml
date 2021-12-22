@@ -8,6 +8,10 @@ spec:
     object:
       name: ps5-PS5-NAMES
       type: secret
+  output:
+    secret:
+      name: ps5-names
+      dataKey: secret-value
 
 ---
 apiVersion: spv.no/v2beta1
@@ -20,6 +24,10 @@ spec:
     object:
       name: ps5-CREDENTIALS
       type: secret
+  output:
+    secret:
+      name: ps5-credentials
+      dataKey: secret-value
 
 ---
 apiVersion: apps/v1
@@ -72,7 +80,7 @@ spec:
             - "sh"
           args:
             - "-c"
-            - "echo -n '$PS5_CREDENTIALS' >~/.config/playactor/credentials.json && /start.sh"
+            - "/start.sh"
           env:
             - name: DEBUG
               value: "*"
@@ -81,10 +89,27 @@ spec:
             - name: MQTT_PORT
               value: "30519"
             - name: PS5_NAMES
-              value: "ps5-names@azurekeyvault"
-            - name: PS5_CREDENTIALS
-              value: "ps5-credentials@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: ps5-names
+                  key: secret-value
             - name: MQTT_USERNAME
-              value: "mqtt-username@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-username
+                  key: secret-value
             - name: MQTT_PASSWORD
-              value: "mqtt-password@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-password
+                  key: secret-value
+            - name: ENV_INJECTOR_LOG_LEVEL
+              value: debug
+          volumeMounts:
+            - name: ps5-credentials
+              mountPath: ~/.config/playactor/credentials.json
+      volumes:
+        - name: ps5-credentials
+          secret:
+            secretName: ps5-credentials
+            defaultMode: 0777
