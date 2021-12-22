@@ -76,6 +76,7 @@ data:
   generate_secrets_yaml.sh: |
     #!/usr/bin env sh
     echo "
+    APPDAEMON_PASSWORD: '${APPDAEMON_PASSWORD}'
     APPDAEMON_URL: '${APPDAEMON_URL}'
     DOMAIN: '${DOMAIN}'
     DOUBLE_TAKE_TOKEN: '${DOUBLE_TAKE_TOKEN}'
@@ -201,6 +202,11 @@ spec:
           image: docker-registry:5000/home-assistant:latest
           imagePullPolicy: Always
           env:
+            - name: APPDAEMON_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: home-assistant-appdaemon-password
+                  key: secret-value
             - name: APPDAEMON_URL
               valueFrom:
                 secretKeyRef:
