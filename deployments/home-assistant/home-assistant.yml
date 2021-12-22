@@ -87,7 +87,6 @@ data:
     GAMING_ROOM_PLAYSTATION_5_IP: '${GAMING_ROOM_PLAYSTATION_5_IP}'
     GAMING_ROOM_TV_IP: '${GAMING_ROOM_TV_IP}'
     GAMING_ROOM_TV_MAC: '${GAMING_ROOM_TV_MAC}'
-    GITHUB_ISSUE_TOKEN: '${GITHUB_ISSUE_TOKEN}'
     GOOGLE_CALENDAR_CLIENT_ID: '${GOOGLE_CALENDAR_CLIENT_ID}'
     GOOGLE_CALENDAR_CLIENT_SECRET: '${GOOGLE_CALENDAR_CLIENT_SECRET}'
     HA_DNS_PASSWORD: '${HA_DNS_PASSWORD}'
@@ -104,14 +103,6 @@ data:
     JIRA_AUTHORIZATION_HEADER: '${JIRA_AUTHORIZATION_HEADER}'
     LATITUDE: '${LATITUDE}'
     LONGITUDE: '${LONGITUDE}'
-    MS_TEAMS_STATUS_ACTIVE_WEBHOOK_ID: '${MS_TEAMS_STATUS_ACTIVE_WEBHOOK_ID}'
-    MS_TEAMS_STATUS_AVAILABLE_IDLE_WEBHOOK_ID: '${MS_TEAMS_STATUS_AVAILABLE_IDLE_WEBHOOK_ID}'
-    MS_TEAMS_STATUS_AWAY_WEBHOOK_ID: '${MS_TEAMS_STATUS_AWAY_WEBHOOK_ID}'
-    MS_TEAMS_STATUS_BE_RIGHT_BACK_WEBHOOK_ID: '${MS_TEAMS_STATUS_BE_RIGHT_BACK_WEBHOOK_ID}'
-    MS_TEAMS_STATUS_BUSY_WEBHOOK_ID: '${MS_TEAMS_STATUS_BUSY_WEBHOOK_ID}'
-    MS_TEAMS_STATUS_DO_NOT_DISTURB_WEBHOOK_ID: '${MS_TEAMS_STATUS_DO_NOT_DISTURB_WEBHOOK_ID}'
-    MS_TEAMS_STATUS_OFF_WEBHOOK_ID: '${MS_TEAMS_STATUS_OFF_WEBHOOK_ID}'
-    MS_TEAMS_STATUS_OFFLINE_WEBHOOK_ID: '${MS_TEAMS_STATUS_OFFLINE_WEBHOOK_ID}'
     POSTGRES_DB: '${POSTGRES_DB}'
     POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
     POSTGRES_USER: '${POSTGRES_USER}'
@@ -139,7 +130,6 @@ data:
     MQTT_USERNAME: '${MQTT_USERNAME}'
     MQTT_PASSWORD: '${MQTT_PASSWORD}'
     TURN_OFF_GAMING_ROOM_GAMING_PC_COMMAND: 'ssh -n -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa ${GAMING_ROOM_MACHINE_USERNAME}@${GAMING_ROOM_GAMING_PC_IP} \"C:\Windows\System32\rundll32.exe powrprof.dll,SetSuspendState Standby\"'
-    GITHUB_AUTHORIZATION_HEADER: 'Bearer ${GITHUB_ISSUES_TOKEN}'
     VPN_DDNS_REST_COMMAND: 'curl -X POST \"https://${VPN_DNS_USERNAME}:${VPN_DNS_PASSWORD}@domains.google.com/nic/update?hostname=${VPN_DOMAIN}&myip=$(curl https://checkip.amazonaws.com)\"'
     HA_DDNS_REST_COMMAND: 'curl -X POST \"https://${HOME_ASSISTANT_DNS_USERNAME}:${HOME_ASSISTANT_DNS_PASSWORD}@domains.google.com/nic/update?hostname=${HOME_ASSISTANT_DOMAIN}&myip=${INLETS_IP}\"'
     DB_URL: 'postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@home-assistant-postgres:5432/${POSTGRES_DB}'
@@ -277,12 +267,6 @@ spec:
                   name: home-assistant-gaming-room-tv-mac
                   key: secret-value
 
-            - name: GITHUB_ISSUE_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-github-issue-token
-                  key: secret-value
-
             - name: GOOGLE_CALENDAR_CLIENT_ID
               valueFrom:
                 secretKeyRef:
@@ -377,54 +361,6 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: home-assistant-longitude
-                  key: secret-value
-
-            - name: MS_TEAMS_STATUS_ACTIVE_WEBHOOK_ID
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-ms-teams-status-active-webhook-id
-                  key: secret-value
-
-            - name: MS_TEAMS_STATUS_AVAILABLE_IDLE_WEBHOOK_ID
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-ms-teams-status-available-idle-webhook-id
-                  key: secret-value
-
-            - name: MS_TEAMS_STATUS_AWAY_WEBHOOK_ID
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-ms-teams-status-away-webhook-id
-                  key: secret-value
-
-            - name: MS_TEAMS_STATUS_BE_RIGHT_BACK_WEBHOOK_ID
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-ms-teams-status-be-right-back-webhook-id
-                  key: secret-value
-
-            - name: MS_TEAMS_STATUS_BUSY_WEBHOOK_ID
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-ms-teams-status-busy-webhook-id
-                  key: secret-value
-
-            - name: MS_TEAMS_STATUS_DO_NOT_DISTURB_WEBHOOK_ID
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-ms-teams-status-do-not-disturb-webhook-id
-                  key: secret-value
-
-            - name: MS_TEAMS_STATUS_OFF_WEBHOOK_ID
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-ms-teams-status-off-webhook-id
-                  key: secret-value
-
-            - name: MS_TEAMS_STATUS_OFFLINE_WEBHOOK_ID
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-ms-teams-status-offline-webhook-id
                   key: secret-value
 
             - name: POSTGRES_DB
