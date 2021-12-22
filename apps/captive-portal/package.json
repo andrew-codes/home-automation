@@ -33,7 +33,7 @@
     "@types/jest": "^27.0.0",
     "@types/node": "^16.4.13",
     "@types/tough-cookie": "^2.3.3",
-    "babel-plugin-styled-components": "^1.13.2",
+    "babel-plugin-styled-components": "^2.0.2",
     "file-loader": "^6.2.0",
     "jest": "^27.0.0",
     "jest-when": "^3.2.1",
