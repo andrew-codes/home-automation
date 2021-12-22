@@ -2,9 +2,9 @@
 
 pushd .
 cd ../../
-source scripts/bin/vault.sh
+source scripts/bin/az-login.sh
 popd
 
-export EMAIL=$(vault kv get -format=json kv/lets-encrypt | jq .data.data.EMAIL | sed -e 's/^"//' -e 's/"$//')
+export EMAIL=$(az keyvault secret show --vault-name "kv-home-automation" --name "lets-encrypt-EMAIL")
 
 envsubst <issuers.yml | kubectl apply -f -

@@ -4,9 +4,10 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
 pushd .
 cd ../../
-source scripts/bin/vault.sh
+source scripts/bin/az-login.sh
 popd
-export PIHOLE_PASSWORD=$(vault kv get -format=json kv/pihole | jq .data.data.PASSWORD | sed -e 's/^"//' -e 's/"$//')
+
+export PIHOLE_PASSWORD=$(az keyvault secret show --vault-name "kv-home-automation" --name "pihole-PASSWORD")
 
 mkdir -p .secrets
 cat >.secrets/ansible-secrets.yml <<EOL
