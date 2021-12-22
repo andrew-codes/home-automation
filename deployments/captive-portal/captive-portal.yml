@@ -14,17 +14,6 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: captive-portal
-      annotations:
-        vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/role: app
-        vault.hashicorp.com/agent-inject-status: update
-        vault.hashicorp.com/agent-inject-secret-env.sh: kv/mqtt
-        vault.hashicorp.com/agent-inject-template-env.sh: |
-          {{ with secret "kv/captive-portal" }}
-              {{ range $k, $v := .Data.data }}
-          export {{ $k }}="{{ $v }}"
-              {{ end }}
-          {{ end }}
     spec:
       tolerations:
         - key: "node.kubernetes.io/disk-pressure"
