@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-source scripts/bin/vault.sh
+source scripts/bin/az-login.sh
 
-export DOMAIN=$(vault kv get -format=json kv/captive-portal | jq .data.data.DOMAIN | sed -e 's/^"//' -e 's/"$//')
-export UNIFI_IP=$(vault kv get -format=json kv/unifi | jq .data.data.IP | sed -e 's/^"//' -e 's/"$//')
+export DOMAIN=$(az keyvault secret show --vault-name "kv-home-automation" --name "captive-portal-DOMAIN" | jq -r '.value')
+export UNIFI_IP=$(az keyvault secret show --vault-name "kv-home-automation" --name "unifi-IP" | jq -r '.value')
 
 mkdir -p .secrets
 

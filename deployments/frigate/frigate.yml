@@ -46,21 +46,6 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: frigate
-      annotations:
-        vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/role: app
-        vault.hashicorp.com/agent-inject-status: update
-        vault.hashicorp.com/agent-inject-secret-env.sh: kv/frigate
-        vault.hashicorp.com/agent-inject-template-env.sh: |
-          {{ with secret "kv/mqtt" }}
-          export MQTT_USERNAME="{{ .Data.data.USERNAME }}"
-          export MQTT_PASSWORD="{{ .Data.data.PASSWORD }}"
-          {{ end }}
-          {{ with secret "kv/frigate" }}
-              {{ range $k, $v := .Data.data }}
-          export {{ $k }}="{{ $v }}"
-              {{ end }}
-          {{ end }}
     spec:
       tolerations:
         - key: "node.kubernetes.io/disk-pressure"
@@ -85,7 +70,16 @@ spec:
             - "sh"
           args:
             - "-c"
-            - ". /vault/secrets/env.sh && /start.sh"
+            - "/start.sh"
+          env:
+            - name: MQTT_USERNAME
+              value: "mqtt-username@azurekeyvault"
+            - name: MQTT_PASSWORD
+              value: "mqtt-password@azurekeyvault"
+            - name: CAR_PORT_DOOR_RTSP
+              value: "frigate-car-port-door-rtsp@azurekeyvault"
+            - name: FRONT_DOOR_RTSP
+              value: "frigate-front-door-rtsp@azurekeyvault"
           ports:
             - name: http
               containerPort: 5000

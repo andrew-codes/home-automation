@@ -50,17 +50,6 @@ spec:
       labels:
         app: app
         app.kubernetes.io/name: home-assistant-postgres
-      annotations:
-        vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/role: app
-        vault.hashicorp.com/agent-inject-status: update
-        vault.hashicorp.com/agent-inject-secret-env.sh: kv/home-assistant
-        vault.hashicorp.com/agent-inject-template-env.sh: |
-          {{ with secret "kv/home-assistant" }}
-          export POSTGRES_DB="{{ .Data.data.POSTGRES_DB }}"
-          export POSTGRES_PASSWORD="{{ .Data.data.POSTGRES_PASSWORD }}"
-          export POSTGRES_USER="{{ .Data.data.POSTGRES_USER }}"
-          {{ end }}
     spec:
       serviceAccountName: app
       imagePullSecrets:
@@ -73,7 +62,7 @@ spec:
             - bash
           args:
             - "-c"
-            - "source /vault/secrets/env.sh && docker-entrypoint.sh postgres"
+            - "docker-entrypoint.sh postgres"
           ports:
             - name: db
               containerPort: 5432

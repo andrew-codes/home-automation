@@ -15,17 +15,6 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: facebox
-      annotations:
-        vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/role: app
-        vault.hashicorp.com/agent-inject-status: update
-        vault.hashicorp.com/agent-inject-secret-env.sh: kv/facebox
-        vault.hashicorp.com/agent-inject-template-env.sh: |
-          {{ with secret "kv/facebox" }}
-              {{ range $k, $v := .Data.data }}
-          export {{ $k }}="{{ $v }}"
-              {{ end }}
-          {{ end }}
     spec:
       tolerations:
         - key: "node.kubernetes.io/disk-pressure"
@@ -41,7 +30,10 @@ spec:
             - "sh"
           args:
             - "-c"
-            - ". /vault/secrets/env.sh && /app/facebox"
+            - "/app/facebox"
+          env:
+            - name: MB_KEY
+              value: "facebox-mb-key@azurekeyvault"
           ports:
             - name: web
               containerPort: 8080

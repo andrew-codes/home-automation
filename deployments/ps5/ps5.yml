@@ -14,22 +14,6 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: ps5
-      annotations:
-        vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/role: app
-        vault.hashicorp.com/agent-inject-status: update
-        vault.hashicorp.com/agent-inject-secret-env.sh: kv/mqtt
-        vault.hashicorp.com/agent-inject-template-env.sh: |
-          {{ with secret "kv/mqtt" }}
-          export MQTT_USERNAME="{{ .Data.data.USERNAME }}"
-          export MQTT_PASSWORD="{{ .Data.data.PASSWORD }}"
-          {{ end }}
-          {{ with secret "kv/ps5" }}
-          export PS5_NAMES="{{ .Data.data.PS5_NAMES }}"
-          {{ end }}
-        vault.hashicorp.com/agent-inject-secret-credentials.json: kv/ps5
-        vault.hashicorp.com/agent-inject-template-credentials.json: |
-          {{ with secret "kv/ps5" }}{{ .Data.data.CREDENTIALS }}{{ end }}
     spec:
       tolerations:
         - key: "node.kubernetes.io/disk-pressure"
@@ -64,7 +48,7 @@ spec:
             - "sh"
           args:
             - "-c"
-            - "source /vault/secrets/env.sh && cp /vault/secrets/credentials.json ~/.config/playactor/credentials.json && /start.sh"
+            - "/start.sh"
           env:
             - name: DEBUG
               value: "*"
@@ -72,3 +56,28 @@ spec:
               value: "192.168.1.18"
             - name: MQTT_PORT
               value: "30519"
+            - name: PS5_NAMES
+              valueFrom:
+                secretKeyRef:
+                  name: ps5-names
+                  key: secret-value
+            - name: MQTT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-username
+                  key: secret-value
+            - name: MQTT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-password
+                  key: secret-value
+            - name: ENV_INJECTOR_LOG_LEVEL
+              value: debug
+          volumeMounts:
+            - name: ps5-credentials
+              mountPath: ~/.config/playactor/credentials.json
+      volumes:
+        - name: ps5-credentials
+          secret:
+            secretName: ps5-credentials
+            defaultMode: 0777

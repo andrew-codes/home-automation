@@ -4,9 +4,10 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
 pushd .
 cd ../../
-source scripts/bin/vault.sh
+source scripts/bin/az-login.sh
 popd
-export OPENVPN_PASSWORD=$(vault kv get -format=json kv/openvpn | jq .data.data.PASSWORD | sed -e 's/^"//' -e 's/"$//')
+
+export OPENVPN_PASSWORD=$(az keyvault secret show --vault-name "kv-home-automation" --name "openvpn-PASSWORD" | jq -r '.value')
 
 mkdir -p .secrets
 cat >.secrets/ansible-secrets.yml <<EOL

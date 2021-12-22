@@ -20,11 +20,11 @@ record:
   retain_days: 1
 
 detectors:
-  coral:
-    type: edgetpu
-    device: usb
-  # cpu1:
-  #   type: cpu
+  # coral:
+  #   type: edgetpu
+  #   device: usb
+  cpu1:
+    type: cpu
 
 rtmp:
   enabled: True

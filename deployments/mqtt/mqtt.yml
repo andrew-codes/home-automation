@@ -19,18 +19,6 @@ data:
 
 ---
 apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: mosquitto-generate-password-script
-  namespace: default
-data:
-  set_credentials.sh: |
-    #!/usr/bin env sh
-    echo -n "$USERNAME:$PASSWORD" > /mosquitto/passwd
-    mosquitto_passwd -U /mosquitto/passwd
-
----
-apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: mosquitto-pv-volume
@@ -76,17 +64,6 @@ spec:
     metadata:
       labels:
         app: app
-      annotations:
-        vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/role: app
-        vault.hashicorp.com/agent-inject-status: update
-        vault.hashicorp.com/agent-inject-secret-env.sh: kv/mqtt
-        vault.hashicorp.com/agent-inject-template-env.sh: |
-          {{ with secret "kv/mqtt" }}
-              {{ range $k, $v := .Data.data }}
-          export {{ $k }}="{{ $v }}"
-              {{ end }}
-          {{ end }}
     spec:
       tolerations:
         - key: "node.kubernetes.io/disk-pressure"
@@ -107,24 +84,24 @@ spec:
             - "sh"
           args:
             - "-c"
-            - "source /vault/secrets/env.sh && source /mosquitto/set_credentials.sh && /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf"
+            - 'echo -n "$USERNAME:$PASSWORD" > /mosquitto/passwd && mosquitto_passwd -U /mosquitto/passwd && /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf'
+          env:
+            - name: USERNAME
+              value: "mqtt-username@azurekeyvault"
+            - name: PASSWORD
+              value: "mqtt-password@azurekeyvault"
+            - name: ENV_INJECTOR_LOG_LEVEL
+              value: debug
           volumeMounts:
             - name: mosquitto-config
               mountPath: /mosquitto/config/mosquitto.conf
               subPath: mosquitto.conf
-            - name: mosquitto-generate-password-script
-              mountPath: /mosquitto/set_credentials.sh
-              subPath: set_credentials.sh
             - name: mosquitto-data
               mountPath: /mosquitto/data
       volumes:
         - name: mosquitto-config
           configMap:
             name: mosquitto-config
-        - name: mosquitto-generate-password-script
-          configMap:
-            name: mosquitto-generate-password-script
-            defaultMode: 0777
         - name: mosquitto-data
           persistentVolumeClaim:
             claimName: mosquitto-volume-claim

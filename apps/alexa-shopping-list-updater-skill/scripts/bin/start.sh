@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
-source ../../secrets.sh
+pushd .
+cd ../../
+set -o allexport
+source .secrets.env
+set +o allexport
+popd
 
 echo "Will Start on Port 8082"
 

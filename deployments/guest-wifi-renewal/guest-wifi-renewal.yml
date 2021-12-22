@@ -14,28 +14,6 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: guest-wifi-renewal
-      annotations:
-        vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/role: app
-        vault.hashicorp.com/agent-inject-status: update
-        vault.hashicorp.com/agent-inject-secret-env.sh: kv/mqtt
-        vault.hashicorp.com/agent-inject-template-env.sh: |
-          {{ with secret "kv/mqtt" }}
-          export MQTT_HOST="mqtt"
-          export MQTT_PORT="1883"
-          export MQTT_USERNAME="{{ .Data.data.USERNAME }}"
-          export MQTT_PASSWORD="{{ .Data.data.PASSWORD }}"
-          {{ end }}
-          {{ with secret "kv/home-assistant" }}
-          export HA_TOKEN="{{ .Data.data.HA_TOKEN }}"
-          export HA_URL="{{ .Data.data.DOMAIN }}"
-          {{ end }}
-          {{ with secret "kv/unifi" }}
-          export UNIFI_IP="{{ .Data.data.IP }}"
-          export UNIFI_PASSWORD="{{ .Data.data.PASSWORD }}"
-          export UNIFI_PORT="{{ .Data.data.PORT }}"
-          export UNIFI_USERNAME="{{ .Data.data.USERNAME }}"
-          {{ end }}
     spec:
       tolerations:
         - key: "node.kubernetes.io/disk-pressure"
@@ -69,6 +47,28 @@ spec:
             - "sh"
           args:
             - "-c"
-            - "source /vault/secrets/env.sh && /app/entrypoint.sh"
+            - "/app/entrypoint.sh"
           env:
             - name: DEBUG
+            - name: MQTT_HOST
+              value: mqtt
+            - name: MQTT_PORT
+              value: "1883"
+            - name: MQTT_USERNAME
+              value: "mqtt-username@azurekeyvault"
+            - name: MQTT_PASSWORD
+              value: "mqtt-password@azurekeyvault"
+            - name: HA_TOKEN
+              value: "ha-token@azurekeyvault"
+            - name: HA_URL
+              value: "ha-url@azurekeyvault"
+            - name: UNIFI_IP
+              value: "unifi-ip@azurekeyvault"
+            - name: UNIFI_PORT
+              value: "unifi-port@azurekeyvault"
+            - name: UNIFI_PASSWORD
+              value: "unifi-password@azurekeyvault"
+            - name: UNIFI_USERNAME
+              value: "unifi-username@azurekeyvault"
+            - name: ENV_INJECTOR_LOG_LEVEL
+              value: debug

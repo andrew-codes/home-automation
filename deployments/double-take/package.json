@@ -11,6 +11,7 @@
     "@ha/double-take-app": "^0.0.1",
     "@ha/frigate": "^0.0.1",
     "@ha/facebox": "^0.0.1",
-    "@ha/mqtt": "^0.0.1"
+    "@ha/mqtt": "^0.0.1",
+    "@ha/secrets": "^0.0.1"
   }
 }

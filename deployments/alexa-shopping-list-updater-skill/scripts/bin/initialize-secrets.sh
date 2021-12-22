@@ -2,11 +2,13 @@
 
 pushd .
 cd ../../
-source scripts/bin/vault.sh
+source scripts/bin/az-login.sh
+set -o allexport
+source .provision-vars.env
+set +o allexport
 popd
 
-vault kv put kv/alexa-shopping-list-skill \
-    DNS_USERNAME="" \
-    DNS_PASSWORD="" \
-    DNS_DOMAIN="" \
-    INLETS_IP=""
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "alexa-shopping-list-skill-DNS-USERNAME" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "alexa-shopping-list-skill-DNS-PASSWORD" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "alexa-shopping-list-skill-DNS-DOMAIN" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "alexa-shopping-list-skill-INLETS-IP" --value "change me"

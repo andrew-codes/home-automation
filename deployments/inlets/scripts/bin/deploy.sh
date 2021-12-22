@@ -4,14 +4,15 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
 pushd .
 cd ../../
-source scripts/bin/vault.sh
+source scripts/bin/az-login.sh
 popd
-export INLETS_PRO_LICENSE=$(vault kv get -format=json kv/inlets | jq .data.data.INLETS_PRO_LICENSE | sed -e 's/^"//' -e 's/"$//')
-export CLIENT_ID=$(vault kv get -format=json kv/inlets | jq .data.data.CLIENT_ID | sed -e 's/^"//' -e 's/"$//')
-export CLIENT_SECRET=$(vault kv get -format=json kv/inlets | jq .data.data.CLIENT_SECRET | sed -e 's/^"//' -e 's/"$//')
-export SUBSCRIPTION_ID=$(vault kv get -format=json kv/inlets | jq .data.data.SUBSCRIPTION_ID | sed -e 's/^"//' -e 's/"$//')
-export TENANT_ID=$(vault kv get -format=json kv/inlets | jq .data.data.TENANT_ID | sed -e 's/^"//' -e 's/"$//')
-export MACHINE_PASSWORD=$(vault kv get -format=json kv/k8s | jq .data.data.MACHINE_PASSWORD | sed -e 's/^"//' -e 's/"$//')
+
+export INLETS_PRO_LICENSE=$(az keyvault secret show --vault-name "kv-home-automation" --name "inlets-INLETS-PRO-LICENSE" | jq -r '.value')
+export CLIENT_ID=$(az keyvault secret show --vault-name "kv-home-automation" --name "inlets-CLIENT-ID" | jq -r '.value')
+export CLIENT_SECRET=$(az keyvault secret show --vault-name "kv-home-automation" --name "inlets-CLIENT-SECRET" | jq -r '.value')
+export SUBSCRIPTION_ID=$(az keyvault secret show --vault-name "kv-home-automation" --name "inlets-SUBSCRIPTION-ID" | jq -r '.value')
+export TENANT_ID=$(az keyvault secret show --vault-name "kv-home-automation" --name "inlets-TENANT-ID" | jq -r '.value')
+export MACHINE_PASSWORD=$(az keyvault secret show --vault-name "kv-home-automation" --name "k8s-MACHINE-PASSWORD" | jq -r '.value')
 
 mkdir -p .secrets
 cat >.secrets/ansible-secrets.yml <<EOL

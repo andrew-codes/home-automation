@@ -14,28 +14,6 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: captive-portal
-      annotations:
-        vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/role: app
-        vault.hashicorp.com/agent-inject-status: update
-        vault.hashicorp.com/agent-inject-secret-env.sh: kv/mqtt
-        vault.hashicorp.com/agent-inject-template-env.sh: |
-          {{ with secret "kv/mqtt" }}
-          export MQTT_USERNAME="{{ .Data.data.USERNAME }}"
-          export MQTT_PASSWORD="{{ .Data.data.PASSWORD }}"
-          export MQTT_HOST="mqtt"
-          {{ end }}
-          {{ with secret "kv/unifi" }}
-          export UNIFI_IP="{{ .Data.data.IP }}"
-          export UNIFI_PORT="{{ .Data.data.PORT }}"
-          export UNIFI_USERNAME="{{ .Data.data.USERNAME }}"
-          export UNIFI_PASSWORD="{{ .Data.data.PASSWORD }}"
-          {{ end }}
-          {{ with secret "kv/captive-portal" }}
-              {{ range $k, $v := .Data.data }}
-          export {{ $k }}="{{ $v }}"
-              {{ end }}
-          {{ end }}
     spec:
       tolerations:
         - key: "node.kubernetes.io/disk-pressure"
@@ -69,12 +47,32 @@ spec:
             - sh
           args:
             - "-c"
-            - "source /vault/secrets/env.sh && /app/entrypoint.sh"
+            - "/app/entrypoint.sh"
           ports:
             - name: http
               containerPort: 80
               protocol: TCP
           env:
+            - name: MQTT_HOST
+              value: mqtt
+            - name: MQTT_PORT
+              value: "1883"
+            - name: MQTT_USERNAME
+              value: "mqtt-username@azurekeyvault"
+            - name: MQTT_PASSWORD
+              value: "mqtt-password@azurekeyvault"
             - name: PORT
               value: "80"
+            - name: UNIFI_IP
+              value: "unifi-ip@azurekeyvault"
+            - name: UNIFI_PORT
+              value: "unifi-port@azurekeyvault"
+            - name: UNIFI_PASSWORD
+              value: "unifi-password@azurekeyvault"
+            - name: UNIFI_USERNAME
+              value: "unifi-username@azurekeyvault"
+            - name: ENV_INJECTOR_LOG_LEVEL
+              value: debug
+            - name: DOMAIN
+              value: "captive-portal-domain@azurekeyvault"
             - name: DEBUG

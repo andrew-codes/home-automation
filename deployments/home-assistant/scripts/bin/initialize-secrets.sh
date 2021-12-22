@@ -2,67 +2,68 @@
 
 pushd .
 cd ../../
-source scripts/bin/vault.sh
+source scripts/bin/az-login.sh
+set -o allexport
+source .provision-vars.env
+set +o allexport
 popd
 
-vault kv put kv/home-assistant \
-    APPDAEMON_PASSWORD="" \
-    APPDAEMON_URL="" \
-    DOMAIN="" \
-    DOUBLE_TAKE_TOKEN="" \
-    ELEVATION="" \
-    GAMING_ROOM_GAMING_PC_IP="" \
-    GAMING_ROOM_GAMING_PC_MAC="" \
-    GAMING_ROOM_MACHINE_USERNAME="" \
-    GAMING_ROOM_NVIDIA_SHIELD_IP="" \
-    GAMING_ROOM_PLAYSTATION_5_IP="" \
-    GAMING_ROOM_TV_IP="" \
-    GAMING_ROOM_TV_MAC="" \
-    GITHUB_ISSUE_TOKEN="" \
-    GOOGLE_CALENDAR_CLIENT_ID="" \
-    GOOGLE_CALENDAR_CLIENT_SECRET="" \
-    HA_DNS_PASSWORD="" \
-    HA_DNS_USERNAME="" \
-    HA_DOMAIN="" \
-    HA_TOKEN="" \
-    HA_URL="" \
-    HOME_ASSISTANT_DNS_PASSWORD="" \
-    HOME_ASSISTANT_DNS_USERNAME="" \
-    HOME_ASSISTANT_DOMAIN="" \
-    HOME_AUTOMATION_PRIVATE_SSH_KEY= "" \
-    HOME_AUTOMATION_PUBLIC_SSH_KEY= "" \
-    INLETS_IP="" \
-    JIRA_AUTHORIZATION_HEADER="" \
-    LATITUDE="" \
-    LONGITUDE="" \
-    MS_TEAMS_STATUS_ACTIVE_WEBHOOK_ID="" \
-    MS_TEAMS_STATUS_AVAILABLE_IDLE_WEBHOOK_ID="" \
-    MS_TEAMS_STATUS_AWAY_WEBHOOK_ID="" \
-    MS_TEAMS_STATUS_BE_RIGHT_BACK_WEBHOOK_ID="" \
-    MS_TEAMS_STATUS_BUSY_WEBHOOK_ID="" \
-    MS_TEAMS_STATUS_DO_NOT_DISTURB_WEBHOOK_ID="" \
-    MS_TEAMS_STATUS_OFF_WEBHOOK_ID="" \
-    MS_TEAMS_STATUS_OFFLINE_WEBHOOK_ID="" \
-    POSTGRES_DB="" \
-    POSTGRES_PASSWORD="" \
-    POSTGRES_USER="" \
-    PROXMOX_HOST="" \
-    PROXMOX_PASSWORD="" \
-    PROXMOX_USERNAME="" \
-    ROUTER_IP="" \
-    SPOTCAST_DC_2="" \
-    SPOTCAST_DC="" \
-    SPOTCAST_KEY_2="" \
-    SPOTCAST_KEY="" \
-    SPOTIFY_CLIENT_ID="" \
-    SPOTIFY_CLIENT_SECRET="" \
-    TIME_ZONE="" \
-    UNIT_SYSTEM="" \
-    VALHEIM_DOMAIN="" \
-    VALHEIM_GOOGLE_DOMAIN_PASSWORD="" \
-    VALHEIM_GOOGLE_DOMAIN_USERNAME="" \
-    VPN_DNS_PASSWORD="" \
-    VPN_DNS_USERNAME="" \
-    VPN_DOMAIN="" \
-    WITHINGS_CLIENT_ID="" \
-    WITHINGS_CLIENT_SECRET=""
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-APPDAEMON-URL" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-DOMAIN" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-DOUBLE-TAKE-TOKEN" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-ELEVATION" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-GAMING-ROOM-GAMING-PC-IP" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-GAMING-ROOM-GAMING-PC-MAC" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-GAMING-ROOM-MACHINE-USERNAME" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-GAMING-ROOM-NVIDIA-SHIELD-IP" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-GAMING-ROOM-PLAYSTATION-5-IP" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-GAMING-ROOM-TV-IP" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-GAMING-ROOM-TV-MAC" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-GITHUB-ISSUE-TOKEN" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-GOOGLE-CALENDAR-CLIENT-ID" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-GOOGLE-CALENDAR-CLIENT-SECRET" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-HA-DNS-PASSWORD" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-HA-DNS-USERNAME" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-HA-DOMAIN" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-HA-TOKEN" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-HA-URL" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-HOME-ASSISTANT-DNS-PASSWORD" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-HOME-ASSISTANT-DNS-USERNAME" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-HOME-ASSISTANT-DOMAIN" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-HOME-AUTOMATION-PRIVATE-SSH-KEY" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-HOME-AUTOMATION-PUBLIC-SSH-KEY" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-INLETS-IP" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-JIRA-AUTHORIZATION-HEADER" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-LATITUDE" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-LONGITUDE" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-MS-TEAMS-STATUS-ACTIVE-WEBHOOK-ID" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-MS-TEAMS-STATUS-AVAILABLE-IDLE-WEBHOOK-ID" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-MS-TEAMS-STATUS-AWAY-WEBHOOK-ID" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-MS-TEAMS-STATUS-BE-RIGHT-BACK-WEBHOOK-ID" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-MS-TEAMS-STATUS-BUSY-WEBHOOK-ID" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-MS-TEAMS-STATUS-DO-NOT-DISTURB-WEBHOOK-ID" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-MS-TEAMS-STATUS-OFF-WEBHOOK-ID" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-MS-TEAMS-STATUS-OFFLINE-WEBHOOK-ID" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-POSTGRES-DB" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-POSTGRES-PASSWORD" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-POSTGRES-USER" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-PROXMOX-HOST" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-PROXMOX-PASSWORD" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-PROXMOX-USERNAME" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-ROUTER-IP" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-SPOTCAST-DC-2" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-SPOTCAST-DC" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-SPOTCAST-KEY-2" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-SPOTCAST-KEY" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-SPOTIFY-CLIENT-ID" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-SPOTIFY-CLIENT-SECRET" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-TIME-ZONE" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-UNIT-SYSTEM" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-VALHEIM-DOMAIN" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-VALHEIM-GOOGLE-DOMAIN-PASSWORD" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-VALHEIM-GOOGLE-DOMAIN-USERNAME" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-VPN-DNS-PASSWORD" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-VPN-DNS-USERNAME" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-VPN-DOMAIN" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-WITHINGS-CLIENT-ID" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "home-assistant-WITHINGS-CLIENT-SECRET" --value "change me"

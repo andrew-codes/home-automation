@@ -2,13 +2,15 @@
 
 pushd .
 cd ../../
-source scripts/bin/vault.sh
+source scripts/bin/az-login.sh
+set -o allexport
+source .provision-vars.env
+set +o allexport
 popd
 
-vault kv put kv/guest-pin-codes \
-    GOOGLE_CALENDAR_ID="" \
-    GOOGLE_PRIVATE_KEY="" \
-    DOOR_LOCKS="" \
-    GUEST_LOCK_CODE_EXCLUSIONS="" \
-    GUEST_CODE_INDEX_OFFSET="" \
-    NUMBER_OF_GUEST_CODES=""
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "guest-pin-codes-GOOGLE-CALENDAR-ID" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "guest-pin-codes-GOOGLE-PRIVATE-KEY" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "guest-pin-codes-DOOR-LOCKS" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "guest-pin-codes-GUEST-LOCK-CODE-EXCLUSIONS" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "guest-pin-codes-GUEST-CODE-INDEX-OFFSET" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "guest-pin-codes-NUMBER-OF-GUEST-CODES" --value "change me"

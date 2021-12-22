@@ -9,8 +9,6 @@ This package is used by `./set_secrets.sh` to automatically add all required rep
 Requires the $GITHUB_RUNNER_TOKEN environment variable to be set.
 
 ```bash
-source secrets.sh
-
 $OWNER="andrew-codes"
 $REPO="home-automation"
 $SECRET_NAME="DOCKER_REGISTRY_DOMAIN"

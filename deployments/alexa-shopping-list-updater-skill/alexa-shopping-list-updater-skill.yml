@@ -14,16 +14,6 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: alexa-shopping-list-updater-skill
-      annotations:
-        vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/role: app
-        vault.hashicorp.com/agent-inject-status: update
-        vault.hashicorp.com/agent-inject-secret-env.sh: kv/mqtt
-        vault.hashicorp.com/agent-inject-template-env.sh: |
-          {{ with secret "kv/mqtt" }}
-          export MQTT_USERNAME="{{ .Data.data.USERNAME }}"
-          export MQTT_PASSWORD="{{ .Data.data.PASSWORD }}"
-          {{ end }}
     spec:
       tolerations:
         - key: "node.kubernetes.io/disk-pressure"
@@ -41,7 +31,7 @@ spec:
             - "sh"
           args:
             - "-c"
-            - "source /vault/secrets/env.sh && /start.sh"
+            - "/start.sh"
           ports:
             - name: alexa-http
               containerPort: 8085

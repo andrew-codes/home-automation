@@ -4,13 +4,14 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
 pushd .
 cd ../../
-source scripts/bin/vault.sh
+source scripts/bin/az-login.sh
 popd
-export USERNAME=$(vault kv get -format=json kv/docker-registry | jq .data.data.USERNAME | sed -e 's/^"//' -e 's/"$//')
-export PASSWORD=$(vault kv get -format=json kv/docker-registry | jq .data.data.PASSWORD | sed -e 's/^"//' -e 's/"$//')
-export EMAIL=$(vault kv get -format=json kv/docker-registry | jq .data.data.EMAIL | sed -e 's/^"//' -e 's/"$//')
-export MACHINE_PASSWORD=$(vault kv get -format=json kv/docker-registry | jq .data.data.MACHINE_PASSWORD | sed -e 's/^"//' -e 's/"$//')
-echo $MACHINE_PASSWORD
+
+export USERNAME=$(az keyvault secret show --vault-name "kv-home-automation" --name "docker-registry-USERNAME" | jq -r '.value')
+export PASSWORD=$(az keyvault secret show --vault-name "kv-home-automation" --name "docker-registry-PASSWORD" | jq -r '.value')
+export EMAIL=$(az keyvault secret show --vault-name "kv-home-automation" --name "docker-registry-EMAIL" | jq -r '.value')
+export MACHINE_PASSWORD=$(az keyvault secret show --vault-name "kv-home-automation" --name "docker-registry-MACHINE_PASSWORD" | jq -r '.value')
+
 mkdir -p .secrets
 cat >.secrets/ansible-secrets.yml <<EOL
 ---

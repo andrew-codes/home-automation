@@ -9,8 +9,6 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 RUN curl -sS https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 RUN echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable" | sudo tee -a /etc/apt/sources.list.d/docker.list
-RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-RUN sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 RUN sudo apt-add-repository -y --update ppa:ansible/ansible
 RUN sudo add-apt-repository ppa:deadsnakes/ppa
 RUN sudo apt update -y
@@ -30,9 +28,7 @@ RUN sudo apt-get install -y \
   python3-pip \
   python3.8 \
   software-properties-common \ 
-  yarn \
-  vault
-RUN sudo setcap cap_ipc_lock= /usr/bin/vault
+  yarn 
 RUN pip3 install "pywinrm>=0.3.0"
 RUN export KUBECONFIG=/home/runner/.kube/config
 RUN yarn global add lerna
@@ -52,5 +48,6 @@ RUN sudo chmod +x /usr/local/bin/helm
 ADD ./wrapdocker.sh /usr/local/bin/wrapdocker.sh
 RUN sudo chmod +x /usr/local/bin/wrapdocker.sh
 ENV DOCKER_DAEMON_ARGS "--insecure-registry docker-registry:5000"
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 ENTRYPOINT [ "/entrypoint.sh" ]
 # ENTRYPOINT [ "/usr/local/bin/wrapdocker.sh" ]

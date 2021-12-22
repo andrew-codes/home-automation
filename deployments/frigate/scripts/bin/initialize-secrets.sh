@@ -2,9 +2,11 @@
 
 pushd .
 cd ../../
-source scripts/bin/vault.sh
+source scripts/bin/az-login.sh
+set -o allexport
+source .provision-vars.env
+set +o allexport
 popd
 
-vault kv put kv/frigate \
-  FRONT_DOOR_RTSP="" \
-  CAR_PORT_DOOR_RTSP=""
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "frigate-FRONT-DOOR-RTSP" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "frigate-CAR-PORT-DOOR-RTSP" --value "change me"

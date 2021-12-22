@@ -2,12 +2,12 @@
 
 pushd .
 cd ../../
-source scripts/bin/vault.sh
+source scripts/bin/az-login.sh
 popd
-export HOME_ASSISTANT_DNS_USERNAME=$(vault kv get -format=json kv/home-assistant | jq .data.data.HOME_ASSISTANT_DNS_USERNAME | sed -e 's/^"//' -e 's/"$//')
-export HOME_ASSISTANT_DNS_PASSWORD=$(vault kv get -format=json kv/home-assistant | jq .data.data.HOME_ASSISTANT_DNS_PASSWORD | sed -e 's/^"//' -e 's/"$//')
-export HOME_ASSISTANT_DOMAIN=$(vault kv get -format=json kv/home-assistant | jq .data.data.HOME_ASSISTANT_DOMAIN | sed -e 's/^"//' -e 's/"$//')
-export INLETS_IP=$(vault kv get -format=json kv/home-assistant | jq .data.data.INLETS_IP | sed -e 's/^"//' -e 's/"$//')
+export HOME_ASSISTANT_DNS_USERNAME=$(az keyvault secret show --vault-name "kv-home-automation" --name "home-assistant-DNS-USERNAME" | jq -r '.value')
+export HOME_ASSISTANT_DNS_PASSWORD=$(az keyvault secret show --vault-name "kv-home-automation" --name "home-assistant-DNS-PASSWORD" | jq -r '.value')
+export HOME_ASSISTANT_DOMAIN=$(az keyvault secret show --vault-name "kv-home-automation" --name "home-assistant-DOMAIN" | jq -r '.value')
+export INLETS_IP=$(az keyvault secret show --vault-name "kv-home-automation" --name "home-assistant-INLETS-IP" | jq -r '.value')
 
 curl -X POST "https://$HOME_ASSISTANT_DNS_USERNAME:$HOME_ASSISTANT_DNS_PASSWORD@domains.google.com/nic/update?hostname=$HOME_ASSISTANT_DOMAIN&myip=$INLETS_IP"
 envsubst <"$1" | kubectl apply -f -

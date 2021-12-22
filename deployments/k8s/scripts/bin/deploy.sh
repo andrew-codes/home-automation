@@ -4,13 +4,14 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
 pushd .
 cd ../../
-source scripts/bin/vault.sh
+source scripts/bin/az-login.sh
 set -o allexport
 source ./.provision-vars.env
 set +o allexport
 popd
-export POD_NETWORK_CIDR=$(vault kv get -format=json kv/k8s | jq .data.data.POD_NETWORK_CIDR | sed -e 's/^"//' -e 's/"$//')
-export MACHINE_PASSWORD=$(vault kv get -format=json kv/k8s | jq .data.data.MACHINE_PASSWORD | sed -e 's/^"//' -e 's/"$//')
+
+export POD_NETWORK_CIDR=$(az keyvault secret show --vault-name "kv-home-automation" --name "k8s-POD-NETWORK-CIDR" | jq -r '.value')
+export MACHINE_PASSWORD=$(az keyvault secret show --vault-name "kv-home-automation" --name "k8s-MACHINE-PASSWORD" | jq -r '.value')
 
 mkdir -p .secrets
 cat >.secrets/ansible-secrets.yml <<EOL
