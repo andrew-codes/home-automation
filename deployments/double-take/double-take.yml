@@ -46,16 +46,6 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: double-take
-      annotations:
-        vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/role: app
-        vault.hashicorp.com/agent-inject-status: update
-        vault.hashicorp.com/agent-inject-secret-env.sh: kv/mqtt
-        vault.hashicorp.com/agent-inject-template-env.sh: |
-          {{ with secret "kv/mqtt" }}
-          export MQTT_USERNAME="{{ .Data.data.USERNAME }}"
-          export MQTT_PASSWORD="{{ .Data.data.PASSWORD }}"
-          {{ end }}
     spec:
       tolerations:
         - key: "node.kubernetes.io/disk-pressure"
@@ -71,7 +61,12 @@ spec:
             - "sh"
           args:
             - "-c"
-            - ". /vault/secrets/env.sh && /start.sh"
+            - "/start.sh"
+          env:
+            - name: MQTT_USERNAME
+              value: "mqtt-username@azurekeyvault"
+            - name: MQTT_PASSWORD
+              value: "mqtt-password@azurekeyvault"
           ports:
             - name: web
               containerPort: 3000

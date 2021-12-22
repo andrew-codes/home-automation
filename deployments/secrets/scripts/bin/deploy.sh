@@ -11,12 +11,12 @@ echo "" >$SECRETS_FILE
 AKV_SECRET_KEYS=$(az keyvault secret list --vault-name "kv-home-automation")
 
 for row in $(echo "${AKV_SECRET_KEYS}" | jq -r '.[] | @base64'); do
-    _jq() {
-        echo ${row} | base64 --decode | jq -r ${1}
-    }
-    SECRET_NAME=$(echo $(_jq '.name'))
-    K8S_SECRET_NAME=$(echo $SECRET_NAME | tr '[:upper:]' '[:lower:]')
-    echo "
+  _jq() {
+    echo ${row} | base64 --decode | jq -r ${1}
+  }
+  SECRET_NAME=$(echo $(_jq '.name'))
+  K8S_SECRET_NAME=$(echo $SECRET_NAME | tr '[:upper:]' '[:lower:]')
+  echo "
 ---
 apiVersion: spv.no/v2beta1
 kind: AzureKeyVaultSecret

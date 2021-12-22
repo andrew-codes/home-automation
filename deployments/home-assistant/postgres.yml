@@ -73,7 +73,7 @@ spec:
             - bash
           args:
             - "-c"
-            - "source /vault/secrets/env.sh && docker-entrypoint.sh postgres"
+            - "docker-entrypoint.sh postgres"
           ports:
             - name: db
               containerPort: 5432

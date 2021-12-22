@@ -8,7 +8,7 @@
     "clean": "rm -rf dist",
     "compile": "ncc build src/index.ts -o dist -m",
     "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/guest-pin-codes:latest\" --context dir:///workspace/ --insecure --cache=true",
-    "start/dev": ". \"$TELEPRESENCE_ROOT/vault/secrets/env.sh\" && nodemon src/index.ts",
+    "start/dev": "nodemon src/index.ts",
     "start": "scripts/bin/start.sh"
   },
   "dependencies": {

@@ -41,7 +41,7 @@ spec:
             - "sh"
           args:
             - "-c"
-            - "source /vault/secrets/env.sh && /start.sh"
+            - "/start.sh"
           ports:
             - name: alexa-http
               containerPort: 8085
