@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@ha/vault",
+  "name": "@ha/azure-key-vault",
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {

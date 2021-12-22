@@ -1,6 +1,6 @@
 # Install Application(s)
 
-**First run `yarn initialize-secrets --ignore @ha/docker-registry --ignore @ha/pihole --ignore @ha/openvpn-as --ignore @ha/lets-encrypt --ignore @ha/github-action-runners --ignore @ha/inlets --ignore @ha/k8s --ignore @ha/vault --ignore @ha/velero` and fill in all relevant secrets in the Vault UI.**
+**First run `yarn initialize-secrets --ignore @ha/docker-registry --ignore @ha/pihole --ignore @ha/openvpn-as --ignore @ha/lets-encrypt --ignore @ha/github-action-runners --ignore @ha/inlets --ignore @ha/k8s --ignore @ha/azure-key-vault --ignore @ha/velero` and fill in all relevant secrets in the Vault UI.**
 
 Applications are narrowly focused micro-services. For this reason, often times they may depend on other applications. To ensure an application is built, imaged, and has its secrets populated for deployment, the following is the general rule of thumb to deploy one:
 

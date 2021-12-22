@@ -1,21 +1,23 @@
-# Vault
+# Azure Key Vault
 
-[Vault](https://www.vaultproject.io/) is what is used to manage secrets for these applications.
+[Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/) is what is used to manage secrets for these applications.
 
-## Provision Vault
+## Deploy Key Vault to Azure
 
-It may be provisioned and deployed via the following:
-
-```sh
-yarn provision vault prod.env
-```
-
-## Deploy Vault
-
-Update `./deployments/vault/hosts.yml` with `{PROD_VAULT_IP}`.
+Update `AZURE_*` values in `./.provision-vars.env` file.
+Update `./secrets.env` with `AZURE_SERVICE_PRINCIPAL_NAME` values and then run:
 
 ```bash
-yarn deploy --scope @ha/vault
+az login # follow the prompts to login
+
+./scripts/bin/create-service-principal.sh
+# This will output an appId, password, and tenant. Save these in `./secrets.env`.
+```
+
+Next, run:
+
+```bash
+yarn deploy --scope @ha/azure-key-vault
 ```
 
 ## Save Vault Keys

@@ -45,7 +45,7 @@ jobs:
         env:
           DOCKER_BUILDKIT: 1
       - name: Deploy
-        run: yarn lerna run deploy --stream --ignore @ha/lets-encrypt --ignore @ha/docker-registry --ignore @ha/k8s --ignore @ha/inlets --ignore @ha/openvpn-as --ignore @ha/pihole --ignore @ha/vault --ignore @ha/velero --include-filtered-dependencies --since HEAD~
+        run: yarn lerna run deploy --stream --ignore @ha/lets-encrypt --ignore @ha/docker-registry --ignore @ha/k8s --ignore @ha/inlets --ignore @ha/openvpn-as --ignore @ha/pihole --ignore @ha/azure-key-vault --ignore @ha/velero --include-filtered-dependencies --since HEAD~
         env:
           VAULT_TOKEN: "${{ secrets.VAULT_TOKEN }}"
           VAULT_ADDR: "${{ secrets.VAULT_ADDR }}"

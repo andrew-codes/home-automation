@@ -2,11 +2,13 @@
 
 pushd .
 cd ../../
-source scripts/bin/vault.sh
+source scripts/bin/az-login.sh
+set -o allexport
+source .provision-vars.env
+set +o allexport
 popd
 
-vault kv put kv/docker-registry \
-    USERNAME="" \
-    PASSWORD="" \
-    EMAIL="" \
-    MACHINE_PASSWORD=""
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "docker-registry-USERNAME" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "docker-registry-PASSWORD" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "docker-registry-EMAIL" --value "change me"
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "docker-registry-MACHINE-PASSWORD" --value "change me"
