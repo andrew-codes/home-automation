@@ -10,6 +10,8 @@ import { Controller } from "node-unifi"
 import WebSocket from "ws"
 const debug = createDebug("@ha/guest-wifi-renewal/apo")
 
+debug(JSON.stringify(process.env, null, 4))
+
 const run = async (): Promise<void> => {
   const {
     HA_TOKEN,
