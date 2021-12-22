@@ -10,8 +10,6 @@ set +o allexport
 popd
 
 export GITHUB_RUNNER_TOKEN=$(az keyvault secret show --vault-name "kv-home-automation" --name "github-action-runners-GITHUB-TOKEN" | jq -r '.value')
-yarn seal-github-secret andrew-codes home-automation VAULT_TOKEN "$VAULT_TOKEN"
-yarn seal-github-secret andrew-codes home-automation VAULT_ADDR "http://vault:8200"
 
 export HOME_AUTOMATION_PRIVATE_SSH_KEY=$(az keyvault secret show --vault-name "kv-home-automation" --name "github-action-runners-HOME-AUTOMATION-PRIVATE-SSH-KEY" | jq -r '.value')
 mkdir -p .secrets
