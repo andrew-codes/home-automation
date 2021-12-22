@@ -59,9 +59,9 @@ spec:
             - name: MQTT_PASSWORD
               value: "mqtt-password@azurekeyvault"
             - name: HA_TOKEN
-              value: "ha-token@azurekeyvault"
+              value: "home-assistant-ha-token@azurekeyvault"
             - name: HA_URL
-              value: "ha-url@azurekeyvault"
+              value: "home-assistant-ha-url@azurekeyvault"
             - name: UNIFI_IP
               value: "unifi-ip@azurekeyvault"
             - name: UNIFI_PORT
