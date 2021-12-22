@@ -14,21 +14,6 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: guest-pin-codes
-      annotations:
-        vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/role: app
-        vault.hashicorp.com/agent-inject-status: update
-        vault.hashicorp.com/agent-inject-secret-env.sh: kv/guest-pin-codes
-        vault.hashicorp.com/agent-inject-template-env.sh: |
-          {{ with secret "kv/mqtt" }}
-          export MQTT_USERNAME="{{ .Data.data.USERNAME }}"
-          export MQTT_PASSWORD="{{ .Data.data.PASSWORD }}"
-          {{ end }}
-          {{ with secret "kv/guest-pin-codes" }}
-              {{ range $k, $v := .Data.data }}
-          export {{ $k }}='{{ $v }}'
-              {{ end }}
-          {{ end }}
     spec:
       tolerations:
         - key: "node.kubernetes.io/disk-pressure"
@@ -46,10 +31,26 @@ spec:
             - "sh"
           args:
             - "-c"
-            - "source /vault/secrets/env.sh && /app/entrypoint.sh"
+            - "/app/entrypoint.sh"
           env:
             - name: DEBUG
             - name: MQTT_HOST
               value: mqtt
             - name: MQTT_PORT
               value: "1883"
+            - name: MQTT_USERNAME
+              value: "mqtt-username@azurekeyvault"
+            - name: MQTT_PASSWORD
+              value: "mqtt-password@azurekeyvault"
+            - name: DOOR_LOCKS
+              value: "guest-pin-codes-door-locks@azurekeyvault"
+            - name: GOOGLE_CALENDAR_ID
+              value: "guest-pin-codes-google-calendar-id@azurekeyvault"
+            - name: GOOGLE_PRIVATE_KEY
+              value: "guest-pin-codes-google-private-key@azurekeyvault"
+            - name: GUEST_CODE_INDEX_OFFSET
+              value: "guest-pin-codes-guest-code-index-offset@azurekeyvault"
+            - name: GUEST_LOCK_CODE_EXCLUSIONS
+              value: "guest-pin-codes-guest-lock-code-exclusions@azurekeyvault"
+            - name: NUMBER_OF_GUEST_CODES
+              value: "guest-pin-codes-number-of-guest-codes@azurekeyvault"

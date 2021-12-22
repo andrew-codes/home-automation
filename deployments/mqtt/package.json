@@ -9,6 +9,7 @@
     "initialize-secrets": "scripts/bin/initialize-secrets.sh"
   },
   "dependencies": {
-    "@ha/mqtt-app": "^0.0.1"
+    "@ha/mqtt-app": "^0.0.1",
+    "@ha/secrets": "^0.0.1"
   }
 }

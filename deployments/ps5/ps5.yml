@@ -1,35 +1,3 @@
-apiVersion: spv.no/v2beta1
-kind: AzureKeyVaultSecret
-metadata:
-  name: ps5-names
-spec:
-  vault:
-    name: kv-home-automation
-    object:
-      name: ps5-PS5-NAMES
-      type: secret
-  output:
-    secret:
-      name: ps5-names
-      dataKey: secret-value
-
----
-apiVersion: spv.no/v2beta1
-kind: AzureKeyVaultSecret
-metadata:
-  name: ps5-credentials
-spec:
-  vault:
-    name: kv-home-automation
-    object:
-      name: ps5-CREDENTIALS
-      type: secret
-  output:
-    secret:
-      name: ps5-credentials
-      dataKey: secret-value
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:

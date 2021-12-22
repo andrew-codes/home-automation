@@ -1,35 +1,3 @@
-apiVersion: spv.no/v2beta1
-kind: AzureKeyVaultSecret
-metadata:
-  name: mqtt-username
-spec:
-  vault:
-    name: kv-home-automation
-    object:
-      name: mqtt-USERNAME
-      type: secret
-  output:
-    secret:
-      name: mqtt-username
-      dataKey: secret-value
-
----
-apiVersion: spv.no/v2beta1
-kind: AzureKeyVaultSecret
-metadata:
-  name: mqtt-password
-spec:
-  vault:
-    name: kv-home-automation
-    object:
-      name: mqtt-PASSWORD
-      type: secret
-  output:
-    secret:
-      name: mqtt-password
-      dataKey: secret-value
-
----
 apiVersion: v1
 kind: ConfigMap
 metadata:

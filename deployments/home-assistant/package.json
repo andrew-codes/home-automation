@@ -15,6 +15,7 @@
     "@ha/home-assistant-app": "^0.0.1",
     "@ha/frigate": "^0.0.1",
     "@ha/mqtt": "^0.0.1",
+    "@ha/secrets": "^0.0.1",
     "@ha/zwavejs": "^0.0.1"
   }
 }
