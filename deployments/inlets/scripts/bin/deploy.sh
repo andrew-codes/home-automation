@@ -7,12 +7,12 @@ cd ../../
 source scripts/bin/az-login.sh
 popd
 
-export INLETS_PRO_LICENSE=$(az keyvault secret show --vault-name "kv-home-automation" --name "inlets-INLETS-PRO-LICENSE")
-export CLIENT_ID=$(az keyvault secret show --vault-name "kv-home-automation" --name "inlets-CLIENT-ID")
-export CLIENT_SECRET=$(az keyvault secret show --vault-name "kv-home-automation" --name "inlets-CLIENT-SECRET")
-export SUBSCRIPTION_ID=$(az keyvault secret show --vault-name "kv-home-automation" --name "inlets-SUBSCRIPTION-ID")
-export TENANT_ID=$(az keyvault secret show --vault-name "kv-home-automation" --name "inlets-TENANT-ID")
-export MACHINE_PASSWORD=$(az keyvault secret show --vault-name "kv-home-automation" --name "k8s-MACHINE-PASSWORD")
+export INLETS_PRO_LICENSE=$(az keyvault secret show --vault-name "kv-home-automation" --name "inlets-INLETS-PRO-LICENSE" | jq -r '.value')
+export CLIENT_ID=$(az keyvault secret show --vault-name "kv-home-automation" --name "inlets-CLIENT-ID" | jq -r '.value')
+export CLIENT_SECRET=$(az keyvault secret show --vault-name "kv-home-automation" --name "inlets-CLIENT-SECRET" | jq -r '.value')
+export SUBSCRIPTION_ID=$(az keyvault secret show --vault-name "kv-home-automation" --name "inlets-SUBSCRIPTION-ID" | jq -r '.value')
+export TENANT_ID=$(az keyvault secret show --vault-name "kv-home-automation" --name "inlets-TENANT-ID" | jq -r '.value')
+export MACHINE_PASSWORD=$(az keyvault secret show --vault-name "kv-home-automation" --name "k8s-MACHINE-PASSWORD" | jq -r '.value')
 
 mkdir -p .secrets
 cat >.secrets/ansible-secrets.yml <<EOL

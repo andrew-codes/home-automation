@@ -7,10 +7,10 @@ cd ../../
 source scripts/bin/az-login.sh
 popd
 
-export USERNAME=$(az keyvault secret show --vault-name "kv-home-automation" --name "docker-registry-USERNAME")
-export PASSWORD=$(az keyvault secret show --vault-name "kv-home-automation" --name "docker-registry-PASSWORD")
-export EMAIL=$(az keyvault secret show --vault-name "kv-home-automation" --name "docker-registry-EMAIL")
-export MACHINE_PASSWORD=$(az keyvault secret show --vault-name "kv-home-automation" --name "docker-registry-MACHINE_PASSWORD")
+export USERNAME=$(az keyvault secret show --vault-name "kv-home-automation" --name "docker-registry-USERNAME" | jq -r '.value')
+export PASSWORD=$(az keyvault secret show --vault-name "kv-home-automation" --name "docker-registry-PASSWORD" | jq -r '.value')
+export EMAIL=$(az keyvault secret show --vault-name "kv-home-automation" --name "docker-registry-EMAIL" | jq -r '.value')
+export MACHINE_PASSWORD=$(az keyvault secret show --vault-name "kv-home-automation" --name "docker-registry-MACHINE_PASSWORD" | jq -r '.value')
 
 mkdir -p .secrets
 cat >.secrets/ansible-secrets.yml <<EOL

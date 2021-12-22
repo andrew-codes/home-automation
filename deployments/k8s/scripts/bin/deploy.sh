@@ -10,8 +10,8 @@ source ./.provision-vars.env
 set +o allexport
 popd
 
-export POD_NETWORK_CIDR=$(az keyvault secret show --vault-name "kv-home-automation" --name "k8s-POD-NETWORK-CIDR")
-export MACHINE_PASSWORD=$(az keyvault secret show --vault-name "kv-home-automation" --name "k8s-MACHINE-PASSWORD")
+export POD_NETWORK_CIDR=$(az keyvault secret show --vault-name "kv-home-automation" --name "k8s-POD-NETWORK-CIDR" | jq -r '.value')
+export MACHINE_PASSWORD=$(az keyvault secret show --vault-name "kv-home-automation" --name "k8s-MACHINE-PASSWORD" | jq -r '.value')
 
 mkdir -p .secrets
 cat >.secrets/ansible-secrets.yml <<EOL

@@ -7,7 +7,7 @@ cd ../../
 source scripts/bin/az-login.sh
 popd
 
-export PIHOLE_PASSWORD=$(az keyvault secret show --vault-name "kv-home-automation" --name "pihole-PASSWORD")
+export PIHOLE_PASSWORD=$(az keyvault secret show --vault-name "kv-home-automation" --name "pihole-PASSWORD" | jq -r '.value')
 
 mkdir -p .secrets
 cat >.secrets/ansible-secrets.yml <<EOL

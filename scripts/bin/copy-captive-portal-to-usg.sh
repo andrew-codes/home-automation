@@ -2,8 +2,8 @@
 
 source scripts/bin/az-login.sh
 
-export DOMAIN=$(az keyvault secret show --vault-name "kv-home-automation" --name "captive-portal-DOMAIN")
-export UNIFI_IP=$(az keyvault secret show --vault-name "kv-home-automation" --name "unifi-IP")
+export DOMAIN=$(az keyvault secret show --vault-name "kv-home-automation" --name "captive-portal-DOMAIN" | jq -r '.value')
+export UNIFI_IP=$(az keyvault secret show --vault-name "kv-home-automation" --name "unifi-IP" | jq -r '.value')
 
 mkdir -p .secrets
 

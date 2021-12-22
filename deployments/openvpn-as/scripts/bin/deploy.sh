@@ -7,7 +7,7 @@ cd ../../
 source scripts/bin/az-login.sh
 popd
 
-export OPENVPN_PASSWORD=$(az keyvault secret show --vault-name "kv-home-automation" --name "openvpn-PASSWORD")
+export OPENVPN_PASSWORD=$(az keyvault secret show --vault-name "kv-home-automation" --name "openvpn-PASSWORD" | jq -r '.value')
 
 mkdir -p .secrets
 cat >.secrets/ansible-secrets.yml <<EOL
