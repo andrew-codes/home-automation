@@ -47,8 +47,10 @@ jobs:
       - name: Deploy
         run: yarn lerna run deploy --stream --ignore @ha/lets-encrypt --ignore @ha/docker-registry --ignore @ha/k8s --ignore @ha/inlets --ignore @ha/openvpn-as --ignore @ha/pihole --ignore @ha/azure-key-vault --ignore @ha/velero --include-filtered-dependencies --since HEAD~
         env:
-          VAULT_TOKEN: "${{ secrets.VAULT_TOKEN }}"
-          VAULT_ADDR: "${{ secrets.VAULT_ADDR }}"
+          AZURE_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+          AZURE_SERVICE_PRINCIPAL_PASSWORD: "${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}"
+          AZURE_SERVICE_PRINCIPAL_APP_ID: "${{ secrets.AZURE_SERVICE_PRINCIPAL_APP_ID }}"
+          AZURE_SERVICE_PRINCIPAL_TENANT: "${{ secrets.AZURE_SERVICE_PRINCIPAL_TENANT }}"
           MACHINE_PASSWORD: "${{ secrets.MACHINE_PASSWORD }}"
           GAMING_ROOM_GAMING_PC_USERNAME: "${{ secrets.GAMING_ROOM_GAMING_PC_USERNAME }}"
           GAMING_ROOM_GAMING_PC_MAC: "${{ secrets.GAMING_ROOM_GAMING_PC_MAC }}"

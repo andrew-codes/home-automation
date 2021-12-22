@@ -2,7 +2,7 @@
 
 pushd .
 set -o allexport
-source .secrets.env
+source .secrets.env || true
 set +o allexport
 popd
 
