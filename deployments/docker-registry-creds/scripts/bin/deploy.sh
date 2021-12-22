@@ -2,11 +2,12 @@
 
 pushd .
 cd ../../
-source scripts/bin/vault.sh
+source scripts/bin/az-login.sh
 popd
-export USERNAME=$(vault kv get -format=json kv/docker-registry | jq .data.data.USERNAME | sed -e 's/^"//' -e 's/"$//')
-export PASSWORD=$(vault kv get -format=json kv/docker-registry | jq .data.data.PASSWORD | sed -e 's/^"//' -e 's/"$//')
-export EMAIL=$(vault kv get -format=json kv/docker-registry | jq .data.data.EMAIL | sed -e 's/^"//' -e 's/"$//')
+
+export USERNAME=$(az keyvault secret show --vault-name "kv-home-automation" --name "docker-registry-USERNAME")
+export PASSWORD=$(az keyvault secret show --vault-name "kv-home-automation" --name "docker-registry-PASSWORD")
+export EMAIL=$(az keyvault secret show --vault-name "kv-home-automation" --name "docker-registry-EMAIL")
 
 kubectl delete secret regcred || true
 kubectl create secret docker-registry regcred --docker-username="$USERNAME" --docker-password="$PASSWORD" --docker-email="$EMAIL" --docker-server="docker-registry"
