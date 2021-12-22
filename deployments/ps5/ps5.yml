@@ -85,6 +85,6 @@ spec:
             - name: PS5_CREDENTIALS
               value: "ps5-credentials@azurekeyvault"
             - name: MQTT_USERNAME
-              value: "MQTT_USERNAME@azurekeyvault"
+              value: "mqtt-username@azurekeyvault"
             - name: MQTT_PASSWORD
-              value: "MQTT_PASSWORD@azurekeyvault"
+              value: "mqtt-password@azurekeyvault"
