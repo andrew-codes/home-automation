@@ -8,5 +8,7 @@
     "initialize-secrets": "scripts/bin/initialize-secrets.sh",
     "postdeploy": "kubectl rollout restart deployment facebox "
   },
-  "dependencies": {}
+  "dependencies": {
+    "@ha/secrets": "^0.0.1"
+  }
 }
