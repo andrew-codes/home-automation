@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
-source ../../secrets.sh
+pushd .
+cd ../../
+set -o allexport
+source .secrets.env
+set +o allexport
+popd
 
 NODE_APP_IMAGE_COUNT_BY_REFERENCE=$(docker image ls --filter reference="node-app:latest" | wc -l | awk '{ print $1 }')
 
