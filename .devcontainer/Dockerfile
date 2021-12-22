@@ -78,3 +78,4 @@ RUN mv linux-amd64/helm /usr/local/bin/helm
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 RUN yarn config set cache-folder /root/.yarn/cache
 RUN export YARN_CACHE_FOLDER=/root/.yarn/cache
+RUN rm -f ~/.ssh/environment
