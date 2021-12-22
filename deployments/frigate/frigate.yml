@@ -77,9 +77,9 @@ spec:
             - name: MQTT_PASSWORD
               value: "mqtt-password@azurekeyvault"
             - name: CAR_PORT_DOOR_RTSP
-              value: "car-port-door-rtsp@azurekeyvault"
+              value: "frigate-car-port-door-rtsp@azurekeyvault"
             - name: FRONT_DOOR_RTSP
-              value: "front-door-rtsp@azurekeyvault"
+              value: "frigate-front-door-rtsp@azurekeyvault"
           ports:
             - name: http
               containerPort: 5000
