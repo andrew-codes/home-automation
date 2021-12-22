@@ -546,7 +546,7 @@ spec:
               subPath: set_ssh_keys.sh
             - name: ha-secrets-volume
               mountPath: /root/generate_secrets_yaml.sh
-              subPath: set_ssh_keys.sh
+              subPath: generate_secrets_yaml.sh
             - name: home-assistant-new-config-volume
               mountPath: /new-config
           securityContext:
@@ -584,6 +584,7 @@ spec:
         - name: ha-secrets-volume
           configMap:
             name: secrets
+            defaultMode: 0600
         - name: home-assistant-config-volume
           persistentVolumeClaim:
             claimName: home-assistant-pv-claim
