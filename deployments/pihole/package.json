@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "deploy": "scripts/bin/deploy.sh",
-    "initialize-secrets": "scripts/bin/initialize-secrets.sh"
+    "initialize-secrets": "scripts/bin/initialize-secrets.sh",
+    "update": "ansible-playbook update.yml -i hosts.yml"
   },
   "dependencies": {}
 }

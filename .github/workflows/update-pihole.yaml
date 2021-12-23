@@ -1,0 +1,13 @@
+name: Update PiHole
+on:
+  schedule:
+    - cron: "0 1 * * *"
+jobs:
+  push_image:
+    name: Update PiHole
+    runs-on: amd64-runner
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Update
+        run: yarn lerna run update --scope @ha/pihole --stream
