@@ -8,4 +8,4 @@ automation:
       - service: notify.mobile_app_andrew_s_iphone
         data:
           title: "Service is Down"
-          message: "{{ trigger.json }}"
+          message: "{{ trigger.data }}"
