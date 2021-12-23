@@ -133,6 +133,7 @@ data:
     TURN_OFF_GAMING_ROOM_GAMING_PC_COMMAND: 'ssh -n -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa ${GAMING_ROOM_MACHINE_USERNAME}@${GAMING_ROOM_GAMING_PC_IP} \"C:\Windows\System32\rundll32.exe powrprof.dll,SetSuspendState Standby\"'
     VPN_DDNS_REST_COMMAND: 'curl -X POST \"https://${VPN_DNS_USERNAME}:${VPN_DNS_PASSWORD}@domains.google.com/nic/update?hostname=${VPN_DOMAIN}&myip=$(curl https://checkip.amazonaws.com)\"'
     HA_DDNS_REST_COMMAND: 'curl -X POST \"https://${HOME_ASSISTANT_DNS_USERNAME}:${HOME_ASSISTANT_DNS_PASSWORD}@domains.google.com/nic/update?hostname=${HOME_ASSISTANT_DOMAIN}&myip=${INLETS_IP}\"'
+    STATUS_DDNS_REST_COMMAND: 'curl -X POST \"https://${STATUS_DNS_USERNAME}:${STATUS_DNS_PASSWORD}@domains.google.com/nic/update?hostname=${STATUS_DOMAIN}&myip=$(curl https://checkip.amazonaws.com)\"'
     DB_URL: 'postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@home-assistant-postgres:5432/${POSTGRES_DB}'
     "
 ---
@@ -445,6 +446,24 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: home-assistant-spotify-client-secret
+                  key: secret-value
+
+            - name: STATUS_DNS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: home-assistant-status-dns-password
+                  key: secret-value
+
+            - name: STATUS_DNS_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: home-assistant-status-dns-username
+                  key: secret-value
+
+            - name: STATUS_DOMAIN
+              valueFrom:
+                secretKeyRef:
+                  name: home-assistant-status-domain
                   key: secret-value
 
             - name: TIME_ZONE
