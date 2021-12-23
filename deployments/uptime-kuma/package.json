@@ -1,10 +1,12 @@
 {
-    "private": true,
-    "name": "@ha/uptime-kuma",
-    "version": "0.0.1",
-    "license": "MIT",
-    "scripts": {
-      "deploy": "scripts/bin/deploy.sh"
-    }
+  "private": true,
+  "name": "@ha/uptime-kuma",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "deploy": "scripts/bin/deploy.sh",
+    "postdeploy": "kubectl rollout restart deployment home-assistant",
+    "ingress/prod": "scripts/bin/ingress.sh ingress-prod.yml",
+    "ingress/stage": "scripts/bin/ingress.sh ingress-staging.yml"
   }
-  
+}
