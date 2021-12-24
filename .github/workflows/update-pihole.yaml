@@ -10,4 +10,4 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Update
-        run: yarn lerna run update --scope @ha/pihole --stream
+        run: lerna run update --scope @ha/pihole --stream
