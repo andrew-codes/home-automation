@@ -17,7 +17,6 @@ const login = jest.fn()
 
 beforeEach(async () => {
   jest.resetAllMocks()
-  console.log(Controller)
   ;(Controller as jest.Mock).mockImplementation(() => ({
     authorizeGuest,
     login,

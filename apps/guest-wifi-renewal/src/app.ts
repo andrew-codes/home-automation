@@ -74,7 +74,7 @@ const run = async (): Promise<void> => {
         await unifi.authorizeGuest(guestDevice.attributes.mac, 4320)
       }
     } catch (error) {
-      console.log(error)
+      debug(error)
     }
   })
 }
