@@ -3,7 +3,7 @@ shell_command:
 
 automation:
   - alias: Update Uptime Status DNS
-    id: update_home_assistant_dns
+    id: update_status_assistant_dns
     trigger:
       - platform: time_pattern
         hours: "/1"
