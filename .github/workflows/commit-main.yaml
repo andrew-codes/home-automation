@@ -31,8 +31,6 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install deps
         run: yarn
-      - name: Patch
-        run: yarn patch
       - name: Compile apps
         run: yarn lerna run compile --stream --include-dependents --since HEAD~
         env:
