@@ -1,9 +1,9 @@
 automation:
-  - alias: Turn on pihole from mobile notification
-    id: turn_on_pihole_from_mobile_notification
+  - alias: Turn off pihole from mobile notification
+    id: turn_off_pihole_from_mobile_notification
     trigger:
       platform: event
-      event_type: ios.notification_action_fired
+      event_type: mobile_app_notification_action
       event_data:
         actionName: DISABLE_PIHOLE
     action:

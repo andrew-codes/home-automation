@@ -14,5 +14,9 @@ automation:
           title: "PiHole is re-enabled"
           message: "PiHole has been disabled for an hour and is now re-enabled."
           data:
-            push:
-              category: pihole
+            actions:
+              - action: DISABLE_PIHOLE
+                activationMode: background
+                authenticationRequired: false
+                destructive: true
+                title: Turn off Pi-Hole

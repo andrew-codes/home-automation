@@ -13,9 +13,15 @@ automation:
           title: "Critical Alert: Water Leak"
           message: Potential water leak detected. Water has been shut off.
           data:
+            actions:
+              - action: "WATER_LEAK_NON_ISSUE"
+                activationMode: background
+                authenticationRequired: false
+                behavior: default
+                destructive: true
+                title: "Not an Issue: Dismiss"
             push:
               sound:
                 name: default
                 critical: 1
                 volume: 1.0
-              category: critical_alert_water

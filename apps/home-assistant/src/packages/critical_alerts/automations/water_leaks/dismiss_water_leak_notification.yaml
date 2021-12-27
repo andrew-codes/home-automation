@@ -3,7 +3,7 @@ automation:
     id: dismiss_water_leak_alert
     trigger:
       platform: event
-      event_type: ios.notification_action_fired
+      event_type: mobile_app_notification_action
       event_data:
         actionName: WATER_LEAK_NON_ISSUE
     action:
