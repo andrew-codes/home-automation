@@ -34,6 +34,7 @@ spec:
             - "/app/entrypoint.sh"
           env:
             - name: DEBUG
+              value: "@ha/guest-pin-codes/*"
             - name: MQTT_HOST
               value: mqtt
             - name: MQTT_PORT
