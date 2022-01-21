@@ -49,5 +49,6 @@ ADD ./wrapdocker.sh /usr/local/bin/wrapdocker.sh
 RUN sudo chmod +x /usr/local/bin/wrapdocker.sh
 ENV DOCKER_DAEMON_ARGS "--insecure-registry docker-registry:5000"
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+COPY src/known_hosts ~/.ssh/known_hosts
 ENTRYPOINT [ "/entrypoint.sh" ]
 # ENTRYPOINT [ "/usr/local/bin/wrapdocker.sh" ]
