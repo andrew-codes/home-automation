@@ -5,6 +5,12 @@ automation:
       - platform: state
         entity_id: media_player.gaming_room_universal_gaming_pc
         from: "off"
+    condition:
+      condition: time
+      after: "02:30:00"
+      before: "02:40:00"
+      weekday:
+        - mon
     action:
       - service: media_player.select_source
         entity_id: media_player.gaming_room_avr
