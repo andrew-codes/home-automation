@@ -2,11 +2,11 @@ sensor:
   - platform: template
     sensors:
       internet_usage_in:
-        value_template: "{{ ((states('sensor.snmp_wan_in')  | float ) / 1000000000 ) | round(3) }}"
+        value_template: "{{ ((states('sensor.snmp_wan_in') | default(0) | float ) / 1000000000 ) | round(3) }}"
         unit_of_measurement: "GB"
 
       internet_usage_out:
-        value_template: "{{ ((states('sensor.snmp_wan_out') | float ) / 1000000000 ) | round(3) }}"
+        value_template: "{{ ((states('sensor.snmp_wan_out') | default(0) | float ) / 1000000000 ) | round(3) }}"
         unit_of_measurement: "GB"
 
       internet_usage:
