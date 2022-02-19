@@ -1,6 +1,0 @@
-template:
-  binary_sensor:
-    - name: Front door person
-      state: "{{ states('sensor.front_door_person') | int > 0 }}"
-    - name: Carport door person
-      state: "{{ states('sensor.car_port_door_person') | int > 0 }}"

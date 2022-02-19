@@ -1,0 +1,65 @@
+automation:
+  - alias: Doorbell notification
+    id: doorbell_notification
+    trigger:
+      - platform: state
+        id: front_door
+        entity_id: binary_sensor.doorbell_carport_doorbell
+        to: "on"
+        from: "off"
+      - platform: state
+        id: front_door
+        entity_id: binary_sensor.doorbell_front_doorbell
+        to: "on"
+        from: "off"
+    condition:
+      condition: template
+      value_template: "{{ (as_timestamp(now()) - as_timestamp(state_attr('automation.doorbell_notification', 'last_triggered') | default(0)) | int > 5)}}"
+    action:
+      - choose:
+          - conditions:
+              condition: trigger
+              id: carport_door
+            sequence:
+              - service: camera.snapshot
+                data:
+                  entity_id: camera.carport_doorbell
+                  filename: "/config/www/carport_doorbell.jpg"
+              - service: notify.all_devices
+                data_template:
+                  title: "Guests at carport door"
+                  data:
+                    image: "https://ha.smith-simms.family/local/carport_doorbell.jpg"
+                    tag: "{{ trigger.to_state.attributes.id }}"
+                    when: "{{ strptime(trigger.to_state.attributes.timestamp, '%m/%d/%Y, %I:%M:%S %p') | as_timestamp | int }}"
+                    url: /lovelace/security
+                    click_action: /lovelace/security
+                    actions:
+                      - action: "URI"
+                        title: "View Live Feed"
+                        uri: "/lovelace/security"
+                    push:
+                      thread-id: security
+          - conditions:
+              condition: trigger
+              id: front_door
+            sequence:
+              - service: camera.snapshot
+                data:
+                  entity_id: camera.front_doorbell
+                  filename: "/config/www/front_doorbell.jpg"
+              - service: notify.all_devices
+                data_template:
+                  title: "Guests at front door"
+                  data:
+                    image: "https://ha.smith-simms.family/local/front_doorbell.jpg"
+                    tag: "{{ trigger.to_state.attributes.id }}"
+                    when: "{{ strptime(trigger.to_state.attributes.timestamp, '%m/%d/%Y, %I:%M:%S %p') | as_timestamp | int }}"
+                    url: /lovelace/security
+                    click_action: /lovelace/security
+                    actions:
+                      - action: "URI"
+                        title: "View Live Feed"
+                        uri: "/lovelace/security"
+                    push:
+                      thread-id: security
