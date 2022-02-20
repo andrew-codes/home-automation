@@ -27,11 +27,12 @@ automation:
                   filename: "/config/www/carport_doorbell.jpg"
               - service: notify.all_devices
                 data_template:
-                  title: "Guests at carport door"
+                  title: "Guests at door"
+                  message: "Guests at carport door."
                   data:
                     image: "https://ha.smith-simms.family/local/carport_doorbell.jpg"
-                    tag: "{{ trigger.to_state.attributes.id }}"
-                    when: "{{ strptime(trigger.to_state.attributes.timestamp, '%m/%d/%Y, %I:%M:%S %p') | as_timestamp | int }}"
+                    tag: "carport-doorbell"
+                    when: "{{ strptime(as_timestamp(now()), '%m/%d/%Y, %I:%M:%S %p') | as_timestamp | int }}"
                     url: /lovelace/security
                     click_action: /lovelace/security
                     actions:
@@ -50,11 +51,12 @@ automation:
                   filename: "/config/www/front_doorbell.jpg"
               - service: notify.all_devices
                 data_template:
-                  title: "Guests at front door"
+                  title: "Guests at door"
+                  message: "Guests at front door."
                   data:
                     image: "https://ha.smith-simms.family/local/front_doorbell.jpg"
-                    tag: "{{ trigger.to_state.attributes.id }}"
-                    when: "{{ strptime(trigger.to_state.attributes.timestamp, '%m/%d/%Y, %I:%M:%S %p') | as_timestamp | int }}"
+                    tag: "front-doorbell"
+                    when: "{{ strptime(as_timestamp(now()), '%m/%d/%Y, %I:%M:%S %p') | as_timestamp | int }}"
                     url: /lovelace/security
                     click_action: /lovelace/security
                     actions:
