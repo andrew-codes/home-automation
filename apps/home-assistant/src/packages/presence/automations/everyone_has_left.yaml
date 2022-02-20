@@ -7,10 +7,13 @@ automation:
         to: "not_home"
     action:
       # Set thermostat
-      - service: climate.set_preset_mode
-        entity_id: climate.main_floor
+      - service: climate.set_temperature
         data:
-          preset_mode: Away
+          target_temp_low: "{{ states('sensor.target_low_temp') }}"
+          target_temp_high: "{{ states('sensor.target_high_temp') }}"
+        target:
+          entity_id: climate.main_floor
+
       # Lock all doors that are not already locked
       - choose:
           - conditions:
@@ -36,7 +39,9 @@ automation:
       #       sequence:
       #         - service: lock.lock
       #           entity_id: lock.basement_door
+
       # Turn off all lights
+
       # Turn off TVs
       - service: media_player.turn_off
         entity_id: media_player.gaming_room_media_player

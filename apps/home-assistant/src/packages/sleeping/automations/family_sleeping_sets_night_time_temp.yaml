@@ -8,7 +8,9 @@ automation:
       - platform: time
         at: "21:30:00"
     action:
-      - service: climate.set_preset_mode
-        entity_id: climate.main_floor
+      - service: climate.set_temperature
         data:
-          preset_mode: Sleep
+          target_temp_low: "{{ states('sensor.target_low_temp') }}"
+          target_temp_high: "{{ states('sensor.target_high_temp') }}"
+        target:
+          entity_id: climate.main_floor
