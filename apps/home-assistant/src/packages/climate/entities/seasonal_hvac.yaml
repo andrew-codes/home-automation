@@ -42,23 +42,23 @@ sensor:
             {% if is_state('sensor.season', 'cold') %}
               "{{ states('sensor.target_away_low_temp') | int }}"
             {% else %}
-              "{{ (states('sensor.target_away_high_temp') - 5) | int }}"
+              "{{ ((states('sensor.target_away_high_temp') | int) - 5) | int }}"
             {% endif %}
           {% else %}
             {% if is_state('group.family_is_sleeping', 'on') %}
                 {% if is_state('sensor.season', 'cold') %}
                   "{{ states('sensor.target_nighttime_temp') | int }}"
                 {% else %}
-                  "{{ (states('sensor.target_nighttime_temp') - 6) | int }}"
+                  "{{ ((states('sensor.target_nighttime_temp') | int) - 6) | int }}"
                 {% endif %}
             {% else %}
               {% if is_state('sensor.season', 'cold') %}
-                  "{{ (states('sensor.target_daytime_temp') - 1) | int }}"
+                  "{{ ((states('sensor.target_daytime_temp') | int) - 1) | int }}"
                 {% else %}
-                  "{{ (states('sensor.target_daytime_temp') - 6) | int}}"
+                  "{{ ((states('sensor.target_daytime_temp') | int) - 6) | int}}"
                 {% endif %}
             {% endif %}
           {% endif %}
       target_high_temp:
         friendly_name: Target High Temperature
-        value_template: "{{ (states('sensor.target_min_temp') + 4) | int }}"
+        value_template: "{{ ((states('sensor.target_min_temp') | int) + 4) | int }}"
