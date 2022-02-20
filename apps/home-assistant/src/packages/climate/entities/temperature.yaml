@@ -5,17 +5,17 @@ sensor:
         friendly_name: Current Target Min Temperature
         device_class: temperature
         unit_of_measurement: "°F"
-        value_template: "{{ state_attr('climate.main_floor', 'target_temp_low') }}"
+        value_template: "{{ state_attr('climate.main_floor', 'target_temp_low') | int }}"
       current_target_max_temp:
         friendly_name: Current Target Max Temperature
         device_class: temperature
         unit_of_measurement: "°F"
-        value_template: "{{ state_attr('climate.main_floor', 'target_temp_high') }}"
+        value_template: "{{ state_attr('climate.main_floor', 'target_temp_high') | int }}"
       current_temp:
         friendly_name: Current Temperature
         device_class: temperature
         unit_of_measurement: "°F"
-        value_template: "{{ state_attr('climate.main_floor', 'current_temperature') }}"
+        value_template: "{{ state_attr('climate.main_floor', 'current_temperature') | int }}"
       current_humidity:
         friendly_name: Current Humidity
         device_class: temperature

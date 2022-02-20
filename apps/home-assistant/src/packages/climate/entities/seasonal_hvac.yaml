@@ -69,4 +69,5 @@ sensor:
           {% endif %}
       target_high_temp:
         friendly_name: Target High Temperature
-        value_template: "{{ ((states('sensor.target_low_temp ') | int) + 4) | int }}"
+        value_template: >
+          {{ ((states('sensor.target_low_temp') | int) + 4) | int }}
