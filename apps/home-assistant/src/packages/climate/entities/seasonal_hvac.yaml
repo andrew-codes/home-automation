@@ -5,24 +5,32 @@ input_number:
     step: 1
     min: 55
     max: 80
+    unit_of_measurement: "°F"
+    mode: box
   target_nighttime_temp_input:
     name: Target Nightime Temperature Input
     initial: 68
     step: 1
     min: 55
     max: 80
+    unit_of_measurement: "°F"
+    mode: box
   target_away_low_temp_input:
     name: Target Away Low Temperature Input
     initial: 60
     step: 1
     min: 55
     max: 80
+    unit_of_measurement: "°F"
+    mode: box
   target_away_high_temp_input:
     name: Target Away High Temperature Input
     initial: 78
     step: 1
     min: 55
     max: 80
+    unit_of_measurement: "°F"
+    mode: box
 
 sensor:
   - platform: template
