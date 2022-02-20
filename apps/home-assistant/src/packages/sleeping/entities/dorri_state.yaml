@@ -2,6 +2,7 @@ input_boolean:
   dorri_ios_sleep:
     name: Dorri iOS Sleep
     icon: mdi:sleep
+    initial: "off"
 
 template:
   - binary_sensor:

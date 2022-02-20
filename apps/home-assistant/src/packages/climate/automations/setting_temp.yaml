@@ -3,9 +3,9 @@ automation:
     id: Set Target Temperature
     trigger:
       - platform: state
-        entity_id: input_text.target_daytime_temp
+        entity_id: input_number.target_daytime_temp_input
       - platform: state
-        entity_id: input_text.target_nighttime_temp
+        entity_id: input_number.target_nighttime_temp_input
     action:
       - service: climate.set_temperature
         data:

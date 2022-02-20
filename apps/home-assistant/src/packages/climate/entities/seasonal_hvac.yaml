@@ -61,7 +61,7 @@ sensor:
                 {% endif %}
             {% else %}
               {% if is_state('sensor.season', 'cold') %}
-                  {{ ((states('input_number.target_daytime_temp_input') | int) - 1) | int }}
+                  {{ (states('input_number.target_daytime_temp_input') | int) | int }}
                 {% else %}
                   {{ ((states('input_number.target_daytime_temp_input') | int) - 6) | int}}
                 {% endif %}
