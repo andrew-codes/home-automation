@@ -1,11 +1,12 @@
 input_boolean:
   andrew_ios_sleep:
-    name: iOS Sleep
+    name: Andrew iOS Sleep
     icon: mdi:sleep
 
 template:
   - binary_sensor:
       - name: Andrew is sleeping
+        unique_id: andrew_is_sleeping
         icon: mdi:sleep
         state: >
           {{ is_state('binary_sensor.withings_in_bed_andrew_smith', 'on') or is_state('input_boolean.andrew_ios_sleep', 'on') }}
