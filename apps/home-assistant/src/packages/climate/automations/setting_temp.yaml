@@ -9,7 +9,9 @@ automation:
     action:
       - service: climate.set_temperature
         data:
-          target_temp_low: "{{ states('sensor.target_low_temp') }}"
-          target_temp_high: "{{ states('sensor.target_high_temp') }}"
+          target_temp_low: >
+            {{ states('sensor.target_low_temp') }}
+          target_temp_high: >
+            {{ states('sensor.target_high_temp') }}
         target:
           entity_id: climate.main_floor
