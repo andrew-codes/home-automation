@@ -1,1 +1,17 @@
 wake_on_lan:
+
+media_player:
+  - name: Gaming Room TV
+    platform: universal
+    children:
+      - media_player.gaming_room_lg_tv
+    state_template: >
+      {{ states('media_player.gaming_room_lg_tv') }}
+    commands:
+      turn_on:
+        service: wake_on_lan.send_magic_packet
+        data:
+          mac: !secret GAMING_ROOM_TV_MAC
+      turn_off:
+        service: media_player.turn_off
+        entity_id: media_player.gaming_room_lg_tv
