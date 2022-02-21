@@ -1,16 +1,4 @@
 media_player:
-  - name: Gaming Room NVIDIA Shield Pro
-    platform: androidtv
-    host: !secret GAMING_ROOM_NVIDIA_SHIELD_IP
-    exclude_unnamed_apps: true
-    apps:
-      com.amazon.amazonvideo.livingroom: Prime
-      com.google.android.youtube.tv: YouTube
-      com.hulu.livingroomplus: Hulu
-      com.netflix.ninja: Netflix
-      com.nvidia.tegrazone3: GameStream
-      com.waxrain.airplaydmr3: AirPlay
-
   - name: Gaming Room Universal Media Player
     platform: universal
     children:
