@@ -1,9 +1,1 @@
 wake_on_lan:
-
-webostv:
-  name: Gaming Room TV
-  host: !secret GAMING_ROOM_TV_IP
-  turn_on_action:
-    service: wake_on_lan.send_magic_packet
-    data:
-      mac: !secret GAMING_ROOM_TV_MAC
