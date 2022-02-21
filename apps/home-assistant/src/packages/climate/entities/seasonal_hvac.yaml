@@ -38,7 +38,7 @@ sensor:
       season:
         friendly_name: Hot or cold season
         value_template: >
-          {% if (state_attr('weather.home', 'temperature') | default(0) | int) <= 65 %}
+          {% if ((state_attr('weather.home', 'temperature') | default(0)) | int) <= 65 %}
             cold
           {% else %}
             hot
