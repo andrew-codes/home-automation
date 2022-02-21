@@ -23,7 +23,7 @@ automation:
             sequence:
               - service: camera.snapshot
                 data:
-                  entity_id: camera.carport_doorbell
+                  entity_id: camera.carport_doorbell_high
                   filename: "/config/www/carport_doorbell.jpg"
               - service: notify.all_devices
                 data_template:
@@ -47,7 +47,7 @@ automation:
             sequence:
               - service: camera.snapshot
                 data:
-                  entity_id: camera.front_doorbell
+                  entity_id: camera.front_doorbell_high
                   filename: "/config/www/front_doorbell.jpg"
               - service: notify.all_devices
                 data_template:
