@@ -35,6 +35,11 @@ input_number:
 sensor:
   - platform: template
     sensors:
+      outside_temperature:
+        friendly_name: Outside Temperature
+        unit_of_measurement: °F
+        value_template: >
+          {{ state_attr('weather.main_floor', 'temperature') }}
       season:
         friendly_name: Hot or cold season
         value_template: >
@@ -45,6 +50,7 @@ sensor:
           {%endif %}
       target_low_temp:
         friendly_name: Target Low Temperature
+        unit_of_measurement: °F
         value_template: >
           {% if is_state('group.tracked_presence', 'away') %}
             {% if is_state('sensor.season', 'cold') %}
@@ -69,5 +75,6 @@ sensor:
           {% endif %}
       target_high_temp:
         friendly_name: Target High Temperature
+        unit_of_measurement: °F
         value_template: >
           {{ ((states('sensor.target_low_temp') | int) + 4) | int }}
