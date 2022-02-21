@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rm -f ~/.ssh/environment
+
 # Ensure that all nodes in /dev/mapper correspond to mapped devices currently loaded by the device-mapper kernel driver
 dmsetup mknodes
 
