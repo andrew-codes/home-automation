@@ -4,12 +4,12 @@ automation:
     trigger:
       - platform: state
         id: front_door
-        entity_id: binary_sensor.doorbell_carport_doorbell
+        entity_id: binary_sensor.carport_doorbell_doorbell
         to: "on"
         from: "off"
       - platform: state
         id: front_door
-        entity_id: binary_sensor.doorbell_front_doorbell
+        entity_id: binary_sensor.front_doorbell_doorbell
         to: "on"
         from: "off"
     condition:
