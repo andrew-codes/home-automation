@@ -6,6 +6,13 @@ binary_sensor:
     host: !secret GAMING_ROOM_GAMING_PC_IP
     scan_interval: 5
 
+template:
+  binary_sensor:
+    - name: Gaming Room Gaming PC Update Window
+      unique_id: gaming_room_gaming_pc_update_window
+      state: >
+        {{ now() > today_at("00:00") and now() < today_at("6:00") }}
+
 script:
   gaming_room_turn_on_gaming_pc:
     sequence:

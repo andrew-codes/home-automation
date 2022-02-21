@@ -6,11 +6,10 @@ automation:
         entity_id: media_player.gaming_room_universal_gaming_pc
         from: "off"
     condition:
-      condition: time
-      after: "02:30:00"
-      before: "02:40:00"
-      weekday:
-        - mon
+      alias: "PC is not turning on due to updates"
+      condition: state
+      entity_id: binary_sensor.gaming_room_gaming_pc_update_window
+      state: "off"
     action:
       - service: media_player.select_source
         entity_id: media_player.gaming_room_avr
