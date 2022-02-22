@@ -1,5 +1,5 @@
 script:
-  watch_prime:
+  watch_youtube:
     sequence:
       - service: media_player.turn_on
         entity_id: media_player.gaming_room_universal_media_player
