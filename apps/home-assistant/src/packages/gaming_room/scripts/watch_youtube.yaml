@@ -1,0 +1,10 @@
+script:
+  watch_prime:
+    sequence:
+      - service: media_player.turn_on
+        entity_id: media_player.gaming_room_universal_media_player
+      - service: androidtv.adb_command
+        entity_id: media_player.shield
+        data:
+          command: >-
+            am start -a android.intent.action.VIEW -n com.google.android.youtube.tv/com.google.android.apps.youtube.tv.activity.ShellActivity
