@@ -6,6 +6,8 @@ automation:
         entity_id: input_number.target_daytime_temp_input
       - platform: state
         entity_id: input_number.target_nighttime_temp_input
+      - platform: state
+        entity_id: sensor.season
     action:
       - service: climate.set_temperature
         data:
