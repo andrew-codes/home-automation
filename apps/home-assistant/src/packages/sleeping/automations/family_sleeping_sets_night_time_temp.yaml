@@ -1,6 +1,6 @@
 automation:
-  - alias: Family sleeping sets night time temperature
-    id: family_sleeping_sets_night_time_temperature
+  - alias: Family sleeping sets nighttime temperature
+    id: family_sleeping_sets_nighttime_temperature
     trigger:
       - platform: state
         entity_id: group.family_is_sleeping

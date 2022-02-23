@@ -1,13 +1,13 @@
 sensor:
   - platform: template
     sensors:
-      current_target_min_temp:
-        friendly_name: Current Target Min Temperature
+      current_target_low_temp:
+        friendly_name: Current Target Low Temperature
         device_class: temperature
         unit_of_measurement: "°F"
         value_template: "{{ state_attr('climate.main_floor', 'target_temp_low') | int }}"
-      current_target_max_temp:
-        friendly_name: Current Target Max Temperature
+      current_target_high_temp:
+        friendly_name: Current Target High Temperature
         device_class: temperature
         unit_of_measurement: "°F"
         value_template: "{{ state_attr('climate.main_floor', 'target_temp_high') | int }}"

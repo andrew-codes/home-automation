@@ -7,11 +7,6 @@ automation:
         to: "off"
       - platform: time
         at: "06:50:00"
-    condition:
-      - alias: "Morning time"
-        condition: time
-        after: "05:00:00"
-        before: "07:30:00"
     action:
       - service: climate.set_temperature
         data:

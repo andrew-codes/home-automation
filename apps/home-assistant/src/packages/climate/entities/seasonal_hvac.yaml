@@ -43,7 +43,7 @@ sensor:
       season:
         friendly_name: Hot or cold season
         value_template: >
-          {% if ((state_attr('weather.main_floor', 'temperature') | default(0)) | int) <= 65 %}
+          {% if ((state_attr('weather.main_floor', 'temperature') | default(0)) | int) <= 50 %}
             cold
           {% else %}
             hot
@@ -56,7 +56,7 @@ sensor:
             {% if is_state('sensor.season', 'cold') %}
               {{ states('input_number.target_away_low_temp_input') | int }}
             {% else %}
-              {{ ((states('input_number.target_away_high_temp_input') | int) - 5) | int }}
+              {{ ((states('input_number.target_away_high_temp_input') | int) - 6) | int }}
             {% endif %}
           {% else %}
             {% if is_state('group.family_is_sleeping', 'on') %}
@@ -77,4 +77,4 @@ sensor:
         friendly_name: Target High Temperature
         unit_of_measurement: °F
         value_template: >
-          {{ ((states('sensor.target_low_temp') | int) + 4) | int }}
+          {{ ((states('sensor.target_low_temp') | int) + 6) | int }}
