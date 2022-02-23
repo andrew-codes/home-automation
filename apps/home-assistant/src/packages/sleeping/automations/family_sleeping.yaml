@@ -1,0 +1,32 @@
+automation:
+  - alias: Family goes to sleep
+    id: family_goes_to_sleep
+    trigger:
+      - platform: state
+        entity_id: group.family_is_sleeping
+        to: "on"
+      - platform: time
+        at: "21:30:00"
+    action:
+      - service: climate.set_temperature
+        data:
+          target_temp_low: "{{ states('sensor.target_low_temp') }}"
+          target_temp_high: "{{ states('sensor.target_high_temp') }}"
+        target:
+          entity_id: climate.main_floor
+      - choose:
+          - conditions:
+              condition: state
+              entity_id: lock.front_door_deadbolt
+              state: unlocked
+            sequence:
+              - service: lock.lock
+                entity_id: lock.front_door_deadbolt
+      - choose:
+          - conditions:
+              condition: state
+              entity_id: lock.carport_deadbolt
+              state: unlocked
+            sequence:
+              - service: lock.lock
+                entity_id: lock.carport_deadbolt
