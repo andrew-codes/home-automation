@@ -4,7 +4,7 @@ automation:
     trigger:
       - platform: state
         entity_id: media_player.gaming_room_universal_gaming_pc
-        from: "off"
+        to: "on"
     condition:
       alias: "PC is not turning on due to updates"
       condition: state
