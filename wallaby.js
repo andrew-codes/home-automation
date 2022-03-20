@@ -32,6 +32,7 @@ module.exports = function (wallaby) {
     path.delimiter + packageNodeModuleDirectories.join(path.delimiter)
 
   return {
+    autoDetect: true,
     debug: true,
     trace: true,
     files: ["jest.config.js"]
