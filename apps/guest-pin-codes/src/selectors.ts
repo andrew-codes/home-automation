@@ -25,43 +25,29 @@ const getDoorLocks: Selector<State, string[]> = (state) => state.doorLocks
 const getLockSlots: Selector<State, Entry<string, string>[]> = (state) =>
   Object.entries(state?.guestSlots ?? {})
 
-const getDeletedEvents = createSelector<
-  State,
-  Record<string, calendar_v3.Schema$Event>,
-  calendar_v3.Schema$Event[]
->(getDeletedEventDictionary, (events) => Object.values(events))
-
-const getAvailableLockSlots = createSelector<
-  State,
-  Entry<string, string>[],
-  string[]
->(getLockSlots, (slots) => slots.filter(([key, value]) => !value).map(get(0)))
-
-const getChronologicalEvents = createSelector<
-  State,
-  Record<string, calendar_v3.Schema$Event>,
-  string[],
-  calendar_v3.Schema$Event[]
->([getEvents, getEventOrder], (events, eventOrder) =>
-  eventOrder.map((id) => events[id])
-)
-const getUnassignedChronologicalEvents = createSelector<
-  State,
-  calendar_v3.Schema$Event[],
-  Entry<string, string>[],
-  calendar_v3.Schema$Event[]
->([getChronologicalEvents, getLockSlots], (events, slots) =>
-  events.filter(({ id }) => !slots.map(get(1)).includes(id))
+const getDeletedEvents = createSelector(getDeletedEventDictionary, (events) =>
+  Object.values(events)
 )
 
-const getEndingEvents = createSelector<
-  State,
-  calendar_v3.Schema$Event[],
-  calendar_v3.Schema$Event[],
-  Date | null,
-  calendar_v3.Schema$Event[]
->(
-  [getChronologicalEvents, getDeletedEvents, getLastScheduleTime],
+const getAvailableLockSlots = createSelector(getLockSlots, (slots) =>
+  slots.filter(([key, value]) => !value).map(get(0))
+)
+
+const getChronologicalEvents = createSelector(
+  getEvents,
+  getEventOrder,
+  (events, eventOrder) => eventOrder.map((id) => events[id])
+)
+const getUnassignedChronologicalEvents = createSelector(
+  getChronologicalEvents,
+  getLockSlots,
+  (events, slots) => events.filter(({ id }) => !slots.map(get(1)).includes(id))
+)
+
+const getEndingEvents = createSelector(
+  getChronologicalEvents,
+  getDeletedEvents,
+  getLastScheduleTime,
   (events, deletedEvents, scheduleTime) =>
     events
       .filter((event) => {
@@ -73,13 +59,9 @@ const getEndingEvents = createSelector<
       .concat(deletedEvents)
 )
 
-const getStartingEvents = createSelector<
-  State,
-  calendar_v3.Schema$Event[],
-  Date | null,
-  calendar_v3.Schema$Event[]
->(
-  [getUnassignedChronologicalEvents, getLastScheduleTime],
+const getStartingEvents = createSelector(
+  getUnassignedChronologicalEvents,
+  getLastScheduleTime,
   (events, scheduleTime) =>
     events.filter((event) => {
       const start = getMinuteAccurateDate(
