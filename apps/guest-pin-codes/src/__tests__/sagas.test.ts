@@ -1,4 +1,6 @@
 jest.mock("../googleClient")
+jest.mock("node-unifi")
+import { Controller } from "node-unifi"
 import { expectSaga } from "redux-saga-test-plan"
 import { throwError } from "redux-saga-test-plan/providers"
 import * as matchers from "redux-saga-test-plan/matchers"
@@ -26,10 +28,19 @@ const calendarClient = {
 let mqtt = {
   publish: jest.fn(),
 }
+let unifiLogin: jest.Mock
+let unifiGetWifi: jest.Mock
+
 beforeEach(() => {
   jest.resetAllMocks()
   ;(createCalendarClient as jest.Mock).mockReturnValue(calendarClient)
   process.env.GOOGLE_CALENDAR_ID = "cal_id"
+
+  unifiLogin = jest.fn()
+  unifiGetWifi = jest.fn()
+  ;(Controller as jest.Mock).mockImplementation(() => ({
+    login: unifiLogin,
+  }))
 })
 
 describe("fetching events", () => {
@@ -178,7 +189,7 @@ describe("starting events", () => {
     )
   })
 
-  test("with starting events and available code slots, each event on Google Calendar is updated with the next access code", () => {
+  test("with starting events and available code slots, each event on Google Calendar is updated with the next access code and wifi information", () => {
     const startingEvents = [
       { id: "1", sequence: 0 },
       { id: "2", sequence: 0 },
@@ -192,6 +203,112 @@ describe("starting events", () => {
         [select(getCurrentCodeIndex), 0],
         [select(getAvailableLockSlots), ["1", "2", "3"]],
         [call(createMqttClient), mqtt],
+        [matchers.call.fn(unifiLogin), true],
+        [
+          matchers.call.fn(unifiGetWifi),
+          {
+            data: [
+              { is_guest: false, name: "Not Guest" },
+              {
+                is_guest: true,
+                name: "Test-SSID",
+                x_passphrase: "TEST_PASSWORD",
+              },
+            ],
+          },
+        ],
+      ])
+      .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
+      .call.like({
+        fn: calendarClient.events.update,
+        args: [
+          {
+            calendarId: "cal_id",
+            eventId: "1",
+            sendUpdates: "all",
+            requestBody: {
+              sequence: 1,
+              description: `ACCESS CODE: 0001
+Wifi: Test-SSID
+Wifi Password: TEST_PASSWORD
+=================
+
+This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code contact Andrew or Dorri.
+
+* To Unlock the door, enter the access code above.
+* To Lock the door when you leave, press the "Schalge" logo at the top of the keypad.
+
+Thank you!`,
+            },
+          },
+        ],
+      })
+      .call.like({
+        fn: calendarClient.events.update,
+        args: [
+          {
+            calendarId: "cal_id",
+            eventId: "2",
+            sendUpdates: "all",
+            requestBody: {
+              sequence: 1,
+              description: `ACCESS CODE: 0003
+Wifi: Test-SSID
+Wifi Password: TEST_PASSWORD
+=================
+
+This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code contact Andrew or Dorri.
+
+* To Unlock the door, enter the access code above.
+* To Lock the door when you leave, press the "Schalge" logo at the top of the keypad.
+
+Thank you!`,
+            },
+          },
+        ],
+      })
+      .call.like({
+        fn: calendarClient.events.update,
+        args: [
+          {
+            calendarId: "cal_id",
+            eventId: "3",
+            sendUpdates: "all",
+            requestBody: {
+              sequence: 1,
+              description: `ACCESS CODE: 0002
+Wifi: Test-SSID
+Wifi Password: TEST_PASSWORD
+=================
+
+This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code contact Andrew or Dorri.
+
+* To Unlock the door, enter the access code above.
+* To Lock the door when you leave, press the "Schalge" logo at the top of the keypad.
+
+Thank you!`,
+            },
+          },
+        ],
+      })
+      .run()
+  })
+
+  test("failure to retrieve guest wifi information will not prevent the code from being added to the calendar invite", () => {
+    const startingEvents = [
+      { id: "1", sequence: 0 },
+      { id: "2", sequence: 0 },
+      { id: "3", sequence: 0 },
+    ]
+    return expectSaga(sagas)
+      .provide([
+        [select(getStartingEvents), startingEvents],
+        [select(getCodes), ["0002", "0001", "0003"]],
+        [select(getDoorLocks), ["front_door"]],
+        [select(getCurrentCodeIndex), 0],
+        [select(getAvailableLockSlots), ["1", "2", "3"]],
+        [call(createMqttClient), mqtt],
+        [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
       ])
       .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
       .call.like({

@@ -9,6 +9,7 @@ import {
   SetEventsAction,
   AssignGuestSlotAction,
   RemoveEventsAction,
+  FetchGuestWifiNetworkInformationAction,
 } from "./actions"
 import getMinuteAccurateDate from "./getMinuteAccurateDate"
 
@@ -65,11 +66,19 @@ const assignedGuestSlot = (
   payload: { id: slotId, eventId },
 })
 
+const fetchGuestWifiNetworkInformation = (
+  error = false
+): FetchGuestWifiNetworkInformationAction => ({
+  type: "FETCH_GUEST_WIFI_NETWORK_INFORMATION",
+  meta: { error },
+})
+
 export {
   addCodesToPool,
   addDoorLocks,
   assignedGuestSlot,
   fetchEvents,
+  fetchGuestWifiNetworkInformation,
   lastUsedCode,
   removeEvents,
   scheduleEvents,

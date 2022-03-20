@@ -4,14 +4,17 @@ import {
   fork,
   put,
   select,
+  take,
   takeEvery,
   takeLatest,
 } from "redux-saga/effects"
 import { calendar_v3, Common } from "googleapis"
+import { Controller } from "node-unifi"
 import { createCalendarClient } from "./googleClient"
 import createMqttClient from "./mqtt"
 import {
   assignedGuestSlot,
+  fetchGuestWifiNetworkInformation,
   lastUsedCode,
   removeEvents,
   setEvents,
@@ -30,7 +33,10 @@ import {
   IClientPublishOptions,
   IPublishPacket,
 } from "async-mqtt"
-import { ScheduleEventsAction } from "./actions"
+import {
+  FetchGuestWifiNetworkInformationAction,
+  ScheduleEventsAction,
+} from "./actions"
 
 const debug = createDebugger("@ha/guest-pin-codes/sagas")
 
@@ -66,8 +72,39 @@ const getNextCodeIndex = (length, currentIndex, offset) => {
   return currentIndex + offset
 }
 
+function* fetchWifiInformation(action: FetchGuestWifiNetworkInformationAction) {
+  if (action.meta.error !== undefined) {
+    return
+  }
+
+  try {
+    const { UNIFI_IP, UNIFI_PORT, UNIFI_USERNAME, UNIFI_PASSWORD } = process.env
+    const controller = new Controller({
+      host: UNIFI_IP,
+      port: UNIFI_PORT,
+      sslverify: false,
+    })
+    yield call(controller.login, UNIFI_USERNAME, UNIFI_PASSWORD)
+
+    yield put(fetchGuestWifiNetworkInformation(false))
+  } catch (error) {
+    yield put(fetchGuestWifiNetworkInformation(error))
+  }
+}
+
+function* fetchGuestWifiNetworkInformationSaga() {
+  yield takeEvery("FETCH_GUEST_WIFI_NETWORK_INFORMATION", fetchWifiInformation)
+}
+
 function* startEvent(action: ScheduleEventsAction) {
   try {
+    yield put(fetchGuestWifiNetworkInformation())
+    yield take(
+      (action) =>
+        action.type === "FETCH_GUEST_WIFI_NETWORK_INFORMATION" &&
+        action.meta !== undefined
+    )
+
     const { GOOGLE_CALENDAR_ID } = process.env
 
     const now = action.payload as Date
@@ -178,6 +215,7 @@ Thank you!`,
     }
     yield put(lastUsedCode(code))
   } catch (error) {
+    console.log(error)
     debug(error)
   }
 }
@@ -261,6 +299,7 @@ function* fetchEventsSaga() {
 
 function* sagas() {
   yield fork(fetchEventsSaga)
+  yield fork(fetchGuestWifiNetworkInformationSaga)
   yield fork(scheduleEventsSaga)
 }
 

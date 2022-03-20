@@ -51,11 +51,17 @@ type RemoveEventsAction = {
   payload: calendar_v3.Schema$Event[]
 }
 
+type FetchGuestWifiNetworkInformationAction = {
+  type: "FETCH_GUEST_WIFI_NETWORK_INFORMATION"
+  meta?: { error: boolean | string }
+}
+
 type AnyAction =
   | AddCodesToPoolAction
   | AddDoorLocksAction
   | AssignGuestSlotAction
   | FetchEventAction
+  | FetchGuestWifiNetworkInformationAction
   | LastUsedCodeAction
   | RemoveEventsAction
   | ScheduleEventsAction
@@ -68,6 +74,7 @@ export {
   AnyAction,
   AssignGuestSlotAction,
   FetchEventAction,
+  FetchGuestWifiNetworkInformationAction,
   LastUsedCodeAction,
   RemoveEventsAction,
   ScheduleEventsAction,
