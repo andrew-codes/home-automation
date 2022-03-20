@@ -55,3 +55,11 @@ spec:
               value: "guest-pin-codes-guest-lock-code-exclusions@azurekeyvault"
             - name: NUMBER_OF_GUEST_CODES
               value: "guest-pin-codes-number-of-guest-codes@azurekeyvault"
+            - name: UNIFI_IP
+              value: "unifi-ip@azurekeyvault"
+            - name: UNIFI_PORT
+              value: "unifi-port@azurekeyvault"
+            - name: UNIFI_PASSWORD
+              value: "unifi-password@azurekeyvault"
+            - name: UNIFI_USERNAME
+              value: "unifi-username@azurekeyvault"
