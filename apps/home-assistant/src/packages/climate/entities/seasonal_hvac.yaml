@@ -122,15 +122,15 @@ sensor:
           {% else %}
             {% if is_state('group.family_is_sleeping', 'on') %}
                 {% if is_state('sensor.season', 'cold') %}
-                  {{ states('input_number.target_nighttime_user_adjusted_temp') | int }}
+                  {{ states('input_number.target_nighttime_temp_input') | int }}
                 {% else %}
-                  {{ ((states('input_number.target_nighttime_user_adjusted_temp') | int) - 6) | int }}
+                  {{ ((states('input_number.target_nighttime_temp_input') | int) - 6) | int }}
                 {% endif %}
             {% else %}
               {% if is_state('sensor.season', 'cold') %}
-                  {{ (states('input_number.target_daytime_user_adjusted_temp') | int) | int }}
+                  {{ (states('input_number.target_daytime_temp_input') | int) | int }}
                 {% else %}
-                  {{ ((states('input_number.target_daytime_user_adjusted_temp') | int) - 6) | int}}
+                  {{ ((states('input_number.target_daytime_temp_input') | int) - 6) | int}}
                 {% endif %}
             {% endif %}
           {% endif %}
