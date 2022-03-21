@@ -5,6 +5,7 @@ import {
   setGuestSlots,
   setEvents,
   scheduleEvents,
+  setGuestWifiNetworkInformation,
 } from "../actionCreators"
 import getMinuteAccurateDate from "../getMinuteAccurateDate"
 import reducer, { defaultState } from "../reducer"
@@ -240,6 +241,18 @@ test("adding additional door locks to track only tracks unique values", () => {
   const state = createState({ doorLocks: ["front_door", "car_port_door"] })
   const actual = reducer(state, addDoorLocks(["car_port_door", "back_door"]))
   expect(actual.doorLocks).toEqual(["front_door", "car_port_door", "back_door"])
+})
+
+test("setting guest wifi network information", () => {
+  const state = createState()
+  const actual = reducer(
+    state,
+    setGuestWifiNetworkInformation("test", "testing")
+  )
+  expect(actual.guestNetwork).toEqual({
+    ssid: "test",
+    password: "testing",
+  })
 })
 
 function createState(state = {}) {

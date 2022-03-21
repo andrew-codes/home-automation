@@ -56,6 +56,14 @@ type FetchGuestWifiNetworkInformationAction = {
   meta?: { error: boolean | string }
 }
 
+type SetGuestWifiNetworkInformationAction = {
+  type: "SET_GUEST_WIFI_NETWORK_INFORMATION"
+  payload: {
+    ssid: string
+    password: string
+  }
+}
+
 type AnyAction =
   | AddCodesToPoolAction
   | AddDoorLocksAction
@@ -67,6 +75,7 @@ type AnyAction =
   | ScheduleEventsAction
   | SetEventsAction
   | SetGuestSlotsAction
+  | SetGuestWifiNetworkInformationAction
 
 export {
   AddCodesToPoolAction,
@@ -80,4 +89,5 @@ export {
   ScheduleEventsAction,
   SetEventsAction,
   SetGuestSlotsAction,
+  SetGuestWifiNetworkInformationAction,
 }

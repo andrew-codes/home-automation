@@ -74,6 +74,11 @@ const getStartingEvents = createSelector(
     })
 )
 
+const getGuestWifiNetwork: Selector<
+  State,
+  { ssid: string; password: string } | null
+> = (state) => state.guestNetwork ?? null
+
 export {
   getUnassignedChronologicalEvents,
   getAvailableLockSlots,
@@ -82,6 +87,7 @@ export {
   getCurrentCodeIndex,
   getDoorLocks,
   getEndingEvents,
+  getGuestWifiNetwork,
   getLockSlots,
   getStartingEvents,
 }

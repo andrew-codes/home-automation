@@ -18,6 +18,7 @@ import {
   lastUsedCode,
   removeEvents,
   setEvents,
+  setGuestWifiNetworkInformation,
 } from "./actionCreators"
 import {
   getAvailableLockSlots,
@@ -27,6 +28,7 @@ import {
   getLockSlots,
   getEndingEvents,
   getStartingEvents,
+  getGuestWifiNetwork,
 } from "./selectors"
 import {
   AsyncMqttClient,
@@ -73,6 +75,7 @@ const getNextCodeIndex = (length, currentIndex, offset) => {
 }
 
 function* fetchWifiInformation(action: FetchGuestWifiNetworkInformationAction) {
+  console.log(action.meta)
   if (action.meta.error !== undefined) {
     return
   }
@@ -85,7 +88,20 @@ function* fetchWifiInformation(action: FetchGuestWifiNetworkInformationAction) {
       sslverify: false,
     })
     yield call(controller.login, UNIFI_USERNAME, UNIFI_PASSWORD)
+    const response = yield call<
+      () => { data: { is_guest: boolean; x_passphrase: string }[] }
+    >(controller.getWLanSettings)
+    console.log(response)
 
+    const firstGuestNetwork = response.data.find(
+      (network) => !!network.is_guest
+    )
+    yield put(
+      setGuestWifiNetworkInformation(
+        firstGuestNetwork.name,
+        firstGuestNetwork.x_passphrase
+      )
+    )
     yield put(fetchGuestWifiNetworkInformation(false))
   } catch (error) {
     yield put(fetchGuestWifiNetworkInformation(error))
@@ -104,6 +120,12 @@ function* startEvent(action: ScheduleEventsAction) {
         action.type === "FETCH_GUEST_WIFI_NETWORK_INFORMATION" &&
         action.meta !== undefined
     )
+    const guestNetwork = yield select(getGuestWifiNetwork)
+    const guestNetworkMessage = !!guestNetwork
+      ? `
+Wifi: ${guestNetwork.ssid}
+Wifi Password: ${guestNetwork.password}`
+      : ``
 
     const { GOOGLE_CALENDAR_ID } = process.env
 
@@ -146,7 +168,7 @@ function* startEvent(action: ScheduleEventsAction) {
             requestBody: {
               ...calendarEvent,
               sequence: calendarEvent.sequence + 1,
-              description: `ACCESS CODE: ${code}
+              description: `ACCESS CODE: ${code}${guestNetworkMessage}
 =================
 
 This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code contact Andrew or Dorri.

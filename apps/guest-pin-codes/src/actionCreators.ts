@@ -10,6 +10,7 @@ import {
   AssignGuestSlotAction,
   RemoveEventsAction,
   FetchGuestWifiNetworkInformationAction,
+  SetGuestWifiNetworkInformationAction,
 } from "./actions"
 import getMinuteAccurateDate from "./getMinuteAccurateDate"
 
@@ -67,11 +68,21 @@ const assignedGuestSlot = (
 })
 
 const fetchGuestWifiNetworkInformation = (
-  error = false
+  error = undefined
 ): FetchGuestWifiNetworkInformationAction => ({
   type: "FETCH_GUEST_WIFI_NETWORK_INFORMATION",
   meta: { error },
 })
+
+const setGuestWifiNetworkInformation = (
+  ssid: string,
+  password: string
+): SetGuestWifiNetworkInformationAction => {
+  return {
+    type: "SET_GUEST_WIFI_NETWORK_INFORMATION",
+    payload: { ssid, password },
+  }
+}
 
 export {
   addCodesToPool,
@@ -84,4 +95,5 @@ export {
   scheduleEvents,
   setEvents,
   setGuestSlots,
+  setGuestWifiNetworkInformation,
 }

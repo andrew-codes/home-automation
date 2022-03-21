@@ -14,6 +14,7 @@ import {
   getCurrentCodeIndex,
   getDoorLocks,
   getEndingEvents,
+  getGuestWifiNetwork,
   getLockSlots,
   getStartingEvents,
 } from "../selectors"
@@ -40,6 +41,7 @@ beforeEach(() => {
   unifiGetWifi = jest.fn()
   ;(Controller as jest.Mock).mockImplementation(() => ({
     login: unifiLogin,
+    getWLanSettings: unifiGetWifi,
   }))
 })
 
@@ -130,6 +132,10 @@ describe("starting events", () => {
         [select(getCodes), ["0002", "0001"]],
         [select(getDoorLocks), ["front_door"]],
         [select(getCurrentCodeIndex), 1],
+        [
+          select(getGuestWifiNetwork),
+          { ssid: "Test-SSID", password: "TEST_PASSWORD" },
+        ],
       ])
       .put({
         type: "LAST_USED_CODE",
@@ -153,6 +159,10 @@ describe("starting events", () => {
         [select(getDoorLocks), ["front_door"]],
         [select(getCurrentCodeIndex), 1],
         [select(getAvailableLockSlots), []],
+        [
+          select(getGuestWifiNetwork),
+          { ssid: "Test-SSID", password: "TEST_PASSWORD" },
+        ],
       ])
       .put({
         type: "LAST_USED_CODE",
@@ -178,6 +188,10 @@ describe("starting events", () => {
           [select(getCurrentCodeIndex), 1],
           [select(getAvailableLockSlots), ["1", "2", "3"]],
           [call(createMqttClient), mqtt],
+          [
+            select(getGuestWifiNetwork),
+            { ssid: "Test-SSID", password: "TEST_PASSWORD" },
+          ],
         ])
         .put({
           type: "LAST_USED_CODE",
@@ -202,21 +216,13 @@ describe("starting events", () => {
         [select(getDoorLocks), ["front_door"]],
         [select(getCurrentCodeIndex), 0],
         [select(getAvailableLockSlots), ["1", "2", "3"]],
+        [
+          select(getGuestWifiNetwork),
+          { ssid: "Test-SSID", password: "TEST_PASSWORD" },
+        ],
         [call(createMqttClient), mqtt],
         [matchers.call.fn(unifiLogin), true],
-        [
-          matchers.call.fn(unifiGetWifi),
-          {
-            data: [
-              { is_guest: false, name: "Not Guest" },
-              {
-                is_guest: true,
-                name: "Test-SSID",
-                x_passphrase: "TEST_PASSWORD",
-              },
-            ],
-          },
-        ],
+        [matchers.call.fn(unifiGetWifi), { data: [] }],
       ])
       .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
       .call.like({
@@ -294,6 +300,93 @@ Thank you!`,
       .run()
   })
 
+  test("no guest networks found will still show the access code in the calendar invite", () => {
+    const startingEvents = [
+      { id: "1", sequence: 0 },
+      { id: "2", sequence: 0 },
+      { id: "3", sequence: 0 },
+    ]
+    return expectSaga(sagas)
+      .provide([
+        [select(getStartingEvents), startingEvents],
+        [select(getCodes), ["0002", "0001", "0003"]],
+        [select(getDoorLocks), ["front_door"]],
+        [select(getCurrentCodeIndex), 0],
+        [select(getAvailableLockSlots), ["1", "2", "3"]],
+        [select(getGuestWifiNetwork), null],
+        [call(createMqttClient), mqtt],
+        [matchers.call.fn(unifiLogin), true],
+      ])
+      .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
+      .call.like({
+        fn: calendarClient.events.update,
+        args: [
+          {
+            calendarId: "cal_id",
+            eventId: "1",
+            sendUpdates: "all",
+            requestBody: {
+              sequence: 1,
+              description: `ACCESS CODE: 0001
+=================
+
+This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code contact Andrew or Dorri.
+
+* To Unlock the door, enter the access code above.
+* To Lock the door when you leave, press the "Schalge" logo at the top of the keypad.
+
+Thank you!`,
+            },
+          },
+        ],
+      })
+      .call.like({
+        fn: calendarClient.events.update,
+        args: [
+          {
+            calendarId: "cal_id",
+            eventId: "2",
+            sendUpdates: "all",
+            requestBody: {
+              sequence: 1,
+              description: `ACCESS CODE: 0003
+=================
+
+This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code contact Andrew or Dorri.
+
+* To Unlock the door, enter the access code above.
+* To Lock the door when you leave, press the "Schalge" logo at the top of the keypad.
+
+Thank you!`,
+            },
+          },
+        ],
+      })
+      .call.like({
+        fn: calendarClient.events.update,
+        args: [
+          {
+            calendarId: "cal_id",
+            eventId: "3",
+            sendUpdates: "all",
+            requestBody: {
+              sequence: 1,
+              description: `ACCESS CODE: 0002
+=================
+
+This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code contact Andrew or Dorri.
+
+* To Unlock the door, enter the access code above.
+* To Lock the door when you leave, press the "Schalge" logo at the top of the keypad.
+
+Thank you!`,
+            },
+          },
+        ],
+      })
+      .run()
+  })
+
   test("failure to retrieve guest wifi information will not prevent the code from being added to the calendar invite", () => {
     const startingEvents = [
       { id: "1", sequence: 0 },
@@ -309,6 +402,7 @@ Thank you!`,
         [select(getAvailableLockSlots), ["1", "2", "3"]],
         [call(createMqttClient), mqtt],
         [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
+        [select(getGuestWifiNetwork), null],
       ])
       .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
       .call.like({
@@ -393,6 +487,8 @@ Thank you!`,
           [select(getDoorLocks), ["front_door", "car_port_door"]],
           [select(getCurrentCodeIndex), 0],
           [select(getAvailableLockSlots), ["1", "2", "3"]],
+          [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
+          [select(getGuestWifiNetwork), null],
           [call(createMqttClient), mqtt],
         ])
         .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
@@ -499,6 +595,8 @@ Thank you!`,
         [select(getCurrentCodeIndex), 0],
         [select(getAvailableLockSlots), ["1", "2", "3"]],
         [call(createMqttClient), mqtt],
+        [select(getGuestWifiNetwork), null],
+        [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
       ])
       .put(assignedGuestSlot("1", "1"))
       .put(assignedGuestSlot("2", "2"))
@@ -518,7 +616,9 @@ Thank you!`,
         [select(getDoorLocks), ["front_door", "car_port_door"]],
         [select(getCurrentCodeIndex), 0],
         [select(getAvailableLockSlots), ["1"]],
+        [select(getGuestWifiNetwork), null],
         [call(createMqttClient), mqtt],
+        [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
       ])
       .put(assignedGuestSlot("1", "1"))
       .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
@@ -537,6 +637,7 @@ describe("ending events", () => {
         [select(getCurrentCodeIndex), 0],
         [select(getAvailableLockSlots), ["1"]],
         [call(createMqttClient), mqtt],
+        [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
       ])
       .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
       .not.call.fn(mqtt.publish)
@@ -554,6 +655,7 @@ describe("ending events", () => {
         [select(getCurrentCodeIndex), 0],
         [select(getAvailableLockSlots), ["1"]],
         [call(createMqttClient), mqtt],
+        [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
       ])
       .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
       .not.call.fn(mqtt.publish)
@@ -574,6 +676,7 @@ describe("ending events", () => {
         [select(getLockSlots), []],
         [select(getDoorLocks), []],
         [call(createMqttClient), mqtt],
+        [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
       ])
       .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
       .not.call.fn(mqtt.publish)
@@ -601,6 +704,7 @@ describe("ending events", () => {
         [select(getDoorLocks), []],
         [call(createMqttClient), mqtt],
         [matchers.call.fn(calendarClient.events.update), {}],
+        [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
       ])
       .put({
         type: "ASSIGNED_GUEST_SLOT",
@@ -634,6 +738,7 @@ describe("ending events", () => {
             ],
           ],
           [select(getDoorLocks), ["front_door", "car_port_door"]],
+          [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
           [call(createMqttClient), mqtt],
           [matchers.call.fn(calendarClient.events.update), {}],
         ])
@@ -704,6 +809,7 @@ describe("ending events", () => {
         ],
         [select(getDoorLocks), ["front_door", "car_port_door"]],
         [call(createMqttClient), mqtt],
+        [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
         [matchers.call.fn(calendarClient.events.update), {}],
       ])
       .put({
@@ -734,6 +840,7 @@ describe("ending events", () => {
         ],
         [select(getDoorLocks), ["front_door", "car_port_door"]],
         [call(createMqttClient), mqtt],
+        [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
         [matchers.call.fn(calendarClient.events.update), {}],
       ])
       .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
@@ -792,6 +899,7 @@ Thank you!`,
         ],
         [select(getDoorLocks), ["front_door", "car_port_door"]],
         [call(createMqttClient), mqtt],
+        [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
         [
           matchers.call.fn(calendarClient.events.update),
           throwError(new Error("500")),

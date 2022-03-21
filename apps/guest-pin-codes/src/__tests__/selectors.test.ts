@@ -3,6 +3,7 @@ import getMinuteAccurateDate from "../getMinuteAccurateDate"
 import { defaultState } from "../reducer"
 import {
   getChronologicalEvents,
+  getGuestWifiNetwork,
   getStartingEvents,
   getUnassignedChronologicalEvents,
 } from "../selectors"
@@ -129,5 +130,20 @@ describe("get events to schedule", () => {
     })
     const actual = getStartingEvents(state)
     expect(actual).toEqual([event1])
+  })
+})
+
+describe("getting guest network information", () => {
+  const actual = getGuestWifiNetwork(
+    merge({}, defaultState, {
+      guestNetwork: {
+        ssid: "test",
+        password: "testing",
+      },
+    })
+  )
+  expect(actual).toEqual({
+    ssid: "test",
+    password: "testing",
   })
 })

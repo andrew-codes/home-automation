@@ -13,6 +13,10 @@ type State = {
   events: Record<string, calendar_v3.Schema$Event>
   guestSlots: Record<string, string>
   lastScheduledTime: Date | null
+  guestNetwork?: {
+    ssid: string
+    password: string
+  }
 }
 const defaultState: State = {
   codeIndex: 0,
@@ -107,6 +111,10 @@ const reducer = (state = defaultState, action: AnyAction) => {
         delete stateWithRemovedEvents.deletedEvents[removedEvent.id]
       })
       return stateWithRemovedEvents
+
+    case "SET_GUEST_WIFI_NETWORK_INFORMATION": {
+      return merge({}, state, { guestNetwork: action.payload })
+    }
 
     default:
       return state
