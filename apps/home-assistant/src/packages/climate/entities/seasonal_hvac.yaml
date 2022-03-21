@@ -45,9 +45,11 @@ sensor:
         value_template: >
           {% if ((state_attr('weather.main_floor', 'temperature') | default(0)) | int) <= 50 %}
             cold
-          {% else %}
+          {% elif ((state_attr('weather.main_floor', 'temperature') | default(0)) | int) >= 55 %}
             hot
-          {%endif %}
+          {% else %}
+            {{ states('sensor.season') }}
+          {% endif %}
       target_low_temp:
         friendly_name: Target Low Temperature
         unit_of_measurement: °F
