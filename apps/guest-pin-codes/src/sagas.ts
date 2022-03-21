@@ -76,7 +76,7 @@ const getNextCodeIndex = (length, currentIndex, offset) => {
 
 function* fetchWifiInformation(action: FetchGuestWifiNetworkInformationAction) {
   console.log(action.meta)
-  if (action.meta.error !== undefined) {
+  if (action.meta !== undefined) {
     return
   }
 
@@ -103,8 +103,9 @@ function* fetchWifiInformation(action: FetchGuestWifiNetworkInformationAction) {
       )
     )
     yield put(fetchGuestWifiNetworkInformation(false))
-  } catch (error) {
-    yield put(fetchGuestWifiNetworkInformation(error))
+  } catch (error: any) {
+    debug(error.toString())
+    yield put(fetchGuestWifiNetworkInformation(error.toString()))
   }
 }
 
@@ -237,7 +238,6 @@ Thank you!`,
     }
     yield put(lastUsedCode(code))
   } catch (error) {
-    console.log(error)
     debug(error)
   }
 }

@@ -68,11 +68,17 @@ const assignedGuestSlot = (
 })
 
 const fetchGuestWifiNetworkInformation = (
-  error = undefined
-): FetchGuestWifiNetworkInformationAction => ({
-  type: "FETCH_GUEST_WIFI_NETWORK_INFORMATION",
-  meta: { error },
-})
+  error?: string | boolean
+): FetchGuestWifiNetworkInformationAction => {
+  if (!error) {
+    return { type: "FETCH_GUEST_WIFI_NETWORK_INFORMATION" }
+  }
+
+  return {
+    type: "FETCH_GUEST_WIFI_NETWORK_INFORMATION",
+    meta: { error },
+  }
+}
 
 const setGuestWifiNetworkInformation = (
   ssid: string,
