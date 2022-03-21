@@ -1,4 +1,18 @@
+input_datetime:
+  user_target_last_set:
+    name: "Last time user set a target temperature"
+    has_date: true
+    has_time: true
+
 input_number:
+  user_target_timeout_in_minutes:
+    name: "Time to hold user target temperature in minutes"
+    initial: 90
+    step: 5
+    min: 60
+    max: 180
+    unit_of_measurement: "mins"
+    mode: box
   target_daytime_temp_input:
     name: Target Daytime Temperature Input
     initial: 70
@@ -9,6 +23,22 @@ input_number:
     mode: box
   target_nighttime_temp_input:
     name: Target Nightime Temperature Input
+    initial: 68
+    step: 1
+    min: 55
+    max: 80
+    unit_of_measurement: "°F"
+    mode: box
+  user_target_daytime_temp_input:
+    name: User Target Daytime Temperature Input
+    initial: 70
+    step: 1
+    min: 55
+    max: 80
+    unit_of_measurement: "°F"
+    mode: box
+  user_target_nighttime_temp_input:
+    name: User Target Nightime Temperature Input
     initial: 68
     step: 1
     min: 55
@@ -32,6 +62,14 @@ input_number:
     unit_of_measurement: "°F"
     mode: box
 
+binary_sensor:
+  - platform: template
+    sensors:
+      use_user_temp:
+        friendly_name: Use User Defined Temperature
+        value_template: >
+          {{ (((as_timestamp(states('input_datetime.user_target_last_set')) | int) + ((states('input_number.user_target_timeout_in_minutes') | int) * 60)) | int) <= (as_timestamp(now()) | int) }}
+
 sensor:
   - platform: template
     sensors:
@@ -50,6 +88,27 @@ sensor:
           {% else %}
             {{ states('sensor.season') }}
           {% endif %}
+
+      target_daytime_user_adjusted_temp:
+        friendly_name: Target Daytime User Adjusted Temperature
+        unit_of_measurement: °F
+        value_template: >
+          {% if (is_state("binary_sensor.use_user_temp", "on")) %}
+            {{ states("input_number.user_target_daytime_temp_input") | int }}
+          {% else %}
+            {{ states("input_number.target_daytime_temp_input") | int }}
+          {% endif %}
+
+      target_nighttime_user_adjusted_temp:
+        friendly_name: Target Nighttime User Adjusted Temperature
+        unit_of_measurement: °F
+        value_template: >
+          {% if (is_state("binary_sensor.use_user_temp", "on")) %}
+            {{ states("input_number.user_target_nighttime_temp_input") | int }}
+          {% else %}
+            {{ states("input_number.target_nighttime_temp_input") | int }}
+          {% endif %}
+
       target_low_temp:
         friendly_name: Target Low Temperature
         unit_of_measurement: °F
@@ -63,15 +122,15 @@ sensor:
           {% else %}
             {% if is_state('group.family_is_sleeping', 'on') %}
                 {% if is_state('sensor.season', 'cold') %}
-                  {{ states('input_number.target_nighttime_temp_input') | int }}
+                  {{ states('input_number.target_nighttime_user_adjusted_temp') | int }}
                 {% else %}
-                  {{ ((states('input_number.target_nighttime_temp_input') | int) - 6) | int }}
+                  {{ ((states('input_number.target_nighttime_user_adjusted_temp') | int) - 6) | int }}
                 {% endif %}
             {% else %}
               {% if is_state('sensor.season', 'cold') %}
-                  {{ (states('input_number.target_daytime_temp_input') | int) | int }}
+                  {{ (states('input_number.target_daytime_user_adjusted_temp') | int) | int }}
                 {% else %}
-                  {{ ((states('input_number.target_daytime_temp_input') | int) - 6) | int}}
+                  {{ ((states('input_number.target_daytime_user_adjusted_temp') | int) - 6) | int}}
                 {% endif %}
             {% endif %}
           {% endif %}

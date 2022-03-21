@@ -1,0 +1,14 @@
+automation:
+  - alias: Set user target temperature
+    id: Set User Target Temperature
+    trigger:
+      - platform: state
+        entity_id: input_number.user_target_daytime_temp_input
+      - platform: state
+        entity_id: input_number.user_target_nighttime_temp_input
+    action:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.user_target_last_set
+        data:
+          timestamp: "{{ now().timestamp() }}"
