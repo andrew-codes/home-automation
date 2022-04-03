@@ -2,7 +2,7 @@ input_boolean:
   andrew_ios_sleep:
     name: Andrew iOS Sleep
     icon: mdi:sleep
-    initial: "off"
+    initial: false
 
 template:
   - binary_sensor:

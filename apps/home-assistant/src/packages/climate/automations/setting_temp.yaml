@@ -9,7 +9,7 @@ automation:
       - platform: state
         entity_id: sensor.season
       - platform: state
-        entity_id: input_datetime.user_target_last_set
+        entity_id: input_boolean.use_user_temp
     action:
       - service: climate.set_temperature
         data:
