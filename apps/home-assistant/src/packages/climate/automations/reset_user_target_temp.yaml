@@ -7,7 +7,6 @@ automation:
         for: "00:{{ states('input_number.user_target_timeout_in_minutes') }}:00"
       - platform: state
         entity_id: input_number.user_target_nighttime_temp_input
-      - platform: state
         for: "00:{{ states('input_number.user_target_timeout_in_minutes') }}:00"
     action:
       - service: input_boolean.turn_on
