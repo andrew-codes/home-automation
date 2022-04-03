@@ -7,6 +7,10 @@ automation:
       - platform: state
         entity_id: input_number.target_nighttime_temp_input
       - platform: state
+        entity_id: input_number.user_target_daytime_temp_input
+      - platform: state
+        entity_id: input_number.user_target_nighttime_temp_input
+      - platform: state
         entity_id: sensor.season
       - platform: state
         entity_id: input_boolean.use_user_temp

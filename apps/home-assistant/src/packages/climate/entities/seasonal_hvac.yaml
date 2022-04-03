@@ -2,6 +2,8 @@ input_boolean:
   use_user_temp:
     name: Use User Temp
     initial: false
+  user_user_temp_update_lock:
+    initial: false
 
 input_number:
   user_target_timeout_in_minutes:

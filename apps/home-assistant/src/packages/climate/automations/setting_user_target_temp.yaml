@@ -6,6 +6,10 @@ automation:
         entity_id: input_number.user_target_daytime_temp_input
       - platform: state
         entity_id: input_number.user_target_nighttime_temp_input
+    condition:
+      condition: state
+      entity_id: input_boolean.user_user_temp_update_lock
+      state: "false"
     action:
       - service: input_boolean.turn_on
         target:
