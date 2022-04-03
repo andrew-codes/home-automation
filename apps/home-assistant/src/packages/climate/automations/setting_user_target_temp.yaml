@@ -9,7 +9,7 @@ automation:
     condition:
       condition: state
       entity_id: input_boolean.user_user_temp_update_lock
-      state: "false"
+      state: "off"
     action:
       - service: input_boolean.turn_on
         target:
