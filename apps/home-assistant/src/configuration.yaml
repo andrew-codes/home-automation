@@ -43,11 +43,6 @@ frontend:
 lovelace:
   mode: storage
 
-mqtt:
-  broker: mqtt
-  username: !secret MQTT_USERNAME
-  password: !secret MQTT_PASSWORD
-
 # google:
 #   client_id: !secret GOOGLE_CALENDAR_CLIENT_ID
 #   client_secret: !secret GOOGLE_CALENDAR_CLIENT_SECRET
