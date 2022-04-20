@@ -4,10 +4,10 @@ automation:
     trigger:
       - platform: state
         entity_id: input_number.user_target_daytime_temp_input
-        for: "00:{{ states('input_number.user_target_timeout_in_minutes') }}:00"
+        for: "00:{{ states('input_number.user_target_timeout_in_minutes') | int }}:00"
       - platform: state
         entity_id: input_number.user_target_nighttime_temp_input
-        for: "00:{{ states('input_number.user_target_timeout_in_minutes') }}:00"
+        for: "00:{{ states('input_number.user_target_timeout_in_minutes') | int }}:00"
     action:
       - service: input_boolean.turn_on
         target:
