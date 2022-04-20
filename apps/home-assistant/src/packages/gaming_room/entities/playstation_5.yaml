@@ -1,5 +1,6 @@
 media_player:
   - name: Gaming Room Universal PlayStation 5
+    unique_id: gaming_room_universal_playstation_5
     platform: universal
     children:
       - media_player.gaming_room_avr

@@ -1,5 +1,6 @@
 media_player:
   - name: Gaming Room Universal Media Player
+    unique_id: gaming_room_universal_media_player
     platform: universal
     children:
       - media_player.gaming_room_nvidia_shield_pro

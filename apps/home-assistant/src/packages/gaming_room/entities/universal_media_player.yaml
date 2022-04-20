@@ -1,6 +1,7 @@
 media_player:
   # This is the primary media player for automations.
   - name: Gaming Room Media Player
+    unique_id: gaming_room_media_player
     platform: universal
     children:
       - media_player.gaming_room_universal_gaming_pc
