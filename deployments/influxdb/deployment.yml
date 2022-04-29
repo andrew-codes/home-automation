@@ -113,18 +113,3 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: influxdb-config-pv-claim
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: influxdb
-  namespace: default
-spec:
-  ports:
-    - name: influxdb
-      port: 8086
-      protocol: TCP
-      targetPort: 8086
-  selector:
-    name: influxdb
