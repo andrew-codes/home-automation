@@ -65,7 +65,7 @@ spec:
             - "sh"
           args:
             - "-c"
-            - "npm install -g @alexlafroscia/yaml-merge && yaml-merge /usr/src/app/configuration-from-git.yml /usr/src/app/store/configuration.yml > /usr/src/app/store/configuration.yml"
+            - "npm install -g @alexlafroscia/yaml-merge && yaml-merge /usr/src/app/configuration-from-git.yml /usr/src/app/data/configuration.yml > /usr/src/app/data/configuration.yml"
           volumeMounts:
             - mountPath: /usr/src/app/store
               name: data
@@ -95,7 +95,7 @@ spec:
           volumeMounts:
             - mountPath: /dev/ttyACM0
               name: zigbeestick
-            - mountPath: /usr/src/app/store
+            - mountPath: /usr/src/app/data
               name: data
       volumes:
         - name: zigbeestick
