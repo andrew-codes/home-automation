@@ -59,20 +59,15 @@ spec:
           args:
             - "-c"
             - "timeout 10 sub -h mqtt -t '$SYS/#' -C 1 | grep -v Error || exit 1"
-        - name: mutate-configuration-yml
-          image: node:16.4.0-alpine
-          command:
-            - "sh"
-          args:
-            - "-c"
-            - "npm install -g @alexlafroscia/yaml-merge && yaml-merge /app/configuration-from-git.yml /app/data/configuration.yml > /app/data/configuration.yml"
-          volumeMounts:
-            - mountPath: /usr/src/app/store
-              name: data
       containers:
         - name: zigbee2mqtt
           image: docker-registry:5000/zigbee2mqtt:latest
           imagePullPolicy: Always
+          command:
+            - "sh"
+          args:
+            - "-c"
+            - "yaml-merge /app/data/configuration-from-git.yml /app/data/configuration.yml > /app/data/configuration.yml"
           livenessProbe:
             failureThreshold: 12
             httpGet:
