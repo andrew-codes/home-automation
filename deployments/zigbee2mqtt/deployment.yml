@@ -61,13 +61,8 @@ spec:
             - "timeout 10 sub -h mqtt -t '$SYS/#' -C 1 | grep -v Error || exit 1"
       containers:
         - name: zigbee2mqtt
-          image: docker-registry:5000/zigbee2mqtt:latest
+          image: koenkk/zigbee2mqtt:1.25.0
           imagePullPolicy: Always
-          command:
-            - "sh"
-          args:
-            - "-c"
-            - "( [ -f /app/data/configuration.yml ] && yaml-merge /app/data/configuration-from-git.yml /app/data/configuration.yml > /app/data/configuration.yaml || cp /app/data/configuration-from-git.yml /app/data/configuration.yaml) && node /app/index.js"
           livenessProbe:
             failureThreshold: 12
             httpGet:
