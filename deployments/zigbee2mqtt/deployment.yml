@@ -93,7 +93,7 @@ spec:
             allowPrivilegeEscalation: true
             privileged: true
           volumeMounts:
-            - mountPath: /dev/ttyUSB0
+            - mountPath: /dev/ttyACM0
               name: zigbeestick
             - mountPath: /usr/src/app/store
               name: data
