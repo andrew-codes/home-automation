@@ -7,7 +7,6 @@
     "deploy": "scripts/bin/deploy.sh"
   },
   "dependencies": {
-    "@ha/mqtt": "^0.0.1",
-    "@ha/zigbee2mqtt-app": "^0.0.1"
+    "@ha/mqtt": "^0.0.1"
   }
 }
