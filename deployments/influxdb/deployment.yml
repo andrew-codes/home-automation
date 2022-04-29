@@ -66,6 +66,8 @@ kind: Deployment
 metadata:
   name: influxdb
   namespace: default
+  labels:
+    app.kubernetes.io/name: influxdb
 spec:
   replicas: 1
   selector:
@@ -84,19 +86,9 @@ spec:
       containers:
         - name: influxdb
           image: influxdb:2.2.0
-          readinessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /health
-              port: http
-              scheme: HTTP
-            initialDelaySeconds: 5
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 1
           ports:
-            - containerPort: 8086
-              name: http
+            - name: influxdb
+              containerPort: 8086
               protocol: TCP
           volumeMounts:
             - mountPath: /var/lib/influxdb2
@@ -121,3 +113,20 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: influxdb-config-pv-claim
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: influxdb
+  namespace: default
+  labels:
+    app.kubernetes.io/name: influxdb
+spec:
+  ports:
+    - name: influxdb
+      port: 8086
+      protocol: TCP
+      targetPort: influxdb
+  selector:
+    app.kubernetes.io/name: influxdb
