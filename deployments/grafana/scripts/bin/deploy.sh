@@ -9,4 +9,4 @@ popd
 
 yq eval '.spec.ports[0].nodePort=env(EXTERNAL_GRAFANA_PORT)' -i service.yml
 
-kubectl apply -f services.yml
+kubectl apply -f service.yml
