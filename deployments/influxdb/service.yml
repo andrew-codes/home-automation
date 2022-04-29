@@ -4,6 +4,7 @@ metadata:
   name: influxdb
   namespace: default
 spec:
+  type: NodePort
   ports:
     - name: influxdb
       port: 8086
