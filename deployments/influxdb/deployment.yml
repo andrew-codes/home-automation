@@ -120,13 +120,11 @@ kind: Service
 metadata:
   name: influxdb
   namespace: default
-  labels:
-    app.kubernetes.io/name: influxdb
 spec:
   ports:
     - name: influxdb
       port: 8086
       protocol: TCP
-      targetPort: influxdb
+      targetPort: 8086
   selector:
-    app.kubernetes.io/name: influxdb
+    name: influxdb
