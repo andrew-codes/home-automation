@@ -65,7 +65,7 @@ spec:
             - "sh"
           args:
             - "-c"
-            - "npm install -g @alexlafroscia/yaml-merge && yaml-merge /usr/src/app/configuration-from-git.yml /usr/src/app/data/configuration.yml > /usr/src/app/data/configuration.yml"
+            - "npm install -g @alexlafroscia/yaml-merge && yaml-merge /app/configuration-from-git.yml /app/data/configuration.yml > /app/data/configuration.yml"
           volumeMounts:
             - mountPath: /usr/src/app/store
               name: data
