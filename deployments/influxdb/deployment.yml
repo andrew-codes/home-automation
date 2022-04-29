@@ -81,34 +81,12 @@ spec:
           operator: "Exists"
           effect: "NoExecute"
           tolerationSeconds: 300
-      initContainers:
-        - name: mqtt-is-ready
-          image: docker-registry:5000/mqtt-client:latest
-          imagePullPolicy: Always
-          command:
-            - "sh"
-          args:
-            - "-c"
-            - "timeout 10 sub -h mqtt -t '$SYS/#' -C 1 | grep -v Error || exit 1"
       containers:
         - name: influxdb
           image: influxdb:2.2.0
-          livenessProbe:
-            failureThreshold: 12
-            httpGet:
-              httpHeaders:
-                - name: Accept
-                  value: text/plain
-              path: /health
-              port: http
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 2
           ports:
             - containerPort: 8086
               name: http
-              protocol: TCP
           volumeMounts:
             - mountPath: /var/lib/influxdb2
               name: data
