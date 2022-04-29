@@ -100,7 +100,7 @@ spec:
       volumes:
         - name: zigbeestick
           hostPath:
-            path: /dev/ttyACM0
+            path: /dev/ttyUSB0
         - name: data
           persistentVolumeClaim:
             claimName: zigbee2mqtt-pv-claim
