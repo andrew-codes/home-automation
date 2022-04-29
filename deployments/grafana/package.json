@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "name": "@ha/grafana",
+  "version": "0.0.1",
+  "scripts": {
+    "deploy": "scripts/bin/deploy.sh"
+  },
+  "dependencies": {
+    "@ha/metrics": "^0.0.1"
+  }
+}
