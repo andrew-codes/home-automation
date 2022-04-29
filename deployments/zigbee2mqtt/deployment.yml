@@ -67,7 +67,7 @@ spec:
             - "sh"
           args:
             - "-c"
-            - "yaml-merge /app/data/configuration-from-git.yml /app/data/configuration.yml > /app/data/configuration.yml"
+            - "yaml-merge /app/data/configuration-from-git.yml /app/data/configuration.yml > /app/data/configuration.yml && /sbin/tini -- node index.js"
           livenessProbe:
             failureThreshold: 12
             httpGet:
