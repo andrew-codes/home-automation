@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "@ha/zigbee2mqtt",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "deploy": "scripts/bin/deploy.sh"
+  },
+  "dependencies": {
+    "@ha/mqtt": "^0.0.1",
+    "@ha/zigbee2mqtt-app": "^0.0.1"
+  }
+}

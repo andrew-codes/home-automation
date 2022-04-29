@@ -1,0 +1,10 @@
+permit_join: false
+mqtt:
+  base_topic: zigbee
+  server: mqtt://mqtt
+serial:
+  port: /dev/ttyUSB0
+frontend:
+  port: 8080
+advanced:
+  network_key: GENERATE
