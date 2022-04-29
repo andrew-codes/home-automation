@@ -85,7 +85,7 @@ spec:
           volumeMounts:
             - mountPath: /dev/ttyACM0
               name: zigbeestick
-            - mountPath: /usr/src/app/data
+            - mountPath: /app/data
               name: data
       volumes:
         - name: zigbeestick
