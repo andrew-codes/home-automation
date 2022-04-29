@@ -67,7 +67,7 @@ metadata:
   name: influxdb
   namespace: default
   labels:
-    app.kubernetes.io/name: influxdb
+    app.kubernetes.io/name: "influxdb"
 spec:
   replicas: 1
   selector:
