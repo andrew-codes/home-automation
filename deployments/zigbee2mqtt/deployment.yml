@@ -62,7 +62,6 @@ spec:
       containers:
         - name: zigbee2mqtt
           image: koenkk/zigbee2mqtt:1.25.0
-          imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 12
             httpGet:

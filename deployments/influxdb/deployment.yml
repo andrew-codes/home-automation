@@ -1,0 +1,134 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: influxdb-pv-volume
+  namespace: default
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 150Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data/influxdb"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: influxdb-pv-claim
+  namespace: default
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 150Gi
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: influxdb-config-pv-volume
+  namespace: default
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 30Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data/influxdb-config"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: influxdb-config-pv-claim
+  namespace: default
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 30Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: influxdb
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: influxdb
+  template:
+    metadata:
+      labels:
+        name: influxdb
+    spec:
+      tolerations:
+        - key: "node.kubernetes.io/disk-pressure"
+          operator: "Exists"
+          effect: "NoExecute"
+          tolerationSeconds: 300
+      initContainers:
+        - name: mqtt-is-ready
+          image: docker-registry:5000/mqtt-client:latest
+          imagePullPolicy: Always
+          command:
+            - "sh"
+          args:
+            - "-c"
+            - "timeout 10 sub -h mqtt -t '$SYS/#' -C 1 | grep -v Error || exit 1"
+      containers:
+        - name: influxdb
+          image: influxdb:2.2.0
+          livenessProbe:
+            failureThreshold: 12
+            httpGet:
+              httpHeaders:
+                - name: Accept
+                  value: text/plain
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          ports:
+            - containerPort: 8086
+              name: http
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /var/lib/influxdb2
+              name: data
+            - mountPath: /etc/influxdb2
+              name: config
+          env:
+            - name: DOCKER_INFLUXDB_INIT_MODE
+              value: setup
+            - name: DOCKER_INFLUXDB_INIT_USERNAME
+              value: "docker-influxdb-init-username@azurekeyvault"
+            - name: DOCKER_INFLUXDB_INIT_PASSWORD
+              value: "docker-influxdb-init-password@azurekeyvault"
+            - name: DOCKER_INFLUXDB_INIT_ORG
+              value: "docker-influxdb-init-org@azurekeyvault"
+            - name: DOCKER_INFLUXDB_INIT_BUCKET
+              value: "docker-influxdb-init-bucket@azurekeyvault"
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: influxdb-pv-claim
+        - name: config
+          persistentVolumeClaim:
+            claimName: influxdb-config-pv-claim
