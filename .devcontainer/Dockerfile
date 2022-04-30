@@ -79,5 +79,8 @@ RUN tar -zxvf helm.tar.gz
 RUN mv linux-amd64/helm /usr/local/bin/helm
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 RUN rm -f ~/.ssh/environment
-RUN wget -c https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
+RUN wget -c https://dl.google.com/go/go1.18.1.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
 RUN ln -s /usr/local/go/bin/go /usr/local/bin
+RUN go install github.com/google/go-jsonnet/cmd/jsonnet@latest
+RUN wget https://github.com/google/go-jsonnet/releases/download/v0.18.0/jsonnet-go_0.18.0_linux_amd64.deb
+RUN dpkg -i jsonnet-go_0.18.0_linux_amd64.deb
