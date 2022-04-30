@@ -21,6 +21,14 @@ recorder:
   db_url: !secret DB_URL
   purge_keep_days: 14
 
+influxdb:
+  api_version: 2
+  ssl: false
+  port: 31520
+  organization: smith-simms
+  bucket: home-automation
+  token: !secret INFLUXDB_TOKEN
+
 logger:
   default: info
 

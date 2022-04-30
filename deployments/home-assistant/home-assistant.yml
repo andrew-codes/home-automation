@@ -100,6 +100,7 @@ data:
     HOME_ASSISTANT_DOMAIN: '${HOME_ASSISTANT_DOMAIN}'
     HOME_AUTOMATION_PRIVATE_SSH_KEY: '${HOME_AUTOMATION_PRIVATE_SSH_KEY}'
     HOME_AUTOMATION_PUBLIC_SSH_KEY: '${HOME_AUTOMATION_PUBLIC_SSH_KEY}'
+    INFLUXDB_TOKEN: '${INFLUXDB_TOKEN}'
     INLETS_IP: '${INLETS_IP}'
     JIRA_AUTHORIZATION_HEADER: '${JIRA_AUTHORIZATION_HEADER}'
     LATITUDE: '${LATITUDE}'
@@ -203,6 +204,8 @@ spec:
           image: docker-registry:5000/home-assistant:latest
           imagePullPolicy: Always
           env:
+            - name: INFLUXDB_TOKEN
+              value: "influxdb-home-assistant-token@azurekeyvault"
             - name: APPDAEMON_PASSWORD
               valueFrom:
                 secretKeyRef:
