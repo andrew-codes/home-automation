@@ -205,7 +205,10 @@ spec:
           imagePullPolicy: Always
           env:
             - name: INFLUXDB_TOKEN
-              value: "influxdb-home-assistant-token@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: influxdb-home-assistant-token
+                  key: secret-value
             - name: APPDAEMON_PASSWORD
               valueFrom:
                 secretKeyRef:
