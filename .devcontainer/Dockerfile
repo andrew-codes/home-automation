@@ -79,3 +79,5 @@ RUN tar -zxvf helm.tar.gz
 RUN mv linux-amd64/helm /usr/local/bin/helm
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 RUN rm -f ~/.ssh/environment
+RUN wget -c https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
+RUN ln -s /usr/local/go/bin/go /usr/local/bin

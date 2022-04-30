@@ -50,5 +50,7 @@ RUN sudo chmod +x /usr/local/bin/wrapdocker.sh
 ENV DOCKER_DAEMON_ARGS "--insecure-registry docker-registry:5000"
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 COPY src/known_hosts ~/.ssh/known_hosts
+RUN wget -c https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
+RUN ln -s /usr/local/go/bin/go /usr/local/bin
 ENTRYPOINT [ "/entrypoint.sh" ]
 # ENTRYPOINT [ "/usr/local/bin/wrapdocker.sh" ]
