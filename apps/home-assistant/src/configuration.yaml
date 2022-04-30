@@ -29,6 +29,12 @@ influxdb:
   organization: smith-simms
   bucket: home-automation
   token: !secret INFLUXDB_TOKEN
+  tags:
+    source: HA
+  tags_attributes:
+    - friendly_name
+    - device_class
+  default_measurement: units
 
 logger:
   default: info

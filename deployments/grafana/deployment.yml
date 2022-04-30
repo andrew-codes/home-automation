@@ -19,7 +19,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: grafana-data-store-pv-claim
+  name: grafana-pv-claim
   namespace: monitoring
 spec:
   storageClassName: manual
@@ -27,4 +27,4 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 10i
+      storage: 10Gi
