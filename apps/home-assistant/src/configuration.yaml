@@ -24,7 +24,7 @@ recorder:
 influxdb:
   api_version: 2
   ssl: false
-  host: 192.168.1.18
+  host: influxdb
   port: 31520
   organization: smith-simms
   bucket: home-automation
