@@ -38,7 +38,7 @@ local grafana = import 'grafana/grafana.libsonnet';
       version: 1,
       editable: false,
     }, {
-      name: 'InfluxDb',
+      name: 'InfluxDB',
       type: 'influxdb',
       access: 'server',
       url: 'http://192.168.1.18:30520',
