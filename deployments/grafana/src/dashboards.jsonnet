@@ -12,6 +12,15 @@ local grafana = import 'grafana/grafana.libsonnet';
     namespace: 'monitoring',
     version: '8.5.1',
     image: 'grafana/grafana:8.5.1',
+    datasource: [{
+      name: 'prometheus',
+      type: 'prometheus',
+      access: 'proxy',
+      orgId: 1,
+      url: 'http://prometheus-k8s.monitoring.svc:9090',
+      version: 1,
+      editable: false,
+    }],
     dashboards+: {
       'my-dashboard.json':
         dashboard.new('My Dashboard')
