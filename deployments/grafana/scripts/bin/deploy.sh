@@ -7,7 +7,9 @@ source .external-ports.env
 set +o allexport
 popd
 
-jsonnet -J vendor src/dashboards.jsonnet
+mkdir -p dist
+jsonnet -J vendor src/dashboards.jsonnet > dist/dashboards.yaml
+kubectl apply -k dist
 
 yq eval '.spec.ports[0].nodePort=env(EXTERNAL_GRAFANA_PORT)' -i service.yml
 
