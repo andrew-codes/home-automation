@@ -3,6 +3,7 @@
   "name": "@ha/grafana",
   "version": "0.0.1",
   "scripts": {
+    "postinstall": "jb install",
     "deploy": "scripts/bin/deploy.sh"
   },
   "dependencies": {

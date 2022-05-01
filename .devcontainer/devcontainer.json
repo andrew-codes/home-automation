@@ -16,6 +16,7 @@
     "foxundermoon.shell-format",
     "fredwangwang.vscode-hcl-format",
     "hashicorp.terraform",
+    "heptio.jsonnet",
     "humao.rest-client",
     "keesschollaart.vscode-home-assistant",
     "kisstkondoros.vscode-codemetrics",
