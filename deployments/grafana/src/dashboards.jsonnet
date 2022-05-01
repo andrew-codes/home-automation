@@ -9,7 +9,7 @@ local grafana = import 'grafana/grafana.libsonnet';
 
 {
   _config:: {
-    namespace: 'monitoring-grafana',
+    namespace: 'monitoring',
     version: '8.5.1',
     image: 'grafana/grafana:8.5.1',
     dashboards+: {
