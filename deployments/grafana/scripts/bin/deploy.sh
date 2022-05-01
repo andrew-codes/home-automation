@@ -9,7 +9,7 @@ popd
 
 mkdir -p dist
 jsonnet -J vendor src/dashboards.jsonnet > dist/dashboards.yaml
-kubectl apply -k dist
+kubectl patch deployment grafana -patch-file dist/dashboards.yaml
 
 yq eval '.spec.ports[0].nodePort=env(EXTERNAL_GRAFANA_PORT)' -i service.yml
 
