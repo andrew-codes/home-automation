@@ -8,9 +8,5 @@ set +o allexport
 popd
 
 mkdir -p dist
-jsonnet -J vendor src/dashboards.jsonnet > dist/dashboards.yaml
-kubectl patch deployment grafana -patch-file dist/dashboards.yaml
-
-yq eval '.spec.ports[0].nodePort=env(EXTERNAL_GRAFANA_PORT)' -i service.yml
-
-kubectl apply -f service.yml
+jsonnet -J vendor --ext-str "EXTERNAL_GRAFANA_PORT=$EXTERNAL_GRAFANA_PORT" src/dashboards.jsonnet > dist/dashboards.json
+kubectl patch deployment grafana -patch-file dist/dashboards.json -type=json

@@ -10,8 +10,8 @@ local grafana = import 'grafana/grafana.libsonnet';
 {
   _config:: {
     namespace: 'monitoring-grafana',
-    version: "8.5.1",
-    image: "grafana/grafana:8.5.1",
+    version: '8.5.1',
+    image: 'grafana/grafana:8.5.1',
     dashboards+: {
       'my-dashboard.json':
         dashboard.new('My Dashboard')
@@ -45,8 +45,11 @@ local grafana = import 'grafana/grafana.libsonnet';
     service+: {
       spec+: {
         ports: [
-          port {
-            nodePort: 30910,
+          {
+            name: 'http',
+            port: 3000,
+            targetPort: 'http',
+            nodePort: std.extVar('EXTERNAL_GRAFANA_PORT'),
           }
           for port in super.ports
         ],
