@@ -3,9 +3,11 @@
   "name": "@ha/grafana",
   "version": "0.0.1",
   "scripts": {
-    "postinstall": "jb install",
     "deploy": "scripts/bin/deploy.sh",
-    "postdeploy": "kubectl rollout restart deployment grafana"
+    "ingress/prod": "scripts/bin/ingress.sh ingress-prod.yml",
+    "ingress/stage": "scripts/bin/ingress.sh ingress-staging.yml",
+    "postdeploy": "kubectl rollout restart deployment grafana",
+    "postinstall": "jb install"
   },
   "dependencies": {
     "@ha/metrics": "^0.0.1"

@@ -13,5 +13,5 @@ export GRAFANA_PASSWORD=$(az keyvault secret show --vault-name "kv-home-automati
 export GRAFANA_INFLUXDB_TOKEN=$(az keyvault secret show --vault-name "kv-home-automation" --name "grafana-influxdb-token" | jq -r '.value')
 
 mkdir -p dist
-jsonnet -J vendor --ext-str "EXTERNAL_GRAFANA_PORT=$EXTERNAL_GRAFANA_PORT" --ext-str "GRAFANA_INFLUXDB_TOKEN=$GRAFANA_INFLUXDB_TOKEN" --ext-str "GRAFANA_USERNAME=$GRAFANA_USERNAME" --ext-str "GRAFANA_PASSWORD=$GRAFANA_PASSWORD" src/dashboards.jsonnet >dist/dashboards.json
-jq .grafana[] dist/dashboards.json | kubectl apply -f -
+jsonnet -J vendor --ext-str "EXTERNAL_GRAFANA_PORT=$EXTERNAL_GRAFANA_PORT" --ext-str "GRAFANA_INFLUXDB_TOKEN=$GRAFANA_INFLUXDB_TOKEN" --ext-str "GRAFANA_USERNAME=$GRAFANA_USERNAME" --ext-str "GRAFANA_PASSWORD=$GRAFANA_PASSWORD" src/deployment.jsonnet >dist/deployment.json
+jq .grafana[] dist/deployment.json | kubectl apply -f -
