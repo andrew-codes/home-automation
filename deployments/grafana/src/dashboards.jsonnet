@@ -5,7 +5,7 @@ local row = grafonnet.row;
 local prometheus = grafonnet.prometheus;
 local template = grafonnet.template;
 local graphPanel = grafonnet.graphPanel;
-local test = import 'test.jsonnet';
+
 local proxmox = import 'proxmox.jsonnet';
 
 local grafana = import 'grafana/grafana.libsonnet';
@@ -60,8 +60,7 @@ local grafana = import 'grafana/grafana.libsonnet';
       client_secret: std.extVar('GRAFANA_GITHUB_CLIENT_SECRET'),
       scopes: 'user:email,read:org',
     },
-    dashboards+: test.grafanaDashboards +
-                 proxmox.grafanaDashboards,
+    dashboards+: proxmox.grafanaDashboards,
   },
   grafana: grafana($._config) + {
     service+: {
