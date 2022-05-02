@@ -4,8 +4,6 @@
   "version": "0.0.1",
   "scripts": {
     "deploy": "scripts/bin/deploy.sh",
-    "ingress/prod": "scripts/bin/ingress.sh ingress-prod.yml",
-    "ingress/stage": "scripts/bin/ingress.sh ingress-staging.yml",
     "postdeploy": "kubectl rollout restart deployment grafana",
     "postinstall": "jb install"
   },
