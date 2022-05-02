@@ -53,13 +53,6 @@ local grafana = import 'grafana/grafana.libsonnet';
         token: std.extVar('GRAFANA_INFLUXDB_TOKEN'),
       },
     }],
-    'auth.github': {
-      enabled: true,
-      allow_sign_up: false,
-      client_id: std.extVar('GRAFANA_GITHUB_CLIENT_ID'),
-      client_secret: std.extVar('GRAFANA_GITHUB_CLIENT_SECRET'),
-      scopes: 'user:email,read:org',
-    },
     dashboards+: proxmox.grafanaDashboards,
   },
   grafana: grafana($._config) + {
@@ -75,6 +68,12 @@ local grafana = import 'grafana/grafana.libsonnet';
           }
           for port in super.ports
         ],
+      },
+    },
+  } + {
+    config+: {
+      stringData: {
+        'grafana.ini': '[date_formats]\ndefault_timezone = UTC\n\n\n        [security]\n        admin_password = ' + std.extVar('GRAFANA_PASSWORD') + '\n \n        admin_user = ' + std.extVar('GRAFANA_USERNAME') + '\n\n        ',
       },
     },
   },
