@@ -642,11 +642,26 @@ metadata:
   labels:
     app.kubernetes.io/name: home-assistant
 spec:
+  type: NodePort
   ports:
     - name: api
       port: 8123
       protocol: TCP
       targetPort: api
+      nodePort: 30514
+  selector:
+    app.kubernetes.io/name: home-assistant
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: home-assistant
+  namespace: default
+  labels:
+    app.kubernetes.io/name: home-assistant
+spec:
+  ports:
     - name: appdaemon
       port: 5050
       protocol: TCP

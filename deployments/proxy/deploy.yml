@@ -1,0 +1,119 @@
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+  vars_files:
+    - .secrets/ansible-secrets.yml
+
+  tasks:
+    - name: Update apt
+      become_user: root
+      become_method: sudo
+      become: yes
+      shell: apt-get update --allow-releaseinfo-change
+
+    - name: Installing Prerequisites
+      apt:
+        name:
+          - ca-certificates
+          - net-tools
+          - gnupg
+          - curl
+        state: present
+
+    - name: Setup apt key
+      apt_key:
+        url: https://nginx.org/keys/nginx_signing.key
+        state: present
+
+    - name: Add repository
+      apt_repository:
+        repo: deb https://nginx.org/packages/mainline/ubuntu/ focal nginx
+        state: present
+        filename: nginx
+        mode: 0600
+
+    - name: Add repository
+      apt_repository:
+        repo: deb-src https://nginx.org/packages/mainline/ubuntu focal nginx
+        state: present
+        filename: nginx-src
+        mode: 0600
+
+    - name: Install
+      apt:
+        name:
+          - nginx
+          - python3-certbot-nginx
+          - python3-pip
+        state: present
+        update_cache: yes
+
+    - name: Remove existing cerbot packages
+      apt:
+        name:
+          - certbot*
+        state: absent
+        update_cache: yes
+
+    - name: Install certbot
+      shell: sudo -H pip3 install certbot
+
+    - name: DNS certbot plugin
+      shell: sudo -H pip3 install certbot-dns-google
+
+    - name: Secrets directory for certbot
+      become_user: root
+      become_method: sudo
+      become: yes
+      file:
+        path: ~/.secrets/certbot
+        state: directory
+
+    - name: Copy DNS service account creds
+      copy:
+        src: .secrets/google.json
+        dest: ~/.secrets/certbot/google.json
+        owner: root
+        group: root
+        mode: "0600"
+
+    - name: Copy nginx domain configuration
+      copy:
+        src: src/nginx/
+        dest: /etc/nginx/
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Certs
+      shell: 'certbot certonly --non-interactive --agree-tos -d *.smith-simms.family --server https://acme-staging-v02.api.letsencrypt.org/directory --email "{{ cert_email }}" --preferred-challenges=dns --dns-google --dns-google-credentials ~/.secrets/certbot/google.json'
+      become_user: root
+      become_method: sudo
+      become: yes
+
+    - name: Certs
+      shell: 'certbot certonly --non-interactive --agree-tos -d grafana.smith-simms.family --server https://acme-staging-v02.api.letsencrypt.org/directory --email "{{ cert_email }}" --preferred-challenges=dns --dns-google --dns-google-credentials ~/.secrets/certbot/google.json'
+      become_user: root
+      become_method: sudo
+      become: yes
+
+    - name: Renew certs
+      become_user: root
+      become_method: sudo
+      become: yes
+      ansible.builtin.cron:
+        name: renew certs
+        minute: "0"
+        hour: "12"
+        job: 'certbot renew --quiet --pre-hook "service nginx stop" --post-hook "service nginx start"'
+
+    - name: Start(ed) on boot
+      ansible.builtin.systemd:
+        name: nginx
+        daemon_reload: true
+        enabled: yes
+        state: started
