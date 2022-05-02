@@ -637,7 +637,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: home-assistant
+  name: home-assistant-api
   namespace: default
   labels:
     app.kubernetes.io/name: home-assistant
@@ -656,7 +656,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: home-assistant
+  name: home-assistant-app-dameon
   namespace: default
   labels:
     app.kubernetes.io/name: home-assistant

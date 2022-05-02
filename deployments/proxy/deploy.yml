@@ -90,13 +90,7 @@
         mode: "0644"
 
     - name: Certs
-      shell: 'certbot certonly --non-interactive --agree-tos -d *.smith-simms.family --server https://acme-staging-v02.api.letsencrypt.org/directory --email "{{ cert_email }}" --preferred-challenges=dns --dns-google --dns-google-credentials ~/.secrets/certbot/google.json'
-      become_user: root
-      become_method: sudo
-      become: yes
-
-    - name: Certs
-      shell: 'certbot certonly --non-interactive --agree-tos -d grafana.smith-simms.family --server https://acme-staging-v02.api.letsencrypt.org/directory --email "{{ cert_email }}" --preferred-challenges=dns --dns-google --dns-google-credentials ~/.secrets/certbot/google.json'
+      shell: 'certbot certonly --non-interactive --agree-tos -d *.smith-simms.family --server https://acme-v02.api.letsencrypt.org/directory --email "{{ cert_email }}" --preferred-challenges=dns --dns-google --dns-google-credentials ~/.secrets/certbot/google.json'
       become_user: root
       become_method: sudo
       become: yes
