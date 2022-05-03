@@ -56,5 +56,3 @@ RUN go install github.com/google/go-jsonnet/cmd/jsonnet@latest
 RUN go install -a github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
 RUN sudo ln -s $(go env GOPATH)/bin/jsonnet /usr/local/bin
 RUN sudo ln -s  $(go env GOPATH)/bin/jb /usr/local/bin
-ENTRYPOINT [ "/entrypoint.sh" ]
-# ENTRYPOINT [ "/usr/local/bin/wrapdocker.sh" ]
