@@ -2,37 +2,13 @@ sensor:
   - platform: template
     sensors:
       internet_usage_in:
-        value_template: "{{ ((state_attr('sensor.unifi_gateway_www', 'rx_bytes-r') | default(0) | float ) / 1000000000 ) | round(3) }}"
+        value_template: "{{ ((state_attr('sensor.unifi_gateway_www', 'rx_bytes-r') | default(0) | float ) ) }}"
         unit_of_measurement: "GB"
 
       internet_usage_out:
-        value_template: "{{ ((state_attr('sensor.unifi_gateway_www', 'tx_bytes-r') | default(0) | float ) / 1000000000 ) | round(3) }}"
+        value_template: "{{ ((state_attr('sensor.unifi_gateway_www', 'tx_bytes-r') | default(0) | float ) ) }}"
         unit_of_measurement: "GB"
 
       internet_usage:
-        value_template: "{{ (states('sensor.internet_usage_in') | float) + (states('sensor.internet_usage_out') | float) | round(3) }}"
+        value_template: "{{ (states('sensor.internet_usage_in') | float) + (states('sensor.internet_usage_out') | float) }}"
         unit_of_measurement: "GB"
-
-  - platform: influxdb
-    scan_interval: 60
-    api_version: 2
-    host: 192.168.1.18
-    port: 30520
-    ssl: false
-    token: !secret INFLUXDB_TOKEN
-    organization: smith-simms
-    bucket: home-automation
-    queries_flux:
-      - range_start: "-1m"
-        name: "Minute Bandwidth"
-        query: >
-          |> filter(fn: (r) => r["entity_id"] == "unifi_gateway_www")
-          |> filter(fn: (r) => r["_field"] == "rx_bytes-r" or r["_field"] == "tx_bytes-r") 
-          |> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")
-          |> map(fn: (r) => ({_value : (float(v: r["rx_bytes-r"]) + float(v: r["tx_bytes-r"])) / float(v: 1000000), _start: r["_start"], _stop: r["_stop"], _time: r["_time"]}))
-          |> integral(
-              unit: 10s,
-              column: "_value",
-              timeColumn: "_time",
-              interpolate: "",
-          )
