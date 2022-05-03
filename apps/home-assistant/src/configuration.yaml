@@ -24,8 +24,8 @@ recorder:
 sensor:
   - platform: unifigateway
     host: unifi
-    username: !secret unifi_username
-    password: !secret unifi_password
+    password: !secret UNIFI_PASSWORD
+    username: !secret UNIFI_USERNAME
     monitored_conditions:
       - www
       - wlan
