@@ -67,6 +67,9 @@ spec:
             - name: http
               containerPort: 3001
               protocol: TCP
+          env:
+            - name: UPTIME_KUMA_DISABLE_FRAME_SAMEORIGIN
+              value: "1"
       volumes:
         - name: uptime-kuma-config
           persistentVolumeClaim:
