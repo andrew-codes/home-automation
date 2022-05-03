@@ -81,6 +81,16 @@
         group: root
         mode: "0600"
 
+    - name: Remove old configuration
+      file:
+        path: /etc/nginx/sites-enabled
+        state: absent
+
+    - name: Remove old configuration
+      file:
+        path: /etc/nginx/stream/enabled
+        state: absent
+
     - name: Copy nginx domain configuration
       copy:
         src: src/nginx/
