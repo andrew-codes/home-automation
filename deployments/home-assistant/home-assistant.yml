@@ -119,6 +119,8 @@ data:
     SPOTIFY_CLIENT_ID: '${SPOTIFY_CLIENT_ID}'
     SPOTIFY_CLIENT_SECRET: '${SPOTIFY_CLIENT_SECRET}'
     TIME_ZONE: '${TIME_ZONE}'
+    UNIFI_PASSWORD: '${UNIFI_PASSWORD}'
+    UNIFI_USERNAME: '${UNIFI_USERNAME}'
     UNIT_SYSTEM: '${UNIT_SYSTEM}'
     VALHEIM_DOMAIN: '${VALHEIM_DOMAIN}'
     VALHEIM_GOOGLE_DOMAIN_PASSWORD: '${VALHEIM_GOOGLE_DOMAIN_PASSWORD}'
@@ -541,6 +543,16 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: home-assistant-ha-token
+                  key: secret-value
+            - name: UNIFI_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: unifi-password
+                  key: secret-value
+            - name: UNIFI_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: unifi-username
                   key: secret-value
           ports:
             - name: api

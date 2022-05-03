@@ -21,6 +21,16 @@ recorder:
   db_url: !secret DB_URL
   purge_keep_days: 14
 
+sensor:
+  - platform: unifigateway
+    host: unifi
+    username: !secret unifi_username
+    password: !secret unifi_password
+    monitored_conditions:
+      - www
+      - wlan
+      - alerts
+      - firmware
 influxdb:
   api_version: 2
   ssl: false
