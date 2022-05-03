@@ -18,6 +18,7 @@ sensor:
     api_version: 2
     host: 192.168.1.18
     port: 30520
+    ssl: false
     token: !secret INFLUXDB_TOKEN
     organization: smith-simms
     bucket: home-automation
