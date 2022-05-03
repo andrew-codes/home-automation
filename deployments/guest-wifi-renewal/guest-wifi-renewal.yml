@@ -38,7 +38,7 @@ spec:
             - "sh"
           args:
             - "-c"
-            - "timeout 10 curl --fail --insecure --silent --output /dev/null --write-out 'HTTP Code %{http_code}' 'http://home-assistant:8123' || exit 1"
+            - "timeout 10 curl --fail --insecure --silent --output /dev/null --write-out 'HTTP Code %{http_code}' 'https://ha.smith-simms.family' || exit 1"
       containers:
         - name: guest-wifi-renewal
           image: docker-registry:5000/guest-wifi-renewal:latest
