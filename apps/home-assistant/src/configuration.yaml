@@ -66,6 +66,7 @@ http:
   use_x_forwarded_for: true
   trusted_proxies:
     - 192.168.1.20
+    - 192.168.1.0
 
 spotify:
   client_id: !secret SPOTIFY_CLIENT_ID
