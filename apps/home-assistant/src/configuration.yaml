@@ -23,7 +23,7 @@ recorder:
 
 sensor:
   - platform: unifigateway
-    host: unifi
+    host: !secret ROUTER_IP
     password: !secret UNIFI_PASSWORD
     username: !secret UNIFI_USERNAME
     monitored_conditions:
