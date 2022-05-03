@@ -61,7 +61,8 @@ spec:
             - "timeout 10 sub -h mqtt -t '$SYS/#' -C 1 | grep -v Error || exit 1"
       containers:
         - name: zigbee2mqtt
-          image: koenkk/zigbee2mqtt:1.25.0
+          image: koenkk/zigbee2mqtt:latest
+          imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 12
             httpGet:
