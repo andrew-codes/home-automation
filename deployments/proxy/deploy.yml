@@ -103,7 +103,7 @@
         name: renew certs
         minute: "0"
         hour: "12"
-        job: 'certbot renew --quiet --pre-hook "service nginx stop" --post-hook "service nginx start"'
+        job: 'certbot renew --quiet --pre-hook "systemctl stop nginx" --post-hook "systemctl start nginx"'
 
     - name: Start(ed) on boot
       ansible.builtin.systemd:
