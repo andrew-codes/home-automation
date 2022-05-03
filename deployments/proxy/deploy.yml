@@ -120,4 +120,4 @@
         name: nginx
         daemon_reload: true
         enabled: yes
-        state: started
+        state: restarted
