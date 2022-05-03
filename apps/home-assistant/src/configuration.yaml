@@ -25,6 +25,7 @@ sensor:
   - platform: unifigateway
     host: !secret ROUTER_IP
     port: 443
+    version: UDMP-unifiOS
     password: !secret UNIFI_PASSWORD
     username: !secret UNIFI_USERNAME
     verify_ssl: false
