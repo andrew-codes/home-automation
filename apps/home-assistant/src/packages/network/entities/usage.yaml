@@ -15,5 +15,5 @@ template:
       - name: Total Bandwidth Usage
         unique_id: total_bandwidth_usage
         state: >
-          {{ (states('sensor.bandwidth_usage_rx') | float) + (states('sensor.bandwidth_usage_tx') | float) | float }}
+          {{ (states('sensor.bandwidth_usage_rx') | float) + (states('sensor.bandwidth_usage_tx') | float) | float | round(3) }}
         unit_of_measurement: "GB"
