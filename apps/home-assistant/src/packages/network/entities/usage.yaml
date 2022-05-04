@@ -3,17 +3,23 @@ template:
       - name: Bandwidth Usage Rx
         unique_id: bandwidth_usage_rx
         state: >
-          {{ (state_attr('sensor.unifi_gateway_www', 'rx_bytes-r') | default(0) | float ) / 1000000000 }}
-        unit_of_measurement: "GB"
+          {{ (state_attr('sensor.unifi_gateway_www', 'rx_bytes-r') | default(0) | float ) }}
+        unit_of_measurement: "B"
 
       - name: Bandwidth Usage Tx
         unique_id: bandwidth_usage_tx
         state: >
-          {{ (state_attr('sensor.unifi_gateway_www', 'tx_bytes-r') | default(0) | float ) / 1000000000 }}
-        unit_of_measurement: "GB"
+          {{ (state_attr('sensor.unifi_gateway_www', 'tx_bytes-r') | default(0) | float ) }}
+        unit_of_measurement: "B"
 
       - name: Total Bandwidth Usage
         unique_id: total_bandwidth_usage
         state: >
-          {{ (states('sensor.bandwidth_usage_rx') | float) + (states('sensor.bandwidth_usage_tx') | float) | float | round(3) }}
+          {{ (states('sensor.bandwidth_usage_rx') | float) + (states('sensor.bandwidth_usage_tx') | float) | float  }}
+        unit_of_measurement: "B"
+
+      - name: Total Bandwidth Usage GB
+        unique_id: total_bandwidth_usage_gb
+        state: >
+          {{ ((states('sensor.bandwidth_usage_rx') | float) + (states('sensor.bandwidth_usage_tx') | float) | float)  / 1000000000 | round(3)  }}
         unit_of_measurement: "GB"
