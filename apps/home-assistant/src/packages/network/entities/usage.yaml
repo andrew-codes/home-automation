@@ -2,15 +2,18 @@ template:
   - sensor:
       - name: Bandwidth Usage Rx
         unique_id: network_bandwidth_usage_in
-        state: "{{ ((state_attr('sensor.unifi_gateway_www', 'rx_bytes-r') | default(0) | float )  / 1000000000 )) }}"
+        state: >
+          {{ ((state_attr('sensor.unifi_gateway_www', 'rx_bytes-r') | default(0) | float )  / 1000000000 )) }}
         unit_of_measurement: "GB"
 
       - name: Bandwidth Usage Tx
         unique_id: network_bandwidth_usage_out
-        state: "{{ ((state_attr('sensor.unifi_gateway_www', 'tx_bytes-r') | default(0) | float )  / 1000000000 )) }}"
+        state: >
+          {{ ((state_attr('sensor.unifi_gateway_www', 'tx_bytes-r') | default(0) | float )  / 1000000000 )) }}
         unit_of_measurement: "GB"
 
       - name: Total Bandwidth Usage
         unique_id: network_bandwidth_usage
-        state: "{{ (states('sensor.internet_usage_in') | float) + (states('sensor.internet_usage_out') | float) }}"
+        state: >
+          {{ (states('sensor.internet_usage_in') | float) + (states('sensor.internet_usage_out') | float) }}
         unit_of_measurement: "GB"

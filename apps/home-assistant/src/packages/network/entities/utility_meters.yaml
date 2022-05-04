@@ -1,10 +1,10 @@
 utility_meter:
   network_daily_bandwidth_usage:
     name: Daily Bandwidth Usage
-    source: sensor.bandwidth_usage
+    source: sensor.network_bandwidth_usage
     cycle: daily
 
   network_monthly_bapndwidth_usage:
     name: Monthly Bandwidth Usage
-    source: sensor.internet_usage
+    source: sensor.network_bandwidth_usage
     cycle: monthly
