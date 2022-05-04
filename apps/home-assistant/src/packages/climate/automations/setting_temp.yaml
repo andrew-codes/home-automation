@@ -18,8 +18,8 @@ automation:
       - service: climate.set_temperature
         data:
           target_temp_low: >
-            {{ states('sensor.target_low_temp') }}
+            {{ states('sensor.target_low_temp') | float }}
           target_temp_high: >
-            {{ states('sensor.target_high_temp') }}
+            {{ states('sensor.target_high_temp') | float }}
         target:
           entity_id: climate.main_floor
