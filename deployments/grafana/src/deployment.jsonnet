@@ -6,9 +6,10 @@ local prometheus = grafonnet.prometheus;
 local template = grafonnet.template;
 local graphPanel = grafonnet.graphPanel;
 
-local proxmox = import 'proxmox.jsonnet';
-
 local grafana = import 'grafana/grafana.libsonnet';
+
+local network = import 'network.jsonnet';
+local proxmox = import 'proxmox.jsonnet';
 
 {
   _config:: {
@@ -53,7 +54,7 @@ local grafana = import 'grafana/grafana.libsonnet';
         token: std.extVar('GRAFANA_INFLUXDB_TOKEN'),
       },
     }],
-    dashboards+: proxmox.grafanaDashboards,
+    dashboards+: proxmox.grafanaDashboards + network.grafanaDashboards,
   },
   grafana: grafana($._config) + {
     service+: {
