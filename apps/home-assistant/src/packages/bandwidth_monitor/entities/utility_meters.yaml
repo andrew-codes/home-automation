@@ -1,8 +1,0 @@
-utility_meter:
-  daily_internet_usage:
-    source: sensor.internet_usage
-    cycle: daily
-
-  monthly_internet_usage:
-    source: sensor.internet_usage
-    cycle: monthly

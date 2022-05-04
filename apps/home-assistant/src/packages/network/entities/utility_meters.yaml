@@ -1,0 +1,10 @@
+utility_meter:
+  network_daily_bandwidth_usage:
+    name: Daily Bandwidth Usage
+    source: sensor.bandwidth_usage
+    cycle: daily
+
+  monetwork_nthly_internet_usage:
+    name: Monthly Bandwidth Usage
+    source: sensor.internet_usage
+    cycle: monthly
