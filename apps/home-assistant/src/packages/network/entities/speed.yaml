@@ -2,10 +2,10 @@ template:
   - sensor:
       - name: Download Speed
         unique_id: network_download_speed
-        value_template: "{{ ((state_attr('sensor.unifi_gateway_www', 'xput-down') | default(0) | float ) ) | round(1) ) }}"
+        state: "{{ ((state_attr('sensor.unifi_gateway_www', 'xput-down') | default(0) | float ) ) | round(1) ) }}"
         unit_of_measurement: "Mbps"
 
       - name: Upload Speed
         unique_id: network_upload_speed
-        value_template: "{{ ((state_attr('sensor.unifi_gateway_www', 'xput-up') | default(0) | float ) ) | round(1) ) }}"
+        state: "{{ ((state_attr('sensor.unifi_gateway_www', 'xput-up') | default(0) | float ) ) | round(1) ) }}"
         unit_of_measurement: "Mbps"
