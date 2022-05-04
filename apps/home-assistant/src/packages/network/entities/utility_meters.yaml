@@ -4,7 +4,7 @@ utility_meter:
     source: sensor.bandwidth_usage
     cycle: daily
 
-  monetwork_nthly_internet_usage:
+  network_monthly_bapndwidth_usage:
     name: Monthly Bandwidth Usage
     source: sensor.internet_usage
     cycle: monthly
