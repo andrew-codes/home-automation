@@ -92,6 +92,6 @@ resource "proxmox_lxc" "vpn" {
     gw     = var.gateway
   }
 
-  cores  = 2
+  cores  = 4
   memory = 2048
 }
