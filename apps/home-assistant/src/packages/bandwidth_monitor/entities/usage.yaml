@@ -3,12 +3,12 @@ sensor:
     sensors:
       internet_usage_in:
         value_template: "{{ ((state_attr('sensor.unifi_gateway_www', 'rx_bytes-r') | default(0) | float ) ) }}"
-        unit_of_measurement: "GB"
+        unit_of_measurement: "B"
 
       internet_usage_out:
         value_template: "{{ ((state_attr('sensor.unifi_gateway_www', 'tx_bytes-r') | default(0) | float ) ) }}"
-        unit_of_measurement: "GB"
+        unit_of_measurement: "B"
 
       internet_usage:
         value_template: "{{ (states('sensor.internet_usage_in') | float) + (states('sensor.internet_usage_out') | float) }}"
-        unit_of_measurement: "GB"
+        unit_of_measurement: "B"
