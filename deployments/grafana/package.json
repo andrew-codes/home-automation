@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "deploy": "scripts/bin/deploy.sh",
-    "postdeploy": "kubectl rollout restart deployment grafana",
+    "postdeploy": "kubectl -n monitoring rollout restart deployment grafana",
     "postinstall": "jb install"
   },
   "dependencies": {
