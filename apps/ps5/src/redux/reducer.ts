@@ -26,6 +26,21 @@ const reducer = (state = defaultState, action: AnyAction) => {
           devices: {
             [action.payload.device.id]: {
               status: action.payload.device.status,
+              homeAssistantState:
+                state.device.stateMapping[action.payload.device.status] ??
+                "NONE",
+            },
+          },
+        },
+      })
+    }
+
+    case "TRANSITIONING": {
+      return merge({}, state, {
+        device: {
+          devices: {
+            [action.payload.id]: {
+              transitioning: action.payload.transitioning,
             },
           },
         },

@@ -7,6 +7,7 @@ import { updateHomeAssistant } from "./sagas/updateHomeAssistant"
 import { pollDevices } from "./sagas/pollDevices"
 import { checkDevicesState } from "./sagas/checkDevicesState"
 import { pollDisovery } from "./sagas/pollDiscovery"
+import { delayForTransition } from "./sagas/delayForTransition"
 
 function* discoverDevicesSaga() {
   yield takeLatest("DISCOVER_DEVICES", discoverDevices)
@@ -45,9 +46,14 @@ function* pollPs5StatesSaga() {
   })
 }
 
+function* delayForTransitionSaga() {
+  yield takeLatest("TRANSITIONING", delayForTransition)
+}
+
 function* saga() {
   yield all(
     [
+      delayForTransitionSaga,
       discoverDevicesSaga,
       addDevicesSaga,
       turnOnSaga,
