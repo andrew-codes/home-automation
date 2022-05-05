@@ -2,20 +2,20 @@
   "exclude": ["node_modules", "**/__tests__"],
   "include": ["src/**/*.ts", "../../../packages/*/src/**/*.ts"],
   "compilerOptions": {
-    "incremental": false,
-    "target": "es2019",
-    "module": "commonjs",
     "allowJs": true,
     "checkJs": true,
-    "sourceMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": false,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
     "outDir": "./dist",
     "removeComments": true,
-    "strict": true,
-    "noImplicitAny": false,
-    "moduleResolution": "node",
     "resolveJsonModule": true,
-    "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2019"
   }
 }

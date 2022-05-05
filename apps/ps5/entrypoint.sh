@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-node dist/index.js
+ts-node src/index.ts

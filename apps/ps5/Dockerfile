@@ -7,5 +7,6 @@ RUN apk add \
     git
 WORKDIR /
 COPY . .
+RUN yarn install
 RUN mkdir -p ~/.config/playactor
 ENTRYPOINT ["/entrypoint.sh"]
