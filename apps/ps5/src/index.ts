@@ -43,8 +43,8 @@ async function run() {
     }
   })
 
-  store.dispatch(pollDiscovery())
   store.dispatch(pollDevices())
+  store.dispatch(pollDiscovery())
 }
 
 if (require.main === module) {

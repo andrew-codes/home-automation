@@ -21,19 +21,9 @@ const reducer = (state = defaultState, action: AnyAction) => {
     }
 
     case "UPDATE_HOME_ASSISTANT": {
-      const statusEntries = Object.entries(state.device.stateMapping).find(
-        ([key, value]) => value === action.payload.on
-      )
-      if (!statusEntries) {
-        return state
-      }
       return merge({}, state, {
         device: {
-          devices: {
-            [action.payload.device.id]: {
-              status: statusEntries[0],
-            },
-          },
+          devices: { [action.payload.device.id]: action.payload.device },
         },
       })
     }

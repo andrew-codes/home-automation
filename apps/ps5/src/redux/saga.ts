@@ -1,4 +1,4 @@
-import { all, fork, takeLatest } from "redux-saga/effects"
+import { all, call, fork, race, take, takeLatest } from "redux-saga/effects"
 import { discoverDevices } from "./sagas/discoverDevices"
 import { addDeviceToHomeAssistant } from "./sagas/addDeviceToHomeAssistant"
 import { turnOnDevice } from "./sagas/turnOnDevice"
@@ -37,7 +37,12 @@ function* checkDevicesStateSaga() {
 }
 
 function* pollPs5StatesSaga() {
-  yield takeLatest("POLL_DEVICES", pollDevices)
+  yield takeLatest("POLL_DEVICES", function* pollingRace() {
+    yield race({
+      task: call(pollDevices),
+      cancel: take("APPLY_TO_DEVICE"),
+    })
+  })
 }
 
 function* saga() {

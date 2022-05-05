@@ -51,6 +51,11 @@ spec:
               value: "192.168.1.18"
             - name: MQTT_PORT
               value: "30519"
+            - name: PS5_NAMES
+              valueFrom:
+                secretKeyRef:
+                  name: ps5-names
+                  key: secret-value
             - name: MQTT_USERNAME
               valueFrom:
                 secretKeyRef:
