@@ -7,6 +7,6 @@ RUN apk add \
     git
 WORKDIR /
 COPY . .
-RUN yarn install
+RUN yarn add tsconfig-paths
 RUN mkdir -p ~/.config/playactor
 ENTRYPOINT ["/entrypoint.sh"]

@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-ts-node src/index.ts
+node -r tsconfig-paths/register dist/apps/ps5/src/index.js
