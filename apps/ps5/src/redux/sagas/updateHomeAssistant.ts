@@ -14,7 +14,10 @@ function* updateHomeAssistant(action: UpdateHomeAssistantAction) {
   )
   debug(devices, action.payload.device.id)
   debug("Old device", oldDeviceState)
-  if (oldDeviceState?.status === action.payload.device.status) {
+  if (
+    !oldDeviceState ||
+    oldDeviceState?.status === action.payload.device.status
+  ) {
     debug("No updates")
 
     return
