@@ -13,13 +13,7 @@ function* checkDevicesState() {
     const shellOutput = sh.exec(`playactor check --host-name ${device.name}`)
     try {
       const updatedDevice = JSON.parse(shellOutput.stdout)
-      if (updatedDevice.status === device.status) {
-        continue
-      }
-      const stateMappings = yield select(getStateMappings)
-      yield put(
-        updateHomeAssistant(device, stateMappings[updatedDevice.status])
-      )
+      yield put(updateHomeAssistant(updatedDevice))
     } catch (e) {
       debug(e)
     }

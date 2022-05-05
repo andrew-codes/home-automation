@@ -8,7 +8,7 @@ import { call, put, select } from "redux-saga/effects"
 import { createMqtt } from "@ha/mqtt-client"
 import type { AddDeviceAction } from "../types"
 import { updateHomeAssistant } from "../actionCreators"
-import { getStateMappings } from "../selectors"
+import { getDevices, getStateMappings } from "../selectors"
 
 const debug = createDebugger("@ha/ps5-app/addDevice")
 
@@ -26,15 +26,18 @@ function* addDeviceToHomeAssistant(action: AddDeviceAction) {
     })
   )
 
-  const stateMappings = yield select(getStateMappings)
-  yield put(
-    updateHomeAssistant(action.payload, stateMappings[action.payload.status])
-  )
+  yield put(updateHomeAssistant(action.payload))
 
-  yield call<(topic: string) => Promise<ISubscriptionGrant[]>>(
-    mqtt.subscribe.bind(mqtt),
-    `homeassistant/switch/${action.payload.homeAssistantId}/set`
-  )
+  const devices = yield select(getDevices)
+  if (!!devices[action.payload.id]) {
+    return
+  }
+
+  if (action.payload.id)
+    yield call<(topic: string) => Promise<ISubscriptionGrant[]>>(
+      mqtt.subscribe.bind(mqtt),
+      `homeassistant/switch/${action.payload.homeAssistantId}/set`
+    )
 }
 
 export { addDeviceToHomeAssistant }

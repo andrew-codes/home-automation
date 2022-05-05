@@ -40,12 +40,9 @@ const pollDiscovery = (): PollDiscoveryAction => ({
   type: "POLL_DISCOVERY",
 })
 
-const updateHomeAssistant = (
-  device: Device,
-  on: SwitchStatus
-): UpdateHomeAssistantAction => ({
+const updateHomeAssistant = (device: Device): UpdateHomeAssistantAction => ({
   type: "UPDATE_HOME_ASSISTANT",
-  payload: { device, on },
+  payload: { device },
 })
 
 export {

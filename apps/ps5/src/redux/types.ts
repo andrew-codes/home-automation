@@ -26,7 +26,6 @@ type UpdateHomeAssistantAction = {
   type: "UPDATE_HOME_ASSISTANT"
   payload: {
     device: Device
-    on: SwitchStatus
   }
 }
 
