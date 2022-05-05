@@ -71,4 +71,6 @@ spec:
           secret:
             secretName: ps5-credentials
             defaultMode: 0777
-            path: credentials.json
+            items:
+              - key: secret-value
+                path: credentials.json
