@@ -4,4 +4,3 @@ src
 .DS_Store
 nodemon.json
 jest.config
-tsconfig.json
