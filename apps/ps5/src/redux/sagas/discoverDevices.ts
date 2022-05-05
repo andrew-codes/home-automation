@@ -34,11 +34,7 @@ function* discoverDevices(action: DiscoverDevicesAction) {
     )
   )
   for (const device of devices) {
-    yield put(
-      addDevice(
-        merge({}, device, { homeassistantId: device.id.replace(/-/g, "_") })
-      )
-    )
+    yield put(addDevice(merge({}, device, { homeAssistantId: device.name })))
   }
 }
 
