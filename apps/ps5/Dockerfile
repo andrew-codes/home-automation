@@ -10,7 +10,7 @@ RUN apk add \
 WORKDIR /
 COPY . .
 COPY package.json package.json.temp
-RUN jq 'del(.dependencies."@ha/mqtt-client")' package.json.temp | jq 'del(.devDependencies."@ha/ts-config")' > package.json
+RUN jq '.dependencies |= with_entries( select( .key | startswith("@ha/") | not)) | .devDependencies|=with_entries( select( .key | startswith("@ha/") |not ))' package.json.temp > package.json
 RUN yarn install --production
 RUN mkdir -p ~/.config/playactor
 ENTRYPOINT ["/entrypoint.sh"]
