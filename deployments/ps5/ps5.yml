@@ -65,7 +65,7 @@ spec:
               value: debug
           volumeMounts:
             - name: ps5-credentials
-              mountPath: ~/.config/playactor/credentials.json
+              mountPath: /root/.config/playactor/credentials.json
       volumes:
         - name: ps5-credentials
           secret:
