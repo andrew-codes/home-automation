@@ -13,7 +13,9 @@ function* turnOffDevice(action: ApplyToDeviceAction) {
     return
   }
 
-  debug(sh.exec(`playactor standby --host-name ${action.payload.device.name}`))
+  debug(
+    sh.exec(`playactor standby --ip ${action.payload.device.address.address}`)
+  )
 
   yield put(updateHomeAssistant(action.payload.device, action.payload.on))
 }

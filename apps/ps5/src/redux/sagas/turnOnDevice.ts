@@ -13,7 +13,7 @@ function* turnOnDevice(action: ApplyToDeviceAction) {
     return
   }
 
-  debug(sh.exec(`playactor wake --host-name ${action.payload.device.name}`))
+  debug(sh.exec(`playactor wake --ip ${action.payload.device.address.address}`))
 
   yield put(updateHomeAssistant(action.payload.device, action.payload.on))
 }

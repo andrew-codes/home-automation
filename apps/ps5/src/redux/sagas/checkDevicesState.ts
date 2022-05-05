@@ -12,7 +12,7 @@ function* checkDevicesState() {
   for (const device of devices) {
     const shellOutput = sh.exec(`playactor check --host-name ${device.name}`)
     try {
-      const updatedDevice = JSON.parse(shellOutput)
+      const updatedDevice = JSON.parse(shellOutput.stdout)
       if (updatedDevice.status === device.status) {
         continue
       }
