@@ -5,4 +5,3 @@ src
 nodemon.json
 jest.config
 tsconfig.json
-package.json
