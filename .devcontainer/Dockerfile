@@ -5,12 +5,11 @@ USER root
 RUN apt update -y
 RUN apt-get install -y \
     curl \
+    gpg \
     wget \
     software-properties-common
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
-RUN curl -s https://packagecloud.io/install/repositories/datawireio/telepresence/script.deb.sh | bash
 RUN echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
@@ -49,7 +48,9 @@ RUN apt-get install -y  \
     unzip \
     xsel \
     yarn 
-RUN apt install -y --no-install-recommends telepresence
+
+RUN sudo curl -fL https://app.getambassador.io/download/tel2/linux/amd64/latest/telepresence -o /usr/local/bin/telepresence
+RUN sudo chmod a+x /usr/local/bin/telepresence
 
 RUN pip3 install "pywinrm>=0.3.0"
 RUN export KUBECONFIG=/home/root/.kube/config

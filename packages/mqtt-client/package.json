@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "name": "@ha/mqtt-client",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "dependencies": {
+    "async-mqtt": "^2.6.1"
+  }
+}

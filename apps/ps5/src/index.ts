@@ -1,85 +1,53 @@
 import createDebugger from "debug"
-import sh from "shelljs"
-import { connectAsync } from "async-mqtt"
-import { isEmpty } from "lodash"
+import createSagaMiddleware from "redux-saga"
+import { createStore, applyMiddleware } from "redux"
+import reducer, {
+  applyToDevice,
+  discoverDevices,
+  getDevices,
+  pollDevices,
+  saga,
+} from "./redux"
+import { createMqtt } from "@ha/mqtt-client"
+import { SwitchStatus } from "./redux/types"
 
-const debug = createDebugger("@ha/ps5-app/index")
-
-const { MQTT_HOST, MQTT_PASSWORD, MQTT_PORT, MQTT_USERNAME, PS5_NAMES } =
-  process.env
+const debug = createDebugger("@ha/ps5-app")
+const debugState = createDebugger("@ha/ps5-app/state")
 
 async function run() {
-  debug("Starting application")
-  const mqtt = await connectAsync(`tcp://${MQTT_HOST}`, {
-    password: MQTT_PASSWORD,
-    port: parseInt(MQTT_PORT || "1883", 10),
-    username: MQTT_USERNAME,
+  debug("Started")
+
+  const sagaMiddleware = createSagaMiddleware()
+  const store = createStore(reducer, applyMiddleware(sagaMiddleware))
+  store.subscribe(() => {
+    debugState(store.getState().toString())
   })
-  const checkState = createCheckState(mqtt)
+  sagaMiddleware.run(saga)
+  const mqtt = await createMqtt()
 
-  const ps5Names = (PS5_NAMES || "").split(",")
-  if (isEmpty(ps5Names)) {
-    debug("No PS Names provided.")
-  }
-
-  await Promise.all(
-    ps5Names.map(async (name) => {
-      await mqtt.publish(
-        `homeassistant/switch/${name}/config`,
-        JSON.stringify({
-          name: "gaming_room_ps5",
-          command_topic: `homeassistant/switch/${name}/set`,
-          state_topic: `homeassistant/switch/${name}/state`,
-        })
-      )
-
-      await mqtt.subscribe(`homeassistant/switch/${name}/set`)
-      await mqtt.subscribe(`homeassistant/switch/${name}/state`)
-    })
-  )
-
-  const extractName = new RegExp(
-    "^homeassistant/switch/([a-zA-Z0-9_-]+)/([a-z]+){1}"
-  )
-
-  mqtt.on("message", async (topic, message) => {
-    try {
-      debug("topic", topic)
-      const messagePayload = message.toString()
-      const [_, entityName, command] = extractName.exec(topic) ?? []
-      const ps5Name = entityName.replace("_", "-")
-      debug(topic, ps5Name, entityName, command, messagePayload)
-
-      if (command === "set") {
-        if (messagePayload === "ON") {
-          debug(sh.exec(`playactor wake --host-name ${ps5Name}`))
-          checkState(ps5Name, entityName)
-        } else if (messagePayload === "OFF") {
-          debug(sh.exec(`playactor standby --host-name ${ps5Name}`))
-          checkState(ps5Name, entityName)
-        }
+  const topicRegEx = /^homeassistant\/switch\/(.*)\/set$/
+  mqtt.on("message", (topic, payload) => {
+    if (topicRegEx.test(topic)) {
+      const matches = topicRegEx.exec(topic)
+      if (!matches) {
         return
       }
-
-      if (command === "state" && isEmpty(messagePayload)) {
-        debug("Request for state")
-        checkState(ps5Name, entityName)
-      }
-    } catch (e) {
-      debug(e)
+      const homeAssistantId = matches[1]
+      const devices = getDevices(store.getState())
+      const device = devices.find(
+        (device) => device.homeAssistantId === homeAssistantId
+      )
+      const data = payload.toString()
+      store.dispatch(applyToDevice(device, data as SwitchStatus))
     }
   })
+
+  store.dispatch(discoverDevices())
+  store.dispatch(pollDevices())
 }
 
-run()
-
-function createCheckState(mqtt) {
-  return async (ps5Name, entityName) => {
-    const checkOutput = sh.exec(`playactor check --host-name ${ps5Name}`)
-    debug(checkOutput)
-    const status = (JSON.parse(checkOutput).status as string).toLowerCase()
-    const state =
-      status === "awake" ? "ON" : status === "standby" ? "OFF" : "OFF"
-    await mqtt.publish(`homeassistant/switch/${entityName}/state`, state)
-  }
+if (require.main === module) {
+  run()
 }
+
+export default run

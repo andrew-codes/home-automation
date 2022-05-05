@@ -7,6 +7,5 @@ RUN apk add \
     git
 WORKDIR /
 COPY . .
-RUN yarn global add playactor@0.4.0
 RUN mkdir -p ~/.config/playactor
-ENTRYPOINT ["/start.sh"]
+ENTRYPOINT ["/entrypoint.sh"]

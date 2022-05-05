@@ -19,6 +19,7 @@
     "patch": "patch-package",
     "postintall": "yarn patch",
     "provision": "./scripts/bin/provision.sh",
+    "prestart": "telepresence connect",
     "start": "lerna run start --stream",
     "start/dev": "lerna run start/dev --stream",
     "start/cleanup": "kubectl get pods -A -l telepresence -o json | jq -r '.items[] |select((.metadata.creationTimestamp | now - fromdateiso8601) > 86400) | @sh \"kubectl delete --grace-period=1 -n \\(.metadata.namespace) pod/\\(.metadata.name)\"' | xargs",
