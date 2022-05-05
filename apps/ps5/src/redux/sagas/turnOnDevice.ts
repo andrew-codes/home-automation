@@ -1,8 +1,6 @@
-import type { AsyncMqttClient } from "@ha/mqtt-client"
 import createDebugger from "debug"
-import { call, put } from "redux-saga/effects"
+import { put } from "redux-saga/effects"
 import sh from "shelljs"
-import { createMqtt } from "@ha/mqtt-client"
 import type { ApplyToDeviceAction } from "../types"
 import { updateHomeAssistant } from "../actionCreators"
 
