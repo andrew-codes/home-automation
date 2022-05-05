@@ -6,6 +6,7 @@ import reducer, {
   discoverDevices,
   getDevices,
   pollDevices,
+  pollDiscovery,
   saga,
 } from "./redux"
 import { createMqtt } from "@ha/mqtt-client"
@@ -42,7 +43,7 @@ async function run() {
     }
   })
 
-  store.dispatch(discoverDevices())
+  store.dispatch(pollDiscovery())
   store.dispatch(pollDevices())
 }
 

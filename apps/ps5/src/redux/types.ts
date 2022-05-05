@@ -46,12 +46,17 @@ type PollDevicesAction = {
   type: "POLL_DEVICES"
 }
 
+type PollDiscoveryAction = {
+  type: "POLL_DISCOVERY"
+}
+
 type AnyAction =
   | AddDeviceAction
   | ApplyToDeviceAction
   | CheckDevicesStateAction
   | DiscoverDevicesAction
   | PollDevicesAction
+  | PollDiscoveryAction
   | UpdateHomeAssistantAction
 
 type State = {
@@ -69,6 +74,7 @@ export type {
   Device,
   DiscoverDevicesAction,
   PollDevicesAction,
+  PollDiscoveryAction,
   Ps5Status,
   State,
   UpdateHomeAssistantAction,

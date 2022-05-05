@@ -8,6 +8,7 @@ import type {
   ApplyToDeviceAction,
   CheckDevicesStateAction,
   PollDevicesAction,
+  PollDiscoveryAction,
 } from "./types"
 
 const discoverDevices = (): DiscoverDevicesAction => ({
@@ -35,6 +36,10 @@ const pollDevices = (): PollDevicesAction => ({
   type: "POLL_DEVICES",
 })
 
+const pollDiscovery = (): PollDiscoveryAction => ({
+  type: "POLL_DISCOVERY",
+})
+
 const updateHomeAssistant = (
   device: Device,
   on: SwitchStatus
@@ -49,5 +54,6 @@ export {
   checkDevicesState,
   discoverDevices,
   pollDevices,
+  pollDiscovery,
   updateHomeAssistant,
 }

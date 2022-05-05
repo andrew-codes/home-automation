@@ -44,11 +44,6 @@ spec:
         - name: ps5
           image: docker-registry:5000/ps5:latest
           imagePullPolicy: Always
-          command:
-            - "sh"
-          args:
-            - "-c"
-            - "/start.sh"
           env:
             - name: DEBUG
               value: "*"
@@ -56,11 +51,6 @@ spec:
               value: "192.168.1.18"
             - name: MQTT_PORT
               value: "30519"
-            - name: PS5_NAMES
-              valueFrom:
-                secretKeyRef:
-                  name: ps5-names
-                  key: secret-value
             - name: MQTT_USERNAME
               valueFrom:
                 secretKeyRef:
