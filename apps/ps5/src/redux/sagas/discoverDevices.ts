@@ -2,7 +2,7 @@ import { call, put } from "redux-saga/effects"
 import { Discovery } from "playactor/dist/discovery"
 import { merge } from "lodash"
 import type { DiscoverDevicesAction } from "../types"
-import { addDevice } from "../actionCreators"
+import { registerDeviceWithHomeAssistant } from "../actionCreators"
 
 const useAsyncIterableWithSaga =
   (fn, ...args) =>
@@ -35,7 +35,7 @@ function* discoverDevices(action: DiscoverDevicesAction) {
   )
   for (const device of devices) {
     yield put(
-      addDevice(
+      registerDeviceWithHomeAssistant(
         merge({}, device, { homeAssistantId: device.name.replace(/-/g, "_") })
       )
     )

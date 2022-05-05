@@ -12,3 +12,4 @@ coverage/
 terraform.tfstate*
 .terraform*lock*
 .yarn-cache
+*.env

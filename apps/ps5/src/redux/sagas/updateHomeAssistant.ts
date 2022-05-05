@@ -14,23 +14,22 @@ function* updateHomeAssistant(action: UpdateHomeAssistantAction) {
   )
   debug(devices, action.payload.device.id)
   debug("Old device", oldDeviceState)
-  if (
-    !oldDeviceState ||
-    oldDeviceState?.status === action.payload.device.status
-  ) {
-    debug("No updates")
+  // if (
+  //   !!oldDeviceState &&
+  //   oldDeviceState?.status === action.payload.device.status
+  // ) {
+  //   debug("No updates")
 
-    return
-  }
+  //   return
+  // }
 
   const mqtt: AsyncMqttClient = yield call(createMqtt)
   const stateMappings = yield select(getStateMappings)
-  debug(action.payload.device.status)
   yield call<
     (topic: string, message: string | Buffer) => Promise<IPublishPacket>
   >(
     mqtt.publish.bind(mqtt),
-    `homeassistant/switch/${oldDeviceState.homeAssistantId}/state`,
+    `homeassistant/switch/${action.payload.device.homeAssistantId}/state`,
     stateMappings[action.payload.device.status]
   )
 }

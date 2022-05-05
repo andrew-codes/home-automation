@@ -21,6 +21,10 @@ type AddDeviceAction = {
   type: "ADD_DEVICE"
   payload: Device
 }
+type RegisterDeviceWithHomeAssistantAction = {
+  type: "REGISTER_DEVICE"
+  payload: Device
+}
 
 type UpdateHomeAssistantAction = {
   type: "UPDATE_HOME_ASSISTANT"
@@ -50,8 +54,9 @@ type PollDiscoveryAction = {
 }
 
 type AnyAction =
-  | AddDeviceAction
+  | RegisterDeviceWithHomeAssistantAction
   | ApplyToDeviceAction
+  | AddDeviceAction
   | CheckDevicesStateAction
   | DiscoverDevicesAction
   | PollDevicesAction
@@ -66,8 +71,9 @@ type State = {
 }
 
 export type {
-  AddDeviceAction,
+  RegisterDeviceWithHomeAssistantAction,
   AnyAction,
+  AddDeviceAction,
   ApplyToDeviceAction,
   CheckDevicesStateAction,
   Device,

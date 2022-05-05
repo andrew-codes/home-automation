@@ -3,7 +3,6 @@ import createSagaMiddleware from "redux-saga"
 import { createStore, applyMiddleware } from "redux"
 import reducer, {
   applyToDevice,
-  discoverDevices,
   getDevices,
   pollDevices,
   pollDiscovery,

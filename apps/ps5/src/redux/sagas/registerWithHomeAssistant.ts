@@ -6,13 +6,20 @@ import type {
 import createDebugger from "debug"
 import { call, put, select } from "redux-saga/effects"
 import { createMqtt } from "@ha/mqtt-client"
-import type { AddDeviceAction } from "../types"
-import { updateHomeAssistant } from "../actionCreators"
-import { getDevices, getStateMappings } from "../selectors"
+import type { RegisterDeviceWithHomeAssistantAction } from "../types"
+import { addDevice, updateHomeAssistant } from "../actionCreators"
+import { getDevices } from "../selectors"
 
 const debug = createDebugger("@ha/ps5-app/addDevice")
 
-function* addDeviceToHomeAssistant(action: AddDeviceAction) {
+function* registerWithHomeAssistant(
+  action: RegisterDeviceWithHomeAssistantAction
+) {
+  const devices = yield select(getDevices)
+  if (!!devices[action.payload.id]) {
+    return
+  }
+
   const mqtt: AsyncMqttClient = yield call(createMqtt)
   yield call<
     (topic: string, message: string | Buffer) => Promise<IPublishPacket>
@@ -27,17 +34,11 @@ function* addDeviceToHomeAssistant(action: AddDeviceAction) {
   )
 
   yield put(updateHomeAssistant(action.payload))
-
-  const devices = yield select(getDevices)
-  if (!!devices[action.payload.id]) {
-    return
-  }
-
-  if (action.payload.id)
-    yield call<(topic: string) => Promise<ISubscriptionGrant[]>>(
-      mqtt.subscribe.bind(mqtt),
-      `homeassistant/switch/${action.payload.homeAssistantId}/set`
-    )
+  yield put(addDevice(action.payload))
+  yield call<(topic: string) => Promise<ISubscriptionGrant[]>>(
+    mqtt.subscribe.bind(mqtt),
+    `homeassistant/switch/${action.payload.homeAssistantId}/set`
+  )
 }
 
-export { addDeviceToHomeAssistant }
+export { registerWithHomeAssistant }
