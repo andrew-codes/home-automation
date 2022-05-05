@@ -13,7 +13,6 @@ function* turnOffDevice(action: ApplyToDeviceAction) {
     return
   }
 
-  const mqtt: AsyncMqttClient = yield call(createMqtt)
   debug(sh.exec(`playactor standby --host-name ${action.payload.device.id}`))
 
   yield put(updateHomeAssistant(action.payload.device, action.payload.on))

@@ -1,7 +1,7 @@
 import createDebugger from "debug"
 import { put, select } from "redux-saga/effects"
 import sh from "shelljs"
-import type { Device, DiscoverDevicesAction } from "../types"
+import type { Device } from "../types"
 import { getDevices, getStateMappings } from "../selectors"
 import { updateHomeAssistant } from "../actionCreators"
 

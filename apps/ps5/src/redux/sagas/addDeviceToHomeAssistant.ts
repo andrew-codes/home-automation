@@ -17,7 +17,7 @@ function* addDeviceToHomeAssistant(action: AddDeviceAction) {
   yield call<
     (topic: string, message: string | Buffer) => Promise<IPublishPacket>
   >(
-    mqtt.publish,
+    mqtt.publish.bind(mqtt),
     `homeassistant/switch/${action.payload.homeAssistantId}/config`,
     JSON.stringify({
       name: action.payload.name,
@@ -32,7 +32,7 @@ function* addDeviceToHomeAssistant(action: AddDeviceAction) {
   )
 
   yield call<(topic: string) => Promise<ISubscriptionGrant[]>>(
-    mqtt.subscribe,
+    mqtt.subscribe.bind(mqtt),
     `homeassistant/switch/${action.payload.homeAssistantId}/set`
   )
 }

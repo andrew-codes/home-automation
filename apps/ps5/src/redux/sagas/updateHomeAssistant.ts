@@ -13,7 +13,7 @@ function* updateHomeAssistant(action: UpdateHomeAssistantAction) {
   yield call<
     (topic: string, message: string | Buffer) => Promise<IPublishPacket>
   >(
-    mqtt.publish,
+    mqtt.publish.bind(mqtt),
     `homeassistant/switch/${action.payload.device.homeAssistantId}/state`,
     stateMappings[action.payload.device.status]
   )
