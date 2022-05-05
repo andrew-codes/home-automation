@@ -11,6 +11,7 @@
     "start/dev": "nodemon src/index.ts --inspect=0.0.0.0:9233"
   },
   "dependencies": {
+    "@ha/mqtt-client": "^0.0.1",
     "debug": "^4.3.1",
     "lodash": "^4.17.21",
     "playactor": "^0.4.1",
@@ -21,7 +22,6 @@
     "tsconfig-paths": "^4.0.0"
   },
   "devDependencies": {
-    "@ha/mqtt-client": "^0.0.1",
     "@ha/ts-config": "^0.0.1",
     "@zeit/ncc": "^0.22.3",
     "nodemon": "^2.0.6",
