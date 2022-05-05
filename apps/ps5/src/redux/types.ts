@@ -10,7 +10,7 @@ type Device = {
   }
 }
 
-type Ps5Status = "PLAYING" | "STANDBY"
+type Ps5Status = "PLAYING" | "STANDBY" | "AWAKE"
 type SwitchStatus = "ON" | "OFF"
 
 type DiscoverDevicesAction = {

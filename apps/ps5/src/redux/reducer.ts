@@ -2,7 +2,10 @@ import { merge } from "lodash"
 import type { AnyAction, State } from "./types"
 
 const defaultState: State = {
-  device: { devices: {}, stateMapping: { PLAYING: "ON", STANDBY: "OFF" } },
+  device: {
+    devices: {},
+    stateMapping: { PLAYING: "ON", STANDBY: "OFF", AWAKE: "ON" },
+  },
 }
 
 const reducer = (state = defaultState, action: AnyAction) => {
@@ -22,7 +25,7 @@ const reducer = (state = defaultState, action: AnyAction) => {
         ([key, value]) => value === action.payload.on
       )
       if (!statusEntries) {
-        return
+        return state
       }
       return merge({}, state, {
         device: {
@@ -35,6 +38,7 @@ const reducer = (state = defaultState, action: AnyAction) => {
       })
     }
   }
+
   return state
 }
 
