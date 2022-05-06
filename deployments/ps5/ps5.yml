@@ -46,7 +46,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: DEBUG
-              value: "*"
+              value: "@ha/ps5-app/*"
             - name: MQTT_HOST
               value: "192.168.1.18"
             - name: MQTT_PORT

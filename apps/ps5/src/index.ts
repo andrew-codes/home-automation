@@ -12,7 +12,7 @@ import { createMqtt } from "@ha/mqtt-client"
 import { SwitchStatus } from "./redux/types"
 
 const debug = createDebugger("@ha/ps5-app")
-const debugState = createDebugger("@ha/ps5-app/state")
+const debugState = createDebugger("state")
 
 async function run() {
   debug("Started")
