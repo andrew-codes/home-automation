@@ -1,9 +1,9 @@
 template:
-  binary_sensor:
-    - name: Water temperature alert
-      unique_id: water_temperature_alert
-      state: >
-        {{ (states('sensor.water_temperature') | default(33)) | int < 32 or (state_attr('weather.main_floor', 'temperature') | default(33)) | int < 32}}
+  - binary_sensor:
+      - name: Water temperature alert
+        unique_id: water_temperature_alert
+        state: >
+          {{ (states('sensor.water_temperature') | default(33)) | int < 32 or (state_attr('weather.main_floor', 'temperature') | default(33)) | int < 32}}
 
 binary_sensor:
   - platform: group
