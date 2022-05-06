@@ -16,12 +16,6 @@ const debug = createDebugger("@ha/ps5-app/addDevice")
 function* registerWithHomeAssistant(
   action: RegisterDeviceWithHomeAssistantAction
 ) {
-  const devices = yield select(getDevices)
-  if (!!devices[action.payload.id]) {
-    return
-  }
-
-  yield put(addDevice(action.payload))
   const mqtt: AsyncMqttClient = yield call(createMqtt)
   yield call<
     (
@@ -37,10 +31,18 @@ function* registerWithHomeAssistant(
       command_topic: `homeassistant/switch/${action.payload.homeAssistantId}/set`,
       state_topic: `homeassistant/switch/${action.payload.homeAssistantId}/state`,
       optimistic: true,
+      device_class: "switch",
+      unique_id: action.payload.homeAssistantId,
     }),
     { qos: 1 }
   )
 
+  const devices = yield select(getDevices)
+  if (!!devices[action.payload.id]) {
+    return
+  }
+
+  yield put(addDevice(action.payload))
   yield put(updateHomeAssistant(action.payload))
   yield call<(topic: string) => Promise<ISubscriptionGrant[]>>(
     mqtt.subscribe.bind(mqtt),
