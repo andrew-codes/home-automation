@@ -6,7 +6,6 @@ import type {
 import createDebugger from "debug"
 import { call, put, select } from "redux-saga/effects"
 import { createMqtt } from "@ha/mqtt-client"
-import { merge } from "lodash"
 import type { RegisterDeviceWithHomeAssistantAction } from "../types"
 import { addDevice, updateHomeAssistant } from "../actionCreators"
 import { getDevices } from "../selectors"
