@@ -66,18 +66,6 @@ spec:
           env:
             - name: DEBUG
               value: "*"
-          livenessProbe:
-            failureThreshold: 12
-            httpGet:
-              httpHeaders:
-                - name: Accept
-                  value: text/plain
-              path: /health
-              port: http
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 2
           ports:
             - containerPort: 8080
               name: http
