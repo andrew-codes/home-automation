@@ -63,6 +63,9 @@ spec:
         - name: zigbee2mqtt
           image: koenkk/zigbee2mqtt:1.25.1
           imagePullPolicy: Always
+          env:
+            - name: DEBUG
+              value: "*"
           livenessProbe:
             failureThreshold: 12
             httpGet:
