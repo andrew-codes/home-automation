@@ -86,14 +86,9 @@ spec:
             allowPrivilegeEscalation: true
             privileged: true
           volumeMounts:
-            - mountPath: /dev/ttyACM0
-              name: zwavestick
             - mountPath: /usr/src/app/store
               name: data
       volumes:
-        - name: zwavestick
-          hostPath:
-            path: /dev/ttyACM0
         - name: data
           persistentVolumeClaim:
             claimName: zwave-pv-claim
