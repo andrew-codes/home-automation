@@ -20,4 +20,4 @@ automation:
       - service: media_player.volume_set
         entity_id: media_player.gaming_room_universal_playstation_5
         data:
-          volume_level: 0.45
+          volume_level: 0.42

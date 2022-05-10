@@ -1,0 +1,100 @@
+input_boolean:
+  use_user_temp:
+    name: Use User Temp
+    initial: false
+
+input_number:
+  target_low_temp:
+    name: Target Low Temp
+    initial: 64
+    step: 1
+    min: 50
+    max: 80
+    unit_of_measurement: "°F"
+    mode: box
+
+  target_high_temp:
+    name: Target Low Temp
+    initial: 70
+    step: 1
+    min: 50
+    max: 80
+    unit_of_measurement: "°F"
+    mode: box
+
+  user_target_timeout_in_minutes:
+    name: "Time to hold user target temperature in minutes"
+    initial: 90
+    step: 5
+    min: 60
+    max: 180
+    unit_of_measurement: "mins"
+    mode: box
+  target_daytime_temp_input:
+    name: Target Daytime Temperature Input
+    initial: 70
+    step: 1
+    min: 55
+    max: 80
+    unit_of_measurement: "°F"
+    mode: box
+  target_nighttime_temp_input:
+    name: Target Nightime Temperature Input
+    initial: 68
+    step: 1
+    min: 55
+    max: 80
+    unit_of_measurement: "°F"
+    mode: box
+  user_target_daytime_temp_input:
+    name: User Target Daytime Temperature Input
+    initial: 70
+    step: 1
+    min: 55
+    max: 80
+    unit_of_measurement: "°F"
+    mode: box
+  user_target_nighttime_temp_input:
+    name: User Target Nightime Temperature Input
+    initial: 68
+    step: 1
+    min: 55
+    max: 80
+    unit_of_measurement: "°F"
+    mode: box
+  target_away_low_temp_input:
+    name: Target Away Low Temperature Input
+    initial: 60
+    step: 1
+    min: 55
+    max: 80
+    unit_of_measurement: "°F"
+    mode: box
+  target_away_high_temp_input:
+    name: Target Away High Temperature Input
+    initial: 78
+    step: 1
+    min: 55
+    max: 80
+    unit_of_measurement: "°F"
+    mode: box
+
+sensor:
+  - platform: template
+    sensors:
+      outside_temperature:
+        friendly_name: Outside Temperature
+        unit_of_measurement: °F
+        value_template: >
+          {{ state_attr('weather.main_floor', 'temperature') }}
+
+      season:
+        friendly_name: Hot or cold season
+        value_template: >
+          {% if ((states("sensor.openweathermap_forecast_temperature") | default(0)) | int) <= 40 %}
+            cold
+          {% elif ((states("sensor.openweathermap_forecast_temperature") | default(0)) | int) > 55 %}
+            hot
+          {% else %}
+            {{ states('sensor.season') }}
+          {% endif %}

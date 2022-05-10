@@ -11,6 +11,7 @@ spec:
     - name: default-port
       port: 1883
       targetPort: default
+      nodePort: 30519
     - name: web-socket-port
       port: 9001
       targetPort: web-socket

@@ -1,0 +1,15 @@
+automation:
+  - alias: Set temperature
+    id: set_temperature
+    trigger:
+      - platform: state
+        entity_id: input_number.target_high_temp
+    action:
+      - service: climate.set_temperature
+        data:
+          target_temp_low: >
+            {{ states('input_number.target_low_temp') | int }}
+          target_temp_high: >
+            {{ states('input_number.target_high_temp') | int }}
+        target:
+          entity_id: climate.main_floor

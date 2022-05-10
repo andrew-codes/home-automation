@@ -1,19 +1,11 @@
 automation:
-  - alias: Everyone has left
-    id: everyone_has_left
+  - alias: Lock doors when nobody is home
+    id: lock_doors_when_nobody_is_home
     trigger:
       - platform: state
         entity_id: group.tracked_presence
         to: "not_home"
     action:
-      # Set thermostat
-      - service: climate.set_temperature
-        data:
-          target_temp_low: "{{ states('sensor.target_low_temp') }}"
-          target_temp_high: "{{ states('sensor.target_high_temp') }}"
-        target:
-          entity_id: climate.main_floor
-
       # Lock all doors that are not already locked
       - choose:
           - conditions:
@@ -39,9 +31,3 @@ automation:
       #       sequence:
       #         - service: lock.lock
       #           entity_id: lock.basement_door
-
-      # Turn off all lights
-
-      # Turn off TVs
-      - service: media_player.turn_off
-        entity_id: media_player.gaming_room_media_player

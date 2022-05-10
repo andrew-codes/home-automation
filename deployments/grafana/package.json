@@ -5,7 +5,7 @@
   "scripts": {
     "deploy": "scripts/bin/deploy.sh",
     "postdeploy": "kubectl -n monitoring rollout restart deployment grafana",
-    "postinstall": "jb install"
+    "postinstall": "jb install | true"
   },
   "dependencies": {
     "@ha/metrics": "^0.0.1"

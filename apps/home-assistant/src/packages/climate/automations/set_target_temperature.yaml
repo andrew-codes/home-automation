@@ -1,0 +1,273 @@
+automation:
+  - alias: Set target temperature
+    id: set_target_temperature
+    trigger:
+      - platform: state
+        entity_id: input_number.target_daytime_temp_input
+      - platform: state
+        entity_id: input_number.target_nighttime_temp_input
+      - platform: state
+        entity_id: input_number.user_target_daytime_temp_input
+      - platform: state
+        entity_id: input_number.user_target_nighttime_temp_input
+      - platform: state
+        entity_id: sensor.season
+      - platform: state
+        entity_id: group.tracked_presence
+      - platform: state
+        entity_id: group.family_is_sleeping
+      - platform: time
+        at: "06:50:00"
+    action:
+      - choose:
+          # Not Home
+          - conditions:
+              condition: and
+              conditions:
+                - condition: state
+                  entity_id: group.tracked_presence
+                  state: not_home
+                - condition: state
+                  entity_id: sensor.season
+                  state: cold
+            sequence:
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.target_low_temp
+                data:
+                  value: "{{ states('input_number.target_away_low_temp_input')  }}"
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.target_high_temp
+                data:
+                  value: "{{ (states('input_number.target_away_low_temp_input') | int) + 8 }}"
+          - conditions:
+              condition: and
+              conditions:
+                - condition: state
+                  entity_id: group.tracked_presence
+                  state: not_home
+                - condition: state
+                  entity_id: sensor.season
+                  state: hot
+            sequence:
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.target_low_temp
+                data:
+                  value: "{{ (states('input_number.target_away_high_temp_input') | int) - 8 }}"
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.target_high_temp
+                data:
+                  value: "{{ (states('input_number.target_away_high_temp_input') | int) }}"
+
+          # Sleeping
+          - conditions:
+              condition: and
+              conditions:
+                - condition: state
+                  entity_id: group.tracked_presence
+                  state: home
+                - condition: state
+                  entity_id: group.family_is_sleeping
+                  state: "on"
+                - condition: template
+                  value_template: "{{ (states('input_number.user_target_nighttime_temp_input') | int) != (states('input_number.target_nighttime_temp_input') | int) }}"
+                - condition: state
+                  entity_id: sensor.season
+                  state: cold
+            sequence:
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.target_low_temp
+                data:
+                  value: "{{ states('input_number.user_target_nighttime_temp_input')  }}"
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.target_high_temp
+                data:
+                  value: "{{ (states('input_number.user_target_nighttime_temp_input') | int) + 6 }}"
+
+          - conditions:
+              condition: and
+              conditions:
+                - condition: state
+                  entity_id: group.tracked_presence
+                  state: home
+                - condition: state
+                  entity_id: group.family_is_sleeping
+                  state: "on"
+                - condition: template
+                  value_template: "{{ (states('input_number.user_target_nighttime_temp_input') | int) != (states('input_number.target_nighttime_temp_input') | int) }}"
+                - condition: state
+                  entity_id: sensor.season
+                  state: hot
+            sequence:
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.target_low_temp
+                data:
+                  value: "{{ (states('input_number.user_target_nighttime_temp_input') | int) - 6 }}"
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.target_high_temp
+                data:
+                  value: "{{ states('input_number.user_target_nighttime_temp_input') }}"
+
+          - conditions:
+              condition: and
+              conditions:
+                - condition: state
+                  entity_id: group.tracked_presence
+                  state: home
+                - condition: state
+                  entity_id: group.family_is_sleeping
+                  state: "on"
+                - condition: template
+                  value_template: "{{ (states('input_number.user_target_nighttime_temp_input') | int) == (states('input_number.target_nighttime_temp_input') | int) }}"
+                - condition: state
+                  entity_id: sensor.season
+                  state: cold
+            sequence:
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.target_low_temp
+                data:
+                  value: "{{ (states('input_number.target_nighttime_temp_input') | int) }}"
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.target_high_temp
+                data:
+                  value: "{{ (states('input_number.target_nighttime_temp_input') | int) + 6 }}"
+
+          - conditions:
+              condition: and
+              conditions:
+                - condition: state
+                  entity_id: group.tracked_presence
+                  state: home
+                - condition: state
+                  entity_id: group.family_is_sleeping
+                  state: "on"
+                - condition: template
+                  value_template: "{{ (states('input_number.user_target_nighttime_temp_input') | int) == (states('input_number.target_nighttime_temp_input') | int) }}"
+                - condition: state
+                  entity_id: sensor.season
+                  state: hot
+            sequence:
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.target_low_temp
+                data:
+                  value: "{{ (states('input_number.target_nighttime_temp_input') | int) - 6 }}"
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.target_high_temp
+                data:
+                  value: "{{ states('input_number.target_nighttime_temp_input') }}"
+
+          # Home (not sleeping)
+          - conditions:
+              condition: and
+              conditions:
+                - condition: state
+                  entity_id: group.tracked_presence
+                  state: home
+                - condition: state
+                  entity_id: group.family_is_sleeping
+                  state: "off"
+                - condition: template
+                  value_template: "{{ (states('input_number.user_target_daytime_temp_input') | int) != (states('input_number.target_daytime_temp_input') | int) }}"
+                - condition: state
+                  entity_id: sensor.season
+                  state: cold
+            sequence:
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.target_low_temp
+                data:
+                  value: "{{ (states('input_number.user_target_daytime_temp_input') | int) }}"
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.target_high_temp
+                data:
+                  value: "{{ states('input_number.user_target_daytime_temp_input') + 6 }}"
+
+          - conditions:
+              condition: and
+              conditions:
+                - condition: state
+                  entity_id: group.tracked_presence
+                  state: home
+                - condition: state
+                  entity_id: group.family_is_sleeping
+                  state: "off"
+                - condition: template
+                  value_template: "{{ (states('input_number.user_target_daytime_temp_input') | int) != (states('input_number.target_daytime_temp_input') | int) }}"
+                - condition: state
+                  entity_id: sensor.season
+                  state: hot
+            sequence:
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.target_low_temp
+                data:
+                  value: "{{ (states('input_number.user_target_daytime_temp_input') | int) - 6 }}"
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.target_high_temp
+                data:
+                  value: "{{ states('input_number.user_target_daytime_temp_input') }}"
+
+          - conditions:
+              condition: and
+              conditions:
+                - condition: state
+                  entity_id: group.tracked_presence
+                  state: home
+                - condition: state
+                  entity_id: group.family_is_sleeping
+                  state: "off"
+                - condition: template
+                  value_template: "{{ (states('input_number.user_target_daytime_temp_input') | int) == (states('input_number.target_daytime_temp_input') | int) }}"
+                - condition: state
+                  entity_id: sensor.season
+                  state: cold
+            sequence:
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.target_low_temp
+                data:
+                  value: "{{ (states('input_number.target_daytime_temp_input') | int) }}"
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.target_high_temp
+                data:
+                  value: "{{ states('input_number.target_daytime_temp_input') + 6 }}"
+
+          - conditions:
+              condition: and
+              conditions:
+                - condition: state
+                  entity_id: group.tracked_presence
+                  state: home
+                - condition: state
+                  entity_id: group.family_is_sleeping
+                  state: "off"
+                - condition: template
+                  value_template: "{{ (states('input_number.user_target_daytime_temp_input') | int) == (states('input_number.target_daytime_temp_input') | int) }}"
+                - condition: state
+                  entity_id: sensor.season
+                  state: hot
+            sequence:
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.target_low_temp
+                data:
+                  value: "{{ (states('input_number.target_daytime_temp_input') | int) - 6 }}"
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.target_high_temp
+                data:
+                  value: "{{ states('input_number.target_daytime_temp_input') }}"

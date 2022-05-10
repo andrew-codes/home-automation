@@ -8,8 +8,10 @@ spec:
     - name: http
       port: 8091
       targetPort: http
+      nodePort: 30521
     - name: ws
       port: 3000
       targetPort: ws
+      nodePort: 30522
   selector:
     name: zwave

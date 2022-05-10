@@ -1,0 +1,11 @@
+automation:
+  - alias: Turn off TVs when nobody is home
+    id: turn_off_tvs_when_nobody_is_home
+    trigger:
+      - platform: state
+        entity_id: group.tracked_presence
+        to: "not_home"
+    action:
+      # Turn off TVs
+      - service: media_player.turn_off
+        entity_id: media_player.gaming_room_media_player

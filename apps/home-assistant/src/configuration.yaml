@@ -81,6 +81,7 @@ http:
   trusted_proxies:
     - "192.168.1.20"
     - "192.168.0.0/16"
+    - "172.17.0.1"
 
 spotify:
   client_id: !secret SPOTIFY_CLIENT_ID

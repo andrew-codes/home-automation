@@ -1,6 +1,6 @@
 automation:
   - alias: Reset user target temperature
-    id: Reset User Target Temperature
+    id: reset_User_target_temperature
     trigger:
       - platform: state
         entity_id: input_number.user_target_daytime_temp_input
@@ -9,9 +9,9 @@ automation:
         entity_id: input_number.user_target_nighttime_temp_input
         for: "00:{{ states('input_number.user_target_timeout_in_minutes') | int }}:00"
     action:
-      - service: input_boolean.turn_on
+      - service: automation.turn_off
         target:
-          entity_id: input_boolean.user_user_temp_update_lock
+          entity_id: automation.set_use_user_temperature
       - service: input_number.set_value
         target:
           entity_id: input_number.user_target_daytime_temp_input
@@ -24,7 +24,7 @@ automation:
           value: "{{ states('input_number.target_nighttime_temp_input') | int }}"
       - service: input_boolean.turn_off
         target:
-          entity_id: input_boolean.user_user_temp_update_lock
-      - service: input_boolean.turn_off
-        target:
           entity_id: input_boolean.use_user_temp
+      - service: automation.turn_on
+        target:
+          entity_id: automation.set_use_user_temperature
