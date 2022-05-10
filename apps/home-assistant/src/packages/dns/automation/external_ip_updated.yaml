@@ -1,0 +1,13 @@
+automation:
+  - alias: External IP Updated
+    id: external_ip_updated
+    trigger:
+      - platform: state
+        entity_id: sensor.external_ip
+    action:
+      - service: mqtt.publish
+        data:
+          topic: homeassistant/sensor/external_ip/set
+          payload_template: >
+            {{ states("sensor.external_ip") }}
+          qos: "1"
