@@ -40,7 +40,7 @@ spec:
             - name: DEBUG
               value: "@ha/external-services-dns-updater-app*"
             - name: GOOGLE_APPLICATION_CREDENTIALS
-              value: /.secrets/redentials.json
+              value: /.secrets/credentials.json
             - name: SUB_DOMAINS
               value: "grafana,ha,status,vpn"
             - name: MQTT_HOST
