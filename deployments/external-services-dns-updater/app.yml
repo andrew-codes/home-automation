@@ -41,7 +41,7 @@ spec:
             - name: DEBUG
               value: "@ha/external-services-dns-updater-app*"
             - name: GOOGLE_APPLICATION_CREDENTIALS
-              value: /credentials.json
+              value: /.secrets/redentials.json
             - name: SUB_DOMAINS
               value: "grafana,ha,status,vpn"
             - name: MQTT_HOST
@@ -62,7 +62,7 @@ spec:
               value: debug
           volumeMounts:
             - name: dns-google-service-account-creds
-              mountPath: /
+              mountPath: /.secrets
       volumes:
         - name: dns-google-service-account-creds
           secret:
