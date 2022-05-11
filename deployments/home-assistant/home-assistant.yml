@@ -78,7 +78,6 @@ data:
     echo "
     APPDAEMON_PASSWORD: '${APPDAEMON_PASSWORD}'
     APPDAEMON_URL: '${APPDAEMON_URL}'
-    DOMAIN: '${DOMAIN}'
     DOUBLE_TAKE_TOKEN: '${DOUBLE_TAKE_TOKEN}'
     ELEVATION: '${ELEVATION}'
     GAMING_ROOM_GAMING_PC_IP: '${GAMING_ROOM_GAMING_PC_IP}'
@@ -90,18 +89,11 @@ data:
     GAMING_ROOM_TV_MAC: '${GAMING_ROOM_TV_MAC}'
     GOOGLE_CALENDAR_CLIENT_ID: '${GOOGLE_CALENDAR_CLIENT_ID}'
     GOOGLE_CALENDAR_CLIENT_SECRET: '${GOOGLE_CALENDAR_CLIENT_SECRET}'
-    HA_DNS_PASSWORD: '${HA_DNS_PASSWORD}'
-    HA_DNS_USERNAME: '${HA_DNS_USERNAME}'
-    HA_DOMAIN: '${HA_DOMAIN}'
     HA_TOKEN: '${HA_TOKEN}'
     HA_URL: '${HA_URL}'
-    HOME_ASSISTANT_DNS_PASSWORD: '${HOME_ASSISTANT_DNS_PASSWORD}'
-    HOME_ASSISTANT_DNS_USERNAME: '${HOME_ASSISTANT_DNS_USERNAME}'
-    HOME_ASSISTANT_DOMAIN: '${HOME_ASSISTANT_DOMAIN}'
     HOME_AUTOMATION_PRIVATE_SSH_KEY: '${HOME_AUTOMATION_PRIVATE_SSH_KEY}'
     HOME_AUTOMATION_PUBLIC_SSH_KEY: '${HOME_AUTOMATION_PUBLIC_SSH_KEY}'
     INFLUXDB_TOKEN: '${INFLUXDB_TOKEN}'
-    INLETS_IP: '${INLETS_IP}'
     JIRA_AUTHORIZATION_HEADER: '${JIRA_AUTHORIZATION_HEADER}'
     LATITUDE: '${LATITUDE}'
     LONGITUDE: '${LONGITUDE}'
@@ -122,21 +114,11 @@ data:
     UNIFI_PASSWORD: '${UNIFI_PASSWORD}'
     UNIFI_USERNAME: '${UNIFI_USERNAME}'
     UNIT_SYSTEM: '${UNIT_SYSTEM}'
-    VALHEIM_DOMAIN: '${VALHEIM_DOMAIN}'
-    VALHEIM_GOOGLE_DOMAIN_PASSWORD: '${VALHEIM_GOOGLE_DOMAIN_PASSWORD}'
-    VALHEIM_GOOGLE_DOMAIN_USERNAME: '${VALHEIM_GOOGLE_DOMAIN_USERNAME}'
-    VPN_DNS_PASSWORD: '${VPN_DNS_PASSWORD}'
-    VPN_DNS_USERNAME: '${VPN_DNS_USERNAME}'
-    VPN_DOMAIN: '${VPN_DOMAIN}'
     WITHINGS_CLIENT_ID: '${WITHINGS_CLIENT_ID}'
     WITHINGS_CLIENT_SECRET: '${WITHINGS_CLIENT_SECRET}'
-
     MQTT_USERNAME: '${MQTT_USERNAME}'
     MQTT_PASSWORD: '${MQTT_PASSWORD}'
     TURN_OFF_GAMING_ROOM_GAMING_PC_COMMAND: 'ssh -n -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa ${GAMING_ROOM_MACHINE_USERNAME}@${GAMING_ROOM_GAMING_PC_IP} \"C:\Windows\System32\rundll32.exe powrprof.dll,SetSuspendState Standby\"'
-    VPN_DDNS_REST_COMMAND: 'curl -X POST \"https://${VPN_DNS_USERNAME}:${VPN_DNS_PASSWORD}@domains.google.com/nic/update?hostname=${VPN_DOMAIN}&myip=$(curl https://checkip.amazonaws.com)\"'
-    HA_DDNS_REST_COMMAND: 'curl -X POST \"https://${HOME_ASSISTANT_DNS_USERNAME}:${HOME_ASSISTANT_DNS_PASSWORD}@domains.google.com/nic/update?hostname=${HOME_ASSISTANT_DOMAIN}&myip=${INLETS_IP}\"'
-    STATUS_DDNS_REST_COMMAND: 'curl -X POST \"https://${STATUS_DNS_USERNAME}:${STATUS_DNS_PASSWORD}@domains.google.com/nic/update?hostname=${STATUS_DOMAIN}&myip=${INLETS_IP}\"'
     DB_URL: 'postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@home-assistant-postgres:5432/${POSTGRES_DB}'
     "
 ---
@@ -222,12 +204,6 @@ spec:
                   name: home-assistant-appdaemon-url
                   key: secret-value
 
-            - name: DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-domain
-                  key: secret-value
-
             - name: DOUBLE_TAKE_TOKEN
               valueFrom:
                 secretKeyRef:
@@ -294,24 +270,6 @@ spec:
                   name: home-assistant-google-calendar-client-secret
                   key: secret-value
 
-            - name: HA_DNS_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-ha-dns-password
-                  key: secret-value
-
-            - name: HA_DNS_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-ha-dns-username
-                  key: secret-value
-
-            - name: HA_DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-ha-domain
-                  key: secret-value
-
             - name: HA_TOKEN
               valueFrom:
                 secretKeyRef:
@@ -324,24 +282,6 @@ spec:
                   name: home-assistant-ha-url
                   key: secret-value
 
-            - name: HOME_ASSISTANT_DNS_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-home-assistant-dns-password
-                  key: secret-value
-
-            - name: HOME_ASSISTANT_DNS_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-home-assistant-dns-username
-                  key: secret-value
-
-            - name: HOME_ASSISTANT_DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-home-assistant-domain
-                  key: secret-value
-
             - name: HOME_AUTOMATION_PRIVATE_SSH_KEY
               valueFrom:
                 secretKeyRef:
@@ -352,12 +292,6 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: home-assistant-home-automation-public-ssh-key
-                  key: secret-value
-
-            - name: INLETS_IP
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-inlets-ip
                   key: secret-value
 
             - name: JIRA_AUTHORIZATION_HEADER
@@ -456,24 +390,6 @@ spec:
                   name: home-assistant-spotify-client-secret
                   key: secret-value
 
-            - name: STATUS_DNS_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-status-dns-password
-                  key: secret-value
-
-            - name: STATUS_DNS_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-status-dns-username
-                  key: secret-value
-
-            - name: STATUS_DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-status-domain
-                  key: secret-value
-
             - name: TIME_ZONE
               valueFrom:
                 secretKeyRef:
@@ -484,42 +400,6 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: home-assistant-unit-system
-                  key: secret-value
-
-            - name: VALHEIM_DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-valheim-domain
-                  key: secret-value
-
-            - name: VALHEIM_GOOGLE_DOMAIN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-valheim-google-domain-password
-                  key: secret-value
-
-            - name: VALHEIM_GOOGLE_DOMAIN_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-valheim-google-domain-username
-                  key: secret-value
-
-            - name: VPN_DNS_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-vpn-dns-password
-                  key: secret-value
-
-            - name: VPN_DNS_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-vpn-dns-username
-                  key: secret-value
-
-            - name: VPN_DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-vpn-domain
                   key: secret-value
 
             - name: WITHINGS_CLIENT_ID
