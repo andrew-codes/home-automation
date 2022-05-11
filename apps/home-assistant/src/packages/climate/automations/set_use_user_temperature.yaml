@@ -1,5 +1,5 @@
 automation:
-  - name: Set use user temperature
+  - alias: Set use user temperature
     id: set_use_user_temperature
     trigger:
       - platform: state
