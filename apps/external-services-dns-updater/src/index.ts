@@ -11,6 +11,16 @@ async function run() {
   await mqtt.subscribe("homeassistant/sensor/external_ip/set")
   try {
     const subDomains = (SUB_DOMAINS ?? "").split(",")
+
+    const auth = new google.auth.GoogleAuth({
+      keyFile: "/.secrets/credentials.json",
+      scopes: ["https://www.googleapis.com/auth/ndev.clouddns.readwrite"],
+    })
+
+    google.options({
+      auth,
+    })
+
     mqtt.on("message", async (topic, payload) => {
       try {
         const externalIP = payload.toString()
