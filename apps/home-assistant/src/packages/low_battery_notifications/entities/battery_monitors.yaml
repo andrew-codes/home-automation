@@ -2,33 +2,29 @@ group:
   low_batteries:
     name: Low Batteries
     entities:
-      - binary_sensor.front_door_deadbolt_replace_battery_soon
-      - binary_sensor.guest_bathroom_sink_1_replace_battery_soon
-      - binary_sensor.guest_bathroom_sink_2_replace_battery_soon
-      - binary_sensor.office_bathroom_sink_replace_battery_soon
+      - binary_sensor.front_door_deadbolt
+      - binary_sensor.guest_bathroom_sink_1
+      - binary_sensor.guest_bathroom_sink_2
+      - binary_sensor.office_bathroom_sink
 
 template:
   - binary_sensor:
       - name: Guest bathroom sink 1
         device_class: battery
-        unique_id: guest_bathroom_sink_1_replace_battery_soon
         state: >
           {{ states("sensor.guest_bathroom_sink_1_power") != "Unknown" and (states("sensor.guest_bathroom_sink_1_power") | int) <= 20 }}
 
       - name: Front door deadbolt
         device_class: battery
-        unique_id: front_door_deadbolt_replace_battery_soon
         state: >
           {{ states("sensor.front_door_deadbolt_battery_level") != "Unknown" and (states("sensor.front_door_deadbolt_battery_level") | int) <= 20 }}
 
       - name: Guest bathroom sink 2
-        unique_id: guest_bathroom_sink_2_replace_battery_soon
         device_class: battery
         state: >
           {{ states("sensor.guest_bathroom_sink_2_power") != "Unknown" and (states("sensor.guest_bathroom_sink_2_power") | int) <= 20 }}
 
       - name: Office bathroom sink
-        unique_id: office_bathroom_sink_replace_battery_soon
         device_class: battery
         state: >
           {{ states("sensor.office_bathroom_sink_power") != "Unknown" and (states("sensor.office_bathroom_sink_power") | int) <= 20 }}
