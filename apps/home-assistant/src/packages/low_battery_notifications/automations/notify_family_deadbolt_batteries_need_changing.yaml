@@ -3,29 +3,20 @@ automation:
     id: low_battery_notification_deadbolts
     trigger:
       - platform: state
-        entity_id: binary_sensor.front_door_deadbolt_power_management_replace_battery_soon
+        entity_id: group.low_batteries
         to: "on"
-        id: front_door
-      - platform: state
-        entity_id: binary_sensor.carport_door_deadbolt_power_management_replace_battery_soon
-        to: "on"
-        id: carport_door
     action:
-      - choose:
-          - conditions:
-              condition: trigger
-              id: front_door
-            sequence:
-              - service: notify.all_devices
-                data_template:
-                  title: Change Batteries
-                  message: "Front door deadbolt"
-      - choose:
-          - conditions:
-              condition: trigger
-              id: carport_door
-            sequence:
-              - service: notify.all_devices
-                data_template:
-                  title: Change Batteries
-                  message: "Carport door deadbolt"
+      - service: notify.all_devices
+        data_template:
+          title: Change Batteries
+          message: >
+            {% for entity_id in states.group.low_batteries.attributes.entity_id %}
+              {% set parts = entity_id.split('.') %}
+              {% if states(entity_id) == 'on' %}
+              {% if loop.first %} 
+              {% elif loop.last %}
+                 and {% else %}, 
+              {% endif %}
+              {{ states[parts[0]][parts[1]].name }}
+              {% endif %}
+            {% endfor %}
