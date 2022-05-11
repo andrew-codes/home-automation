@@ -21,7 +21,6 @@ spec:
           effect: "NoExecute"
           tolerationSeconds: 300
       serviceAccountName: app
-      hostNetwork: true
       imagePullSecrets:
         - name: regcred
       initContainers:
