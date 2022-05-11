@@ -10,13 +10,4 @@ automation:
         data_template:
           title: Change Batteries
           message: >
-            {% for entity_id in states.group.low_batteries.attributes.entity_id %}
-              {% set parts = entity_id.split('.') %}
-              {% if states(entity_id) == 'on' %}
-              {% if loop.first %} 
-              {% elif loop.last %}
-                 and {% else %}, 
-              {% endif %}
-              {{ states[parts[0]][parts[1]].name }}
-              {% endif %}
-            {% endfor %}
+            {% for entity_id in states.group.low_batteries.attributes.entity_id %}{% set parts = entity_id.split('.') %}{% if states(entity_id) == 'on' %}{% if loop.first %}{% elif loop.last %} and {% else %}, {% endif %}{{ states[parts[0]][parts[1]].name }}{% endif %}{% endfor %}
