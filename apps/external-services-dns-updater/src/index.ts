@@ -28,7 +28,7 @@ async function run() {
         await Promise.all(
           subDomains.map((subdomain) =>
             dns.resourceRecordSets.patch({
-              managedZone: "smith-simms.family",
+              managedZone: "smith-simms-family",
               project: "home-automation-dns",
               name: `${subdomain}.smith-simms.family.`,
               type: "A",
