@@ -47,7 +47,7 @@ spec:
             - name: MQTT_HOST
               value: mqtt
             - name: MQTT_PORT
-              value: 1883
+              value: "1883"
             - name: MQTT_USERNAME
               valueFrom:
                 secretKeyRef:
