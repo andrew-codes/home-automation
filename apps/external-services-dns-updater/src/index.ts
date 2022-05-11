@@ -20,6 +20,8 @@ async function run() {
             dns.resourceRecordSets.patch({
               managedZone: "smith-simms.family",
               project: "home-automation-dns",
+              name: `${subdomain}.smith-simms.family.`,
+              type: "A",
               requestBody: {
                 name: `${subdomain}.smith-simms.family.`,
                 type: "A",
