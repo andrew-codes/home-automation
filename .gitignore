@@ -1,6 +1,7 @@
 node_modules
 .DS_Store
 tmp
+*.tmp
 kubernetes_join_command
 .secrets*
 *.log

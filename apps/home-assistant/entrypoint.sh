@@ -8,6 +8,7 @@ source ${ROOT}/root/generate_secrets_yaml.sh >/config/secrets.yaml
 if [ ! -z "$TELEPRESENCE_ROOT" ]; then
     sudo ./sync.sh
     export SHELL=/bin/bash
+    /sync.sh /home-assistant-src
     chokidar "/home-assistant-src/**/*.yaml" -c "bash -c '/sync.sh /home-assistant-src'" &
     chokidar "/config/**/*.yaml" --debounce 60000 -c "bash -c '/reload.sh | true'" &
 fi
