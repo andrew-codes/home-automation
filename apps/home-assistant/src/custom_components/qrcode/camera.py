@@ -9,7 +9,6 @@ from homeassistant.components.camera import (PLATFORM_SCHEMA, Camera)
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.event import async_track_state_change
 
-REQUIREMENTS = ['pyqrcode==1.2.1', 'pypng==0.0.18']
 _LOGGER = logging.getLogger(__name__)
 _LOGGER.debug("QR Code platform")
 DEFAULT_NAME = 'qr_code'
@@ -18,20 +17,19 @@ DEFAULT_NAME = 'qr_code'
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
     vol.Required(CONF_VALUE_TEMPLATE): cv.template,
-    vol.Optional(ATTR_ENTITY_ID): cv.entity_ids,
+    vol.Required(ATTR_ENTITY_ID): cv.entity_ids,
 })
 
 
 async def async_setup_platform(hass, config, add_devices, discovery_info=None):
     """Set up the QRCode image platform."""
-    _LOGGER.debug("Starting qrcode image platform")
+    _LOGGER.debug("Set up the QRCode image platform.")
     name = config.get(CONF_NAME)
     value_template = config.get(CONF_VALUE_TEMPLATE)
 
     if value_template is not None:
         value_template.hass = hass
-    entity_ids = (config.get(ATTR_ENTITY_ID)
-                  or value_template.extract_entities())
+    entity_ids = config.get(ATTR_ENTITY_ID)
 
     add_devices([QRCodeCamera(hass, name, value_template, entity_ids)])
     return True
