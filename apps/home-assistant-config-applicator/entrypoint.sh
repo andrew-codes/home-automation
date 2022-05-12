@@ -144,6 +144,7 @@ if git-synchronize; then
     rsync --recursive -I --delete ./dashboards /config/dashboards
     rsync --recursive -I --delete ./lovelace /config/lovelace
     rsync --recursive -I --delete ./packages /config/packages
+    rsync --recursive -I --delete ./custom_components/qrcode /config/custom_components/qrcode
 fi
 
 ###################
