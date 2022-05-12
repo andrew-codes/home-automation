@@ -7,7 +7,7 @@ RUN apk --no-cache add \
     rsync \
     yarn
 COPY ./entrypoint.sh /entrypoint.sh
-COPY ./sync.sh /sync.sh
+COPY ./dist/sync.sh /sync.sh
 COPY ./reload.sh /reload.sh
 RUN yarn global add chokidar-cli
 WORKDIR /config
