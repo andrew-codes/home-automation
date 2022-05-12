@@ -1,0 +1,1 @@
+"""The qrcode camera platform."""

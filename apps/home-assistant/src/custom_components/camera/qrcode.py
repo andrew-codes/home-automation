@@ -24,6 +24,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 async def async_setup_platform(hass, config, add_devices, discovery_info=None):
     """Set up the QRCode image platform."""
+    _LOGGER.debug("Starting qrcode image platform")
     name = config.get(CONF_NAME)
     value_template = config.get(CONF_VALUE_TEMPLATE)
 
