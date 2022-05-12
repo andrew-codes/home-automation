@@ -9,7 +9,7 @@ curl -X POST -H "Authorization: Bearer $HASS_TOKEN" -H "Content-Type: applicatio
 curl -X POST -H "Authorization: Bearer $HASS_TOKEN" -H "Content-Type: application/json" "$HASS_SERVER/api/services/input_select/reload"
 curl -X POST -H "Authorization: Bearer $HASS_TOKEN" -H "Content-Type: application/json" "$HASS_SERVER/api/services/input_text/reload"
 curl -X POST -H "Authorization: Bearer $HASS_TOKEN" -H "Content-Type: application/json" "$HASS_SERVER/api/services/people/reload"
-curl -X POST -H "Authorization: Bearer $HASS_TOKEN" -H "Content-Type: application/json" "$HASS_SERVER/api/services/binary_sensor/reload"
+curl -X POST -H "Authorization: Bearer $HASS_TOKEN" -H "Content-Type: application/json" "$HASS_SERVER/api/services/binary_sensor/reloaad"
 curl -X POST -H "Authorization: Bearer $HASS_TOKEN" -H "Content-Type: application/json" "$HASS_SERVER/api/services/scene/reload"
 curl -X POST -H "Authorization: Bearer $HASS_TOKEN" -H "Content-Type: application/json" "$HASS_SERVER/api/services/script/reload"
 curl -X POST -H "Authorization: Bearer $HASS_TOKEN" -H "Content-Type: application/json" "$HASS_SERVER/api/services/template/reload"
