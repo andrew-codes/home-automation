@@ -14,3 +14,4 @@ curl -X POST -H "Authorization: Bearer $HASS_TOKEN" -H "Content-Type: applicatio
 curl -X POST -H "Authorization: Bearer $HASS_TOKEN" -H "Content-Type: application/json" "$HASS_SERVER/api/services/template/reload"
 curl -X POST -H "Authorization: Bearer $HASS_TOKEN" -H "Content-Type: application/json" "$HASS_SERVER/api/services/media_player/reload"
 curl -X POST -H "Authorization: Bearer $HASS_TOKEN" -H "Content-Type: application/json" "$HASS_SERVER/api/services/zone/reload"
+curl -X POST -H "Authorization: Bearer $HASS_TOKEN" -H "Content-Type: application/json" "$HASS_SERVER/api/services/homeassistant/reload_core_config"
