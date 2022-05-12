@@ -9,7 +9,7 @@ if [ ! -z "$TELEPRESENCE_ROOT" ]; then
     sudo ./sync.sh
     export SHELL=/bin/bash
     chokidar "/home-assistant-src/**/*.yaml" -c "rsync --recursive --delete -I --exclude=\"*.db*\" /home-assistant-src/* /config" &
-    chokidar "/config/**/*.yaml" --debounce 60000 -c "bash -c './reload.sh | true'" &
+    chokidar "/config/**/*.yaml" --debounce 60000 -c "bash -c '/reload.sh | true'" &
 fi
 
 hass --config /config
