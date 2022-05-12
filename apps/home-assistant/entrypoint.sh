@@ -6,7 +6,6 @@ source ${ROOT}/root/set_ssh_keys.sh
 source ${ROOT}/root/generate_secrets_yaml.sh >/config/secrets.yaml
 
 if [ ! -z "$TELEPRESENCE_ROOT" ]; then
-    sudo ./sync.sh
     export SHELL=/bin/bash
     rsync --recursive /tmp /config
     /sync.sh /home-assistant-src
