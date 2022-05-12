@@ -14,14 +14,25 @@ automation:
           message: Potential water leak detected. Water has been shut off.
           data:
             actions:
-              - action: "WATER_LEAK_NON_ISSUE"
+              - action: "RESOLVED_WATER_LEAK"
                 activationMode: background
                 authenticationRequired: false
                 behavior: default
                 destructive: true
-                title: "Not an Issue: Dismiss"
+                title: "Issue Resolved"
             push:
               sound:
                 name: default
                 critical: 1
                 volume: 1.0
+
+  - alias: Resolved water leak
+    id: resovled_water_leak
+    trigger:
+      platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        actionName: RESOLVED_WATER_LEAK
+    action:
+      - service: switch.turn_on
+        entity_id: switch.shutoff_valve
