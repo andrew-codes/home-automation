@@ -40,7 +40,7 @@ RUN apt-get install -y  \
     net-tools \
     nodejs \
     python3-pip \
-    python3.8 \
+    python3.10 \
     python-apt \
     snmp \
     sudo \
