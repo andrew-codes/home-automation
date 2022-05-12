@@ -11,7 +11,7 @@ from homeassistant.helpers.event import async_track_state_change
 
 REQUIREMENTS = ['pyqrcode==1.2.1', 'pypng==0.0.18']
 _LOGGER = logging.getLogger(__name__)
-
+_LOGGER.debug("QR Code platform")
 DEFAULT_NAME = 'qr_code'
 
 # SCAN_INTERVAL = timedelta(seconds=2)
