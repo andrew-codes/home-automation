@@ -9,6 +9,7 @@ RUN apk --no-cache add \
 COPY ./entrypoint.sh /entrypoint.sh
 COPY ./dist/sync.sh /sync.sh
 COPY ./reload.sh /reload.sh
+COPY ./restart.sh /restart.sh
 RUN yarn global add chokidar-cli
 WORKDIR /config
 ENTRYPOINT ["/entrypoint.sh"]
