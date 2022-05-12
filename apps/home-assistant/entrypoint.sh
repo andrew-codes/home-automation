@@ -11,7 +11,7 @@ if [ ! -z "$TELEPRESENCE_ROOT" ]; then
     /sync.sh /home-assistant-src
     chokidar "/home-assistant-src/**/*.yaml" "/home-assistant-src/custom_components/**/*.*" -c "bash -c '/sync.sh /home-assistant-src'" &
     chokidar "/config/**/*.yaml" --debounce 20000 -c "bash -c '/reload.sh | true'" &
-    chokidar "/home-assistant-src/custom_components/**/*.*" --debounce 60000 -c "bash -c '/restart.sh | true'" &
+    chokidar "/config/custom_components/**/*.*" --debounce 60000 -c "bash -c '/restart.sh | true'" &
 fi
 
 hass --config /config
