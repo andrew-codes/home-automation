@@ -1,0 +1,4 @@
+camera:
+  - platform: qrcode
+    name: Guest WiFi
+    value_template: "WIFI:S:Smith-Simms;T:WPA/WPA2;P:test;;"
