@@ -78,7 +78,7 @@ class QRCodeCamera(Camera):
     def state(self):
         return self._template.async_render()
 
-    def camera_image(self, width: int | None = None, height: int | None = None):
+    def camera_image(self, width: int = None, height: int = None):
         """Process the image."""
         return self._image.getvalue()
 
