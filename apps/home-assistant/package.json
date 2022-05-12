@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
-    "preimage/push": "mdkir -p dist && cp ../home-assistant-config-applicator/sync.sh dist/sync.sh",
+    "preimage/push": "mkdir -p dist && cp ../home-assistant-config-applicator/sync.sh dist/sync.sh",
     "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/home-assistant:latest\" --context dir:///workspace/ --insecure --cache=true",
     "start": "scripts/bin/start.sh"
   },
