@@ -136,7 +136,7 @@ if git-synchronize; then
     cd "/new-config/$CHECKOUT_PATH"
     echo "Validating config"
     validate-config
-    ./sync.sh "."
+    /sync.sh "."
 fi
 
 ###################
