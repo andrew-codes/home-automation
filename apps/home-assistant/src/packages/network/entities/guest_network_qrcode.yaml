@@ -1,4 +1,5 @@
 camera:
   - platform: qrcode
     name: Guest WiFi
+    entity_id: input_number.target_low_temp
     value_template: "WIFI:S:Smith-Simms;T:WPA/WPA2;P:test;;"
