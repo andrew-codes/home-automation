@@ -5,7 +5,8 @@
     "baseUrl": ".",
     "outDir": "dist",
     "paths": {
-      "@ha/mqtt-client": ["dist/packages/mqtt-client/src"]
+      "@ha/mqtt-client": ["dist/packages/mqtt-client/src"],
+      "@ha/unifi-client": ["dist/packages/unifi-client/src"]
     }
   }
 }
