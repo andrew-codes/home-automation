@@ -4,6 +4,7 @@ import { createMqtt } from "@ha/mqtt-client"
 import createSagaMiddleware from "redux-saga"
 import { createStore, applyMiddleware } from "redux"
 import reducer, { pollDiscovery, saga, setGuestWifiPassPhrase } from "./redux"
+import { getNetworks } from "./redux/selectors"
 
 const debug = createDebugger("@ha/guest-wifi-updater-app")
 const debugState = createDebugger("@ha/state")
@@ -36,8 +37,19 @@ async function run() {
         }
 
         const homeAssistantId = matches[1]
+        const networks = getNetworks(store.getState())
+        const network = networks.find(
+          (network) => network.homeAssistantId === homeAssistantId
+        )
+
+        if (!network) {
+          return
+        }
+
         const passPhrase = payload.toString()
-        store.dispatch(setGuestWifiPassPhrase(homeAssistantId, passPhrase))
+        store.dispatch(
+          setGuestWifiPassPhrase(network.id, homeAssistantId, passPhrase)
+        )
       } catch (error) {
         debug(error)
       }

@@ -11,7 +11,7 @@ const createUnifi = async (
   username: string | undefined = UNIFI_USERNAME,
   password: string | undefined = UNIFI_PASSWORD
 ): Promise<Controller> => {
-  if (!!client) {
+  if (!client) {
     client = new Controller({
       host,
       port: port.toString(),
