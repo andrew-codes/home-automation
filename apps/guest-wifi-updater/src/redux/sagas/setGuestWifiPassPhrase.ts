@@ -1,7 +1,7 @@
 import createDebugger from "debug"
 import type { Controller } from "@ha/unifi-client"
 import { createUnifi } from "@ha/unifi-client"
-import { call, put } from "redux-saga/effects"
+import { call } from "redux-saga/effects"
 import { SetGuestWifiPassPhraseAction } from "../types"
 
 const debug = createDebugger("@ha/guest-wifi-updater-app/discover")
