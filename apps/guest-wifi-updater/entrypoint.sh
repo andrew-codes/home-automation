@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-node -r tsconfig-paths/register dist/apps/external-services-dns-updater/src/index.js
+node -r tsconfig-paths/register dist/apps/guest-wifi-updater/src/index.js
