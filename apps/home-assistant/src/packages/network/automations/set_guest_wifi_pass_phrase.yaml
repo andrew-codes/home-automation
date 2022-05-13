@@ -1,0 +1,19 @@
+automation:
+  - alias: Set guest wifi pass phrase
+    id: set_guest_wifi_pass_phrase
+    trigger:
+      - platform: state
+        entity_id: input_text.guest_wifi_pass_phrase
+        from: ""
+    action:
+      - service: mqtt.publish
+        data:
+          topic: homeassistant/sensor/guest_wifi_smith_simms/set
+          qos: "1"
+          payload_template: >
+            {{ states('input_text.guest_wifi_pass_phrase') }}
+      - service: input_text.set_value
+        data:
+          value: ""
+        target:
+          entity_id: input_text.guest_wifi_pass_phrase
