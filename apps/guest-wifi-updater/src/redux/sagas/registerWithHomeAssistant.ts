@@ -28,8 +28,8 @@ function* registerWithHomeAssistant(action: RegisterWithHomeAssistantAction) {
       command_topic: `homeassistant/sensor/${action.payload.homeAssistantId}/set`,
       state_topic: `homeassistant/sensor/${action.payload.homeAssistantId}/state`,
       optimistic: true,
-      object_id: `guest_wifi_${action.payload.homeAssistantId}`,
-      unique_id: `guest_wifi_${action.payload.homeAssistantId}`,
+      object_id: action.payload.homeAssistantId,
+      unique_id: action.payload.homeAssistantId,
     }),
     { qos: 1 }
   )
