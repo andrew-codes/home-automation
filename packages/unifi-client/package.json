@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "name": "@ha/unifi-client",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "dependencies": {
+    "node-unifi": "^2.0.3"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "@ha/guest-wifi-updater",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "deploy": "scripts/bin/deploy.sh",
+    "postdeploy": "kubectl rollout restart deployment guest-wifi-updater"
+  },
+  "dependencies": {
+    "@ha/mqtt": "^0.0.1",
+    "@ha/guest-wifi-updater-app": "^0.0.1",
+    "@ha/secrets": "^0.0.1"
+  }
+}
