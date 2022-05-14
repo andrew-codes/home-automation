@@ -52,7 +52,7 @@ spec:
         - name: ssh-volume
           configMap:
             name: home-automation-private-key
-            defaultMode: 0600
+            defaultMode: "600"
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
