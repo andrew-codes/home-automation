@@ -27,9 +27,12 @@ template:
 sensor:
   - platform: influxdb
     api_version: 2
-    token: !secret INFLUXDB_TOKEN
+    ssl: false
+    host: 192.168.1.18
+    port: 30520
     organization: smith-simms
     bucket: home-automation
+    token: !secret INFLUXDB_TOKEN
     queries_flux:
       - range_start: "date.truncate(t: now(), unit: 1mo)"
         name: "Current Monthly Bandwidth Usage"
