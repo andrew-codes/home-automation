@@ -98,7 +98,7 @@ local grafana = import 'grafana/grafana.libsonnet';
                   type: 'influxdb',
                   uid: 'P951FEA4DE68E13C5',
                 },
-                query: 'from(bucket: "home-automation")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r["entity_id"] == "unifi_gateway_www")\n  |> filter(fn: (r) => r["_field"] == "rx_bytes-r" or r["_field"] == "tx_bytes-r") \n  |> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")\n  |> map(fn: (r) => ({_value : (float(v: r["rx_bytes-r"]) + float(v: r["tx_bytes-r"])), _start: r["_start"], _stop: r["_stop"], _time: r["_time"]}))\n  |> integral(\n    unit: 10s,\n    column: "_value",\n    timeColumn: "_time",\n    interpolate: "",\n)',
+                query: 'from(bucket: "home-automation")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r["entity_id"] == "total_bandwidth_usage_gb")\n  |> integral(column: "_value")',
                 refId: 'A',
               },
             ],
