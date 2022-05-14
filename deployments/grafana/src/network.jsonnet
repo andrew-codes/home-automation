@@ -67,7 +67,7 @@ local grafana = import 'grafana/grafana.libsonnet';
                     },
                   ],
                 },
-                unit: 'decbytes',
+                unit: 'decgbytes',
               },
               overrides: [],
             },
