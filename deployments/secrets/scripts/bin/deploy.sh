@@ -11,12 +11,12 @@ popd
 SECRETS_FILE=./secrets.yml
 echo "" >$SECRETS_FILE
 
-if [ ! -f ~/.ssh/ha ]; then
+if [ ! -f src/id_rsa ]; then
   echo "No SSH File"
-  ssh-keygen -t rsa -f ~/.ssh/ha -q -N ""
+  ssh-keygen -t rsa -f src/id_rsa -q -N ""
 fi
 
-az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "github-action-runners-HOME-AUTOMATION-PRIVATE-SSH-KEY" --file ~/.ssh/ha
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "github-action-runners-HOME-AUTOMATION-PRIVATE-SSH-KEY" --file src/id_rsa
 az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "known-hosts" --file src/known_hosts
 
 AKV_SECRET_KEYS=$(az keyvault secret list --vault-name "kv-home-automation")
@@ -46,3 +46,5 @@ spec:
 done
 
 kubectl apply -f secrets.yml
+kubectl delete secret ssh
+kubectl create secret generic ssh --from-file=./src/known_hosts --from-file=src/id_rsa

@@ -49,25 +49,16 @@ spec:
           mountPath: /root/.ssh
         - name: ssh-volume
           mountPath: /home/runner/.ssh
-        - name: ssh-known-hosts
-          mountPath: /root/.ssh
-        - name: ssh-known-hosts
-          mountPath: /home/runner/.ssh
       volumes:
-        - name: ssh-volume
+        - name: ssh
           secret:
             secretName: github-action-runners-home-automation-private-ssh-key
             defaultMode: 0600
             items:
-              - key: secret-value
-                path: id_rsa
-        - name: ssh-known-hosts
-          secret:
-            secretName: known-hosts
-            defaultMode: 0600
-            items:
-              - key: secret-value
+              - key: known_hosts
                 path: known_hosts
+              - key: id_rsa
+                path: id_rsa
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
