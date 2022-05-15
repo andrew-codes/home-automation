@@ -22,4 +22,4 @@ EOL
 export PUBLIC_KEY=$(az keyvault secret show --vault-name "kv-home-automation" --name "github-action-runners-HOME-AUTOMATION-PUBLIC-KEY" | jq -r '.value')
 echo -e "$PUBLIC_KEY" >.secrets/ha.pub
 
-ansible-playbook ./deploy.yml -i ./hosts.yml
+sudo ansible-playbook ./deploy.yml -i ./hosts.yml
