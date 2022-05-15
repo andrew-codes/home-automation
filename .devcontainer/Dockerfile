@@ -73,10 +73,6 @@ RUN chmod +x /usr/local/bin/wrapdocker.sh
 VOLUME /var/lib/docker
 RUN mkdir -p /etc/docker
 RUN echo '{ "features": { "buildkit": true }, "exec-opts": [], "insecure-registries": ["docker-registry:5000"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' > /etc/docker/daemon.json
-RUN curl -fsSL -o velero.tar.gz https://github.com/vmware-tanzu/velero/releases/download/v1.5.3/velero-v1.5.3-linux-amd64.tar.gz
-RUN tar -xvf velero.tar.gz
-RUN mv velero-v1.5.3-linux-amd64/velero /usr/local/bin
-RUN chmod +x /usr/local/bin/velero
 RUN curl -fsSL -o helm.tar.gz  https://get.helm.sh/helm-v3.6.1-linux-amd64.tar.gz
 RUN tar -zxvf helm.tar.gz
 RUN mv linux-amd64/helm /usr/local/bin/helm
