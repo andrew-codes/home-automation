@@ -44,7 +44,13 @@
     "source=${localEnv:HOME}/.ssh/id_rsa,target=/root/.ssh/id_rsa,type=bind",
     "source=${localEnv:HOME}/.gitconfig,target=/root/.gitconfig,type=bind"
   ],
-
-  "postStartCommand": "wrapdocker.sh",
-  "runArgs": ["--privileged", "--network=host"]
+  "remoteUser": "vscode",
+  "initializeCommand": "bash .devcontainer/save-config.sh",
+  "postStartCommand": "bash -c './devcontainer/start-openvpn.sh && .devcontainer/wrapdocker.sh'",
+  "runArgs": [
+    "--cap-add=NET_ADMIN",
+    "--cap-add=NET_RAW",
+    "--device=/dev/net/tun",
+    "--privileged"
+  ]
 }
