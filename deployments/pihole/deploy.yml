@@ -43,4 +43,4 @@
       authorized_key:
         user: root
         state: present
-        key: "{{ lookup('file', '~/.ssh/ha.pub') }}"
+        key: "{{ lookup('file', '.secrets/ha.pub') }}"
