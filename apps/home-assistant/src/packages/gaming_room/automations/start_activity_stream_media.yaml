@@ -4,7 +4,7 @@ automation:
     trigger:
       platform: state
       entity_id: media_player.gaming_room_universal_media_player
-      to: "on"
+      from: "off"
     action:
       - service: media_player.select_source
         entity_id: media_player.gaming_room_avr
