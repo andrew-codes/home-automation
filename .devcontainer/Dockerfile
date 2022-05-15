@@ -18,6 +18,7 @@ RUN echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stabl
 RUN echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu focal main"
 RUN apt-add-repository -y --update ppa:ansible/ansible
 RUN add-apt-repository -y --update ppa:deadsnakes/ppa
+RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
 RUN apt-add-repository -y --update "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 
 RUN apt update -y
