@@ -121,3 +121,9 @@
         daemon_reload: true
         enabled: yes
         state: restarted
+
+    - name: Set authorized key for github action runner
+      authorized_key:
+        user: root
+        state: present
+        key: "{{ lookup('file', '.secrets/ha.pub') }}"
