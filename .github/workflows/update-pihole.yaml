@@ -28,4 +28,4 @@ jobs:
       - name: Install deps
         run: yarn
       - name: Update PiHole
-        run: yarn lerna run update --scope @ha/pihole --stream
+        run: sudo yarn lerna run update --scope @ha/pihole --stream

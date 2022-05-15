@@ -46,13 +46,15 @@ spec:
           value: localhost:2736
       volumeMounts:
         - name: ssh-volume
-          mountPath: /home/runner/.ssh/id_rsa
-          subPath: value
+          mountPath: /root/.ssh
       volumes:
         - name: ssh-volume
-          configMap:
-            name: home-automation-private-key
-            defaultMode: "600"
+          secret:
+            secretName: github-action-runners-home-automation-private-ssh-key
+            defaultMode: 0600
+            items:
+              - key: secret-value
+                path: id_rsa
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

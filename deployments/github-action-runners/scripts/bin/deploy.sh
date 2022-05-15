@@ -11,21 +11,8 @@ popd
 
 export GITHUB_RUNNER_TOKEN=$(az keyvault secret show --vault-name "kv-home-automation" --name "github-action-runners-GITHUB-TOKEN" | jq -r '.value')
 
-export HOME_AUTOMATION_PRIVATE_SSH_KEY=$(az keyvault secret show --vault-name "kv-home-automation" --name "github-action-runners-HOME-AUTOMATION-PRIVATE-SSH-KEY" | jq -r '.value')
-mkdir -p .secrets
-cat <<EOL >.secrets/config-maps.yml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: home-automation-private-key
-  namespace: default
-data:
-  value: "$HOME_AUTOMATION_PRIVATE_SSH_KEY"
-EOL
-
 kubectl apply -f namespace.yml
 envsubst <external-services.yml | kubectl apply -f -
-kubectl apply -f .secrets/config-maps.yml
 kubectl create secret generic controller-manager --namespace=actions-runner-system --from-literal=github_token="$GITHUB_RUNNER_TOKEN"
 kubectl apply -f https://github.com/actions-runner-controller/actions-runner-controller/releases/download/v0.20.2/actions-runner-controller.yaml
 kubectl apply -f runners.yml
