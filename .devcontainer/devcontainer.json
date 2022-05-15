@@ -37,7 +37,7 @@
     "wallabyjs.wallaby-vscode"
   ],
   "remoteUser": "vscode",
-  "initializeCommand": "bash .devcontainer/save-config.sh",
+  "initializeCommand": "bash -c '.devcontainer/save-config.sh'",
   "postStartCommand": "bash -c './devcontainer/start-openvpn.sh && .devcontainer/wrapdocker.sh'",
   "runArgs": [
     "--cap-add=NET_ADMIN",
