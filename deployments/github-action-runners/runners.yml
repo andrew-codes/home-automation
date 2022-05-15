@@ -47,6 +47,8 @@ spec:
       volumeMounts:
         - name: ssh-volume
           mountPath: /root/.ssh
+        - name: ssh-volume
+          mountPath: /home/runner/.ssh
       volumes:
         - name: ssh-volume
           secret:
