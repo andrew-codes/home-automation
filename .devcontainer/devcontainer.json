@@ -36,7 +36,6 @@
     "silvenon.mdx",
     "wallabyjs.wallaby-vscode"
   ],
-  "remoteUser": "vscode",
   "initializeCommand": "bash -c '.devcontainer/save-config.sh'",
   "postStartCommand": "bash -c './devcontainer/start.sh'",
   "runArgs": [
