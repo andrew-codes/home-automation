@@ -37,7 +37,7 @@
     "wallabyjs.wallaby-vscode"
   ],
   "initializeCommand": "bash -c '.devcontainer/save-config.sh'",
-  "postStartCommand": "bash -c './devcontainer/start.sh'",
+  "postStartCommand": "bash -c '.devcontainer/start.sh'",
   "runArgs": [
     "--cap-add=NET_ADMIN",
     "--cap-add=NET_RAW",
