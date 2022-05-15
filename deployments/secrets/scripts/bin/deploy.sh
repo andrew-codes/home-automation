@@ -39,7 +39,7 @@ done
 
 kubectl apply -f secrets.yml
 
-export SSH_KEY=$(az keyvault secret show --vault-name "kv-home-automation" --name "github-action-runner-HOME-AUTOMATION-PRIVATE-KEY" | jq -r '.value')
+export SSH_KEY=$(az keyvault secret show --vault-name "kv-home-automation" --name "github-action-runner-HOME-AUTOMATION-PRIVATE-SSH-KEY" | jq -r '.value')
 export KNOWN_HOSTS=$(az keyvault secret show --vault-name "kv-home-automation" --name "known-hosts" | jq -r '.value')
 
 mkdir -p tmp
