@@ -7,9 +7,10 @@
   },
 
   "extensions": [
+    "andrew-codes.jest-snippets",
     "capaj.vscode-exports-autocomplete",
     "christian-kohler.npm-intellisense",
-    "cmstead.jsrefactor",
+    "cmstead.js-codeformer",
     "dbaeumer.vscode-eslint",
     "eamodio.gitlens",
     "esbenp.prettier-vscode",
@@ -18,6 +19,8 @@
     "Grafana.vscode-jsonnet",
     "hashicorp.terraform",
     "humao.rest-client",
+    "influxdata.flux",
+    "jasonnutter.search-node-modules",
     "keesschollaart.vscode-home-assistant",
     "kisstkondoros.vscode-codemetrics",
     "mikestead.dotenv",
