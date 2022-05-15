@@ -1,5 +1,7 @@
 name: Update PiHole
 on:
+  repository_dispatch:
+    types: update-pihole
   schedule:
     - cron: "0 1 * * *"
 jobs:
