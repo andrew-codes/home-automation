@@ -239,7 +239,7 @@ local grafana = import 'grafana/grafana.libsonnet';
                   type: 'influxdb',
                   uid: 'P951FEA4DE68E13C5',
                 },
-                query: 'from(bucket: "home-automation")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r["entity_id"] == "unifi_gateway_www")\n  |> filter(fn: (r) => r["_field"] == "xput_down" or r["_field"] == "xput_up")\n  |> keep(columns: ["_field", "_value", "_time"])',
+                query: 'from(bucket: "home-automation")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r["entity_id"] == "unifi_gateway_www")\n  |> filter(fn: (r) => r["_field"] == "xput_down" or r["_field"] == "xput_up")\n    |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n    |> keep(columns: ["_field", "_value", "_time"])',
                 refId: 'A',
               },
             ],
