@@ -49,8 +49,6 @@ ADD ./wrapdocker.sh /usr/local/bin/wrapdocker.sh
 RUN sudo chmod +x /usr/local/bin/wrapdocker.sh
 ENV DOCKER_DAEMON_ARGS "--insecure-registry docker-registry:5000"
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-COPY src/known_hosts /root/.ssh/known_hosts
-COPY src/known_hosts /home/runner/.ssh/known_hosts
 RUN wget -c https://dl.google.com/go/go1.18.1.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
 RUN sudo ln -s /usr/local/go/bin/go /usr/local/bin
 RUN go install github.com/google/go-jsonnet/cmd/jsonnet@latest

@@ -17,6 +17,7 @@ if [ ! -f ~/.ssh/ha ]; then
 fi
 
 az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "github-action-runners-HOME-AUTOMATION-PRIVATE-SSH-KEY" --file ~/.ssh/ha
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "known-hosts" --file src/known_hosts
 
 AKV_SECRET_KEYS=$(az keyvault secret list --vault-name "kv-home-automation")
 

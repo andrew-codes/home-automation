@@ -49,6 +49,10 @@ spec:
           mountPath: /root/.ssh
         - name: ssh-volume
           mountPath: /home/runner/.ssh
+        - name: ssh-known-hosts
+          mountPath: /root/.ssh
+        - name: ssh-known-hosts
+          mountPath: /home/runner/.ssh
       volumes:
         - name: ssh-volume
           secret:
@@ -57,6 +61,13 @@ spec:
             items:
               - key: secret-value
                 path: id_rsa
+        - name: ssh-known-hosts
+          secret:
+            secretName: known-hosts
+            defaultMode: 0600
+            items:
+              - key: secret-value
+                path: known_hosts
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
