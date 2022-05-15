@@ -5,8 +5,8 @@ set -e
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 # Create a temporary directory
-mkdir -p openvpn-tmp
-cd openvpn-tmp
+mkdir -p .secrets
+cd .secrets
 
 # Save the configuration from the secret if it is present
 if [ ! -z "${OPENVPN_CONFIG}" ]; then
@@ -23,4 +23,9 @@ fi
 if [ ! -z "${ID_RSA}" ]; then
     mkdir -p ~/.ssh
     echo -e "${ID_RSA}" >~/.ssh/id_rsa_2
+fi
+
+# Save the configuration from the secret if it is present
+if [ ! -z "${SMITH_SIMMS_VPN_CREDS}" ]; then
+    echo -e "${SMITH_SIMMS_VPN_CREDS}" >vpn.creds
 fi

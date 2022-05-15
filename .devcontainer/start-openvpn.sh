@@ -5,8 +5,8 @@ set -e
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 # Create a temporary directory
-mkdir -p openvpn-tmp
-cd openvpn-tmp
+mkdir -p .secrets
+cd .secrets
 
 # Touch file to make sure this user can read it
 touch openvpn.log
@@ -18,4 +18,4 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 # Start up the VPN client using the config stored in vpnconfig.ovpn by save-config.sh
-nohup ${sudo_cmd} /bin/sh -c "openvpn --config vpnconfig.ovpn --log openvpn.log &" | tee openvpn-launch.log
+nohup ${sudo_cmd} /bin/sh -c "openvpn --config vpnconfig.ovpn --log openvpn.log --auth-user-pass vpn.creds &" | tee openvpn-launch.log
