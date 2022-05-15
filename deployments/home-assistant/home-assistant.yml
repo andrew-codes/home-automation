@@ -262,7 +262,7 @@ spec:
             - name: GITHUB_RUNNER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: github-action-runners-GITHUB-TOKEN
+                  name: github-action-runners-github-token
                   key: secret-value
 
             - name: GOOGLE_CALENDAR_CLIENT_ID
