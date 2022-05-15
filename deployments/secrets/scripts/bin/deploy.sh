@@ -3,10 +3,20 @@
 pushd .
 cd ../../
 source scripts/bin/az-login.sh
+set -o allexport
+source .provision-vars.env
+set +o allexport
 popd
 
 SECRETS_FILE=./secrets.yml
 echo "" >$SECRETS_FILE
+
+if [ ! -f ~/.ssh/ha ]; then
+  echo "No SSH File"
+  ssh-keygen -t rsa -f ~/.ssh/ha -q -N ""
+fi
+
+az keyvault secret set --vault-name $AZURE_KEY_VAULT_NAME --name "github-action-runners-HOME-AUTOMATION-PRIVATE-SSH-KEY" --file ~/.ssh/ha
 
 AKV_SECRET_KEYS=$(az keyvault secret list --vault-name "kv-home-automation")
 

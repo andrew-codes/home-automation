@@ -8,5 +8,7 @@
     "initialize-secrets": "scripts/bin/initialize-secrets.sh",
     "update": "ansible-playbook update.yml -i hosts.yml"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@ha/secrets": "^0.0.1"
+  }
 }

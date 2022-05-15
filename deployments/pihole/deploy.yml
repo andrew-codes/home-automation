@@ -38,3 +38,9 @@
       become_method: sudo
       become: yes
       shell: pihole -a -p "{{ pihole_password }}"
+
+    - name: Set authorized key took from file
+      authorized_key:
+        user: root
+        state: present
+        key: "{{ lookup('file', '~/.ssh/ha.pub') }}"
