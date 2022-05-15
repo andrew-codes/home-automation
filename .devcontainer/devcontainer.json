@@ -3,7 +3,13 @@
   "dockerFile": "Dockerfile",
 
   "settings": {
-    "terminal.integrated.shell.linux": "/bin/bash"
+    "terminal.integrated.profiles.linux": {
+      "bash": {
+        "path": "bash",
+        "icon": "terminal-bash"
+      }
+    },
+    "workbench.colorTheme": "Monokai Pro (Filter Octagon)"
   },
 
   "extensions": [
@@ -24,6 +30,7 @@
     "keesschollaart.vscode-home-assistant",
     "kisstkondoros.vscode-codemetrics",
     "mikestead.dotenv",
+    "monokai.theme-monokai-pro-vscode",
     "ms-azuretools.vscode-docker",
     "paulmolluzzo.convert-css-in-js",
     "pflannery.vscode-versionlens",
