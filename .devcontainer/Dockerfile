@@ -60,7 +60,6 @@ RUN sudo curl -fL https://app.getambassador.io/download/tel2/linux/amd64/latest/
 RUN sudo chmod a+x /usr/local/bin/telepresence
 
 RUN pip3 install "pywinrm>=0.3.0"
-RUN export KUBECONFIG=/home/root/.kube/config
 RUN ansible-galaxy collection install ansible.windows
 RUN ansible-galaxy collection install community.windows
 RUN wget https://github.com/containerd/containerd/releases/download/v1.4.3/containerd-1.4.3-linux-amd64.tar.gz
@@ -71,10 +70,6 @@ RUN wget https://github.com/mikefarah/yq/releases/download/v4.6.3/yq_linux_amd64
 RUN chmod +x /usr/bin/yq
 RUN mkdir -p /usr/local/bin
 RUN ln -s /usr/bin/gpg /usr/local/bin/gpg
-RUN mkdir -p /root/.kube
-
-ADD ./wrapdocker.sh /usr/local/bin/wrapdocker.sh
-RUN chmod +x /usr/local/bin/wrapdocker.sh
 VOLUME /var/lib/docker
 RUN mkdir -p /etc/docker
 RUN echo '{ "features": { "buildkit": true }, "exec-opts": [], "insecure-registries": ["docker-registry:5000"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' > /etc/docker/daemon.json

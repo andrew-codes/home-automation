@@ -38,11 +38,10 @@
   ],
   "remoteUser": "vscode",
   "initializeCommand": "bash -c '.devcontainer/save-config.sh'",
-  "postStartCommand": "bash -c './devcontainer/start-openvpn.sh && .devcontainer/wrapdocker.sh'",
+  "postStartCommand": "bash -c './devcontainer/start.sh'",
   "runArgs": [
     "--cap-add=NET_ADMIN",
     "--cap-add=NET_RAW",
-    "--device=/dev/net/tun",
-    "--privileged"
+    "--device=/dev/net/tun"
   ]
 }
