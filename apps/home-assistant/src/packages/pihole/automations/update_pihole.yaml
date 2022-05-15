@@ -1,0 +1,15 @@
+automation:
+  - alias: Update PiHole
+    id: update_pihole
+    trigger:
+      - platform: state
+        entity_id: update.pi_hole_core_update_available
+        to: "on"
+      - platform: state
+        entity_id: update.pi_hole_ftl_update_available
+        to: "on"
+      - platform: state
+        entity_id: update.pi_hole_web_update_available
+        to: "on"
+    action:
+      - service: rest_command.update_pihole
