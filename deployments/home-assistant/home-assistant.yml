@@ -87,6 +87,7 @@ data:
     GAMING_ROOM_PLAYSTATION_5_IP: '${GAMING_ROOM_PLAYSTATION_5_IP}'
     GAMING_ROOM_TV_IP: '${GAMING_ROOM_TV_IP}'
     GAMING_ROOM_TV_MAC: '${GAMING_ROOM_TV_MAC}'
+    GITHUB_RUNNER_AUTH_HEADER: 'token ${GITHUB_RUNNER_TOKEN}'
     GOOGLE_CALENDAR_CLIENT_ID: '${GOOGLE_CALENDAR_CLIENT_ID}'
     GOOGLE_CALENDAR_CLIENT_SECRET: '${GOOGLE_CALENDAR_CLIENT_SECRET}'
     HA_TOKEN: '${HA_TOKEN}'
@@ -256,6 +257,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: home-assistant-gaming-room-tv-mac
+                  key: secret-value
+
+            - name: GITHUB_RUNNER_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: github-action-runners-GITHUB-TOKEN
                   key: secret-value
 
             - name: GOOGLE_CALENDAR_CLIENT_ID

@@ -1,0 +1,10 @@
+rest_command:
+  update_pihole:
+    url: https://api.github.com/repos/andrew-codes/home-automation/dispatches
+    method: POST
+    headers:
+      authorization: !secret GITHUB_RUNNER_AUTH_HEADER
+      accept: "application/vnd.github.everest-preview+json"
+    payload: '{"event_type": "update-pihole"}'
+    content_type: "application/json; charset=utf-8"
+    verify_ssl: true
