@@ -4,4 +4,5 @@ set -e
 # Switch to the .devcontainer folder
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-source start-openvpn.sh
+source start-openvpn.sh &
+nohup wrapdocker.sh
