@@ -5,4 +5,4 @@ set -e
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 source start-openvpn.sh &
-nohup wrapdocker.sh
+source wrapdocker.sh &
