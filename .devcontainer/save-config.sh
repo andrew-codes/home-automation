@@ -14,15 +14,15 @@ if [ ! -z "${OPENVPN_CONFIG}" ]; then
 fi
 
 # Save the configuration from the secret if it is present
-if [ ! -z "${K8s_CONFIG}" ]; then
+if [ ! -z "${K8S_CONFIG}" ]; then
     mkdir -p ~/.kube
-    echo -e "${K8s_CONFIG}" >~/.kube/config
+    echo -e "${K8S_CONFIG}" >~/.kube/config
 fi
 
 # Save the configuration from the secret if it is present
 if [ ! -z "${ID_RSA}" ]; then
     mkdir -p ~/.ssh
-    echo -e "${ID_RSA}" >~/.ssh/id_rsa_2
+    echo -e "${ID_RSA}" >~/.ssh/id_rsa
 fi
 
 # Save the configuration from the secret if it is present
