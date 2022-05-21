@@ -6,7 +6,7 @@ import type { Device } from "../types"
 import { getDevices, getStateMappings } from "../selectors"
 import { updateHomeAssistant } from "../actionCreators"
 
-const debug = createDebugger("@ha/ps5-app/checkDevicesState")
+const debug = createDebugger("@ha/ps5/checkDevicesState")
 
 function* checkDevicesState() {
   const devices: Device[] = yield select(getDevices)

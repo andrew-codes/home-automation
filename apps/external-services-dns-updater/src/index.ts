@@ -2,7 +2,7 @@ import createDebugger from "debug"
 import { createMqtt } from "@ha/mqtt-client"
 import { google, dns_v1 } from "googleapis"
 
-const debug = createDebugger("@ha/external-services-dns-updater-app")
+const debug = createDebugger("@ha/external-services-dns-updater")
 const { SUB_DOMAINS } = process.env
 
 async function run() {

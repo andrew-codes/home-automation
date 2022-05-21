@@ -5,7 +5,7 @@ import createSagaMiddleware from "redux-saga"
 import { createStore, applyMiddleware } from "redux"
 import reducer, { pollDiscovery, saga } from "./redux"
 
-const debug = createDebugger("@ha/guest-wifi-updater-app")
+const debug = createDebugger("@ha/guest-wifi-updater")
 const debugState = createDebugger("@ha/state")
 
 async function run() {

@@ -5,7 +5,7 @@ import sh from "shelljs"
 import type { ApplyToDeviceAction } from "../types"
 import { setTransitioning, updateHomeAssistant } from "../actionCreators"
 
-const debug = createDebugger("@ha/ps5-app/turnOnDevice")
+const debug = createDebugger("@ha/ps5/turnOnDevice")
 
 function* turnOnDevice(action: ApplyToDeviceAction) {
   if (action.payload.on !== "ON") {

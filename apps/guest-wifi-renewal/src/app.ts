@@ -8,7 +8,7 @@ import {
 } from "home-assistant-js-websocket"
 import { Controller } from "node-unifi"
 import WebSocket from "ws"
-const debug = createDebug("@ha/guest-wifi-renewal/apo")
+const debug = createDebug("@ha/guest-wifi-renewal")
 
 const run = async (): Promise<void> => {
   const {

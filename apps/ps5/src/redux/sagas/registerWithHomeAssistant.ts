@@ -10,7 +10,7 @@ import type { RegisterDeviceWithHomeAssistantAction } from "../types"
 import { addDevice, updateHomeAssistant } from "../actionCreators"
 import { getDevices } from "../selectors"
 
-const debug = createDebugger("@ha/ps5-app/addDevice")
+const debug = createDebugger("@ha/ps5/addDevice")
 
 function* registerWithHomeAssistant(
   action: RegisterDeviceWithHomeAssistantAction
