@@ -1,6 +1,5 @@
 import createDebugger from "debug"
 import createSagaMiddleware from "redux-saga"
-import http from "http"
 import { createStore, applyMiddleware } from "redux"
 import reducer, {
   applyToDevice,
@@ -18,15 +17,6 @@ const debugState = createDebugger("@ha/state")
 async function run() {
   debug("Started")
   try {
-    const healthEndpoint = http.createServer((request, response) => {
-      response.statusCode = 200
-      response.end()
-    })
-
-    healthEndpoint.listen(8080, () => {
-      console.info("Health endpoint is running at port 80...")
-    })
-
     const sagaMiddleware = createSagaMiddleware()
     const store = createStore(reducer, applyMiddleware(sagaMiddleware))
     store.subscribe(() => {

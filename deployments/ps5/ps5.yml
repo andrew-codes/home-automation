@@ -44,10 +44,6 @@ spec:
         - name: ps5
           image: docker-registry:5000/ps5:latest
           imagePullPolicy: Always
-          ports:
-            - containerPort: 8080
-              name: health
-              protocol: TCP
           env:
             - name: DEBUG
               value: "@ha/ps5-app/*"
@@ -78,21 +74,3 @@ spec:
             items:
               - key: secret-value
                 path: credentials.json
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: ps5
-  namespace: default
-  labels:
-    app.kubernetes.io/name: ps5
-spec:
-  type: ClusterIP
-  ports:
-    - name: health
-      port: 8080
-      protocol: TCP
-      targetPort: health
-  selector:
-    app.kubernetes.io/name: ps5
