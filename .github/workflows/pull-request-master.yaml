@@ -34,5 +34,10 @@ jobs:
         run: yarn
         env:
           YARN_CACHE_FOLDER: ".yarn-cache"
+      - name: Compile apps
+        run: yarn lerna run compile --stream --include-dependents --since HEAD~
+        env:
+          MQTT_CONNECTION: ${{ secrets.MQTT_CONNECTION }}
+          GAMING_ROOM_GAMING_PC_USERNAME: "${{ secrets.GAMING_ROOM_GAMING_PC_USERNAME }}"
       - name: Run unit tests
         run: yarn test
