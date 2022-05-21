@@ -45,7 +45,7 @@ spec:
           image: docker-registry:5000/ps5:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 80
+            - containerPort: 8080
               name: health
               protocol: TCP
           env:
@@ -91,7 +91,7 @@ spec:
   type: ClusterIP
   ports:
     - name: health
-      port: 80
+      port: 8080
       protocol: TCP
       targetPort: health
   selector:

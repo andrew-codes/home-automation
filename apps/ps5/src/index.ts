@@ -23,7 +23,7 @@ async function run() {
       response.end()
     })
 
-    healthEndpoint.listen(80, () => {
+    healthEndpoint.listen(8080, () => {
       console.info("Health endpoint is running at port 80...")
     })
 
