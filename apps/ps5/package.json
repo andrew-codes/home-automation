@@ -6,9 +6,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "compile": "tsc --project tsconfig.json",
-    "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/ps5:latest\" --context dir:///workspace/ --insecure --cache=true",
-    "start": "scripts/bin/start.sh",
-    "stop": "scripts/bin/stop.sh"
+    "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/ps5:latest\" --context dir:///workspace/ --insecure --cache=true"
   },
   "dependencies": {
     "@ha/mqtt-client": "^0.0.1",
