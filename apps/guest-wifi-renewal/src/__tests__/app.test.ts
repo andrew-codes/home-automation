@@ -1,5 +1,6 @@
 jest.mock("@ha/mqtt-client")
 jest.mock("@ha/unifi-client")
+import type { AsyncMqttClient } from "@ha/mqtt-client"
 import { createMqtt } from "@ha/mqtt-client"
 import { createUnifi } from "@ha/unifi-client"
 import { when } from "jest-when"
@@ -15,7 +16,7 @@ describe("app", () => {
     jest.mocked(createMqtt).mockResolvedValue({
       on: onMock,
       subscribe,
-    })
+    } as unknown as AsyncMqttClient)
     jest.mocked(createUnifi).mockResolvedValue({
       authorizeGuest,
     })
