@@ -1,5 +1,9 @@
 {
-  "exclude": ["node_modules", "apps/*/src/**/__tests__/*.*"],
+  "exclude": [
+    "node_modules",
+    "apps/*/src/**/__tests__/*.*",
+    "packages/*/src/**/__tests__/*.*"
+  ],
   "compilerOptions": {
     "allowJs": true,
     "baseUrl": "./",
