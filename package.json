@@ -6,7 +6,7 @@
   "author": "Andrew Smith <andrew@andrew.codes>",
   "license": "MIT",
   "engines": {
-    "node": ">=14.3.0",
+    "node": ">=16.15.0",
     "yarn": ">=1.22.4"
   },
   "scripts": {
@@ -14,6 +14,7 @@
     "clean": "lerna run clean --include-filtered-dependencies",
     "compile": "lerna run compile --include-filtered-dependencies",
     "dashboard": "lerna run dashboard --stream --parallel",
+    "predeploy": "jb install",
     "deploy": "lerna run deploy --include-filtered-dependencies --stream",
     "initialize-secrets": "lerna run initialize-secrets --stream",
     "patch": "patch-package",
