@@ -495,88 +495,36 @@ Thank you!`,
         // Event 1
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/set",
-            JSON.stringify({
-              entity_id: "input_text.front_door_pin_1",
-              pin: "0001",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/front_door/1/set", "0001", { qos: 2 }],
         })
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/set",
-            JSON.stringify({
-              entity_id: "input_text.car_port_door_pin_1",
-              pin: "0001",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/car_port_door/1/set", "0001", { qos: 2 }],
         })
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/enable",
-            JSON.stringify({
-              entity_id: "input_boolean.enabled_front_door_1",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/front_door/1/enable", { qos: 2 }],
         })
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/enable",
-            JSON.stringify({
-              entity_id: "input_boolean.enabled_car_port_door_1",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/car_port_door/1/enable", { qos: 2 }],
         })
         // Event 2
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/set",
-            JSON.stringify({
-              entity_id: "input_text.front_door_pin_2",
-              pin: "0003",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/front_door/2/set", "0003", { qos: 2 }],
         })
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/set",
-            JSON.stringify({
-              entity_id: "input_text.car_port_door_pin_2",
-              pin: "0003",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/car_port_door/2/set", "0003", { qos: 2 }],
         })
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/enable",
-            JSON.stringify({
-              entity_id: "input_boolean.enabled_front_door_2",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/front_door/2/enable", { qos: 2 }],
         })
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/enable",
-            JSON.stringify({
-              entity_id: "input_boolean.enabled_car_port_door_2",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/car_port_door/2/enable", { qos: 2 }],
         })
         .run()
     )
@@ -746,44 +694,20 @@ describe("ending events", () => {
         // Event 1
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/disable",
-            JSON.stringify({
-              entity_id: "input_boolean.enabled_front_door_2",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/front_door/2/disable", { qos: 2 }],
         })
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/disable",
-            JSON.stringify({
-              entity_id: "input_boolean.enabled_car_port_door_2",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/car_port_door/2/disable", { qos: 2 }],
         })
         // Event 2
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/disable",
-            JSON.stringify({
-              entity_id: "input_boolean.enabled_front_door_3",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/front_door/3/disable", { qos: 2 }],
         })
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/disable",
-            JSON.stringify({
-              entity_id: "input_boolean.enabled_car_port_door_3",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/car_port_door/3/disable", { qos: 2 }],
         })
         .run()
     )

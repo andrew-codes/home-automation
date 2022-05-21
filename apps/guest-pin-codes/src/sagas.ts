@@ -190,7 +190,6 @@ Thank you!`,
           doorLockIndex++
         ) {
           const door = doorLocks[doorLockIndex]
-          const doorPinId = `${door}_pin_${slotNumber}`
           yield call<
             AsyncMqttClient,
             (
@@ -198,15 +197,9 @@ Thank you!`,
               message: string,
               options: IClientPublishOptions
             ) => Promise<IPublishPacket>
-          >(
-            [mqtt, mqtt.publish],
-            "/homeassistant/guest-pin/set",
-            JSON.stringify({
-              entity_id: `input_text.${doorPinId}`,
-              pin: code,
-            }),
-            { qos: 2 }
-          )
+          >([mqtt, mqtt.publish], `home/pin/${door}/${slotNumber}/set`, code, {
+            qos: 2,
+          })
           yield call<
             AsyncMqttClient,
             (
@@ -214,14 +207,9 @@ Thank you!`,
               message: string,
               options: IClientPublishOptions
             ) => Promise<IPublishPacket>
-          >(
-            [mqtt, mqtt.publish],
-            "/homeassistant/guest-pin/enable",
-            JSON.stringify({
-              entity_id: `input_boolean.enabled_${door}_${slotNumber}`,
-            }),
-            { qos: 2 }
-          )
+          >([mqtt, mqtt.publish], `home/pin/${door}/${slotNumber}/enable`, "", {
+            qos: 2,
+          })
         }
       } catch (err) {
         debug(err)
@@ -265,10 +253,8 @@ function* endEvent(action: ScheduleEventsAction) {
         const door = doorLocks[doorIndex]
         yield call(
           [mqtt, mqtt.publish],
-          "/homeassistant/guest-pin/disable",
-          JSON.stringify({
-            entity_id: `input_boolean.enabled_${door}_${slotId}`,
-          }),
+          `home/pin/${door}/${slotId}/disable`,
+          "",
           { qos: 2 }
         )
       }
