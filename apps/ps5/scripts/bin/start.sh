@@ -1,16 +1,5 @@
 #!/usr/bin/env bash
 
-pushd .
-cd ../../
-set -o allexport
-source .secrets.env
-set +o allexport
-popd
+telepresence connect
 
-NODE_APP_IMAGE_COUNT_BY_REFERENCE=$(docker image ls --filter reference="node-app:latest" | wc -l | awk '{ print $1 }')
-
-if [ "$NODE_APP_IMAGE_COUNT_BY_REFERENCE" -ne "2" ]; then
-    echo "No image found for ps5:latest, building developer image first for app package: @ha/ps5-app"
-fi
-
-telepresence intercept "ps5" --docker-run -- --rm -t -v "$PWD/../../:/app" "node-app:latest" yarn lerna run start/dev --scope "@ha/ps5-app" --stream
+telepresence intercept "ps5" --service ps5 --env-file intercept.env --port 8080:80 -- /bin/bash -c 'DEBUG=@ha/* nodemon src/index.ts --inspect=0.0.0.0:9233'
