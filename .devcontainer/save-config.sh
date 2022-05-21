@@ -29,3 +29,8 @@ fi
 if [ ! -z "${SMITH_SIMMS_VPN_CREDS}" ]; then
     echo -e "${SMITH_SIMMS_VPN_CREDS}" >vpn.creds
 fi
+
+# Save the configuration from the secret if it is present
+if [ ! -z "${HOME_AUTOMATION_SECRETS_ENV}" ]; then
+    echo -e "${HOME_AUTOMATION_SECRETS_ENV}" >../../.secrets.env
+fi
