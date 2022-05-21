@@ -25,7 +25,6 @@
     "reselect": "^4.1.5"
   },
   "devDependencies": {
-    "@ha/ts-config": "^0.0.1",
     "@redux-saga/is": "^1.0.1",
     "@redux-saga/symbols": "^1.0.1",
     "@types/jest": "^27.4.1",

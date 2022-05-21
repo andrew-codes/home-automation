@@ -1,6 +1,6 @@
 {
-  "extends": "@ha/ts-config/src/index.json",
-  "include": ["src/**/*.ts", "../../packages/*/src/**/*.ts"],
+  "extends": "../../tsconfig.json",
+  "include": ["src/**/*.ts", "../../packages/**/src/**/*.ts"],
   "compilerOptions": {
     "outDir": "dist"
   }

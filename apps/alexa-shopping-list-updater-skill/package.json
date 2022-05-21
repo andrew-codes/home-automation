@@ -21,7 +21,6 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@ha/ts-config": "^0.0.1",
     "@zeit/ncc": "^0.22.3",
     "nodemon": "^2.0.6"
   }
