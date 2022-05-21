@@ -11,7 +11,7 @@ import reducer, {
 import { createMqtt } from "@ha/mqtt-client"
 import { SwitchStatus } from "./redux/types"
 
-const debug = createDebugger("@ha/ps5-app")
+const debug = createDebugger("@ha/ps5")
 const debugState = createDebugger("@ha/state")
 
 async function run() {

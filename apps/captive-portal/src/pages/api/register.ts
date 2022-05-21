@@ -40,7 +40,7 @@ export default async function handler(
         port: parseInt(mqttPort, 10),
         username: MQTT_USERNAME,
       })
-      await mqtt.publish("/homeassistant/guest/track-device", payload.mac)
+      await mqtt.publish("home/guests/track-device", payload.mac)
     }
     res.status(200).send("")
   } catch (error) {

@@ -4,7 +4,7 @@ import { createUnifi } from "@ha/unifi-client"
 import { call } from "redux-saga/effects"
 import { SetGuestWifiPassPhraseAction } from "../types"
 
-const debug = createDebugger("@ha/guest-wifi-updater-app/discover")
+const debug = createDebugger("@ha/guest-wifi-updater/discover")
 
 function* setWifiGuestPassPhrase(action: SetGuestWifiPassPhraseAction) {
   try {

@@ -4,7 +4,7 @@ import { delay, put } from "redux-saga/effects"
 import type { SetTransitioningAction } from "../types"
 import { pollDevices, setTransitioning } from "../actionCreators"
 
-const debug = createDebugger("@ha/ps5-app/checkDevicesState")
+const debug = createDebugger("@ha/ps5/checkDevicesState")
 
 function* delayForTransition(action: SetTransitioningAction) {
   yield delay(15000)

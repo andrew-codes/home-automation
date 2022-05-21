@@ -4,7 +4,7 @@ import { call } from "redux-saga/effects"
 import { createMqtt } from "@ha/mqtt-client"
 import type { UpdateHomeAssistantAction } from "../types"
 
-const debug = createDebugger("@ha/ps5-app/registerWithHomeAssistant")
+const debug = createDebugger("@ha/ps5/registerWithHomeAssistant")
 
 function* updateHomeAssistant(action: UpdateHomeAssistantAction) {
   const mqtt: AsyncMqttClient = yield call(createMqtt)

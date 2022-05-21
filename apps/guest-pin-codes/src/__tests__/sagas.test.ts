@@ -1,6 +1,6 @@
 jest.mock("../googleClient")
-jest.mock("node-unifi")
-import { Controller } from "node-unifi"
+import { createMqtt } from "@ha/mqtt-client"
+import { createUnifi } from "@ha/unifi-client"
 import { expectSaga } from "redux-saga-test-plan"
 import { throwError } from "redux-saga-test-plan/providers"
 import * as matchers from "redux-saga-test-plan/matchers"
@@ -18,7 +18,6 @@ import {
   getLockSlots,
   getStartingEvents,
 } from "../selectors"
-import createMqttClient from "../mqtt"
 
 const calendarClient = {
   events: {
@@ -29,7 +28,6 @@ const calendarClient = {
 let mqtt = {
   publish: jest.fn(),
 }
-let unifiLogin: jest.Mock
 let unifiGetWifi: jest.Mock
 
 beforeEach(() => {
@@ -37,12 +35,7 @@ beforeEach(() => {
   ;(createCalendarClient as jest.Mock).mockReturnValue(calendarClient)
   process.env.GOOGLE_CALENDAR_ID = "cal_id"
 
-  unifiLogin = jest.fn()
   unifiGetWifi = jest.fn()
-  ;(Controller as jest.Mock).mockImplementation(() => ({
-    login: unifiLogin,
-    getWLanSettings: unifiGetWifi,
-  }))
 })
 
 describe("fetching events", () => {
@@ -118,7 +111,7 @@ describe("starting events", () => {
           matchers.call.fn(calendarClient.events.update),
           throwError(new Error("500")),
         ],
-        [call(createMqttClient), mqtt],
+        [call(createMqtt), mqtt],
       ])
       .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
       .run()
@@ -187,7 +180,7 @@ describe("starting events", () => {
           [select(getDoorLocks), ["front_door"]],
           [select(getCurrentCodeIndex), 1],
           [select(getAvailableLockSlots), ["1", "2", "3"]],
-          [call(createMqttClient), mqtt],
+          [call(createMqtt), mqtt],
           [
             select(getGuestWifiNetwork),
             { ssid: "Test-SSID", password: "TEST_PASSWORD" },
@@ -220,8 +213,8 @@ describe("starting events", () => {
           select(getGuestWifiNetwork),
           { ssid: "Test-SSID", password: "TEST_PASSWORD" },
         ],
-        [call(createMqttClient), mqtt],
-        [matchers.call.fn(unifiLogin), true],
+        [call(createMqtt), mqtt],
+        [call(createUnifi), { getWLanSettings: unifiGetWifi }],
         [matchers.call.fn(unifiGetWifi), { data: [] }],
       ])
       .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
@@ -314,8 +307,7 @@ Thank you!`,
         [select(getCurrentCodeIndex), 0],
         [select(getAvailableLockSlots), ["1", "2", "3"]],
         [select(getGuestWifiNetwork), null],
-        [call(createMqttClient), mqtt],
-        [matchers.call.fn(unifiLogin), true],
+        [call(createMqtt), mqtt],
       ])
       .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
       .call.like({
@@ -400,8 +392,8 @@ Thank you!`,
         [select(getDoorLocks), ["front_door"]],
         [select(getCurrentCodeIndex), 0],
         [select(getAvailableLockSlots), ["1", "2", "3"]],
-        [call(createMqttClient), mqtt],
-        [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
+        [call(createMqtt), mqtt],
+        [matchers.call.fn(createUnifi), throwError(new Error("500"))],
         [select(getGuestWifiNetwork), null],
       ])
       .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
@@ -487,96 +479,44 @@ Thank you!`,
           [select(getDoorLocks), ["front_door", "car_port_door"]],
           [select(getCurrentCodeIndex), 0],
           [select(getAvailableLockSlots), ["1", "2", "3"]],
-          [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
+          [matchers.call.fn(createUnifi), throwError(new Error("500"))],
           [select(getGuestWifiNetwork), null],
-          [call(createMqttClient), mqtt],
+          [call(createMqtt), mqtt],
         ])
         .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
         // Event 1
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/set",
-            JSON.stringify({
-              entity_id: "input_text.front_door_pin_1",
-              pin: "0001",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/front_door/1/set", "0001", { qos: 2 }],
         })
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/set",
-            JSON.stringify({
-              entity_id: "input_text.car_port_door_pin_1",
-              pin: "0001",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/car_port_door/1/set", "0001", { qos: 2 }],
         })
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/enable",
-            JSON.stringify({
-              entity_id: "input_boolean.enabled_front_door_1",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/front_door/1/enable", { qos: 2 }],
         })
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/enable",
-            JSON.stringify({
-              entity_id: "input_boolean.enabled_car_port_door_1",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/car_port_door/1/enable", { qos: 2 }],
         })
         // Event 2
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/set",
-            JSON.stringify({
-              entity_id: "input_text.front_door_pin_2",
-              pin: "0003",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/front_door/2/set", "0003", { qos: 2 }],
         })
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/set",
-            JSON.stringify({
-              entity_id: "input_text.car_port_door_pin_2",
-              pin: "0003",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/car_port_door/2/set", "0003", { qos: 2 }],
         })
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/enable",
-            JSON.stringify({
-              entity_id: "input_boolean.enabled_front_door_2",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/front_door/2/enable", { qos: 2 }],
         })
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/enable",
-            JSON.stringify({
-              entity_id: "input_boolean.enabled_car_port_door_2",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/car_port_door/2/enable", { qos: 2 }],
         })
         .run()
     )
@@ -594,9 +534,9 @@ Thank you!`,
         [select(getDoorLocks), ["front_door", "car_port_door"]],
         [select(getCurrentCodeIndex), 0],
         [select(getAvailableLockSlots), ["1", "2", "3"]],
-        [call(createMqttClient), mqtt],
+        [call(createMqtt), mqtt],
         [select(getGuestWifiNetwork), null],
-        [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
+        [matchers.call.fn(createUnifi), throwError(new Error("500"))],
       ])
       .put(assignedGuestSlot("1", "1"))
       .put(assignedGuestSlot("2", "2"))
@@ -617,8 +557,8 @@ Thank you!`,
         [select(getCurrentCodeIndex), 0],
         [select(getAvailableLockSlots), ["1"]],
         [select(getGuestWifiNetwork), null],
-        [call(createMqttClient), mqtt],
-        [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
+        [call(createMqtt), mqtt],
+        [matchers.call.fn(createUnifi), throwError(new Error("500"))],
       ])
       .put(assignedGuestSlot("1", "1"))
       .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
@@ -636,8 +576,8 @@ describe("ending events", () => {
         [select(getDoorLocks), ["front_door", "car_port_door"]],
         [select(getCurrentCodeIndex), 0],
         [select(getAvailableLockSlots), ["1"]],
-        [call(createMqttClient), mqtt],
-        [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
+        [call(createMqtt), mqtt],
+        [matchers.call.fn(createUnifi), throwError(new Error("500"))],
       ])
       .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
       .not.call.fn(mqtt.publish)
@@ -654,8 +594,8 @@ describe("ending events", () => {
         [select(getDoorLocks), ["front_door", "car_port_door"]],
         [select(getCurrentCodeIndex), 0],
         [select(getAvailableLockSlots), ["1"]],
-        [call(createMqttClient), mqtt],
-        [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
+        [call(createMqtt), mqtt],
+        [matchers.call.fn(createUnifi), throwError(new Error("500"))],
       ])
       .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
       .not.call.fn(mqtt.publish)
@@ -675,8 +615,8 @@ describe("ending events", () => {
         [select(getEndingEvents), endingEvents],
         [select(getLockSlots), []],
         [select(getDoorLocks), []],
-        [call(createMqttClient), mqtt],
-        [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
+        [call(createMqtt), mqtt],
+        [matchers.call.fn(createUnifi), throwError(new Error("500"))],
       ])
       .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
       .not.call.fn(mqtt.publish)
@@ -702,9 +642,9 @@ describe("ending events", () => {
           ],
         ],
         [select(getDoorLocks), []],
-        [call(createMqttClient), mqtt],
+        [call(createMqtt), mqtt],
         [matchers.call.fn(calendarClient.events.update), {}],
-        [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
+        [matchers.call.fn(createUnifi), throwError(new Error("500"))],
       ])
       .put({
         type: "ASSIGNED_GUEST_SLOT",
@@ -738,52 +678,28 @@ describe("ending events", () => {
             ],
           ],
           [select(getDoorLocks), ["front_door", "car_port_door"]],
-          [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
-          [call(createMqttClient), mqtt],
+          [matchers.call.fn(createUnifi), throwError(new Error("500"))],
+          [call(createMqtt), mqtt],
           [matchers.call.fn(calendarClient.events.update), {}],
         ])
         .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
         // Event 1
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/disable",
-            JSON.stringify({
-              entity_id: "input_boolean.enabled_front_door_2",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/front_door/2/disable", { qos: 2 }],
         })
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/disable",
-            JSON.stringify({
-              entity_id: "input_boolean.enabled_car_port_door_2",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/car_port_door/2/disable", { qos: 2 }],
         })
         // Event 2
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/disable",
-            JSON.stringify({
-              entity_id: "input_boolean.enabled_front_door_3",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/front_door/3/disable", { qos: 2 }],
         })
         .call.like({
           fn: mqtt.publish,
-          args: [
-            "/homeassistant/guest-pin/disable",
-            JSON.stringify({
-              entity_id: "input_boolean.enabled_car_port_door_3",
-            }),
-            { qos: 2 },
-          ],
+          args: ["home/pin/car_port_door/3/disable", { qos: 2 }],
         })
         .run()
     )
@@ -808,8 +724,8 @@ describe("ending events", () => {
           ],
         ],
         [select(getDoorLocks), ["front_door", "car_port_door"]],
-        [call(createMqttClient), mqtt],
-        [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
+        [call(createMqtt), mqtt],
+        [matchers.call.fn(createUnifi), throwError(new Error("500"))],
         [matchers.call.fn(calendarClient.events.update), {}],
       ])
       .put({
@@ -839,8 +755,8 @@ describe("ending events", () => {
           ],
         ],
         [select(getDoorLocks), ["front_door", "car_port_door"]],
-        [call(createMqttClient), mqtt],
-        [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
+        [call(createMqtt), mqtt],
+        [matchers.call.fn(createUnifi), throwError(new Error("500"))],
         [matchers.call.fn(calendarClient.events.update), {}],
       ])
       .dispatch({ type: "SCHEDULE_EVENTS", payload: new Date() })
@@ -898,8 +814,8 @@ Thank you!`,
           ],
         ],
         [select(getDoorLocks), ["front_door", "car_port_door"]],
-        [call(createMqttClient), mqtt],
-        [matchers.call.fn(unifiLogin), throwError(new Error("500"))],
+        [call(createMqtt), mqtt],
+        [matchers.call.fn(createUnifi), throwError(new Error("500"))],
         [
           matchers.call.fn(calendarClient.events.update),
           throwError(new Error("500")),

@@ -12,16 +12,15 @@
     "start": "scripts/bin/start.sh"
   },
   "dependencies": {
+    "@ha/mqtt-client": "^0.0.1",
+    "@ha/unifi-client": "^0.0.1",
     "async-mqtt": "^2.6.1",
-    "debug": "^4.3.1",
-    "home-assistant-js-websocket": "^6.0.0",
-    "node-unifi": "^2.0.3",
-    "ws": "^7.5.2"
+    "debug": "^4.3.1"
   },
   "devDependencies": {
     "@ha/ts-config": "^0.0.1",
     "@zeit/ncc": "^0.22.3",
-    "jest": "^27.0.0",
+    "jest": "^28.1.0",
     "jest-when": "^3.2.1",
     "nodemon": "^2.0.6",
     "ts-node": "^10.0.0",

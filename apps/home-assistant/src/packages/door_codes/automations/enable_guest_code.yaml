@@ -2,8 +2,8 @@ automation:
   - alias: Enable guest PIN code
     trigger:
       - platform: mqtt
-        topic: /homeassistant/guest-pin/enable
+        topic: home/pin/+/+/enable
     action:
       - service: input_boolean.turn_on
         target:
-          entity_id: "{{ trigger.payload_json.entity_id }}"
+          entity_id: "input_boolean.enabled_{{ trigger.topic.split('/')[2] }}_{{ trigger.topic.split('/')[3] }}"

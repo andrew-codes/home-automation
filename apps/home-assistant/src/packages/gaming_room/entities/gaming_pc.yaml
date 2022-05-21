@@ -62,7 +62,7 @@ media_player:
       select_source:
         service: mqtt.publish
         data_template:
-          topic: "/homeassistant/games/play/pc"
+          topic: "home/games/pc/play"
           qos: 2
           payload: "{{ source }}"
     attributes:

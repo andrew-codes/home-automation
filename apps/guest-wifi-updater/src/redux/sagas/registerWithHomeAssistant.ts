@@ -10,7 +10,7 @@ import type { RegisterWithHomeAssistantAction } from "../types"
 import { addGuestWifiNetwork } from "../actionCreators"
 import { getNetworkDictionary } from "../selectors"
 
-const debug = createDebugger("@ha/ps5-app/registerWithHomeAssistant")
+const debug = createDebugger("@ha/ps5/registerWithHomeAssistant")
 
 function* registerWithHomeAssistant(action: RegisterWithHomeAssistantAction) {
   const mqtt: AsyncMqttClient = yield call(createMqtt)
