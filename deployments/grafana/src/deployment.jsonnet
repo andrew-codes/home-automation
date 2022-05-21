@@ -51,7 +51,7 @@ local proxmox = import 'proxmox.jsonnet';
         organization: 'smith-simms',
       },
       secureJsonData: {
-        token: std.extVar('GRAFANA_INFLUXDB_TOKEN'),
+        token: std.extVar('DEPLOY_GRAFANA_INFLUXDB_TOKEN'),
       },
     }],
     dashboards+: proxmox.grafanaDashboards + network.grafanaDashboards,
@@ -65,7 +65,7 @@ local proxmox = import 'proxmox.jsonnet';
             name: 'http',
             port: 3000,
             targetPort: 'http',
-            nodePort: std.parseInt(std.extVar('EXTERNAL_GRAFANA_PORT')),
+            nodePort: std.parseInt(std.extVar('DEPLOY_EXTERNAL_GRAFANA_PORT')),
           }
           for port in super.ports
         ],
@@ -74,7 +74,7 @@ local proxmox = import 'proxmox.jsonnet';
   } + {
     config+: {
       stringData: {
-        'grafana.ini': '[date_formats]\ndefault_timezone = UTC\n\n\n        [security]\n        admin_password = ' + std.extVar('GRAFANA_PASSWORD') + '\n \n        admin_user = ' + std.extVar('GRAFANA_USERNAME') + '\n\n        ',
+        'grafana.ini': '[date_formats]\ndefault_timezone = UTC\n\n\n        [security]\n        admin_password = ' + std.extVar('DEPLOY_GRAFANA_PASSWORD') + '\n \n        admin_user = ' + std.extVar('DEPLOY_GRAFANA_USERNAME') + '\n\n        ',
       },
     },
   },
