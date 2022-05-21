@@ -59,7 +59,7 @@ describe("app", () => {
       })
     await run()
 
-    expect(subscribe).toHaveBeenCalledWith("/homeassistant/guest/renew-devices")
+    expect(subscribe).toHaveBeenCalledWith("home/guests/renew-devices")
   })
 
   test("connects to unifi", async () => {
@@ -189,9 +189,9 @@ describe("app", () => {
     ;(getStates as jest.Mock).mockRejectedValue("error")
     await run()
 
-    expect(
-      messageHandler("/homeassistant/guest/renew-devices", "{}")
-    ).resolves.toEqual(undefined)
+    expect(messageHandler("home/guests/renew-devices", "{}")).resolves.toEqual(
+      undefined
+    )
   })
 
   test("messages with device renewal topic will authorize all registered guest devices from Home Assistant", async () => {
@@ -234,7 +234,7 @@ describe("app", () => {
 
     await run()
 
-    await messageHandler("/homeassistant/guest/renew-devices", "{}")
+    await messageHandler("home/guests/renew-devices", "{}")
     expect(authorizeGuest).toHaveBeenCalledWith("address", 4320)
     expect(authorizeGuest).not.toHaveBeenCalledWith("address-2", 4320)
   })
