@@ -43,7 +43,7 @@ jobs:
         env:
           DOCKER_BUILDKIT: 1
       - name: Deploy
-        run: yarn lerna run deploy --stream --ignore @ha/lets-encrypt --ignore @ha/docker-registry --ignore @ha/k8s --ignore @ha/inlets --ignore @ha/openvpn-as --ignore @ha/pihole --ignore @ha/azure-key-vault --ignore @ha/velero --include-filtered-dependencies --since HEAD~
+        run: yarn lerna run deploy --stream --ignore @ha/lets-encrypt --ignore @ha/docker-registry --ignore @ha/k8s --ignore @ha/openvpn-as --ignore @ha/pihole --ignore @ha/azure-key-vault --include-filtered-dependencies --since HEAD~
         env:
           AZURE_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
           AZURE_SERVICE_PRINCIPAL_PASSWORD: "${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}"
