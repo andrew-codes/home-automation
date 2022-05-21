@@ -3,6 +3,7 @@
   "include": ["src/**/*.ts", "../../../packages/*/src/**/*.ts"],
   "compilerOptions": {
     "allowJs": true,
+    "baseUrl": ".",
     "checkJs": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
