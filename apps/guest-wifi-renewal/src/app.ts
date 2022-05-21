@@ -5,12 +5,10 @@ import { createUnifi } from "@ha/unifi-client"
 const debug = createDebug("@ha/guest-wifi-renewal")
 
 const run = async (): Promise<void> => {
-  const { UNIFI_IP, UNIFI_PASSWORD, UNIFI_PORT, UNIFI_USERNAME } = process.env
   const mqtt = await createMqtt()
   mqtt.subscribe("home/guests/renew-devices")
 
   const unifi = await createUnifi()
-  await unifi.login(UNIFI_USERNAME, UNIFI_PASSWORD)
 
   mqtt.on("message", async (topic, payload) => {
     try {

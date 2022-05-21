@@ -29,7 +29,7 @@
     "@redux-saga/symbols": "^1.0.1",
     "@types/jest": "^27.4.1",
     "@zeit/ncc": "^0.22.3",
-    "jest": "^27.5.1",
+    "jest": "^28.1.0",
     "nodemon": "^2.0.6",
     "redux-saga-test-plan": "^4.0.3",
     "ts-node": "^10.0.0",
