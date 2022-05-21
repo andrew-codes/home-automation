@@ -1,6 +1,4 @@
 {
   "extends": "@ha/ts-config/src/index.json",
-  "compilerOptions": {
-    "baseUrl": "."
-  }
+  "compilerOptions": {}
 }
