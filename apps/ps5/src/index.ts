@@ -47,6 +47,9 @@ async function run() {
         const device = devices.find(
           (device) => device.homeAssistantId === homeAssistantId
         )
+        if (!device) {
+          return
+        }
         const data = payload.toString()
         store.dispatch(applyToDevice(device, data as SwitchStatus))
       }
