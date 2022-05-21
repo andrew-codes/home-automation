@@ -1,5 +1,5 @@
 {
-  "exclude": ["node_modules", "apps/**/src/**/__tests__/*.*"],
+  "exclude": ["node_modules", "apps/*/src/**/__tests__/*.*"],
   "compilerOptions": {
     "allowJs": true,
     "baseUrl": "./",
@@ -17,8 +17,8 @@
     "strict": true,
     "target": "es2019",
     "paths": {
-      "@ha/mqtt-client": ["dist/packages/mqtt-client/src"],
-      "@ha/unifi-client": ["dist/packages/unifi-client/src"]
+      "@ha/mqtt-client": ["apps/*/dist/packages/mqtt-client/src"],
+      "@ha/unifi-client": ["apps/*/packages/unifi-client/src"]
     }
   }
 }
