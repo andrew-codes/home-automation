@@ -9,9 +9,9 @@ import {
   takeLatest,
 } from "redux-saga/effects"
 import { calendar_v3, Common } from "googleapis"
-import { Controller } from "node-unifi"
+import { createUnifi } from "@ha/unifi-client"
 import { createCalendarClient } from "./googleClient"
-import createMqttClient from "./mqtt"
+import { createMqtt } from "@ha/mqtt-client"
 import {
   assignedGuestSlot,
   fetchGuestWifiNetworkInformation,
@@ -81,13 +81,7 @@ function* fetchWifiInformation(action: FetchGuestWifiNetworkInformationAction) {
   }
 
   try {
-    const { UNIFI_IP, UNIFI_PORT, UNIFI_USERNAME, UNIFI_PASSWORD } = process.env
-    const controller = new Controller({
-      host: UNIFI_IP,
-      port: UNIFI_PORT,
-      sslverify: false,
-    })
-    yield call(controller.login, UNIFI_USERNAME, UNIFI_PASSWORD)
+    const controller = yield call(createUnifi)
     const response = yield call<
       () => { data: { is_guest: boolean; x_passphrase: string }[] }
     >(controller.getWLanSettings)
@@ -182,7 +176,7 @@ Thank you!`,
           },
           {}
         )
-        const mqtt = yield call(createMqttClient)
+        const mqtt = yield call(createMqtt)
 
         for (
           let doorLockIndex = 0;
@@ -239,7 +233,7 @@ function* endEvent(action: ScheduleEventsAction) {
     const endingEvents = yield select(getEndingEvents)
     const occupiedSlots = yield select(getLockSlots)
     const doorLocks = yield select(getDoorLocks)
-    const mqtt = yield call(createMqttClient)
+    const mqtt = yield call(createMqtt)
 
     for (let eventIndex = 0; eventIndex < endingEvents.length; eventIndex++) {
       const event = endingEvents[eventIndex]
