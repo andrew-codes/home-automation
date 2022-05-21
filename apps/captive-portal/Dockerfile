@@ -1,5 +1,5 @@
 # Production image, copy all the files and run next
-FROM node:16.4.0-alpine AS runner
+FROM node:16.15.0-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
