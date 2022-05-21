@@ -36,7 +36,7 @@ jobs:
       - name: Run tests
         run: yarn test
       - name: Build and push images
-        run: yarn lerna run image/push --stream
+        run: yarn lerna run image/push --stream --ignore @ha/github-action-runners
         env:
           DOCKER_BUILDKIT: 1
       - name: Deploy
