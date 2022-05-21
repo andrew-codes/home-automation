@@ -1,5 +1,5 @@
 {
-  "exclude": ["node_modules", "**/__tests__"],
+  "exclude": ["node_modules", "**/__tests__/*.*"],
   "include": ["src/**/*.ts", "../../../packages/*/src/**/*.ts"],
   "compilerOptions": {
     "allowJs": true,
@@ -10,12 +10,16 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "noImplicitAny": false,
-    "outDir": "./dist",
+    "outDir": "dist",
     "removeComments": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es2019"
+    "target": "es2019",
+    "paths": {
+      "@ha/mqtt-client": ["dist/packages/mqtt-client/src"],
+      "@ha/unifi-client": ["dist/packages/unifi-client/src"]
+    }
   }
 }
