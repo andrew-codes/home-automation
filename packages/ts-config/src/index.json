@@ -1,9 +1,8 @@
 {
   "exclude": ["node_modules", "**/__tests__/*.*"],
-  "include": ["src/**/*.ts", "../../../packages/*/src/**/*.ts"],
   "compilerOptions": {
     "allowJs": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "checkJs": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
