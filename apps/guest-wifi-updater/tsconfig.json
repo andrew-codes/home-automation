@@ -1,16 +1,6 @@
 {
   "extends": "@ha/ts-config/src/index.json",
-  "include": [
-    "src",
-    "../../packages/mqtt-client",
-    "../../packages/unifi-client"
-  ],
   "compilerOptions": {
-    "baseUrl": ".",
-    "outDir": "dist",
-    "paths": {
-      "@ha/mqtt-client": ["dist/packages/mqtt-client/src"],
-      "@ha/unifi-client": ["dist/packages/unifi-client/src"]
-    }
+    "baseUrl": "."
   }
 }

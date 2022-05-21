@@ -1,12 +1,5 @@
 {
-  "exclude": [
-    "node_modules",
-    "**/__tests__"
-  ],
-  "include": [
-    "src/**/*.ts",
-    "../../../packages/*/src/**/*.ts"
-  ],
+  "extends": "@ha/ts-config/src/index.json",
   "compilerOptions": {
     "incremental": false,
     "target": "es2019",
@@ -23,11 +16,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "noEmit": true,
     "isolatedModules": true,
     "jsx": "preserve"

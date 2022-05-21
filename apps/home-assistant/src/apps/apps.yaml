@@ -2,6 +2,6 @@
 guest_tracker:
   module: guest_tracker
   class: GuestTracker
-  topic: /homeassistant/guest/track-device
+  topic: home/guests/track-device
   group_name: guests
   state_file: /guests.txt

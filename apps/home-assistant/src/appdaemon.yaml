@@ -19,8 +19,8 @@ appdaemon:
       birth_topic: /appdaemon/birth
       event_name: MQTT_MESSAGE
       client_topics:
-          - /homeassistant/guest/track-device
-          - /homeassistant/guest/track-other-device
+        - home/guests/track-device
+        - home/guests/track-other-device
 
 http:
   url: !secret APPDAEMON_URL
