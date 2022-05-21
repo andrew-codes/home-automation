@@ -24,6 +24,7 @@
     "fredwangwang.vscode-hcl-format",
     "Grafana.vscode-jsonnet",
     "hashicorp.terraform",
+    "heptio.jsonnet",
     "humao.rest-client",
     "influxdata.flux",
     "jasonnutter.search-node-modules",
