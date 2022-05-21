@@ -74,3 +74,21 @@ spec:
             items:
               - key: secret-value
                 path: credentials.json
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ps5
+  namespace: default
+  labels:
+    app.kubernetes.io/name: ps5
+spec:
+  type: ClusterIP
+  ports:
+    - name: health
+      port: 80
+      protocol: TCP
+      targetPort: health
+  selector:
+    app.kubernetes.io/name: ps5

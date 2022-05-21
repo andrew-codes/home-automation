@@ -1,5 +1,6 @@
 import createDebugger from "debug"
 import createSagaMiddleware from "redux-saga"
+import http from "http"
 import { createStore, applyMiddleware } from "redux"
 import reducer, {
   applyToDevice,
@@ -16,34 +17,46 @@ const debugState = createDebugger("@ha/state")
 
 async function run() {
   debug("Started")
+  try {
+    const healthEndpoint = http.createServer((request, response) => {
+      response.statusCode = 200
+      response.end()
+    })
 
-  const sagaMiddleware = createSagaMiddleware()
-  const store = createStore(reducer, applyMiddleware(sagaMiddleware))
-  store.subscribe(() => {
-    debugState(JSON.stringify(store.getState(), null, 2))
-  })
-  sagaMiddleware.run(saga)
-  const mqtt = await createMqtt()
+    healthEndpoint.listen(80, () => {
+      console.info("Health endpoint is running at port 80...")
+    })
 
-  const topicRegEx = /^homeassistant\/switch\/(.*)\/set$/
-  mqtt.on("message", (topic, payload) => {
-    if (topicRegEx.test(topic)) {
-      const matches = topicRegEx.exec(topic)
-      if (!matches) {
-        return
+    const sagaMiddleware = createSagaMiddleware()
+    const store = createStore(reducer, applyMiddleware(sagaMiddleware))
+    store.subscribe(() => {
+      debugState(JSON.stringify(store.getState(), null, 2))
+    })
+    sagaMiddleware.run(saga)
+    const mqtt = await createMqtt()
+
+    const topicRegEx = /^homeassistant\/switch\/(.*)\/set$/
+    mqtt.on("message", (topic, payload) => {
+      if (topicRegEx.test(topic)) {
+        const matches = topicRegEx.exec(topic)
+        if (!matches) {
+          return
+        }
+        const homeAssistantId = matches[1]
+        const devices = getDevices(store.getState())
+        const device = devices.find(
+          (device) => device.homeAssistantId === homeAssistantId
+        )
+        const data = payload.toString()
+        store.dispatch(applyToDevice(device, data as SwitchStatus))
       }
-      const homeAssistantId = matches[1]
-      const devices = getDevices(store.getState())
-      const device = devices.find(
-        (device) => device.homeAssistantId === homeAssistantId
-      )
-      const data = payload.toString()
-      store.dispatch(applyToDevice(device, data as SwitchStatus))
-    }
-  })
+    })
 
-  store.dispatch(pollDevices())
-  store.dispatch(pollDiscovery())
+    store.dispatch(pollDevices())
+    store.dispatch(pollDiscovery())
+  } catch (e) {
+    debug(e)
+  }
 }
 
 if (require.main === module) {
