@@ -16,6 +16,7 @@
     "@ha/unifi-client": "^0.0.1",
     "async-mqtt": "^2.6.1",
     "debug": "^4.3.1",
+    "esbuild-register": "^3.3.2",
     "lodash": "^4.17.21",
     "node-unifi": "^2.0.3",
     "nodemon": "^2.0.6",
