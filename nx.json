@@ -1,5 +1,5 @@
 {
-  "npmScope": "ha",
+  "npmScope": "@ha",
   "extends": "nx/presets/npm.json",
   "tasksRunnerOptions": {
     "default": {
