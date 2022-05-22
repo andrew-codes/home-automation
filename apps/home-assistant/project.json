@@ -1,0 +1,46 @@
+{
+  "root": "apps/home-assistant",
+  "sourceRoot": "apps/home-assistant/src",
+  "projectType": "application",
+  "targets": {
+    "image/push": {
+      "executor": "@nrwl/workspace:run-commands",
+      "dependsOn": [
+        {
+          "target": "image/push/pre",
+          "projects": "self"
+        }
+      ],
+      "options": {
+        "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/home-assistant:latest\" --context dir:///workspace/ --insecure --cache=true"
+      }
+    },
+    "image/push/pre": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "mkdir -p dist && cp ../home-assistant-config-applicator/sync.sh dist/sync.sh"
+      }
+    },
+    "serve": {
+      "executor": "@ha/nx-executors:telepresence",
+      "dependsOn": [
+        {
+          "target": "compile",
+          "projects": "dependencies"
+        }
+      ],
+      "options": {
+        "port": 8123
+      }
+    },
+    "start/dev": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "docker run --name home-assistant --rm -t $(cat intercept.env | sed -n \"/^[^\t]/s/=.*//p\" | sed \"/^$/d\" | sed \"s/^/-e /g\" | tr \"\n\" \" \") --env HASS_SERVER=\"http://localhost:8123\" --env \"TELEPRESENCE_ROOT=/tmp\" -v \"$PWD/src:/home-assistant-src\" -v \"$PWD/.tmp/config:/tmp\" -p \"8123:8123\" \"docker-registry:5000/home-assistant:latest\"",
+        "cwd": "apps/home-assistant"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

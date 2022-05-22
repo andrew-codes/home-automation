@@ -3,33 +3,6 @@
   "name": "@ha/ps5-app",
   "version": "0.0.1",
   "license": "MIT",
-  "scripts": {
-    "clean": "rm -rf dist",
-    "compile": "node -r esbuild-register build.ts",
-    "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/ps5:latest\" --context dir:///workspace/ --insecure --cache=true"
-  },
-  "nx": {
-    "targets": {
-      "clean": {
-        "outputs": [
-          "dist"
-        ]
-      },
-      "compile": {
-        "outputs": [
-          "dist"
-        ]
-      },
-      "image/push": {
-        "dependsOn": [
-          {
-            "target": "compile",
-            "projects": "self"
-          }
-        ]
-      }
-    }
-  },
   "dependencies": {
     "shelljs": "^0.8.4"
   },

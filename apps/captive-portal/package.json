@@ -5,34 +5,7 @@
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "compile": "next build",
-    "clean": "rm -rf dist",
-    "start": "scripts/bin/start.sh",
-    "start/dev": "next dev -p 80",
-    "start/prod": "next start",
-    "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/captive-portal:latest\" --context dir:///workspace/ --insecure --cache=true"
-  },
-  "nx": {
-    "targets": {
-      "clean": {
-        "outputs": [
-          "dist"
-        ]
-      },
-      "compile": {
-        "outputs": [
-          "dist"
-        ]
-      },
-      "image/push": {
-        "dependsOn": [
-          {
-            "target": "compile",
-            "projects": "self"
-          }
-        ]
-      }
-    }
+    "start/prod": "next start"
   },
   "dependencies": {
     "@material-ui/core": "^4.12.3",

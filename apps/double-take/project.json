@@ -1,0 +1,15 @@
+{
+  "root": "apps/double-take",
+  "sourceRoot": "apps/double-take",
+  "projectType": "application",
+  "targets": {
+    "image/push": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/double-take:latest\" --context dir:///workspace/ --insecure --cache=true"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

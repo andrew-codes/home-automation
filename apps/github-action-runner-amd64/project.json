@@ -1,0 +1,21 @@
+{
+  "root": "apps/github-action-runner-amd64",
+  "sourceRoot": "apps/github-action-runner-amd64",
+  "projectType": "application",
+  "targets": {
+    "image/push": {
+      "executor": "@nrwl/workspace:run-commands",
+      "dependsOn": [
+        {
+          "target": "compile",
+          "projects": "self"
+        }
+      ],
+      "options": {
+        "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/github-action-runner-amd64:latest\" --context dir:///workspace/ --insecure --cache=true"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

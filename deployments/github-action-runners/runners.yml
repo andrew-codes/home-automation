@@ -34,7 +34,7 @@ spec:
       dockerdWithinRunnerContainer: false
       imagePullSecrets:
         - name: regcred
-      image: docker-registry:5000/github-action-runner:latest
+      image: docker-registry:5000/github-action-runner-amd64:latest
       resources:
         requests:
           ephemeral-storage: "2Gi"

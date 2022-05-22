@@ -1,11 +1,12 @@
 import { doIf } from "@ha/env-utils"
 import type { ExecutorContext } from "@nrwl/devkit"
 import { exec } from "child_process"
-import { identity } from "lodash"
+import { defaultTo, identity } from "lodash"
 import { promisify } from "util"
 
 export interface EchoExecutorOptions {
   port: number
+  serviceName?: string
 }
 
 const throwIfError = ({ stdout, stderr }) => {
@@ -16,7 +17,9 @@ const throwIfError = ({ stdout, stderr }) => {
 }
 
 export default async function echoExecutor(
-  options: EchoExecutorOptions = { port: 8080 },
+  options: EchoExecutorOptions = {
+    port: 8080,
+  },
   context: ExecutorContext,
 ): Promise<{ success: boolean }> {
   try {
@@ -24,7 +27,16 @@ export default async function echoExecutor(
     const connectChildProcess = await promisify(exec)(connectCommand)
     throwIfError(connectChildProcess)
 
-    const command = `telepresence intercept "${context.projectName}" --service "${context.projectName}" --env-file intercept.env --port ${options.port}:80 -- /bin/bash -c 'DEBUG=@ha/${context.projectName}/*' yarn start/dev ${context.projectName}`
+    const command = `telepresence intercept "${
+      context.projectName
+    }" --service "${defaultTo(
+      options.serviceName,
+      context.projectName,
+    )}" --env-file intercept.env --port ${
+      options.port
+    }:80 -- /bin/bash -c 'DEBUG=@ha/${context.projectName}/*' yarn start/dev ${
+      context.projectName
+    }`
     const commandChildProcess = await promisify(exec)(command)
     throwIfError(commandChildProcess)
   } catch (error) {
