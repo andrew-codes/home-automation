@@ -1,3 +1,4 @@
 import build from "@ha/build-ts"
+import pkg from "./package.json"
 
-build()
+build({ external: Object.keys(pkg.dependencies) })
