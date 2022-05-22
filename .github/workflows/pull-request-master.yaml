@@ -39,5 +39,6 @@ jobs:
         env:
           MQTT_CONNECTION: ${{ secrets.MQTT_CONNECTION }}
           GAMING_ROOM_GAMING_PC_USERNAME: "${{ secrets.GAMING_ROOM_GAMING_PC_USERNAME }}"
+          NODE_ENV: production
       - name: Run unit tests
         run: yarn test
