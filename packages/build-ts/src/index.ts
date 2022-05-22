@@ -11,7 +11,7 @@ const defaultConfig = {
   sourcemap: true,
   target: "node16",
   resolveExtensions: [".ts", ".tsx", ".js"],
-  define: [`process.env.NODE_ENV="${process.env.NODE_ENV}"`],
+  define: { "process.env.NODE_ENV": `"${process.env.NODE_ENV}"` },
 }
 
 const build = async (overrides = {}) => {
