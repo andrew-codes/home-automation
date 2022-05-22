@@ -1,0 +1,17 @@
+{
+  "root": "packages/nx/telepresence",
+  "sourceRoot": "packages/nx/telepresence/src",
+  "projectType": "library",
+  "targets": {
+    "compile": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["packages/nx/telepresence/dist"],
+      "options": {
+        "command": "node -r esbuild-register build.ts",
+        "cwd": "packages/nx-executors"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

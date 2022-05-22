@@ -15,12 +15,7 @@ const defaultConfig = {
 }
 
 const build = async (overrides = {}) => {
-  try {
-    await esbuild.build(merge({}, defaultConfig, overrides) as any)
-  } catch (e) {
-    console.log(e)
-    process.exit(1)
-  }
+  await esbuild.build(merge({}, defaultConfig, overrides) as any)
 }
 
 export default build
