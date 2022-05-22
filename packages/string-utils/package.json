@@ -5,6 +5,7 @@
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
+    "clean": "rm -rf .test-runs",
     "test": "jest"
   },
   "nx": {
