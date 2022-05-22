@@ -7,6 +7,19 @@
     "deploy": "scripts/bin/deploy.sh",
     "postdeploy": "kubectl rollout restart deployment guest-wifi-renewal "
   },
+  "nx": {
+    "targets": {
+      "deploy": {
+        "outputs": [],
+        "dependsOn": [
+          {
+            "target": "image/push",
+            "projects": "dependencies"
+          }
+        ]
+      }
+    }
+  },
   "dependencies": {
     "@ha/guest-wifi-renewal-app": "^0.0.1",
     "@ha/home-assistant": "^0.0.1",

@@ -11,6 +11,28 @@
     "start": "scripts/bin/start.sh",
     "start/dev": "nodemon src/index.ts --inspect=0.0.0.0:9233"
   },
+  "nx": {
+    "targets": {
+      "clean": {
+        "outputs": [
+          "dist"
+        ]
+      },
+      "compile": {
+        "outputs": [
+          "dist"
+        ]
+      },
+      "image/push": {
+        "dependsOn": [
+          {
+            "target": "compile",
+            "projects": "self"
+          }
+        ]
+      }
+    }
+  },
   "dependencies": {},
   "devDependencies": {
     "apollo-fetch": "^0.7.0",

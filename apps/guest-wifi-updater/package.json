@@ -10,6 +10,28 @@
     "start": "scripts/bin/start.sh",
     "stop": "scripts/bin/stop.sh"
   },
+  "nx": {
+    "targets": {
+      "clean": {
+        "outputs": [
+          "dist"
+        ]
+      },
+      "compile": {
+        "outputs": [
+          "dist"
+        ]
+      },
+      "image/push": {
+        "dependsOn": [
+          {
+            "target": "compile",
+            "projects": "self"
+          }
+        ]
+      }
+    }
+  },
   "dependencies": {},
   "devDependencies": {
     "@ha/mqtt-client": "^0.0.1",

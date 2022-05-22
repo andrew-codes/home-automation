@@ -12,6 +12,28 @@
     "start/prod": "next start",
     "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/captive-portal:latest\" --context dir:///workspace/ --insecure --cache=true"
   },
+  "nx": {
+    "targets": {
+      "clean": {
+        "outputs": [
+          "dist"
+        ]
+      },
+      "compile": {
+        "outputs": [
+          "dist"
+        ]
+      },
+      "image/push": {
+        "dependsOn": [
+          {
+            "target": "compile",
+            "projects": "self"
+          }
+        ]
+      }
+    }
+  },
   "dependencies": {
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",

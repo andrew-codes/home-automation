@@ -8,6 +8,19 @@
     "initialize-secrets": "scripts/bin/initialize-secrets.sh",
     "postdeploy": "kubectl rollout restart deployment guest-pin-codes "
   },
+  "nx": {
+    "targets": {
+      "deploy": {
+        "outputs": [],
+        "dependsOn": [
+          {
+            "target": "image/push",
+            "projects": "dependencies"
+          }
+        ]
+      }
+    }
+  },
   "dependencies": {
     "@ha/guest-pin-codes-app": "^0.0.1",
     "@ha/mqtt": "^0.0.1",
