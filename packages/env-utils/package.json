@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "name": "@ha/env-utils",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "dependencies": {
+    "detect-node": "^2.1.0"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "@ha/build-ts",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "dependencies": {
+    "@ha/env-utils": "^0.0.1",
+    "esbuild": "^0.14.39",
+    "lodash": "^4.17.21"
+  }
+}

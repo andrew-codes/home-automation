@@ -47,6 +47,8 @@ spec:
           env:
             - name: DEBUG
               value: "@ha/ps5-app/*"
+            - name: NODE_ENV
+              value: production
             - name: MQTT_HOST
               value: "192.168.1.18"
             - name: MQTT_PORT

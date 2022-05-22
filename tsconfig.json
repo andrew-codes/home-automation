@@ -10,7 +10,7 @@
     "checkJs": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "incremental": false,
+    "isolatedModules": true,
     "module": "commonjs",
     "moduleResolution": "node",
     "noImplicitAny": false,
@@ -19,10 +19,6 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es2019",
-    "paths": {
-      "@ha/mqtt-client": ["apps/*/dist/packages/mqtt-client/src"],
-      "@ha/unifi-client": ["apps/*/packages/unifi-client/src"]
-    }
+    "target": "esnext"
   }
 }
