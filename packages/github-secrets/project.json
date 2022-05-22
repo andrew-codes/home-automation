@@ -1,0 +1,16 @@
+{
+  "root": "packages/github-secrets",
+  "sourceRoot": "packages/github-secrets/src",
+  "projectType": "library",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [".test-runs/unit"],
+      "options": {
+        "command": "jest"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

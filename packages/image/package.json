@@ -8,18 +8,6 @@
     "clean": "rm -rf .test-runs"
   },
   "license": "MIT",
-  "scripts": {
-    "test": "jest"
-  },
-  "nx": {
-    "targets": {
-      "test": {
-        "outputs": [
-          ".test-runs/unit"
-        ]
-      }
-    }
-  },
   "dependencies": {
     "shelljs": "^0.8.4"
   }

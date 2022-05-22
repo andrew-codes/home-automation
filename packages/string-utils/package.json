@@ -4,19 +4,6 @@
   "version": "0.0.1",
   "main": "src/index.ts",
   "license": "MIT",
-  "scripts": {
-    "clean": "rm -rf .test-runs",
-    "test": "jest"
-  },
-  "nx": {
-    "targets": {
-      "test": {
-        "outputs": [
-          ".test-runs/unit"
-        ]
-      }
-    }
-  },
   "dependencies": {
     "lodash": "^4.17.21"
   }

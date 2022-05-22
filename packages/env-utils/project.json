@@ -1,0 +1,16 @@
+{
+  "root": "packages/env-utils",
+  "sourceRoot": "packages/env-utils/src",
+  "projectType": "library",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [".test-runs/unit"],
+      "options": {
+        "command": "jest"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}
