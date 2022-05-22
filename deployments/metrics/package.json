@@ -4,7 +4,6 @@
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
-    "deploy": "scripts/bin/deploy.sh",
-    "dashboard": "scripts/bin/dashboard.sh"
+    "deploy": "scripts/bin/deploy.sh"
   }
 }

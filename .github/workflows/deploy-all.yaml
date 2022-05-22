@@ -28,27 +28,20 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install deps
         run: yarn
-      - name: Compile apps
-        run: yarn lerna run compile --stream
-        env:
-          MQTT_CONNECTION: ${{ secrets.MQTT_CONNECTION }}
-          GAMING_ROOM_GAMING_PC_USERNAME: "${{ secrets.GAMING_ROOM_GAMING_PC_USERNAME }}"
-          NODE_ENV: production
       - name: Run tests
         run: yarn test
-      - name: Build and push images
-        run: yarn lerna run image/push --stream --ignore @ha/github-action-runner-amd64
+      - name: Deploy all apps
+        run: yarn deploy/all --exclude @ha/lets-encrypt --exclude @ha/github-action-runners --exclude @ha/docker-registry --exclude @ha/k8s --exclude @ha/openvpn-as --exclude @ha/pihole --exclude @ha/azure-key-vault
         env:
-          DOCKER_BUILDKIT: 1
-      - name: Deploy
-        run: yarn lerna run deploy --stream --ignore @ha/lets-encrypt --ignore @ha/github-action-runners --ignore @ha/docker-registry --ignore @ha/k8s --ignore @ha/openvpn-as --ignore @ha/pihole --ignore @ha/azure-key-vault --include-filtered-dependencies
-        env:
-          AZURE_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
-          AZURE_SERVICE_PRINCIPAL_PASSWORD: "${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}"
           AZURE_SERVICE_PRINCIPAL_APP_ID: "${{ secrets.AZURE_SERVICE_PRINCIPAL_APP_ID }}"
+          AZURE_SERVICE_PRINCIPAL_PASSWORD: "${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}"
           AZURE_SERVICE_PRINCIPAL_TENANT: "${{ secrets.AZURE_SERVICE_PRINCIPAL_TENANT }}"
-          MACHINE_PASSWORD: "${{ secrets.MACHINE_PASSWORD }}"
-          GAMING_ROOM_GAMING_PC_USERNAME: "${{ secrets.GAMING_ROOM_GAMING_PC_USERNAME }}"
+          AZURE_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+          DOCKER_BUILDKIT: 1
           GAMING_ROOM_GAMING_PC_MAC: "${{ secrets.GAMING_ROOM_GAMING_PC_MAC }}"
+          GAMING_ROOM_GAMING_PC_USERNAME: "${{ secrets.GAMING_ROOM_GAMING_PC_USERNAME }}"
+          MACHINE_PASSWORD: "${{ secrets.MACHINE_PASSWORD }}"
+          MQTT_CONNECTION: ${{ secrets.MQTT_CONNECTION }}
+          NODE_ENV: production
       - name: Remove disk pressure taint
         run: ./scripts/bin/remove-evicted-pods.sh
