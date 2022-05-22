@@ -12,7 +12,8 @@
         }
       ],
       "options": {
-        "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/github-action-runner-amd64:latest\" --context dir:///workspace/ --insecure --cache=true"
+        "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/github-action-runner-amd64:latest\" --context dir:///workspace/ --insecure --cache=true",
+        "cwd": "apps/github-action-runner-amd64"
       }
     }
   },

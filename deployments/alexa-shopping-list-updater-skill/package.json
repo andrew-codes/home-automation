@@ -3,24 +3,6 @@
   "name": "@ha/alexa-shopping-list-updater-skill",
   "version": "0.0.1",
   "license": "MIT",
-  "scripts": {
-    "initialize-secrets": "scripts/bin/initialize-secrets.sh",
-    "deploy": "scripts/bin/deploy.sh",
-    "postdeploy": "kubectl rollout restart deployment alexa-shopping-list-updater-skill "
-  },
-  "nx": {
-    "targets": {
-      "deploy": {
-        "outputs": [],
-        "dependsOn": [
-          {
-            "target": "image/push",
-            "projects": "dependencies"
-          }
-        ]
-      }
-    }
-  },
   "dependencies": {
     "@ha/alexa-shopping-list-updater-skill-app": "^0.0.1",
     "@ha/mqtt": "^0.0.1",

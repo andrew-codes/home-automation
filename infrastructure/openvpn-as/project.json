@@ -12,7 +12,8 @@
         "terraform.tfstate"
       ],
       "options": {
-        "command": "rm -rf .terraform .terraform.lock.hcl .terraform.tfstate.lock.info terraform.tfstate"
+        "command": "rm -rf .terraform .terraform.lock.hcl .terraform.tfstate.lock.info terraform.tfstate",
+        "cwd": "infrastructure/openvpn-as"
       }
     }
   },

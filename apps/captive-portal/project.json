@@ -7,14 +7,16 @@
       "executor": "@nrwl/workspace:run-commands",
       "outputs": ["dist", ".test-runs"],
       "options": {
-        "command": "rm -rf dist .test-runs"
+        "command": "rm -rf dist .test-runs",
+        "cwd": "apps/captive-portal"
       }
     },
     "compile": {
       "executor": "@nrwl/workspace:run-commands",
       "outputs": ["apps/captive-portal/dist"],
       "options": {
-        "command": "next build"
+        "command": "next build",
+        "cwd": "apps/captive-portal"
       }
     },
     "image/push": {
@@ -26,7 +28,8 @@
         }
       ],
       "options": {
-        "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/captive-portal:latest\" --context dir:///workspace/ --insecure --cache=true"
+        "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/captive-portal:latest\" --context dir:///workspace/ --insecure --cache=true",
+        "cwd": "apps/captive-portal"
       }
     },
     "serve": {
@@ -49,7 +52,8 @@
       "executor": "@nrwl/workspace:run-commands",
       "outputs": [".test-runs/unit"],
       "options": {
-        "command": "jest"
+        "command": "jest",
+        "cwd": "apps/captive-portal"
       }
     }
   },
