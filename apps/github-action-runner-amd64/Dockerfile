@@ -31,7 +31,6 @@ RUN sudo apt-get install -y \
   yarn 
 RUN pip3 install "pywinrm>=0.3.0"
 RUN export KUBECONFIG=/home/runner/.kube/config
-RUN yarn global add lerna
 RUN mkdir -p /home/runner/.docker
 RUN sudo ansible-galaxy collection install ansible.windows
 RUN sudo ansible-galaxy collection install community.windows
