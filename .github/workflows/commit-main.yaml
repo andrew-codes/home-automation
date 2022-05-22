@@ -31,8 +31,8 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install deps
         run: yarn
-      - name: Run all tests
-        run: yarn test
+      - name: Run affected tests
+        run: yarn test/affected --base HEAD~ --head main
       - name: Deploy affected apps
         run: yarn deploy/affected --base HEAD~ --head main
         env:

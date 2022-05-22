@@ -35,7 +35,7 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ".yarn-cache"
       - name: Run unit tests
-        run: yarn test
+        run: yarn test/affected --base HEAD~ --head main
       - name: Compile apps
         run: yarn compile/affected --base HEAD~ --head main
         env:
