@@ -3,4 +3,5 @@ node_modules
 src
 .DS_Store
 nodemon.json
-jest.config
+*.ts
+tsconfig.*
