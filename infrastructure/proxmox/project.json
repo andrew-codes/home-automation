@@ -1,0 +1,8 @@
+{
+  "root": "infrastructure/proxmox",
+  "sourceRoot": "infrastructure/proxmox/src",
+  "projectType": "application",
+  "targets": {},
+  "tags": [],
+  "implicitDependencies": []
+}
