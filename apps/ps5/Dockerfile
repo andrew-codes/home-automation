@@ -9,7 +9,7 @@ RUN apk add \
     jq
 WORKDIR /
 COPY . .
-RUN NODE_ENV=production yarn install --production
+RUN NODE_ENV=production yarn install --production --no-lockfile
 RUN yarn global add playactor
 RUN mkdir -p ~/.config/playactor
 ENTRYPOINT ["/entrypoint.sh"]
