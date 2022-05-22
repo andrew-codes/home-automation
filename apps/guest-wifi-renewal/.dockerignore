@@ -3,5 +3,6 @@ node_modules
 src
 .DS_Store
 scripts/
-tsconfig.json
+tsconfig.*
+*.ts
 nodemon.json
