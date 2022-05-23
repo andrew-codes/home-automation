@@ -13,6 +13,7 @@ const defaultConfig = {
   moduleFileExtensions: [...defaults.moduleFileExtensions, "ts"],
   collectCoverageFrom: ["**/src/**/*.{js,ts}"],
   coveragePathIgnorePatterns: ["/__tests__/", "/node_modules/"],
+  reporters: ["default", "json", "jest-github-reporter"],
 }
 
 const configure = (overrides = {}) =>
