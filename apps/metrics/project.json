@@ -1,0 +1,16 @@
+{
+  "root": "apps/metrics",
+  "sourceRoot": "apps/metrics",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/metrics",
+        "command": "./scripts/bin/deploy.sh"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

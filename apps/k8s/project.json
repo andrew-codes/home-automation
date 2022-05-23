@@ -1,0 +1,27 @@
+{
+  "root": "apps/k8s",
+  "sourceRoot": "apps/k8s",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@ha/nx-executors:run-with-az",
+      "options": {
+        "cwd": "apps/k8s",
+        "command": "./scripts/bin/deploy.sh"
+      }
+    },
+    "initialize-secrets": {
+      "executor": "@ha/nx-executors:initialize-secrets",
+      "options": {
+        "keyVaultName": "kv-home-automation",
+        "secrets": [
+          "k8s-POD-NETWORK-CIDR",
+          "k8s-MACHINE-PASSWORD",
+          "k8s-CLUSTER-IP"
+        ]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

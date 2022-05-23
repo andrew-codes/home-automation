@@ -1,0 +1,16 @@
+{
+  "root": "apps/zigbee2mqtt",
+  "sourceRoot": "apps/zigbee2mqtt",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/zigbee2mqtt",
+        "command": ""
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["mqtt"]
+}

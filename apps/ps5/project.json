@@ -19,6 +19,26 @@
         "cwd": "apps/ps5"
       }
     },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/ps5",
+        "command": "./scripts/bin/deploy.sh"
+      },
+      "dependsOn": [
+        {
+          "target": "image/push",
+          "projects": "self"
+        }
+      ]
+    },
+    "initialize-secrets": {
+      "executor": "@ha/nx-executors:initialize-secrets",
+      "options": {
+        "keyVaultName": "kv-home-automation",
+        "secrets": ["ps5-CREDENTIALS", "ps5-PS5-NAMES"]
+      }
+    },
     "image/push": {
       "executor": "@nrwl/workspace:run-commands",
       "dependsOn": [
@@ -42,5 +62,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": []
+  "implicitDependencies": ["mqtt", "secrets"]
 }

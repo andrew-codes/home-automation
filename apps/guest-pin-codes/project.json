@@ -19,6 +19,33 @@
         "cwd": "apps/guest-pin-codes"
       }
     },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/guest-pin-codes",
+        "command": "./scripts/bin/deploy.sh"
+      },
+      "dependsOn": [
+        {
+          "target": "image/push",
+          "projects": "self"
+        }
+      ]
+    },
+    "initialize-secrets": {
+      "executor": "@ha/nx-executors:initialize-secrets",
+      "options": {
+        "keyVaultName": "kv-home-automation",
+        "secrets": [
+          "guest-pin-codes-GOOGLE-CALENDAR-ID",
+          "guest-pin-codes-GOOGLE-PRIVATE-KEY",
+          "guest-pin-codes-DOOR-LOCKS",
+          "guest-pin-codes-GUEST-LOCK-CODE-EXCLUSIONS",
+          "guest-pin-codes-GUEST-CODE-INDEX-OFFSET",
+          "guest-pin-codes-NUMBER-OF-GUEST-CODES"
+        ]
+      }
+    },
     "image/push": {
       "executor": "@nrwl/workspace:run-commands",
       "dependsOn": [
@@ -58,5 +85,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": []
+  "implicitDependencies": ["mqtt", "secrets"]
 }
