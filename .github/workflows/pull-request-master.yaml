@@ -34,9 +34,9 @@ jobs:
         run: yarn
         env:
           YARN_CACHE_FOLDER: ".yarn-cache"
-      - name: Run unit tests
+      - name: Run affected unit tests
         run: yarn test/affected --base HEAD~ --head main
-      - name: Compile apps
+      - name: Compile affected apps
         run: yarn compile/affected --base HEAD~ --head main
         env:
           MQTT_CONNECTION: ${{ secrets.MQTT_CONNECTION }}
