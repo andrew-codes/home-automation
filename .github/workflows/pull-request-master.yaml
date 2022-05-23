@@ -39,8 +39,10 @@ jobs:
       - name: Run affected unit tests
         run: yarn test/affected --base HEAD~ --head HEAD
       - name: Coverage report
+        if: always()
         run: yarn test/coverage/report
       - name: Code Coverage
+        if: always()
         uses: codecov/codecov-action@v2
         with:
           files: .test-runs/unit/coverage.json
