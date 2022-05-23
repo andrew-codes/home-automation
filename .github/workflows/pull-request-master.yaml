@@ -42,7 +42,6 @@ jobs:
         if: always()
         uses: codecov/codecov-action@v2
         with:
-          files: .test-runs/unit/coverage.json
           fail_ci_if_error: true
           verbose: true
       - name: Compile affected apps
