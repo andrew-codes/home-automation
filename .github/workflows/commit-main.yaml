@@ -36,6 +36,12 @@ jobs:
         run: yarn test/affected
       - name: Coverage report
         run: yarn test/coverage/report
+      - name: Code Coverage
+        uses: codecov/codecov-action@v2
+          with:
+            files: .test-runs/unit/coverage.json
+            fail_ci_if_error: true
+            verbose: true
       - name: Deploy affected apps
         run: yarn deploy/affected
         env:
