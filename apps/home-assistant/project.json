@@ -104,7 +104,7 @@
   "tags": [],
   "implicitDependencies": [
     "docker-registry-creds",
-    "home-assistant-app",
+    "home-assistant-config-applicator",
     "frigate",
     "influxdb",
     "mqtt",
