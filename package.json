@@ -32,7 +32,10 @@
     "image/push": "nx run-many --target image/push --parallel --projects",
     "test": "nx run-many --target test --parallel --projects",
     "test/affected": "nx affected --target test --parallel",
-    "test/all": "nx run-many --target test --parallel --all"
+    "test/all": "nx run-many --target test --parallel --all",
+    "test/coverage/combine": "rm -rf .test-runs/unit && mkdir -p .test-runs/unit && find . -name \"coverage-final.json\" | xargs yarn istanbul-merge --out .test-runs/unit/coverage.json",
+    "pretest/coverage/report": "yarn test/coverage/combine",
+    "test/coverage/report": "istanbul report --include .test-runs/unit/coverage.json --dir .test-runs/unit/report html"
   },
   "workspaces": {
     "nohoist": [
@@ -54,6 +57,8 @@
     "@types/jest": "^27.5.1",
     "@types/node": "^17.0.2",
     "glob": "^7.1.6",
+    "istanbul": "^0.4.5",
+    "istanbul-merge": "^1.1.1",
     "jest": "^28.1.0",
     "jest-when": "^3.2.1",
     "lodash": "^4.17.21",
