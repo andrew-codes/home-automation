@@ -37,9 +37,9 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ".yarn-cache"
       - name: Run affected unit tests
-        run: yarn test/affected --head HEAD~
+        run: yarn test/affected --base HEAD~ --head HEAD
       - name: Compile affected apps
-        run: yarn compile/affected --head HEAD~
+        run: yarn compile/affected --base HEAD~ --head HEAD
         env:
           MQTT_CONNECTION: ${{ secrets.MQTT_CONNECTION }}
           GAMING_ROOM_GAMING_PC_USERNAME: "${{ secrets.GAMING_ROOM_GAMING_PC_USERNAME }}"
