@@ -1,0 +1,41 @@
+  
+name: Update All Code Coverage
+on:
+  workflow_dispatch:
+  schedule:
+    - cron:  '0 1 * * *'
+jobs:
+  push_image:
+    name: Run all tests and show coverage
+    runs-on: amd64-runner
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Read .nvmrc
+        run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
+      - name: Use Node.js (.nvmrc)
+        uses: actions/setup-node@v1
+        with:
+          node-version: "${{ steps.nvm.outputs.NVMRC }}"
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-v3
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Install deps
+        run: yarn
+      - name: Run all tests
+        run: yarn test/all
+      - name: Coverage report
+        run: yarn test/coverage/report
+      - name: Code Coverage
+        uses: codecov/codecov-action@v2
+          with:
+            files: .test-runs/unit/coverage.json
+            fail_ci_if_error: true
+            verbose: true
