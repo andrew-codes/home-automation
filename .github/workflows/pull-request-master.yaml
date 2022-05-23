@@ -14,10 +14,8 @@ jobs:
         with:
           fetch-depth: 0
           ref: main
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          ref: ${{ env.GITHUB_REF }}
+      - name: Checkout PR
+        run: "git checkout ${GITHUB_SHA}"
       - name: Read .nvmrc
         run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
         id: nvm
