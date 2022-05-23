@@ -38,6 +38,8 @@ jobs:
           YARN_CACHE_FOLDER: ".yarn-cache"
       - name: Run affected unit tests
         run: yarn test/affected --base HEAD~ --head HEAD
+      - name: Coverage report
+        run: yarn test/coverage/report
       - name: Compile affected apps
         run: yarn compile/affected --base HEAD~ --head HEAD
         env:

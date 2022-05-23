@@ -34,6 +34,8 @@ jobs:
         run: yarn
       - name: Run affected tests
         run: yarn test/affected
+      - name: Coverage report
+        run: yarn test/coverage/report
       - name: Deploy affected apps
         run: yarn deploy/affected
         env:
