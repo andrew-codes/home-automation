@@ -32,9 +32,9 @@ jobs:
       - name: Install deps
         run: yarn
       - name: Run affected tests
-        run: yarn test/affected --base ${{ env.GITHUB_SHA }}~ --head ${{ env.GITHUB_SHA }}
+        run: yarn test/affected --base main
       - name: Deploy affected apps
-        run: yarn deploy/affected --base ${{ env.GITHUB_SHA }}~ --head ${{ env.GITHUB_SHA }}
+        run: yarn deploy/affected --base main
         env:
           AZURE_SERVICE_PRINCIPAL_APP_ID: "${{ secrets.AZURE_SERVICE_PRINCIPAL_APP_ID }}"
           AZURE_SERVICE_PRINCIPAL_PASSWORD: "${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}"
