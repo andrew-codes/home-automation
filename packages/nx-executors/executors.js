@@ -1,5 +1,15 @@
 {
   "executors": {
+    "initialize-secrets": {
+      "implementation": "./dist/initialize-secrets",
+      "schema": "./src/executors/initialize-secrets/schema.json",
+      "description": "Initialize secrets to defautl values in key vault."
+    },
+    "run-with-az": {
+      "implementation": "./dist/run-with-az",
+      "schema": "./src/executors/run-with-az/schema.json",
+      "description": "Execute shell command with logged in az"
+    },
     "telepresence": {
       "implementation": "./dist/telepresence",
       "schema": "./src/executors/telepresence/schema.json",

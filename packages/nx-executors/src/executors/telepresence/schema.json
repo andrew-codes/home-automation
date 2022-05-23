@@ -3,9 +3,13 @@
   "type": "object",
   "cli": "nx",
   "properties": {
-    "textToEcho": {
+    "port": {
+      "type": "number",
+      "description": "Local port."
+    },
+    "serviceName": {
       "type": "string",
-      "description": "Text To Echo"
+      "description": "Override service name (defaults to project name)."
     }
   }
 }

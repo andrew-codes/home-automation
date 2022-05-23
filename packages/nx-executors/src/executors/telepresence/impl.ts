@@ -1,23 +1,15 @@
-import { doIf } from "@ha/env-utils"
 import type { ExecutorContext } from "@nrwl/devkit"
 import { exec } from "child_process"
-import { defaultTo, identity } from "lodash"
 import { promisify } from "util"
+import throwIfError from "../throwIfProcessError"
 
-export interface EchoExecutorOptions {
+interface TelepresenceExecutorOptions {
   port: number
   serviceName?: string
 }
 
-const throwIfError = ({ stdout, stderr }) => {
-  console.log(stdout)
-  doIf(identity(stderr))(() => {
-    throw new Error(stderr)
-  })
-}
-
-export default async function echoExecutor(
-  options: EchoExecutorOptions = {
+async function executor(
+  options: TelepresenceExecutorOptions = {
     port: 8080,
   },
   context: ExecutorContext,
@@ -29,10 +21,9 @@ export default async function echoExecutor(
 
     const command = `telepresence intercept "${
       context.projectName
-    }" --service "${defaultTo(
-      options.serviceName,
-      context.projectName,
-    )}" --env-file intercept.env --port ${
+    }" --service "${
+      options.serviceName ?? context.projectName
+    }" --env-file intercept.env --port ${
       options.port
     }:80 -- /bin/bash -c 'DEBUG=@ha/${context.projectName}/*' yarn start/dev ${
       context.projectName
@@ -45,3 +36,6 @@ export default async function echoExecutor(
   }
   return { success: true }
 }
+
+export default executor
+export type { TelepresenceExecutorOptions }

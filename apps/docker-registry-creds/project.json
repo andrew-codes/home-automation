@@ -1,0 +1,16 @@
+{
+  "root": "apps/docker-registry-creds",
+  "sourceRoot": "apps/docker-registry-creds",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@ha/nx-executors:run-with-az",
+      "options": {
+        "cwd": "apps/docker-registry-creds",
+        "command": "./scripts/bin/deploy.sh"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

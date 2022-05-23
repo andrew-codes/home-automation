@@ -19,6 +19,19 @@
         "cwd": "apps/captive-portal"
       }
     },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/captive-portal",
+        "command": "./scripts/bin/deploy.sh"
+      },
+      "dependsOn": [
+        {
+          "target": "image/push",
+          "projects": "self"
+        }
+      ]
+    },
     "image/push": {
       "executor": "@nrwl/workspace:run-commands",
       "dependsOn": [
@@ -30,6 +43,19 @@
       "options": {
         "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/captive-portal:latest\" --context dir:///workspace/ --insecure --cache=true",
         "cwd": "apps/captive-portal"
+      }
+    },
+    "initialize-secrets": {
+      "executor": "@ha/nx-executors:initialize-secrets",
+      "options": {
+        "keyVaultName": "kv-home-automation",
+        "secrets": [
+          "unifi-IP",
+          "unifi-PORT",
+          "unifi-USERNAME",
+          "unifi-PASSWORD",
+          "captive-portal-DOMAIN"
+        ]
       }
     },
     "serve": {
@@ -58,5 +84,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": []
+  "implicitDependencies": ["mqtt", "secrets"]
 }

@@ -1,6 +1,0 @@
-{
-  "private": true,
-  "name": "@ha/github-action-runner-amd64",
-  "version": "0.0.1",
-  "license": "MIT"
-}

@@ -3,6 +3,19 @@
   "sourceRoot": "apps/double-take",
   "projectType": "application",
   "targets": {
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/double-take",
+        "command": "./scripts/bin/deploy.sh"
+      },
+      "dependsOn": [
+        {
+          "target": "image/push",
+          "projects": "self"
+        }
+      ]
+    },
     "image/push": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
@@ -12,5 +25,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": []
+  "implicitDependencies": ["frigate", "facebox", "mqtt", "secrets"]
 }

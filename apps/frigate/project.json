@@ -3,6 +3,20 @@
   "sourceRoot": "apps/frigate",
   "projectType": "application",
   "targets": {
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/frigate",
+        "command": "./scripts/bin/deploy.sh"
+      }
+    },
+    "initialize-secrets": {
+      "executor": "@ha/nx-executors:initialize-secrets",
+      "options": {
+        "keyVaultName": "kv-home-automation",
+        "secrets": ["frigate-FRONT-DOOR-RTSP", "frigate-CAR-PORT-DOOR-RTSP"]
+      }
+    },
     "image/push": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
@@ -12,5 +26,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": []
+  "implicitDependencies": ["mqtt", "secrets"]
 }

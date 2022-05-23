@@ -3,6 +3,14 @@
   "sourceRoot": "packages/github-secrets/src",
   "projectType": "library",
   "targets": {
+    "compile": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["packages/github-secrets/dist"],
+      "options": {
+        "command": "node -r esbuild-register build.ts",
+        "cwd": "packages/github-secrets"
+      }
+    },
     "test": {
       "executor": "@nrwl/workspace:run-commands",
       "outputs": [".test-runs/unit"],

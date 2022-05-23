@@ -21,7 +21,17 @@
     "deploy": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "cwd": "apps/alexa-shopping-list-updater-skill"
+        "cwd": "apps/alexa-shopping-list-updater-skill",
+        "commands": [
+          "kubectl apply deployment/index.yml",
+          "kubectl rollout restart deployment alexa-shopping-list-updater-skill"
+        ],
+        "dependsOn": [
+          {
+            "target": "image/push",
+            "projects": "self"
+          }
+        ]
       }
     },
     "image/push": {
@@ -35,6 +45,18 @@
       "options": {
         "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/alexa-shopping-list-updater-skill:latest\" --context dir:///workspace/ --insecure --cache=true",
         "cwd": "apps/alexa-shopping-list-updater-skill"
+      }
+    },
+    "initialize-secrets": {
+      "executor": "@ha/nx-executors:initialize-secrets",
+      "options": {
+        "keyVaultName": "kv-home-automation",
+        "secrets": [
+          "alexa-shopping-list-skill-DNS-USERNAME",
+          "alexa-shopping-list-skill-DNS-PASSWORD",
+          "alexa-shopping-list-skill-DNS-DOMAIN",
+          "alexa-shopping-list-skill-INLETS-IP"
+        ]
       }
     },
     "serve": {
@@ -63,5 +85,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": []
+  "implicitDependencies": ["mqtt", "secrets"]
 }

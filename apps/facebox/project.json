@@ -1,0 +1,23 @@
+{
+  "root": "apps/facebox",
+  "sourceRoot": "apps/facebox",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/facebox",
+        "command": "./scripts/bin/deploy.sh"
+      }
+    },
+    "initialize-secrets": {
+      "executor": "@ha/nx-executors:initialize-secrets",
+      "options": {
+        "keyVaultName": "kv-home-automation",
+        "secrets": ["facebox-MB-KEY"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["secrets"]
+}

@@ -1,0 +1,28 @@
+{
+  "root": "apps/docker-registry",
+  "sourceRoot": "apps/docker-registry",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@ha/nx-executors:run-with-az",
+      "options": {
+        "cwd": "apps/docker-registry",
+        "command": "./scripts/bin/deploy.sh"
+      }
+    },
+    "initialize-secrets": {
+      "executor": "@ha/nx-executors:initialize-secrets",
+      "options": {
+        "keyVaultName": "kv-home-automation",
+        "secrets": [
+          "docker-registry-USERNAME",
+          "docker-registry-PASSWORD",
+          "docker-registry-EMAIL",
+          "docker-registry-MACHINE-PASSWORD"
+        ]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

@@ -1,5 +1,3 @@
-#!/usr/bin/env ts-node
-
 import { createSeal } from ".."
 
 const { GITHUB_RUNNER_TOKEN } = process.env
