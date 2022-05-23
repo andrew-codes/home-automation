@@ -7,7 +7,7 @@ on:
 
 jobs:
   run_tests:
-    name: Run all unit tests
+    name: Verify PR
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
