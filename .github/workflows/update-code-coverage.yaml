@@ -35,7 +35,7 @@ jobs:
         run: yarn test/coverage/report
       - name: Code Coverage
         uses: codecov/codecov-action@v2
-          with:
-            files: .test-runs/unit/coverage.json
-            fail_ci_if_error: true
-            verbose: true
+        with:
+          files: .test-runs/unit/coverage.json
+          fail_ci_if_error: true
+          verbose: true
