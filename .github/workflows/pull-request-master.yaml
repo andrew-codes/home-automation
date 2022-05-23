@@ -13,9 +13,6 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          ref: main
-      - name: Checkout PR
-        run: "git checkout ${GITHUB_SHA}"
       - name: Read .nvmrc
         run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
         id: nvm
@@ -40,9 +37,9 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ".yarn-cache"
       - name: Run affected unit tests
-        run: yarn test/affected
+        run: yarn test/affected --head HEAD~
       - name: Compile affected apps
-        run: yarn compile/affected
+        run: yarn compile/affected --head HEAD~
         env:
           MQTT_CONNECTION: ${{ secrets.MQTT_CONNECTION }}
           GAMING_ROOM_GAMING_PC_USERNAME: "${{ secrets.GAMING_ROOM_GAMING_PC_USERNAME }}"
