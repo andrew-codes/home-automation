@@ -30,6 +30,9 @@ jobs:
         run: yarn
       - name: Run all tests
         run: yarn test/all
+      - name: Code coverage for all
+        run: yarn test/coverage/all
+        if: always()
       - name: Deploy all apps
         run: yarn deploy/all --exclude @ha/lets-encrypt --exclude @ha/github-action-runners --exclude @ha/docker-registry --exclude @ha/k8s --exclude @ha/openvpn-as --exclude @ha/pihole --exclude @ha/azure-key-vault
         env:

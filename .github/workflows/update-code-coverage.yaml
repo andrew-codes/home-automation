@@ -31,13 +31,6 @@ jobs:
         run: yarn
       - name: Run all tests
         run: yarn test/all
-      - name: Coverage report
+      - name: Coverage all
         if: always()
-        run: yarn test/coverage/report
-      - name: Code Coverage
-        if: always()
-        uses: codecov/codecov-action@v3
-        with:
-          files: .test-runs/unit/coverage.json
-          fail_ci_if_error: true
-          verbose: true
+        run: yarn test/coverage/all

@@ -38,12 +38,9 @@ jobs:
           YARN_CACHE_FOLDER: ".yarn-cache"
       - name: Run affected unit tests
         run: yarn test/affected --base HEAD~ --head HEAD
-      - name: Code Coverage
+       - name: Coverage affected
         if: always()
-        uses: codecov/codecov-action@v3
-        with:
-          fail_ci_if_error: true
-          verbose: true
+        run: yarn test/coverage/affected --base HEAD~ --head HEAD
       - name: Compile affected apps
         run: yarn compile/affected --base HEAD~ --head HEAD
         env:
