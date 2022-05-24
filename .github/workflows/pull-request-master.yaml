@@ -38,7 +38,7 @@ jobs:
           YARN_CACHE_FOLDER: ".yarn-cache"
       - name: Run affected unit tests
         run: yarn test/affected --base HEAD~ --head HEAD
-       - name: Coverage affected
+      - name: Coverage affected
         if: always()
         run: yarn test/coverage/affected --base HEAD~ --head HEAD
       - name: Compile affected apps
