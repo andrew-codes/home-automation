@@ -22,7 +22,7 @@
     "deploy/all": "nx run-many --target deploy --parallel --all",
     "initialize-secrets/all": "nx run-many --target initialize-secrets --parallel --all",
     "patch": "patch-package",
-    "postintall": "yarn patch",
+    "postintall": "yarn patch && nx run nx-executors:compile",
     "provision": "./scripts/bin/provision.sh",
     "serve": "nx run-many --target serve --parallel --projects",
     "start/dev": "nx run-many --target start/dev --parallel --projects",

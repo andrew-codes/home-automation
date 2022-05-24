@@ -60,13 +60,7 @@
       }
     },
     "serve": {
-      "executor": "@ha/nx-executors:telepresence",
-      "dependsOn": [
-        {
-          "target": "compile",
-          "projects": "dependencies"
-        }
-      ]
+      "executor": "@ha/nx-executors:telepresence"
     },
     "start/dev": {
       "executor": "@nrwl/workspace:run-commands",
