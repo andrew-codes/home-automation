@@ -32,6 +32,8 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install deps
         run: yarn
+      - name: Build executors
+        run: yarn nx run nx-executors:compile
       - name: Run affected tests
         run: yarn test/affected
       - name: Coverage affected

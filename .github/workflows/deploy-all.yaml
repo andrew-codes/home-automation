@@ -28,6 +28,8 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install deps
         run: yarn
+      - name: Build executors
+        run: yarn nx run nx-executors:compile
       - name: Run all tests
         run: yarn test/all
       - name: Code coverage for all
