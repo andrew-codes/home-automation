@@ -18,6 +18,12 @@
         "command": "jest",
         "cwd": "packages/github-secrets"
       }
+    },
+    "code-coverage": {
+      "executor": "@ha/nx-executors:upload-codecov",
+      "options": {
+        "coverageFilePath": "packages/github-secrets/.test-runs/unit/lcov.info"
+      }
     }
   },
   "tags": [],

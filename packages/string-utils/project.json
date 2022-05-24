@@ -10,6 +10,12 @@
         "command": "jest",
         "cwd": "packages/string-utils"
       }
+    },
+    "code-coverage": {
+      "executor": "@ha/nx-executors:upload-codecov",
+      "options": {
+        "coverageFilePath": "packages/string-utils/.test-runs/unit/lcov.info"
+      }
     }
   },
   "tags": [],

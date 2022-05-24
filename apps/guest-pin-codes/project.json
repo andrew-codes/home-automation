@@ -82,6 +82,12 @@
         "command": "jest",
         "cwd": "apps/guest-pin-codes"
       }
+    },
+    "code-coverage": {
+      "executor": "@ha/nx-executors:upload-codecov",
+      "options": {
+        "coverageFilePath": "apps/guest-pin-codes/.test-runs/unit/lcov.info"
+      }
     }
   },
   "tags": [],

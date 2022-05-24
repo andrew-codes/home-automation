@@ -10,6 +10,12 @@
         "command": "jest",
         "cwd": "packages/unifi-client"
       }
+    },
+    "code-coverage": {
+      "executor": "@ha/nx-executors:upload-codecov",
+      "options": {
+        "coverageFilePath": "packages/unifi-client/.test-runs/unit/lcov.info"
+      }
     }
   },
   "tags": [],

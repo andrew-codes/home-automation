@@ -10,6 +10,12 @@
         "command": "jest",
         "cwd": "packages/mqtt-client"
       }
+    },
+    "code-coverage": {
+      "executor": "@ha/nx-executors:upload-codecov",
+      "options": {
+        "coverageFilePath": "packages/mqtt-client/.test-runs/unit/lcov.info"
+      }
     }
   },
   "tags": [],

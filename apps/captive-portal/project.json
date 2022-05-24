@@ -81,6 +81,12 @@
         "command": "jest",
         "cwd": "apps/captive-portal"
       }
+    },
+    "code-coverage": {
+      "executor": "@ha/nx-executors:upload-codecov",
+      "options": {
+        "coverageFilePath": "apps/captive-portal/.test-runs/unit/lcov.info"
+      }
     }
   },
   "tags": [],

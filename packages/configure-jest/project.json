@@ -10,6 +10,12 @@
         "command": "jest",
         "cwd": "packages/configure-jest"
       }
+    },
+    "code-coverage": {
+      "executor": "@ha/nx-executors:upload-codecov",
+      "options": {
+        "coverageFilePath": "packages/configure-jest/.test-runs/unit/lcov.info"
+      }
     }
   },
   "tags": [],

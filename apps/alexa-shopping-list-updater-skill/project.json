@@ -82,6 +82,12 @@
         "command": "jest",
         "cwd": "apps/alexa-shopping-list-updater-skill"
       }
+    },
+    "code-coverage": {
+      "executor": "@ha/nx-executors:upload-codecov",
+      "options": {
+        "coverageFilePath": "apps/alexa-shopping-list-updater-skill/.test-runs/unit/lcov.info"
+      }
     }
   },
   "tags": [],
