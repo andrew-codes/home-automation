@@ -36,8 +36,8 @@
     "test/coverage/combine": "rm -rf .test-runs/unit && mkdir -p .test-runs/unit && find . -name \"coverage-final.json\" | xargs yarn istanbul-merge --out .test-runs/unit/coverage.json",
     "pretest/coverage/report": "yarn test/coverage/combine",
     "test/coverage/report": "istanbul report --include .test-runs/unit/coverage.json --dir .test-runs/unit/report html",
-    "test/coverage/affected": "nx affected --target code-coverage --parallel",
-    "test/coverage/all": "nx run-many --target code-coverage --parallel --all"
+    "test/coverage/affected": "nx affected --target code-coverage",
+    "test/coverage/all": "nx run-many --target code-coverage --all"
   },
   "workspaces": {
     "nohoist": [
