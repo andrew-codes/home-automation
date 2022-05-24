@@ -60,7 +60,6 @@
     "istanbul": "^0.4.5",
     "istanbul-merge": "^1.1.1",
     "jest": "^28.1.0",
-    "jest-github-reporter": "^1.0.2",
     "jest-when": "^3.2.1",
     "lodash": "^4.17.21",
     "nx": "14.1.7",
