@@ -12,9 +12,8 @@ const defaultConfig = {
   collectCoverage: true,
   preset: "ts-jest",
   moduleFileExtensions: [...defaults.moduleFileExtensions, "ts"],
-  collectCoverageFrom: ["**/src/**/*.{js,ts}"],
+  collectCoverageFrom: ["<rootDir>/src/**/*.{js,ts}"],
   coveragePathIgnorePatterns: ["/__tests__/", "/node_modules/"],
-  // reporters: ["default", "jest-github-reporter"],
 }
 
 const configure = (overrides = {}) =>
