@@ -35,10 +35,10 @@ jobs:
       - name: Build executors
         run: yarn nx run nx-executors:compile
       - name: Run affected tests
-        run: yarn test/affected
+        run: yarn test/all
       - name: Coverage affected
         if: always()
-        run: yarn test/coverage/affected
+        run: yarn test/coverage/all
       - name: Deploy affected apps
         run: yarn deploy/affected
         env:
