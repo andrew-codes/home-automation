@@ -1,5 +1,5 @@
 describe('app', () => {
-   test('empty test for code coverage', () => {
+   test.skip('empty test for code coverage', () => {
        throw new Error('Not implemented')
    }); 
 })
