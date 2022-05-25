@@ -11,6 +11,7 @@
     "debug": "^4.3.1",
     "esbuild-register": "^3.3.2",
     "googleapis": "^92.0.0",
+    "jest-when": "^3.2.1",
     "nodemon": "^2.0.6"
   }
 }
