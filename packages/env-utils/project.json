@@ -3,6 +3,14 @@
   "sourceRoot": "packages/env-utils/src",
   "projectType": "library",
   "targets": {
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [".test-runs/unit"],
+      "options": {
+        "command": "rm -rf dist .test-runs",
+        "cwd": "packages/env-utils"
+      }
+    },
     "test": {
       "executor": "@nrwl/workspace:run-commands",
       "outputs": [".test-runs/unit"],

@@ -13,6 +13,8 @@
     "burn-image": "./scripts/bin/burn-image.sh",
     "clean": "nx run-many --target clean  --parallel --projects",
     "clean/all": "nx run-many --target clean  --parallel --all",
+    "clean/cache": "nx clear-cache",
+    "clean/node_modules": "rm -rf node_modules **/node_modules",
     "compile": "nx run-many --target compile  --parallel --projects",
     "compile/affected": "nx affected --target compile --parallel",
     "compile/all": "nx run-many --target compile --parallel --all",
