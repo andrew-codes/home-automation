@@ -15,7 +15,8 @@
       "executor": "@nrwl/workspace:run-commands",
       "outputs": ["apps/alexa-shopping-list-updater-skill/dist"],
       "options": {
-        "command": "node -r esbuild-register build.ts"
+        "command": "node -r esbuild-register build.ts",
+        "cwd": "apps/alexa-shopping-list-updater-skill"
       }
     },
     "deploy": {
