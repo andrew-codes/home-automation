@@ -1,4 +1,4 @@
-import sut from '../'
+import * as sut from '../'
 
 describe('app', () => {
    test.skip('empty test for code coverage', () => {
