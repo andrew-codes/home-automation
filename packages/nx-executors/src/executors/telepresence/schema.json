@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "type": "object",
+  "cli": "nx",
+  "properties": {
+    "port": {
+      "type": "number",
+      "description": "Local port."
+    },
+    "serviceName": {
+      "type": "string",
+      "description": "Override service name (defaults to project name)."
+    }
+  }
+}

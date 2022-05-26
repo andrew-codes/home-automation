@@ -22,3 +22,4 @@ USER nextjs
 EXPOSE 80
 
 ENV NEXT_TELEMETRY_DISABLED 1
+ENTRYPOINT [ "/app/entrypoint.sh" ]

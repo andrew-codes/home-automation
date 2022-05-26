@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alexa-shopping-list-updater-skill
+  namespace: default
+  labels:
+    app.kubernetes.io/name: alexa-shopping-list-updater-skill
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: alexa-shopping-list-updater-skill
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: alexa-shopping-list-updater-skill
+    spec:
+      tolerations:
+        - key: "node.kubernetes.io/disk-pressure"
+          operator: "Exists"
+          effect: "NoExecute"
+          tolerationSeconds: 300
+      serviceAccountName: app
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: alexa-shopping-list-updater-skill
+          image: docker-registry:5000/alexa-shopping-list-updater-skill:latest
+          imagePullPolicy: Always
+          ports:
+            - name: alexa-http
+              containerPort: 8085
+              protocol: TCP
+          env:
+            - name: NODE_TLS_REJECT_UNAUTHORIZED
+              value: "0"
+            - name: PORT
+              value: "8085"
+            - name: DEBUG
+            - name: MQTT_HOST
+              value: mqtt
+            - name: MQTT_PORT
+              value: "1883"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alexa-shopping-list-updater-skill
+  namespace: default
+  labels:
+    app.kubernetes.io/name: alexa-shopping-list-updater-skill
+spec:
+  type: NodePort
+  ports:
+    - name: alexa-http
+      port: 8085
+      protocol: TCP
+      targetPort: alexa-http
+      nodePort: 30526
+  selector:
+    app.kubernetes.io/name: alexa-shopping-list-updater-skill

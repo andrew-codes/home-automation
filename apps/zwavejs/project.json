@@ -1,0 +1,16 @@
+{
+  "root": "apps/zwavejs",
+  "sourceRoot": "apps/zwavejs",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/zwavejs",
+        "command": "scripts/bin/deploy.sh"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["mqtt"]
+}

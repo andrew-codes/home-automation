@@ -21,7 +21,7 @@ const yesterday = new Date()
 yesterday.setDate(new Date().getDate() - 1)
 
 test("getting events with no event data in state", () => {
-  const actual = getChronologicalEvents(null)
+  const actual = getChronologicalEvents(defaultState)
   expect(actual).toEqual([])
 })
 
@@ -37,7 +37,7 @@ test("getting events in chronological order", () => {
         },
       },
       eventOrder: ["2", "1"],
-    })
+    }),
   )
   expect(actual).toEqual([
     {
@@ -140,7 +140,7 @@ describe("getting guest network information", () => {
         ssid: "test",
         password: "testing",
       },
-    })
+    }),
   )
   expect(actual).toEqual({
     ssid: "test",

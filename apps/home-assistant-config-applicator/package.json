@@ -2,8 +2,5 @@
   "private": true,
   "name": "@ha/home-assistant-config-applicator",
   "version": "0.0.1",
-  "license": "MIT",
-  "scripts": {
-    "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/home-assistant-config-applicator:latest\" --context dir:///workspace/ --insecure --cache=true"
-  }
+  "license": "MIT"
 }

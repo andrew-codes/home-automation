@@ -1,0 +1,72 @@
+{
+  "root": "apps/ps5",
+  "sourceRoot": "apps/ps5/src",
+  "projectType": "application",
+  "targets": {
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["dist"],
+      "options": {
+        "command": "rm -rf dist .test-runs",
+        "cwd": "apps/ps5"
+      }
+    },
+    "compile": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["apps/ps5/dist"],
+      "options": {
+        "command": "node -r esbuild-register build.ts",
+        "cwd": "apps/ps5"
+      }
+    },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/ps5",
+        "command": "./scripts/bin/deploy.sh"
+      },
+      "dependsOn": [
+        {
+          "target": "image/push",
+          "projects": "self"
+        }
+      ]
+    },
+    "initialize-secrets": {
+      "executor": "@ha/nx-executors:initialize-secrets",
+      "options": {
+        "keyVaultName": "kv-home-automation",
+        "secrets": ["ps5-CREDENTIALS", "ps5-PS5-NAMES"]
+      }
+    },
+    "image/push": {
+      "executor": "@nrwl/workspace:run-commands",
+      "dependsOn": [
+        {
+          "target": "compile",
+          "projects": "self"
+        }
+      ],
+      "options": {
+        "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/ps5:latest\" --context dir:///workspace/ --insecure --cache=true",
+        "cwd": "apps/ps5"
+      }
+    },
+    "test": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [".test-runs/unit"],
+      "options": {
+        "command": "jest",
+        "cwd": "apps/ps5"
+      }
+    },
+    "code-coverage": {
+      "executor": "@ha/nx-executors:upload-codecov",
+      "options": {
+        "coverageFilePath": "apps/ps5/.test-runs/unit/lcov.info"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["mqtt", "secrets"]
+}

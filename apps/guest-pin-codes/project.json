@@ -1,0 +1,89 @@
+{
+  "root": "apps/guest-pin-codes",
+  "sourceRoot": "apps/guest-pin-codes/src",
+  "projectType": "application",
+  "targets": {
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["dist"],
+      "options": {
+        "command": "rm -rf dist .test-runs",
+        "cwd": "apps/guest-pin-codes"
+      }
+    },
+    "compile": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["apps/guest-pin-codes/dist"],
+      "options": {
+        "command": "node -r esbuild-register build.ts",
+        "cwd": "apps/guest-pin-codes"
+      }
+    },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/guest-pin-codes",
+        "command": "./scripts/bin/deploy.sh"
+      },
+      "dependsOn": [
+        {
+          "target": "image/push",
+          "projects": "self"
+        }
+      ]
+    },
+    "initialize-secrets": {
+      "executor": "@ha/nx-executors:initialize-secrets",
+      "options": {
+        "keyVaultName": "kv-home-automation",
+        "secrets": [
+          "guest-pin-codes-GOOGLE-CALENDAR-ID",
+          "guest-pin-codes-GOOGLE-PRIVATE-KEY",
+          "guest-pin-codes-DOOR-LOCKS",
+          "guest-pin-codes-GUEST-LOCK-CODE-EXCLUSIONS",
+          "guest-pin-codes-GUEST-CODE-INDEX-OFFSET",
+          "guest-pin-codes-NUMBER-OF-GUEST-CODES"
+        ]
+      }
+    },
+    "image/push": {
+      "executor": "@nrwl/workspace:run-commands",
+      "dependsOn": [
+        {
+          "target": "compile",
+          "projects": "self"
+        }
+      ],
+      "options": {
+        "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/guest-pin-codes:latest\" --context dir:///workspace/ --insecure --cache=true",
+        "cwd": "apps/guest-pin-codes"
+      }
+    },
+    "serve": {
+      "executor": "@ha/nx-executors:telepresence"
+    },
+    "start/dev": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "nodemon src/index.ts --inspect=0.0.0.0:9233",
+        "cwd": "apps/guest-pin-codes"
+      }
+    },
+    "test": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [".test-runs/unit"],
+      "options": {
+        "command": "jest",
+        "cwd": "apps/guest-pin-codes"
+      }
+    },
+    "code-coverage": {
+      "executor": "@ha/nx-executors:upload-codecov",
+      "options": {
+        "coverageFilePath": "apps/guest-pin-codes/.test-runs/unit/lcov.info"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["mqtt", "secrets"]
+}

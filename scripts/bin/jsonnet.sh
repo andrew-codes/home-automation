@@ -7,5 +7,4 @@ for line in $(env | grep DEPLOY_); do
 done
 
 COMMAND="jsonnet -J vendor $(echo -n "$ARGS_STRING" | tr '\n' ' ')"
-echo "$COMMAND"
 bash -c "$COMMAND $1 > $2"

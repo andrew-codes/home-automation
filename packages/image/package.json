@@ -4,10 +4,10 @@
   "version": "0.0.1",
   "main": "src/index.js",
   "bin": {
-    "burn-image": "src/bin/burn-image.js"
+    "burn-image": "src/bin/burn-image.js",
+    "clean": "rm -rf .test-runs"
   },
   "license": "MIT",
-  "scripts": {},
   "dependencies": {
     "shelljs": "^0.8.4"
   }

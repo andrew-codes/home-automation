@@ -1,0 +1,88 @@
+{
+  "root": "apps/captive-portal",
+  "sourceRoot": "apps/captive-portal/src",
+  "projectType": "application",
+  "targets": {
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["dist", ".test-runs"],
+      "options": {
+        "command": "rm -rf dist .test-runs",
+        "cwd": "apps/captive-portal"
+      }
+    },
+    "compile": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["apps/captive-portal/dist"],
+      "options": {
+        "command": "next build",
+        "cwd": "apps/captive-portal"
+      }
+    },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/captive-portal",
+        "command": "./scripts/bin/deploy.sh"
+      },
+      "dependsOn": [
+        {
+          "target": "image/push",
+          "projects": "self"
+        }
+      ]
+    },
+    "image/push": {
+      "executor": "@nrwl/workspace:run-commands",
+      "dependsOn": [
+        {
+          "target": "compile",
+          "projects": "self"
+        }
+      ],
+      "options": {
+        "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/captive-portal:latest\" --context dir:///workspace/ --insecure --cache=true",
+        "cwd": "apps/captive-portal"
+      }
+    },
+    "initialize-secrets": {
+      "executor": "@ha/nx-executors:initialize-secrets",
+      "options": {
+        "keyVaultName": "kv-home-automation",
+        "secrets": [
+          "unifi-IP",
+          "unifi-PORT",
+          "unifi-USERNAME",
+          "unifi-PASSWORD",
+          "captive-portal-DOMAIN"
+        ]
+      }
+    },
+    "serve": {
+      "executor": "@ha/nx-executors:telepresence"
+    },
+    "start/dev": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "next dev -p 80",
+        "cwd": "apps/captive-portal"
+      }
+    },
+    "test": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [".test-runs/unit"],
+      "options": {
+        "command": "jest",
+        "cwd": "apps/captive-portal"
+      }
+    },
+    "code-coverage": {
+      "executor": "@ha/nx-executors:upload-codecov",
+      "options": {
+        "coverageFilePath": "apps/captive-portal/.test-runs/unit/lcov.info"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["mqtt", "secrets"]
+}

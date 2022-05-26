@@ -1,16 +1,11 @@
 {
   "private": true,
-  "name": "@ha/captive-portal-app",
+  "name": "@ha/captive-portal",
   "version": "0.0.1",
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "compile": "next build",
-    "clean": "rm -rf dist",
-    "start": "scripts/bin/start.sh",
-    "start/dev": "next dev -p 80",
-    "start/prod": "next start",
-    "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/captive-portal:latest\" --context dir:///workspace/ --insecure --cache=true"
+    "start/prod": "next start"
   },
   "dependencies": {
     "@material-ui/core": "^4.12.3",
@@ -34,11 +29,9 @@
     "@types/tough-cookie": "^2.3.3",
     "babel-plugin-styled-components": "^2.0.2",
     "file-loader": "^6.2.0",
-    "jest": "^28.1.0",
     "jest-when": "^3.2.1",
     "next-test-api-route-handler": "^2.2.1",
     "react-is": "^17.0.2",
-    "ts-jest": "^27.0.3",
     "typescript": "^4.3.4",
     "webpack": "^5.21.1"
   }

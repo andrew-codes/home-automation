@@ -14,4 +14,4 @@ RUN jq '.dependencies |= with_entries( select( .key | startswith("@ha/") | not))
 RUN yarn install --production
 RUN yarn global add playactor
 RUN mkdir -p ~/.config/playactor
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]

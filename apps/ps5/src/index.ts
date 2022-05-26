@@ -11,7 +11,7 @@ import reducer, {
 import { createMqtt } from "@ha/mqtt-client"
 import { SwitchStatus } from "./redux/types"
 
-const debug = createDebugger("@ha/ps5")
+const debug = createDebugger("@ha/ps5/index")
 const debugState = createDebugger("@ha/state")
 
 async function run() {
@@ -35,7 +35,7 @@ async function run() {
         const homeAssistantId = matches[1]
         const devices = getDevices(store.getState())
         const device = devices.find(
-          (device) => device.homeAssistantId === homeAssistantId
+          (device) => device.homeAssistantId === homeAssistantId,
         )
         if (!device) {
           return

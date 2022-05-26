@@ -1,0 +1,16 @@
+{
+  "root": "apps/uptime-kuma",
+  "sourceRoot": "apps/uptime-kuma",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/uptime-kuma",
+        "command": "./scripts/bin/deploy.sh"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

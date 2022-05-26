@@ -12,4 +12,4 @@ COPY . .
 COPY package.json package.json.temp
 RUN jq '.dependencies |= with_entries( select( .key | startswith("@ha/") | not)) | .devDependencies|=with_entries( select( .key | startswith("@ha/") |not ))' package.json.temp > package.json
 RUN NODE_ENV=production yarn install --production
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]

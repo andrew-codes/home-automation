@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "@ha/nx-executors",
+  "description": "Nx executors for projects.",
+  "version": "0.0.1",
+  "license": "MIT",
+  "executors": "./executors.js",
+  "dependencies": {
+    "@nrwl/devkit": "^14.1.7"
+  },
+  "devDependencies": {
+    "@ha/env-utils": "^0.0.1",
+    "esbuild-register": "^3.3.2",
+    "lodash": "4.17.21"
+  }
+}

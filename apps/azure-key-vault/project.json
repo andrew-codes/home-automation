@@ -1,0 +1,16 @@
+{
+  "root": "apps/azure-key-vault",
+  "sourceRoot": "apps/azure-key-vault",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@ha/nx-executors:run-with-az",
+      "options": {
+        "cwd": "apps/azure-key-vault",
+        "command": "./scripts/bin/deploy.sh"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

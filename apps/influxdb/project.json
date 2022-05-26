@@ -1,0 +1,16 @@
+{
+  "root": "apps/influxdb",
+  "sourceRoot": "apps/influxdb",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/influxdb",
+        "command": "./scripts/bin/deploy.sh"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

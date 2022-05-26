@@ -77,7 +77,7 @@ type AnyAction =
   | SetGuestSlotsAction
   | SetGuestWifiNetworkInformationAction
 
-export {
+export type {
   AddCodesToPoolAction,
   AddDoorLocksAction,
   AnyAction,

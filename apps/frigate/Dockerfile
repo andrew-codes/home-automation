@@ -1,4 +1,4 @@
-FROM blakeblackshear/frigate:stable-amd64
+FROM blakeblackshear/frigate:0.10.1-amd64
 RUN apt-get update -y
 RUN apt-get install -y \
     curl
@@ -13,6 +13,6 @@ RUN apt-get install -y \
     python3-pycoral \
     usbutils
 COPY config.yml /config/config-raw.yml
-COPY start.sh /start.sh
+COPY entrypoint.sh /entrypoint.sh
 
-CMD ["/start.sh"]
+CMD ["/entrypoint.sh"]

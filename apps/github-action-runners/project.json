@@ -1,0 +1,46 @@
+{
+  "root": "apps/github-action-runners",
+  "sourceRoot": "apps/github-action-runners",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@ha/nx-executors:run-with-az",
+      "options": {
+        "cwd": "apps/github-action-runners",
+        "command": "./scripts/bin/deploy.sh"
+      },
+      "dependsOn": [
+        {
+          "target": "compile",
+          "projects": "dependencies"
+        }
+      ]
+    },
+    "initialize-secrets": {
+      "executor": "@ha/nx-executors:initialize-secrets",
+      "options": {
+        "keyVaultName": "kv-home-automation",
+        "secrets": [
+          "github-action-runners-GITHUB-TOKEN",
+          "github-action-runners-HOME-AUTOMATION-PRIVATE-SSH-KEY",
+          "github-action-runners-GITHUB-ACTION-JEST-REPORTER-TOKEN"
+        ]
+      }
+    },
+    "image/push": {
+      "executor": "@nrwl/workspace:run-commands",
+      "dependsOn": [
+        {
+          "target": "compile",
+          "projects": "self"
+        }
+      ],
+      "options": {
+        "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/github-action-runner-amd64:latest\" --context dir:///workspace/ --insecure --cache=true",
+        "cwd": "apps/github-action-runners"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["secrets", "github-secrets"]
+}

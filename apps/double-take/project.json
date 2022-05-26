@@ -1,0 +1,29 @@
+{
+  "root": "apps/double-take",
+  "sourceRoot": "apps/double-take",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/double-take",
+        "command": "./scripts/bin/deploy.sh"
+      },
+      "dependsOn": [
+        {
+          "target": "image/push",
+          "projects": "self"
+        }
+      ]
+    },
+    "image/push": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/double-take:latest\" --context dir:///workspace/ --insecure --cache=true",
+        "cwd": "apps/double-take"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["frigate", "facebox", "mqtt", "secrets"]
+}

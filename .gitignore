@@ -16,3 +16,4 @@ terraform.tfstate*
 *.env
 id_rsa
 /vendor
+.test-runs

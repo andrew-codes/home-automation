@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "@ha/configure-jest",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "src/index.js",
+  "dependencies": {
+    "jest-config": "^28.1.0",
+    "lodash": "^4.17.21"
+  },
+  "peerDependencies": {
+    "jest": "^28.1.0"
+  }
+}

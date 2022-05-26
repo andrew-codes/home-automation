@@ -1,0 +1,87 @@
+{
+  "root": "apps/alexa-shopping-list-updater-skill",
+  "sourceRoot": "apps/alexa-shopping-list-updater-skill/src",
+  "projectType": "application",
+  "targets": {
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["dist", ".test-runs"],
+      "options": {
+        "command": "rm -rf dist .test-runs",
+        "cwd": "apps/alexa-shopping-list-updater-skill"
+      }
+    },
+    "compile": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["apps/alexa-shopping-list-updater-skill/dist"],
+      "options": {
+        "command": "node -r esbuild-register build.ts",
+        "cwd": "apps/alexa-shopping-list-updater-skill"
+      }
+    },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/alexa-shopping-list-updater-skill",
+        "command": "kubectl apply -f deployment/index.yml && kubectl rollout restart deployment alexa-shopping-list-updater-skill"
+      },
+      "dependsOn": [
+        {
+          "target": "image/push",
+          "projects": "self"
+        }
+      ]
+    },
+    "image/push": {
+      "executor": "@nrwl/workspace:run-commands",
+      "dependsOn": [
+        {
+          "target": "compile",
+          "projects": "self"
+        }
+      ],
+      "options": {
+        "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/alexa-shopping-list-updater-skill:latest\" --context dir:///workspace/ --insecure --cache=true",
+        "cwd": "apps/alexa-shopping-list-updater-skill"
+      }
+    },
+    "initialize-secrets": {
+      "executor": "@ha/nx-executors:initialize-secrets",
+      "options": {
+        "keyVaultName": "kv-home-automation",
+        "secrets": [
+          "alexa-shopping-list-skill-DNS-USERNAME",
+          "alexa-shopping-list-skill-DNS-PASSWORD",
+          "alexa-shopping-list-skill-DNS-DOMAIN",
+          "alexa-shopping-list-skill-INLETS-IP"
+        ]
+      }
+    },
+    "serve": {
+      "executor": "@ha/nx-executors:telepresence"
+    },
+    "start/dev": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "nodemon src/index.ts --inspect=0.0.0.0:9233",
+        "cwd": "apps/alexa-shopping-list-updater-skill"
+      }
+    },
+    "test": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [".test-runs/unit"],
+      "options": {
+        "command": "jest",
+        "cwd": "apps/alexa-shopping-list-updater-skill"
+      }
+    },
+    "code-coverage": {
+      "executor": "@ha/nx-executors:upload-codecov",
+      "options": {
+        "coverageFilePath": "apps/alexa-shopping-list-updater-skill/.test-runs/unit/lcov.info"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["mqtt", "secrets"]
+}

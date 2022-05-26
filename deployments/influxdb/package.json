@@ -1,8 +1,0 @@
-{
-  "private": true,
-  "name": "@ha/influxdb",
-  "version": "0.0.1",
-  "scripts": {
-    "deploy": "scripts/bin/deploy.sh"
-  }
-}

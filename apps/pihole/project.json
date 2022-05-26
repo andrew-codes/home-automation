@@ -1,0 +1,30 @@
+{
+  "root": "apps/pihole",
+  "sourceRoot": "apps/pihole",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@ha/nx-executors:run-with-az",
+      "options": {
+        "cwd": "apps/pihole",
+        "command": "./scripts/bin/deploy.sh"
+      }
+    },
+    "update": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/pihole",
+        "command": "./scripts/bin/update.sh"
+      }
+    },
+    "initialize-secrets": {
+      "executor": "@ha/nx-executors:initialize-secrets",
+      "options": {
+        "keyVaultName": "kv-home-automation",
+        "secrets": ["pihole-PASSWORD"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["secrets"]
+}

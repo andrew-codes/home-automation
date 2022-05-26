@@ -1,0 +1,22 @@
+{
+  "root": "infrastructure/pihole",
+  "sourceRoot": "infrastructure/pihole",
+  "projectType": "application",
+  "targets": {
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [
+        ".terraform",
+        ".terraform.lock.hcl",
+        ".terraform.tfstate.lock.info",
+        "terraform.tfstate"
+      ],
+      "options": {
+        "command": "rm -rf .terraform .terraform.lock.hcl .terraform.tfstate.lock.info terraform.tfstate",
+        "cwd": "infrastructure/pihole"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

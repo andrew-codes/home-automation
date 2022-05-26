@@ -6,3 +6,5 @@ scripts/
 tsconfig.*
 *.ts
 nodemon.json
+jest.config.js
+.test-runs/

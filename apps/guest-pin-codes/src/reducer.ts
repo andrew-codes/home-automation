@@ -71,7 +71,7 @@ const reducer = (state = defaultState, action: AnyAction) => {
       }
       const codeIndex = Math.max(
         0,
-        (state.codes as string[]).indexOf(action.payload)
+        (state.codes as string[]).indexOf(action.payload),
       )
       return merge({}, state, {
         codeIndex,
@@ -97,14 +97,14 @@ const reducer = (state = defaultState, action: AnyAction) => {
       const stateWithNewDoorLocks = merge({}, state)
       stateWithNewDoorLocks.doorLocks = uniq(
         state.doorLocks.concat(action.payload),
-        false
+        false,
       )
       return stateWithNewDoorLocks
 
     case "REMOVE_EVENTS":
       const stateWithRemovedEvents = merge({}, state)
       stateWithRemovedEvents.eventOrder = state.eventOrder.filter(
-        (id) => !action.payload.find((event) => event.id === id)
+        (id) => !action.payload.find((event) => event.id === id),
       )
       action.payload.forEach((removedEvent) => {
         delete stateWithRemovedEvents.events[removedEvent.id]
@@ -122,4 +122,5 @@ const reducer = (state = defaultState, action: AnyAction) => {
 }
 
 export default reducer
-export { defaultState, State }
+export { defaultState }
+export type { State }

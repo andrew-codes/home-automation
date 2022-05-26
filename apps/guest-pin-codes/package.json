@@ -1,19 +1,14 @@
 {
   "private": true,
-  "name": "@ha/guest-pin-codes-app",
+  "name": "@ha/guest-pin-codes",
   "version": "0.0.1",
   "main": "src/index.ts",
   "license": "MIT",
-  "scripts": {
-    "clean": "rm -rf dist",
-    "compile": "node -r esbuild-register build.ts",
-    "image/push": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/guest-pin-codes:latest\" --context dir:///workspace/ --insecure --cache=true",
-    "start/dev": "nodemon src/index.ts",
-    "start": "scripts/bin/start.sh"
-  },
   "dependencies": {},
   "devDependencies": {
+    "@ha/configure-jest": "^0.0.1",
     "@ha/mqtt-client": "^0.0.1",
+    "@ha/nx-executors": "^0.0.1",
     "@ha/unifi-client": "^0.0.1",
     "@redux-saga/is": "^1.0.1",
     "@redux-saga/symbols": "^1.0.1",
@@ -23,7 +18,6 @@
     "esbuild-register": "^3.3.2",
     "google-auth-library": "^7.0.4",
     "googleapis": "^92.0.0",
-    "jest": "^28.1.0",
     "lodash": "^4.17.21",
     "nodemon": "^2.0.6",
     "redux-saga-test-plan": "^4.0.3",

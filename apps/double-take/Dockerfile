@@ -1,8 +1,8 @@
-FROM jakowenko/double-take:1.7.0
+FROM jakowenko/double-take:1.10.1
 RUN apt-get update
 RUN apt-get install -y gettext-base
 
 COPY ./config.yml /config.yml
-COPY start.sh /start.sh
+COPY entrypoint.sh /entrypoint.sh
 
-CMD ["/bin/sh" "-c" "/start.sh"]
+CMD ["/bin/sh" "-c" "/entrypoint.sh"]

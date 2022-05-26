@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: guest-wifi-renewal
+  namespace: default
+  labels:
+    app.kubernetes.io/name: guest-wifi-renewal
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: guest-wifi-renewal
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: guest-wifi-renewal
+    spec:
+      tolerations:
+        - key: "node.kubernetes.io/disk-pressure"
+          operator: "Exists"
+          effect: "NoExecute"
+          tolerationSeconds: 300
+      serviceAccountName: app
+      imagePullSecrets:
+        - name: regcred
+      initContainers:
+        - name: mqtt-is-ready
+          image: docker-registry:5000/mqtt-client:latest
+          imagePullPolicy: Always
+          command:
+            - "sh"
+          args:
+            - "-c"
+            - "timeout 10 sub -h mqtt -t '$SYS/#' -C 1 | grep -v Error || exit 1"
+        - name: home-assistant-is-ready
+          image: curlimages/curl:latest
+          command:
+            - "sh"
+          args:
+            - "-c"
+            - "timeout 10 curl --fail --insecure --silent --output /dev/null --write-out 'HTTP Code %{http_code}' 'https://ha.smith-simms.family' || exit 1"
+      containers:
+        - name: guest-wifi-renewal
+          image: docker-registry:5000/guest-wifi-renewal:latest
+          imagePullPolicy: Always
+          env:
+            - name: DEBUG
+            - name: MQTT_HOST
+              value: mqtt
+            - name: MQTT_PORT
+              value: "1883"
+            - name: MQTT_USERNAME
+              value: "mqtt-username@azurekeyvault"
+            - name: MQTT_PASSWORD
+              value: "mqtt-password@azurekeyvault"
+            - name: HA_TOKEN
+              value: "home-assistant-ha-token@azurekeyvault"
+            - name: HA_URL
+              value: "home-assistant-ha-domain@azurekeyvault"
+            - name: UNIFI_IP
+              value: "unifi-ip@azurekeyvault"
+            - name: UNIFI_PORT
+              value: "unifi-port@azurekeyvault"
+            - name: UNIFI_PASSWORD
+              value: "unifi-password@azurekeyvault"
+            - name: UNIFI_USERNAME
+              value: "unifi-username@azurekeyvault"
+            - name: ENV_INJECTOR_LOG_LEVEL
+              value: debug

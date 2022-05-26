@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ps5
+  namespace: default
+  labels:
+    app.kubernetes.io/name: ps5
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ps5
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ps5
+    spec:
+      tolerations:
+        - key: "node.kubernetes.io/disk-pressure"
+          operator: "Exists"
+          effect: "NoExecute"
+          tolerationSeconds: 300
+      serviceAccountName: app
+      hostNetwork: true
+      imagePullSecrets:
+        - name: regcred
+      initContainers:
+        - name: mqtt-is-ready
+          image: docker-registry:5000/mqtt-client:latest
+          imagePullPolicy: Always
+          command:
+            - "sh"
+          args:
+            - "-c"
+            - "timeout 10 sub -h 192.168.1.18 -p 30519 -t '$SYS/#' -C 1 | grep -v Error || exit 1"
+        - name: home-assistant-is-ready
+          image: curlimages/curl:latest
+          command:
+            - "sh"
+          args:
+            - "-c"
+            - "timeout 10 curl --fail --insecure --silent --output /dev/null --write-out 'HTTP Code %{http_code}' 'https://ha.smith-simms.family' || exit 1"
+      containers:
+        - name: ps5
+          image: docker-registry:5000/ps5:latest
+          imagePullPolicy: Always
+          env:
+            - name: DEBUG
+              value: "@ha/ps5/*"
+            - name: NODE_ENV
+              value: production
+            - name: MQTT_HOST
+              value: "192.168.1.18"
+            - name: MQTT_PORT
+              value: "30519"
+            - name: MQTT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-username
+                  key: secret-value
+            - name: MQTT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-password
+                  key: secret-value
+            - name: ENV_INJECTOR_LOG_LEVEL
+              value: debug
+          volumeMounts:
+            - name: ps5-credentials
+              mountPath: /root/.config/playactor
+      volumes:
+        - name: ps5-credentials
+          secret:
+            secretName: ps5-credentials
+            defaultMode: 0777
+            items:
+              - key: secret-value
+                path: credentials.json

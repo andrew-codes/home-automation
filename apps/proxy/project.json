@@ -1,0 +1,23 @@
+{
+  "root": "apps/proxy",
+  "sourceRoot": "apps/proxy",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/proxy",
+        "command": "./scripts/bin/deploy.sh"
+      }
+    },
+    "initialize-secrets": {
+      "executor": "@ha/nx-executors:initialize-secrets",
+      "options": {
+        "keyVaultName": "kv-home-automation",
+        "secrets": ["cert-email", "dns-google-service-account-creds"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}
