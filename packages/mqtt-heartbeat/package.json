@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "name": "@ha/mqtt-heartbeat",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "dependencies": {
+    "@ha/mqtt-client": "^0.0.1",
+    "async-mqtt": "^2.6.1"
+  }
+}

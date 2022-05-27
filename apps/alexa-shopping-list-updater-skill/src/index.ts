@@ -3,10 +3,16 @@ import express from "express"
 import createDebug from "debug"
 import { createApolloFetch } from "apollo-fetch"
 import { ExpressAdapter } from "ask-sdk-express-adapter"
+import { createMqttHeartbeat } from "@ha/mqtt-heartbeat"
 
 const debug = createDebug("@ha/alexa-shopping-list-updater-skill/index")
 
 const run = async () => {
+  await createMqttHeartbeat(
+    "home/alexa-shopping-list-updater/hearbeat/request",
+    "home/alexa-shopping-list-updater/hearbeat/response",
+  )
+
   const { API_URL, API_TOKEN, PORT } = process.env
   const gqlFetch = createApolloFetch({
     uri: `http://${API_URL}/`,

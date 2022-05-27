@@ -1,3 +1,6 @@
+jest.mock("@ha/mqtt-heartbeat")
+jest.mock("@ha/mqtt-client")
+jest.mock("@ha/unifi-client")
 jest.mock("redux")
 jest.mock("redux-saga")
 jest.mock("../reducer")
@@ -9,10 +12,11 @@ jest.mock("cron", () => ({
 const codes = ["0", "1", "2"]
 jest.mock("../candidateCodes", () => codes)
 jest.mock("../getMinuteAccurateDate")
-import { applyMiddleware, createStore } from "redux"
 import createSagaMiddleware from "redux-saga"
-import { when } from "jest-when"
+import { applyMiddleware, createStore } from "redux"
+import { createMqttHeartbeat } from "@ha/mqtt-heartbeat"
 import { CronJob as mockCronJob } from "cron"
+import { when } from "jest-when"
 import run from "../index"
 import getMinuteAccurateDate from "../getMinuteAccurateDate"
 import reducer from "../reducer"
@@ -29,6 +33,16 @@ beforeEach(() => {
   ;(createSagaMiddleware as jest.Mock).mockReturnValue(sagaMiddleware)
   start = jest.fn()
   mockCronJob.mockImplementation(() => ({ start }))
+})
+
+test("sets up a heartbeat health check", async () => {
+  jest.mocked(createStore).mockReturnValue(store)
+  await run("", "", 0, 0)
+
+  expect(createMqttHeartbeat).toBeCalledWith(
+    "home/guest-pin-codes/hearbeat/request",
+    "home/guest-pin-codes/hearbeat/response",
+  )
 })
 
 test("store is created with the reducer and redux saga middleware", async () => {

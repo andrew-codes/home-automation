@@ -9,6 +9,7 @@ import reducer, {
   saga,
 } from "./redux"
 import { createMqtt } from "@ha/mqtt-client"
+import { createMqttHeartbeat } from "@ha/mqtt-heartbeat"
 import { SwitchStatus } from "./redux/types"
 
 const debug = createDebugger("@ha/ps5/index")
@@ -17,6 +18,11 @@ const debugState = createDebugger("@ha/state")
 async function run() {
   debug("Started")
   try {
+    await createMqttHeartbeat(
+      "home/ps5/hearbeat/request",
+      "home/ps5/hearbeat/response",
+    )
+
     const sagaMiddleware = createSagaMiddleware()
     const store = createStore(reducer, applyMiddleware(sagaMiddleware))
     store.subscribe(() => {

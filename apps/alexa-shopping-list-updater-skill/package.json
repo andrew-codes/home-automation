@@ -11,6 +11,7 @@
     "ask-sdk-express-adapter": "^2.10.2",
     "ask-sdk-model": "^1.35.1",
     "debug": "^4.3.1",
+    "@ha/mqtt-heartbeat": "^0.0.1",
     "esbuild-register": "^3.3.2",
     "express": "^4.17.1",
     "lodash": "^4.17.21",

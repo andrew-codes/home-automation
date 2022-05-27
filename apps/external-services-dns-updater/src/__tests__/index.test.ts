@@ -1,12 +1,14 @@
 jest.mock("@ha/mqtt-client")
+jest.mock("@ha/mqtt-heartbeat")
 jest.mock("googleapis")
 import { createMqtt } from "@ha/mqtt-client"
+import { createMqttHeartbeat } from "@ha/mqtt-heartbeat"
 import { GoogleAuth } from "google-auth-library"
 import { google } from "googleapis"
 import { when } from "jest-when"
 import run from "../"
 
-describe("app", () => {
+describe("external services dns updater", () => {
   const subscribe = jest.fn()
   const on = jest.fn()
   let auth
@@ -20,6 +22,15 @@ describe("app", () => {
     auth = jest.mocked(GoogleAuth)
     jest.mocked(google, true)
     jest.mocked(google.auth.GoogleAuth).mockImplementation(() => auth)
+  })
+
+  test("sets up a heartbeat health check", async () => {
+    await run()
+
+    expect(createMqttHeartbeat).toBeCalledWith(
+      "home/external-services-dns-updater/hearbeat/request",
+      "home/external-services-dns-updater/hearbeat/response",
+    )
   })
 
   test("Subscribes to external_ip sensor set state MQTT topics.", async () => {
