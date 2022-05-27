@@ -34,6 +34,7 @@ beforeEach(() => {
 })
 
 test("sets up a heartbeat health check", async () => {
+  jest.mocked(createStore).mockReturnValue(store)
   await run("", "", 0, 0)
 
   expect(createMqttHeartbeat).toBeCalledWith(
