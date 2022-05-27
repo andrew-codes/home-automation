@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "main": "src/index.ts",
   "license": "MIT",
+  "dependencies": {},
   "devDependencies": {
     "apollo-fetch": "^0.7.0",
     "ask-sdk-core": "^2.10.2",
