@@ -1,5 +1,6 @@
 import createDebugger from "debug"
 import createSagaMiddleware from "redux-saga"
+import { createMqttHeartbeat } from "@ha/mqtt-heartbeat"
 import { createStore, applyMiddleware } from "redux"
 import { CronJob } from "cron"
 import candiateCodes from "./candidateCodes"
@@ -26,9 +27,13 @@ const run = async (
   doorLocks: string,
   codeExclusions: string,
   guestCodeOffset: number,
-  numberOfGuestCodes: number
+  numberOfGuestCodes: number,
 ) => {
   debug("Started")
+  await createMqttHeartbeat(
+    "home/guest-pin-codes/hearbeat/request",
+    "home/guest-pin-codes/hearbeat/response",
+  )
   const sagaMiddleware = createSagaMiddleware()
   const store = createStore(reducer, applyMiddleware(sagaMiddleware))
 
@@ -37,7 +42,7 @@ const run = async (
   })
 
   debug(
-    `Number of guest codes: ${numberOfGuestCodes}, offset by ${guestCodeOffset}`
+    `Number of guest codes: ${numberOfGuestCodes}, offset by ${guestCodeOffset}`,
   )
   store.dispatch(setGuestSlots(numberOfGuestCodes, guestCodeOffset))
   store.dispatch(addDoorLocks(doorLocks.split(",").filter((lock) => !!lock)))
@@ -55,7 +60,7 @@ const run = async (
     },
     null,
     true,
-    "America/New_York"
+    "America/New_York",
   )
   const scheduledEventsJob = new CronJob(
     "10 */1 * * * *",
@@ -64,7 +69,7 @@ const run = async (
     },
     null,
     true,
-    "America/New_York"
+    "America/New_York",
   )
   const now = new Date()
   store.dispatch(fetchEvents(now))
@@ -78,7 +83,7 @@ if (require.main === module) {
     DOOR_LOCKS as string,
     GUEST_LOCK_CODE_EXCLUSIONS as string,
     parseInt(GUEST_CODE_INDEX_OFFSET as string, 10) + 1,
-    parseInt(NUMBER_OF_GUEST_CODES as string, 10)
+    parseInt(NUMBER_OF_GUEST_CODES as string, 10),
   )
 }
 

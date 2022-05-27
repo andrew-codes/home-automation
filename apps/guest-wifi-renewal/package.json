@@ -8,6 +8,7 @@
   "devDependencies": {
     "@ha/configure-jest": "^0.0.1",
     "@ha/mqtt-client": "^0.0.1",
+    "@ha/mqtt-heartbeat": "^0.0.1",
     "@ha/unifi-client": "^0.0.1",
     "async-mqtt": "^2.6.1",
     "debug": "^4.3.1",
