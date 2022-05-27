@@ -1,5 +1,5 @@
 import createDebugger from "debug"
-import { createMqtt } from "@ha/mqtt-client"
+// import { createMqtt } from "@ha/mqtt-client"
 import { createMqttHeartbeat } from "@ha/mqtt-heartbeat"
 import createSagaMiddleware from "redux-saga"
 import { createStore, applyMiddleware } from "redux"
@@ -21,7 +21,7 @@ async function run() {
       debugState(JSON.stringify(store.getState(), null, 2))
     })
     sagaMiddleware.run(saga)
-    const mqtt = await createMqtt()
+    // const mqtt = await createMqtt()
     // const topicRegEx = /^homeassistant\/sensor\/(.*)\/set$/
     // mqtt.on("message", async (topic, payload) => {
     //   try {

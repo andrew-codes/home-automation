@@ -1,4 +1,6 @@
 jest.mock("@ha/mqtt-heartbeat")
+jest.mock("@ha/mqtt-client")
+jest.mock("@ha/unifi-client")
 jest.mock("redux")
 jest.mock("redux-saga")
 jest.mock("../reducer")

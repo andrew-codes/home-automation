@@ -1,3 +1,4 @@
+jest.mock("@ha/mqtt-client")
 jest.mock("@ha/mqtt-heartbeat")
 import run from "../"
 import { createMqttHeartbeat } from "@ha/mqtt-heartbeat"
