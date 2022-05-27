@@ -27,10 +27,7 @@ describe("guest wifi renewal", () => {
   test("sets up a heartbeat health check", async () => {
     await run()
 
-    expect(createMqttHeartbeat).toBeCalledWith(
-      "home/guest-wifi-renewal/hearbeat/request",
-      "home/guest-wifi-renewal/hearbeat/response",
-    )
+    expect(createMqttHeartbeat).toBeCalledWith("guest-wifi-renewal-service")
   })
 
   test("run will subscribe to device renewal topics", async () => {

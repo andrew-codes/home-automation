@@ -18,10 +18,7 @@ const debugState = createDebugger("@ha/state")
 async function run() {
   debug("Started")
   try {
-    await createMqttHeartbeat(
-      "home/ps5/hearbeat/request",
-      "home/ps5/hearbeat/response",
-    )
+    await createMqttHeartbeat("ps5-service")
 
     const sagaMiddleware = createSagaMiddleware()
     const store = createStore(reducer, applyMiddleware(sagaMiddleware))

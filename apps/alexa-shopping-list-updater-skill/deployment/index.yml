@@ -38,9 +38,19 @@ spec:
               value: "8085"
             - name: DEBUG
             - name: MQTT_HOST
-              value: mqtt
+              value: "192.168.1.18"
             - name: MQTT_PORT
-              value: "1883"
+              value: "30519"
+            - name: MQTT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-username
+                  key: secret-value
+            - name: MQTT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-password
+                  key: secret-value
 
 ---
 apiVersion: v1

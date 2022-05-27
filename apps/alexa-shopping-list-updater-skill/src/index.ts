@@ -8,10 +8,7 @@ import { createMqttHeartbeat } from "@ha/mqtt-heartbeat"
 const debug = createDebug("@ha/alexa-shopping-list-updater-skill/index")
 
 const run = async () => {
-  await createMqttHeartbeat(
-    "home/alexa-shopping-list-updater/hearbeat/request",
-    "home/alexa-shopping-list-updater/hearbeat/response",
-  )
+  await createMqttHeartbeat("alexa-shopping-list-updater-service")
 
   const { API_URL, API_TOKEN, PORT } = process.env
   const gqlFetch = createApolloFetch({

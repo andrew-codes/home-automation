@@ -39,10 +39,7 @@ test("sets up a heartbeat health check", async () => {
   jest.mocked(createStore).mockReturnValue(store)
   await run("", "", 0, 0)
 
-  expect(createMqttHeartbeat).toBeCalledWith(
-    "home/guest-pin-codes/hearbeat/request",
-    "home/guest-pin-codes/hearbeat/response",
-  )
+  expect(createMqttHeartbeat).toBeCalledWith("guest-pin-codes-service")
 })
 
 test("store is created with the reducer and redux saga middleware", async () => {

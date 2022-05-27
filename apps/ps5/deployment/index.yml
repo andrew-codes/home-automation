@@ -46,7 +46,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: DEBUG
-              value: "@ha/ps5/*"
+              value: ""
             - name: NODE_ENV
               value: production
             - name: MQTT_HOST

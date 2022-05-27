@@ -18,8 +18,7 @@ describe("alexa shopping list updater skill", () => {
     await run()
 
     expect(createMqttHeartbeat).toBeCalledWith(
-      "home/alexa-shopping-list-updater/hearbeat/request",
-      "home/alexa-shopping-list-updater/hearbeat/response",
+      "alexa-shopping-list-updater-service",
     )
   })
 })

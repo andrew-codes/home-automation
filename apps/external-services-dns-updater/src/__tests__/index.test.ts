@@ -28,8 +28,7 @@ describe("external services dns updater", () => {
     await run()
 
     expect(createMqttHeartbeat).toBeCalledWith(
-      "home/external-services-dns-updater/hearbeat/request",
-      "home/external-services-dns-updater/hearbeat/response",
+      "external-services-dns-updater-service",
     )
   })
 

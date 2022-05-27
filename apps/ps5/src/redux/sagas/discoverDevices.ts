@@ -1,5 +1,6 @@
 import { call, put } from "redux-saga/effects"
 import { Discovery } from "playactor/dist/discovery"
+import { toEntityId } from "@ha/ha-entity-utils"
 import { merge } from "lodash"
 import type { DiscoverDevicesAction } from "../types"
 import { registerDeviceWithHomeAssistant } from "../actionCreators"
@@ -30,14 +31,14 @@ function* discoverDevices(action: DiscoverDevicesAction) {
       {},
       {
         timeoutMillis: 3000,
-      }
-    )
+      },
+    ),
   )
   for (const device of devices) {
     yield put(
       registerDeviceWithHomeAssistant(
-        merge({}, device, { homeAssistantId: device.name.replace(/-/g, "_") })
-      )
+        merge({}, device, { homeAssistantId: toEntityId(device.name) }),
+      ),
     )
   }
 }

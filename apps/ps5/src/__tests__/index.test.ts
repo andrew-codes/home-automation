@@ -7,9 +7,6 @@ describe("ps5", () => {
   test("sets up a heartbeat health check", async () => {
     await run()
 
-    expect(createMqttHeartbeat).toBeCalledWith(
-      "home/ps5/hearbeat/request",
-      "home/ps5/hearbeat/response",
-    )
+    expect(createMqttHeartbeat).toBeCalledWith("ps5-service")
   })
 })

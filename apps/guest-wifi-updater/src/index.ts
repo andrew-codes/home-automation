@@ -11,10 +11,7 @@ const debugState = createDebugger("@ha/state")
 async function run() {
   debug("Started")
   try {
-    await createMqttHeartbeat(
-      "home/guest-wifi-updater/hearbeat/request",
-      "home/guest-wifi-updater/hearbeat/response",
-    )
+    await createMqttHeartbeat("guest-wifi-updater-service")
     const sagaMiddleware = createSagaMiddleware()
     const store = createStore(reducer, applyMiddleware(sagaMiddleware))
     store.subscribe(() => {

@@ -30,10 +30,7 @@ const run = async (
   numberOfGuestCodes: number,
 ) => {
   debug("Started")
-  await createMqttHeartbeat(
-    "home/guest-pin-codes/hearbeat/request",
-    "home/guest-pin-codes/hearbeat/response",
-  )
+  await createMqttHeartbeat("guest-pin-codes-service")
   const sagaMiddleware = createSagaMiddleware()
   const store = createStore(reducer, applyMiddleware(sagaMiddleware))
 

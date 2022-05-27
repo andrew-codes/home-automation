@@ -1,31 +1,46 @@
-jest.mock("@ha/mqtt-client")
+jest.mock("redux")
+jest.mock("@redux-saga/core")
+jest.mock("../redux", () => ({
+  ...jest.requireActual("../redux"),
+  saga: jest.fn(),
+}))
+import { applyMiddleware, Store } from "redux"
+import { createStore } from "redux"
+import type { SagaMiddleware } from "redux-saga"
+import createSagaMiddleware from "@redux-saga/core"
+import { reducer, saga } from "../redux"
 import createMqttHeartbeat from "../mqttHeartbeat"
-import { AsyncMqttClient, createMqtt } from "@ha/mqtt-client"
 
 describe("mqttHeartbeat", () => {
-  const on = jest.fn()
-  const publish = jest.fn()
-  const subscribe = jest.fn()
+  let dispatch = jest.fn()
+  const sagaRun = jest.fn()
+  let sagaMiddleware
+
   beforeEach(() => {
     jest.resetAllMocks()
-    jest.mocked(createMqtt).mockResolvedValue({
-      on,
-      publish,
-      subscribe,
-    } as unknown as AsyncMqttClient)
+    sagaMiddleware = { run: sagaRun }
+    jest.mocked(createStore).mockReturnValue({ dispatch } as unknown as Store)
+    jest
+      .mocked(createSagaMiddleware)
+      .mockReturnValue(sagaMiddleware as unknown as SagaMiddleware)
   })
 
-  test("creating a mqtt heartbeat will subscribe to the hearbeat topic and respond with the mqtt response topic", async () => {
-    on.mockImplementation((message: string, cb) => {
-      cb("home/service/heartbeat/response")
-    })
-
-    await createMqttHeartbeat(
-      "home/service/heartbeat/request",
-      "home/service/heartbeat/response",
+  test("saga middleware is created, added to redux and run", async () => {
+    await createMqttHeartbeat("service_name")
+    expect(createStore).toHaveBeenCalledWith(
+      reducer,
+      applyMiddleware(sagaMiddleware),
     )
 
-    expect(subscribe).toHaveBeenCalledWith("home/service/heartbeat/request")
-    expect(publish).toHaveBeenCalledWith("home/service/heartbeat/response", "")
+    expect(sagaRun).toBeCalledWith(saga)
+  })
+
+  test("creating a mqtt heartbeat will dispatch to register the service with Home Assistant", async () => {
+    await createMqttHeartbeat("service_name")
+
+    expect(dispatch).toHaveBeenCalledWith({
+      type: "HEARTBEAT/REGISTER_DEVICE",
+      payload: "service_name",
+    })
   })
 })

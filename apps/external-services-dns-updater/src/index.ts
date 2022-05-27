@@ -7,10 +7,7 @@ const debug = createDebugger("@ha/external-services-dns-updater/index")
 
 async function run() {
   debug("Started")
-  await createMqttHeartbeat(
-    "home/external-services-dns-updater/hearbeat/request",
-    "home/external-services-dns-updater/hearbeat/response",
-  )
+  await createMqttHeartbeat("external-services-dns-updater-service")
   const mqtt = await createMqtt()
   await mqtt.subscribe("homeassistant/sensor/external_ip/set")
   try {
