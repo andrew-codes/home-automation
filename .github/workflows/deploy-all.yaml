@@ -49,4 +49,4 @@ jobs:
           MQTT_CONNECTION: ${{ secrets.MQTT_CONNECTION }}
           NODE_ENV: production
       - name: Remove disk pressure taint
-        run: ./scripts/bin/remove-evicted-pods.sh
+        run: ./scripts/bin/remove-evicted-pods.sh || true
