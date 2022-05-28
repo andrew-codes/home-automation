@@ -19,6 +19,19 @@
         "cwd": "apps/guest-wifi-renewal"
       }
     },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/guest-wifi-renewal",
+        "command": "./scripts/bin/deploy.sh"
+      },
+      "dependsOn": [
+        {
+          "target": "image/push",
+          "projects": "self"
+        }
+      ]
+    },
     "image/push": {
       "executor": "@nrwl/workspace:run-commands",
       "dependsOn": [

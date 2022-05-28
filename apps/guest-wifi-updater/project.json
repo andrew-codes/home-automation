@@ -19,6 +19,19 @@
         "cwd": "apps/guest-wifi-updater"
       }
     },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/guest-wifi-updater",
+        "command": "./scripts/bin/deploy.sh"
+      },
+      "dependsOn": [
+        {
+          "target": "image/push",
+          "projects": "self"
+        }
+      ]
+    },
     "image/push": {
       "executor": "@nrwl/workspace:run-commands",
       "dependsOn": [
