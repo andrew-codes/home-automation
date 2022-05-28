@@ -9,6 +9,7 @@
     "@azure/identity": "^2.0.4",
     "@azure/keyvault-secrets": "^4.4.0",
     "@ha/configuration-api": "^0.0.1",
-    "@ha/configuration-env-secrets": "^0.0.1"
+    "@ha/configuration-env-secrets": "^0.0.1",
+    "jest-when": "^3.2.1"
   }
 }

@@ -11,6 +11,11 @@ type Configuration = {
   azureServicePrincipalPassword: string
   azureServicePrincipalAppId: string
   azureServicePrincipalTenant: string
+  azureUsername: string
+  azurePassword: string
+  azureClientId: string
+  azureTenantId: string
+  azureClientSecret: string
 }
 
 const configurationApi: ConfigurationApi<Configuration> = {
