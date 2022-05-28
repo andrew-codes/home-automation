@@ -8,7 +8,8 @@
       "options": {
         "cwd": "apps/frigate",
         "command": "./scripts/bin/deploy.sh"
-      }
+      },
+      "dependsOn": [{ "target": "image/push", "projects": "self" }]
     },
     "initialize-secrets": {
       "executor": "@ha/nx-executors:initialize-secrets",
