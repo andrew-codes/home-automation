@@ -3,18 +3,10 @@ import { config } from "dotenv"
 import path from "path"
 
 type Configuration = {
-  devMachinePassword: string
-  pmPass: string
   azureKeyVaultName: string
-  azureServicePrincipalName: string
   azureSubscriptionId: string
-  azureServicePrincipalPassword: string
-  azureServicePrincipalAppId: string
-  azureServicePrincipalTenant: string
-  azureUsername: string
-  azurePassword: string
-  azureClientId: string
   azureTenantId: string
+  azureClientId: string
   azureClientSecret: string
 }
 
