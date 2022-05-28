@@ -13,7 +13,7 @@ const defaultConfig = {
   preset: "ts-jest",
   moduleFileExtensions: [...defaults.moduleFileExtensions, "ts"],
   collectCoverageFrom: ["<rootDir>/src/**/*.{js,ts}"],
-  coveragePathIgnorePatterns: ["/__tests__/", "/node_modules/"],
+  coveragePathIgnorePatterns: ["/__tests__/", "/node_modules/", "/__mocks__/"],
 }
 
 const configure = (overrides = {}) =>

@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "type": "object",
+  "cli": "nx",
+  "properties": {
+    "module": {
+      "type": "string",
+      "description": "Module to require. Will invoke default export with configuration API."
+    },
+    "cwd": {
+      "type": "string",
+      "description": "Current working directory in which search for module."
+    }
+  }
+}

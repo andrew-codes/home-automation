@@ -5,6 +5,11 @@
       "schema": "./src/executors/initialize-secrets/schema.json",
       "description": "Initialize secrets to defautl values in key vault."
     },
+    "invoke": {
+      "implementation": "./dist/invoke",
+      "schema": "./src/executors/invoke/schema.json",
+      "description": "Invoke a module with injected configuration API."
+    },
     "run-with-az": {
       "implementation": "./dist/run-with-az",
       "schema": "./src/executors/run-with-az/schema.json",
