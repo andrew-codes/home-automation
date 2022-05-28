@@ -5,14 +5,12 @@ import createDebugger from "debug"
 
 const debug = createDebugger("@ha/configuration-workspace/index")
 
-const createConfigurationApi = async (): Promise<
-  ConfigurationApi<Configuration>
-> => {
-  const configurationProviders = [staticConfiguration]
-
+const createConfigurationApi = async (
+  providers: ConfigurationApi<any>[] = [staticConfiguration],
+): Promise<ConfigurationApi<Configuration>> => {
   return {
     get: async (name) => {
-      for (const configurationProvider of configurationProviders) {
+      for (const configurationProvider of providers) {
         try {
           const value = await configurationProvider.get(name)
           return value
