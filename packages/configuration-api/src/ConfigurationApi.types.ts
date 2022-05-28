@@ -1,5 +1,7 @@
 interface ConfigurationApi<Configuration> {
-  get(name: keyof Configuration): Promise<string>
+  get<Name extends keyof Configuration>(
+    name: Name,
+  ): Promise<Configuration[Name]>
 }
 
 export type { ConfigurationApi }
