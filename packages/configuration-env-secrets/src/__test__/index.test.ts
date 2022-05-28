@@ -7,7 +7,7 @@ describe("configuration api module exports", () => {
   test("Configuration gets values from .secrets.env env variables.", async () => {
     jest
       .mocked(config)
-      .mockReturnValue({ parsed: { azure_client_id: "client id" } })
+      .mockReturnValue({ parsed: { AZURE_CLIENT_ID: "client id" } })
 
     const actual = await configurationApi.get("azure/client/id")
     expect(config).toHaveBeenCalledWith({

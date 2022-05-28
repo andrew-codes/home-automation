@@ -17,9 +17,11 @@ const configurationApi: ConfigurationApi<Configuration> = {
       path: path.join(__dirname, "..", "..", "..", ".secrets.env"),
     })
 
-    return (parsed as unknown as Configuration)[name.replace(/\//g, "_")]
+    return (parsed as unknown as Configuration)[
+      name.replace(/\//g, "_").toUpperCase()
+    ]
   },
-  getNames: () => configurationNames,
+  getNames: () => configurationNames as ReadonlyArray<keyof Configuration>,
   set: async () => {},
 }
 

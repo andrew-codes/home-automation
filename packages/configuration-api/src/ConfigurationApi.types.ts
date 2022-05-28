@@ -1,5 +1,5 @@
 interface ConfigurationApi<Configuration> {
-  getNames(): Array<keyof Configuration>
+  getNames(): ReadonlyArray<keyof Configuration>
   get<Name extends keyof Configuration>(
     name: Name,
   ): Promise<Configuration[Name]>
