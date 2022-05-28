@@ -13,10 +13,12 @@ describe("configuration api module exports", () => {
 
   const get = jest.fn()
   const getNames = jest.fn()
+  const set = jest.fn()
   beforeEach(() => {
     jest.mocked(createAzureKvConfiguration).mockResolvedValue({
       get,
       getNames,
+      set,
     } as unknown as ConfigurationApi<Configuration>)
   })
 
@@ -75,7 +77,23 @@ describe("configuration api module exports", () => {
     ])
 
     const actual = api.getNames()
-    expect(actual).toEqual(["test1", "test2", "one"])
+    expect(actual).toEqual(["test1", "azure/location", "one"])
+  })
+
+  test("Setting a value will use all providers that supports the value.", async () => {
+    getNames.mockReturnValue(["azure/location"])
+    const api = await sut.createConfigurationApi([
+      TestConfigProvder,
+      TestConfigProvder2,
+    ])
+
+    api.set("azure/location", "test")
+    expect(set).toHaveBeenCalledWith("azure/location", "test")
+    expect(TestConfigProvder.set).not.toHaveBeenCalled()
+    expect(TestConfigProvder2.set).toHaveBeenCalledWith(
+      "azure/location",
+      "test",
+    )
   })
 })
 
@@ -87,6 +105,6 @@ const TestConfigProvder: ConfigurationApi<{ azureKeyVaultName: string }> = {
 
 const TestConfigProvder2: ConfigurationApi<{ azureKeyVaultName: string }> = {
   get: async (name) => "different value",
-  getNames: () => ["test1", "test2"],
+  getNames: () => ["test1", "azure/location"],
   set: jest.fn(),
 }

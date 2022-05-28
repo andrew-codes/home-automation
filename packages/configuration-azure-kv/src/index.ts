@@ -123,7 +123,9 @@ const createConfigApi = async (): Promise<
       return secret.value as AzureKvConfiguration[typeof name]
     },
     getNames: () => configurationNames,
-    set: async (name, value) => {},
+    set: async (name, value) => {
+      await client.setSecret(name, value)
+    },
   }
 }
 

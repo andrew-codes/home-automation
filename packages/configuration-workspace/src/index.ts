@@ -33,7 +33,13 @@ const createConfigurationApi = async (
 
       return uniq(allConfiguration)
     },
-    set: async (name, value) => {},
+    set: async (name, value) => {
+      await Promise.all(
+        configurationProviders
+          .filter((provider) => provider.getNames().includes(name))
+          .map((provider) => provider.set(name, value)),
+      )
+    },
   }
 }
 

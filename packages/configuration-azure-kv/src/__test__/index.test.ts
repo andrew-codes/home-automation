@@ -13,10 +13,13 @@ describe("configuration api module exports", () => {
   })
 
   const getSecret = jest.fn()
+  const setSecret = jest.fn()
   beforeEach(() => {
     jest
       .mocked(SecretClient)
-      .mockImplementation(() => ({ getSecret } as unknown as SecretClient))
+      .mockImplementation(
+        () => ({ getSecret, setSecret } as unknown as SecretClient),
+      )
   })
 
   test("Uses the env-secrets configuration api to connect to Azure Key Vault and retrieve the value by name", async () => {
@@ -44,12 +47,19 @@ describe("configuration api module exports", () => {
       .mockResolvedValue({ value: "a username" })
 
     const api = await createConfigApi()
-
     const actual = await api.get("mqtt/username")
+
     expect(SecretClient).toHaveBeenCalledWith(
       "https://azureKeyVaultName.vault.azure.net",
       credential,
     )
     expect(actual).toEqual("a username")
+  })
+
+  test("Can set a configutation value via saving it to Azure Key Vault.", async () => {
+    const api = await createConfigApi()
+    await api.set("azure/location", "new location")
+
+    expect(setSecret).toHaveBeenCalledWith("azure/location", "new location")
   })
 })

@@ -20,6 +20,7 @@ const configurationApi: ConfigurationApi<Configuration> = {
     return (parsed as unknown as Configuration)[name.replace(/\//g, "_")]
   },
   getNames: () => configurationNames,
+  set: async () => {},
 }
 
 export type { Configuration }
