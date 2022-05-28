@@ -5,6 +5,7 @@ import path from "path"
 type Configuration = {
   devMachinePassword: string
   pmPass: string
+  azureKeyVaultName: string
   azureServicePrincipalName: string
   azureSubscriptionId: string
   azureServicePrincipalPassword: string

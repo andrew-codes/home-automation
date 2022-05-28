@@ -25,7 +25,6 @@ type StaticConfiguration = {
   prodPiholeIp: string
   prodProxyIp: string
   azureResourceGroup: string
-  azureKeyVaultName: string
   azureLocation: string
 }
 
@@ -54,7 +53,6 @@ const configurationMap: StaticConfiguration = {
   prodPiholeIp: "192.168.1.15",
   prodProxyIp: "192.168.1.20",
   azureResourceGroup: "rg-home-automation",
-  azureKeyVaultName: "kv-home-automation",
   azureLocation: "East US",
 }
 
