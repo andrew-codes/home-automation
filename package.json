@@ -6,8 +6,7 @@
   "author": "Andrew Smith <andrew@andrew.codes>",
   "license": "MIT",
   "engines": {
-    "node": ">=16.15.0",
-    "yarn": ">=1.22.4"
+    "node": ">=16.15.0"
   },
   "scripts": {
     "burn-image": "./scripts/bin/burn-image.sh",
