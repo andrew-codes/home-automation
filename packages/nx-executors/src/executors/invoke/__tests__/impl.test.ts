@@ -1,9 +1,12 @@
 jest.mock("esbuild-register/dist/node")
-jest.mock("@ha/configuration-api")
+jest.mock("@ha/configuration-workspace")
 import executor from "../impl"
 import { ExecutorContext } from "@nrwl/devkit"
 import { register } from "esbuild-register/dist/node"
-import { createConfigurationApi } from "@ha/configuration-workspace"
+import {
+  Configuration,
+  createConfigurationApi,
+} from "@ha/configuration-workspace"
 import type { ConfigurationApi } from "@ha/configuration-api"
 
 let ctx: ExecutorContext
@@ -39,9 +42,9 @@ test("Modules that do not export a function fail.", async () => {
 test("Modules default exported function will be invoked with the configuration API.", async () => {
   const deploy = jest.fn()
   jest.doMock("deploy", () => deploy)
-  jest
-    .mocked(createConfigurationApi)
-    .mockResolvedValue({ configuration: true } as unknown as ConfigurationApi)
+  jest.mocked(createConfigurationApi).mockResolvedValue({
+    configuration: true,
+  } as unknown as ConfigurationApi<Configuration>)
 
   const { success } = await executor({ module: "deploy" }, ctx)
   expect(deploy).toBeCalledWith({ configuration: true })

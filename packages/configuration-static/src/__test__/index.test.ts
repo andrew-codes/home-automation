@@ -1,8 +1,8 @@
-import * as sut from ".."
+import { staticConfiguration } from "../"
 
 describe("configuration api module exports", () => {
   test("Creates a configuration API capable of getting configuration values.", async () => {
-    const api = await sut.createConfigurationApi()
-    api.get("external_zwave_js_port")
+    const value = await staticConfiguration.get("externalAlexaSkillPort")
+    expect(value).toEqual(30526)
   })
 })
