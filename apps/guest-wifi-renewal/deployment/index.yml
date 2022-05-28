@@ -51,20 +51,44 @@ spec:
             - name: MQTT_PORT
               value: "1883"
             - name: MQTT_USERNAME
-              value: "mqtt-username@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-username
+                  key: secret-value
             - name: MQTT_PASSWORD
-              value: "mqtt-password@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-password
+                  key: secret-value
             - name: HA_TOKEN
-              value: "home-assistant-ha-token@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: home-assistant-ha-token
+                  key: secret-value
             - name: HA_URL
-              value: "home-assistant-ha-domain@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: home-assistant-ha-domain
+                  key: secret-value
             - name: UNIFI_IP
-              value: "unifi-ip@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: unifi-ip
+                  key: secret-value
             - name: UNIFI_PORT
-              value: "unifi-port@azurekeyvault"
-            - name: UNIFI_PASSWORD
-              value: "unifi-password@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: unifi-port
+                  key: secret-value
             - name: UNIFI_USERNAME
-              value: "unifi-username@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: unifi-username
+                  key: secret-value
+            - name: UNIFI_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: unifi-password
+                  key: secret-value
             - name: ENV_INJECTOR_LOG_LEVEL
               value: debug
