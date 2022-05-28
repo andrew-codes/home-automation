@@ -59,9 +59,15 @@ spec:
           imagePullPolicy: Always
           env:
             - name: MQTT_USERNAME
-              value: "mqtt-username@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-username
+                  key: secret-value
             - name: MQTT_PASSWORD
-              value: "mqtt-password@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-password
+                  key: secret-value
           ports:
             - name: web
               containerPort: 3000

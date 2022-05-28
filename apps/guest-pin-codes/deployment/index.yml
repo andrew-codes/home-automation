@@ -29,32 +29,68 @@ spec:
           imagePullPolicy: Always
           env:
             - name: DEBUG
-              value: "@ha/guest-pin-codes/*"
+              value: ""
             - name: MQTT_HOST
               value: mqtt
             - name: MQTT_PORT
               value: "1883"
             - name: MQTT_USERNAME
-              value: "mqtt-username@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-username
+                  key: secret-value
             - name: MQTT_PASSWORD
-              value: "mqtt-password@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-password
+                  key: secret-value
             - name: DOOR_LOCKS
-              value: "guest-pin-codes-door-locks@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: guest-pin-codes-door-locks
+                  key: secret-value
             - name: GOOGLE_CALENDAR_ID
-              value: "guest-pin-codes-google-calendar-id@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: guest-pin-codes-google-calendar-id
+                  key: secret-value
             - name: GOOGLE_PRIVATE_KEY
-              value: "guest-pin-codes-google-private-key@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: guest-pin-codes-google-private-key
+                  key: secret-value
             - name: GUEST_CODE_INDEX_OFFSET
-              value: "guest-pin-codes-guest-code-index-offset@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: guest-pin-codes-guest-code-index-offset
+                  key: secret-value
             - name: GUEST_LOCK_CODE_EXCLUSIONS
-              value: "guest-pin-codes-guest-lock-code-exclusions@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: guest-pin-codes-guest-lock-code-exclusions
+                  key: secret-value
             - name: NUMBER_OF_GUEST_CODES
-              value: "guest-pin-codes-number-of-guest-codes@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: guest-pin-codes-number-of-guest-codes
+                  key: secret-value
             - name: UNIFI_IP
-              value: "unifi-ip@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: unifi-ip
+                  key: secret-value
             - name: UNIFI_PORT
-              value: "unifi-port@azurekeyvault"
-            - name: UNIFI_PASSWORD
-              value: "unifi-password@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: unifi-port
+                  key: secret-value
             - name: UNIFI_USERNAME
-              value: "unifi-username@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: unifi-username
+                  key: secret-value
+            - name: UNIFI_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: unifi-password
+                  key: secret-value

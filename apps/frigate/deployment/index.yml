@@ -68,13 +68,25 @@ spec:
           imagePullPolicy: Always
           env:
             - name: MQTT_USERNAME
-              value: "mqtt-username@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-username
+                  key: secret-value
             - name: MQTT_PASSWORD
-              value: "mqtt-password@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-password
+                  key: secret-value
             - name: CAR_PORT_DOOR_RTSP
-              value: "frigate-car-port-door-rtsp@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: frigate-car-port-door-rtsp
+                  key: secret-value
             - name: FRONT_DOOR_RTSP
-              value: "frigate-front-door-rtsp@azurekeyvault"
+              valueFrom:
+                secretKeyRef:
+                  name: frigate-front-door-rtsp
+                  key: secret-value
           ports:
             - name: http
               containerPort: 5000
