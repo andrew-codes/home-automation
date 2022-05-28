@@ -3,7 +3,7 @@ import { SecretClient } from "@azure/keyvault-secrets"
 import { ClientSecretCredential } from "@azure/identity"
 import { configurationApi as EnvSecretsConfiguration } from "@ha/configuration-env-secrets"
 
-type AzureKvConfiguration = {
+type LegacyAzureKvConfiguration = {
   "alexa-shopping-list-skill-DNS-DOMAIN": string
   "alexa-shopping-list-skill-DNS-PASSWORD": string
   "alexa-shopping-list-skill-DNS-USERNAME": string
@@ -69,10 +69,10 @@ type AzureKvConfiguration = {
   "home-assistant-PROXMOX-PASSWORD": string
   "home-assistant-PROXMOX-USERNAME": string
   "home-assistant-ROUTER-IP": string
-  "home-assistant-SPOTCAST-DC": string
   "home-assistant-SPOTCAST-DC-2": string
-  "home-assistant-SPOTCAST-KEY": string
+  "home-assistant-SPOTCAST-DC": string
   "home-assistant-SPOTCAST-KEY-2": string
+  "home-assistant-SPOTCAST-KEY": string
   "home-assistant-SPOTIFY-CLIENT-ID": string
   "home-assistant-SPOTIFY-CLIENT-SECRET": string
   "home-assistant-TIME-ZONE": string
@@ -96,6 +96,102 @@ type AzureKvConfiguration = {
   "unifi-PASSWORD": string
   "unifi-PORT": string
   "unifi-USERNAME": string
+}
+
+type AzureKvConfiguration = {
+  "alexa-shopping-list-updater/port/external": string
+  "azure/location": string
+  "azure/resource-group": string
+  "captive-portal/port/external": string
+  "docker-registry/email": string
+  "docker-registry/ip": string
+  "docker-registry/machine/password": string
+  "docker-registry/password": string
+  "docker-registry/port/external": string
+  "docker-registry/username": string
+  "double-take/port/external": string
+  "dynamic-dns/cert-email": string
+  "dynamic-dns/service-account/credentials.json": string
+  "facebox/mb-key": string
+  "facebox/port/external": string
+  "frigate/port/external": string
+  "frigate/port/external/rmtp": string
+  "frigate/rtsp/car-port": string
+  "frigate/rtsp/front-door": string
+  "github/token": string
+  "grafana/influxdb/token": string
+  "grafana/password": string
+  "grafana/port/external": string
+  "grafana/username": string
+  "guest-pin-codes/calendar-id": string
+  "guest-pin-codes/door-locks": string
+  "guest-pin-codes/google-private-key": string
+  "guest-pin-codes/guest-code-index-offset": string
+  "guest-pin-codes/guest-lock-code-exclusions": string
+  "guest-pin-codes/number-of-guest-codes": string
+  "home-assistant/appdaemon/password": string
+  "home-assistant/appdaemon/url": string
+  "home-assistant/domain": string
+  "home-assistant/double-take/token": string
+  "home-assistant/elevation": string
+  "home-assistant/game-room/gaming-pc/ip": string
+  "home-assistant/game-room/gaming-pc/mac": string
+  "home-assistant/game-room/gaming-pc/machine-username": string
+  "home-assistant/game-room/nvidia-shield/ip": string
+  "home-assistant/game-room/playstation-5/ip": string
+  "home-assistant/game-room/tv/ip": string
+  "home-assistant/game-room/tv/mac": string
+  "home-assistant/google/calendar/client-id": string
+  "home-assistant/google/calendar/client-secret": string
+  "home-assistant/home-automation-private-ssh-key": string
+  "home-assistant/home-automation-public-ssh-key": string
+  "home-assistant/influxdb/token": string
+  "home-assistant/jira-authorization-header": string
+  "home-assistant/latitude": string
+  "home-assistant/longitude": string
+  "home-assistant/port/external": string
+  "home-assistant/postgres/db": string
+  "home-assistant/postgres/password": string
+  "home-assistant/postgres/user": string
+  "home-assistant/spotcast/dc-2": string
+  "home-assistant/spotcast/dc": string
+  "home-assistant/spotcast/key-2": string
+  "home-assistant/spotcast/key": string
+  "home-assistant/spotify/client-id": string
+  "home-assistant/spotify/client-secret": string
+  "home-assistant/time-zone": string
+  "home-assistant/token": string
+  "home-assistant/unit-system": string
+  "home-assistant/url": string
+  "home-assistant/withings/client-id": string
+  "home-assistant/withings/client-secret": string
+  "influxdb/bucket": string
+  "influxdb/org": string
+  "influxdb/password": string
+  "influxdb/port/external": string
+  "influxdb/username": string
+  "k8s-main-node/ip": string
+  "mqtt/password": string
+  "mqtt/port/external": string
+  "mqtt/username": string
+  "openvpn/admin/password": string
+  "openvpn/ip": string
+  "pihole/ip": string
+  "pihole/password": string
+  "pihole/search-domain": string
+  "proxmox/host": string
+  "proxmox/password": string
+  "proxmox/username": string
+  "proxy/ip": string
+  "ps5/credentials.json": string
+  "unifi/ip": string
+  "unifi/password": string
+  "unifi/port": string
+  "unifi/username": string
+  "uptime-kuma/port/external": string
+  "zigbee2mqtt/port/external": string
+  "zwavejs/port/external": string
+  "zwavejs/port/external/web-socket": string
 }
 
 const configurationApi: ConfigurationApi<AzureKvConfiguration> = {
