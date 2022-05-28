@@ -17,7 +17,7 @@ describe("update home assistant saga", () => {
       .dispatch(updateHomeAssistant("service_name"))
       .call.like({
         fn: publish,
-        args: ["homeassistant/binary_sensor/service_name_status/state", "on"],
+        args: ["homeassistant/binary_sensor/service_name_status/state", "ON"],
       })
       .run()
   })

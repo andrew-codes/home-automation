@@ -11,7 +11,7 @@ function* updateHomeAssistant(action: UpdateHomeAssistantAction) {
   yield call(
     [mqtt, mqtt.publish],
     `homeassistant/binary_sensor/${action.payload}_status/state`,
-    "on",
+    "ON",
   )
 }
 
