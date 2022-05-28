@@ -3,7 +3,7 @@ jest.mock("@ha/configuration-api")
 import executor from "../impl"
 import { ExecutorContext } from "@nrwl/devkit"
 import { register } from "esbuild-register/dist/node"
-import { createConfigurationApi } from "@ha/configuration-api"
+import { createConfigurationApi } from "@ha/configuration-workspace"
 import type { ConfigurationApi } from "@ha/configuration-api"
 
 let ctx: ExecutorContext

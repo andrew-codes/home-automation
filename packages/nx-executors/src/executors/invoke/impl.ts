@@ -1,5 +1,5 @@
 import type { ExecutorContext } from "@nrwl/devkit"
-import { createConfigurationApi } from "@ha/configuration-api"
+import { createConfigurationApi } from "@ha/configuration-workspace"
 import { register } from "esbuild-register/dist/node"
 
 interface RunWithAzExecutorOptions {

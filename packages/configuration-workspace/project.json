@@ -1,0 +1,39 @@
+{
+  "root": "packages/configuration-workspace",
+  "sourceRoot": "packages/configuration-workspace/src",
+  "projectType": "library",
+  "targets": {
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [".test-runs/unit"],
+      "options": {
+        "command": "rm -rf dist .test-runs",
+        "cwd": "packages/configuration-workspace"
+      }
+    },
+    "compile": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["packages/configuration-workspace/dist"],
+      "options": {
+        "command": "node -r esbuild-register build.ts",
+        "cwd": "packages/configuration-workspace"
+      }
+    },
+    "test": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [".test-runs/unit"],
+      "options": {
+        "command": "jest",
+        "cwd": "packages/configuration-workspace"
+      }
+    },
+    "code-coverage": {
+      "executor": "@ha/nx-executors:upload-codecov",
+      "options": {
+        "coverageFilePath": "packages/configuration-workspace/.test-runs/unit/lcov.info"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

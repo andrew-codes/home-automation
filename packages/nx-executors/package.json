@@ -10,7 +10,7 @@
     "esbuild-register": "^3.3.2"
   },
   "devDependencies": {
-    "@ha/configuration-api": "^0.0.1",
+    "@ha/configuration-workspace": "^0.0.1",
     "@ha/env-utils": "^0.0.1",
     "lodash": "4.17.21"
   }
