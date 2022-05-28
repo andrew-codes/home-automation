@@ -58,6 +58,7 @@ const configurationMap: StaticConfiguration = {
 
 const configurationApi: ConfigurationApi<StaticConfiguration> = {
   get: async (name) => configurationMap[name],
+  getNames: () => [],
 }
 
 export type { StaticConfiguration as Configuration }

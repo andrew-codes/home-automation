@@ -5,38 +5,51 @@ import { configurationApi as EnvSecretsConfiguration } from "@ha/configuration-e
 import { SecretClient } from "@azure/keyvault-secrets"
 import { ClientSecretCredential } from "@azure/identity"
 import { when } from "jest-when"
-import { configurationApi } from "../"
+import { createConfigApi } from "../"
 
 describe("configuration api module exports", () => {
+  beforeEach(() => {
+    jest.resetAllMocks()
+  })
+
+  const getSecret = jest.fn()
+  beforeEach(() => {
+    jest
+      .mocked(SecretClient)
+      .mockImplementation(() => ({ getSecret } as unknown as SecretClient))
+  })
+
   test("Uses the env-secrets configuration api to connect to Azure Key Vault and retrieve the value by name", async () => {
     when(EnvSecretsConfiguration.get)
-      .calledWith("azureKeyVaultName")
+      .calledWith("azure/key-vault/name")
       .mockResolvedValue("azureKeyVaultName")
     when(EnvSecretsConfiguration.get)
-      .calledWith("azureTenantId")
+      .calledWith("azure/tenant/id")
       .mockResolvedValue("azureTenantId")
     when(EnvSecretsConfiguration.get)
-      .calledWith("azureClientId")
+      .calledWith("azure/client/id")
       .mockResolvedValue("azureClientId")
     when(EnvSecretsConfiguration.get)
-      .calledWith("azureClientSecret")
+      .calledWith("azure/client/secret")
       .mockResolvedValue("azureClientSecret")
 
     const credential = { creds: true }
-    const getSecret = jest.fn()
+
     when(ClientSecretCredential)
       .calledWith("azureTenantId", "azureClientId", "azureClientSecret")
       .mockReturnValue(credential)
-    when(SecretClient)
-      .calledWith("https://azureKeyVaultName.vault.azure.net", credential)
-      .mockReturnValue({
-        getSecret,
-      })
+
     when(getSecret)
-      .calledWith("mqtt-USERNAME")
+      .calledWith("mqtt/username")
       .mockResolvedValue({ value: "a username" })
 
-    const actual = await configurationApi.get("mqtt-USERNAME")
+    const api = await createConfigApi()
+
+    const actual = await api.get("mqtt/username")
+    expect(SecretClient).toHaveBeenCalledWith(
+      "https://azureKeyVaultName.vault.azure.net",
+      credential,
+    )
     expect(actual).toEqual("a username")
   })
 })

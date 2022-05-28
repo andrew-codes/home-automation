@@ -94,22 +94,6 @@ spotcast:
       sp_dc: !secret SPOTCAST_DC_2
       sp_key: !secret SPOTCAST_KEY_2
 
-proxmoxve:
-  - host: !secret PROXMOX_HOST
-    username: !secret PROXMOX_USERNAME
-    password: !secret PROXMOX_PASSWORD
-    verify_ssl: false
-    realm: pam
-    nodes:
-      - node: pve
-        containers:
-          - "100"
-          - "101"
-          - "102"
-        vms:
-          - "103"
-          - "104"
-
 withings:
   client_id: !secret WITHINGS_CLIENT_ID
   client_secret: !secret WITHINGS_CLIENT_SECRET

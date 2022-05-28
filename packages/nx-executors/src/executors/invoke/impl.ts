@@ -13,7 +13,7 @@ async function executor(
 ): Promise<{ success: boolean }> {
   try {
     register()
-    const loadedModule = require(module)
+    const { default: loadedModule } = await import(module)
     const configApi = await createConfigurationApi()
     await loadedModule(configApi)
   } catch (error) {

@@ -20,7 +20,7 @@
     "deploy": "nx run-many --target deploy --parallel --projects",
     "deploy/affected": "nx affected --target deploy --parallel",
     "deploy/all": "nx run-many --target deploy --parallel --all",
-    "initialize-secrets/all": "nx run-many --target initialize-secrets --parallel --all",
+    "initialize-secrets": "nx run-many --target initialize-secrets --parallel --all",
     "patch": "patch-package",
     "postinstall": "yarn patch && nx run nx-executors:compile && jb install",
     "provision": "./scripts/bin/provision.sh",
