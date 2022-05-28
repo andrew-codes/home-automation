@@ -45,7 +45,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: DEBUG
-              value: "*"
+              value: "@ha/*"
             - name: MQTT_HOST
               value: mqtt
             - name: MQTT_PORT
