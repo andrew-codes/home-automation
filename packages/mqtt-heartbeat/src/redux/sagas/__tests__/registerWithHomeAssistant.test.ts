@@ -33,6 +33,7 @@ describe("registerWithHomeAssistant saga", () => {
             optimistic: true,
             object_id: "service_name_status",
             unique_id: "service_name_status",
+            device_class: "connectivity",
           }),
           { qos: 1 },
         ],

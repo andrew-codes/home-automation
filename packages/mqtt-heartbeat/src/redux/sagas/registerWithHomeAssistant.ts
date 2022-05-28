@@ -21,6 +21,7 @@ function* registerWithHomeAssistant(
       optimistic: true,
       object_id: `${entityId}_status`,
       unique_id: `${entityId}_status`,
+      device_class: "connectivity",
     }),
     { qos: 1 },
   )
