@@ -19,8 +19,8 @@ function* registerWithHomeAssistant(
       command_topic: `homeassistant/binary_sensor/${entityId}_status/set`,
       state_topic: `homeassistant/binary_sensor/${entityId}_status/state`,
       optimistic: true,
-      object_id: `binary_sensor.${entityId}_status`,
-      unique_id: `binary_sensor.${entityId}_status`,
+      object_id: `${entityId}_status`,
+      unique_id: `${entityId}_status`,
     }),
     { qos: 1 },
   )
