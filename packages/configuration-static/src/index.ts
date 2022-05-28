@@ -58,9 +58,9 @@ const configurationMap: StaticConfiguration = {
   azureLocation: "East US",
 }
 
-const staticConfiguration: ConfigurationApi<StaticConfiguration> = {
+const configurationApi: ConfigurationApi<StaticConfiguration> = {
   get: async (name) => configurationMap[name],
 }
 
-export type { StaticConfiguration }
-export { staticConfiguration }
+export type { StaticConfiguration as Configuration }
+export { configurationApi }

@@ -1,5 +1,7 @@
+jest.mock("@ha/configuration-azure-kv")
 jest.mock("@ha/configuration-static")
-import { staticConfiguration } from "@ha/configuration-static"
+import { configurationApi as azureKvConfiguration } from "@ha/configuration-azure-kv"
+import { configurationApi as staticConfiguration } from "@ha/configuration-static"
 import { ConfigurationApi } from "packages/configuration-api/src"
 import * as sut from ".."
 
@@ -29,6 +31,20 @@ describe("configuration api module exports", () => {
 
     const actual = await api.get("azureKeyVaultName")
     expect(actual).toEqual("value")
+  })
+
+  test("Created configuration API defaults to providers (in order): static, azure key vault providers.", async () => {
+    jest.mocked(staticConfiguration, true)
+    jest.mocked(azureKvConfiguration, true)
+    staticConfiguration.get.mockRejectedValue("Configuration value not found.")
+    azureKvConfiguration.get.mockRejectedValue("Configuration value not found.")
+    const api = await sut.createConfigurationApi()
+
+    try {
+      const actual = await api.get("azureKeyVaultName")
+    } catch (error) {}
+    expect(staticConfiguration.get).toHaveBeenCalledWith("azureKeyVaultName")
+    expect(azureKvConfiguration.get).toHaveBeenCalledWith("azureKeyVaultName")
   })
 })
 
