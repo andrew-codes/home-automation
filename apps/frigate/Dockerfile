@@ -15,4 +15,4 @@ RUN apt-get install -y \
 COPY config.yml /config/config-raw.yml
 COPY entrypoint.sh /entrypoint.sh
 
-CMD ["/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
