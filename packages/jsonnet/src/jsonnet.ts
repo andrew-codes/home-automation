@@ -1,13 +1,14 @@
 import path from "path"
 import sh from "shelljs"
 import { flow } from "lodash/fp"
+import { safeCliString, safeCliStringWitDoubleQuotes } from "@ha/cli-utils"
 
 const jsonnet = {
   eval: async (
     jsonnetContent: string,
     variables: Record<string, string> = {},
   ): Promise<string> => {
-    const content = jsonnetSafeCliString(jsonnetContent)
+    const content = safeCliStringWitDoubleQuotes(jsonnetContent)
     const variablesContent = variablesToCLIString(variables)
 
     let command = `jsonnet -J ${path.join(
@@ -30,14 +31,6 @@ const jsonnet = {
     return stdout
   },
 }
-
-const safeCliStringWitDoubleQuotes = (input: string): string =>
-  input.replace(/"/g, '\\"')
-const safeCliStringWithNewLines = (input: string): string => {
-  return input.replace(/\n/g, "\\n")
-}
-const jsonnetSafeCliString = flow([safeCliStringWitDoubleQuotes])
-const safeCliString = flow([jsonnetSafeCliString, safeCliStringWithNewLines])
 
 const variablesToCLIString = (
   variables: Record<string, string> = {},
