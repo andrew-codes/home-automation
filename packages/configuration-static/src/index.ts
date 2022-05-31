@@ -57,7 +57,14 @@ const configurationMap: StaticConfiguration = {
 }
 
 const configurationApi: ConfigurationApi<StaticConfiguration> = {
-  get: async (name) => configurationMap[name],
+  get: async (name) => {
+    const value = configurationMap[name]
+    if (!value) {
+      throw new Error('Configuration not found.')
+    }
+
+    return value
+  },
   getNames: () => [],
   set: async () => {},
 }

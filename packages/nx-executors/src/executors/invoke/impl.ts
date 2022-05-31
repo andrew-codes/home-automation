@@ -1,21 +1,26 @@
+import path from 'path'
 import type { ExecutorContext } from "@nrwl/devkit"
 import { createConfigurationApi } from "@ha/configuration-workspace"
 import { register } from "esbuild-register/dist/node"
 
-interface RunWithAzExecutorOptions {
+interface InvokeExecutorOptions {
   module: string
   cwd?: string
 }
 
 async function executor(
-  { module, cwd }: RunWithAzExecutorOptions,
+  { module, cwd }: InvokeExecutorOptions,
   context: ExecutorContext,
 ): Promise<{ success: boolean }> {
   try {
     register()
-    const { default: loadedModule } = await import(module)
+    let modulePath = path.resolve(context.root, module)
+    if (!!cwd) {
+      modulePath = path.resolve(context.root, cwd, module)
+    }
+    const loadedModule = require(modulePath)
     const configApi = await createConfigurationApi()
-    await loadedModule(configApi)
+    await loadedModule.default(configApi)
   } catch (error) {
     console.log(error)
     return { success: false }
@@ -24,4 +29,4 @@ async function executor(
 }
 
 export default executor
-export type { RunWithAzExecutorOptions }
+export type { InvokeExecutorOptions }

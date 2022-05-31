@@ -15,18 +15,17 @@ const run = async (
   const grafana_influxdb_token = await configurationApi.get(
     "grafana/influxdb/token",
   )
-
   const deployments = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
       grafana_username,
       grafana_password,
-      grafana_port_external,
+      grafana_port_external: parseInt(grafana_port_external, 10),
       grafana_influxdb_token,
     },
   )
   const deploymentsJson = JSON.parse(deployments).grafana
-  deploymentsJson.forEach((deployment) => {
+  Object.values(deploymentsJson).forEach((deployment) => {
     kubectl.applyToCluster(JSON.stringify(deployment))
   })
 }

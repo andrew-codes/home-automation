@@ -26,8 +26,8 @@ const createConfigurationApi = async (
       throw new Error(`Configuration value not found, ${name}.`)
     },
     getNames: () => {
-      const allConfiguration = configurationProviders.reduce(
-        (acc, provider) => acc.concat(provider.getNames()),
+      const allConfiguration = configurationProviders.reduce<ReadonlyArray<string>>(
+        (acc, provider) => acc.concat(provider.getNames() as ReadonlyArray<string>),
         [],
       )
 

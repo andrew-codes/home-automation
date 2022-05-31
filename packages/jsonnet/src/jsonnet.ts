@@ -1,14 +1,13 @@
 import path from "path"
 import sh from "shelljs"
-import { flow } from "lodash/fp"
-import { safeCliString, safeCliStringWitDoubleQuotes } from "@ha/cli-utils"
+import { safeCliString, safeCliStringWithDoubleQuotes } from "@ha/cli-utils"
 
 const jsonnet = {
   eval: async (
     jsonnetContent: string,
-    variables: Record<string, string> = {},
+    variables: Record<string, string | number> = {},
   ): Promise<string> => {
-    const content = safeCliStringWitDoubleQuotes(jsonnetContent)
+    const content = safeCliStringWithDoubleQuotes(jsonnetContent)
     const variablesContent = variablesToCLIString(variables)
 
     let command = `jsonnet -J ${path.join(
@@ -33,13 +32,18 @@ const jsonnet = {
 }
 
 const variablesToCLIString = (
-  variables: Record<string, string> = {},
+  variables: Record<string, string | number> = {},
 ): string => {
   return Object.entries(variables)
-    .map(
-      ([key, value]) =>
-        `--ext-str "${key}=\\"\$(echo -n "${safeCliString(value)}")\\""`,
-    )
+    .map(([key, value]) => {
+      let v
+      if (typeof value === "number") {
+        v = value
+      } else {
+        v = `\\"\$(echo -n ${safeCliString(JSON.stringify(value))})\\"`
+      }
+      return `--ext-str "${key}=${v}"`
+    })
     .join(" ")
 }
 

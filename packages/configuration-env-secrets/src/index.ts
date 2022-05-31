@@ -18,7 +18,7 @@ const configurationApi: ConfigurationApi<Configuration> = {
     })
 
     return (parsed as unknown as Configuration)[
-      name.replace(/\//g, "_").toUpperCase()
+      name.replace(/(\/|-)/g, "_").toUpperCase()
     ]
   },
   getNames: () => configurationNames as ReadonlyArray<keyof Configuration>,

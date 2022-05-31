@@ -35,20 +35,16 @@ describe("deploy", () => {
         {
           grafana_username: "username",
           grafana_password: "password",
-          grafana_port_external: "8080",
+          grafana_port_external: 8080,
           grafana_influxdb_token: "token",
         },
       )
       .mockResolvedValue(
         JSON.stringify({
-          grafana: [
-            {
-              graph: 1,
-            },
-            {
-              graph: 2,
-            },
-          ],
+          grafana: {
+            graph: { graph: 1 },
+            graph2: { graph: 2 },
+          },
         }),
       )
     await run({

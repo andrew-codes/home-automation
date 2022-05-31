@@ -43,7 +43,7 @@ describe("configuration api module exports", () => {
       .mockReturnValue(credential)
 
     when(getSecret)
-      .calledWith("mqtt/username")
+      .calledWith("mqtt-username")
       .mockResolvedValue({ value: "a username" })
 
     const api = await createConfigApi()
@@ -60,6 +60,6 @@ describe("configuration api module exports", () => {
     const api = await createConfigApi()
     await api.set("azure/location", "new location")
 
-    expect(setSecret).toHaveBeenCalledWith("azure/location", "new location")
+    expect(setSecret).toHaveBeenCalledWith("azure-location", "new location")
   })
 })

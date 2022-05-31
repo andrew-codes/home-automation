@@ -24,10 +24,10 @@ describe("jsonnet", () => {
     }`
     const cliJsonnetContent = `{
         person1: {
-            name: \\"Alice\\",
-            welcome: \\"Hello \\" + self.name + \\"!\\",
+            name: \"Alice\",
+            welcome: \"Hello \" + self.name + \"!\",
         },
-        person2: self.person1 { name: \\"Bob\\" },
+        person2: self.person1 { name: \"Bob\" },
     }`
 
     test("eval takes a string of jsonnet, provides it to the jsonnet CLI and returns the result.", async () => {
@@ -46,6 +46,7 @@ describe("jsonnet", () => {
         TEST_1: `test "value"`,
         TEST_2: `some value with
 new lines`,
+        TEST_3: 80,
       })
 
       expect(sh.exec).toBeCalledTimes(1)
@@ -58,6 +59,9 @@ new lines`,
         expect.stringMatching(
           / --ext-str "TEST_2=\\"\$\(echo -n "some value with\\nnew lines"\)\\""/,
         ),
+      )
+      expect(sh.exec).toBeCalledWith(
+        expect.stringMatching(/ --ext-str "TEST_3=80"/),
       )
     })
   })

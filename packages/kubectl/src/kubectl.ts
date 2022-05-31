@@ -4,7 +4,7 @@ import { safeCliString } from "@ha/cli-utils"
 
 const kubectl = {
   applyToCluster: (content: string): void => {
-    sh.exec(`echo -n "${safeCliString(content)}" | kubectl apply -f -`)
+    sh.exec(`echo -n ${safeCliString(JSON.stringify(content))} | kubectl apply -f -`)
   },
 }
 

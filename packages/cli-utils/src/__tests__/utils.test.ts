@@ -1,4 +1,4 @@
-import { safeCliString, safeCliStringWitDoubleQuotes } from "../utils"
+import { safeCliString, safeCliStringWithDoubleQuotes } from "../utils"
 
 describe("cli utils", () => {
   beforeEach(() => {
@@ -10,7 +10,7 @@ describe("cli utils", () => {
       const input = `{
         "person"
       }`
-      const expected = '{\\n        \\"person\\"\\n      }'
+      const expected = '{\\n        \"person\"\\n      }'
       const actual = safeCliString(input)
 
       expect(actual).toEqual(expected)
@@ -28,12 +28,12 @@ describe("cli utils", () => {
     }`
       const expected = `{
         person1: {
-            name: \\"Alice\\",
-            welcome: \\"Hello \\" + self.name + \\"!\\",
+            name: \"Alice\",
+            welcome: \"Hello \" + self.name + \"!\",
         },
-        person2: self.person1 { name: \\"Bob\\" },
+        person2: self.person1 { name: \"Bob\" },
     }`
-      const actual = safeCliStringWitDoubleQuotes(input)
+      const actual = safeCliStringWithDoubleQuotes(input)
 
       expect(actual).toEqual(expected)
     })
