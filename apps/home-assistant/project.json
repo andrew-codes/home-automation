@@ -20,14 +20,14 @@
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "cwd": "apps/home-assistant",
-        "command": "scripts/bin/deploy.sh",
-        "dependsOn": [
-          {
-            "target": "image/push",
-            "projects": "self"
-          }
-        ]
-      }
+        "command": "scripts/bin/deploy.sh"
+      },
+      "dependsOn": [
+        {
+          "target": "image/push",
+          "projects": "self"
+        }
+      ]
     },
     "initialize-secrets": {
       "executor": "@ha/nx-executors:initialize-secrets",
