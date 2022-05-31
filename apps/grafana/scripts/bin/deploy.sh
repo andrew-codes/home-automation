@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-mkdir -p dist
+mkdir -p distj
 CWD="$PWD"
 
 pushd .

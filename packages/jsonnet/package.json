@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "@ha/jsonnet",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "dependencies": {
+    "shelljs": "^0.8.4"
+  },
+  "devDependencies": {
+    "jest-when": "^3.2.1"
+  }
+}

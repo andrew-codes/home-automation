@@ -8,7 +8,6 @@ set +o allexport
 popd
 
 SERVICE_PRINCIPAL_OUTPUT=$(az ad sp create-for-rbac --name $AZURE_SERVICE_PRINCIPAL_NAME --role Contributor)
-echo $SERVICE_PRINCIPAL_OUTPUT
 AZURE_SERVICE_PRINCIPAL_APP_ID=$(echo -n $SERVICE_PRINCIPAL_OUTPUT | jq '.appId' | sed 's/"//g')
 AZURE_SERVICE_PRINCIPAL_PASSWORD=$(echo -n $SERVICE_PRINCIPAL_OUTPUT | jq '.password' | sed 's/"//g')
 AZURE_SERVICE_PRINCIPAL_TENANT=$(echo -n $SERVICE_PRINCIPAL_OUTPUT | jq '.tenant' | sed 's/"//g')
