@@ -20,10 +20,10 @@
       }
     },
     "deploy": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/alexa-shopping-list-updater-skill",
-        "command": "kubectl apply -f deployment/index.yml && kubectl rollout restart deployment alexa-shopping-list-updater-skill"
+        "module": "scripts/deploy.ts"
       },
       "dependsOn": [
         {
