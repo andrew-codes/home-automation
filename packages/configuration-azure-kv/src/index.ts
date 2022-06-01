@@ -4,7 +4,7 @@ import { ClientSecretCredential } from "@azure/identity"
 import { configurationApi as EnvSecretsConfiguration } from "@ha/configuration-env-secrets"
 
 const configurationNames = [
-  "alexa-shopping-list-updater/port/external",
+  "alexa-shopping-list-updater-skill/port/external",
   "azure/location",
   "azure/resource-group",
   "azure/tenant/id",

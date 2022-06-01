@@ -3,21 +3,21 @@ import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
+import { name, image } from "./config"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const alexa_shopping_list_updater_skill_port_external =
-    await configurationApi.get("alexa-shopping-list-updater/port/external")
-  const name = "alexa-shopping-list-updater-skill"
-
+  const port_external = await configurationApi.get(
+    "alexa-shopping-list-updater-skill/port/external",
+  )
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
+      image,
       name,
-      alexa_shopping_list_updater_skill_port_external: parseInt(
-        alexa_shopping_list_updater_skill_port_external,
-      ),
+      secrets: `["mqtt/username", "mqtt/password"]`,
+      port_external: parseInt(port_external),
     },
   )
   const resourceJson = JSON.parse(resources)
