@@ -12,7 +12,7 @@ const defaultConfig = {
   collectCoverage: true,
   preset: "ts-jest",
   moduleFileExtensions: [...defaults.moduleFileExtensions, "ts"],
-  collectCoverageFrom: ["<rootDir>/src/**/*.{js,ts}"],
+  collectCoverageFrom: ["<rootDir>/src/**/*.{js,ts}", "<rootDir>/scripts/**/*.{js,ts}"],
   coveragePathIgnorePatterns: ["/__tests__/", "/node_modules/", "/__mocks__/"],
 }
 

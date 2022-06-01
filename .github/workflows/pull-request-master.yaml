@@ -37,7 +37,7 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ".yarn-cache"
       - name: Build executors
-        run: yarn nx run nx-executors:compile
+        run: yarn nx run prepare
       - name: Run all tests
         run: yarn test/all
       - name: Coverage

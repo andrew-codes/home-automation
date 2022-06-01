@@ -1,6 +1,8 @@
+import path from "path"
 import { ConfigurationApi } from "@ha/configuration-api"
 import { config } from "dotenv"
-import path from "path"
+import { toEnvName } from "@ha/secret-utils"
+
 const configurationNames = [
   "azure/key-vault/name",
   "azure/tenant/id",
@@ -17,13 +19,11 @@ const configurationApi: ConfigurationApi<Configuration> = {
       path: path.join(__dirname, "..", "..", "..", ".secrets.env"),
     })
 
-    return (parsed as unknown as Configuration)[
-      name.replace(/(\/|-)/g, "_").toUpperCase()
-    ]
+    return (parsed as unknown as Configuration)[toEnvName(name)]
   },
   getNames: () => configurationNames as ReadonlyArray<keyof Configuration>,
   set: async () => {},
 }
 
 export type { Configuration }
-export { configurationApi }
+export { configurationApi, toEnvName }

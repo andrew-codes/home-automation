@@ -23,6 +23,7 @@
     "initialize-secrets": "nx run-many --target initialize-secrets --parallel --all",
     "patch": "patch-package",
     "postinstall": "yarn patch && nx run nx-executors:compile && jb install",
+    "prepare": "nx run-many --target compile --projects nx-executors,secrets",
     "provision": "./scripts/bin/provision.sh",
     "serve": "nx run-many --target serve --parallel --projects",
     "start/dev": "nx run-many --target start/dev --parallel --projects",
