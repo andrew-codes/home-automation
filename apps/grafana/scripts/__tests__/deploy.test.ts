@@ -15,7 +15,7 @@ describe("deploy", () => {
 
   const configApiGet = jest.fn()
 
-  test("index.jsonnet file is evaluated with GRAFANA configuration values.", async () => {
+  test("index.jsonnet file is evaluated with GRAFANA configuration values and applied to the cluster.", async () => {
     when(configApiGet)
       .calledWith("grafana/username")
       .mockResolvedValue("username")
@@ -29,7 +29,7 @@ describe("deploy", () => {
       .calledWith("grafana/influxdb/token")
       .mockResolvedValue("token")
 
-    when(jsonnet.eval)
+      when(jsonnet.eval)
       .calledWith(
         path.join(__dirname, "..", "..", "deployment", "index.jsonnet"),
         {
@@ -54,4 +54,21 @@ describe("deploy", () => {
     expect(kubectl.applyToCluster).toHaveBeenCalledWith('{"graph":1}')
     expect(kubectl.applyToCluster).toHaveBeenCalledWith('{"graph":2}')
   })
+
+  test('Cluster deployment is rolled out.',async () => {
+    when(jsonnet.eval)
+    .mockResolvedValue(
+      JSON.stringify({
+        grafana: {
+          graph: { graph: 1 },
+          graph2: { graph: 2 },
+        },
+      }),
+    )
+    await run({
+      get: configApiGet,
+    } as unknown as ConfigurationApi<Configuration>)
+
+    expect(kubectl.rolloutDeployment).toHaveBeenCalledWith('restart', 'grafana', {namespace: 'monitoring'})
+  });
 })

@@ -28,6 +28,8 @@ const run = async (
   Object.values(deploymentsJson).forEach((deployment) => {
     kubectl.applyToCluster(JSON.stringify(deployment))
   })
+
+  kubectl.rolloutDeployment("restart", "grafana", { namespace: "monitoring" })
 }
 
 export default run

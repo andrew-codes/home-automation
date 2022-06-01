@@ -24,4 +24,22 @@ describe("kubectl", () => {
       )
     })
   })
+
+  describe("rolloutDeployment", () => {
+    test("Invokes kubectl rollout with proper CLI parameters.", () => {
+
+      kubectl.rolloutDeployment('restart', 'deployment.name')
+      expect(sh.exec).toHaveBeenCalledWith(
+        `kubectl -n default rollout restart deployment deployment.name`,
+      )
+    })
+
+    test("Deployments can be in a non-default namespace.", () => {
+
+      kubectl.rolloutDeployment('restart', 'deployment.name',{namespace: 'ns'})
+      expect(sh.exec).toHaveBeenCalledWith(
+        `kubectl -n ns rollout restart deployment deployment.name`,
+      )
+    })
+  })
 })
