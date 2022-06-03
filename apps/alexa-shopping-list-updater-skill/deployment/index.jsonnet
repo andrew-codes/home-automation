@@ -2,7 +2,7 @@ local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet";
 local lib = import "../../../packages/deployment-utils/dist/index.libsonnet";
 
 lib.deployment.newWithExternalPort(std.extVar("name"), std.extVar("image"), std.extVar("port_external"), std.extVar("secrets"))
-  + k.core.v1.container.withEnv([
+  + lib.deployment.withEnvVars(0, [
     { name: "NODE_TLS_REJECT_UNAUTHORIZED", value: 0 },
     { name: "DEBUG", value: "" },
     { name: "MQTT_HOST", value: "mqtt" },
