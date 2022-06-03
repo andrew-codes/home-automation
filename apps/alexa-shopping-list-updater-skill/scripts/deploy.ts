@@ -11,12 +11,13 @@ const run = async (
   const port_external = await configurationApi.get(
     "alexa-shopping-list-updater-skill/port/external",
   )
+  const secrets: Array<keyof Configuration> = ["mqtt/password", "mqtt/username"]
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
       image,
       name,
-      secrets: `["mqtt/username", "mqtt/password"]`,
+      secrets: JSON.stringify(secrets),
       port_external: parseInt(port_external),
     },
   )
