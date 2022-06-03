@@ -54,7 +54,7 @@ const run = async (
     unifiCaptivePortal,
     "utf8",
   )
-  sh.exec(
+  const { stdout, stderr } = sh.exec(
     `scp ${path.join(
       __dirname,
       "..",
@@ -62,6 +62,7 @@ const run = async (
       "unifi.html",
     )} "root@${unifiIp}:/data/unifi/data/sites/default/app-unifi-hotspot-portal/index.html"`,
   )
+  console.log(stdout)
 }
 
 export default run

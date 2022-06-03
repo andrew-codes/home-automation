@@ -12,6 +12,7 @@
   "devDependencies": {
     "@ha/configuration-workspace": "^0.0.1",
     "@ha/env-utils": "^0.0.1",
+    "@ha/shell-utils": "^0.0.1",
     "lodash": "4.17.21"
   }
 }

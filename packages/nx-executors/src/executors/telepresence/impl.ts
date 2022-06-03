@@ -1,7 +1,7 @@
 import type { ExecutorContext } from "@nrwl/devkit"
 import { exec } from "child_process"
 import { promisify } from "util"
-import throwIfError from "../throwIfProcessError"
+import { throwIfError } from "@ha/shell-utils"
 
 interface TelepresenceExecutorOptions {
   port: number
