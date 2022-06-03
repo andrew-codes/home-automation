@@ -4,10 +4,10 @@
   "projectType": "application",
   "targets": {
     "deploy": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx-executors:invoke",
       "options": {
         "cwd": "apps/double-take",
-        "command": "./scripts/bin/deploy.sh"
+        "module": "scripts/deploy.ts"
       },
       "dependsOn": [
         {
@@ -17,9 +17,9 @@
       ]
     },
     "image/push": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx-executors:invoke",
       "options": {
-        "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/double-take:latest\" --context dir:///workspace/ --insecure --cache=true",
+        "module": "scripts/image-push.ts",
         "cwd": "apps/double-take"
       }
     }
