@@ -3,10 +3,10 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet';
 
 {
   deployment+: {
-    newWithExternalPort(name, image, port, secretNames)::
+    new(name, image, secretNames=[], port='')::
       local externalPort = k.core.v1.servicePort.new(80, 'http')
-                           + k.core.v1.servicePort.withNodePort(port)
-                           + k.core.v1.servicePort.withProtocol('TCP');
+                           + if (port != '') then k.core.v1.servicePort.withNodePort(port) else {}
+                                                                                                + k.core.v1.servicePort.withProtocol('TCP');
 
       local envSecrets = [
         secrets[secretName]
@@ -30,7 +30,19 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet';
                     + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: 'regcred' },)
                     + k.apps.v1.deployment.spec.template.spec.withServiceAccount('app',),
         service: k.core.v1.service.new(name, { name: name }, [externalPort],)
-                 + k.core.v1.service.spec.withType('NodePort',),
+                 + if (port != '') then k.core.v1.service.spec.withType('NodePort',) else {},
+      },
+    withInitContainer(name, image, command='sh', args=[],)::
+      {
+        deployment+: {
+          spec+: {
+            template+: {
+              spec+: {
+                initContainers+: [{ name: name, image: image, imagePullPolicy: 'Always', command: command, args: args }],
+              },
+            },
+          },
+        },
       },
     withEnvVar(containerIndex, envVar)::
       {
@@ -38,8 +50,8 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet';
           spec+: {
             template+: {
               spec+: {
-                containers: 
-                    if containerIndex == 0 then [super.containers[0] { env+: [envVar] }] + super.containers[1:] else [super.containers[containerIndex-1:containerIndex] + [super.containers[0] { env+: [envVar] }] + super.containers[containerIndex+1:]]
+                containers:
+                  if containerIndex == 0 then [super.containers[0] { env+: [envVar] }] + super.containers[1:] else [super.containers[containerIndex - 1:containerIndex] + [super.containers[0] { env+: [envVar] }] + super.containers[containerIndex + 1:]],
               },
             },
           },
@@ -54,23 +66,23 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet';
           spec+: {
             template+: {
               spec+: {
-                containers: 
-                    if containerIndex == 0 then [super.containers[0] { volumeMounts+: [volumeMount] } ] + super.containers[1:] else [super.containers[containerIndex-1:containerIndex] + [super.containers[0] { volumeMounts+: [volumeMount] }] + super.containers[containerIndex+1:]]
+                containers:
+                  if containerIndex == 0 then [super.containers[0] { volumeMounts+: [volumeMount] }] + super.containers[1:] else [super.containers[containerIndex - 1:containerIndex] + [super.containers[0] { volumeMounts+: [volumeMount] }] + super.containers[containerIndex + 1:]],
               },
             },
           },
         },
       },
-    withSecretVolume(name, secretName, mode="0777", items=[])::
+    withSecretVolume(name, secretName, mode='0777', items=[])::
       {
         deployment+: {
           spec+: {
             template+: {
               spec+: {
                 volumes+: [
-                    k.core.v1.volume.fromSecret(name, secretName)
-                    + k.core.v1.volume.secret.withItems(items)
-                    + k.core.v1.volume.secret.withDefaultMode(mode)
+                  k.core.v1.volume.fromSecret(name, secretName)
+                  + k.core.v1.volume.secret.withItems(items)
+                  + k.core.v1.volume.secret.withDefaultMode(mode),
                 ],
               },
             },
@@ -79,22 +91,22 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet';
       },
     withPersistentVolume(name, capacity, path)::
       {
-        [name+"-pv-volume"]: k.core.v1.persistentVolume.new(name)
-        + k.core.v1.persistentVolume.metadata.withLabels([{type: "local"},],)
-        + k.core.v1.persistentVolume.spec.withAccessModes("ReadWriteMany")
-        + k.core.v1.persistentVolume.spec.withStorageClassName("manual")
-        + k.core.v1.persistentVolume.spec.withCapacity(capacity)
-        + k.core.v1.persistentVolume.spec.hostPath.withPath(path),
-        [name+"pv-claim"]: k.core.v1.persistentVolumeClaim.new(name)
-        + k.core.v1.persistentVolumeClaim.spec.withAccessModes("ReadWriteMany")
-        + k.core.v1.persistentVolumeClaim.spec.withStorageClassName("manual")
-        + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({storage: capacity}),
+        [name + '-pv-volume']: k.core.v1.persistentVolume.new(name)
+                               + k.core.v1.persistentVolume.metadata.withLabels([{ type: 'local' }],)
+                               + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
+                               + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
+                               + k.core.v1.persistentVolume.spec.withCapacity(capacity)
+                               + k.core.v1.persistentVolume.spec.hostPath.withPath(path),
+        [name + 'pv-claim']: k.core.v1.persistentVolumeClaim.new(name)
+                             + k.core.v1.persistentVolumeClaim.spec.withAccessModes('ReadWriteMany')
+                             + k.core.v1.persistentVolumeClaim.spec.withStorageClassName('manual')
+                             + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: capacity }),
         deployment+: {
           spec+: {
             template+: {
               spec+: {
                 volumes+: [
-                    k.core.v1.volume.fromPersistentVolumeClaim(name, name+"pv-claim")
+                  k.core.v1.volume.fromPersistentVolumeClaim(name, name + 'pv-claim'),
                 ],
               },
             },

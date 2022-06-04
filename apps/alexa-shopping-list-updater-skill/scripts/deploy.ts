@@ -18,7 +18,7 @@ const run = async (
       image,
       name,
       secrets: JSON.stringify(secrets),
-      port_external: parseInt(port_external),
+      port: parseInt(port_external),
     },
   )
   const resourceJson = JSON.parse(resources)

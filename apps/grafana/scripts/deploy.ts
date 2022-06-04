@@ -9,9 +9,7 @@ const run = async (
 ): Promise<void> => {
   const grafana_username = await configurationApi.get("grafana/username")
   const grafana_password = await configurationApi.get("grafana/password")
-  const grafana_port_external = await configurationApi.get(
-    "grafana/port/external",
-  )
+  const port = await configurationApi.get("grafana/port/external")
   const grafana_influxdb_token = await configurationApi.get(
     "grafana/influxdb/token",
   )
@@ -20,7 +18,7 @@ const run = async (
     {
       grafana_username,
       grafana_password,
-      grafana_port_external: parseInt(grafana_port_external, 10),
+      port: parseInt(port, 10),
       grafana_influxdb_token,
     },
   )

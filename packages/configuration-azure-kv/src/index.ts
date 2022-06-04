@@ -19,6 +19,7 @@ const configurationNames = [
   "docker-registry/port/external",
   "docker-registry/username",
   "double-take/port/external",
+  "external-services-dns-updater/sub-domains",
   "facebox/mb-key",
   "facebox/port/external",
   "frigate/port/external",
@@ -134,7 +135,8 @@ const createConfigApi = async (): Promise<
   }
 }
 
-const nameToKvName = (name: ConfigurationKeys[number]) : string => name.replace(/\//g, '-')
+const nameToKvName = (name: ConfigurationKeys[number]): string =>
+  name.replace(/\//g, "-")
 
 export type { AzureKvConfiguration as Configuration }
 export { createConfigApi, configurationNames }

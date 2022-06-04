@@ -10,9 +10,7 @@ import { name, image } from "./config"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const port_external = await configurationApi.get(
-    "captive-portal/port/external",
-  )
+  const port = await configurationApi.get("captive-portal/port/external")
   const unifiIp = await configurationApi.get("unifi/ip")
   const host = await configurationApi.get("captive-portal/host")
   const secrets: Array<keyof Configuration> = [
@@ -29,7 +27,7 @@ const run = async (
       image,
       name,
       secrets: JSON.stringify(secrets),
-      port_external: parseInt(port_external),
+      port: parseInt(port),
     },
   )
   const resourceJson = JSON.parse(resources)

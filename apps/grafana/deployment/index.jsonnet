@@ -65,7 +65,7 @@ local proxmox = import 'proxmox.jsonnet';
             name: 'http',
             port: 3000,
             targetPort: 'http',
-            nodePort: std.parseInt(std.extVar('grafana_port_external')),
+            nodePort: std.parseInt(std.extVar('port')),
           }
           for port in super.ports
         ],
