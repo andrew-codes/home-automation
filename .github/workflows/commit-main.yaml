@@ -32,6 +32,8 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install deps
         run: yarn
+        env:
+          AZURE_KEY_VAULT_NAME: ${{ secrets.AZURE_KEY_VAULT_NAME }}
       - name: Build executors
         run: yarn nx run prepare
       - name: Run all tests

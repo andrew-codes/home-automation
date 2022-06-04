@@ -35,6 +35,7 @@ jobs:
       - name: Install deps
         run: yarn
         env:
+          AZURE_KEY_VAULT_NAME: ${{ secrets.AZURE_KEY_VAULT_NAME }}
           YARN_CACHE_FOLDER: ".yarn-cache"
       - name: Build executors
         run: yarn nx run prepare
