@@ -41,7 +41,7 @@ jobs:
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           YARN_CACHE_FOLDER: ".yarn-cache"
       - name: Build executors
-        run: yarn nx run prepare
+        run: yarn prepare
       - name: Run all tests
         run: yarn test/all
       - name: Coverage
