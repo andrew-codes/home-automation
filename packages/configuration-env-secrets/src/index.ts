@@ -19,7 +19,9 @@ const configurationApi: ConfigurationApi<Configuration> = {
       path: path.join(__dirname, "..", "..", "..", ".secrets.env"),
     })
 
-    return (parsed as unknown as Configuration)[toEnvName(name)]
+    return ({ ...process.env, ...parsed } as unknown as Configuration)[
+      toEnvName(name)
+    ]
   },
   getNames: () => configurationNames as ReadonlyArray<keyof Configuration>,
   set: async () => {},
