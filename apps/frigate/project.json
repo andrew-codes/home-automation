@@ -11,13 +11,6 @@
       },
       "dependsOn": [{ "target": "image/push", "projects": "self" }]
     },
-    "initialize-secrets": {
-      "executor": "@ha/nx-executors:initialize-secrets",
-      "options": {
-        "keyVaultName": "kv-home-automation",
-        "secrets": ["frigate-FRONT-DOOR-RTSP", "frigate-CAR-PORT-DOOR-RTSP"]
-      }
-    },
     "image/push": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {

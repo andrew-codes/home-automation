@@ -45,15 +45,6 @@
         "cwd": "apps/alexa-shopping-list-updater-skill"
       }
     },
-    "initialize-secrets": {
-      "executor": "@ha/nx-executors:initialize-secrets",
-      "options": {
-        "keyVaultName": "kv-home-automation",
-        "secrets": [
-          "alexa-shopping-list-updater-skill/port/external"
-        ]
-      }
-    },
     "serve": {
       "executor": "@ha/nx-executors:telepresence"
     },

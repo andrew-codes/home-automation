@@ -24,7 +24,7 @@
     "patch": "patch-package",
     "postinstall": "yarn patch && nx run nx-executors:compile && jb install",
     "prepare": "nx run-many --target compile --projects nx-executors,secrets",
-    "provision": "./scripts/bin/provision.sh",
+    "provision": "nx run-many --target provision --projects",
     "serve": "nx run-many --target serve --parallel --projects",
     "start/dev": "nx run-many --target start/dev --parallel --projects",
     "prestop": "./scripts/bin/stop.sh",

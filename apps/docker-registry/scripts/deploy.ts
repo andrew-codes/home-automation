@@ -3,7 +3,7 @@ import path from "path"
 import sh from "shelljs"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
-import { throwIfProcessError } from "@ha/shell-utils"
+import { throwIfError } from "@ha/shell-utils"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
@@ -40,7 +40,7 @@ const run = async (
       "hosts.yml",
     )} --extra-vars "ansible_become_pass='${machinePassword}'"`,
   )
-  throwIfProcessError(childProcess)
+  throwIfError(childProcess)
 }
 
 export default run

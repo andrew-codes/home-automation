@@ -1,6 +1,6 @@
 {
-  "root": "infrastructure/k8s",
-  "sourceRoot": "infrastructure/k8s",
+  "root": "apps/infrastructure/proxy",
+  "sourceRoot": "apps/infrastructure/proxy",
   "projectType": "application",
   "targets": {
     "clean": {
@@ -13,7 +13,7 @@
       ],
       "options": {
         "command": "rm -rf .terraform .terraform.lock.hcl .terraform.tfstate.lock.info terraform.tfstate",
-        "cwd": "infrastructure/k8s"
+        "cwd": "apps/infrastructure/proxy"
       }
     }
   },

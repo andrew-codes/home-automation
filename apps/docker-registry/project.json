@@ -9,19 +9,6 @@
         "cwd": "apps/docker-registry",
         "module": "scripts/deploy.ts"
       }
-    },
-    "initialize-secrets": {
-      "executor": "@ha/nx-executors:initialize-secrets",
-      "options": {
-        "keyVaultName": "kv-home-automation",
-        "secrets": [
-          "docker-registry/ip",
-          "docker-registry/machine/password",
-          "docker-registry/password",
-          "docker-registry/port/external",
-          "docker-registry/username"
-        ]
-      }
     }
   },
   "tags": [],

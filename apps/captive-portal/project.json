@@ -45,20 +45,6 @@
         "module": "scripts/image-push.ts"
       }
     },
-    "initialize-secrets": {
-      "executor": "@ha/nx-executors:initialize-secrets",
-      "options": {
-        "keyVaultName": "kv-home-automation",
-        "secrets": [
-          "unifi/ip",
-          "unifi/port",
-          "unifi/username",
-          "unifi/password",
-          "captive-portal/host",
-          "captive-portal/port/external"
-        ]
-      }
-    },
     "serve": {
       "executor": "@ha/nx-executors:telepresence"
     },

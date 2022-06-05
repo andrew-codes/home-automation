@@ -16,17 +16,6 @@
         }
       ]
     },
-    "initialize-secrets": {
-      "executor": "@ha/nx-executors:initialize-secrets",
-      "options": {
-        "keyVaultName": "kv-home-automation",
-        "secrets": [
-          "github-action-runners-GITHUB-TOKEN",
-          "github-action-runners-HOME-AUTOMATION-PRIVATE-SSH-KEY",
-          "github-action-runners-GITHUB-ACTION-JEST-REPORTER-TOKEN"
-        ]
-      }
-    },
     "image/push": {
       "executor": "@nrwl/workspace:run-commands",
       "dependsOn": [

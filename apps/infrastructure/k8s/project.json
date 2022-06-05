@@ -1,6 +1,6 @@
 {
-  "root": "infrastructure/docker-registry",
-  "sourceRoot": "infrastructure/docker-registry",
+  "root": "apps/infrastructure/k8s",
+  "sourceRoot": "apps/infrastructure/k8s",
   "projectType": "application",
   "targets": {
     "clean": {
@@ -13,7 +13,7 @@
       ],
       "options": {
         "command": "rm -rf .terraform .terraform.lock.hcl .terraform.tfstate.lock.info terraform.tfstate",
-        "cwd": "infrastructure/docker-registry"
+        "cwd": "apps/infrastructure/k8s"
       }
     }
   },

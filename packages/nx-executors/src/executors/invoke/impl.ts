@@ -1,4 +1,5 @@
-import path from 'path'
+import path from "path"
+import process from "process"
 import type { ExecutorContext } from "@nrwl/devkit"
 import { createConfigurationApi } from "@ha/configuration-workspace"
 import { register } from "esbuild-register/dist/node"
@@ -14,12 +15,13 @@ async function executor(
 ): Promise<{ success: boolean }> {
   try {
     register()
-    let modulePath = path.resolve(context.root, module)
+    let currentDir = path.resolve(context.root)
     if (!!cwd) {
-      modulePath = path.resolve(context.root, cwd, module)
+      currentDir = path.resolve(context.root, cwd)
     }
-    const loadedModule = require(modulePath)
+    const loadedModule = require(path.resolve(currentDir, module))
     const configApi = await createConfigurationApi()
+    process.chdir(currentDir)
     await loadedModule.default(configApi)
   } catch (error) {
     console.log(error)

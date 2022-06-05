@@ -1,6 +1,6 @@
 {
-  "root": "infrastructure/ubuntu-server",
-  "sourceRoot": "infrastructure/ubuntu-server",
+  "root": "apps/infrastructure/docker-registry",
+  "sourceRoot": "apps/infrastructure/docker-registry",
   "projectType": "application",
   "targets": {
     "clean": {
@@ -13,7 +13,7 @@
       ],
       "options": {
         "command": "rm -rf .terraform .terraform.lock.hcl .terraform.tfstate.lock.info terraform.tfstate",
-        "cwd": "infrastructure/ubuntu-server"
+        "cwd": "apps/infrastructure/docker-registry"
       }
     }
   },

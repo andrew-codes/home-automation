@@ -29,51 +29,6 @@
         }
       ]
     },
-    "initialize-secrets": {
-      "executor": "@ha/nx-executors:initialize-secrets",
-      "options": {
-        "keyVaultName": "kv-home-automation",
-        "secrets": [
-          "home-assistant-APPDAEMON-URL",
-          "home-assistant-DOUBLE-TAKE-TOKEN",
-          "home-assistant-ELEVATION",
-          "home-assistant-GAMING-ROOM-GAMING-PC-IP",
-          "home-assistant-GAMING-ROOM-GAMING-PC-MAC",
-          "home-assistant-GAMING-ROOM-MACHINE-USERNAME",
-          "home-assistant-GAMING-ROOM-NVIDIA-SHIELD-IP",
-          "home-assistant-GAMING-ROOM-PLAYSTATION-5-IP",
-          "home-assistant-GAMING-ROOM-TV-IP",
-          "home-assistant-GAMING-ROOM-TV-MAC",
-          "home-assistant-GITHUB-ISSUE-TOKEN",
-          "home-assistant-GOOGLE-CALENDAR-CLIENT-ID",
-          "home-assistant-GOOGLE-CALENDAR-CLIENT-SECRET",
-          "home-assistant-HA-TOKEN",
-          "home-assistant-HA-URL",
-          "home-assistant-HOME-AUTOMATION-PRIVATE-SSH-KEY",
-          "home-assistant-HOME-AUTOMATION-PUBLIC-SSH-KEY",
-          "home-assistant-JIRA-AUTHORIZATION-HEADER",
-          "home-assistant-LATITUDE",
-          "home-assistant-LONGITUDE",
-          "home-assistant-POSTGRES-DB",
-          "home-assistant-POSTGRES-PASSWORD",
-          "home-assistant-POSTGRES-USER",
-          "home-assistant-PROXMOX-HOST",
-          "home-assistant-PROXMOX-PASSWORD",
-          "home-assistant-PROXMOX-USERNAME",
-          "home-assistant-ROUTER-IP",
-          "home-assistant-SPOTCAST-DC-2",
-          "home-assistant-SPOTCAST-DC",
-          "home-assistant-SPOTCAST-KEY-2",
-          "home-assistant-SPOTCAST-KEY",
-          "home-assistant-SPOTIFY-CLIENT-ID",
-          "home-assistant-SPOTIFY-CLIENT-SECRET",
-          "home-assistant-TIME-ZONE",
-          "home-assistant-UNIT-SYSTEM",
-          "home-assistant-WITHINGS-CLIENT-ID",
-          "home-assistant-WITHINGS-CLIENT-SECRET"
-        ]
-      }
-    },
     "image/push/pre": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {

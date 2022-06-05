@@ -4,7 +4,7 @@
   "projectType": "application",
   "targets": {
     "deploy": {
-      "executor": "nx-executors:invoke",
+      "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/double-take",
         "module": "scripts/deploy.ts"
@@ -17,7 +17,7 @@
       ]
     },
     "image/push": {
-      "executor": "nx-executors:invoke",
+      "executor": "@ha/nx-executors:invoke",
       "options": {
         "module": "scripts/image-push.ts",
         "cwd": "apps/double-take"

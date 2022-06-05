@@ -1,6 +1,6 @@
 {
-  "root": "infrastructure/proxy",
-  "sourceRoot": "infrastructure/proxy",
+  "root": "apps/infrastructure/ubuntu-server",
+  "sourceRoot": "apps/infrastructure/ubuntu-server",
   "projectType": "application",
   "targets": {
     "clean": {
@@ -13,7 +13,7 @@
       ],
       "options": {
         "command": "rm -rf .terraform .terraform.lock.hcl .terraform.tfstate.lock.info terraform.tfstate",
-        "cwd": "infrastructure/proxy"
+        "cwd": "apps/infrastructure/ubuntu-server"
       }
     }
   },

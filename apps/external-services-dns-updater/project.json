@@ -20,7 +20,7 @@
       }
     },
     "deploy": {
-      "executor": "nx-executors:invoke",
+      "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/external-services-dns-updater",
         "module": "scripts/deploy.ts"
@@ -33,7 +33,7 @@
       ]
     },
     "image/push": {
-      "executor": "nx-executors:invoke",
+      "executor": "@ha/nx-executors:invoke",
       "dependsOn": [
         {
           "target": "compile",

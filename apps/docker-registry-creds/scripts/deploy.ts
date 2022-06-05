@@ -3,7 +3,7 @@ import path from "path"
 import sh from "shelljs"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
-import { throwIfProcessError } from "@ha/shell-utils"
+import { throwIfError } from "@ha/shell-utils"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
@@ -15,12 +15,12 @@ const run = async (
   const email = await configurationApi.get("docker-registry/email")
 
   const deleteOldCreds = sh.exec(`kubectl delete secret regcred || true`)
-  throwIfProcessError(deleteOldCreds)
+  throwIfError(deleteOldCreds)
 
   const createCreds = sh.exec(
     `kubectl create secret docker-registry regcred --docker-username="${username}" --docker-password="${password}" --docker-email="${email}" --docker-server="docker-registry"`,
   )
-  throwIfProcessError(createCreds)
+  throwIfError(createCreds)
 }
 
 export default run

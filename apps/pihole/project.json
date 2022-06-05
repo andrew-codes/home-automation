@@ -16,13 +16,6 @@
         "cwd": "apps/pihole",
         "command": "./scripts/bin/update.sh"
       }
-    },
-    "initialize-secrets": {
-      "executor": "@ha/nx-executors:initialize-secrets",
-      "options": {
-        "keyVaultName": "kv-home-automation",
-        "secrets": ["pihole-PASSWORD"]
-      }
     }
   },
   "tags": [],

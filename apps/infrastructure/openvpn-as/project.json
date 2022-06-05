@@ -1,6 +1,6 @@
 {
-  "root": "infrastructure/openvpn-as",
-  "sourceRoot": "infrastructure/openvpn-as",
+  "root": "apps/infrastructure/openvpn-as",
+  "sourceRoot": "apps/infrastructure/openvpn-as",
   "projectType": "application",
   "targets": {
     "clean": {
@@ -13,7 +13,7 @@
       ],
       "options": {
         "command": "rm -rf .terraform .terraform.lock.hcl .terraform.tfstate.lock.info terraform.tfstate",
-        "cwd": "infrastructure/openvpn-as"
+        "cwd": "apps/infrastructure/openvpn-as"
       }
     }
   },

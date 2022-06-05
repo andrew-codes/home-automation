@@ -6,7 +6,13 @@ const run = async (
 ): Promise<void> => {
   const secretNames = configurationApi.getNames()
   const secretValues = await Promise.all(
-    secretNames.map((name: keyof Configuration) => configurationApi.get(name)),
+    secretNames.map(async (name: keyof Configuration) => {
+      try {
+        return await configurationApi.get(name)
+      } catch (error) {
+        return null
+      }
+    }),
   )
   const unsetSecretIndices = secretValues.reduce((acc, value, index) => {
     if (!value) {
