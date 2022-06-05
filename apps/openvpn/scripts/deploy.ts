@@ -52,7 +52,8 @@ all:
     "OPENVPN_CONFIG",
     `${codespaceOvpn}
 auth-user-pass
-push-peer-info`,
+push-peer-info
+route 10.0.0.0 255.0.0.0`,
   )
 
   const codespaceUsernameIndex = usernames
