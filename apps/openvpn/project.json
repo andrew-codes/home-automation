@@ -3,6 +3,13 @@
   "sourceRoot": "apps/openvpn",
   "projectType": "application",
   "targets": {
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/openvpn",
+        "command": "rm -rf .secrets"
+      }
+    },
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
       "options": {

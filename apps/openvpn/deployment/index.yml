@@ -5,8 +5,6 @@
   become_user: root
   gather_facts: yes
   connection: ssh
-  vars_files:
-    - ../.secrets/ansible-secrets.yml
 
   tasks:
     - name: Update apt
@@ -15,21 +13,65 @@
       become: yes
       shell: apt-get update --allow-releaseinfo-change
 
-    - name: Installing Prerequisites
+    - name: Installing prerequisites
       apt:
         name:
           - ca-certificates
           - net-tools
           - gnupg
+          - curl
         state: present
 
-    - name: Download foo.conf
-      get_url:
-        url: https://raw.githubusercontent.com/angristan/openvpn-install/master/openvpn-install.sh
+    - name: Copy installation file
+      ansible.builtin.copy:
+        src: ../src/openvpn-install.sh
         dest: /openvpn-install.sh
         mode: "0770"
 
+    - name: Copy installation file
+      ansible.builtin.copy:
+        src: ../src/install.sh
+        dest: /install.sh
+        mode: "0770"
+
+    - name: Copy setup users file
+      ansible.builtin.copy:
+        src: ../src/setup-users.sh
+        dest: /setup-users.sh
+        mode: "0770"
+
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: /.secrets
+        state: directory
+
+    - name: Copy users.env file
+      ansible.builtin.copy:
+        src: ../.secrets/users.env
+        dest: /.secrets/users.env
+
     - name: Run installation script
-      shell: AUTO_INSTALL=y  CLIENT="{{ username }}" PASS="{{ password }}" /openvpn-install.sh
+      ansible.builtin.shell: /install.sh
+      become_user: root
+      become_method: sudo
+      become: yes
+      args:
+        creates: /install.log
+
+    - name: Create users
+      ansible.builtin.shell: /setup-users.sh
+      args:
+        creates: /setup-users.log
       become: yes
       become_user: root
+      become_method: sudo
+
+    - shell: (cd /root; find . -name "*.ovpn" -maxdepth 1 -type f) | cut -d'/' -f2
+      register: files_to_copy
+
+    - name: Fetch ovpn files
+      with_items: "{{ files_to_copy.stdout_lines }}"
+      ansible.builtin.fetch:
+        src: /root/{{ item }}
+        dest: ../.secrets/
+        flat: yes

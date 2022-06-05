@@ -12,17 +12,20 @@ const run = async (
   const username = await configurationApi.get("openvpn/user/1/username")
   const password = await configurationApi.get("openvpn/user/1/password")
 
+  const usernames = [username].join(",")
+  const passwords = [password].join(",")
+
   sh.mkdir(".secrets")
   await fs.writeFile(
-    path.join(__dirname, "..", ".secrets", "ansible-secrets.yml"),
-    `---
-    password: "$${password}"
-    username: "$${username}"`,
+    path.join(__dirname, "..", ".secrets", "users.env"),
+    `
+passwords="${passwords}"
+usernames="${usernames}"`,
     "utf8",
   )
 
   await fs.writeFile(
-    path.join(__dirname, "..", "deployment", "hosts.yml"),
+    path.join(__dirname, "..", ".secrets", "hosts.yml"),
     `
 all:
   vars:
@@ -33,7 +36,7 @@ all:
   )
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
   const deployProcess = sh.exec(
-    `ansible-playbook deployment/index.yml -i deployment/hosts.yml`,
+    `ansible-playbook deployment/index.yml -i .secrets/hosts.yml`,
   )
   throwIfError(deployProcess)
 }
