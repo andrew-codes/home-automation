@@ -4,6 +4,7 @@ import fs from "fs/promises"
 import path from "path"
 import sh from "shelljs"
 import { throwIfError } from "@ha/shell-utils"
+import { createCodeSpaceSecretClient } from "@ha/github-secrets"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
@@ -14,7 +15,7 @@ const run = async (
   const usernames = await configurationApi.get("openvpn/usernames")
   const passwords = await configurationApi.get("openvpn/passwords")
 
-  sh.mkdir(".secrets")
+  sh.mkdir(".secrets", { recursive: true })
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "users.env"),
     `
@@ -35,10 +36,22 @@ all:
   )
 
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
-  const deployProcess = sh.exec(
-    `ansible-playbook deployment/index.yml -i .secrets/hosts.yml`,
+  throwIfError(
+    sh.exec(`ansible-playbook deployment/index.yml -i .secrets/hosts.yml`),
   )
-  throwIfError(deployProcess)
+
+  const codespaceOvpn = await fs.readFile(
+    path.join(__dirname, "..", ".secrets", "codespaces.ovpn"),
+    "utf8",
+  )
+
+  const githubToken = await configurationApi.get("github/token")
+  createCodeSpaceSecretClient(githubToken)(
+    "andrew-codes",
+    "home-automation",
+    "OPENVPN_CONFIG",
+    codespaceOvpn,
+  )
 }
 
 export default run

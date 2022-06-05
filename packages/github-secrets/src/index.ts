@@ -4,7 +4,7 @@ import { Octokit } from "@octokit/core"
 const createSeal = (githubToken) => {
   if (!githubToken) {
     throw new Error(
-      "No GITHUB_RUNNER_TOKEN defined, Check your secrets.sh file."
+      "No GITHUB_RUNNER_TOKEN defined, Check your secrets.sh file.",
     )
   }
 
@@ -21,7 +21,7 @@ const createSeal = (githubToken) => {
       {
         owner,
         repo,
-      }
+      },
     )
     const messageBytes = Buffer.from(value)
     const keyBytes = Buffer.from(key, "base64")
@@ -36,9 +36,10 @@ const createSeal = (githubToken) => {
         repo,
         secret_name: name,
         encrypted_value: encrypted,
-      }
+      },
     )
   }
 }
 
 export { createSeal }
+export { default as createCodeSpaceSecretClient } from "./codespaces"

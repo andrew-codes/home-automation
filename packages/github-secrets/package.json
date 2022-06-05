@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@ha/github-secrets-pkg",
+  "name": "@ha/github-secrets",
   "version": "0.0.1",
   "main": "src/index.ts",
   "bin": {
@@ -9,6 +9,7 @@
   "license": "MIT",
   "dependencies": {
     "@octokit/core": "^3.2.4",
+    "lodash": "^4.17.21",
     "tweetsodium": "^0.0.5"
   }
 }
