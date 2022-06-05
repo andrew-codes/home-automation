@@ -1087,7 +1087,7 @@ function newClient() {
             ;;
         2)
             [ -z $CLIENT_PASS ] && exit "No CLIENT_PASS env varirable provided."
-            EASYRSA_PASS="pass:$CLIENT_PASS" EASYRSA_PASSOUT="pass:$CLIENT_PASS" ./easyrsa build-client-full "$CLIENT"
+            EASYRSA_PASSIN="pass:$CLIENT_PASS" EASYRSA_PASSOUT="pass:$CLIENT_PASS" ./easyrsa build-client-full "$CLIENT"
             ;;
         esac
         echo "Client $CLIENT added."

@@ -34,6 +34,9 @@ for i in "${!usernamesArray[@]}"; do
     [ -z $usernamesArray[i] ] && exit "Username is required. There exists more passwords than usernames."
     [ -z $passwordsArray[i] ] && exit "Password is required. There exists more usernames than passwords."
     CLIENT="${usernamesArray[i]}" CLIENT_PASS="${passwordsArray[i]}" /openvpn-install.sh
-done
 
-touch /setup-users.log
+    echo "
+auth-user-pass
+push-peer-info
+route 10.0.0.0 255.0.0.0" >>"/root/${usernamesArray[i]}.ovpn"
+done
