@@ -93,6 +93,9 @@ resource "proxmox_lxc" "openvpn" {
   start        = true
   onboot       = true
   startup      = "2"
+  sockets      = "1"
+  cores        = 2
+  memory       = 2048
 
   rootfs {
     storage = "local-lvm"
@@ -111,7 +114,4 @@ resource "proxmox_lxc" "openvpn" {
     ip6    = "auto"
     gw     = var.gateway
   }
-
-  cores  = 2
-  memory = 2048
 }
