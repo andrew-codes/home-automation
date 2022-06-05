@@ -46,7 +46,7 @@ all:
   )
 
   const githubToken = await configurationApi.get("github/token")
-  createCodeSpaceSecretClient(githubToken)(
+  await createCodeSpaceSecretClient(githubToken)(
     "andrew-codes",
     "home-automation",
     "OPENVPN_CONFIG",
