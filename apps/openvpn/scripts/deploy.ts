@@ -58,10 +58,12 @@ push-peer-info`,
   const codespaceUsernameIndex = usernames
     .split(",")
     .findIndex((username) => username === "codespaces")
-  await client.set(
-    "VPN_CREDS",
-    `codespaces\n${passwords.split(",")[codespaceUsernameIndex]}`,
-  )
+  if (codespaceUsernameIndex >= 0) {
+    await client.set(
+      "VPN_CREDS",
+      `codespaces\n${passwords.split(",")[codespaceUsernameIndex]}`,
+    )
+  }
 }
 
 export default run
