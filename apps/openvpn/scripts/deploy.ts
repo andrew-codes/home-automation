@@ -9,11 +9,8 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   const ip = await configurationApi.get("openvpn/ip")
-  const username = await configurationApi.get("openvpn/user/1/username")
-  const password = await configurationApi.get("openvpn/user/1/password")
-
-  const usernames = [username].join(",")
-  const passwords = [password].join(",")
+  const usernames = await configurationApi.get("openvpn/usernames")
+  const passwords = await configurationApi.get("openvpn/passwords")
 
   sh.mkdir(".secrets")
   await fs.writeFile(
