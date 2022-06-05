@@ -5,8 +5,6 @@ import { isEmpty } from "lodash"
 const createClient =
   (token: string | undefined = process.env.GITHUB_TOKEN) =>
   async (
-    owner: string,
-    repo: string,
     name: string,
     secretValue: string,
     repositoryIds: string[] = [],
@@ -22,19 +20,13 @@ const createClient =
     const octokit = new Octokit({ auth: token })
     const {
       data: { key, key_id },
-    } = await octokit.request(
-      `GET /repos/${owner}/${repo}/actions/secrets/public-key`,
-      {
-        owner,
-        repo,
-      },
-    )
+    } = await octokit.request(`GET /user/codespaces/secrets/public-key`, {})
     const messageBytes = Buffer.from(secretValue)
     const keyBytes = Buffer.from(key, "base64")
     const encryptedBytes = seal(messageBytes, keyBytes)
     const encrypted = Buffer.from(encryptedBytes).toString("base64")
-
-    await octokit.request("PUT /user/codespaces/secrets/{secret_name}", {
+    console.log(key_id)
+    await octokit.request(`PUT /user/codespaces/secrets/${name}`, {
       secret_name: name,
       encrypted_value: encrypted,
       key_id,
