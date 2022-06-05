@@ -8,11 +8,12 @@ IFS=, read -a usernamesArray <<<"$usernames"
 IFS=, read -a passwordsArray <<<"$passwords"
 
 echo "Revoking all clients in order to perform reset."
-pushd
-read -a clientsToRevoke <<<"$(tail -n +2 /etc/openvpn/easy-rsa/pki/index.txt | grep "^V" | cut -d '=' -f 2)"
+pushd .
+clientsToRevoke=($(tail -n +2 /etc/openvpn/easy-rsa/pki/index.txt | grep "^V" | cut -d '=' -f 2))
 cd /etc/openvpn/easy-rsa/ || return
 for i in "${!clientsToRevoke[@]}"; do
     CLIENT="${clientsToRevoke[i]}"
+    echo "Revoking $CLIENT"
     ./easyrsa --batch revoke "$CLIENT"
     EASYRSA_CRL_DAYS=3650 ./easyrsa gen-crl
     rm -f /etc/openvpn/crl.pem
@@ -40,7 +41,7 @@ push-peer-info
 route 10.0.0.0 255.0.0.0" >>"/root/${usernamesArray[i]}.ovpn"
 done
 
-export PASS=1
+export PASS="1"
 export CLIENT="codespaces"
 /openvpn-install.sh
 
