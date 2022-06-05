@@ -25,11 +25,13 @@ const createClient = async (
       try {
         await octokit.request(`POST /user/codespaces/secrets/${name}`, {
           secret_name: name,
-          encrypted_value: encrypt(key, "change me"),
+          encrypted_value: encrypt(key, secretValue),
           key_id,
           selected_repository_ids: repositoryIds,
         })
-      } catch (error) {}
+      } catch (error) {
+        console.log(error)
+      }
       await octokit.request(`PUT /user/codespaces/secrets/${name}`, {
         secret_name: name,
         encrypted_value: encrypt(key, secretValue),
