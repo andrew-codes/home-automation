@@ -46,18 +46,16 @@ all:
   )
 
   const githubToken = await configurationApi.get("github/token")
-  const createCodeSpacesSecret = createCodeSpaceSecretClient(githubToken)
-  await createCodeSpacesSecret("OPENVPN_CONFIG", codespaceOvpn, ["317289870"])
+  const client = await createCodeSpaceSecretClient(githubToken, ["317289870"])
+
+  await client.set("OPENVPN_CONFIG", codespaceOvpn)
 
   const codespaceUsernameIndex = usernames
     .split(",")
     .findIndex((username) => username === "codespaces")
-
-  await createCodeSpacesSecret(
+  await client.set(
     "VPN_CREDS",
-    `codespaces
-${passwords.split(",")[codespaceUsernameIndex]}`,
-    ["317289870"],
+    `codespaces\n${passwords.split(",")[codespaceUsernameIndex]}`,
   )
 }
 
