@@ -31,3 +31,5 @@
 
     - name: Run installation script
       shell: AUTO_INSTALL=y  CLIENT="{{ username }}" PASS="{{ password }}" /openvpn-install.sh
+      become: yes
+      become_user: root
