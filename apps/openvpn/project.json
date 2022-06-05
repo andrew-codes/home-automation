@@ -1,0 +1,16 @@
+{
+  "root": "apps/openvpn",
+  "sourceRoot": "apps/openvpn",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/openvpn",
+        "module": "scripts/deploy.ts"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["secrets"]
+}

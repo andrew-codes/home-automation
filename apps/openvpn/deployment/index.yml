@@ -1,0 +1,33 @@
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+  vars_files:
+    - ../.secrets/ansible-secrets.yml
+
+  tasks:
+    - name: Update apt
+      become_user: root
+      become_method: sudo
+      become: yes
+      shell: apt-get update --allow-releaseinfo-change
+
+    - name: Installing Prerequisites
+      apt:
+        name:
+          - ca-certificates
+          - net-tools
+          - gnupg
+        state: present
+
+    - name: Download foo.conf
+      get_url:
+        url: https://raw.githubusercontent.com/angristan/openvpn-install/master/openvpn-install.sh
+        dest: /openvpn-install.sh
+        mode: "0660"
+
+    - name: Run installation script
+      shell: AUTO_INSTALL=y  CLIENT="{{ username }}" PASS="{{ password }}" /openvpn-install.sh
