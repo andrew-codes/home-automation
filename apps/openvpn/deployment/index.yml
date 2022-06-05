@@ -27,7 +27,7 @@
       get_url:
         url: https://raw.githubusercontent.com/angristan/openvpn-install/master/openvpn-install.sh
         dest: /openvpn-install.sh
-        mode: "0660"
+        mode: "0666"
 
     - name: Run installation script
       shell: AUTO_INSTALL=y  CLIENT="{{ username }}" PASS="{{ password }}" /openvpn-install.sh

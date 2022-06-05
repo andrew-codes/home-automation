@@ -16,8 +16,8 @@ const run = async (
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "ansible-secrets.yml"),
     `---
-    openvpn_password: "$${password}"
-    openvpn_username: "$${username}"`,
+    password: "$${password}"
+    username: "$${username}"`,
     "utf8",
   )
 
