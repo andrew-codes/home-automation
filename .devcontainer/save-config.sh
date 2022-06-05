@@ -26,8 +26,8 @@ if [ ! -z "${ID_RSA}" ]; then
 fi
 
 # Save the configuration from the secret if it is present
-if [ ! -z "${SMITH_SIMMS_VPN_CREDS}" ]; then
-    echo -e "${SMITH_SIMMS_VPN_CREDS}" >vpn.creds
+if [ ! -z "${VPN_CREDS}" ]; then
+    echo -e "${VPN_CREDS}" >vpn.creds
 fi
 
 # Save the configuration from the secret if it is present
