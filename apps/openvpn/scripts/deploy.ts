@@ -8,6 +8,8 @@ import { throwIfError } from "@ha/shell-utils"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
+  throwIfError(sh.exec(`rm -rf .secrets/*.ovpn`))
+
   const ip = await configurationApi.get("openvpn/ip")
   const usernames = await configurationApi.get("openvpn/usernames")
   const passwords = await configurationApi.get("openvpn/passwords")
@@ -31,6 +33,7 @@ all:
     ${ip}:`,
     "utf8",
   )
+
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
   const deployProcess = sh.exec(
     `ansible-playbook deployment/index.yml -i .secrets/hosts.yml`,
