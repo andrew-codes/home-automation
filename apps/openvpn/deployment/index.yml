@@ -50,6 +50,12 @@
         src: ../.secrets/users.env
         dest: /.secrets/users.env
 
+    - name: chown /dev/net/tun
+      ansible.builtin.shell: chown 100000:100000 /dev/net/tun
+      become_user: root
+      become_method: sudo
+      become: yes
+
     - name: Run installation script
       ansible.builtin.shell: /install.sh
       become_user: root
