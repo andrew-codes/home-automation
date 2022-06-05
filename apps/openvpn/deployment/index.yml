@@ -50,8 +50,11 @@
         src: ../.secrets/users.env
         dest: /.secrets/users.env
 
+    - name: dev/net/tun
+      shell: mknod --mode 777 /dev/net/tun c 10 200 || true
+
     - name: chown /dev/net/tun
-      ansible.builtin.shell: chown 100000:100000 /dev/net/tun
+      ansible.builtin.shell: chown 100000:100000 /dev/net/tun || true
       become_user: root
       become_method: sudo
       become: yes
@@ -85,3 +88,5 @@
         iptables -I FORWARD -i tun0 -o eth0 -s 10.8.0.0/24 -m conntrack --ctstate NEW -j ACCEPT
         iptables -I FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
         iptables -t nat -I POSTROUTING -o eth0 -s 10.8.0.0/24 -j MASQUERADE
+        echo "net.ipv4.ip_forward=1
+        net.ipv6.conf.all.forwarding=1" > /etc/sysctl.conf

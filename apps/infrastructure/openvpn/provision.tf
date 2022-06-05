@@ -89,12 +89,11 @@ resource "proxmox_lxc" "openvpn" {
   hostname     = var.hostname
   target_node  = "pve-nuc"
   ostemplate   = "local:vztmpl/debian-11-standard_11.3-1_amd64.tar.zst"
-  unprivileged = false
+  unprivileged = true
   start        = true
   onboot       = true
   startup      = "2"
-  sockets      = "1"
-  cores        = 2
+  cores        = 4
   memory       = 2048
 
   rootfs {
