@@ -84,15 +84,15 @@ variable "nameserver" {
   }
 }
 
-resource "proxmox_lxc" "pihole" {
+resource "proxmox_lxc" "openvpn" {
   count        = 1
   hostname     = var.hostname
-  target_node  = "pve"
+  target_node  = "pve-nuc"
   ostemplate   = "local:vztmpl/debian-11-standard_11.0-1_amd64.tar.gz"
   unprivileged = false
   start        = true
   onboot       = true
-  startup      = "1"
+  startup      = "2"
 
   rootfs {
     storage = "local-lvm"

@@ -87,7 +87,7 @@ variable "nameserver" {
 resource "proxmox_lxc" "pihole" {
   count        = 1
   hostname     = var.hostname
-  target_node  = "pve"
+  target_node  = "pve-nuc"
   ostemplate   = "local:vztmpl/debian-11-standard_11.0-1_amd64.tar.gz"
   unprivileged = false
   start        = true
