@@ -36,7 +36,23 @@ for i in "${!usernamesArray[@]}"; do
     CLIENT="${usernamesArray[i]}" CLIENT_PASS="${passwordsArray[i]}" /openvpn-install.sh
 
     echo "
-auth-user-pass
 push-peer-info
 route 10.0.0.0 255.0.0.0" >>"/root/${usernamesArray[i]}.ovpn"
 done
+
+export PASS=1
+export CLIENT="codespaces"
+/openvpn-install.sh
+
+echo "
+auth-user-pass
+push-peer-info
+route 10.0.0.0 255.0.0.0" >>"/root/${CLIENT}.ovpn"
+
+export CLIENT="azure"
+/openvpn-install.sh
+
+echo "
+auth-user-pass
+push-peer-info
+route 10.0.0.0 255.0.0.0" >>"/root/${CLIENT}.ovpn"
