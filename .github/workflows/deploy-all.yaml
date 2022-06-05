@@ -43,6 +43,11 @@ jobs:
       - name: Deploy all apps
         run: yarn deploy/all --exclude @ha/lets-encrypt --exclude @ha/github-action-runners --exclude @ha/docker-registry --exclude @ha/k8s --exclude @ha/openvpn-as --exclude @ha/pihole --exclude @ha/azure-key-vault
         env:
+          AZURE_KEY_VAULT_NAME: ${{ secrets.AZURE_KEY_VAULT_NAME }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+
           AZURE_SERVICE_PRINCIPAL_APP_ID: "${{ secrets.AZURE_SERVICE_PRINCIPAL_APP_ID }}"
           AZURE_SERVICE_PRINCIPAL_PASSWORD: "${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}"
           AZURE_SERVICE_PRINCIPAL_TENANT: "${{ secrets.AZURE_SERVICE_PRINCIPAL_TENANT }}"
