@@ -90,6 +90,7 @@ const configurationNames = [
   "pihole/ip",
   "pihole/password",
   "proxmox/host/pve",
+  "proxmox/host/pve-nuc",
   "proxmox/nameserver",
   "proxmox/password",
   "proxmox/ssh-key/public",

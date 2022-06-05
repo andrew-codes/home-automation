@@ -8,7 +8,7 @@ const run = async (
 ): Promise<void> => {
   const TF_VAR_ip = await configurationApi.get("openvpn/ip")
   const TF_VAR_gateway = await configurationApi.get("unifi/ip")
-  const pveHost = await configurationApi.get("proxmox/host/pve")
+  const pveHost = await configurationApi.get("proxmox/host/pve-nuc")
   const TF_VAR_pm_username = await configurationApi.get("proxmox/username")
   const TF_VAR_pm_password = await configurationApi.get("proxmox/password")
   const TF_VAR_hostname = await configurationApi.get("openvpn/hostname")
@@ -17,7 +17,7 @@ const run = async (
 
   sh.env["TF_VAR_ip"] = TF_VAR_ip
   sh.env["TF_VAR_gateway"] = TF_VAR_gateway
-  sh.env["TF_VAR_pm_api_url"] = `${pveHost}/api2/json/nodes/pve-nuc`
+  sh.env["TF_VAR_pm_api_url"] = `${pveHost}/api2/json`
   sh.env["TF_VAR_pm_password"] = TF_VAR_pm_password
   sh.env["TF_VAR_pm_username"] = TF_VAR_pm_username
   sh.env["TF_VAR_hostname"] = TF_VAR_hostname
