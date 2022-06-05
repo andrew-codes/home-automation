@@ -66,8 +66,6 @@
 
     - name: Create users
       ansible.builtin.shell: /setup-users.sh
-      args:
-        creates: /setup-users.log
       become: yes
       become_user: root
       become_method: sudo
