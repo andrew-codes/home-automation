@@ -23,6 +23,7 @@ fi
 if [ ! -z "${ID_RSA}" ]; then
     mkdir -p ~/.ssh
     echo -e "${ID_RSA}" >~/.ssh/id_rsa
+    chmod 600 ~/.ssh/id_rsa
 fi
 
 # Save the configuration from the secret if it is present
