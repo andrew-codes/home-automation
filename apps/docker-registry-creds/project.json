@@ -7,7 +7,7 @@
       "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/docker-registry-creds",
-        "command": "scripts/deploy.ts"
+        "module": "scripts/deploy.ts"
       }
     }
   },

@@ -7,14 +7,14 @@
       "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/frigate",
-        "command": "scripts/deploy.ts"
+        "module": "scripts/deploy.ts"
       },
       "dependsOn": [{ "target": "image/push", "projects": "self" }]
     },
     "image/push": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
-        "command": "scripts/image-push.ts",
+        "module": "scripts/image-push.ts",
         "cwd": "apps/frigate"
       }
     }

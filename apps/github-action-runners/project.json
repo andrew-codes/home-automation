@@ -4,10 +4,10 @@
   "projectType": "application",
   "targets": {
     "deploy": {
-      "executor": "@ha/nx-executors:run-with-az",
+      "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/github-action-runners",
-        "command": "./scripts/bin/deploy.sh"
+        "module": "scripts/deploy.ts"
       },
       "dependsOn": [
         {
@@ -17,7 +17,7 @@
       ]
     },
     "image/push": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "@ha/nx-executors:invoke",
       "dependsOn": [
         {
           "target": "compile",
@@ -25,7 +25,7 @@
         }
       ],
       "options": {
-        "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/github-action-runner-amd64:latest\" --context dir:///workspace/ --insecure --cache=true",
+        "module": "scripts/image-push.ts",
         "cwd": "apps/github-action-runners"
       }
     }
