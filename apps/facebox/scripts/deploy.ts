@@ -9,17 +9,15 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   const registry = await configurationApi.get("docker/registry/hostname")
-  const secrets: Array<keyof Configuration> = [
-    "mqtt/password",
-    "mqtt/username",
-    "external-services-dns-updater/sub-domains",
-  ]
+  const port_external = await configurationApi.get("facebox/port/external")
+  const secrets: Array<keyof Configuration> = ["facebox/mb-key"]
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
       image: `${registry}/${name}:latest`,
       name,
       secrets: JSON.stringify(secrets),
+      port: parseInt(port_external),
     },
   )
   const resourceJson = JSON.parse(resources)

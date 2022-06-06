@@ -7,4 +7,4 @@ lib.deployment.new(std.extVar('name'), std.extVar('image'), std.extVar('secrets'
   { name: 'MQTT_PORT', value: '1883' },
 ])
 + lib.deployment.withPersistentVolume('double-take', '60Gi', '/mnt/data/double-take')
-+ lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('data-store', '/.storage',))
++ lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('double-take', '/.storage',))

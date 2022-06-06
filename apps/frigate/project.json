@@ -4,17 +4,17 @@
   "projectType": "application",
   "targets": {
     "deploy": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/frigate",
-        "command": "./scripts/bin/deploy.sh"
+        "command": "scripts/deploy.ts"
       },
       "dependsOn": [{ "target": "image/push", "projects": "self" }]
     },
     "image/push": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "@ha/nx-executors:invoke",
       "options": {
-        "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/frigate:latest\" --context dir:///workspace/ --insecure --cache=true",
+        "command": "scripts/image-push.ts",
         "cwd": "apps/frigate"
       }
     }

@@ -3,9 +3,9 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet';
 
 {
   deployment+: {
-    new(name, image, secretNames=[], port='')::
-      local externalPort = k.core.v1.servicePort.new(80, 'http')
-                           + if (port != '') then k.core.v1.servicePort.withNodePort(port) else {}
+    new(name, image, secretNames=[], externalPort='', containerPort=80)::
+      local exPort = k.core.v1.servicePort.new(80, 'http')
+                           + if (externalPort != '') then k.core.v1.servicePort.withNodePort(externalPort) else {}
                                                                                                 + k.core.v1.servicePort.withProtocol('TCP');
 
       local envSecrets = [
@@ -13,7 +13,6 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet';
         for secretName in secretNames
       ];
 
-      local containerPort = 80;
       local appContainer = k.core.v1.container.new(name=name, image=image)
                            + k.core.v1.container.withImagePullPolicy('Always')
                            + k.core.v1.container.withPorts({
@@ -29,9 +28,49 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet';
         deployment: k.apps.v1.deployment.new(name=name, containers=[appContainer],)
                     + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: 'regcred' },)
                     + k.apps.v1.deployment.spec.template.spec.withServiceAccount('app',),
-        service: k.core.v1.service.new(name, { name: name }, [externalPort],)
-                 + if (port != '') then k.core.v1.service.spec.withType('NodePort',) else {},
+        service: k.core.v1.service.new(name, { name: name }, [exPort],)
+                 + if (externalPort != '') then k.core.v1.service.spec.withType('NodePort',) else {},
       },
+
+    withPort(containerIndex, name, containerPort, externalPort='')::
+       {
+        deployment+: {
+          spec+: {
+            template+: {
+              spec+: {
+                containers+: if containerIndex == 0 then [super.containers[0] + k.core.v1.container.withPorts({
+                             name: name,
+                             containerPort: containerPort,
+                             protocol: 'TCP',
+                           },) ] + super.containers[1:] else [super.containers[containerIndex - 1:containerIndex] + [super.containers[0] + k.core.v1.container.withPorts({
+                             name: name,
+                             containerPort: containerPort,
+                             protocol: 'TCP',
+                           },)] + super.containers[containerIndex + 1:]],,
+              },
+            },
+          },
+        },
+        service+: {
+          spec+: {
+            ports+: [{ name: name, port: containerPort, protocol: "TCP", targetPort: name } + if (externalPort != '') then {nodePort: externalPort} else {}]
+          },
+        },
+      },
+
+    withSecurityContext(securityContext)::
+       {
+        deployment+: {
+          spec+: {
+            template+: {
+              spec+: {
+                containers+: if containerIndex == 0 then [super.containers[0] + {securityContext+: securityContext} ] + super.containers[1:] else [super.containers[containerIndex - 1:containerIndex] + [super.containers[0] + {securityContext+: securityContext}] + super.containers[containerIndex + 1:]],,
+              },
+            },
+          },
+        },
+      },
+
     withInitContainer(name, image, command='sh', args=[],)::
       {
         deployment+: {

@@ -12,6 +12,7 @@ const configurationNames = [
   "azure/client/secret",
   "captive-portal/host",
   "captive-portal/port/external",
+  "docker/registry/hostname",
   "docker-registry/email",
   "docker-registry/ip",
   "docker-registry/machine/password",

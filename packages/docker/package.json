@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@ha/kubectl",
+  "name": "@ha/docker",
   "version": "0.0.1",
   "license": "MIT",
   "main": "src/index.ts",
@@ -8,6 +8,9 @@
     "shelljs": "^0.8.4"
   },
   "devDependencies": {
-    "@ha/cli-utils": "^0.0.1"
+    "@ha/configuration-api": "^0.0.1",
+    "@ha/configuration-workspace": "^0.0.1",
+    "@ha/shell-utils": "^0.0.1",
+    "jest-when": "^3.2.1"
   }
 }

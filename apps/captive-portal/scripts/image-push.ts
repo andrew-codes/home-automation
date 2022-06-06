@@ -1,14 +1,14 @@
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
-import { image } from "./config"
-import sh from "shelljs"
+import createClient from "@ha/docker"
+import { name } from "./config"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  sh.exec(
-    `docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"${image}:latest\" --context dir:///workspace/ --insecure --cache=true`,
-  )
+  const docker = await createClient(configurationApi)
+  docker.build(`${name}:latest`)
+  docker.push(`${name}:latest`)
 }
 
 export default run

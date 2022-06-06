@@ -5,11 +5,12 @@ import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
-import { name, image } from "./config"
+import { name } from "./config"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
+  const registry = await configurationApi.get("docker/registry/hostname")
   const port = await configurationApi.get("captive-portal/port/external")
   const unifiIp = await configurationApi.get("unifi/ip")
   const host = await configurationApi.get("captive-portal/host")
@@ -24,7 +25,7 @@ const run = async (
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      image,
+      image: `${registry}/${name}:latest`,
       name,
       secrets: JSON.stringify(secrets),
       port: parseInt(port),

@@ -4,10 +4,10 @@
   "projectType": "application",
   "targets": {
     "deploy": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/facebox",
-        "command": "./scripts/bin/deploy.sh"
+        "command": "scripts/deploy.ts"
       }
     }
   },
