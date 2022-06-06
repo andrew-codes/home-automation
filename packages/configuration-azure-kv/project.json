@@ -11,14 +11,6 @@
         "cwd": "packages/configuration-azure-kv"
       }
     },
-    "compile": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["packages/configuration-azure-kv/dist"],
-      "options": {
-        "command": "node -r esbuild-register build.ts",
-        "cwd": "packages/configuration-azure-kv"
-      }
-    },
     "test": {
       "executor": "@nrwl/workspace:run-commands",
       "outputs": [".test-runs/unit"],

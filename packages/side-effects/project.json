@@ -1,6 +1,6 @@
 {
-  "root": "packages/configuration-api",
-  "sourceRoot": "packages/configuration-api/src",
+  "root": "packages/side-effects",
+  "sourceRoot": "packages/side-effects/src",
   "projectType": "library",
   "targets": {
     "clean": {
@@ -8,7 +8,7 @@
       "outputs": [".test-runs/unit"],
       "options": {
         "command": "rm -rf dist .test-runs",
-        "cwd": "packages/configuration-api"
+        "cwd": "packages/side-effects"
       }
     },
     "test": {
@@ -16,13 +16,13 @@
       "outputs": [".test-runs/unit"],
       "options": {
         "command": "jest",
-        "cwd": "packages/configuration-api"
+        "cwd": "packages/side-effects"
       }
     },
     "code-coverage": {
       "executor": "@ha/nx-executors:upload-codecov",
       "options": {
-        "coverageFilePath": "packages/configuration-api/.test-runs/unit/lcov.info"
+        "coverageFilePath": "packages/side-effects/.test-runs/unit/lcov.info"
       }
     }
   },

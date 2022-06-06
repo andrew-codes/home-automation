@@ -11,14 +11,6 @@
         "cwd": "packages/ha-entity-utils"
       }
     },
-    "compile": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["packages/ha-entity-utils/dist"],
-      "options": {
-        "command": "node -r esbuild-register build.ts",
-        "cwd": "packages/ha-entity-utils"
-      }
-    },
     "test": {
       "executor": "@nrwl/workspace:run-commands",
       "outputs": [".test-runs/unit"],
