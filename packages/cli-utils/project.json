@@ -1,6 +1,6 @@
 {
-  "root": "packages/jsonnet",
-  "sourceRoot": "packages/jsonnet/src",
+  "root": "packages/cli-utils",
+  "sourceRoot": "packages/cli-utils/src",
   "projectType": "library",
   "targets": {
     "clean": {
@@ -8,7 +8,7 @@
       "outputs": [".test-runs/unit"],
       "options": {
         "command": "rm -rf dist .test-runs",
-        "cwd": "packages/jsonnet"
+        "cwd": "packages/cli-utils"
       }
     },
     "test": {
@@ -16,13 +16,13 @@
       "outputs": [".test-runs/unit"],
       "options": {
         "command": "jest",
-        "cwd": "packages/jsonnet"
+        "cwd": "packages/cli-utils"
       }
     },
     "code-coverage": {
       "executor": "@ha/nx-executors:upload-codecov",
       "options": {
-        "coverageFilePath": "packages/jsonnet/.test-runs/unit/lcov.info"
+        "coverageFilePath": "packages/cli-utils/.test-runs/unit/lcov.info"
       }
     }
   },

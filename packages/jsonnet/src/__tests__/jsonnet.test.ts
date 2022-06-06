@@ -33,7 +33,14 @@ describe("jsonnet", () => {
     test("eval takes a string of jsonnet, provides it to the jsonnet CLI and returns the result.", async () => {
       when(sh.exec)
         .calledWith(
-          `jsonnet -J /workspaces/home-automation/vendor $(echo -n "${cliJsonnetContent}" | tr '\\n' ' ')`,
+          `jsonnet -J ${path.join(
+            __dirname,
+            "..",
+            "..",
+            "..",
+            "..",
+            "vendor",
+          )} $(echo -n "${cliJsonnetContent}" | tr '\\n' ' ')`,
         )
         .mockReturnValue({ stderr: "", stdout: "output" })
 
