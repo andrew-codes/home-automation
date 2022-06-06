@@ -19,7 +19,7 @@ describe("configuration api module exports", () => {
       get,
       getNames,
       set,
-    } as unknown as ConfigurationApi<Configuration>)
+    } as unknown as ConfigurationApi<any>)
   })
 
   test("Created configuration API will throw error if configuration value cannot be found by name.", async () => {
@@ -32,7 +32,7 @@ describe("configuration api module exports", () => {
       await api.get("mqtt/username")
     } catch (error) {
       expect(error).toBeInstanceOf(Error)
-      expect(error.message).toEqual(
+      expect((error as Error).message).toEqual(
         "Configuration value not found, mqtt/username.",
       )
     }
@@ -77,7 +77,7 @@ describe("configuration api module exports", () => {
     ])
 
     const actual = api.getNames()
-    expect(actual).toEqual(["test1", "azure/location", "one"])
+    expect(actual).toEqual(["azureKeyVaultName", "azure/location", "one"])
   })
 
   test("Setting a value will use all providers that supports the value.", async () => {
@@ -99,12 +99,15 @@ describe("configuration api module exports", () => {
 
 const TestConfigProvder: ConfigurationApi<{ azureKeyVaultName: string }> = {
   get: async (name) => "value",
-  getNames: () => ["test1"],
+  getNames: () => ["azureKeyVaultName"],
   set: jest.fn(),
 }
 
-const TestConfigProvder2: ConfigurationApi<{ azureKeyVaultName: string }> = {
+const TestConfigProvder2: ConfigurationApi<{
+  azureKeyVaultName: string
+  "azure/location": string
+}> = {
   get: async (name) => "different value",
-  getNames: () => ["test1", "azure/location"],
+  getNames: () => ["azureKeyVaultName", "azure/location"],
   set: jest.fn(),
 }

@@ -29,13 +29,13 @@ describe("deploy", () => {
       .calledWith("grafana/influxdb/token")
       .mockResolvedValue("token")
 
-      when(jsonnet.eval)
+    when(jsonnet.eval)
       .calledWith(
         path.join(__dirname, "..", "..", "deployment", "index.jsonnet"),
         {
           grafana_username: "username",
           grafana_password: "password",
-          grafana_port_external: 8080,
+          port: 8080,
           grafana_influxdb_token: "token",
         },
       )
@@ -55,9 +55,8 @@ describe("deploy", () => {
     expect(kubectl.applyToCluster).toHaveBeenCalledWith('{"graph":2}')
   })
 
-  test('Cluster deployment is rolled out.',async () => {
-    when(jsonnet.eval)
-    .mockResolvedValue(
+  test("Cluster deployment is rolled out.", async () => {
+    when(jsonnet.eval).mockResolvedValue(
       JSON.stringify({
         grafana: {
           graph: { graph: 1 },
@@ -69,6 +68,10 @@ describe("deploy", () => {
       get: configApiGet,
     } as unknown as ConfigurationApi<Configuration>)
 
-    expect(kubectl.rolloutDeployment).toHaveBeenCalledWith('restart', 'grafana', {namespace: 'monitoring'})
-  });
+    expect(kubectl.rolloutDeployment).toHaveBeenCalledWith(
+      "restart",
+      "grafana",
+      { namespace: "monitoring" },
+    )
+  })
 })

@@ -21,24 +21,42 @@ beforeEach(() => {
   ctx = {
     cwd: "../",
     isVerbose: false,
-    root: "./",
+    root: path.join(__dirname, "..", "..", "..", "..", ".."),
     workspace: { version: 2, projects: {} },
   }
 })
 
 test("Can require TS modules via esbuild-register.", async () => {
-  await executor({ module: "scripts/deploy.ts" }, ctx)
+  await executor(
+    {
+      module: "scripts/deploy.ts",
+      cwd: path.join("nx-executors", "src", "executors", "invoke", "__mocks__"),
+    },
+    ctx,
+  )
   expect(register).toHaveBeenCalled()
 })
 
 test("Non-existant moodule files fail.", async () => {
-  const { success } = await executor({ module: "scripts/deploy.ts" }, ctx)
+  const { success } = await executor(
+    {
+      module: "scripts/deploy.ts",
+      cwd: path.join("nx-executors", "src", "executors", "invoke", "__mocks__"),
+    },
+    ctx,
+  )
   expect(success).toEqual(false)
 })
 
 test("Modules that do not export a function fail.", async () => {
   jest.doMock("deploy", () => ({}))
-  const { success } = await executor({ module: "deploy" }, ctx)
+  const { success } = await executor(
+    {
+      module: "deploy",
+      cwd: path.join("nx-executors", "src", "executors", "invoke", "__mocks__"),
+    },
+    ctx,
+  )
   expect(success).toEqual(false)
 })
 
@@ -54,14 +72,7 @@ test("Modules are resolved relative to the cwd option.", async () => {
   const { success } = await executor(
     {
       module: "./deploy.ts",
-      cwd: path.join(
-        "packages",
-        "nx-executors",
-        "src",
-        "executors",
-        "invoke",
-        "__mocks__",
-      ),
+      cwd: path.join("nx-executors", "src", "executors", "invoke", "__mocks__"),
     },
     ctx,
   )
@@ -81,14 +92,7 @@ test("Modules default exported function will be invoked with the configuration A
   const { success } = await executor(
     {
       module: "./deploy.ts",
-      cwd: path.join(
-        "packages",
-        "nx-executors",
-        "src",
-        "executors",
-        "invoke",
-        "__mocks__",
-      ),
+      cwd: path.join("nx-executors", "src", "executors", "invoke", "__mocks__"),
     },
     ctx,
   )
