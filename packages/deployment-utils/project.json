@@ -1,18 +1,8 @@
 {
-    "root": "packages/deployment-utils",
-    "sourceRoot": "packages/deployment-utils/src",
-    "projectType": "library",
-    "targets": {
-      "compile": {
-        "executor": "@nrwl/workspace:run-commands",
-        "outputs": ["packages/deployment-utils/dist"],
-        "options": {
-          "command": "cp -r src dist",
-          "cwd": "packages/deployment-utils"
-        }
-      }
-    },
-    "tags": [],
-    "implicitDependencies": []
-  }
-  
+  "root": "packages/deployment-utils",
+  "sourceRoot": "packages/deployment-utils/src",
+  "projectType": "library",
+  "targets": {},
+  "tags": [],
+  "implicitDependencies": []
+}
