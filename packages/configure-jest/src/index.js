@@ -7,6 +7,7 @@ const defaultConfig = {
       tsconfig: "<rootDir>/tsconfig.test.json",
     },
   },
+  resetMocks: true,
   passWithNoTests: true,
   coverageDirectory: "<rootDir>/.test-runs/unit",
   collectCoverage: true,

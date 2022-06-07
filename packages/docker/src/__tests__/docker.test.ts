@@ -8,17 +8,13 @@ import { when } from "jest-when"
 import { createClient } from "../docker"
 import path from "path"
 
-describe("kubectl", () => {
-  beforeEach(() => {
-    jest.resetAllMocks()
-  })
-
-  beforeEach(() => {
-    jest.mocked(sh.exec).mockReturnValue({ stderr: "", stdout: "" })
-  })
-
+describe("docker", () => {
   const get = jest.fn()
   beforeEach(() => {
+    jest.mocked(sh.exec).mockReturnValue({ stderr: "", stdout: "" })
+    when(sh.exec)
+      .calledWith(expect.stringContaining("docker login"))
+      .mockReturnValue({ stderr: "", stdout: "" })
     when(get)
       .calledWith("docker/registry/hostname")
       .mockResolvedValue("registry.com")
@@ -89,7 +85,7 @@ describe("kubectl", () => {
     )
   })
 
-  test("Docker CLI errors throw error.", async () => {
+  test("Docker build CLI errors throw error.", async () => {
     when(sh.exec)
       .calledWith(expect.stringContaining("docker build"))
       .mockReturnValue({ stderr: "error", stdout: "" })
@@ -112,7 +108,7 @@ describe("kubectl", () => {
     )
   })
 
-  test("Docker CLI errors throw error.", async () => {
+  test("Docker push CLI errors throw error.", async () => {
     when(sh.exec)
       .calledWith(expect.stringContaining("docker push"))
       .mockReturnValue({ stderr: "error", stdout: "" })

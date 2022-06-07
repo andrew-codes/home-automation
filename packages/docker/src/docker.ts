@@ -20,7 +20,11 @@ const createClient = async (
   const registry = await configurationApi.get("docker/registry/hostname")
   const username = await configurationApi.get("azure/client/id")
   const password = await configurationApi.get("azure/client/secret")
-
+  console.log(
+    sh.exec(
+      `docker login ${registry} --username ${username} --password ${password}`,
+    ),
+  )
   throwIfError(
     sh.exec(
       `docker login ${registry} --username ${username} --password ${password}`,
