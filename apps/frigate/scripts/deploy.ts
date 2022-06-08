@@ -22,6 +22,7 @@ const run = async (
     {
       image: `${registry}/${name}:latest`,
       name,
+      registryHostname: registry,
       secrets: JSON.stringify(secrets),
       port: parseInt(port_external),
       external_rmtp_port: parseInt(external_rmtp_port),
