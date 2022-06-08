@@ -19,6 +19,7 @@ const run = async (
     {
       image: `${registry}/${name}:latest`,
       name,
+      registryHostname: registry,
       secrets: JSON.stringify(secrets),
     },
   )

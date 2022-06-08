@@ -39,8 +39,9 @@ const run = async (
   const secrets: Array<keyof Configuration> = [
     "home-assistant/game-room/gaming-pc/mac",
     "k8s/machine/password",
+    "docker/registry/hostname"
   ]
-  const names: string[] = ["GAMING_ROOM_GAMING_PC_MAC", "MACHINE_PASSWORD"]
+  const names: string[] = ["GAMING_ROOM_GAMING_PC_MAC", "MACHINE_PASSWORD", "DOCKER_REGISTRY_HOSTNAME"]
 
   await Promise.all(
     secrets.map(async (secretName, index) => {
