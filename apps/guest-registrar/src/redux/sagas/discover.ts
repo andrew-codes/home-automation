@@ -8,7 +8,7 @@ import {
   updateHomeAssistant,
 } from "../actionCreators"
 
-const debug = createDebugger("@ha/guest-wifi-updater/discover")
+const debug = createDebugger("@ha/guest-registrar/discover")
 
 function* pollDiscovery(action: DiscoverAction) {
   try {

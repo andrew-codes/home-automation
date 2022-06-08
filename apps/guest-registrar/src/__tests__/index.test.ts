@@ -7,6 +7,6 @@ describe("guest wifi updater", () => {
   test("sets up a heartbeat health check", async () => {
     await run()
 
-    expect(createMqttHeartbeat).toBeCalledWith("guest-wifi-updater-service")
+    expect(createMqttHeartbeat).toBeCalledWith("guest-registrar-service")
   })
 })

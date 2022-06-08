@@ -5,13 +5,13 @@ import createSagaMiddleware from "redux-saga"
 import { createStore, applyMiddleware } from "redux"
 import reducer, { pollDiscovery, saga } from "./redux"
 
-const debug = createDebugger("@ha/guest-wifi-updater")
+const debug = createDebugger("@ha/guest-registrar")
 const debugState = createDebugger("@ha/state")
 
 async function run() {
   debug("Started")
   try {
-    await createMqttHeartbeat("guest-wifi-updater-service")
+    await createMqttHeartbeat("guest-registrar-service")
     const sagaMiddleware = createSagaMiddleware()
     const store = createStore(reducer, applyMiddleware(sagaMiddleware))
     store.subscribe(() => {

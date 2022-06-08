@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@ha/guest-wifi-updater",
+  "name": "@ha/guest-registrar",
   "version": "0.0.1",
   "license": "MIT",
   "dependencies": {},

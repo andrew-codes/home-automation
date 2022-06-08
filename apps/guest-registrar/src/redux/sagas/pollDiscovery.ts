@@ -3,7 +3,7 @@ import { delay, put } from "redux-saga/effects"
 import { discover } from "../actionCreators"
 import type { PollDiscoveryAction } from "../types"
 
-const debug = createDebugger("@ha/guest-wifi-updater/pollDiscovery")
+const debug = createDebugger("@ha/guest-registrar/pollDiscovery")
 
 function* pollDiscovery(action: PollDiscoveryAction) {
   while (true) {
