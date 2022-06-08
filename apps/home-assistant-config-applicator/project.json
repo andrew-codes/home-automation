@@ -4,9 +4,9 @@
   "projectType": "application",
   "targets": {
     "image/push": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "@ha/nx-executors:invoke",
       "options": {
-        "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/home-assistant-config-applicator:latest\" --context dir:///workspace/ --insecure --cache=true",
+        "command": "scripts/image-push.ts",
         "cwd": "apps/home-assistant-config-applicator"
       }
     }
