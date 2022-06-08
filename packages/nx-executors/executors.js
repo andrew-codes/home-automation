@@ -1,10 +1,5 @@
 {
   "executors": {
-    "initialize-secrets": {
-      "implementation": "./dist/initialize-secrets",
-      "schema": "./src/executors/initialize-secrets/schema.json",
-      "description": "Initialize secrets to defautl values in key vault."
-    },
     "invoke": {
       "implementation": "./dist/invoke",
       "schema": "./src/executors/invoke/schema.json",
