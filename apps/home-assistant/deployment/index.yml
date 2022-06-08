@@ -1,67 +1,5 @@
 ---
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: home-assistant-pv-volume-new-config
-  namespace: default
-  labels:
-    type: local
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 10Gi
-  accessModes:
-    - ReadWriteMany
-  hostPath:
-    path: "/mnt/data/home-assistant-new-config"
-
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: home-assistant-pv-volume
-  namespace: default
-  labels:
-    type: local
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 10Gi
-  accessModes:
-    - ReadWriteMany
-  hostPath:
-    path: "/mnt/data/home-assistant"
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: home-assistant-pv-claim
-  namespace: default
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 10Gi
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: home-assistant-pv-claim-new-config
-  namespace: default
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 10Gi
-
----
-apiVersion: v1
 kind: ConfigMap
 metadata:
   name: secrets
@@ -141,46 +79,6 @@ spec:
         app: app
         app.kubernetes.io/name: home-assistant
     spec:
-      tolerations:
-        - key: "node.kubernetes.io/disk-pressure"
-          operator: "Exists"
-          effect: "NoExecute"
-          tolerationSeconds: 300
-      serviceAccountName: app
-      hostNetwork: true
-      dnsPolicy: ClusterFirstWithHostNet
-      imagePullSecrets:
-        - name: regcred
-      initContainers:
-        - name: home-assistant-config-applicator
-          image: docker-registry:5000/home-assistant-config-applicator:latest
-          imagePullPolicy: Always
-          env:
-            - name: GIT_BRANCH
-              value: main
-            - name: REPOSITORY
-              value: "https://github.com/andrew-codes/home-automation.git"
-            - name: CHECKOUT_PATH
-              value: apps/home-assistant/src
-          volumeMounts:
-            - name: home-assistant-config-volume
-              mountPath: /config
-            - name: home-assistant-new-config-volume
-              mountPath: /new-config
-        - name: frigate-is-ready
-          image: curlimages/curl:latest
-          command:
-            - "sh"
-          args:
-            - "-c"
-            - "timeout 10 curl --fail --insecure --silent --output /dev/null --write-out 'HTTP Code %{http_code}' 'http://frigate:5000' || exit 1"
-        - name: check-db-ready
-          image: postgres:13.3-alpine
-          command:
-            - "sh"
-          args:
-            - "-c"
-            - "until pg_isready -h home-assistant-postgres -p 5432; do echo waiting for database; sleep 2; done;"
       containers:
         - name: home-assistant
           image: docker-registry:5000/home-assistant:latest
@@ -420,33 +318,7 @@ spec:
                 secretKeyRef:
                   name: unifi-username
                   key: secret-value
-          ports:
-            - name: api
-              containerPort: 8123
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: api
-              scheme: HTTP
-            initialDelaySeconds: 60
-            failureThreshold: 5
-            timeoutSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /
-              port: api
-              scheme: HTTP
-            initialDelaySeconds: 60
-            failureThreshold: 5
-            timeoutSeconds: 10
-          startupProbe:
-            httpGet:
-              path: /
-              port: api
-              scheme: HTTP
-            failureThreshold: 30
-            periodSeconds: 10
+
           volumeMounts:
             - name: home-assistant-config-volume
               mountPath: /config
@@ -458,91 +330,12 @@ spec:
               subPath: generate_secrets_yaml.sh
             - name: home-assistant-new-config-volume
               mountPath: /new-config
-          securityContext:
-            privileged: true
-            allowPrivilegeEscalation: true
-
-        - name: app-daemon
-          image: acockburn/appdaemon:dev
-          imagePullPolicy: Always
-          command:
-            - sh
-          args:
-            - "-c"
-            - "ln -s /home-assistant/appdaemon.yaml /conf/appdaemon.yaml && ln -s /home-assistant/apps /conf/apps && ln -s /home-assistant/dashboards /conf/dashboards && ln -s /home-assistant/secrets.yaml /conf/secrets.yaml && ./dockerStart.sh"
-          env:
-            - name: HASS_SERVER
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-ha-url
-                  key: secret-value
-            - name: HASS_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-ha-token
-                  key: secret-value
-          ports:
-            - name: appdaemon
-              containerPort: 5050
-              protocol: TCP
-          volumeMounts:
-            - name: home-assistant-config-volume
-              mountPath: /home-assistant
 
       volumes:
         - name: ha-secrets-volume
           configMap:
             name: secrets
             defaultMode: 0600
-        - name: home-assistant-config-volume
-          persistentVolumeClaim:
-            claimName: home-assistant-pv-claim
-        - name: home-assistant-new-config-volume
-          persistentVolumeClaim:
-            claimName: home-assistant-pv-claim-new-config
+       
 
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: beta.kubernetes.io/arch
-                    operator: In
-                    values:
-                      - amd64
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: home-assistant-api
-  namespace: default
-  labels:
-    app.kubernetes.io/name: home-assistant
-spec:
-  type: NodePort
-  ports:
-    - name: api
-      port: 8123
-      protocol: TCP
-      targetPort: api
-      nodePort: 30514
-  selector:
-    app.kubernetes.io/name: home-assistant
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: home-assistant-app-daemon
-  namespace: default
-  labels:
-    app.kubernetes.io/name: home-assistant
-spec:
-  ports:
-    - name: appdaemon
-      port: 5050
-      protocol: TCP
-      targetPort: appdaemon
-  selector:
-    app.kubernetes.io/name: home-assistant
+     

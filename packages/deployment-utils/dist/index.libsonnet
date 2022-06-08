@@ -5,8 +5,8 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet';
   deployment+: {
     new(name, image, secretNames=[], externalPort='', containerPort=80)::
       local exPort = k.core.v1.servicePort.new(80, 'http')
-                           + if (externalPort != '') then k.core.v1.servicePort.withNodePort(externalPort) else {}
-                                                                                                + k.core.v1.servicePort.withProtocol('TCP');
+                     + if (externalPort != '') then k.core.v1.servicePort.withNodePort(externalPort) else {}
+                                                                                                          + k.core.v1.servicePort.withProtocol('TCP');
 
       local envSecrets = [
         secrets[secretName]
@@ -32,52 +32,143 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet';
                  + if (externalPort != '') then k.core.v1.service.spec.withType('NodePort',) else {},
       },
 
+    withContainer(name, image, properties={},)::
+      local container = k.core.v1.container.new(name=name, image=image)
+                        + k.core.v1.container.withImagePullPolicy('Always')
+                        + properties;
+      {
+        deployment+: {
+          spec+: {
+            template+: {
+              spec+: {
+                containers+: [
+                  container,
+                ],
+              },
+            },
+          },
+        },
+      },
+
+    withHostNetwork()::
+      {
+        deployment+: {
+          spec+: {
+            template+: {
+              spec+: {
+                hostNetwork: true,
+                dnsPolicy: 'ClusterFirstWithHostNet',
+              },
+            },
+          },
+        },
+      },
+
+    withProbe(containerIndex, path, portName='http')::
+      local augmentation = {
+        livenessProbe: {
+          httpGet:
+            {
+              path: path,
+              port: portName,
+              scheme: 'HTTP',
+            },
+          initialDelaySeconds: 60,
+          failureThreshold: 5,
+          timeoutSeconds: 10,
+        },
+        readinessProbe: {
+          httpGet:
+            {
+              path: path,
+              port: portName,
+              scheme: 'HTTP',
+            },
+          initialDelaySeconds: 60,
+          failureThreshold: 5,
+          timeoutSeconds: 10,
+        },
+        startupProbe: {
+          httpGet:
+            {
+              path: path,
+              port: portName,
+              scheme: 'HTTP',
+            },
+          failureThreshold: 30,
+          periodSeconds: 10,
+        },
+      };
+
+      {
+        deployment+: {
+          spec+: {
+            template+: {
+              spec+: {
+                containers+: if containerIndex == 0 then [super.containers[0] + augmentation] + super.containers[1:] else [super.containers[containerIndex - 1:containerIndex] + [super.containers[0] + augmentation]],
+              },
+            },
+          },
+        },
+      },
+
+    withAffinity(affinity={},)::
+      {
+        deployment+: {
+          spec+: {
+            template+: {
+              spec+: affinity,
+            },
+          },
+        },
+      },
+
     withPort(containerIndex, name, containerPort, externalPort='')::
-       {
+      {
         deployment+: {
           spec+: {
             template+: {
               spec+: {
                 containers+: if containerIndex == 0 then [super.containers[0] + k.core.v1.container.withPorts({
-                             name: name,
-                             containerPort: containerPort,
-                             protocol: 'TCP',
-                           },) ] + super.containers[1:] else [super.containers[containerIndex - 1:containerIndex] + [super.containers[0] + k.core.v1.container.withPorts({
-                             name: name,
-                             containerPort: containerPort,
-                             protocol: 'TCP',
-                           },)] + super.containers[containerIndex + 1:]],,
+                  name: name,
+                  containerPort: containerPort,
+                  protocol: 'TCP',
+                },)] + super.containers[1:] else [super.containers[containerIndex - 1:containerIndex] + [super.containers[0] + k.core.v1.container.withPorts({
+                  name: name,
+                  containerPort: containerPort,
+                  protocol: 'TCP',
+                },)] + super.containers[containerIndex + 1:]],
               },
             },
           },
         },
         service+: {
           spec+: {
-            ports+: [{ name: name, port: containerPort, protocol: "TCP", targetPort: name } + if (externalPort != '') then {nodePort: externalPort} else {}]
+            ports+: [{ name: name, port: containerPort, protocol: 'TCP', targetPort: name } + if (externalPort != '') then { nodePort: externalPort } else {}],
           },
         },
       },
 
-    withSecurityContext(securityContext)::
-       {
+    withSecurityContext(containerIndex, securityContext)::
+      {
         deployment+: {
           spec+: {
             template+: {
               spec+: {
-                containers+: if containerIndex == 0 then [super.containers[0] + {securityContext+: securityContext} ] + super.containers[1:] else [super.containers[containerIndex - 1:containerIndex] + [super.containers[0] + {securityContext+: securityContext}] + super.containers[containerIndex + 1:]],,
+                containers+: if containerIndex == 0 then [super.containers[0] { securityContext+: securityContext }] + super.containers[1:] else [super.containers[containerIndex - 1:containerIndex] + [super.containers[0] { securityContext+: securityContext }] + super.containers[containerIndex + 1:]],
               },
             },
           },
         },
       },
 
-    withInitContainer(name, image, command='sh', args=[],)::
+    withInitContainer(name, image, containerProperties={},)::
       {
         deployment+: {
           spec+: {
             template+: {
               spec+: {
-                initContainers+: [{ name: name, image: image, imagePullPolicy: 'Always', command: command, args: args }],
+                initContainers+: [{ name: name, image: image, imagePullPolicy: 'Always' } + containerProperties],
               },
             },
           },
@@ -96,9 +187,11 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet';
           },
         },
       },
+
     withEnvVars(containerIndex, envVars)::
       local reduceEnvVars(acc, envVar) = (acc + self.withEnvVar(containerIndex, envVar));
       std.foldl(reduceEnvVars, envVars, {}),
+
     withVolumeMount(containerIndex, volumeMount)::
       {
         deployment+: {
@@ -112,6 +205,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet';
           },
         },
       },
+
     withSecretVolume(name, secretName, mode='0777', items=[])::
       {
         deployment+: {
@@ -128,6 +222,26 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet';
           },
         },
       },
+
+    withConfigMapVolume(name, dataItems=[], defaultMode='0600')::
+      {
+        [name]: k.core.v1.configMap(name, dataItems),
+        deployment+: {
+          spec+: {
+            template+: {
+              spec+: {
+                volumes+: [
+                  {
+                    name: name,
+                    configMap: { name: name, defaultMode: defaultMode },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+
     withPersistentVolume(name, capacity, path)::
       {
         [name + '-pv-volume']: k.core.v1.persistentVolume.new(name)
