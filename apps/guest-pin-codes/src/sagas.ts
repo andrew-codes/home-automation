@@ -44,7 +44,7 @@ const debug = createDebugger("@ha/guest-pin-codes/sagas")
 
 function* fetchEvents(action) {
   try {
-    const { GOOGLE_CALENDAR_ID } = process.env
+    const { GUEST_PIN_CODES_CALENDAR_ID } = process.env
     const now = action.payload as Date
     debug(`Fetching calendar events ending after ${now.toTimeString()}`)
     const calendar = createCalendarClient()
@@ -57,7 +57,7 @@ function* fetchEvents(action) {
     >(
       [calendar, calendar.events.list],
       {
-        calendarId: GOOGLE_CALENDAR_ID as string,
+        calendarId: GUEST_PIN_CODES_CALENDAR_ID as string,
       },
       {}
     )
@@ -122,7 +122,7 @@ Wifi: ${guestNetwork.ssid}
 Wifi Password: ${guestNetwork.password}`
       : ``
 
-    const { GOOGLE_CALENDAR_ID } = process.env
+    const { GUEST_PIN_CODES_CALENDAR_ID } = process.env
 
     const now = action.payload as Date
     debug(`Scheduling events to start; ${now.toTimeString()}`)
@@ -157,7 +157,7 @@ Wifi Password: ${guestNetwork.password}`
         >(
           [calendar, calendar.events.update],
           {
-            calendarId: GOOGLE_CALENDAR_ID as string,
+            calendarId: GUEST_PIN_CODES_CALENDAR_ID as string,
             eventId: calendarEvent.id,
             sendUpdates: "all",
             requestBody: {
@@ -226,7 +226,7 @@ Thank you!`,
 
 function* endEvent(action: ScheduleEventsAction) {
   try {
-    const { GOOGLE_CALENDAR_ID } = process.env
+    const { GUEST_PIN_CODES_CALENDAR_ID } = process.env
     const now = action.payload
     const calendar = createCalendarClient()
     debug(`Scheduling events to end; ${now.toTimeString()}`)
@@ -262,7 +262,7 @@ function* endEvent(action: ScheduleEventsAction) {
         >(
           [calendar, calendar.events.update],
           {
-            calendarId: GOOGLE_CALENDAR_ID as string,
+            calendarId: GUEST_PIN_CODES_CALENDAR_ID as string,
             eventId: event.id,
             requestBody: {
               ...event,

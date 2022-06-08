@@ -11,7 +11,7 @@ async function run() {
   const mqtt = await createMqtt()
   await mqtt.subscribe("homeassistant/sensor/external_ip/set")
   try {
-    const { "external-services-dns-updater/sub-domains": SUB_DOMAINS } =
+    const { "EXTERNAL_SERVICES_DNS_UPDATER_SUB_DOMAINS": SUB_DOMAINS } =
       process.env
     const subDomains = (SUB_DOMAINS ?? "").split(",")
 

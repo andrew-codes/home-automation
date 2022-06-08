@@ -1,8 +1,8 @@
 import { google } from "googleapis"
 
-const { GOOGLE_PRIVATE_KEY } = process.env
+const { GUEST_PIN_CODES_GOOGLE_PRIVATE_KEY } = process.env
 const createCalendarClient = () => {
-  const creds = JSON.parse(GOOGLE_PRIVATE_KEY as string)
+  const creds = JSON.parse(GUEST_PIN_CODES_GOOGLE_PRIVATE_KEY as string)
   const auth = new google.auth.JWT({
     email: creds.client_email,
     key: creds.private_key,

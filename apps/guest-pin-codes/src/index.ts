@@ -16,10 +16,10 @@ import {
 import { shuffle } from "./shuffle"
 
 const {
-  DOOR_LOCKS,
-  GUEST_CODE_INDEX_OFFSET,
-  GUEST_LOCK_CODE_EXCLUSIONS,
-  NUMBER_OF_GUEST_CODES,
+  GUEST_PIN_CODES_DOOR_LOCKS,
+  GUEST_PIN_CODES_GUEST_CODE_INDEX_OFFSET,
+  GUEST_PIN_CODES_GUEST_LOCK_CODE_EXCLUSIONS,
+  GUEST_PIN_CODES_NUMBER_OF_GUEST_CODES,
 } = process.env
 const debug = createDebugger("@ha/guest-pin-codes/index")
 
@@ -77,10 +77,10 @@ const run = async (
 
 if (require.main === module) {
   run(
-    DOOR_LOCKS as string,
-    GUEST_LOCK_CODE_EXCLUSIONS as string,
-    parseInt(GUEST_CODE_INDEX_OFFSET as string, 10) + 1,
-    parseInt(NUMBER_OF_GUEST_CODES as string, 10),
+    GUEST_PIN_CODES_DOOR_LOCKS as string,
+    GUEST_PIN_CODES_GUEST_LOCK_CODE_EXCLUSIONS as string,
+    parseInt(GUEST_PIN_CODES_GUEST_CODE_INDEX_OFFSET as string, 10) + 1,
+    parseInt(GUEST_PIN_CODES_NUMBER_OF_GUEST_CODES as string, 10),
   )
 }
 

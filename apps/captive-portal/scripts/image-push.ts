@@ -7,8 +7,8 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   const docker = await createClient(configurationApi)
-  docker.build(`${name}:latest`)
-  docker.push(`${name}:latest`)
+  await docker.build(`${name}:latest`)
+  await docker.pushImage(`${name}:latest`)
 }
 
 export default run

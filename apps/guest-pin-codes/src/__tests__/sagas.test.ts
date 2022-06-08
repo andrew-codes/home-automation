@@ -33,7 +33,7 @@ let unifiGetWifi: jest.Mock
 beforeEach(() => {
   jest.resetAllMocks()
   ;(createCalendarClient as jest.Mock).mockReturnValue(calendarClient)
-  process.env.GOOGLE_CALENDAR_ID = "cal_id"
+  process.env.GUEST_PIN_CODES_CALENDAR_ID = "cal_id"
 
   unifiGetWifi = jest.fn()
 })
