@@ -82,6 +82,7 @@ const configurationNames = [
   "influxdb/username",
   "k8s/main-node/ip",
   "k8s/machine/password",
+  "k8s/pod-network-cidr",
   "mqtt/password",
   "mqtt/port/external",
   "mqtt/username",

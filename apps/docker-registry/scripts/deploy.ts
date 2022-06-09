@@ -9,7 +9,7 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   process.env.OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES"
-
+  const ip = await configurationApi.get("docker-registry/ip")
   const username = await configurationApi.get("docker-registry/username")
   const password = await configurationApi.get("docker-registry/password")
   const email = await configurationApi.get("docker-registry/email")
@@ -17,14 +17,24 @@ const run = async (
     "docker-registry/machine/password",
   )
 
+  await fs.mkdir(path.join(__dirname, "..", ".secrets"), { recursive: true })
   const secretsContent = `---
   username: ${username}
   password: ${password}
   email: ${email}`
-  await fs.mkdir(path.join(__dirname, "..", ".secrets"), { recursive: true })
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "ansible-secrets.yml"),
     secretsContent,
+    "utf8",
+  )
+  await fs.writeFile(
+    path.join(__dirname, "..", ".secrets", "hosts.yml"),
+    `
+all:
+  vars:
+    ansible_user: root
+  hosts:
+    ${ip}:`,
     "utf8",
   )
   const childProcess = sh.exec(
@@ -36,7 +46,7 @@ const run = async (
     )} -i ${path.join(
       __dirname,
       "..",
-      "deployment",
+      ".secrets",
       "hosts.yml",
     )} --extra-vars "ansible_become_pass='${machinePassword}'"`,
   )
