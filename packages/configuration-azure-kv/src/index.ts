@@ -14,6 +14,7 @@ const configurationNames = [
   "captive-portal/port/external",
   "docker/registry/hostname",
   "docker-registry/email",
+  "docker-registry/name",
   "docker-registry/ip",
   "docker-registry/machine/password",
   "docker-registry/password",

@@ -87,6 +87,7 @@ variable "nameserver" {
 resource "proxmox_lxc" "openvpn" {
   count        = 1
   hostname     = var.hostname
+  name         = var.hostname
   target_node  = "pve-nuc"
   ostemplate   = "local:vztmpl/debian-11-standard_11.3-1_amd64.tar.zst"
   unprivileged = true

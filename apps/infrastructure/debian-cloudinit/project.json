@@ -1,6 +1,6 @@
 {
-  "root": "apps/infrastructure/docker-registry",
-  "sourceRoot": "apps/infrastructure/docker-registry",
+  "root": "apps/infrastructure/debian-cloudinit",
+  "sourceRoot": "apps/infrastructure/debian-cloudinit",
   "projectType": "application",
   "targets": {
     "clean": {
@@ -13,17 +13,10 @@
       ],
       "options": {
         "command": "rm -rf .terraform .terraform.lock.hcl .terraform.tfstate.lock.info terraform.tfstate",
-        "cwd": "apps/infrastructure/docker-registry"
-      }
-    },
-    "provision": {
-      "executor": "@ha/nx-executors:invoke",
-      "options": {
-        "module": "scripts/provision.ts",
-        "cwd": "apps/infrastructure/docker-registry"
+        "cwd": "apps/infrastructure/debian-cloudinit"
       }
     }
   },
   "tags": [],
-  "implicitDependencies": ["infrastructure-debian-cloudinit"]
+  "implicitDependencies": []
 }

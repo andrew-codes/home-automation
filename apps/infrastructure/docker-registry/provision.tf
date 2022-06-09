@@ -8,8 +8,9 @@ terraform {
 }
 
 provider "proxmox" {
-  pm_api_url      = "https://192.168.1.73:8006/api2/json"
-  pm_user         = "root@pam"
+  pm_api_url      = var.pm_api_url
+  pm_user         = var.pm_username
+  pm_password     = var.pm_password
   pm_tls_insecure = true
   pm_log_enable   = true
   pm_log_file     = "terraform-plugin-proxmox.log"
@@ -19,17 +20,46 @@ provider "proxmox" {
   }
 }
 
-variable "ssh_key" {
-  default = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDHGX0BrMpr5mm/maYDNJJhBrn1lvjgy+9//ufn+QV5rC8MQpkakTKi3qzEQ22Xw4bOPb59C80TkH8T6ur4Ygb0oPMhFCQoBpd1rabQCIISSwi+I4bth58h8Jl/tXdiNclfTyPHNBPxRTjOGG9Op+Zu8EQtd4QUinf3iFFKJ4Wyk9cuHbKGYkhKnQG/u1LD+IJ6y2pt4Cdh2hnO2HIsSKOp6djx8zuCOMyguN1giFsa4gmd3/TcNO/O/p6G1Xs3v1H9KWWtXVL0gRRd1NTbnbqyuBmlBu2wKWVbznlf7Jjkb0asophnHBSsIcwJU079YGWfCVeZ0eoq/goDcI2Nj+FkNTJsJxuOwCUCBCikPZwUstU1cRAhTP72pu08ZQXM/B+uF2lDCLVu+Kui2bZQbOjNGunRnsFfer7XGpfqIeaYd8zJNFQPQIoE5N+iRMRQ/M1NHY1+E0TtdxWIi3pN11r7d9SLV4XYYdU5OgZFBKeQXULY5tKYG/ZMQj0MPmpksZ8="
-}
-
-variable "name" {
+variable "pm_api_url" {
   type = string
   validation {
-    condition     = length(var.name) > 0
+    condition     = length(var.pm_api_url) > 0
+    error_message = "Proxmox API URL is required."
+  }
+}
+
+variable "pm_username" {
+  type = string
+  validation {
+    condition     = length(var.pm_username) > 0
+    error_message = "Proxmox username is required."
+  }
+}
+
+variable "pm_password" {
+  type = string
+  validation {
+    condition     = length(var.pm_password) > 0
+    error_message = "Proxmox password is required."
+  }
+}
+
+variable "ssh_key" {
+  type = string
+  validation {
+    condition     = length(var.ssh_key) > 0
+    error_message = "Public SSH key is required."
+  }
+}
+
+variable "hostname" {
+  type = string
+  validation {
+    condition     = length(var.hostname) > 0
     error_message = "Name is required."
   }
 }
+
 
 variable "ip" {
   type = string
@@ -47,14 +77,6 @@ variable "nameserver" {
   }
 }
 
-variable "domain" {
-  type = string
-  validation {
-    condition     = length(var.domain) > 0
-    error_message = "Domain is required."
-  }
-}
-
 variable "gateway" {
   type = string
   validation {
@@ -65,9 +87,10 @@ variable "gateway" {
 
 resource "proxmox_vm_qemu" "docker-registry" {
   count       = 1
-  name        = var.name
+  hostname    = var.hostname
+  name        = var.hostname
   target_node = "pve"
-  clone       = "ubuntu-server"
+  clone       = "debian-cloudinit"
   onboot      = true
   cpu         = "host"
   sockets     = "1"
@@ -78,14 +101,18 @@ resource "proxmox_vm_qemu" "docker-registry" {
   bootdisk    = "scsi0"
 
   disk {
-    size    = "250G"
-    type    = "scsi"
-    storage = "local-lvm"
-    format  = "ext4"
-    ssd     = 1
+    id           = 0
+    size         = "250G"
+    type         = "scsi"
+    storage      = "local-lvm"
+    format       = "ext4"
+    ssd          = 1
+    storage_type = "lvm"
+    iothread     = true
   }
 
   network {
+    id     = 0
     model  = "virtio"
     bridge = "vmbr0"
   }
@@ -99,7 +126,6 @@ resource "proxmox_vm_qemu" "docker-registry" {
     ${var.ssh_key}
   EOT
 
-  nameserver   = var.nameserver
-  searchdomain = var.domain
-  ipconfig0    = "ip=${var.ip},gw=${var.gateway}"
+  nameserver = var.nameserver
+  ipconfig0  = "ip=${var.ip},gw=${var.gateway}"
 }
