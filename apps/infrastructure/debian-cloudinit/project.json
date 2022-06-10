@@ -3,16 +3,10 @@
   "sourceRoot": "apps/infrastructure/debian-cloudinit",
   "projectType": "application",
   "targets": {
-    "clean": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": [
-        ".terraform",
-        ".terraform.lock.hcl",
-        ".terraform.tfstate.lock.info",
-        "terraform.tfstate"
-      ],
+    "provision": {
+      "executor": "@ha/nx-executors:invoke",
       "options": {
-        "command": "rm -rf .terraform .terraform.lock.hcl .terraform.tfstate.lock.info terraform.tfstate",
+        "module": "scripts/provision.ts",
         "cwd": "apps/infrastructure/debian-cloudinit"
       }
     }
