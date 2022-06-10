@@ -3,11 +3,26 @@
   "sourceRoot": "apps/proxy",
   "projectType": "application",
   "targets": {
-    "deploy": {
+    "clean": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "cwd": "apps/proxy",
-        "command": "./scripts/bin/deploy.sh"
+        "command": "rm -rf dist"
+      }
+    },
+    "compile": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/proxy",
+        "module": "scripts/compile.ts"
+      },
+      "dependsOn": [{ "target": "clean", "projects": "self" }]
+    },
+    "deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/proxy",
+        "module": "scripts/deploy.ts"
       }
     }
   },
