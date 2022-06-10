@@ -4,17 +4,17 @@
   "projectType": "application",
   "targets": {
     "deploy": {
-      "executor": "@ha/nx-executors:run-with-az",
+      "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/mqtt",
-        "command": "./scripts/bin/deploy.sh"
+        "module": "scripts/deploy.ts"
       },
       "dependsOn": [{ "target": "image/push", "projects": "self" }]
     },
     "image/push": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "@ha/nx-executors:invoke",
       "options": {
-        "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/mqtt-client:latest\" --context dir:///workspace/ --insecure --cache=true",
+        "module": "scrip",
         "cwd": "apps/mqtt"
       }
     }

@@ -112,6 +112,19 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet';
         },
       },
 
+    withContainerAugmentation(containerIndex, augmentation={})::
+      {
+        deployment+: {
+          spec+: {
+            template+: {
+              spec+: {
+                containers+: if containerIndex == 0 then [super.containers[0] + augmentation] + super.containers[1:] else [super.containers[containerIndex - 1:containerIndex] + [super.containers[0] + augmentation]],
+              },
+            },
+          },
+        },
+      },
+
     withAffinity(affinity={},)::
       {
         deployment+: {
