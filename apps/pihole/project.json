@@ -4,17 +4,17 @@
   "projectType": "application",
   "targets": {
     "deploy": {
-      "executor": "@ha/nx-executors:run-with-az",
+      "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/pihole",
-        "command": "./scripts/bin/deploy.sh"
+        "module": "scripts/deploy.ts"
       }
     },
     "update": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/pihole",
-        "command": "./scripts/bin/update.sh"
+        "module": "scripts/update.ts"
       }
     }
   },
