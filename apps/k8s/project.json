@@ -7,7 +7,7 @@
       "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/k8s",
-        "command": "scripts/deploy.ts"
+        "module": "scripts/deploy.ts"
       }
     }
   },

@@ -6,7 +6,7 @@
     "image/push": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
-        "command": "scripts/image-push.ts",
+        "module": "scripts/image-push.ts",
         "cwd": "apps/home-assistant-config-applicator"
       }
     }
