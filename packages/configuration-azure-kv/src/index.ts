@@ -108,7 +108,7 @@ const configurationNames = [
   "proxy/ddns/service-account/credentials-json",
   "proxy/hostname",
   "proxy/ip",
-  "proxy/subdomain/redirects",
+  "proxy/sub-domain/redirects",
   "ps5/credentials-json",
   "repository/name",
   "repository/owner",
