@@ -90,7 +90,7 @@ resource "proxmox_vm_qemu" "docker-registry" {
   hostname    = var.hostname
   name        = var.hostname
   target_node = "pve"
-  clone       = "debian-cloudinit"
+  clone       = "debian-11-template"
   onboot      = true
   cpu         = "host"
   sockets     = "1"
