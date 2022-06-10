@@ -6,6 +6,7 @@ import { throwIfError } from "@ha/shell-utils"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
+  const pveIp = await configurationApi.get("proxmox/ip")
   const TF_VAR_ip = await configurationApi.get("openvpn/ip")
   const TF_VAR_gateway = await configurationApi.get("unifi/ip")
   const pveHost = await configurationApi.get("proxmox/host/pve")
@@ -14,7 +15,10 @@ const run = async (
   const TF_VAR_hostname = await configurationApi.get("openvpn/hostname")
   const TF_VAR_ssh_key = await configurationApi.get("proxmox/ssh-key/public")
   const TF_VAR_nameserver = await configurationApi.get("proxmox/nameserver")
+  const username = TF_VAR_pm_username.split("@")[0]
 
+  const id = 100
+  sh.env["TF_VAR_ip"] = `${id}`
   sh.env["TF_VAR_ip"] = `${TF_VAR_ip}/8`
   sh.env["TF_VAR_gateway"] = TF_VAR_gateway
   sh.env["TF_VAR_pm_api_url"] = `${pveHost}/api2/json`
@@ -27,6 +31,15 @@ const run = async (
     `terraform init && terraform plan && terraform apply --auto-approve`,
   )
   throwIfError(terraformProcess)
+  throwIfError(
+    sh.exec(`
+    ssh -i ~/.ssh/proxmox ${username}@${pveHost} '
+      set -e;
+     pct set ${id} -lxc.cgroup.devices.allow "c 10:200 rwm";
+     pct set ${id} -lxc.mount.entry "/dev/net none bind,create=dir";
+     pct reboot ${id};
+'`),
+  )
 }
 
 export default run

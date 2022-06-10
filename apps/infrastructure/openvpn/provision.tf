@@ -44,6 +44,14 @@ variable "pm_password" {
   }
 }
 
+variable "id" {
+  type = string
+  validation {
+    condition     = length(var.hostname) > 0
+    error_message = "Name is required."
+  }
+}
+
 variable "hostname" {
   type = string
   validation {
@@ -85,6 +93,7 @@ variable "nameserver" {
 }
 
 resource "proxmox_lxc" "openvpn" {
+  id           = var.id
   count        = 1
   hostname     = var.hostname
   name         = var.hostname
