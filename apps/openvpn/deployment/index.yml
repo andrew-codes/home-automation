@@ -20,6 +20,7 @@
           - net-tools
           - gnupg
           - curl
+          - qemu-guest-agent
         state: present
 
     - name: Copy installation file

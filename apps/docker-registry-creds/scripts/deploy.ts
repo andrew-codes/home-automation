@@ -8,7 +8,7 @@ import { throwIfError } from "@ha/shell-utils"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  process.env.OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES"
+  sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
 
   const username = await configurationApi.get("docker-registry/username")
   const password = await configurationApi.get("docker-registry/password")

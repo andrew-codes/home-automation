@@ -9,7 +9,7 @@ import { throwIfError } from "@ha/shell-utils"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  process.env.OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES"
+  sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
   const ip = await configurationApi.get("k8s/main-node/ip")
   const k8sName = await configurationApi.get("k8s/name")
   const k8sUsername = await configurationApi.get("k8s/machine/username")
