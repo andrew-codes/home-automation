@@ -1,5 +1,4 @@
 local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
-local secrets = import '../../secrets/dist/index.jsonnet';
 local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet';
 
 local configApplicatorInitContainerProperies = {

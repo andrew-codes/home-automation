@@ -9,7 +9,7 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   const registry = await configurationApi.get("docker/registry/hostname")
-  const repsoitoryOwner = await configurationApi.get("repository/owner")
+  const repositoryOwner = await configurationApi.get("repository/owner")
   const repositoryName = await configurationApi.get("repository/name")
   const port = await configurationApi.get("home-assistant/port/external")
   const secrets: Array<keyof Configuration> = [
@@ -54,16 +54,16 @@ const run = async (
     "home-assistant/withings/client-secret",
     "unifi/ip",
     "unifi/password",
-    "unifi/username"
+    "unifi/username",
   ]
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
       image: `${registry}/${name}:latest`,
       name,
-      postgresImageName: 'postgres:13.3-alpine',
+      postgresImageName: "postgres:13.3-alpine",
       repositoryName,
-      repsoitoryOwner,
+      repositoryOwner,
       externalPort: parseInt(port, 10),
       secrets: JSON.stringify(secrets),
     },
