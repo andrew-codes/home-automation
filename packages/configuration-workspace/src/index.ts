@@ -1,4 +1,5 @@
 import type { ConfigurationApi } from "@ha/configuration-api"
+import { configurationApi as envConfiguration } from "@ha/configuration-env-secrets"
 import { configurationApi as staticConfiguration } from "@ha/configuration-static"
 import { createConfigApi as createAzureKvConfiguration } from "@ha/configuration-azure-kv"
 import { uniq } from "lodash"
@@ -8,7 +9,7 @@ import createDebugger from "debug"
 const debug = createDebugger("@ha/configuration-workspace/index")
 
 const createConfigurationApi = async (
-  providers: ConfigurationApi<any>[] = [staticConfiguration],
+  providers: ConfigurationApi<any>[] = [staticConfiguration, envConfiguration],
 ): Promise<ConfigurationApi<Configuration>> => {
   const akvConfigurationApi = await createAzureKvConfiguration()
   const configurationProviders = providers.concat(akvConfigurationApi)
@@ -26,8 +27,11 @@ const createConfigurationApi = async (
       throw new Error(`Configuration value not found, ${name}.`)
     },
     getNames: () => {
-      const allConfiguration = configurationProviders.reduce<ReadonlyArray<string>>(
-        (acc, provider) => acc.concat(provider.getNames() as ReadonlyArray<string>),
+      const allConfiguration = configurationProviders.reduce<
+        ReadonlyArray<string>
+      >(
+        (acc, provider) =>
+          acc.concat(provider.getNames() as ReadonlyArray<string>),
         [],
       )
 

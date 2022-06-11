@@ -5,7 +5,6 @@ import { configurationApi as EnvSecretsConfiguration } from "@ha/configuration-e
 
 const configurationNames = [
   "alexa-shopping-list-updater-skill/port/external",
-  "azure/key-vault/name",
   "azure/location",
   "azure/resource-group",
   "azure/tenant/id",
