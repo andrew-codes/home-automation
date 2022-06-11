@@ -8,6 +8,27 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   const secretNames = configurationApi.getNames()
+  const kvName = await configurationApi.get("azure/key-vault/name")
+  await fs.mkdir(path.join(__dirname, "..", "dist"), { recursive: true })
+
+  const secretDefinitionsJsonnet = secretNames.map((name, index) => {
+    return `"${name}": lib.akvSecrets.new("${kvName}", "${name}", "${toEnvName(
+      name,
+    )}")`
+  })
+  const secretDefinitionJsonnet = `
+local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
+
+{
+  ${secretDefinitionsJsonnet.join(`,
+  `)}
+}`
+  await fs.writeFile(
+    path.join(__dirname, "..", "dist", "index.jsonnet"),
+    secretDefinitionJsonnet,
+    "utf8",
+  )
+
   const secretsJsonnet = secretNames.map((name, index) => {
     return `"${name}": k.core.v1.envVar.fromSecretRef("${toEnvName(
       name,
@@ -20,9 +41,8 @@ local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet";
   ${secretsJsonnet.join(`,
   `)}
 }`
-  await fs.mkdir(path.join(__dirname, "..", "dist"), { recursive: true })
   await fs.writeFile(
-    path.join(__dirname, "..", "dist", "index.jsonnet"),
+    path.join(__dirname, "..", "dist", "secrets.jsonnet"),
     secretJsonnet,
     "utf8",
   )

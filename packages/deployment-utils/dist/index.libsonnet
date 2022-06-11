@@ -1,4 +1,4 @@
-local secrets = import '../../../apps/secrets/dist/index.jsonnet';
+local secrets = import '../../../apps/secrets/dist/secrets.jsonnet';
 local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet';
 
 {
@@ -277,6 +277,27 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet';
               },
             },
           },
+        },
+      },
+  },
+
+  akvSecrets+: {
+    new(kvName, k8sName, name)::
+      {
+        apiVersion: 'spv.no/v2beta1',
+        kind: 'AzureKeyVaultSecret',
+        metadata: {
+          name: k8sName,
+        },
+        spec: {
+          vault: {
+            name: kvName,
+            object: {
+              name: name,
+              type: 'secret',
+            },
+          },
+          output: { secret: { name: k8sName, dataKey: 'secret-value' } },
         },
       },
   },
