@@ -64,7 +64,7 @@ new lines`,
       )
       expect(sh.exec).toBeCalledWith(
         expect.stringMatching(
-          / --ext-str "TEST_2=\\"\$\(echo -n "some value with\\nnew lines"\)\\""/,
+          / --ext-str "TEST_2=\$\(echo -n "some value with\\nnew lines"\)"/,
         ),
       )
       expect(sh.exec).toBeCalledWith(
