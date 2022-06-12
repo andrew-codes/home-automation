@@ -40,10 +40,10 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet';
       name: 'runner-deployment-autoscaler',
     },
     spec: {
-      scaleDownDelaySecondsAfterScaleOut: '60',
+      scaleDownDelaySecondsAfterScaleOut: 60,
       scaleTargetRef: { name: 'github-runner-deployment' },
-      minReplicas: '1',
-      maxReplicas: '5',
+      minReplicas: 1,
+      maxReplicas: 5,
       metrics:
         [{
           type: 'TotalNumberOfQueuedAndInProgressWorkflowRuns',
