@@ -16,7 +16,7 @@ const run = async (
       "'../.secrets/template.secrets' file not found. Please run `yarn nx run secrets:template` first.",
     )
   }
-  console.log(secretsSetFromTemplate)
+
   const allSecretsSet = secretNames.every((secretName) =>
     secretsSetFromTemplate.some(
       ({ name, value }) => secretName === name && !!value,
@@ -28,11 +28,11 @@ const run = async (
     )
   }
 
-  // await Promise.all(
-  //   secretsSetFromTemplate.default.map(({ name, value }) =>
-  //     configurationApi.set(name, value.replace(/\n/g, "\\n")),
-  //   ),
-  // )
+  await Promise.all(
+    secretsSetFromTemplate.map(({ name, value }) =>
+      configurationApi.set(name, value.replace(/\n/g, "\\n")),
+    ),
+  )
 }
 
 export default run
