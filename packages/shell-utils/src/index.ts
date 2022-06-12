@@ -1,7 +1,10 @@
 import { doIf } from "@ha/env-utils"
+import createDebugger from "debug"
+
+const debug = createDebugger("@ha/shell-utils/index")
 
 const throwIfError = ({ stdout, stderr }) => {
-  console.log(stdout)
+  debug(stdout)
   doIf(() => !!stderr)(() => {
     throw new Error(stderr)
   })
