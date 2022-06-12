@@ -100,7 +100,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet';
               name: 'ssh-volume',
               secret: {
                 secretName: 'ssh',
-                defaultMode: '0600',
+                defaultMode: 600,
                 items: [
                   {
                     key: 'known_hosts',
