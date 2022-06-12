@@ -219,7 +219,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet';
         },
       },
 
-    withSecretVolume(name, secretName, mode='0777', items=[])::
+    withSecretVolume(name, secretName, mode=511, items=[])::
       {
         deployment+: {
           spec+: {
@@ -236,7 +236,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.23/main.libsonnet';
         },
       },
 
-    withConfigMapVolume(name, dataItems=[], defaultMode='0600')::
+    withConfigMapVolume(name, dataItems=[], defaultMode=384)::
       {
         [name]: k.core.v1.configMap(name, dataItems),
         deployment+: {
