@@ -59,7 +59,7 @@ new lines`,
       expect(sh.exec).toBeCalledTimes(1)
       expect(sh.exec).toBeCalledWith(
         expect.stringMatching(
-          / --ext-str "TEST_1=\\"\$\(echo -n "test \\"value\\""\)\\""/,
+          / --ext-str "TEST_1=\$\(echo -n "test \\"value\\""\)"/,
         ),
       )
       expect(sh.exec).toBeCalledWith(
