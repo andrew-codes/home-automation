@@ -35,17 +35,24 @@ jobs:
       - name: Install deps
         run: yarn
         env:
+          AZURE_KEY_VAULT_NAME: ${{ secrets.AZURE_KEY_VAULT_NAME }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           YARN_CACHE_FOLDER: ".yarn-cache"
       - name: Build executors
-        run: yarn nx run nx-executors:compile
+        run: yarn prepare
       - name: Run all tests
         run: yarn test/all
       - name: Coverage
         if: always()
         run: yarn test/coverage/all
       - name: Compile affected apps
-        run: yarn compile/affected --base HEAD~ --head HEAD
+        run: yarn compile/affected --base HEAD~ --head HEAD --verbose
         env:
-          MQTT_CONNECTION: ${{ secrets.MQTT_CONNECTION }}
           GAMING_ROOM_GAMING_PC_USERNAME: "${{ secrets.GAMING_ROOM_GAMING_PC_USERNAME }}"
           NODE_ENV: production
+          AZURE_KEY_VAULT_NAME: ${{ secrets.AZURE_KEY_VAULT_NAME }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}

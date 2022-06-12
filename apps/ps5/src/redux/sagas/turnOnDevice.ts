@@ -13,12 +13,16 @@ function* turnOnDevice(action: ApplyToDeviceAction) {
   }
 
   yield put(
-    setTransitioning(merge({}, action.payload.device, { transitioning: true }))
+    setTransitioning(merge({}, action.payload.device, { transitioning: true })),
   )
   yield put(
-    updateHomeAssistant(merge({}, action.payload.device, { status: "AWAKE" }))
+    updateHomeAssistant(merge({}, action.payload.device, { status: "AWAKE" })),
   )
-  debug(sh.exec(`playactor wake --ip ${action.payload.device.address.address}`))
+  debug(
+    sh.exec(`playactor wake --ip ${action.payload.device.address.address};`, {
+      silent: true,
+    }),
+  )
 }
 
 export { turnOnDevice }

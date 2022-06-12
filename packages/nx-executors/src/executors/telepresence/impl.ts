@@ -1,7 +1,7 @@
 import type { ExecutorContext } from "@nrwl/devkit"
 import { exec } from "child_process"
 import { promisify } from "util"
-import throwIfError from "../throwIfProcessError"
+import { throwIfError } from "@ha/shell-utils"
 
 interface TelepresenceExecutorOptions {
   port: number
@@ -15,9 +15,12 @@ async function executor(
   context: ExecutorContext,
 ): Promise<{ success: boolean }> {
   try {
-    const connectCommand = `telepresence connect`
+    const connectCommand = `telepresence connect;`
     const connectChildProcess = await promisify(exec)(connectCommand)
-    throwIfError(connectChildProcess)
+    throwIfError({
+      ...connectChildProcess,
+      code: !!connectChildProcess.stderr ? 1 : 0,
+    })
 
     const command = `telepresence intercept "${
       context.projectName
@@ -27,9 +30,12 @@ async function executor(
       options.port
     }:80 -- /bin/bash -c 'DEBUG=@ha/${context.projectName}/*' yarn start/dev ${
       context.projectName
-    }`
+    };`
     const commandChildProcess = await promisify(exec)(command)
-    throwIfError(commandChildProcess)
+    throwIfError({
+      ...commandChildProcess,
+      code: !!commandChildProcess.stderr ? 1 : 0,
+    })
   } catch (error) {
     console.log(error)
     return { success: false }

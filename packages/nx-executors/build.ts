@@ -2,7 +2,7 @@ import build from "@ha/build-ts"
 import pkg from "./package.json"
 
 const entryPoints = [
-  "./src/executors/initialize-secrets/impl.ts",
+  "./src/executors/invoke/impl.ts",
   "./src/executors/run-with-az/impl.ts",
   "./src/executors/telepresence/impl.ts",
   "./src/executors/upload-codecov/impl.ts",

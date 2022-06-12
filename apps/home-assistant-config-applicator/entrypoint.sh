@@ -24,7 +24,7 @@ function git-clone() {
         echo "[Error] Creation of backup directory failed"
         exit 1
     }
-    cp -rf /config/* "${BACKUP_LOCATION}" && rm -rf /config/{,.[!.],..?}* || {
+    cp -rf /config "${BACKUP_LOCATION}" || {
         echo "[Error] Backup failed"
     }
 
@@ -65,7 +65,7 @@ function git-synchronize() {
         echo "[Info] Start git fetch..."
         git fetch "$GIT_REMOTE" || {
             echo "[Error] Git fetch failed"
-            return 1
+            exit 1
         }
 
         # Prune if configured
@@ -73,7 +73,7 @@ function git-synchronize() {
             echo "[Info] Start git prune..."
             git prune || {
                 echo "[Error] Git prune failed"
-                return 1
+                exit 1
             }
         fi
 
@@ -93,7 +93,7 @@ function git-synchronize() {
         echo "[Info] Start git reset to $GIT_REMOTE on branch $GIT_BRANCH..."
         git reset --hard "$GIT_REMOTE/$GIT_BRANCH" || {
             echo "[Error] Git reset --hard in /home-automation failed"
-            return 1
+            exit 1
         }
         # else
         #     echo "[Error] git origin does not match $REPOSITORY!"
@@ -108,15 +108,18 @@ function git-synchronize() {
 
 function validate-config() {
     echo "[Info] Checking if something has changed..."
+    cd /new-config
     # Compare commit ids & check config
     NEW_COMMIT=$(git rev-parse HEAD)
     if [ "$NEW_COMMIT" != "$OLD_COMMIT" ]; then
         echo "[Info] Something has changed, checking Home-Assistant config..."
         # if ha --no-progress core check; then
-        #     echo "Config validation was successful."
+        # echo "Config validation was successful."
+        echo "Syncing new configuration..."
+        /sync.sh "/new-config/$CHECKOUT_PATH"
         # else
-        #     echo "[Error] Configuration updated but it does not pass the config check. Do not restart until this is fixed!"
-        #     # TODO: rollback to previous commit???
+        # echo "[Error] Configuration updated but it does not pass the config check. Do not restart until this is fixed!"
+        # TODO: rollback to previous commit???
         # fi
     else
         echo "[Info] Nothing has changed."
@@ -126,17 +129,10 @@ function validate-config() {
 ###################
 
 #### Main program ####
-cd /new-config || {
-    echo "[Error] Failed to cd into /config"
-    exit 1
-}
 
 check-ssh-key
-if git-synchronize; then
-    cd "/new-config/$CHECKOUT_PATH"
-    echo "Validating config"
-    validate-config
-    /sync.sh "."
-fi
+git-synchronize
+echo "Validating config"
+validate-config
 
 ###################

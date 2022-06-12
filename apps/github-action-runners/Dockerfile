@@ -23,12 +23,18 @@ RUN sudo apt-get install -y \
   gnupg2 \
   jq \
   kubectl \
+  locales \
   lxc ca-certificates iptables \
   nodejs \
   python3-pip \
   python3.8 \
   software-properties-common \ 
-  yarn 
+  yarn
+RUN sudo sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen
+RUN sudo locale-gen
+ENV LANG en_US.UTF-8  
+ENV LANGUAGE en_US:en  
+ENV LC_ALL en_US.UTF-8 
 RUN pip3 install "pywinrm>=0.3.0"
 RUN export KUBECONFIG=/home/runner/.kube/config
 RUN mkdir -p /home/runner/.docker
@@ -46,7 +52,6 @@ RUN sudo mv linux-amd64/helm /usr/local/bin/helm
 RUN sudo chmod +x /usr/local/bin/helm
 ADD ./wrapdocker.sh /usr/local/bin/wrapdocker.sh
 RUN sudo chmod +x /usr/local/bin/wrapdocker.sh
-ENV DOCKER_DAEMON_ARGS "--insecure-registry docker-registry:5000"
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 RUN wget -c https://dl.google.com/go/go1.18.1.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
 RUN sudo ln -s /usr/local/go/bin/go /usr/local/bin
@@ -54,6 +59,6 @@ RUN go install github.com/google/go-jsonnet/cmd/jsonnet@latest
 RUN go install -a github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
 RUN sudo ln -s $(go env GOPATH)/bin/jsonnet /usr/local/bin
 RUN sudo ln -s  $(go env GOPATH)/bin/jb /usr/local/bin
-RUN curl -Os https://uploader.codecov.io/latest/linux/codecov
-RUN chmod +x codecov
+RUN sudo curl -Os https://uploader.codecov.io/latest/linux/codecov
+RUN sudo chmod +x codecov
 RUN sudo ln -s codecov /usr/local/bin

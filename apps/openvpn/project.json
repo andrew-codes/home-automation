@@ -1,0 +1,30 @@
+{
+  "root": "apps/openvpn",
+  "sourceRoot": "apps/openvpn",
+  "projectType": "application",
+  "targets": {
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/openvpn",
+        "command": "rm -rf .secrets"
+      }
+    },
+    "deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/openvpn",
+        "module": "scripts/deploy.ts"
+      }
+    },
+    "dependsOn": [
+      { "target": "clean", "projects": "self" },
+      {
+        "target": "deploy",
+        "projects": "dependencies"
+      }
+    ]
+  },
+  "tags": [],
+  "implicitDependencies": ["secrets"]
+}

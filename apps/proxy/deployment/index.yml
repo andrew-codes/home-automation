@@ -22,6 +22,7 @@
           - net-tools
           - gnupg
           - curl
+          - qemu-guest-agent
         state: present
 
     - name: Setup apt key
@@ -93,7 +94,7 @@
 
     - name: Copy nginx domain configuration
       copy:
-        src: ../src/nginx/
+        src: ../dist/nginx/
         dest: /etc/nginx/
         owner: root
         group: root

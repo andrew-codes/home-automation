@@ -8,7 +8,13 @@
       "options": {
         "cwd": "apps/metrics",
         "command": "./scripts/bin/deploy.sh"
-      }
+      },
+      "dependsOn": [
+        {
+          "target": "deploy",
+          "projects": "dependencies"
+        }
+      ]
     }
   },
   "tags": [],

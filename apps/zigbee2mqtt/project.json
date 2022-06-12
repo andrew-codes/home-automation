@@ -1,9 +1,0 @@
-{
-  "root": "apps/zigbee2mqtt",
-  "sourceRoot": "apps/zigbee2mqtt",
-  "projectType": "application",
-  "targets": {
-  },
-  "tags": [],
-  "implicitDependencies": ["mqtt"]
-}

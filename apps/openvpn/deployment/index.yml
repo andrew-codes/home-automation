@@ -1,0 +1,93 @@
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+
+  tasks:
+    - name: Update apt
+      become_user: root
+      become_method: sudo
+      become: yes
+      shell: apt-get update --allow-releaseinfo-change
+
+    - name: Installing prerequisites
+      apt:
+        name:
+          - ca-certificates
+          - net-tools
+          - gnupg
+          - curl
+          - qemu-guest-agent
+        state: present
+
+    - name: Copy installation file
+      ansible.builtin.copy:
+        src: ../src/openvpn-install.sh
+        dest: /openvpn-install.sh
+        mode: "0770"
+
+    - name: Copy installation file
+      ansible.builtin.copy:
+        src: ../src/install.sh
+        dest: /install.sh
+        mode: "0770"
+
+    - name: Copy setup users file
+      ansible.builtin.copy:
+        src: ../src/setup-users.sh
+        dest: /setup-users.sh
+        mode: "0770"
+
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: /.secrets
+        state: directory
+
+    - name: Copy users.env file
+      ansible.builtin.copy:
+        src: ../.secrets/users.env
+        dest: /.secrets/users.env
+
+    - name: dev/net/tun
+      shell: mknod --mode 777 /dev/net/tun c 10 200 || true
+
+    - name: chown /dev/net/tun
+      ansible.builtin.shell: chown 100000:100000 /dev/net/tun || true
+      become_user: root
+      become_method: sudo
+      become: yes
+
+    - name: Run installation script
+      ansible.builtin.shell: /install.sh
+      become_user: root
+      become_method: sudo
+      become: yes
+      args:
+        creates: /install.log
+
+    - name: Create users
+      ansible.builtin.shell: /setup-users.sh
+      become: yes
+      become_user: root
+      become_method: sudo
+
+    - shell: (cd /root; find . -name "*.ovpn" -maxdepth 1 -type f) | cut -d'/' -f2
+      register: files_to_copy
+
+    - name: Fetch ovpn files
+      with_items: "{{ files_to_copy.stdout_lines }}"
+      ansible.builtin.fetch:
+        src: /root/{{ item }}
+        dest: ../.secrets/
+        flat: yes
+
+    - name: Setup iptables
+      shell: >
+        iptables -I FORWARD -i tun0 -o eth0 -s 10.8.0.0/24 -m conntrack --ctstate NEW -j ACCEPT;
+        iptables -I FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT;
+        iptables -t nat -I POSTROUTING -o eth0 -s 10.8.0.0/24 -j MASQUERADE;
+        echo "net.ipv4.ip_forward=1
+        net.ipv6.conf.all.forwarding=1" > /etc/sysctl.conf;

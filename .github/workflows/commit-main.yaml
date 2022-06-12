@@ -32,16 +32,26 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install deps
         run: yarn
+        env:
+          AZURE_KEY_VAULT_NAME: ${{ secrets.AZURE_KEY_VAULT_NAME }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
       - name: Build executors
-        run: yarn nx run nx-executors:compile
+        run: yarn prepare
       - name: Run all tests
         run: yarn test/all
       - name: Coverage
         if: always()
         run: yarn test/coverage/all
       - name: Deploy affected apps
-        run: yarn deploy/affected --base HEAD~ --head HEAD
+        run: yarn deploy/affected --base HEAD~ --head HEAD --verbose
         env:
+          AZURE_KEY_VAULT_NAME: ${{ secrets.AZURE_KEY_VAULT_NAME }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+
           AZURE_SERVICE_PRINCIPAL_APP_ID: "${{ secrets.AZURE_SERVICE_PRINCIPAL_APP_ID }}"
           AZURE_SERVICE_PRINCIPAL_PASSWORD: "${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}"
           AZURE_SERVICE_PRINCIPAL_TENANT: "${{ secrets.AZURE_SERVICE_PRINCIPAL_TENANT }}"
@@ -50,7 +60,6 @@ jobs:
           GAMING_ROOM_GAMING_PC_MAC: "${{ secrets.GAMING_ROOM_GAMING_PC_MAC }}"
           GAMING_ROOM_GAMING_PC_USERNAME: "${{ secrets.GAMING_ROOM_GAMING_PC_USERNAME }}"
           MACHINE_PASSWORD: "${{ secrets.MACHINE_PASSWORD }}"
-          MQTT_CONNECTION: ${{ secrets.MQTT_CONNECTION }}
           NODE_ENV: production
       - name: Remove disk pressure taint
         run: ./scripts/bin/remove-evicted-pods.sh || true

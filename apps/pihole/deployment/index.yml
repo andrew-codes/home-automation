@@ -19,6 +19,7 @@
       apt:
         name:
           - curl
+          - qemu-guest-agent
         state: present
 
     # - name: Install pihole

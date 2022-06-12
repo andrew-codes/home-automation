@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "@ha/kubectl",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "dependencies": {
+    "shelljs": "^0.8.4"
+  },
+  "devDependencies": {
+    "@ha/cli-utils": "^0.0.1",
+    "@ha/shell-utils": "^0.0.1"
+  }
+}

@@ -58,7 +58,7 @@ describe("external services dns updater", () => {
       },
     })
 
-    process.env.SUB_DOMAINS = "sub1,sub2"
+    process.env["EXTERNAL_SERVICES_DNS_UPDATER_SUB_DOMAINS"] = "sub1,sub2"
     await run()
 
     await messageHandler(

@@ -1,0 +1,31 @@
+{
+  "root": "packages/docker",
+  "sourceRoot": "packages/docker/src",
+  "projectType": "library",
+  "targets": {
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [".test-runs/unit"],
+      "options": {
+        "command": "rm -rf dist .test-runs",
+        "cwd": "packages/docker"
+      }
+    },
+    "test": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [".test-runs/unit"],
+      "options": {
+        "command": "jest",
+        "cwd": "packages/docker"
+      }
+    },
+    "code-coverage": {
+      "executor": "@ha/nx-executors:upload-codecov",
+      "options": {
+        "coverageFilePath": "packages/docker/.test-runs/unit/lcov.info"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

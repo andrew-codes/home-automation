@@ -8,7 +8,13 @@
       "options": {
         "cwd": "apps/azure-key-vault",
         "command": "./scripts/bin/deploy.sh"
-      }
+      },
+      "dependsOn": [
+        {
+          "target": "deploy",
+          "projects": "dependencies"
+        }
+      ]
     }
   },
   "tags": [],

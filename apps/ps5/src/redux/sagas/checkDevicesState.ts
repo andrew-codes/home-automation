@@ -12,7 +12,9 @@ function* checkDevicesState() {
   const devices: Device[] = yield select(getDevices)
   const stateMappings = yield select(getStateMappings)
   for (const device of devices) {
-    const shellOutput = sh.exec(`playactor check --host-name ${device.name}`)
+    const shellOutput = sh.exec(`playactor check --host-name ${device.name};`, {
+      silent: true,
+    })
     try {
       const updatedDevice = JSON.parse(shellOutput.stdout)
       if (
@@ -23,14 +25,16 @@ function* checkDevicesState() {
           "Device is transitioning",
           device.transitioning,
           device.homeAssistantState,
-          updatedDevice.status
+          updatedDevice.status,
         )
         break
       }
 
       debug("Update HA")
       yield put(
-        updateHomeAssistant(merge({}, device, { status: updatedDevice.status }))
+        updateHomeAssistant(
+          merge({}, device, { status: updatedDevice.status }),
+        ),
       )
     } catch (e) {
       debug(e)

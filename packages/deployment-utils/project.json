@@ -1,0 +1,8 @@
+{
+  "root": "packages/deployment-utils",
+  "sourceRoot": "packages/deployment-utils/src",
+  "projectType": "library",
+  "targets": {},
+  "tags": [],
+  "implicitDependencies": []
+}

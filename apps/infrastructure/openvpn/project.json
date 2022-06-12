@@ -1,0 +1,29 @@
+{
+  "root": "apps/infrastructure/openvpn",
+  "sourceRoot": "apps/infrastructure/openvpn",
+  "projectType": "application",
+  "targets": {
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [
+        ".terraform",
+        ".terraform.lock.hcl",
+        ".terraform.tfstate.lock.info",
+        "terraform.tfstate"
+      ],
+      "options": {
+        "command": "rm -rf .terraform .terraform.lock.hcl .terraform.tfstate.lock.info terraform.tfstate",
+        "cwd": "apps/infrastructure/openvpn"
+      }
+    },
+    "provision": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "module": "scripts/provision.ts",
+        "cwd": "apps/infrastructure/openvpn"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

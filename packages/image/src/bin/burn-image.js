@@ -10,7 +10,7 @@ console.log(`Using path image file: ${imageFile}`)
 async function run() {
   try {
     await burnImage(mediaPath, imageFile)
-    sh.exec(`hdiutil eject ${mediaPath}`)
+    sh.exec(`hdiutil eject ${mediaPath};`, { silent: true })
   } catch (e) {
     console.log(e)
   }

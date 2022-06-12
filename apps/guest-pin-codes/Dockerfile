@@ -1,4 +1,4 @@
-FROM node:16.15.0-alpine
+FROM node:16.15.1-alpine
 ENV NODE_ENV production
 
 RUN apk update

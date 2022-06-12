@@ -28,8 +28,8 @@ sensor:
   - platform: influxdb
     api_version: 2
     ssl: false
-    host: 192.168.1.18
-    port: 30520
+    host: influxdb
+    port: 8086
     organization: smith-simms
     bucket: home-automation
     token: !secret INFLUXDB_TOKEN

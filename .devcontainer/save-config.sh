@@ -23,11 +23,18 @@ fi
 if [ ! -z "${ID_RSA}" ]; then
     mkdir -p ~/.ssh
     echo -e "${ID_RSA}" >~/.ssh/id_rsa
+    chmod 600 ~/.ssh/id_rsa
+fi
+
+if [ ! -z "${PROXMOX_ID_RSA}" ]; then
+    mkdir -p ~/.ssh
+    echo -e "${PROXMOX_ID_RSA}" >~/.ssh/proxmox
+    chmod 600 ~/.ssh/proxmox
 fi
 
 # Save the configuration from the secret if it is present
-if [ ! -z "${SMITH_SIMMS_VPN_CREDS}" ]; then
-    echo -e "${SMITH_SIMMS_VPN_CREDS}" >vpn.creds
+if [ ! -z "${VPN_CREDS}" ]; then
+    echo -e "${VPN_CREDS}" >vpn.creds
 fi
 
 # Save the configuration from the secret if it is present

@@ -20,27 +20,24 @@
       }
     },
     "deploy": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/ps5",
-        "command": "./scripts/bin/deploy.sh"
+        "module": "scripts/deploy.ts"
       },
       "dependsOn": [
         {
           "target": "image/push",
           "projects": "self"
+        },
+        {
+          "target": "deploy",
+          "projects": "dependencies"
         }
       ]
     },
-    "initialize-secrets": {
-      "executor": "@ha/nx-executors:initialize-secrets",
-      "options": {
-        "keyVaultName": "kv-home-automation",
-        "secrets": ["ps5-CREDENTIALS", "ps5-PS5-NAMES"]
-      }
-    },
     "image/push": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "@ha/nx-executors:invoke",
       "dependsOn": [
         {
           "target": "compile",
@@ -48,7 +45,7 @@
         }
       ],
       "options": {
-        "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/ps5:latest\" --context dir:///workspace/ --insecure --cache=true",
+        "module": "scripts/image-push.ts",
         "cwd": "apps/ps5"
       }
     },

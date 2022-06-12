@@ -16,7 +16,7 @@ const validateOS = (targetPlatform) => {
 }
 
 const validateRootUser = () => {
-  if (sh.exec('echo "$EUID"').stdout.trimEnd("\n") !== "0") {
+  if (sh.exec('echo "$EUID";', { silent: true }).stdout.trimEnd("\n") !== "0") {
     throw new Error("Must run as root user.")
   }
 }

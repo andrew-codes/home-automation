@@ -13,13 +13,18 @@ function* turnOffDevice(action: ApplyToDeviceAction) {
   }
 
   yield put(
-    setTransitioning(merge({}, action.payload.device, { transitioning: true }))
+    setTransitioning(merge({}, action.payload.device, { transitioning: true })),
   )
   yield put(
-    updateHomeAssistant(merge({}, action.payload.device, { status: "STANDBY" }))
+    updateHomeAssistant(
+      merge({}, action.payload.device, { status: "STANDBY" }),
+    ),
   )
   debug(
-    sh.exec(`playactor standby --ip ${action.payload.device.address.address}`)
+    sh.exec(
+      `playactor standby --ip ${action.payload.device.address.address};`,
+      { silent: true },
+    ),
   )
 }
 

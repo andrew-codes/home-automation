@@ -4,24 +4,23 @@
   "projectType": "application",
   "targets": {
     "deploy": {
-      "executor": "@ha/nx-executors:run-with-az",
+      "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/pihole",
-        "command": "./scripts/bin/deploy.sh"
-      }
+        "module": "scripts/deploy.ts"
+      },
+      "dependsOn": [
+        {
+          "target": "deploy",
+          "projects": "dependencies"
+        }
+      ]
     },
     "update": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/pihole",
-        "command": "./scripts/bin/update.sh"
-      }
-    },
-    "initialize-secrets": {
-      "executor": "@ha/nx-executors:initialize-secrets",
-      "options": {
-        "keyVaultName": "kv-home-automation",
-        "secrets": ["pihole-PASSWORD"]
+        "module": "scripts/update.ts"
       }
     }
   },

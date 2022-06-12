@@ -1,0 +1,7 @@
+{
+  "name": "@ha/docker-registry-creds",
+  "version": "0.0.1",
+  "devDependencies": {
+    "@ha/shell-utils": "^0.0.1"
+  }
+}

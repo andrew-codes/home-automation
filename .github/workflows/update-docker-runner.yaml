@@ -11,7 +11,16 @@ jobs:
         uses: actions/checkout@v2
       - name: Docker system prune
         run: docker system prune -f
+      - name: Install deps
+        run: yarn
+        env:
+          AZURE_KEY_VAULT_NAME: ${{ secrets.AZURE_KEY_VAULT_NAME }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
       - name: Build/push docker image
         run: yarn image/push github-action-runner-amd64
       - name: Purge registry of old images
-        run: docker run --rm anoxis/registry-cli -r "http://docker-registry:5000" --delete --num 5
+        run: docker run --rm anoxis/registry-cli -r "$REGISTRY" --delete --num 5
+        env:
+          REGISTRY: ${{ secrets.REGISTRY }}

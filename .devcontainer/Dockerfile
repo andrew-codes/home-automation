@@ -84,3 +84,4 @@ RUN go install github.com/google/go-jsonnet/cmd/jsonnet@latest
 RUN go install -a github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
 RUN ln -s $(go env GOPATH)/bin/jsonnet /usr/local/bin
 RUN ln -s  $(go env GOPATH)/bin/jb /usr/local/bin
+RUN yarn global add jest

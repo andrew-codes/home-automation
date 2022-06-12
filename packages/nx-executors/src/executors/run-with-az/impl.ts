@@ -1,7 +1,7 @@
 import type { ExecutorContext } from "@nrwl/devkit"
 import { exec } from "child_process"
 import { promisify } from "util"
-import throwIfError from "../throwIfProcessError"
+import { throwIfError } from "@ha/shell-utils"
 
 interface RunWithAzExecutorOptions {
   command: string
@@ -24,9 +24,7 @@ ${command}`
       exitCode = code
     })
     const connectChildProcess = await processPromise
-    if (exitCode !== 0) {
-      throwIfError(connectChildProcess)
-    }
+    throwIfError({ ...connectChildProcess, code: exitCode })
   } catch (error) {
     console.log(error)
     return { success: false }

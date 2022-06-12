@@ -1,0 +1,31 @@
+{
+  "root": "packages/configuration-env-secrets",
+  "sourceRoot": "packages/configuration-env-secrets/src",
+  "projectType": "library",
+  "targets": {
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [".test-runs/unit"],
+      "options": {
+        "command": "rm -rf dist .test-runs",
+        "cwd": "packages/configuration-env-secrets"
+      }
+    },
+    "test": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [".test-runs/unit"],
+      "options": {
+        "command": "jest",
+        "cwd": "packages/configuration-env-secrets"
+      }
+    },
+    "code-coverage": {
+      "executor": "@ha/nx-executors:upload-codecov",
+      "options": {
+        "coverageFilePath": "packages/configuration-env-secrets/.test-runs/unit/lcov.info"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

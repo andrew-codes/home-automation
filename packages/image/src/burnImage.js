@@ -12,10 +12,10 @@ const image = async (mediaPath, isoPath) => {
   await validateMediaPath(mediaPath)
   await validateIsoPath(isoPath)
 
-  sh.exec(`diskutil eraseDisk FAT32 INSTALL ${mediaPath}`)
-  sh.exec(`diskutil unmountDisk ${mediaPath}`)
-  sh.exec(`dd if=${isoPath} of=${mediaPath}`)
-  sh.exec(`diskutil eject ${mediaPath}`)
+  sh.exec(`diskutil eraseDisk FAT32 INSTALL ${mediaPath};`, { silent: true })
+  sh.exec(`diskutil unmountDisk ${mediaPath};`, { silent: true })
+  sh.exec(`dd if=${isoPath} of=${mediaPath};`, { silent: true })
+  sh.exec(`diskutil eject ${mediaPath};`, { silent: true })
 }
 
 module.exports = image

@@ -20,34 +20,24 @@
       }
     },
     "deploy": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/guest-pin-codes",
-        "command": "./scripts/bin/deploy.sh"
+        "module": "scripts/deploy.ts"
       },
       "dependsOn": [
         {
           "target": "image/push",
           "projects": "self"
+        },
+        {
+          "target": "deploy",
+          "projects": "dependencies"
         }
       ]
     },
-    "initialize-secrets": {
-      "executor": "@ha/nx-executors:initialize-secrets",
-      "options": {
-        "keyVaultName": "kv-home-automation",
-        "secrets": [
-          "guest-pin-codes-GOOGLE-CALENDAR-ID",
-          "guest-pin-codes-GOOGLE-PRIVATE-KEY",
-          "guest-pin-codes-DOOR-LOCKS",
-          "guest-pin-codes-GUEST-LOCK-CODE-EXCLUSIONS",
-          "guest-pin-codes-GUEST-CODE-INDEX-OFFSET",
-          "guest-pin-codes-NUMBER-OF-GUEST-CODES"
-        ]
-      }
-    },
     "image/push": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "@ha/nx-executors:invoke",
       "dependsOn": [
         {
           "target": "compile",
@@ -55,7 +45,7 @@
         }
       ],
       "options": {
-        "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/guest-pin-codes:latest\" --context dir:///workspace/ --insecure --cache=true",
+        "module": "scripts/image-push.ts",
         "cwd": "apps/guest-pin-codes"
       }
     },

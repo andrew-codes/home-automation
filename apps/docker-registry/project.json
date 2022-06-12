@@ -4,23 +4,17 @@
   "projectType": "application",
   "targets": {
     "deploy": {
-      "executor": "@ha/nx-executors:run-with-az",
+      "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/docker-registry",
-        "command": "./scripts/bin/deploy.sh"
-      }
-    },
-    "initialize-secrets": {
-      "executor": "@ha/nx-executors:initialize-secrets",
-      "options": {
-        "keyVaultName": "kv-home-automation",
-        "secrets": [
-          "docker-registry-USERNAME",
-          "docker-registry-PASSWORD",
-          "docker-registry-EMAIL",
-          "docker-registry-MACHINE-PASSWORD"
-        ]
-      }
+        "module": "scripts/deploy.ts"
+      },
+      "dependsOn": [
+        {
+          "target": "deploy",
+          "projects": "dependencies"
+        }
+      ]
     }
   },
   "tags": [],

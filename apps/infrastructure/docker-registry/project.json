@@ -1,0 +1,29 @@
+{
+  "root": "apps/infrastructure/docker-registry",
+  "sourceRoot": "apps/infrastructure/docker-registry",
+  "projectType": "application",
+  "targets": {
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [
+        ".terraform",
+        ".terraform.lock.hcl",
+        ".terraform.tfstate.lock.info",
+        "terraform.tfstate"
+      ],
+      "options": {
+        "command": "rm -rf .terraform .terraform.lock.hcl .terraform.tfstate.lock.info terraform.tfstate",
+        "cwd": "apps/infrastructure/docker-registry"
+      }
+    },
+    "provision": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "module": "scripts/provision.ts",
+        "cwd": "apps/infrastructure/docker-registry"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["infrastructure-debian-cloudinit"]
+}

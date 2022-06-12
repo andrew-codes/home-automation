@@ -4,24 +4,23 @@
   "projectType": "application",
   "targets": {
     "deploy": {
-      "executor": "@ha/nx-executors:run-with-az",
+      "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/mqtt",
-        "command": "./scripts/bin/deploy.sh"
+        "module": "scripts/deploy.ts"
       },
-      "dependsOn": [{ "target": "image/push", "projects": "self" }]
-    },
-    "initialize-secrets": {
-      "executor": "@ha/nx-executors:initialize-secrets",
-      "options": {
-        "keyVaultName": "kv-home-automation",
-        "secrets": ["mqtt-USERNAME", "mqtt-PASSWORD"]
-      }
+      "dependsOn": [
+        { "target": "image/push", "projects": "self" },
+        {
+          "target": "deploy",
+          "projects": "dependencies"
+        }
+      ]
     },
     "image/push": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "@ha/nx-executors:invoke",
       "options": {
-        "command": "docker run -v $PWD:/workspace gcr.io/kaniko-project/executor:latest --dockerfile /workspace/Dockerfile --destination \"docker-registry:5000/mqtt-client:latest\" --context dir:///workspace/ --insecure --cache=true",
+        "module": "scripts/image-push.ts",
         "cwd": "apps/mqtt"
       }
     }

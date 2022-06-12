@@ -468,7 +468,7 @@ local grafana = import 'grafana/grafana.libsonnet';
           },
           {
             datasource: '$datasource',
-            description: "Memory in use by Host OS, VM's and Containers",
+            description: 'Memory in use by Host OS, VM and Containers',
             fieldConfig: {
               defaults: {
                 color: {

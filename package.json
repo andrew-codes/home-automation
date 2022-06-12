@@ -6,8 +6,7 @@
   "author": "Andrew Smith <andrew@andrew.codes>",
   "license": "MIT",
   "engines": {
-    "node": ">=16.15.0",
-    "yarn": ">=1.22.4"
+    "node": ">=16.15.1"
   },
   "scripts": {
     "burn-image": "./scripts/bin/burn-image.sh",
@@ -21,10 +20,11 @@
     "deploy": "nx run-many --target deploy --parallel --projects",
     "deploy/affected": "nx affected --target deploy --parallel",
     "deploy/all": "nx run-many --target deploy --parallel --all",
-    "initialize-secrets/all": "nx run-many --target initialize-secrets --parallel --all",
+    "initialize-secrets": "nx run-many --target initialize-secrets --parallel --all",
     "patch": "patch-package",
-    "postinstall": "yarn patch && nx run nx-executors:compile && jb install",
-    "provision": "./scripts/bin/provision.sh",
+    "postinstall": "yarn patch && nx run nx-executors:compile --skip-nx-cache && jb install",
+    "prepare": "nx run-many --target compile --projects nx-executors,secrets",
+    "provision": "nx run-many --target provision --projects",
     "serve": "nx run-many --target serve --parallel --projects",
     "start/dev": "nx run-many --target start/dev --parallel --projects",
     "prestop": "./scripts/bin/stop.sh",

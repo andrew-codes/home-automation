@@ -60,17 +60,27 @@ test("invalid image path throws an exception", async () => {
 test("erases disk and formats to FAT32 at provided mediaPath", async () => {
   await sut("/found", "/ubuntu-server.iso")
   expect(sh.exec.mock.calls[0]).toEqual([
-    "diskutil eraseDisk FAT32 INSTALL /found",
+    "diskutil eraseDisk FAT32 INSTALL /found;",
+    { silent: true },
   ])
 })
 
 test("burns provided image to the drive at mediaPath", async () => {
   await sut("/found", "/ubuntu-server.iso")
-  expect(sh.exec.mock.calls[1]).toEqual(["diskutil unmountDisk /found"])
-  expect(sh.exec.mock.calls[2]).toEqual(["dd if=/ubuntu-server.iso of=/found"])
+  expect(sh.exec.mock.calls[1]).toEqual([
+    "diskutil unmountDisk /found;",
+    { silent: true },
+  ])
+  expect(sh.exec.mock.calls[2]).toEqual([
+    "dd if=/ubuntu-server.iso of=/found;",
+    { silent: true },
+  ])
 })
 
 test("ejects drive when complete", async () => {
   await sut("/found", "/ubuntu-server.iso")
-  expect(sh.exec.mock.calls[3]).toEqual(["diskutil eject /found"])
+  expect(sh.exec.mock.calls[3]).toEqual([
+    "diskutil eject /found;",
+    { silent: true },
+  ])
 })
