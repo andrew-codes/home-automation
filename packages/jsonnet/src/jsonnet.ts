@@ -9,7 +9,6 @@ const jsonnet = {
   ): Promise<string> => {
     const content = safeCliStringWithDoubleQuotes(jsonnetContent)
     const variablesContent = variablesToCLIString(variables)
-
     let command = `jsonnet -J ${path.join(
       __dirname,
       "..",
@@ -40,7 +39,7 @@ const variablesToCLIString = (
       if (typeof value === "number") {
         v = value
       } else {
-        v = `\\"\$(echo -n ${safeCliString(JSON.stringify(value))})\\"`
+        v = `\$(echo -n ${safeCliString(JSON.stringify(value))})`
       }
       return `--ext-str "${key}=${v}"`
     })
