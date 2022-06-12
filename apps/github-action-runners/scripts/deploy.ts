@@ -33,6 +33,10 @@ const run = async (
       `kubectl create secret generic controller-manager --namespace=actions-runner-system --from-literal=github_token="${githubToken}" || true;`,
     ),
   )
+
+  sh.exec(
+    `kubectl apply -f https://github.com/actions-runner-controller/actions-runner-controller/releases/download/v0.20.2/actions-runner-controller.yaml`,
+  )
   const seal = createSeal(githubToken)
   const mqttPassword = await configurationApi.get("mqtt/password")
   const mqttUsername = await configurationApi.get("mqtt/username")
@@ -68,6 +72,7 @@ const run = async (
 
   const resourceJson = JSON.parse(resources)
   Object.values(resourceJson).forEach((resource) => {
+    console.log(JSON.stringify(resource))
     kubectl.applyToCluster(JSON.stringify(resource))
   })
 
