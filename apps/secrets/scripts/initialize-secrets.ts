@@ -5,20 +5,23 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   const secretNames = configurationApi.getNames()
-  let secretsSetFromTemplate: { name: keyof Configuration; value: string }[]
+  let secretsSetFromTemplate: {
+    default: { default: { name: keyof Configuration; value: string }[] }
+  }
 
   try {
     secretsSetFromTemplate = (await import(
       "../.secrets/template.secrets.js"
-    )) as unknown as { name: keyof Configuration; value: string }[]
+    )) as unknown as {
+      default: { default: { name: keyof Configuration; value: string }[] }
+    }
   } catch (error) {
     throw new Error(
       "'../.secrets/template.secrets' file not found. Please run `yarn nx run secrets:template` first.",
     )
   }
-
   const allSecretsSet = secretNames.every((secretName) =>
-    secretsSetFromTemplate.some(
+    secretsSetFromTemplate.default.default.some(
       ({ name, value }) => secretName === name && !!value,
     ),
   )
@@ -29,7 +32,7 @@ const run = async (
   }
 
   await Promise.all(
-    secretsSetFromTemplate.map(({ name, value }) =>
+    secretsSetFromTemplate.default.default.map(({ name, value }) =>
       configurationApi.set(name, value.replace(/\n/g, "\\n")),
     ),
   )
