@@ -22,7 +22,7 @@
     "deploy/all": "nx run-many --target deploy --parallel --all",
     "initialize-secrets": "nx run-many --target initialize-secrets --parallel --all",
     "patch": "patch-package",
-    "postinstall": "yarn patch && nx run nx-executors:compile && jb install",
+    "postinstall": "yarn patch && nx run nx-executors:compile --skip-nx-cache && jb install",
     "prepare": "nx run-many --target compile --projects nx-executors,secrets",
     "provision": "nx run-many --target provision --projects",
     "serve": "nx run-many --target serve --parallel --projects",

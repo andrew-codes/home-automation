@@ -18,14 +18,18 @@ const configurationApi: ConfigurationApi<Configuration> = {
     const { parsed } = config({
       path: path.join(__dirname, "..", "..", "..", ".secrets.env"),
     })
-
-    return ({ ...process.env, ...parsed } as unknown as Configuration)[
+    const value = ({ ...process.env, ...parsed } as unknown as Configuration)[
       toEnvName(name)
     ]
+    if (!value) {
+      throw new Error(`Configuration value ${name} not found.`)
+    }
+
+    return value
   },
   getNames: () => configurationNames as ReadonlyArray<keyof Configuration>,
   set: async () => {},
 }
 
 export type { Configuration }
-export { configurationApi, toEnvName }
+export { configurationApi }

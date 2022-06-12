@@ -25,9 +25,12 @@ const run = async (
   )
 
   const githubToken = await configurationApi.get("github/token")
+  sh.exec(
+    `kubectl delete secret controller-manager --namespace=actions-runner-system`,
+  )
   throwIfError(
     sh.exec(
-      `kubectl create secret generic controller-manager --namespace=actions-runner-system --from-literal=github_token="${githubToken}" || true`,
+      `kubectl create secret generic controller-manager --namespace=actions-runner-system --from-literal=github_token="${githubToken}" || true;`,
     ),
   )
   const seal = createSeal(githubToken)
@@ -39,13 +42,18 @@ const run = async (
   const secrets: Array<keyof Configuration> = [
     "home-assistant/game-room/gaming-pc/mac",
     "k8s/machine/password",
-    "docker/registry/hostname"
+    "docker/registry/hostname",
   ]
-  const names: string[] = ["GAMING_ROOM_GAMING_PC_MAC", "MACHINE_PASSWORD", "DOCKER_REGISTRY_HOSTNAME"]
+  const names: string[] = [
+    "GAMING_ROOM_GAMING_PC_MAC",
+    "MACHINE_PASSWORD",
+    "DOCKER_REGISTRY_HOSTNAME",
+  ]
 
   await Promise.all(
     secrets.map(async (secretName, index) => {
       const secretValue = await configurationApi.get(secretName)
+
       return await seal(repo_owner, repo_name, names[index], secretValue)
     }),
   )
