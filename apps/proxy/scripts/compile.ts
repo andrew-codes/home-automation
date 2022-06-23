@@ -67,7 +67,7 @@ server {
 `)}
 
 server {
-  listen 80;
+  listen 80 443;
   return 444;
 }`
   await fs.writeFile(
