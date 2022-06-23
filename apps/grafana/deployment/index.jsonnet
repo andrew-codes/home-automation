@@ -42,7 +42,7 @@ local proxmox = import 'proxmox.jsonnet';
       name: 'InfluxDB',
       type: 'influxdb',
       access: 'server',
-      url: 'http://192.168.1.18:30520',
+      url: 'https://influxdb.smith-simms.family',
       orgId: 1,
       version: 1,
       editable: false,
