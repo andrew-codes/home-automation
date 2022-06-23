@@ -29,7 +29,7 @@ local proxmox = import 'proxmox.jsonnet';
     containerfsSelector: 'container!=""',
     namespace: 'default',
     version: '8.5.1',
-    image: 'grafana/grafana:8.5.1',
+    image: 'grafana/grafana:9.0.1',
     datasources: [{
       name: 'prometheus',
       type: 'prometheus',
