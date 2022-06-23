@@ -3,7 +3,7 @@ automation:
     id: doorbell_notification
     trigger:
       - platform: state
-        id: front_door
+        id: carport_door
         entity_id: binary_sensor.carport_doorbell_doorbell
         to: "on"
         from: "off"
