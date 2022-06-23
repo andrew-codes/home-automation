@@ -1,5 +1,5 @@
 camera:
   - platform: qrcode
     name: Guest WiFi
-    entity_id: sensor.smith_simms
+    entity_id: sensor.guest_wifi_smith_simms
     value_template: "WIFI:S:Smith-Simms;T:WPA/WPA2;P:{{ states('sensor.guest_wifi_smith_simms') }};;"
