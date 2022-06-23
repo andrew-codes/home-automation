@@ -19,8 +19,4 @@ jobs:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
       - name: Build/push docker image
-        run: yarn image/push github-action-runner-amd64
-      - name: Purge registry of old images
-        run: docker run --rm anoxis/registry-cli -r "$REGISTRY" --delete --num 5
-        env:
-          REGISTRY: ${{ secrets.REGISTRY }}
+        run: yarn image/push github-action-runners
