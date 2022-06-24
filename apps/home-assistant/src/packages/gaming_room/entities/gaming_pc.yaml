@@ -22,7 +22,14 @@ script:
           broadcast_address: !secret GAMING_ROOM_GAMING_PC_IP
   gaming_room_turn_off_gaming_pc:
     sequence:
-      - service: shell_command.turn_off_gaming_room_gaming_pc
+      - if:
+          - alias: Gaming PC is turned on
+            condition: state
+            entity_id: binary_sensor.gaming_room_gaming_pc_power_state
+            state: "on"
+        then:
+          - alias: Turn off gaming PC
+            service: shell_command.turn_off_gaming_room_gaming_pc
 
 shell_command:
   turn_off_gaming_room_gaming_pc: !secret TURN_OFF_GAMING_ROOM_GAMING_PC_COMMAND
