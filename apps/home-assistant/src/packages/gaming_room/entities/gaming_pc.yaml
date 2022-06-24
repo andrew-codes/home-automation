@@ -5,6 +5,7 @@ binary_sensor:
     platform: ping
     host: !secret GAMING_ROOM_GAMING_PC_IP
     scan_interval: 5
+    count: 1
 
 template:
   - binary_sensor:
