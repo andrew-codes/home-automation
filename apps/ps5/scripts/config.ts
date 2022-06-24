@@ -1,3 +1,4 @@
 const name = "ps5"
+const healthUrlPath = "/health"
 
-export { name }
+export { name, healthUrlPath }

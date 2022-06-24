@@ -8,9 +8,10 @@ import reducer, {
   pollDiscovery,
   saga,
 } from "./redux"
+import { createHeartbeat } from "@ha/http-heartbeat"
 import { createMqtt } from "@ha/mqtt-client"
-import { createMqttHeartbeat } from "@ha/mqtt-heartbeat"
 import { SwitchStatus } from "./redux/types"
+import { healthUrlPath } from "../scripts/config"
 
 const debug = createDebugger("@ha/ps5/index")
 const debugState = createDebugger("@ha/state")
@@ -18,7 +19,7 @@ const debugState = createDebugger("@ha/state")
 async function run() {
   debug("Started")
   try {
-    await createMqttHeartbeat("ps5-service")
+    await createHeartbeat(healthUrlPath)
 
     const sagaMiddleware = createSagaMiddleware()
     const store = createStore(reducer, applyMiddleware(sagaMiddleware))

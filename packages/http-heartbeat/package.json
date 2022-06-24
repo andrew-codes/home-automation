@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "@ha/http-heartbeat",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "jest-when": "^3.2.1"
+  }
+}
