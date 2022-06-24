@@ -3,13 +3,13 @@ template:
       - name: Bandwidth Usage Rx
         unique_id: bandwidth_usage_rx
         state: >
-          {{ (state_attr('sensor.unifi_gateway_www', 'rx_bytes-r') float(0) ) }}
+          {{ (state_attr('sensor.unifi_gateway_www', 'rx_bytes-r') | float(0) ) }}
         unit_of_measurement: "B"
 
       - name: Bandwidth Usage Tx
         unique_id: bandwidth_usage_tx
         state: >
-          {{ (state_attr('sensor.unifi_gateway_www', 'tx_bytes-r') float(0) ) }}
+          {{ (state_attr('sensor.unifi_gateway_www', 'tx_bytes-r') | float(0) ) }}
         unit_of_measurement: "B"
 
       - name: Total Bandwidth Usage
