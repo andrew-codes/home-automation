@@ -73,19 +73,12 @@ frontend:
 lovelace:
   mode: storage
 
-# google:
-#   client_id: !secret GOOGLE_CALENDAR_CLIENT_ID
-#   client_secret: !secret GOOGLE_CALENDAR_CLIENT_SECRET
-
 http:
   use_x_forwarded_for: true
   ip_ban_enabled: true
   trusted_proxies:
     - "10.0.0.0/8"
 
-spotify:
-  client_id: !secret SPOTIFY_CLIENT_ID
-  client_secret: !secret SPOTIFY_CLIENT_SECRET
 spotcast:
   sp_dc: !secret SPOTCAST_DC
   sp_key: !secret SPOTCAST_KEY
@@ -93,8 +86,3 @@ spotcast:
     secondary:
       sp_dc: !secret SPOTCAST_DC_2
       sp_key: !secret SPOTCAST_KEY_2
-
-withings:
-  client_id: !secret WITHINGS_CLIENT_ID
-  client_secret: !secret WITHINGS_CLIENT_SECRET
-  use_webhook: true
