@@ -29,10 +29,10 @@ jobs:
       - name: Install deps
         run: yarn
         env:
-          AZURE_KEY_VAULT_NAME: ${{ secrets.AZURE_KEY_VAULT_NAME }}
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_KEY_VAULT_NAME: ${{ secrets.AZURE_KEY_VAULT_NAME }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       - name: Build executors
         run: yarn prepare
       - name: Run all tests
@@ -43,19 +43,10 @@ jobs:
       - name: Deploy all apps
         run: yarn deploy/all --exclude docker-registry --exclude k8s --exclude openvpn --exclude pihole --exclude azure-key-vault --verbose
         env:
-          AZURE_KEY_VAULT_NAME: ${{ secrets.AZURE_KEY_VAULT_NAME }}
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-
-          AZURE_SERVICE_PRINCIPAL_APP_ID: "${{ secrets.AZURE_SERVICE_PRINCIPAL_APP_ID }}"
-          AZURE_SERVICE_PRINCIPAL_PASSWORD: "${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}"
-          AZURE_SERVICE_PRINCIPAL_TENANT: "${{ secrets.AZURE_SERVICE_PRINCIPAL_TENANT }}"
-          AZURE_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
-          DOCKER_BUILDKIT: 1
-          GAMING_ROOM_GAMING_PC_MAC: "${{ secrets.GAMING_ROOM_GAMING_PC_MAC }}"
-          GAMING_ROOM_GAMING_PC_USERNAME: "${{ secrets.GAMING_ROOM_GAMING_PC_USERNAME }}"
-          MACHINE_PASSWORD: "${{ secrets.MACHINE_PASSWORD }}"
+          AZURE_KEY_VAULT_NAME: ${{ secrets.AZURE_KEY_VAULT_NAME }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           NODE_ENV: production
       - name: Remove disk pressure taint
         run: ./scripts/bin/remove-evicted-pods.sh || true
