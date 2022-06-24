@@ -75,5 +75,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["home-assistant", "mqtt", "secrets"]
+  "implicitDependencies": ["mqtt", "secrets"]
 }
