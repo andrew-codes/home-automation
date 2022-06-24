@@ -12,19 +12,19 @@ template:
       - name: Guest bathroom sink 1
         device_class: battery
         state: >
-          {{ states("sensor.guest_bathroom_sink_1_power") != "Unknown" and (states("sensor.guest_bathroom_sink_1_power") | int) <= 20 }}
+          {{ (states("sensor.guest_bathroom_sink_1_power") | default(100) | int) <= 20 }}
 
       - name: Front door deadbolt
         device_class: battery
         state: >
-          {{ states("sensor.front_door_deadbolt_battery_level") != "Unknown" and (states("sensor.front_door_deadbolt_battery_level") | int) <= 20 }}
+          {{ (states("sensor.front_door_deadbolt_battery_level") | default(100) | int) <= 20 }}
 
       - name: Guest bathroom sink 2
         device_class: battery
         state: >
-          {{ states("sensor.guest_bathroom_sink_2_power") != "Unknown" and (states("sensor.guest_bathroom_sink_2_power") | int) <= 20 }}
+          {{ (states("sensor.guest_bathroom_sink_2_power") | default(100) | int) <= 20 }}
 
       - name: Office bathroom sink
         device_class: battery
         state: >
-          {{ states("sensor.office_bathroom_sink_power") != "Unknown" and (states("sensor.office_bathroom_sink_power") | int) <= 20 }}
+          {{ (states("sensor.office_bathroom_sink_power") | default(100) | int) <= 20 }}
