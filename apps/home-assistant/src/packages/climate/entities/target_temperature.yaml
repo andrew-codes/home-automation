@@ -91,9 +91,9 @@ sensor:
       season:
         friendly_name: Hot or cold season
         value_template: >
-          {% if ((states("sensor.openweathermap_forecast_temperature") | int(70)) <= 40 %}
+          {% if ((states("sensor.openweathermap_forecast_temperature") | int(70)) <= 40) %}
             cold
-          {% elif ((states("sensor.openweathermap_forecast_temperature") | int(70)) > 55 %}
+          {% elif ((states("sensor.openweathermap_forecast_temperature") | int(70)) > 55) %}
             hot
           {% else %}
             {{ states('sensor.season') }}
