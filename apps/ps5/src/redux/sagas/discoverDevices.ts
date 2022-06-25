@@ -1,9 +1,11 @@
+import createDebugger from "debug"
 import { call, put } from "redux-saga/effects"
 import { Discovery } from "playactor/dist/discovery"
-import { toEntityId } from "@ha/ha-entity-utils"
-import { merge } from "lodash"
+import { lowerCase, merge } from "lodash"
 import type { DiscoverDevicesAction } from "../types"
 import { registerDeviceWithHomeAssistant } from "../actionCreators"
+
+const debug = createDebugger("@ha/ps5/discoverDevices")
 
 const useAsyncIterableWithSaga =
   (fn, ...args) =>
@@ -35,9 +37,12 @@ function* discoverDevices(action: DiscoverDevicesAction) {
     ),
   )
   for (const device of devices) {
+    debug(`Discovered device ${JSON.stringify(device, null, 2)}`)
     yield put(
       registerDeviceWithHomeAssistant(
-        merge({}, device, { homeAssistantId: toEntityId(device.name) }),
+        merge({}, device, {
+          homeAssistantId: lowerCase(device.name.replace(/-/, "_")),
+        }),
       ),
     )
   }
