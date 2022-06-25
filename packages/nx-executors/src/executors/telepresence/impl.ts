@@ -15,20 +15,13 @@ async function executor(
   context: ExecutorContext,
 ): Promise<{ success: boolean }> {
   try {
-    const connectCommand = `telepresence connect;`
-    const connectChildProcess = await promisify(exec)(connectCommand)
-    throwIfError({
-      ...connectChildProcess,
-      code: !!connectChildProcess.stderr ? 1 : 0,
-    })
-
     const command = `telepresence intercept "${
       context.projectName
     }" --service "${
       options.serviceName ?? context.projectName
     }" --env-file intercept.env --port ${
       options.port
-    }:80 -- /bin/bash -c 'DEBUG=@ha/${context.projectName}/*' yarn start/dev ${
+    }:80 -- /bin/bash -c yarn start/dev ${
       context.projectName
     };`
     const commandChildProcess = await promisify(exec)(command)

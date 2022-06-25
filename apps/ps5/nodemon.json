@@ -1,0 +1,9 @@
+{
+  "verbose": true,
+  "ignore": ["*.test.js", "fixtures/*", "*.graphql"],
+  "execMap": {
+    "js": "node -r esbuild-register",
+    "ts": "node -r esbuild-register"
+  },
+  "watch": ["src", "scripts/config.ts"]
+}

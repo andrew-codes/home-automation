@@ -62,6 +62,13 @@
       "options": {
         "coverageFilePath": "apps/ps5/.test-runs/unit/lcov.info"
       }
+    },
+    "serve": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "nodemon src/index.ts --inspect=0.0.0.0:9233",
+        "cwd": "apps/ps5"
+      }
     }
   },
   "tags": [],
