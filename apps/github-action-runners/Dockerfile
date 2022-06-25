@@ -52,7 +52,7 @@ RUN sudo mv linux-amd64/helm /usr/local/bin/helm
 RUN sudo chmod +x /usr/local/bin/helm
 ADD ./wrapdocker.sh /usr/local/bin/wrapdocker.sh
 RUN sudo chmod +x /usr/local/bin/wrapdocker.sh
-RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+# RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 RUN wget -c https://dl.google.com/go/go1.18.1.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
 RUN sudo ln -s /usr/local/go/bin/go /usr/local/bin
 RUN go install github.com/google/go-jsonnet/cmd/jsonnet@latest
