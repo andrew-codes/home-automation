@@ -3,7 +3,7 @@ import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
-import { healthUrlPath, name } from "./config"
+import { name } from "./config"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
@@ -17,7 +17,6 @@ const run = async (
       name,
       registryHostname: registry,
       secrets,
-      healthUrlPath,
     },
   )
   const resourceJson = JSON.parse(resources)

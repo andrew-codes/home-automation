@@ -11,7 +11,6 @@ import reducer, {
 import { createHeartbeat } from "@ha/http-heartbeat"
 import { createMqtt } from "@ha/mqtt-client"
 import { SwitchStatus } from "./redux/types"
-import { healthUrlPath } from "../scripts/config"
 
 const debug = createDebugger("@ha/ps5/index")
 const debugState = createDebugger("@ha/state")
@@ -19,7 +18,7 @@ const debugState = createDebugger("@ha/state")
 async function run() {
   debug("Started")
   try {
-    await createHeartbeat(healthUrlPath)
+    await createHeartbeat("/health")
 
     const sagaMiddleware = createSagaMiddleware()
     const store = createStore(reducer, applyMiddleware(sagaMiddleware))
