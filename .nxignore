@@ -1,6 +1,4 @@
 apps/azure-key-vault
-apps/docker-registry
 apps/k8s
 apps/metrics
-apps/openvpn-as
 apps/pihole
