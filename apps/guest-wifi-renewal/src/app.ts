@@ -9,13 +9,13 @@ const run = async (): Promise<void> => {
   await createHeartbeat("guest-wifi-renewal-service")
 
   const mqtt = await createMqtt()
-  mqtt.subscribe("home/guests/renew-devices")
+  mqtt.subscribe("homeassistant/group/guest/renew")
 
   const unifi = await createUnifi()
 
   mqtt.on("message", async (topic, payload) => {
     try {
-      if (topic !== "home/guests/renew-devices") return
+      if (topic !== "homeassistant/group/guest/renew") return
       const macAddresses = payload.toString().replace(/ /g, "").split(",")
       for (const mac of macAddresses) {
         debug(mac)

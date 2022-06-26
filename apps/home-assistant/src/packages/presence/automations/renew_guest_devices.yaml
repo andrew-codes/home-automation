@@ -7,6 +7,6 @@ automation:
     action:
       - service: mqtt.publish
         data:
-          topic: "home/guests/renew-devices"
+          topic: "homeassistant/group/guest/renew"
           payload_template: >
             {% for entity_id in states.group.guests.attributes.entity_id %}{% if loop.first %}{% elif loop.last %}{% else %},{% endif %}{{ state_attr(entity_id, 'mac') }}{% endfor %}

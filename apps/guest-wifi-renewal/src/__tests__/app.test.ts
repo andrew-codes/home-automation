@@ -33,7 +33,7 @@ describe("guest wifi renewal", () => {
   test("run will subscribe to device renewal topics", async () => {
     await run()
 
-    expect(subscribe).toHaveBeenCalledWith("home/guests/renew-devices")
+    expect(subscribe).toHaveBeenCalledWith("homeassistant/group/guest/renew")
   })
 
   test("messages with topics other than device renewal do not authorize devices", async () => {
@@ -57,7 +57,7 @@ describe("guest wifi renewal", () => {
 
     await run()
 
-    await messageHandler("home/guests/renew-devices", "address,address-2")
+    await messageHandler("homeassistant/group/guest/renew", "address,address-2")
     expect(authorizeGuest).toHaveBeenCalledWith("address", 4320)
     expect(authorizeGuest).toHaveBeenCalledWith("address-2", 4320)
   })
