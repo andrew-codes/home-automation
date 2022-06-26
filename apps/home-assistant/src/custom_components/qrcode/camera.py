@@ -9,7 +9,7 @@ from homeassistant.components.camera import (PLATFORM_SCHEMA, Camera)
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.event import async_track_state_change
 
-REQUIREMENTS = ['pyqrcode==1.2.1', 'pypng==0.0.21']
+REQUIREMENTS = ['pyqrcode==1.2.1', 'pypng==0.0.18']
 _LOGGER = logging.getLogger(__name__)
 _LOGGER.debug("QR Code platform")
 DEFAULT_NAME = 'qr_code'
@@ -88,9 +88,8 @@ class QRCodeCamera(Camera):
     def _refresh_(self):
         import pyqrcode
         import png
-        _LOGGER.debug("Creating QR code for:")
+        _LOGGER.debug("Creating QR code")
         qr_code = pyqrcode.create(self._template.async_render())
-        _LOGGER.debug(qr_code.text())
         self._image.truncate(0)
         self._image.seek(0)
 
