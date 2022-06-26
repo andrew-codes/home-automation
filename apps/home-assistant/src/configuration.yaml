@@ -50,7 +50,7 @@ influxdb:
   default_measurement: units
 
 logger:
-  default: debug
+  default: info
   logs:
     custom_components.qrcode.camera: debug
 

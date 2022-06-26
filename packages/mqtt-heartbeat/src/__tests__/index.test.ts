@@ -1,8 +1,8 @@
 import * as sut from "../"
-import createMqttHeartbeat from "../mqttHeartbeat"
+import createHeartbeat from "../mqttHeartbeat"
 
 describe("mqtt-heartbeat package", () => {
   test("exports mqttHeartbeat function", () => {
-    expect(sut.createMqttHeartbeat).toEqual(createMqttHeartbeat)
+    expect(sut.createHeartbeat).toEqual(createHeartbeat)
   })
 })
