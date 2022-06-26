@@ -24,7 +24,17 @@
       "options": {
         "cwd": "apps/ps5",
         "module": "scripts/deploy.ts"
-      }
+      },
+      "dependsOn": [
+        {
+          "target": "image/push",
+          "projects": "self"
+        },
+        {
+          "target": "deploy",
+          "projects": "dependencies"
+        }
+      ]
     },
     "image/push": {
       "executor": "@ha/nx-executors:invoke",
