@@ -9,7 +9,7 @@ const macExp = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   if (req.method !== "POST") {
     res.status(400).end("Method Not Allowed")
@@ -40,7 +40,7 @@ export default async function handler(
         port: parseInt(mqttPort, 10),
         username: MQTT_USERNAME,
       })
-      await mqtt.publish("home/guests/track-device", payload.mac)
+      await mqtt.publish("homeassistant/group/guests/add", payload.mac)
     }
     res.status(200).send("")
   } catch (error) {

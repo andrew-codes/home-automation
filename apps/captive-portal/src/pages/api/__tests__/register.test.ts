@@ -131,8 +131,8 @@ test("primary devices will be tracked via published mqtt topic", async () => {
         }),
       })
       expect(mqtt.publish).toBeCalledWith(
-        "home/guests/track-device",
-        "3D:F2:C9:A6:B3:4F"
+        "homeassistant/group/guests/add",
+        "3D:F2:C9:A6:B3:4F",
       )
     },
   })
@@ -160,8 +160,8 @@ test("default mqtt port is 1883", async () => {
         }),
       })
       expect(mqtt.publish).toBeCalledWith(
-        "home/guests/track-device",
-        "3D:F2:C9:A6:B3:4F"
+        "homeassistant/group/guests/add",
+        "3D:F2:C9:A6:B3:4F",
       )
     },
   })
