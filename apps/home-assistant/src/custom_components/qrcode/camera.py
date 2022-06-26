@@ -30,8 +30,10 @@ async def async_setup_platform(hass, config, add_devices, discovery_info=None):
     if value_template is not None:
         value_template.hass = hass
     entity_ids = config.get(ATTR_ENTITY_ID)
-
+    _LOGGER.debug('Entity IDs')
+    _LOGGER.debug(entity_ids)
     add_devices([QRCodeCamera(hass, name, value_template, entity_ids)])
+    _LOGGER.debug("End of setup")
     return True
 
 
@@ -85,6 +87,8 @@ class QRCodeCamera(Camera):
     def _refresh_(self):
         import pyqrcode
         import png
+        _LOGGER.debug("Creating QR code for:")
+        _LOGGER.debug(self._template.async_render())
         qr_code = pyqrcode.create(self._template.async_render())
         self._image.truncate(0)
         self._image.seek(0)
