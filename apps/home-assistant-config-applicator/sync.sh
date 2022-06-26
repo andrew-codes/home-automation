@@ -13,5 +13,3 @@ rsync -a -I --delete $1/apps/ /config/apps
 rsync -a -I --delete $1/dashboards/ /config/dashboards
 rsync -a -I --delete $1/lovelace/ /config/lovelace
 rsync -a -I --delete $1/packages/ /config/packages
-mkdir -p /config/custom_components/qrcode
-rsync -a -I --delete $1/custom_components/qrcode/ /config/custom_components/qrcode
