@@ -1,7 +1,7 @@
 import createDebugger from "debug"
 import { call, put } from "redux-saga/effects"
 import { Discovery } from "playactor/dist/discovery"
-import { lowerCase, merge } from "lodash"
+import { toLower, merge } from "lodash"
 import type { DiscoverDevicesAction } from "../types"
 import { registerDeviceWithHomeAssistant } from "../actionCreators"
 
@@ -41,7 +41,7 @@ function* discoverDevices(action: DiscoverDevicesAction) {
     yield put(
       registerDeviceWithHomeAssistant(
         merge({}, device, {
-          homeAssistantId: lowerCase(device.name.replace(/-/, "_")),
+          homeAssistantId: toLower(device.name.replace(/-/, "_")),
         }),
       ),
     )
