@@ -9,7 +9,7 @@ from homeassistant.components.camera import (PLATFORM_SCHEMA, Camera)
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.event import async_track_state_change
 
-REQUIREMENTS = ['pyqrcode==1.2.1', 'pypng==0.0.18']
+REQUIREMENTS = ['pyqrcode==1.2.1', 'pypng==0.0.21']
 _LOGGER = logging.getLogger(__name__)
 _LOGGER.debug("QR Code platform")
 DEFAULT_NAME = 'qr_code'
