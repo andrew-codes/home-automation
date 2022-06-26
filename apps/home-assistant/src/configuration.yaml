@@ -1,6 +1,5 @@
 # Configure a default setup of Home Assistant (frontend, api, etc)
 application_credentials:
-automation:
 counter:
 dhcp:
 energy:
@@ -18,8 +17,6 @@ mobile_app:
 my:
 network:
 person:
-scene:
-script:
 ssdp:
 sun:
 system_health:
@@ -28,7 +25,6 @@ timer:
 usb:
 webhook:
 zeroconf:
-zone:
 browser:
 api:
 websocket_api:
