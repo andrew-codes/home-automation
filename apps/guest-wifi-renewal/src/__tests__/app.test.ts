@@ -3,7 +3,7 @@ jest.mock("@ha/mqtt-heartbeat")
 jest.mock("@ha/unifi-client")
 import type { AsyncMqttClient } from "@ha/mqtt-client"
 import { createMqtt } from "@ha/mqtt-client"
-import { createMqttHeartbeat } from "@ha/mqtt-heartbeat"
+import { createHeartbeat } from "@ha/mqtt-heartbeat"
 import { createUnifi } from "@ha/unifi-client"
 import { when } from "jest-when"
 import run from "../app"
@@ -27,7 +27,7 @@ describe("guest wifi renewal", () => {
   test("sets up a heartbeat health check", async () => {
     await run()
 
-    expect(createMqttHeartbeat).toBeCalledWith("guest-wifi-renewal-service")
+    expect(createHeartbeat).toBeCalledWith("guest-wifi-renewal-service")
   })
 
   test("run will subscribe to device renewal topics", async () => {

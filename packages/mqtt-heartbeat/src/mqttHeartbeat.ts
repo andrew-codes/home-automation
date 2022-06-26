@@ -5,7 +5,7 @@ import { reducer, registerWithHomeAssistant, saga } from "./redux"
 
 const debug = createDebugger("@ha/mqtt-heartbeat/mqttHeartbeat")
 
-const createMqttHeartbeat = async (serviceName: string): Promise<void> => {
+const createHeartbeat = async (serviceName: string): Promise<void> => {
   debug("Started")
   const sagaMiddleware = createSagaMiddleware()
   const store = createStore(reducer, applyMiddleware(sagaMiddleware))
@@ -13,4 +13,4 @@ const createMqttHeartbeat = async (serviceName: string): Promise<void> => {
   store.dispatch(registerWithHomeAssistant(serviceName))
 }
 
-export default createMqttHeartbeat
+export default createHeartbeat

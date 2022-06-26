@@ -1,6 +1,6 @@
 import createDebugger from "debug"
 // import { createMqtt } from "@ha/mqtt-client"
-import { createMqttHeartbeat } from "@ha/mqtt-heartbeat"
+import { createHeartbeat } from "@ha/mqtt-heartbeat"
 import createSagaMiddleware from "redux-saga"
 import { createStore, applyMiddleware } from "redux"
 import reducer, { pollDiscovery, saga } from "./redux"
@@ -11,7 +11,7 @@ const debugState = createDebugger("@ha/state")
 async function run() {
   debug("Started")
   try {
-    await createMqttHeartbeat("guest-registrar-service")
+    await createHeartbeat("guest-registrar-service")
     const sagaMiddleware = createSagaMiddleware()
     const store = createStore(reducer, applyMiddleware(sagaMiddleware))
     store.subscribe(() => {

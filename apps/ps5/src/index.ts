@@ -8,7 +8,7 @@ import reducer, {
   pollDiscovery,
   saga,
 } from "./redux"
-import { createHeartbeat } from "@ha/http-heartbeat"
+import { createHeartbeat } from "@ha/mqtt-heartbeat"
 import { createMqtt } from "@ha/mqtt-client"
 import { SwitchStatus } from "./redux/types"
 
@@ -18,7 +18,7 @@ const debugState = createDebugger("@ha/state")
 async function run() {
   debug("Started")
   try {
-    await createHeartbeat("/health")
+    await createHeartbeat("ps5")
 
     const sagaMiddleware = createSagaMiddleware()
     const store = createStore(reducer, applyMiddleware(sagaMiddleware))

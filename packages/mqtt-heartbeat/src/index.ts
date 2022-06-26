@@ -1,1 +1,1 @@
-export { default as createMqttHeartbeat } from "./mqttHeartbeat"
+export { default as createHeartbeat } from "./mqttHeartbeat"

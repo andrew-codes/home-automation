@@ -2,7 +2,7 @@ jest.mock("@ha/mqtt-client")
 jest.mock("@ha/mqtt-heartbeat")
 jest.mock("googleapis")
 import { createMqtt } from "@ha/mqtt-client"
-import { createMqttHeartbeat } from "@ha/mqtt-heartbeat"
+import { createHeartbeat } from "@ha/mqtt-heartbeat"
 import { GoogleAuth } from "google-auth-library"
 import { google } from "googleapis"
 import { when } from "jest-when"
@@ -27,7 +27,7 @@ describe("external services dns updater", () => {
   test("sets up a heartbeat health check", async () => {
     await run()
 
-    expect(createMqttHeartbeat).toBeCalledWith(
+    expect(createHeartbeat).toBeCalledWith(
       "external-services-dns-updater-service",
     )
   })

@@ -1,12 +1,12 @@
 import createDebug from "debug"
 import { createMqtt } from "@ha/mqtt-client"
-import { createMqttHeartbeat } from "@ha/mqtt-heartbeat"
+import { createHeartbeat } from "@ha/mqtt-heartbeat"
 import { createUnifi } from "@ha/unifi-client"
 
 const debug = createDebug("@ha/guest-wifi-renewal")
 
 const run = async (): Promise<void> => {
-  await createMqttHeartbeat("guest-wifi-renewal-service")
+  await createHeartbeat("guest-wifi-renewal-service")
 
   const mqtt = await createMqtt()
   mqtt.subscribe("home/guests/renew-devices")
