@@ -88,8 +88,8 @@ class QRCodeCamera(Camera):
         import pyqrcode
         import png
         _LOGGER.debug("Creating QR code for:")
-        _LOGGER.debug(self._template.async_render())
         qr_code = pyqrcode.create(self._template.async_render())
+        _LOGGER.debug(qr_code.text())
         self._image.truncate(0)
         self._image.seek(0)
 
