@@ -79,6 +79,9 @@ http:
   trusted_proxies:
     - "10.0.0.0/8"
 
+spotify:
+  client_id: !secret SPOTIFY_CLIENT_ID
+  client_secret: !secret SPOTIFY_CLIENT_SECRET
 spotcast:
   sp_dc: !secret SPOTCAST_DC
   sp_key: !secret SPOTCAST_KEY
