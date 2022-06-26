@@ -95,3 +95,5 @@ class QRCodeCamera(Camera):
 
         qr_code.png(self._image, scale=6, module_color=[
             0xff, 0xff, 0xff], background=[0, 0, 0, 128])
+        _LOGGER("Image was created")
+        _LOGGER.debug(self.image.getvalue())
