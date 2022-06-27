@@ -8,8 +8,6 @@ mqtt:
   stats_interval: 60
 
 ffmpeg:
-  global_args:
-    - ar 44100
   output_args:
     detect: -f rawvideo
 
