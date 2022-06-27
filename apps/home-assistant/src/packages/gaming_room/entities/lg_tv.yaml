@@ -9,9 +9,10 @@ media_player:
       {{ states('media_player.gaming_room_lg_tv') }}
     commands:
       turn_on:
-        service: wake_on_lan.send_magic_packet
+        service: mqtt.publish
         data:
-          mac: !secret GAMING_ROOM_TV_MAC
+          topic: homeassistant/wake-on-lan
+          payload: !secret GAMING_ROOM_TV_MAC
       turn_off:
         service: media_player.turn_off
         entity_id: media_player.gaming_room_lg_tv

@@ -17,10 +17,10 @@ template:
 script:
   gaming_room_turn_on_gaming_pc:
     sequence:
-      - service: wake_on_lan.send_magic_packet
+      - service: mqtt.publish
         data:
-          mac: !secret GAMING_ROOM_GAMING_PC_MAC
-          broadcast_address: !secret GAMING_ROOM_GAMING_PC_IP
+          topic: homeassistant/wake-on-lan
+          payload: !secret GAMING_ROOM_GAMING_PC_MAC
   gaming_room_turn_off_gaming_pc:
     sequence:
       - if:
