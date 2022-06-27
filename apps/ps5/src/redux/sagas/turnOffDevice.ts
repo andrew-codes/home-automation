@@ -8,17 +8,21 @@ import { setTransitioning, updateHomeAssistant } from "../actionCreators"
 const debug = createDebugger("@ha/ps5/turnOffDevice")
 
 function* turnOffDevice(action: ApplyToDeviceAction) {
-  if (action.payload.on !== "OFF") {
+  yield put(
+    updateHomeAssistant(
+      merge({}, action.payload.device, { status: "STANDBY" }),
+    ),
+  )
+
+  if (
+    action.payload.on !== "OFF" ||
+    action.payload.device.status === "STANDBY"
+  ) {
     return
   }
 
   yield put(
     setTransitioning(merge({}, action.payload.device, { transitioning: true })),
-  )
-  yield put(
-    updateHomeAssistant(
-      merge({}, action.payload.device, { status: "STANDBY" }),
-    ),
   )
   debug(
     sh.exec(

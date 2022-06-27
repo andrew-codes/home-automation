@@ -8,15 +8,19 @@ import { setTransitioning, updateHomeAssistant } from "../actionCreators"
 const debug = createDebugger("@ha/ps5/turnOnDevice")
 
 function* turnOnDevice(action: ApplyToDeviceAction) {
-  if (action.payload.on !== "ON") {
+  yield put(
+    updateHomeAssistant(merge({}, action.payload.device, { status: "AWAKE" })),
+  )
+
+  if (
+    action.payload.on !== "ON" ||
+    action.payload.device.status !== "STANDBY"
+  ) {
     return
   }
 
   yield put(
     setTransitioning(merge({}, action.payload.device, { transitioning: true })),
-  )
-  yield put(
-    updateHomeAssistant(merge({}, action.payload.device, { status: "AWAKE" })),
   )
   debug(
     sh.exec(`playactor wake --ip ${action.payload.device.address.address};`, {
