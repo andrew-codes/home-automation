@@ -11,6 +11,7 @@ async function run() {
     await createHeartbeat("wake-on-lan")
 
     const mqtt = await createMqtt()
+    await mqtt.subscribe("homeassistant/wake-on-lan")
 
     const topicRegEx = /^homeassistant\/wake-on-lan/
     mqtt.on("message", async (topic, payload) => {
