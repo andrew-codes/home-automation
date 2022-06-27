@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "name": "@ha/wake-on-lan",
+  "version": "0.0.1",
+  "license": "MIT",
+  "dependencies": {
+    "shelljs": "^0.8.5"
+  },
+  "devDependencies": {
+    "@ha/build-ts": "^0.0.1",
+    "@ha/mqtt-client": "^0.0.1",
+    "@ha/mqtt-heartbeat": "^0.0.1",
+    "@ha/shell-utils": "^0.0.1",
+    "async-mqtt": "^2.6.1",
+    "debug": "^4.3.1",
+    "esbuild-register": "^3.3.2",
+    "lodash": "^4.17.21",
+    "nodemon": "^2.0.6"
+  }
+}
