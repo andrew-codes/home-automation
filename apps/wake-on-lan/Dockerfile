@@ -3,8 +3,7 @@ ENV NODE_ENV=production
 
 RUN apk update
 RUN apk add \
-    jq \
-    wakeonlan 
+    jq
 
 WORKDIR /app
 COPY . .
