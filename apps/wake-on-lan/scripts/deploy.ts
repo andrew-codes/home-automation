@@ -1,8 +1,10 @@
 import path from "path"
+import sh from "shelljs"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
+import { throwIfError } from "@ha/shell-utils"
 import { name } from "./config"
 
 const run = async (
@@ -19,12 +21,11 @@ const run = async (
       secrets,
     },
   )
+  sh.exec(`kubectl delete deployment ${name}`)
   const resourceJson = JSON.parse(resources)
   resourceJson.forEach((resource) => {
     kubectl.applyToCluster(JSON.stringify(resource))
   })
-
-  kubectl.rolloutDeployment("restart", name)
 }
 
 export default run
