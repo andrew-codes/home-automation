@@ -369,6 +369,7 @@ views:
             "footer"
     badges: []
     cards:
+      # Alerts
       - type: custom:mod-card
         card_mod:
         view_layout:
@@ -457,6 +458,7 @@ views:
                                     action: navigate
                                     navigation_path: /lovelace-troubleshoot/critial-alerts
 
+      # Report defect
       - type: custom:stack-in-card
         mode: vertical
         view_layout:
@@ -498,6 +500,7 @@ views:
                 paste: false
                 clear: 1
 
+      # Overview chips
       - type: vertical-stack
         view_layout:
           grid-area: main
@@ -563,6 +566,50 @@ views:
                 icon: mdi:wifi
                 use_entity_picture: false
             alignment: center
+
+      # Carport door
+      - type: conditional
+        view_layout:
+          grid-area: sidebar
+        conditions:
+          - entity: sensor.car_port_door_person
+            state: "0"
+        card:
+          type: vertical-stack
+          cards:
+            - type: custom:mushroom-template-card
+              primary: Front Door
+              secondary: >-
+                {% set seconds_difference = (as_timestamp(now()) -
+                as_timestamp(states.sensor.car_port_door_person.last_changed)) %}
+
+                {% set minutes_difference = (seconds_difference) / 60 %}
+
+                {% set time_ago = iif(seconds_difference < 60, 'now',
+                iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
+                > 1, ((seconds_difference / 60) | round(0)) | string + ' minutes
+                ago', ((seconds_difference / 60) | round(0)) | string + ' minute
+                ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
+                ago')) %}
+
+                {{ states('sensor.car_port_door_person') }} guest{%if
+                (states('sensor.car_port_door_person') | int(1) > 1) %}s{%endif%}
+                {{ time_ago }}
+              icon: mdi:shield-account
+              entity: sensor.car_port_door_person
+              badge_icon: ""
+              multiline_secondary: false
+              fill_container: false
+              tap_action:
+                action: navigate
+                navigation_path: security
+              layout: horizontal
+            - show_state: false
+              show_name: false
+              camera_view: auto
+              type: picture-entity
+              entity: camera.car_port_door
+              camera_image: camera.car_port_door
 
   - theme: Backend-selected
     title: Security
