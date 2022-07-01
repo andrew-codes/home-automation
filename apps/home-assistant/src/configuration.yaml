@@ -97,6 +97,13 @@ frontend:
 
 lovelace:
   mode: storage
+  dashboards:
+    home-andrew:
+      mode: yaml
+      title: Home
+      icon: fas:home
+      filename: lovelace/home-andrew.yaml
+      show_in_sidebar: true
 
 http:
   use_x_forwarded_for: true
