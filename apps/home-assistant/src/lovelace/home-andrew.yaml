@@ -457,48 +457,46 @@ views:
                                     action: navigate
                                     navigation_path: /lovelace-troubleshoot/critial-alerts
 
-      - type: custom:mod-card
+      - type: custom:stack-in-card
+        mode: vertical
         view_layout:
           grid-area: sidebar
         card_mod:
           style: |
-            :host {
+            ha-card {
               --primary-color: red;
             }
-        card:
-          type: custom:stack-in-card
-          mode: vertical
-          cards:
-            - type: custom:mushroom-template-card
-              primary: Hello, {{user}}
-              secondary: Having any issues? Report your problems here.
-              icon: mdi:bug
-              layout: horizontal
-              tap_action:
-                action: call-service
-                service: local_conditional_card.toggle
-                service_data:
-                  ids:
-                    - report_issue
-              icon_color: red
-              multiline_secondary: true
-              hold_action:
-                action: none
-              double_tap_action:
-                action: none
-            - type: custom:local-conditional-card
-              default: hide
-              id: report_issue
-              card:
-                type: custom:lovelace-multiline-text-input-card
-                entity: input_text.defect_summary
-                title: false
-                placeholder_text: Describe what didn't work and then press the save icon.
-                show_success_messages: false
-                buttons:
-                  save: 3
-                  paste: false
-                  clear: 1
+        cards:
+          - type: custom:mushroom-template-card
+            primary: Hello, {{user}}
+            secondary: Having any issues? Report your problems here.
+            icon: mdi:bug
+            layout: horizontal
+            tap_action:
+              action: call-service
+              service: local_conditional_card.toggle
+              service_data:
+                ids:
+                  - report_issue
+            icon_color: red
+            multiline_secondary: true
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+          - type: custom:local-conditional-card
+            default: hide
+            id: report_issue
+            card:
+              type: custom:lovelace-multiline-text-input-card
+              entity: input_text.defect_summary
+              title: false
+              placeholder_text: Describe what didn't work and then press the save icon.
+              show_success_messages: false
+              buttons:
+                save: 3
+                paste: false
+                clear: 1
 
       - type: vertical-stack
         view_layout:
