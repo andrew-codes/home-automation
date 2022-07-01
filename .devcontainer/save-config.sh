@@ -4,6 +4,12 @@ set -e
 # Switch to the .devcontainer folder
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
+if [ -f devcontainer.env ]; then
+    set -o allexport
+    source devcontainer.env
+    set +o allexport
+fi
+
 # Create a temporary directory
 mkdir -p .secrets
 cd .secrets
