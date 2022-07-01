@@ -19,11 +19,9 @@ async function executor(
       context.projectName
     }" --service "${
       options.serviceName ?? context.projectName
-    }" --env-file intercept.env --port ${
+    }" --env-file intercept.env --port ${options.port}:${
       options.port
-    }:80 -- /bin/bash -c yarn start/dev ${
-      context.projectName
-    };`
+    } -- /bin/bash -c yarn start/dev ${context.projectName};`
     const commandChildProcess = await promisify(exec)(command)
     throwIfError({
       ...commandChildProcess,
