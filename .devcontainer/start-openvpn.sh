@@ -4,7 +4,7 @@ set -e
 # Switch to the .devcontainer folder
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-if [ -z $(curl 10.1.0.130) ]; then
+if [ -f .secrets/vpnconfig.ovpn ] && [ -f .secrets/vpn.creds ]; then
 
     # Create a temporary directory
     mkdir -p .secrets

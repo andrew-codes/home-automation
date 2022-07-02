@@ -110,6 +110,7 @@ http:
   ip_ban_enabled: true
   trusted_proxies:
     - "10.0.0.0/8"
+    - "172.16.0.0/16"
 
 spotify:
   client_id: !secret SPOTIFY_CLIENT_ID
