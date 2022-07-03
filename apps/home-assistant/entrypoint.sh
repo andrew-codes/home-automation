@@ -46,14 +46,15 @@ MQTT_USERNAME: \"${MQTT_USERNAME}\"
 MQTT_PASSWORD: \"${MQTT_PASSWORD}\"
 TURN_OFF_GAMING_ROOM_GAMING_PC_COMMAND: \"ssh -n -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa ${HOME_ASSISTANT_GAME_ROOM_GAMING_PC_MACHINE_USERNAME}@${HOME_ASSISTANT_GAME_ROOM_GAMING_PC_IP} \\\"C:\\\\Windows\\\\System32\\\\rundll32.exe powrprof.dll,SetSuspendState Standby\\\"\"
 DB_URL: \"postgresql://${HOME_ASSISTANT_POSTGRES_USERNAME}:${HOME_ASSISTANT_POSTGRES_PASSWORD}@home-assistant-postgres:5432/${HOME_ASSISTANT_POSTGRES_DB}\"
-
 SPOTIFY_CLIENT_ID: \"${HOME_ASSISTANT_SPOTIFY_CLIENT_ID}\"
 SPOTIFY_CLIENT_SECRET: \"${HOME_ASSISTANT_SPOTIFY_CLIENT_SECRET}\"
-"
+" >/config/secrets.yaml
 
 if [ ! -z "$TELEPRESENCE_ROOT" ]; then
     export SHELL=/bin/bash
-    rsync -a /tmp/config/ /config
+    if [ -f /tmp/config ]; then
+        rsync -a /tmp/config/ /config
+    fi
     /sync.sh /home-assistant-src
     chokidar "/home-assistant-src/**/*.yaml" "/home-assistant-src/custom_components/**/*.*" -c "bash -c '/sync.sh /home-assistant-src'" &
     chokidar "/config/**/*.yaml" --debounce 20000 -c "bash -c '/reload.sh || true'" &

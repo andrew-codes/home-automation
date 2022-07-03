@@ -1,5 +1,10 @@
 {
   "executors": {
+    "docker-run": {
+      "implementation": "./dist/docker-run",
+      "schema": "./src/executors/docker-run/schema.json",
+      "description": "Run a docker image with all local env vars mapped to container."
+    },
     "invoke": {
       "implementation": "./dist/invoke",
       "schema": "./src/executors/invoke/schema.json",

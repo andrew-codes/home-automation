@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "type": "object",
+  "cli": "nx",
+  "properties": {
+    "image": {
+      "type": "string",
+      "description": "Docker image."
+    },
+    "port": {
+      "type": "string",
+      "description": "Docker port mapping."
+    },
+    "envOverrides": {
+      "type": "array",
+      "description": "Override env vars."
+    },
+    "volumes": {
+      "type": "array",
+      "description": "Volume mappings."
+    }
+  }
+}
