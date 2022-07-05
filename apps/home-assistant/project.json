@@ -47,9 +47,12 @@
       }
     },
     "start/dev": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "@ha/nx-executors:docker-run",
       "options": {
-        "command": "docker run --name home-assistant --rm -t $(cat intercept.env | sed -n \"/^[^\t]/s/=.*//p\" | sed \"/^$/d\" | sed \"s/^/-e /g\" | tr \"\n\" \" \") --env HOME_ASSISTANT_SERVER=\"http://localhost:8123\" --env \"TELEPRESENCE_ROOT=/tmp\" -v \"$PWD/src:/home-assistant-src\" -v \"$PWD/.tmp/config:/tmp\" -p \"8123:8123\" \"docker-registry:5000/home-assistant:latest\"",
+        "image": "andrewcodes.azurecr.io/home-assistant:latest",
+        "envOverrides": ["HOME_ASSISTANT_SERVER='http://localhost:8123'"],
+        "port": "8123:8123",
+        "volumes": ["$PWD/src:/home-assistant-src", "$PWD/.tmp/config:/tmp"],
         "cwd": "apps/home-assistant"
       }
     }

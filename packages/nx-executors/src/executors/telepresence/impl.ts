@@ -1,6 +1,7 @@
+import fs from "fs/promises"
+import path from "path"
+import sh from "shelljs"
 import type { ExecutorContext } from "@nrwl/devkit"
-import { exec } from "child_process"
-import { promisify } from "util"
 import { throwIfError } from "@ha/shell-utils"
 
 interface TelepresenceExecutorOptions {
@@ -15,20 +16,16 @@ async function executor(
   context: ExecutorContext,
 ): Promise<{ success: boolean }> {
   try {
+    process.on("exit", () => {
+      console.log("Stopping telepresence.")
+      sh.exec(`telepresence uninstall --agent ${context.projectName}`)
+    })
     const command = `telepresence intercept "${
       context.projectName
-    }" --service "${
-      options.serviceName ?? context.projectName
-    }" --env-file intercept.env --port ${
+    }" --service "${options.serviceName ?? context.projectName}" --port ${
       options.port
-    }:80 -- /bin/bash -c yarn start/dev ${
-      context.projectName
-    };`
-    const commandChildProcess = await promisify(exec)(command)
-    throwIfError({
-      ...commandChildProcess,
-      code: !!commandChildProcess.stderr ? 1 : 0,
-    })
+    }:${options.port} --mount=/tmp/ -- yarn start/dev ${context.projectName};`
+    throwIfError(sh.exec(command))
   } catch (error) {
     console.log(error)
     return { success: false }
