@@ -53,8 +53,9 @@ SPOTIFY_CLIENT_SECRET: \"${HOME_ASSISTANT_SPOTIFY_CLIENT_SECRET}\"
 
 if [ ! -z "$TELEPRESENCE_ROOT" ]; then
     export SHELL=/bin/bash
-    if [ -f /tmp/config ]; then
-        rsync -a /tmp/config/ /config
+    if [ -f "$TELEPRESENCE_ROOT/config" ]; then
+        echo "Copying volume mount config."
+        rsync -a "$TELEPRESENCE_ROOT/config" /config
     fi
     /sync.sh /home-assistant-src
     chokidar "/home-assistant-src/**/*.yaml" "/home-assistant-src/custom_components/**/*.*" -c "bash -c '/sync.sh /home-assistant-src'" &
