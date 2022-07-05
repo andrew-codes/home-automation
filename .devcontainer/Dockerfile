@@ -31,7 +31,8 @@ RUN apt-get install -y  \
     ansible \
     apt-transport-https \
     ca-certificates \
-    docker-ce \
+    docker-ce \ 
+    dnsutils \
     gettext-base \
     gnupg2 \
     iptables \
