@@ -45,6 +45,7 @@ RUN apt-get install -y  \
     python3.10 \
     python-apt \
     snmp \
+    sshfs \
     sudo \
     terraform \
     unzip \
