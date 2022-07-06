@@ -6,5 +6,5 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 
 ./save-config.sh
 ./start-openvpn.sh &
-./wrapdocker.sh &
+./wrapdocker.sh
 ./start-telepresence.sh
