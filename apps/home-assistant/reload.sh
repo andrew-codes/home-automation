@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+echo "Reloading HA..."
 curl -X POST -H "Authorization: Bearer $HOME_ASSISTANT_TOKEN" -H "Content-Type: application/json" "$HOME_ASSISTANT_SERVER/api/services/automation/reload"
 curl -X POST -H "Authorization: Bearer $HOME_ASSISTANT_TOKEN" -H "Content-Type: application/json" "$HOME_ASSISTANT_SERVER/api/services/group/reload"
 curl -X POST -H "Authorization: Bearer $HOME_ASSISTANT_TOKEN" -H "Content-Type: application/json" "$HOME_ASSISTANT_SERVER/api/services/input_boolean/reload"

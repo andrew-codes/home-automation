@@ -567,13 +567,18 @@ views:
                 use_entity_picture: false
             alignment: center
 
-      # Carport door
-      - type: conditional
+      # Front door
+      - type: custom:mod-card
+        style: |-
+          ha-card {display:
+            {% set minutes_difference = (as_timestamp(now()) -
+              as_timestamp(states.sensor.car_port_door_person.last_changed)) / 60 %}
+            {% set recentlySeen = minutes_difference <= 5 %}
+            {% set val = 'initial' if (recentlySeen) else 'none' %}
+            {{ ' {}'.format(val) }}
+          }
         view_layout:
           grid-area: sidebar
-        conditions:
-          - entity: sensor.car_port_door_person
-            state: "0"
         card:
           type: vertical-stack
           cards:
@@ -610,6 +615,161 @@ views:
               type: picture-entity
               entity: camera.car_port_door
               camera_image: camera.car_port_door
+
+      # Carport door
+      - type: custom:mod-card
+        style: |-
+          ha-card {display:
+            {% set minutes_difference = (as_timestamp(now()) -
+              as_timestamp(states.sensor.car_port_door_person.last_changed)) / 60 %}
+            {% set recentlySeen = minutes_difference <= 5 %}
+            {% set val = 'initial' if (recentlySeen) else 'none' %}
+            {{ ' {}'.format(val) }};
+          }
+        view_layout:
+          grid-area: sidebar
+        card:
+          type: vertical-stack
+          cards:
+            - type: custom:mushroom-template-card
+              primary: Carport Door
+              secondary: >-
+                {% set seconds_difference = (as_timestamp(now()) -
+                as_timestamp(states.sensor.car_port_door_person.last_changed)) %}
+
+                {% set minutes_difference = (seconds_difference) / 60 %}
+
+                {% set time_ago = iif(seconds_difference < 60, 'now',
+                iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
+                > 1, ((seconds_difference / 60) | round(0)) | string + ' minutes
+                ago', ((seconds_difference / 60) | round(0)) | string + ' minute
+                ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
+                ago')) %}
+
+                {{ states('sensor.car_port_door_person') }} guest{%if
+                (states('sensor.car_port_door_person') | int(1) > 1) %}s{%endif%}
+                {{ time_ago }}
+              icon: mdi:shield-account
+              entity: sensor.car_port_door_person
+              badge_icon: ""
+              multiline_secondary: false
+              fill_container: false
+              tap_action:
+                action: navigate
+                navigation_path: security
+              layout: horizontal
+            - show_state: false
+              show_name: false
+              camera_view: auto
+              type: picture-entity
+              entity: camera.car_port_door
+              camera_image: camera.car_port_door
+
+      # Indoor climate
+      - type: custom:stack-in-card
+        card_mod:
+          style: |-
+            ha-card {display:
+              {% set val = 'inherit' if (states('input_boolean.ui_is_climate_visible')) else 'none' %}
+              {{ ' {}'.format(val) }};
+            }
+            @media(min-width: 800px) {
+              ha-card {
+                display: inherit !important;
+              }
+            }
+        view_layout:
+          grid-area: main
+        mode: vertical
+        cards:
+          - type: custom:stack-in-card
+            mode: horizontal
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: sensor.current_temp
+                layout: vertical
+                name: Current
+                fill_container: false
+                use_entity_picture: false
+                hide_icon: false
+                icon_color: purple
+              - type: custom:mushroom-entity-card
+                entity: sensor.current_target_high_temp
+                layout: vertical
+                name: Max
+                fill_container: false
+                use_entity_picture: false
+                hide_icon: false
+                icon_color: blue
+              - type: custom:mushroom-entity-card
+                entity: sensor.current_target_low_temp
+                layout: vertical
+                name: Min
+                fill_container: false
+                use_entity_picture: false
+                hide_icon: false
+                icon_color: red
+              - type: custom:mushroom-entity-card
+                entity: sensor.outside_temperature
+                layout: vertical
+                name: Outdoors
+                fill_container: false
+                use_entity_picture: false
+                hide_icon: false
+                icon_color: green
+          - type: custom:numberbox-card
+            border: false
+            entity: input_number.user_target_daytime_temp_input
+            name: Target Daytime Temperature
+            icon: mdi:weather-sunny
+          - type: custom:numberbox-card
+            border: false
+            entity: input_number.user_target_nighttime_temp_input
+            name: Target Nighttime Temperature
+            icon: mdi:weather-night
+
+      # Weather desktop card
+      - type: custom:weather-card
+        card_mod:
+          style: |-
+            @media(max-width: 600px) {
+              ha-card {
+                display: none !important;
+              }
+            }
+        view_layout:
+          grid-area: main
+        entity: weather.main_floor
+        current: true
+        name: Marietta
+        details: true
+        forecast: true
+        hourly_forecast: false
+        number_of_forecasts: "5"
+
+      # Weather mobile card
+      - type: custom:mod-card
+        style: |-
+          @media(min-width: 600px) {
+            ha-card {
+              display: none !important;
+            }
+          }
+        view_layout:
+          grid-area: main
+        card:
+          type: custom:local-conditional-card
+          id: forecast
+          hide: true
+          card:
+            type: custom:weather-card
+            entity: weather.main_floor
+            current: true
+            name: Marietta
+            details: true
+            forecast: true
+            hourly_forecast: false
+            number_of_forecasts: "5"
 
   - theme: Backend-selected
     title: Security

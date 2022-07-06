@@ -43,17 +43,10 @@
     "serve": {
       "executor": "@ha/nx-executors:telepresence",
       "options": {
-        "port": 8123
-      }
-    },
-    "start/dev": {
-      "executor": "@ha/nx-executors:docker-run",
-      "options": {
+        "port": 8123,
         "image": "andrewcodes.azurecr.io/home-assistant:latest",
-        "envOverrides": ["HOME_ASSISTANT_SERVER='http://localhost:8123'"],
-        "port": "8123:8123",
-        "volumes": ["$PWD/src:/home-assistant-src", "$PWD/.tmp/config:/tmp"],
-        "cwd": "apps/home-assistant"
+        "envOverrides": ["HOME_ASSISTANT_SERVER=http://localhost:8123"],
+        "volumes": ["apps/home-assistant/src:/home-assistant-src"]
       }
     }
   },

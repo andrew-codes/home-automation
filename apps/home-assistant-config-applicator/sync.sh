@@ -6,10 +6,10 @@ if [ -z "$1" ]; then
 fi
 
 echo "Copying config"
-rsync -a -I --delete $1/appdaemon.yaml /config/appdaemon.yaml
-rsync -a -I --delete $1/configuration.yaml /config/configuration.yaml
-rsync -a -I --delete $1/customize.yaml /config/customize.yaml
-rsync -a -I --delete $1/apps/ /config/apps
-rsync -a -I --delete $1/dashboards/ /config/dashboards
-rsync -a -I --delete $1/lovelace/ /config/lovelace
-rsync -a -I --delete $1/packages/ /config/packages
+rsync --recursive -I --delete $1/appdaemon.yaml /config/appdaemon.yaml
+rsync --recursive -I --delete $1/configuration.yaml /config/configuration.yaml
+rsync --recursive -I --delete $1/customize.yaml /config/customize.yaml
+rsync --recursive -I --delete $1/apps/ /config/apps
+rsync --recursive -I --delete $1/dashboards/ /config/dashboards
+rsync --recursive -I --delete $1/lovelace/ /config/lovelace
+rsync --recursive -I --delete $1/packages/ /config/packages

@@ -10,6 +10,14 @@
     "serviceName": {
       "type": "string",
       "description": "Override service name (defaults to project name)."
+    },
+    "volumes": {
+      "type": "array",
+      "description": "Volume mappings"
+    },
+    "envOverrides": {
+      "type": "array",
+      "description": "Volume mappings"
     }
   }
 }
