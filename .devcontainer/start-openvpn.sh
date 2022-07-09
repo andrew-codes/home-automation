@@ -20,6 +20,6 @@ if [ -f .secrets/vpnconfig.ovpn ] && [ -f .secrets/vpn.creds ]; then
     fi
 
     # Start up the VPN client using the config stored in vpnconfig.ovpn by save-config.sh
-    nohup ${sudo_cmd} /bin/sh -c "openvpn --config vpnconfig.ovpn --log openvpn.log --auth-user-pass vpn.creds &" | tee openvpn-launch.log
+    nohup ${sudo_cmd} /bin/sh -c "openvpn --config vpnconfig.ovpn --log openvpn.log --auth-user-pass vpn.creds --pull-filter ignore redirect-gateway &" | tee openvpn-launch.log
 
 fi
