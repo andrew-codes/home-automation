@@ -55,7 +55,10 @@ if [ ! -z "$TELEPRESENCE_ROOT" ]; then
     export SHELL=/bin/bash
     if [ -d "$TELEPRESENCE_ROOT" ]; then
         echo "Copying volume mount config."
-        # rsync -a "$TELEPRESENCE_ROOT/" /config
+        FILES_TO_CHANGE_PERMISSIONS=$(find /tmp/home-assistant/.storage/ -perm 0600)
+        sudo chmod 0644 /tmp/home-assistant/.storage/*
+        rsync -a --exclude=*.log "$TELEPRESENCE_ROOT/" /config
+        sudo chmod 0600 $(echo $FILES_TO_CHANGE_PERMISSIONS)        
     fi
     /sync.sh /home-assistant-src
     chokidar "/home-assistant-src/**/*.yaml" "/home-assistant-src/custom_components/**/*.*" -c "bash -c '/sync.sh /home-assistant-src'" &

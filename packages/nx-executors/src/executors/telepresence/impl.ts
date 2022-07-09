@@ -26,9 +26,9 @@ async function executor(
       sh.exec(`telepresence uninstall --agent ${context.projectName}`)
     })
     const configApi = await createConfigurationApi()
-    const k8sUsername = await configApi.get("k8s/machine/username")
+    const k8sUsername = 'root'
     const k8sIp = await configApi.get("k8s/main-node/ip")
-    const mountSshfsCommand = `sshfs ${k8sUsername}@${k8sIp}:/mnt/data/${context.projectName} /tmp/${context.projectName}`
+    const mountSshfsCommand = `sshfs ${k8sUsername}@${k8sIp}:/mnt/data/${context.projectName} /tmp/${context.projectName} -o umask=0644`
     sh.exec(`mkdir -p /tmp/${context.projectName}`)
     sh.exec(mountSshfsCommand)
 

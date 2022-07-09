@@ -37,8 +37,6 @@ jobs:
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           AZURE_KEY_VAULT_NAME: ${{ secrets.AZURE_KEY_VAULT_NAME }}
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      - name: Build executors
-        run: yarn prepare
       - name: Run all tests
         run: yarn test/all
       - name: Coverage
