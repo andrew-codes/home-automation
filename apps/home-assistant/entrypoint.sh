@@ -62,4 +62,5 @@ if [ ! -z "$TELEPRESENCE_ROOT" ]; then
     chokidar "/config/**/*.yaml" --debounce 20000 -c "bash -c '/reload.sh || true'" &
 fi
 
+echo 'Starting HA'
 hass --config /config
