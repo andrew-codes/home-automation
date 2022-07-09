@@ -28,8 +28,8 @@ async function executor(
     process.on("exit", () => {
       console.log(`
 
-
-        Stop the docker container "${context.projectName}" to exit development:`)
+-----------------------------------------------------------------------
+Stop the docker container "${context.projectName}" to exit development:`)
       console.log(`Run \`docker kill ${context.projectName}\` in the terminal.`)
     })
 
@@ -66,7 +66,9 @@ ssh -t ${k8sUsername}@${k8sIp} "umount /home/${k8sUsername}/mnt/data/${context.p
       context.projectName
     }" --service "${options.serviceName ?? context.projectName}" --port ${
       options.port
-    }:${options.port} --mount false --docker-run -- --rm --name ${
+    }:${
+      options.port
+    } --mount false --docker-run -- --rm --dns 127.0.0.1 --dns 10.1.0.130 --name ${
       context.projectName
     } ${(options.envOverrides ?? [])
       .map((override) => `--env ${override}`)
@@ -87,6 +89,8 @@ ssh -t ${k8sUsername}@${k8sIp} "umount /home/${k8sUsername}/mnt/data/${context.p
     const out = fs.openSync(`./logs/${context.projectName}.out.log`, "w")
     const err = fs.openSync(`./logs/${context.projectName}.err.log`, "w")
 
+    console.log(`
+${command}`)
     const child = spawn(`${command} || (${exitCommand})`, {
       detached: true,
       shell: "bash",
