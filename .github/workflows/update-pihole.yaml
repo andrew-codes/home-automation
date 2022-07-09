@@ -30,4 +30,4 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ".yarn-cache"
       - name: Update PiHole
-        run: sudo yarn nx run @ha/pihole:update
+        run: sudo yarn nx run pihole:update
