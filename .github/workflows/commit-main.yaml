@@ -40,7 +40,7 @@ jobs:
         if: always()
         run: yarn test/coverage/all
       - name: Deploy affected apps
-        run: yarn deploy/affected --base HEAD~ --head HEAD --verbose
+        run: yarn deploy/affected --base HEAD~ --head HEAD --verbose --exclude manual-deployment
         env:
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}

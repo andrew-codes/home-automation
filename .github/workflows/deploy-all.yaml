@@ -36,7 +36,7 @@ jobs:
         run: yarn test/coverage/all
         if: always()
       - name: Deploy all apps
-        run: yarn deploy/all --exclude docker-registry --exclude k8s --exclude openvpn --exclude pihole --exclude azure-key-vault --verbose
+        run: yarn deploy/all --exclude docker-registry --exclude k8s --exclude openvpn --exclude pihole --exclude azure-key-vault --exclude manual-deployment --verbose
         env:
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
