@@ -18,6 +18,10 @@
     "envOverrides": {
       "type": "array",
       "description": "Volume mappings"
+    },
+    "pull": {
+      "type": "boolean",
+      "description": "Pull image before running."
     }
   }
 }

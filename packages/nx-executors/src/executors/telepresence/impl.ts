@@ -12,6 +12,7 @@ interface TelepresenceExecutorOptions {
   serviceName?: string
   envOverrides?: string[]
   volumes?: string[]
+  pull?: boolean
 }
 
 async function executor(
@@ -42,7 +43,7 @@ async function executor(
     exitCommand = `
 telepresence uninstall --agent ${context.projectName};
 umount /tmp/${context.projectName};
-ssh -t ${k8sUsername}@${k8sIp} "umount /home${k8sUsername}/mnt/data/${context.projectName}";
+ssh -t ${k8sUsername}@${k8sIp} "umount /home/${k8sUsername}/mnt/data/${context.projectName}";
 `
     console.log("Preparing remote file system for mount.")
     sh.exec(
@@ -56,6 +57,10 @@ ssh -t ${k8sUsername}@${k8sIp} "umount /home${k8sUsername}/mnt/data/${context.pr
         `sshfs ${k8sUsername}@${k8sIp}:/home/${k8sUsername}/mnt/data/${context.projectName} /tmp/${context.projectName}`,
       ),
     )
+
+    if (options.pull) {
+      throwIfError(sh.exec(`docker pull ${options.image}`))
+    }
 
     const command = `telepresence intercept "${
       context.projectName
