@@ -29,10 +29,7 @@ jobs:
       - name: Install deps
         run: yarn
         env:
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          AZURE_KEY_VAULT_NAME: ${{ secrets.AZURE_KEY_VAULT_NAME }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          YARN_CACHE_FOLDER: ".yarn-cache"
       - name: Run all tests
         run: yarn test/all
       - name: Coverage

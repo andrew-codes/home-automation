@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "name": "@ha/manual-deployment",
+  "version": "0.0.1",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@octokit/core": "^3.6.0",
+    "lodash": "^4.17.21"
+  }
+}
