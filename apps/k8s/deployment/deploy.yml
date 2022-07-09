@@ -39,6 +39,7 @@
       apt:
         name:
           - apt-transport-https
+          - bindfs
           - ca-certificates
           - curl
           - gnupg-agent

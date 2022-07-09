@@ -18,3 +18,4 @@ id_rsa
 /vendor
 .test-runs
 .vscode/settings.json
+/logs

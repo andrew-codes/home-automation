@@ -1,7 +1,9 @@
+import fs from "fs"
 import path from "path"
 import sh from "shelljs"
 import { createConfigurationApi } from "@ha/configuration-workspace"
 import type { ExecutorContext } from "@nrwl/devkit"
+import { spawn } from "child_process"
 import { throwIfError } from "@ha/shell-utils"
 
 interface TelepresenceExecutorOptions {
@@ -16,21 +18,44 @@ async function executor(
   options: TelepresenceExecutorOptions,
   context: ExecutorContext,
 ): Promise<{ success: boolean }> {
+  let exitCommand
   try {
     if (!context.projectName || !options.port || !options.image) {
       return { success: false }
     }
 
     process.on("exit", () => {
-      console.log("Stopping telepresence.")
-      sh.exec(`telepresence uninstall --agent ${context.projectName}`)
+      console.log(`
+
+
+        Stop the docker container "${context.projectName}" to exit development:`)
+      console.log(`Run \`docker kill ${context.projectName}\` in the terminal.`)
     })
-    const configApi = await createConfigurationApi()
-    const k8sUsername = 'root'
-    const k8sIp = await configApi.get("k8s/main-node/ip")
-    const mountSshfsCommand = `sshfs ${k8sUsername}@${k8sIp}:/mnt/data/${context.projectName} /tmp/${context.projectName} -o umask=0644`
+
+    sh.exec(`umount /tmp/${context.projectName}`)
     sh.exec(`mkdir -p /tmp/${context.projectName}`)
-    sh.exec(mountSshfsCommand)
+
+    const configApi = await createConfigurationApi()
+    const k8sUsername = await configApi.get("k8s/machine/username")
+    const k8sPassword = await configApi.get("k8s/machine/password")
+    const k8sIp = await configApi.get("k8s/main-node/ip")
+    exitCommand = `
+telepresence uninstall --agent ${context.projectName};
+umount /tmp/${context.projectName};
+ssh -t ${k8sUsername}@${k8sIp} "umount /home${k8sUsername}/mnt/data/${context.projectName}";
+`
+    console.log("Preparing remote file system for mount.")
+    sh.exec(
+      `echo '${k8sPassword}' | ssh -tt ${k8sUsername}@${k8sIp} "mkdir -p ~/mnt/data/${context.projectName}; sudo bindfs --map=root/${k8sUsername} /mnt/data/${context.projectName} ~/mnt/data/${context.projectName}"`,
+    )
+    console.log(
+      `Mounting ${k8sIp}:/home/${k8sUsername}/mnt/data/${context.projectName} to /tmp/${context.projectName}.`,
+    )
+    throwIfError(
+      sh.exec(
+        `sshfs ${k8sUsername}@${k8sIp}:/home/${k8sUsername}/mnt/data/${context.projectName} /tmp/${context.projectName}`,
+      ),
+    )
 
     const command = `telepresence intercept "${
       context.projectName
@@ -43,15 +68,30 @@ async function executor(
       .join(" ")} --env TELEPRESENCE_ROOT=/tmp/${context.projectName} ${(
       options.volumes ?? []
     )
-      .map((v) => `-v ${path.resolve(context.root, v)}`)
-      .join(" ")} -v "${path.resolve("/", "tmp", context.projectName)}:/tmp/${
-      context.projectName
-    }" ${options.image}`
+      .map(
+        (v) =>
+          `-v ${path.resolve(context.root, v.split(":")[0])}:${
+            v.split(":")[1]
+          }`,
+      )
+      .join(" ")} -v /tmp/${context.projectName}:/tmp/${context.projectName} ${
+      options.image
+    }`
 
-    console.log(command)
-    throwIfError(sh.exec(command))
+    sh.exec("mkdir -p ./logs")
+    const out = fs.openSync(`./logs/${context.projectName}.out.log`, "w")
+    const err = fs.openSync(`./logs/${context.projectName}.err.log`, "w")
+
+    const child = spawn(`${command} || (${exitCommand})`, {
+      detached: true,
+      shell: "bash",
+      stdio: ["ignore", out, err],
+    })
+    child.unref()
   } catch (error) {
     console.log(error)
+    console.log("Performing exit command", exitCommand)
+    sh.exec(exitCommand)
     return { success: false }
   }
   return { success: true }
