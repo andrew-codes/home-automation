@@ -100,9 +100,9 @@ lovelace:
   dashboards:
     home-andrew:
       mode: yaml
-      title: Home
+      title: Beta
       icon: fas:home
-      filename: lovelace/home-andrew.yaml
+      filename: lovelace/beta.yaml
       show_in_sidebar: true
 
 http:

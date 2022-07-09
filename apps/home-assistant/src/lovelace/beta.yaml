@@ -1,0 +1,449 @@
+title: Beta
+views:
+  - theme: Backend-selected
+    visible:
+      - user: f7fecbf2dc554ad2b1b38139edbd2d08
+      - user: 07c73a602f174c8e88bc9b186e97f7bd
+    title: Home.Beta
+    path: default_view.beta
+    icon: fas:home
+    type: custom:grid-layout
+    layout:
+      grid-template-columns: auto 25%
+      grid-template-rows: auto
+      grid-auto-flow: row dense;
+      grid-template-areas: |
+        "header header"
+        "main sidebar"
+        "footer footer"
+      mediaquery:
+        "(max-width: 600px)":
+          grid-auto-flow: row dense;
+          grid-template-columns: 100%
+          grid-template-areas: |
+            "header"
+            "main"
+            "sidebar"
+            "footer"
+    badges: []
+    cards:
+      #  Sidebar
+      - card:
+        type: custom:layout-card
+        view_layout:
+          grid-area: sidebar
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: 100%
+          grid-template-rows: auto
+        cards:
+          # Report defect
+          - type: custom:stack-in-card
+            mode: vertical
+            view_layout:
+              grid-area: 1/1
+            card_mod:
+              style: |-
+                ha-card {
+                  --primary-color: red;
+                }
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Hello, {{user}}
+                secondary: Having any issues? Report your problems here.
+                icon: mdi:bug
+                layout: horizontal
+                tap_action:
+                  action: call-service
+                  service: local_conditional_card.toggle
+                  service_data:
+                    ids:
+                      - report_issue
+                icon_color: red
+                multiline_secondary: true
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: custom:local-conditional-card
+                default: hide
+                id: report_issue
+                card:
+                  type: custom:lovelace-multiline-text-input-card
+                  entity: input_text.defect_summary
+                  title: false
+                  placeholder_text: Describe what didn't work and then press the save icon.
+                  show_success_messages: false
+                  buttons:
+                    save: 3
+                    paste: false
+                    clear: 1
+          # Front door
+          - type: custom:mod-card
+            style: |-
+              ha-card {display:
+                {% set minutes_difference = (as_timestamp(now()) -
+                  as_timestamp(states.sensor.car_port_door_person.last_changed)) / 60 %}
+                {% set recentlySeen = minutes_difference <= 5 %}
+                {% set val = 'initial' if (recentlySeen) else 'none' %}
+                {{ ' {}'.format(val) }}
+              }
+            view_layout:
+              grid-area: 2/1
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:mushroom-template-card
+                  primary: Front Door
+                  secondary: >-
+                    {% set seconds_difference = (as_timestamp(now()) -
+                    as_timestamp(states.sensor.car_port_door_person.last_changed)) %}
+
+                    {% set minutes_difference = (seconds_difference) / 60 %}
+
+                    {% set time_ago = iif(seconds_difference < 60, 'now',
+                    iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
+                    > 1, ((seconds_difference / 60) | round(0)) | string + ' minutes
+                    ago', ((seconds_difference / 60) | round(0)) | string + ' minute
+                    ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
+                    ago')) %}
+
+                    {{ states('sensor.car_port_door_person') }} guest{%if
+                    (states('sensor.car_port_door_person') | int(1) > 1) %}s{%endif%}
+                    {{ time_ago }}
+                  icon: mdi:shield-account
+                  entity: sensor.car_port_door_person
+                  badge_icon: ""
+                  multiline_secondary: false
+                  fill_container: false
+                  tap_action:
+                    action: navigate
+                    navigation_path: security
+                  layout: horizontal
+                - show_state: false
+                  show_name: false
+                  camera_view: auto
+                  type: picture-entity
+                  entity: camera.car_port_door
+                  camera_image: camera.car_port_door
+
+          # Carport door
+          - type: custom:mod-card
+            style: |-
+              ha-card {display:
+                {% set minutes_difference = (as_timestamp(now()) -
+                  as_timestamp(states.sensor.car_port_door_person.last_changed)) / 60 %}
+                {% set recentlySeen = minutes_difference <= 5 %}
+                {% set val = 'initial' if (recentlySeen) else 'none' %}
+                {{ ' {}'.format(val) }};
+              }
+            view_layout:
+              grid-area: 3/1
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:mushroom-template-card
+                  primary: Carport Door
+                  secondary: >-
+                    {% set seconds_difference = (as_timestamp(now()) -
+                    as_timestamp(states.sensor.car_port_door_person.last_changed)) %}
+
+                    {% set minutes_difference = (seconds_difference) / 60 %}
+
+                    {% set time_ago = iif(seconds_difference < 60, 'now',
+                    iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
+                    > 1, ((seconds_difference / 60) | round(0)) | string + ' minutes
+                    ago', ((seconds_difference / 60) | round(0)) | string + ' minute
+                    ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
+                    ago')) %}
+
+                    {{ states('sensor.car_port_door_person') }} guest{%if
+                    (states('sensor.car_port_door_person') | int(1) > 1) %}s{%endif%}
+                    {{ time_ago }}
+                  icon: mdi:shield-account
+                  entity: sensor.car_port_door_person
+                  badge_icon: ""
+                  multiline_secondary: false
+                  fill_container: false
+                  tap_action:
+                    action: navigate
+                    navigation_path: security
+                  layout: horizontal
+                - show_state: false
+                  show_name: false
+                  camera_view: auto
+                  type: picture-entity
+                  entity: camera.car_port_door
+                  camera_image: camera.car_port_door
+
+      #  Main
+      - card:
+        type: custom:layout-card
+        view_layout:
+          grid-area: main
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: 100%
+          grid-template-rows: auto
+        cards:
+          # Overview chips
+          - type: vertical-stack
+            view_layout:
+              grid-area: 1/1
+            cards:
+              - type: custom:mushroom-chips-card
+                chips:
+                  - type: entity
+                    entity: sensor.current_temp
+                    tap_action:
+                      action: call-service
+                      service: local_conditional_card.toggle
+                      service_data:
+                        ids:
+                          - climate
+                    name: Current temperature
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: none
+                  - type: weather
+                    entity: weather.main_floor
+                    show_conditions: true
+                    show_temperature: true
+                    tap_action:
+                      action: call-service
+                      service: local_conditional_card.toggle
+                      service_data:
+                        ids:
+                          - forecast
+                  - type: conditional
+                    conditions:
+                      - entity: binary_sensor.are_packages_delivered
+                        state: "on"
+                    chip:
+                      type: entity
+                      entity: sensor.mail_packages_delivered
+                      content_info: state
+                      tap_action:
+                        action: call-service
+                        service: local_conditional_card.toggle
+                        service_data:
+                          ids:
+                            - packages
+                  - type: conditional
+                    conditions:
+                      - entity: group.guests
+                        state: home
+                    chip:
+                      type: entity
+                      entity: group.guests
+                      name: Guests
+                      content_info: name
+                      icon: mdi:account-group
+                  - type: action
+                    icon: mdi:cart
+                    tap_action:
+                      action: navigate
+                      navigation_path: shopping-list
+                  - type: entity
+                    entity: camera.guest_wifi
+                    content_info: name
+                    name: Guest Wifi QR Code
+                    icon: mdi:wifi
+                    use_entity_picture: false
+                alignment: center
+
+          # Indoor climate
+          - type: custom:stack-in-card
+            card_mod:
+              style: |-
+                ha-card {display:
+                  {% set val = 'inherit' if (states('input_boolean.ui_is_climate_visible')) else 'none' %}
+                  {{ ' {}'.format(val) }};
+                }
+                @media(min-width: 800px) {
+                  ha-card {
+                    display: inherit !important;
+                  }
+                }
+            view_layout:
+              grid-area: 2/1
+            mode: vertical
+            cards:
+              - type: custom:stack-in-card
+                mode: horizontal
+                cards:
+                  - type: custom:mushroom-entity-card
+                    entity: sensor.current_temp
+                    layout: vertical
+                    name: Current
+                    fill_container: false
+                    use_entity_picture: false
+                    hide_icon: false
+                    icon_color: purple
+                  - type: custom:mushroom-entity-card
+                    entity: sensor.current_target_high_temp
+                    layout: vertical
+                    name: Max
+                    fill_container: false
+                    use_entity_picture: false
+                    hide_icon: false
+                    icon_color: blue
+                  - type: custom:mushroom-entity-card
+                    entity: sensor.current_target_low_temp
+                    layout: vertical
+                    name: Min
+                    fill_container: false
+                    use_entity_picture: false
+                    hide_icon: false
+                    icon_color: red
+                  - type: custom:mushroom-entity-card
+                    entity: sensor.outside_temperature
+                    layout: vertical
+                    name: Outdoors
+                    fill_container: false
+                    use_entity_picture: false
+                    hide_icon: false
+                    icon_color: green
+              - type: custom:numberbox-card
+                border: false
+                entity: input_number.user_target_daytime_temp_input
+                name: Target Daytime Temperature
+                icon: mdi:weather-sunny
+              - type: custom:numberbox-card
+                border: false
+                entity: input_number.user_target_nighttime_temp_input
+                name: Target Nighttime Temperature
+                icon: mdi:weather-night
+
+          # Weather desktop card
+          - type: custom:weather-card
+            card_mod:
+              style: |-
+                @media(max-width: 600px) {
+                  ha-card {
+                    display: none !important;
+                  }
+                }
+            view_layout:
+              grid-area: 3/1
+            entity: weather.main_floor
+            current: true
+            name: Marietta
+            details: true
+            forecast: true
+            hourly_forecast: false
+            number_of_forecasts: "5"
+
+          # Weather mobile card
+          - type: custom:mod-card
+            style: |-
+              @media(min-width: 600px) {
+                ha-card {
+                  display: none !important;
+                }
+              }
+            view_layout:
+              grid-area: 3/1
+            card:
+              type: custom:local-conditional-card
+              id: forecast
+              hide: true
+              card:
+                type: custom:weather-card
+                entity: weather.main_floor
+                current: true
+                name: Marietta
+                details: true
+                forecast: true
+                hourly_forecast: false
+                number_of_forecasts: "5"
+
+      # Alerts
+      - type: custom:mod-card
+        card_mod:
+        view_layout:
+          grid-area: header
+        card:
+          type: conditional
+          conditions:
+            - entity: binary_sensor.any_alerts
+              state: "on"
+          card:
+            type: custom:mod-card
+            card_mod:
+              style: |-
+                ha-card {
+                  border: 1px solid red;
+                }
+            view_layout:
+              grid-area: header
+            card:
+              type: vertical-stack
+              cards:
+                - card:
+                  type: custom:layout-card
+                  layout_type: custom:grid-layout
+                  layout:
+                    grid-template-columns: 25% auto
+                    grid-template-rows: auto
+                    grid-template-areas: |
+                      "title alerts"
+                  mediaquery:
+                    "(max-width: 600px)":
+                      grid-template-columns: 100%
+                      grid-template-areas: |
+                        "title"
+                        "alerts"
+                  cards:
+                    - type: vertical-stack
+                      view_layout:
+                        grid-area: title
+                      cards:
+                        - type: custom:mushroom-title-card
+                          title: Alert!
+                    - type: vertical-stack
+                      view_layout:
+                        grid-area: alerts
+                      cards:
+                        - type: custom:mod-card
+                          card_mod:
+                            style: |-
+                              ha-card {
+                                justify-content: center;
+                              }
+                          card:
+                            type: custom:mushroom-chips-card
+                            alignment: end
+                            chips:
+                              - type: conditional
+                                conditions:
+                                  - entity: binary_sensor.pending_system_alerts
+                                    state: "on"
+                                chip:
+                                  type: entity
+                                  entity: binary_sensor.pending_system_alerts
+                                  content_info: name
+                                  name: Water Leak
+                                  icon: mdi:water-alert
+                                  icon_color: red
+                                  tap_action:
+                                    action: navigate
+                                    navigation_path: /lovelace-troubleshoot/critical-alerts
+                                  hold_action:
+                                    action: none
+                                  double_tap_action:
+                                    action: none
+                              - type: conditional
+                                conditions:
+                                  - entity: binary_sensor.water_temperature_alert
+                                    state: "on"
+                                chip:
+                                  type: entity
+                                  entity: binary_sensor.water_temperature_alert
+                                  name: Freeze Alert
+                                  content_info: name
+                                  icon: mdi:snowflake-alert
+                                  tap_action:
+                                    action: navigate
+                                    navigation_path: /lovelace-troubleshoot/critial-alerts
