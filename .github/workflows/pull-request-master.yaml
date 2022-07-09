@@ -34,6 +34,7 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install deps
         run: yarn
+        env:
           YARN_CACHE_FOLDER: ".yarn-cache"
       - name: Run all tests
         run: yarn test/all
