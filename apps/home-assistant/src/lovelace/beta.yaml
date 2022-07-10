@@ -47,6 +47,7 @@ views:
           type: custom:layout-card
           layout_type: custom:grid-layout
           layout:
+            grid-template-areas: "sidebar-inner"
             grid-template-columns: 100%
             grid-template-rows: auto
             card_mod:
@@ -275,9 +276,32 @@ views:
           grid-area: main
         layout_type: custom:grid-layout
         layout:
+          grid-template-area: main-inner
           grid-template-columns: 100%
           grid-template-rows: auto
         cards:
+          # Mobile shopping list
+          - type: custom:mod-card
+            style: |-
+              @media(min-width: 600px) {
+                :host {
+                  display: none;
+                }
+              }
+              @media(max-width: 600px) {
+                :host {
+                  {% set at_grocery = False %}
+                  {% for store in ['Publix', 'Kroger', 'Costco'] %}
+                    {% if ((states.person|selectattr('attributes.friendly_name', '==', user)|map(attribute='state')|first) | regex_search(store)) %}
+                      {% set at_grocery = True %}
+                    {% endif %}
+                  {% endfor %}
+                  display: {{ 'block' if (at_grocery) else 'none' }} !important;
+                }
+              }
+            card:
+              type: shopping-list
+              title: Groceries
           # Desktop climate
           - type: custom:stack-in-card
             card_mod:

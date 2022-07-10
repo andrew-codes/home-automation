@@ -98,7 +98,7 @@ frontend:
 lovelace:
   mode: storage
   dashboards:
-    beta:
+    beta-release:
       mode: yaml
       title: Beta
       icon: fas:home
