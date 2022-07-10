@@ -9,11 +9,12 @@ views:
     icon: fas:home
     type: custom:grid-layout
     layout:
-      grid-template-columns: auto 25%
+      grid-template-columns: auto 30%
       grid-template-rows: auto
       grid-auto-flow: row dense;
       grid-template-areas: |
         "header header"
+        "main sidebarHeader"
         "main sidebar"
         "footer footer"
       mediaquery:
@@ -22,14 +23,143 @@ views:
           grid-template-columns: 100%
           grid-template-areas: |
             "header"
+            "sidebarHeader"
             "main"
             "sidebar"
             "footer"
     badges: []
     cards:
       #  Sidebar
+      - type: custom:mod-card
+        style: |
+          ha-card {
+            margin: 0 !important;
+          }
+          :host {
+            margin: 0 !important;
+          }
+          :host #root {
+            background: lightblue;
+          }
+        view_layout:
+          grid-area: sidebarHeader
+        card:
+          type: custom:layout-card
+          layout_type: custom:grid-layout
+          layout:
+            grid-template-columns: 100%
+            grid-template-rows: auto
+            card_mod:
+              style: |
+                #root {
+                  backgroudn: lightblue;
+                }
+                ha-card {
+                  margin: 0 !important;
+                }
+                :host #root {
+                  background: lightgreen;
+                }
+          cards:
+            # Report defect
+            - type: custom:stack-in-card
+              mode: vertical
+              view_layout:
+                grid-area: 1/1
+              card_mod:
+                style: |-
+                  ha-card {
+                    --primary-color: red;
+                  }
+              cards:
+                - type: custom:mushroom-template-card
+                  primary: Hello, {{user}}
+                  secondary: Having any issues? Report your problems here.
+                  icon: mdi:bug
+                  layout: horizontal
+                  tap_action:
+                    action: call-service
+                    service: local_conditional_card.toggle
+                    service_data:
+                      ids:
+                        - report_issue
+                  icon_color: red
+                  multiline_secondary: true
+                  hold_action:
+                    action: none
+                  double_tap_action:
+                    action: none
+                - type: custom:local-conditional-card
+                  default: hide
+                  id: report_issue
+                  card:
+                    type: custom:lovelace-multiline-text-input-card
+                    entity: input_text.defect_summary
+                    title: false
+                    placeholder_text: Describe what didn't work and then press the save icon.
+                    show_success_messages: false
+                    buttons:
+                      save: 3
+                      paste: false
+                      clear: 1
+            # Overview chips
+            - type: vertical-stack
+              view_layout:
+                grid-area: 2/1
+              cards:
+                - type: custom:mushroom-chips-card
+                  chips:
+                    - type: entity
+                      entity: sensor.current_temp
+                      tap_action:
+                        action: call-service
+                        service: local_conditional_card.toggle
+                        service_data:
+                          ids:
+                            - climate
+                      name: Current temperature
+                      hold_action:
+                        action: none
+                      double_tap_action:
+                        action: none
+                    - type: conditional
+                      conditions:
+                        - entity: binary_sensor.are_packages_delivered
+                          state: "off"
+                      chip:
+                        type: entity
+                        entity: sensor.mail_packages_delivered
+                        content_info: state
+                    - type: conditional
+                      conditions:
+                        - entity: group.guests
+                          state: home
+                      chip:
+                        type: entity
+                        entity: group.guests
+                        name: Guests
+                        content_info: name
+                        icon: mdi:account-group
+                    - type: action
+                      icon: mdi:cart
+                      tap_action:
+                        action: navigate
+                        navigation_path: shopping-list
+                    - type: entity
+                      entity: camera.guest_wifi
+                      content_info: name
+                      name: Guest Wifi
+                      icon: mdi:wifi
+                      use_entity_picture: false
+                  alignment: center
+
+      #  Sidebar
       - card:
         type: custom:layout-card
+        style: |
+          ha-card {
+            margin: 0 !important;
+          }
         view_layout:
           grid-area: sidebar
         layout_type: custom:grid-layout
@@ -37,47 +167,6 @@ views:
           grid-template-columns: 100%
           grid-template-rows: auto
         cards:
-          # Report defect
-          - type: custom:stack-in-card
-            mode: vertical
-            view_layout:
-              grid-area: 1/1
-            card_mod:
-              style: |-
-                ha-card {
-                  --primary-color: red;
-                }
-            cards:
-              - type: custom:mushroom-template-card
-                primary: Hello, {{user}}
-                secondary: Having any issues? Report your problems here.
-                icon: mdi:bug
-                layout: horizontal
-                tap_action:
-                  action: call-service
-                  service: local_conditional_card.toggle
-                  service_data:
-                    ids:
-                      - report_issue
-                icon_color: red
-                multiline_secondary: true
-                hold_action:
-                  action: none
-                double_tap_action:
-                  action: none
-              - type: custom:local-conditional-card
-                default: hide
-                id: report_issue
-                card:
-                  type: custom:lovelace-multiline-text-input-card
-                  entity: input_text.defect_summary
-                  title: false
-                  placeholder_text: Describe what didn't work and then press the save icon.
-                  show_success_messages: false
-                  buttons:
-                    save: 3
-                    paste: false
-                    clear: 1
           # Front door
           - type: custom:mod-card
             style: |-
@@ -85,11 +174,11 @@ views:
                 {% set minutes_difference = (as_timestamp(now()) -
                   as_timestamp(states.sensor.car_port_door_person.last_changed)) / 60 %}
                 {% set recentlySeen = minutes_difference <= 5 %}
-                {% set val = 'initial' if (recentlySeen) else 'none' %}
+                {% set val = 'initial' if (recentlySeen) else 'initial' %}
                 {{ ' {}'.format(val) }}
               }
             view_layout:
-              grid-area: 2/1
+              grid-area: 1/1
             card:
               type: vertical-stack
               cards:
@@ -126,7 +215,6 @@ views:
                   type: picture-entity
                   entity: camera.car_port_door
                   camera_image: camera.car_port_door
-
           # Carport door
           - type: custom:mod-card
             style: |-
@@ -134,11 +222,11 @@ views:
                 {% set minutes_difference = (as_timestamp(now()) -
                   as_timestamp(states.sensor.car_port_door_person.last_changed)) / 60 %}
                 {% set recentlySeen = minutes_difference <= 5 %}
-                {% set val = 'initial' if (recentlySeen) else 'none' %}
+                {% set val = 'initial' if (recentlySeen) else 'initial' %}
                 {{ ' {}'.format(val) }};
               }
             view_layout:
-              grid-area: 3/1
+              grid-area: 2/1
             card:
               type: vertical-stack
               cards:
@@ -179,6 +267,10 @@ views:
       #  Main
       - card:
         type: custom:layout-card
+        style: |
+          ha-card {
+            margin: 0!important;
+          }
         view_layout:
           grid-area: main
         layout_type: custom:grid-layout
@@ -186,88 +278,17 @@ views:
           grid-template-columns: 100%
           grid-template-rows: auto
         cards:
-          # Overview chips
-          - type: vertical-stack
-            view_layout:
-              grid-area: 1/1
-            cards:
-              - type: custom:mushroom-chips-card
-                chips:
-                  - type: entity
-                    entity: sensor.current_temp
-                    tap_action:
-                      action: call-service
-                      service: local_conditional_card.toggle
-                      service_data:
-                        ids:
-                          - climate
-                    name: Current temperature
-                    hold_action:
-                      action: none
-                    double_tap_action:
-                      action: none
-                  - type: weather
-                    entity: weather.main_floor
-                    show_conditions: true
-                    show_temperature: true
-                    tap_action:
-                      action: call-service
-                      service: local_conditional_card.toggle
-                      service_data:
-                        ids:
-                          - forecast
-                  - type: conditional
-                    conditions:
-                      - entity: binary_sensor.are_packages_delivered
-                        state: "on"
-                    chip:
-                      type: entity
-                      entity: sensor.mail_packages_delivered
-                      content_info: state
-                      tap_action:
-                        action: call-service
-                        service: local_conditional_card.toggle
-                        service_data:
-                          ids:
-                            - packages
-                  - type: conditional
-                    conditions:
-                      - entity: group.guests
-                        state: home
-                    chip:
-                      type: entity
-                      entity: group.guests
-                      name: Guests
-                      content_info: name
-                      icon: mdi:account-group
-                  - type: action
-                    icon: mdi:cart
-                    tap_action:
-                      action: navigate
-                      navigation_path: shopping-list
-                  - type: entity
-                    entity: camera.guest_wifi
-                    content_info: name
-                    name: Guest Wifi QR Code
-                    icon: mdi:wifi
-                    use_entity_picture: false
-                alignment: center
-
-          # Indoor climate
+          # Desktop climate
           - type: custom:stack-in-card
             card_mod:
               style: |-
-                ha-card {display:
-                  {% set val = 'inherit' if (states('input_boolean.ui_is_climate_visible')) else 'none' %}
-                  {{ ' {}'.format(val) }};
-                }
-                @media(min-width: 800px) {
+                @media(max-width: 600px) {
                   ha-card {
-                    display: inherit !important;
+                    display: none !important;
                   }
                 }
             view_layout:
-              grid-area: 2/1
+              grid-area: 1/1
             mode: vertical
             cards:
               - type: custom:stack-in-card
@@ -325,7 +346,7 @@ views:
                 }
               }
             view_layout:
-              grid-area: 2/1
+              grid-area: 1/1
             card:
               type: custom:local-conditional-card
               id: climate
@@ -333,42 +354,50 @@ views:
               card:
                 type: custom:stack-in-card
                 mode: vertical
+                card_mod:
+                  style: |
+                    ha-card {
+                    }
                 cards:
-                  - type: custom:stack-in-card
-                    mode: horizontal
+                  - type: custom:layout-card
+                    layout_type: custom:grid-layout
+                    layout:
+                      grid-template-columns: 50% 50%
+                      grid-template-rows: auto
                     cards:
                       - type: custom:mushroom-entity-card
                         entity: sensor.current_temp
-                        layout: vertical
+                        layout: horizontal
                         name: Current
                         fill_container: false
                         use_entity_picture: false
                         hide_icon: false
                         icon_color: purple
                       - type: custom:mushroom-entity-card
-                        entity: sensor.current_target_high_temp
-                        layout: vertical
-                        name: Max
+                        entity: sensor.outside_temperature
+                        layout: horizontal
+                        name: Outdoors
                         fill_container: false
                         use_entity_picture: false
                         hide_icon: false
-                        icon_color: blue
+                        icon_color: green
                       - type: custom:mushroom-entity-card
                         entity: sensor.current_target_low_temp
-                        layout: vertical
+                        layout: horizontal
                         name: Min
                         fill_container: false
                         use_entity_picture: false
                         hide_icon: false
                         icon_color: red
                       - type: custom:mushroom-entity-card
-                        entity: sensor.outside_temperature
-                        layout: vertical
-                        name: Outdoors
+                        entity: sensor.current_target_high_temp
+                        layout: horizontal
+                        name: Max
                         fill_container: false
                         use_entity_picture: false
                         hide_icon: false
-                        icon_color: green
+                        icon_color: blue
+
                   - type: custom:numberbox-card
                     border: false
                     entity: input_number.user_target_daytime_temp_input
@@ -380,49 +409,6 @@ views:
                     name: Target Nighttime Temperature
                     icon: mdi:weather-night
 
-          # Weather desktop card
-          - type: custom:weather-card
-            card_mod:
-              style: |-
-                @media(max-width: 600px) {
-                  ha-card {
-                    display: none !important;
-                  }
-                }
-            view_layout:
-              grid-area: 3/1
-            entity: weather.main_floor
-            current: true
-            name: Marietta
-            details: true
-            forecast: true
-            hourly_forecast: false
-            number_of_forecasts: "5"
-
-          # Weather mobile card
-          - type: custom:mod-card
-            style: |-
-              @media(min-width: 600px) {
-                ha-card {
-                  display: none !important;
-                }
-              }
-            view_layout:
-              grid-area: 3/1
-            card:
-              type: custom:local-conditional-card
-              id: forecast
-              hide: true
-              card:
-                type: custom:weather-card
-                entity: weather.main_floor
-                current: true
-                name: Marietta
-                details: true
-                forecast: true
-                hourly_forecast: false
-                number_of_forecasts: "5"
-
       # Alerts
       - type: custom:mod-card
         card_mod:
@@ -432,7 +418,7 @@ views:
           type: conditional
           conditions:
             - entity: binary_sensor.any_alerts
-              state: "on"
+              state: "off"
           card:
             type: custom:mod-card
             card_mod:
@@ -483,7 +469,7 @@ views:
                               - type: conditional
                                 conditions:
                                   - entity: binary_sensor.pending_system_alerts
-                                    state: "on"
+                                    state: "off"
                                 chip:
                                   type: entity
                                   entity: binary_sensor.pending_system_alerts
@@ -501,7 +487,7 @@ views:
                               - type: conditional
                                 conditions:
                                   - entity: binary_sensor.water_temperature_alert
-                                    state: "on"
+                                    state: "off"
                                 chip:
                                   type: entity
                                   entity: binary_sensor.water_temperature_alert
