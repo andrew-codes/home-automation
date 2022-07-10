@@ -1,4 +1,4 @@
-name: Update PiHole
+name: Manual Deploy
 on:
   repository_dispatch:
     types: manual-deploy
