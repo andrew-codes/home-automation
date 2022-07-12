@@ -45,6 +45,7 @@ views:
               style: |-
                 ha-card {
                   border: 1px solid red;
+                  padding: 8px;
                 }
               view_layout:
                 grid-area: header
