@@ -5,6 +5,14 @@ template:
         unique_id: water_temperature_alert
         state: >
           {{ (states('sensor.water_temperature') | int(33)) < 32 or (state_attr('weather.main_floor', 'temperature') | int(33)) < 32 }}
+      - name: Guests are at door
+        unique_id: guests_at_door
+        state: >
+          {% set front_door_minutes_difference = (as_timestamp(now()) -
+            as_timestamp(states.sensor.car_port_door_person.last_changed)) / 60 %}
+          {% set carport_door_minutes_difference = (as_timestamp(now()) -
+            as_timestamp(states.sensor.car_port_door_person.last_changed)) / 60 %}
+          {{ front_door_minutes_difference <= 5 or carport_door_minutes_difference <= 5 }}
 
   - sensor:
       - name: Under Sink Leak Detections
@@ -30,6 +38,7 @@ binary_sensor:
       - binary_sensor.guest_bathroom_sink_1_ias_zone
       - binary_sensor.guest_bathroom_sink_2_ias_zone
       - binary_sensor.office_bathroom_sink_ias_zone
+      - binary_sensor.guests_at_door
 
   - platform: group
     name: Under Sink Leak

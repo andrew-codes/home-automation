@@ -35,6 +35,8 @@ websocket_api:
 discovery:
 ios:
 
+browser_mod:
+
 notify:
   - platform: group
     name: all_devices
