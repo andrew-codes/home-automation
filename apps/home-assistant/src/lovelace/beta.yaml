@@ -39,7 +39,7 @@ views:
           - type: conditional
             conditions:
               - entity: binary_sensor.any_alerts
-                state: "off"
+                state: "on"
             card:
               type: custom:mod-card
               style: |-
@@ -55,11 +55,10 @@ views:
                     cards:
                       - type: custom:mushroom-chips-card
                         card_mod:
-                          style:
-                            style: |-
-                              ha-card {
-                                justify-content: center;
-                              }
+                          style: |-
+                            ha-card {
+                              justify-content: center;
+                            }
                         alignment: end
                         chips:
                           - type: conditional
@@ -387,7 +386,7 @@ views:
                   - type: conditional
                     conditions:
                       - entity: binary_sensor.are_packages_delivered
-                        state: "off"
+                        state: "on"
                     chip:
                       type: entity
                       entity: sensor.mail_packages_delivered
@@ -414,11 +413,6 @@ views:
                         action: none
                       double_tap_action:
                         action: none
-                  - type: action
-                    icon: mdi:cart
-                    tap_action:
-                      action: navigate
-                      navigation_path: shopping-list
                   - type: entity
                     entity: camera.guest_wifi
                     content_info: name
@@ -627,26 +621,56 @@ views:
           grid-template-columns: 100%
           grid-template-rows: auto
         cards:
-          # Mobile shopping list
-          - type: shopping-list
-            card_mod:
-              style: |-
-                @media(min-width: 600px) {
-                  :host {
-                    display: none !important;
+          # Mobile shopping list (Andrew)
+          - type: conditional
+            conditions:
+              - entity: person.andrew_smith
+                state_not: home
+            card:
+              type: shopping-list
+              card_mod:
+                style: |-
+                  @media(min-width: 600px) {
+                    :host {
+                      display: none !important;
+                    }
                   }
-                }
-                @media(max-width: 600px) {
-                  :host {
-                    display: none !important;
-                    {% for store in ['Publix', 'Kroger', 'Costco'] %}
-                      {% if ((states.person|selectattr('attributes.friendly_name', '==', user)|map(attribute='state')|first) | regex_search(store)) %}
-                        display: block !important;
-                      {% endif %}
-                    {% endfor %}
+                  @media(max-width: 600px) {
+                    :host {
+                      display: none !important;
+                      {% for store in ['Publix', 'Kroger', 'Costco'] %}
+                        {% if ((states.person|selectattr('attributes.friendly_name', '==', user)|map(attribute='state')|first) | regex_search(store)) %}
+                          display: block !important;
+                        {% endif %}
+                      {% endfor %}
+                    }
                   }
-                }
-            title: Groceries
+              title: Groceries
+          # Mobile shopping list (Dorri)
+          - type: conditional
+            conditions:
+              - entity: person.dorri_smith
+                state_not: home
+            card:
+              type: shopping-list
+              card_mod:
+                style: |-
+                  @media(min-width: 600px) {
+                    :host {
+                      display: none !important;
+                    }
+                  }
+                  @media(max-width: 600px) {
+                    :host {
+                      display: none !important;
+                      {% for store in ['Publix', 'Kroger', 'Costco'] %}
+                        {% if ((states.person|selectattr('attributes.friendly_name', '==', user)|map(attribute='state')|first) | regex_search(store)) %}
+                          display: block !important;
+                        {% endif %}
+                      {% endfor %}
+                    }
+                  }
+              title: Groceries
           # Desktop climate
           - type: custom:stack-in-card
             card_mod:
@@ -777,54 +801,153 @@ views:
                     entity: input_number.user_target_nighttime_temp_input
                     name: Target Nighttime Temperature
                     icon: mdi:weather-night
+          - type: vertical-stack
+            cards:
+              - type: conditional
+                conditions:
+                  - entity: media_player.spotify_andrew_codes
+                    state: "playing"
+                card_mod:
+                  style: |-
+                    ha-card {
+                      display: {{ 'initial' if user == 'Andrew Smith' else 'none'}} !important;
+                    }
+                card:
+                  type: media-control
+                  entity: media_player.spotify_andrew_codes
+              - type: conditional
+                conditions:
+                  - entity: media_player.spotify_andrew_codes
+                    state: "playing"
+                card_mod:
+                  style: |-
+                    ha-card {
+                      display: {{ 'initial' if user == 'Dorri Smith' else 'none'}} !important;
+                    }
+                card:
+                  type: media-control
+                  entity: media_player.spotify_andrew_codes
+          - type: custom:mod-card
+
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:layout-card
+                  layout_type: custom:grid-layout
+                  layout:
+                    grid-template-columns: 70% 30%
+                    grid-template-rows: auto
+                  cards:
+                    - type: custom:mushroom-title-card
+                      title: Upcoming Guests
+                    - type: custom:mushroom-chips-card
+                      card_mod:
+                        style: |-
+                          ha-card {
+                            height: 100%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: flex-end;
+                          }
+                      alignment: end
+                      chips:
+                        - type: action
+                          icon: mdi:plus
+                          tap_action:
+                            action: call-service
+                            service: browser_mod.popup
+                            data:
+                              title: Add Guest Event
+                              card:
+                                type: vertical-stack
+                                cards: []
+                - type: custom:home-feed-card
+                  show_empty: true
+                  calendars:
+                    - calendar.guests
 
   # Music
   - title: Music
     path: music
     icon: fas:music
-    type: panel
+    type: custom:grid-layout
+    layout:
+      grid-template-columns: auto 30%
+      grid-template-rows: auto
+      grid-auto-flow: row dense;
+      grid-template-areas: |
+        "header header"
+        "main sidebarHeader"
+        "main sidebar"
+        "footer footer"
+      mediaquery:
+        "(max-width: 600px)":
+          grid-auto-flow: row dense;
+          grid-template-columns: 100%
+          grid-template-areas: |
+            "header"
+            "sidebarHeader"
+            "main"
+            "sidebar"
+            "footer"
     badges: []
     cards:
       - type: vertical-stack
         cards:
-          - type: custom:spotify-card
+          - type: media-control
+            entity: media_player.spotify_andrew_codes
             card_mod:
               style: |-
                 ha-card {
-                  display: {{ 'flex' if user == 'Andrew Smith' else 'none' }} !important;
+                  display: {{ 'initial' if user == 'Andrew Smith' else 'none'}} !important;
                 }
-            spotify_entity: media_player.spotify_andrew_codes
-            playlist_type: default
-            account: default
-            always_play_random_song: true
-            hide_chromecast_devices: true
-            limit: 25
-            display_style: grid
-            grid_show_title: true
-            grid_covers_per_row: "2"
-            hide_top_header: true
-            hide_warning: true
-            filter_devices:
-              - Game Room Shield TV
-          - type: custom:spotify-card
+          - type: media-control
+            entity: media_player.spotify_andrew_codes
             card_mod:
               style: |-
                 ha-card {
-                  display: {{ 'flex' if user == 'Dorri Smith' else 'none' }} !important;
+                  display: {{ 'initial' if user == 'Dorri Smith' else 'none'}} !important;
                 }
-            spotify_entity: media_player.spotify_andrew_codes
-            playlist_type: default
-            account: default
-            always_play_random_song: true
-            hide_chromecast_devices: true
-            limit: 25
-            display_style: grid
-            grid_show_title: true
-            grid_covers_per_row: "2"
-            hide_top_header: true
-            hide_warning: true
-            filter_devices:
-              - Game Room Shield TV
+        # cards:
+        #   - type: custom:spotify-card
+        #     card_mod:
+        #       style: |-
+        #         ha-card {
+        #           display: {{ 'flex' if user == 'Andrew Smith' else 'none' }} !important;
+        #         }
+        #     spotify_entity: media_player.spotify_andrew_codes
+        #     playlist_type: default
+        #     account: default
+        #     always_play_random_song: true
+        #     hide_chromecast_devices: true
+        #     limit: 25
+        #     display_style: grid
+        #     grid_show_title: true
+        #     grid_covers_per_row: "2"
+        #     hide_top_header: true
+        #     hide_warning: true
+        #     filter_devices:
+        #       - Game Room Shield TV
+        #   - type: custom:spotify-card
+        #     card_mod:
+        #       style: |-
+        #         ha-card {
+        #           display: {{ 'flex' if user == 'Dorri Smith' else 'none' }} !important;
+        #         }
+        #     spotify_entity: media_player.spotify_andrew_codes
+        #     playlist_type: default
+        #     account: default
+        #     always_play_random_song: true
+        #     hide_chromecast_devices: true
+        #     limit: 25
+        #     display_style: grid
+        #     grid_show_title: true
+        #     grid_covers_per_row: "2"
+        #     hide_top_header: true
+        #     hide_warning: true
+        #     filter_devices:
+        #       - Game Room Shield TV
+      # - type: vertical-stack
 
   # Shopping list
   - theme: Backend-selected
