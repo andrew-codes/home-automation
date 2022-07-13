@@ -5,14 +5,22 @@ template:
         unique_id: water_temperature_alert
         state: >
           {{ (states('sensor.water_temperature') | int(33)) < 32 or (state_attr('weather.main_floor', 'temperature') | int(33)) < 32 }}
-      - name: Guests are at door
-        unique_id: guests_at_door
+      - name: Guests recently detected at carport door
+        unique_id: guests_recently_detected_car_port_door
         state: >
-          {% set front_door_minutes_difference = (as_timestamp(now()) -
-            as_timestamp(states.sensor.car_port_door_person.last_changed)) / 60 %}
           {% set carport_door_minutes_difference = (as_timestamp(now()) -
-            as_timestamp(states.sensor.car_port_door_person.last_changed)) / 60 %}
-          {{ front_door_minutes_difference <= 5 or carport_door_minutes_difference <= 5 }}
+            as_timestamp(states.binary_sensor.car_port_door_person_occupancy.last_changed)) / 60 %}
+          {{ carport_door_minutes_difference <= 5 or states('binary_sensor.car_port_door_person_occupancy') or states('binary_sensor.carport_doorbell_doorbell') }}
+      - name: Guests recently detected at front door
+        unique_id: guests_recently_detected_front_door
+        state: >
+          # {% set carport_door_minutes_difference = (as_timestamp(now()) -
+          #   as_timestamp(states.binary_sensor.car_port_door_person_occupancy.last_changed)) / 60 %}
+          {{ states('binary_sensor.front_doorbell_doorbell') }}
+      - name: Guests recently detected
+        unique_id: guests_recently_detected
+        state: >
+          {{ states('binary_sensor.guests_recently_detected_car_port_door') or states('binary_sensor.guests_recently_detected_front_door') }}
 
   - sensor:
       - name: Under Sink Leak Detections
@@ -38,7 +46,7 @@ binary_sensor:
       - binary_sensor.guest_bathroom_sink_1_ias_zone
       - binary_sensor.guest_bathroom_sink_2_ias_zone
       - binary_sensor.office_bathroom_sink_ias_zone
-      - binary_sensor.guests_at_door
+      - binary_sensor.guests_recently_detected
 
   - platform: group
     name: Under Sink Leak

@@ -14,7 +14,7 @@ automation:
         from: "off"
     condition:
       condition: template
-      value_template: "{{ (as_timestamp(now()) - as_timestamp(state_attr('automation.doorbell_notification', 'last_triggered') | int(as_timestamp(now()))) > 5)}}"
+      value_template: "{{ ((as_timestamp(now()) - as_timestamp(state_attr('automation.doorbell_notification', 'last_triggered')) | int(0)) > 30)}}"
     action:
       - choose:
           - conditions:
