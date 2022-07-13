@@ -7,3 +7,4 @@
 packages/keymaster/
 !appdaemon.yaml
 !configuration.yaml
+!ui-lovelace.yaml
