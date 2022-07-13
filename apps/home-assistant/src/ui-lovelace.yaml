@@ -126,16 +126,13 @@ views:
                               secondary: >-
                                 {% set seconds_difference = (as_timestamp(now()) -
                                 as_timestamp(states.sensor.car_port_door_person_count.last_changed)) %}
-
                                 {% set minutes_difference = (seconds_difference) / 60 %}
-
                                 {% set time_ago = iif(seconds_difference < 60, 'now',
                                 iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
                                 > 1, ((seconds_difference / 60) | round(0)) | string + ' minutes
                                 ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                                 ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                                 ago')) %}
-
                                 {{ states('sensor.car_port_door_person_count') | int(1) }} guest{%if
                                 (states('sensor.car_port_door_person_count') | int(1) > 1) %}s{%endif%}
                                 {{ time_ago }}
@@ -168,7 +165,6 @@ views:
                                           ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                                           ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                                           ago')) %}
-
                                           {{ states('sensor.car_port_door_person_count') | int(1) }} guest{%if
                                           (states('sensor.car_port_door_person_count') | int(1) > 1) %}s{%endif%}
                                           {{ time_ago }}
@@ -234,9 +230,7 @@ views:
                               secondary: >-
                                 {% set seconds_difference = (as_timestamp(now()) -
                                 as_timestamp(states.sensor.car_port_door_person_count.last_changed)) %}
-
                                 {% set minutes_difference = (seconds_difference) / 60 %}
-
                                 {% set time_ago = iif(seconds_difference < 60, 'now',
                                 iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
                                 > 1, ((seconds_difference / 60) | round(0)) | string + ' minutes
@@ -276,7 +270,6 @@ views:
                                           ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                                           ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                                           ago')) %}
-
                                           {{ states('sensor.car_port_door_person_count') | int(1) }} guest{%if
                                           (states('sensor.car_port_door_person_count') | int(1) > 1) %}s{%endif%}
                                           {{ time_ago }}
@@ -452,16 +445,13 @@ views:
                   secondary: >-
                     {% set seconds_difference = (as_timestamp(now()) -
                     as_timestamp(states.sensor.car_port_door_person_count.last_changed)) %}
-
                     {% set minutes_difference = (seconds_difference) / 60 %}
-
                     {% set time_ago = iif(seconds_difference < 60, 'now',
                     iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
                     > 1, ((seconds_difference / 60) | round(0)) | string + ' minutes
                     ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                     ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                     ago')) %}
-
                     {{ states('sensor.car_port_door_person_count') | int(1) }} guest{%if
                     (states('sensor.car_port_door_person_count') | int(1) > 1) %}s{%endif%}
                     {{ time_ago }}
@@ -487,16 +477,13 @@ views:
                             secondary: >-
                               {% set seconds_difference = (as_timestamp(now()) -
                               as_timestamp(states.sensor.car_port_door_person_count.last_changed)) %}
-
                               {% set minutes_difference = (seconds_difference) / 60 %}
-
                               {% set time_ago = iif(seconds_difference < 60, 'now',
                               iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
                               > 1, ((seconds_difference / 60) | round(0)) | string + ' minutes
                               ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                               ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                               ago')) %}
-
                               {{ states('sensor.car_port_door_person_count') | int(1) }} guest{%if
                               (states('sensor.car_port_door_person_count') | int(1) > 1) %}s{%endif%}
                               {{ time_ago }}
@@ -601,16 +588,13 @@ views:
                             secondary: >-
                               {% set seconds_difference = (as_timestamp(now()) -
                               as_timestamp(states.sensor.car_port_door_person_count.last_changed)) %}
-
                               {% set minutes_difference = (seconds_difference) / 60 %}
-
                               {% set time_ago = iif(seconds_difference < 60, 'now',
                               iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
                               > 1, ((seconds_difference / 60) | round(0)) | string + ' minutes
                               ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                               ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                               ago')) %}
-
                               {{ states('sensor.car_port_door_person_count') | int(1) }} guest{%if
                               (states('sensor.car_port_door_person_count') | int(1) > 1) %}s{%endif%}
                               {{ time_ago }}
