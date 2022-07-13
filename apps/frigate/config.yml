@@ -10,7 +10,8 @@ mqtt:
 ffmpeg:
   output_args:
     detect: -f rawvideo
-    record: -ar 44100
+    record: -an
+    rtmp: -an
 
 objects:
   track:
