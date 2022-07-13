@@ -98,7 +98,7 @@ frontend:
     - /config/www/community/lovelace-card-mod/card-mod.js
 
 lovelace:
-  mode: storage
+  mode: yaml
   dashboards:
     beta-release:
       mode: yaml
@@ -106,6 +106,13 @@ lovelace:
       icon: fas:home
       filename: lovelace/beta.yaml
       show_in_sidebar: true
+    admin-dashboard:
+      mode: yaml
+      title: Admin
+      icon: fas:exclamation-triangle
+      filename: lovelace/admin.yaml
+      show_in_sidebar: true
+      require_admin: true
 
 http:
   use_x_forwarded_for: true

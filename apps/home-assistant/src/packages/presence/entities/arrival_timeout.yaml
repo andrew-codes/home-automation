@@ -1,0 +1,7 @@
+template:
+  - binary_sensor:
+      - name: Dorri arrived home recently
+        unique_id: dorri_arrived_home_recently
+        state: >
+          {% set minutes_difference = (as_timestamp(now()) - as_timestamp(states.person.dorri_smith.last_changed)) / 60 %}
+          {{ is_state('person.dorri_smith', 'home') and minutes_difference <= 10 }}
