@@ -920,6 +920,7 @@ views:
                     title: Upcoming Guests
                 - type: custom:home-feed-card
                   show_empty: true
+                  id_filter: "^home_feed.*"
                   calendars:
                     - calendar.guests
                   entities: []
