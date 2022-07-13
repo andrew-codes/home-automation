@@ -33,12 +33,12 @@ automation:
                     image: "https://ha.smith-simms.family/local/carport_doorbell.jpg"
                     tag: "carport-doorbell"
                     when: "{{ strptime(as_timestamp(now()), '%m/%d/%Y, %I:%M:%S %p') | as_timestamp | int }}"
-                    url: /lovelace/security
-                    click_action: /lovelace/security
+                    url: /lovelace/default_view
+                    click_action: /lovelace/default_view
                     actions:
                       - action: "URI"
                         title: "View Live Feed"
-                        uri: "/lovelace/security"
+                        uri: "/lovelace/default_view"
                     push:
                       thread-id: security
           - conditions:
@@ -57,11 +57,11 @@ automation:
                     image: "https://ha.smith-simms.family/local/front_doorbell.jpg"
                     tag: "front-doorbell"
                     when: "{{ strptime(as_timestamp(now()), '%m/%d/%Y, %I:%M:%S %p') | as_timestamp | int }}"
-                    url: /lovelace/security
-                    click_action: /lovelace/security
+                    url: /lovelace/default_view
+                    click_action: /lovelace/default_view
                     actions:
                       - action: "URI"
                         title: "View Live Feed"
-                        uri: "/lovelace/security"
+                        uri: "/lovelace/default_view"
                     push:
                       thread-id: security

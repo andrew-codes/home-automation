@@ -1,8 +1,8 @@
-title: Beta
+title: Home
 views:
   - theme: Backend-selected
     title: Home
-    path: default_view.beta
+    path: default_view
     icon: fas:home
     type: custom:grid-layout
     layout:
