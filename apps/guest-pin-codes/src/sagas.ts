@@ -52,14 +52,14 @@ function* fetchEvents(action) {
       calendar_v3.Calendar,
       (
         params?: calendar_v3.Params$Resource$Events$List,
-        options?: Common.MethodOptions
+        options?: Common.MethodOptions,
       ) => Common.GaxiosPromise<calendar_v3.Schema$Events>
     >(
       [calendar, calendar.events.list],
       {
         calendarId: GUEST_PIN_CODES_CALENDAR_ID as string,
       },
-      {}
+      {},
     )
     yield put(setEvents(data.items ?? []))
   } catch (error) {
@@ -88,13 +88,13 @@ function* fetchWifiInformation(action: FetchGuestWifiNetworkInformationAction) {
     console.log(response)
 
     const firstGuestNetwork = response.data.find(
-      (network) => !!network.is_guest
+      (network) => !!network.is_guest,
     )
     yield put(
       setGuestWifiNetworkInformation(
         firstGuestNetwork.name,
-        firstGuestNetwork.x_passphrase
-      )
+        firstGuestNetwork.x_passphrase,
+      ),
     )
     yield put(fetchGuestWifiNetworkInformation(false))
   } catch (error: any) {
@@ -113,7 +113,7 @@ function* startEvent(action: ScheduleEventsAction) {
     yield take(
       (action) =>
         action.type === "FETCH_GUEST_WIFI_NETWORK_INFORMATION" &&
-        action.meta !== undefined
+        action.meta !== undefined,
     )
     const guestNetwork = yield select(getGuestWifiNetwork)
     const guestNetworkMessage = !!guestNetwork
@@ -144,7 +144,7 @@ Wifi Password: ${guestNetwork.password}`
         const nextCodeIndex = getNextCodeIndex(
           codes.length,
           currentCodeIndex,
-          eventIndex + 1
+          eventIndex + 1,
         )
         code = codes[nextCodeIndex]
 
@@ -152,7 +152,7 @@ Wifi Password: ${guestNetwork.password}`
           calendar_v3.Calendar,
           (
             params?: calendar_v3.Params$Resource$Events$Update,
-            options?: Common.MethodOptions
+            options?: Common.MethodOptions,
           ) => Common.GaxiosPromise<calendar_v3.Schema$Event>
         >(
           [calendar, calendar.events.update],
@@ -166,15 +166,15 @@ Wifi Password: ${guestNetwork.password}`
               description: `ACCESS CODE: ${code}${guestNetworkMessage}
 =================
 
-This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code contact Andrew or Dorri.
+This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code, contact Andrew or Dorri.
 
 * To Unlock the door, enter the access code above.
-* To Lock the door when you leave, press the "Schalge" logo at the top of the keypad.
+* To Lock the door when you leave, press the "Yale" logo at the top of the keypad.
 
 Thank you!`,
             },
           },
-          {}
+          {},
         )
         const mqtt = yield call(createMqtt)
 
@@ -189,7 +189,7 @@ Thank you!`,
             (
               topic: string,
               message: string,
-              options: IClientPublishOptions
+              options: IClientPublishOptions,
             ) => Promise<IPublishPacket>
           >([mqtt, mqtt.publish], `home/pin/${door}/${slotNumber}/set`, code, {
             qos: 2,
@@ -199,7 +199,7 @@ Thank you!`,
             (
               topic: string,
               message: string,
-              options: IClientPublishOptions
+              options: IClientPublishOptions,
             ) => Promise<IPublishPacket>
           >([mqtt, mqtt.publish], `home/pin/${door}/${slotNumber}/enable`, "", {
             qos: 2,
@@ -249,7 +249,7 @@ function* endEvent(action: ScheduleEventsAction) {
           [mqtt, mqtt.publish],
           `home/pin/${door}/${slotId}/disable`,
           "",
-          { qos: 2 }
+          { qos: 2 },
         )
       }
       try {
@@ -257,7 +257,7 @@ function* endEvent(action: ScheduleEventsAction) {
           calendar_v3.Calendar,
           (
             params?: calendar_v3.Params$Resource$Events$Update,
-            options?: Common.MethodOptions
+            options?: Common.MethodOptions,
           ) => Common.GaxiosPromise<calendar_v3.Schema$Event>
         >(
           [calendar, calendar.events.update],
@@ -272,7 +272,7 @@ function* endEvent(action: ScheduleEventsAction) {
 Thank you!`,
             },
           },
-          {}
+          {},
         )
       } catch (calendarApiError) {
         debug(calendarApiError)

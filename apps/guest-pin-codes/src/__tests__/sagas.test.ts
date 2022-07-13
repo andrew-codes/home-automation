@@ -232,10 +232,10 @@ Wifi: Test-SSID
 Wifi Password: TEST_PASSWORD
 =================
 
-This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code contact Andrew or Dorri.
+This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code, contact Andrew or Dorri.
 
 * To Unlock the door, enter the access code above.
-* To Lock the door when you leave, press the "Schalge" logo at the top of the keypad.
+* To Lock the door when you leave, press the "Yale" logo at the top of the keypad.
 
 Thank you!`,
             },
@@ -256,10 +256,10 @@ Wifi: Test-SSID
 Wifi Password: TEST_PASSWORD
 =================
 
-This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code contact Andrew or Dorri.
+This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code, contact Andrew or Dorri.
 
 * To Unlock the door, enter the access code above.
-* To Lock the door when you leave, press the "Schalge" logo at the top of the keypad.
+* To Lock the door when you leave, press the "Yale" logo at the top of the keypad.
 
 Thank you!`,
             },
@@ -280,10 +280,10 @@ Wifi: Test-SSID
 Wifi Password: TEST_PASSWORD
 =================
 
-This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code contact Andrew or Dorri.
+This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code, contact Andrew or Dorri.
 
 * To Unlock the door, enter the access code above.
-* To Lock the door when you leave, press the "Schalge" logo at the top of the keypad.
+* To Lock the door when you leave, press the "Yale" logo at the top of the keypad.
 
 Thank you!`,
             },
@@ -322,10 +322,10 @@ Thank you!`,
               description: `ACCESS CODE: 0001
 =================
 
-This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code contact Andrew or Dorri.
+This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code, contact Andrew or Dorri.
 
 * To Unlock the door, enter the access code above.
-* To Lock the door when you leave, press the "Schalge" logo at the top of the keypad.
+* To Lock the door when you leave, press the "Yale" logo at the top of the keypad.
 
 Thank you!`,
             },
@@ -344,10 +344,10 @@ Thank you!`,
               description: `ACCESS CODE: 0003
 =================
 
-This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code contact Andrew or Dorri.
+This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code, contact Andrew or Dorri.
 
 * To Unlock the door, enter the access code above.
-* To Lock the door when you leave, press the "Schalge" logo at the top of the keypad.
+* To Lock the door when you leave, press the "Yale" logo at the top of the keypad.
 
 Thank you!`,
             },
@@ -366,10 +366,10 @@ Thank you!`,
               description: `ACCESS CODE: 0002
 =================
 
-This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code contact Andrew or Dorri.
+This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code, contact Andrew or Dorri.
 
 * To Unlock the door, enter the access code above.
-* To Lock the door when you leave, press the "Schalge" logo at the top of the keypad.
+* To Lock the door when you leave, press the "Yale" logo at the top of the keypad.
 
 Thank you!`,
             },
@@ -409,10 +409,10 @@ Thank you!`,
               description: `ACCESS CODE: 0001
 =================
 
-This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code contact Andrew or Dorri.
+This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code, contact Andrew or Dorri.
 
 * To Unlock the door, enter the access code above.
-* To Lock the door when you leave, press the "Schalge" logo at the top of the keypad.
+* To Lock the door when you leave, press the "Yale" logo at the top of the keypad.
 
 Thank you!`,
             },
@@ -431,10 +431,10 @@ Thank you!`,
               description: `ACCESS CODE: 0003
 =================
 
-This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code contact Andrew or Dorri.
+This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code, contact Andrew or Dorri.
 
 * To Unlock the door, enter the access code above.
-* To Lock the door when you leave, press the "Schalge" logo at the top of the keypad.
+* To Lock the door when you leave, press the "Yale" logo at the top of the keypad.
 
 Thank you!`,
             },
@@ -453,10 +453,10 @@ Thank you!`,
               description: `ACCESS CODE: 0002
 =================
 
-This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code contact Andrew or Dorri.
+This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code, contact Andrew or Dorri.
 
 * To Unlock the door, enter the access code above.
-* To Lock the door when you leave, press the "Schalge" logo at the top of the keypad.
+* To Lock the door when you leave, press the "Yale" logo at the top of the keypad.
 
 Thank you!`,
             },
