@@ -54,7 +54,7 @@
       "options": {
         "cwd": "apps/game-room-remote",
         "port": 80,
-        "command": "ls && next dev -p 80"
+        "command": "next dev -p 80"
       }
     },
     "test": {
