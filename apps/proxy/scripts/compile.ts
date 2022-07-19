@@ -67,8 +67,8 @@ server {
 `)}
 
 server {
-  listen 80;
-  listen 443;
+  listen 80 default_server;
+  listen 443 default_server;
   return 444;
 }`
   await fs.writeFile(
