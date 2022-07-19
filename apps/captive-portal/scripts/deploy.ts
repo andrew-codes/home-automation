@@ -42,7 +42,7 @@ const run = async (
   <html>
     <head>
       <title>Smith-Simms Wifi</title>
-      <meta http-equiv="refresh" content="0;url=http://${host}?mac=<unifi var="mac" />">
+      <meta http-equiv="refresh" content="0;url=https://${host}?mac=<unifi var="mac" />">
     </head>
     <body>
     </body>
