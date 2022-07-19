@@ -11,6 +11,10 @@
       "type": "string",
       "description": "Command to run locally."
     },
+    "cwd": {
+      "type": "string",
+      "description": "CWD to execute command."
+    },
     "serviceName": {
       "type": "string",
       "description": "Override service name (defaults to project name)."

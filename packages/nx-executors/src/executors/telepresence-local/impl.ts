@@ -8,6 +8,7 @@ import { throwIfError } from "@ha/shell-utils"
 
 interface TelepresenceExecutorOptions {
   command: string
+  cwd: string
   port: number
   serviceName?: string
 }
@@ -26,7 +27,7 @@ async function executor(
     }" --service "${options.serviceName ?? context.projectName}" --port ${
       options.port
     }:${options.port} --mount false -- ${options.command}`
-    throwIfError(sh.exec(command))
+    throwIfError(sh.exec(command, { cwd: options.cwd }))
   } catch (error) {
     console.log(error)
     return { success: false }
