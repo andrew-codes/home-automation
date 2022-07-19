@@ -29,6 +29,7 @@ const configurationNames = [
   "frigate/port/external/rmtp",
   "frigate/rtsp/car-port",
   "frigate/rtsp/front-door",
+  "game-room-remote/port/external",
   "github/token",
   "grafana/influxdb/token",
   "grafana/password",
