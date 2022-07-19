@@ -8,6 +8,8 @@
     "start/prod": "next start"
   },
   "dependencies": {
+    "@atlaskit/page-layout": "^1.2.6",
+    "@atlaskit/side-navigation": "^1.2.12",
     "async-mqtt": "^2.6.1",
     "next": "^12.2.2",
     "react": "^17.0.2",

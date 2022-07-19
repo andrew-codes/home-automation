@@ -1,6 +1,5 @@
 import * as React from "react"
 import Document, { Head, Main, NextScript } from "next/document"
-// Import styled components ServerStyleSheet
 import { ServerStyleSheet } from "styled-components"
 
 export default class MyDocument extends Document<{ styleTags: any }> {
@@ -19,11 +18,7 @@ export default class MyDocument extends Document<{ styleTags: any }> {
   render() {
     return (
       <html>
-        <Head>
-          <title>My page</title>
-          {/* Step 5: Output the styles in the head  */}
-          {this.props.styleTags}
-        </Head>
+        <Head>{this.props.styleTags}</Head>
         <body>
           <Main />
           <NextScript />
