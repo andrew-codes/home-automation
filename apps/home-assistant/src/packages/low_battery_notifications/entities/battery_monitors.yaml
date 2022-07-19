@@ -1,7 +1,6 @@
 group:
   low_batteries:
     name: Low Batteries
-    unique_id: low_batteries
     entities:
       - binary_sensor.front_door_deadbolt
       - binary_sensor.guest_bathroom_sink_1
