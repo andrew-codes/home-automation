@@ -21,7 +21,7 @@
       "description": "Run local apps via Telepresence."
     },
     "telepresence-local": {
-      "implementation": "./dist/telepresenc-local",
+      "implementation": "./dist/telepresence-local",
       "schema": "./src/executors/telepresence-local/schema.json",
       "description": "Run local apps via Telepresence."
     },
