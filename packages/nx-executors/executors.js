@@ -20,6 +20,11 @@
       "schema": "./src/executors/telepresence/schema.json",
       "description": "Run local apps via Telepresence."
     },
+    "telepresence-local": {
+      "implementation": "./dist/telepresenc-local",
+      "schema": "./src/executors/telepresence-local/schema.json",
+      "description": "Run local apps via Telepresence."
+    },
     "upload-codecov": {
       "implementation": "./dist/upload-codecov",
       "schema": "./src/executors/upload-codecov/schema.json",
