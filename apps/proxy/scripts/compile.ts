@@ -69,6 +69,10 @@ server {
 server {
   listen 80 default_server;
   listen 443 default_server;
+
+  ssl_certificate /etc/letsencrypt/live/smith-simms.family-0001/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/smith-simms.family-0001/privkey.pem;
+
   return 444;
 }`
   await fs.writeFile(
