@@ -6,7 +6,9 @@ import { useRouter } from "next/router"
 
 const Anchor = styled.a`
   ${({ isSelected }) =>
-    isSelected ? `  --ds-text-subtlest: var(--dark-gray);` : ""}
+    isSelected ? `--ds-text-subtlest: var(--dark-gray) !important;` : ""}
+  --ds-background-neutral-subtle-hovered: var(--button-background-color) !important;
+  --ds-background-neutral-subtle-pressed: var(--border-color) !important;
 `
 
 type CustomProps = CustomItemComponentProps & { href: string }
@@ -15,7 +17,7 @@ const NextLinkItem = React.forwardRef<HTMLAnchorElement, CustomProps>(
   (props: CustomProps, ref) => {
     const { children, href, ...rest } = props
     const router = useRouter()
-    const isSelected = router.asPath === href
+    const isSelected = router.route === href
 
     return (
       <Link href={href} passHref={true}>

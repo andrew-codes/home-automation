@@ -5,7 +5,6 @@ import { Content, LeftSidebar, Main, PageLayout } from "@atlaskit/page-layout"
 import {
   NavigationContent,
   CustomItem,
-  NavigationHeader,
   Section,
   SideNavigation,
 } from "@atlaskit/side-navigation"
@@ -47,10 +46,14 @@ button[class$="ButtonBase"] {
   background: var(--button-background-color) !important;
   color: var(--text-color);
 }
+button[class$="ButtonBase"]:active {
+  background: var(--border-color) !important;
+}
 
 [data-resize-button] {
   color: var(--dark-slate-gray) !important;
 }
+
 [data-ds--text-field--container] {
   border-radius: 0 !important;
   border-left: 0 !important;
@@ -59,6 +62,7 @@ button[class$="ButtonBase"] {
   --ds-border: var(--border-color);
 }
 `
+
 const Sidebar = styled.div`
   height: 100%;
   --ds-surface: var(--side-bar-color);
@@ -158,6 +162,25 @@ const getNewValue = (
 
 function Layout({ children }) {
   const router = useRouter()
+  const [isLeftNavReady, setIsLeftNavReady] = React.useState(
+    router.route === "/browse",
+  )
+  React.useEffect(() => {
+    if (window.innerWidth < 600) {
+      const dsPageLayoutState: any =
+        JSON.parse(localStorage.getItem("DS_PAGE_LAYOUT_UI_STATE") ?? "{}") ??
+        {}
+
+      dsPageLayoutState.isLeftSidebarCollapsed = true
+      dsPageLayoutState.gridState.leftSidebarWidth = 20
+      localStorage.setItem(
+        "DS_PAGE_LAYOUT_UI_STATE",
+        JSON.stringify(dsPageLayoutState),
+      )
+    }
+    setIsLeftNavReady(true)
+  }, [])
+
   const [query, setQuery] = React.useState(router.query)
   React.useEffect(() => {
     setQuery(router.query)
@@ -217,163 +240,165 @@ function Layout({ children }) {
   return (
     <>
       <GlobalStyle />
-      <PageLayout>
-        <Content>
-          <NavBorder>
-            <LeftSidebar width={350}>
-              <SideNavigation label="Game Room Navigation">
-                <NavLayout>
-                  <NavigationContent>
-                    <Section>
-                      <PlayCard>
-                        <img />
-                        <span>Nothing playing</span>
-                      </PlayCard>
-                      {router.route !== "/" && (
-                        <CustomItem href="/" component={NextLinkItem}>
-                          Back
-                        </CustomItem>
+      {isLeftNavReady && (
+        <PageLayout>
+          <Content>
+            <NavBorder>
+              <LeftSidebar width={350}>
+                <SideNavigation label="Game Room Navigation">
+                  <NavLayout>
+                    <NavigationContent>
+                      <Section>
+                        <PlayCard>
+                          <img />
+                          <span>Nothing playing</span>
+                        </PlayCard>
+                        {router.route !== "/" && (
+                          <CustomItem href="/" component={NextLinkItem}>
+                            Back
+                          </CustomItem>
+                        )}
+                        {router.route === "/" && (
+                          <CustomItem href="/browse" component={NextLinkItem}>
+                            Browse
+                          </CustomItem>
+                        )}
+                      </Section>
+                      {router.route === "/browse" && (
+                        <>
+                          <Section>
+                            <Chips>
+                              <Chip
+                                name="recent"
+                                onClick={handleCollectionChange}
+                              >
+                                recent
+                              </Chip>
+                              <Chip name="all" onClick={handleCollectionChange}>
+                                all
+                              </Chip>
+                            </Chips>
+                          </Section>
+                          <Section>
+                            <FindFilters>
+                              <Fieldset legend="Search">
+                                <Field name="search">
+                                  {({ fieldProps }: any) => (
+                                    <TextField
+                                      placeholder="by title"
+                                      {...fieldProps}
+                                    />
+                                  )}
+                                </Field>
+                              </Fieldset>
+                              <Fieldset legend="Platform">
+                                <CheckboxField name="platform">
+                                  {(fieldProps) => (
+                                    <Checkbox
+                                      {...fieldProps}
+                                      label="TV or Movies"
+                                      value="tv"
+                                      isChecked={
+                                        !!router.query.platform?.includes("tv")
+                                      }
+                                      size="large"
+                                      name="platform"
+                                      onChange={handleCheckboxChange}
+                                    />
+                                  )}
+                                </CheckboxField>
+                                <CheckboxField name="platform">
+                                  {(fieldProps) => (
+                                    <Checkbox
+                                      label="PC"
+                                      value="pc"
+                                      name="platform"
+                                      isChecked={
+                                        !!router.query.platform?.includes("pc")
+                                      }
+                                      onChange={handleCheckboxChange}
+                                      size="large"
+                                    />
+                                  )}
+                                </CheckboxField>
+                                <CheckboxField name="platform">
+                                  {(fieldProps) => (
+                                    <Checkbox
+                                      {...fieldProps}
+                                      label="PlayStation"
+                                      value="playstation"
+                                      size="large"
+                                      isChecked={
+                                        !!router.query.platform?.includes(
+                                          "playstation",
+                                        )
+                                      }
+                                      name="platform"
+                                      onChange={handleCheckboxChange}
+                                    />
+                                  )}
+                                </CheckboxField>
+                              </Fieldset>
+                              <Fieldset legend="Co-op / Multiplayer">
+                                <CheckboxField name="players">
+                                  {(fieldProps) => (
+                                    <Checkbox
+                                      {...fieldProps}
+                                      label="Single"
+                                      value="single"
+                                      size="large"
+                                      name="players"
+                                      onChange={handleCheckboxChange}
+                                    />
+                                  )}
+                                </CheckboxField>
+                                <CheckboxField name="players">
+                                  {(fieldProps) => (
+                                    <Checkbox
+                                      {...fieldProps}
+                                      label="Local"
+                                      value="local"
+                                      size="large"
+                                      name="players"
+                                      onChange={handleCheckboxChange}
+                                    />
+                                  )}
+                                </CheckboxField>
+                                <CheckboxField name="players">
+                                  {(fieldProps) => (
+                                    <Checkbox
+                                      {...fieldProps}
+                                      label="Online"
+                                      value="online"
+                                      size="large"
+                                      name="players"
+                                      onChange={handleCheckboxChange}
+                                    />
+                                  )}
+                                </CheckboxField>
+                              </Fieldset>
+                              <Button
+                                shouldFitContainer
+                                appearance="subtle"
+                                onClick={handleClear}
+                              >
+                                Clear
+                              </Button>
+                            </FindFilters>
+                          </Section>
+                        </>
                       )}
-                      {router.route === "/" && (
-                        <CustomItem href="/browse" component={NextLinkItem}>
-                          Browse
-                        </CustomItem>
-                      )}
-                    </Section>
-                    {router.route === "/browse" && (
-                      <>
-                        <Section>
-                          <Chips>
-                            <Chip
-                              name="recent"
-                              onClick={handleCollectionChange}
-                            >
-                              recent
-                            </Chip>
-                            <Chip name="all" onClick={handleCollectionChange}>
-                              all
-                            </Chip>
-                          </Chips>
-                        </Section>
-                        <Section>
-                          <FindFilters>
-                            <Fieldset legend="Search">
-                              <Field name="search">
-                                {({ fieldProps }: any) => (
-                                  <TextField
-                                    placeholder="by title"
-                                    {...fieldProps}
-                                  />
-                                )}
-                              </Field>
-                            </Fieldset>
-                            <Fieldset legend="Platform">
-                              <CheckboxField name="platform">
-                                {(fieldProps) => (
-                                  <Checkbox
-                                    {...fieldProps}
-                                    label="TV or Movies"
-                                    value="tv"
-                                    isChecked={
-                                      !!router.query.platform?.includes("tv")
-                                    }
-                                    size="large"
-                                    name="platform"
-                                    onChange={handleCheckboxChange}
-                                  />
-                                )}
-                              </CheckboxField>
-                              <CheckboxField name="platform">
-                                {(fieldProps) => (
-                                  <Checkbox
-                                    label="PC"
-                                    value="pc"
-                                    name="platform"
-                                    isChecked={
-                                      !!router.query.platform?.includes("pc")
-                                    }
-                                    onChange={handleCheckboxChange}
-                                    size="large"
-                                  />
-                                )}
-                              </CheckboxField>
-                              <CheckboxField name="platform">
-                                {(fieldProps) => (
-                                  <Checkbox
-                                    {...fieldProps}
-                                    label="PlayStation"
-                                    value="playstation"
-                                    size="large"
-                                    isChecked={
-                                      !!router.query.platform?.includes(
-                                        "playstation",
-                                      )
-                                    }
-                                    name="platform"
-                                    onChange={handleCheckboxChange}
-                                  />
-                                )}
-                              </CheckboxField>
-                            </Fieldset>
-                            <Fieldset legend="Co-op / Multiplayer">
-                              <CheckboxField name="players">
-                                {(fieldProps) => (
-                                  <Checkbox
-                                    {...fieldProps}
-                                    label="Single"
-                                    value="single"
-                                    size="large"
-                                    name="players"
-                                    onChange={handleCheckboxChange}
-                                  />
-                                )}
-                              </CheckboxField>
-                              <CheckboxField name="players">
-                                {(fieldProps) => (
-                                  <Checkbox
-                                    {...fieldProps}
-                                    label="Local"
-                                    value="local"
-                                    size="large"
-                                    name="players"
-                                    onChange={handleCheckboxChange}
-                                  />
-                                )}
-                              </CheckboxField>
-                              <CheckboxField name="players">
-                                {(fieldProps) => (
-                                  <Checkbox
-                                    {...fieldProps}
-                                    label="Online"
-                                    value="online"
-                                    size="large"
-                                    name="players"
-                                    onChange={handleCheckboxChange}
-                                  />
-                                )}
-                              </CheckboxField>
-                            </Fieldset>
-                            <Button
-                              shouldFitContainer
-                              appearance="subtle"
-                              onClick={handleClear}
-                            >
-                              Clear
-                            </Button>
-                          </FindFilters>
-                        </Section>
-                      </>
-                    )}
-                  </NavigationContent>
-                </NavLayout>
-              </SideNavigation>
-            </LeftSidebar>
-          </NavBorder>
-          <Main>
-            <MainContent>{children}</MainContent>
-          </Main>
-        </Content>
-      </PageLayout>
+                    </NavigationContent>
+                  </NavLayout>
+                </SideNavigation>
+              </LeftSidebar>
+            </NavBorder>
+            <Main>
+              <MainContent>{children}</MainContent>
+            </Main>
+          </Content>
+        </PageLayout>
+      )}
     </>
   )
 }
