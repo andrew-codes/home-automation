@@ -3,8 +3,8 @@ import styled, { createGlobalStyle } from "styled-components"
 import { useRouter } from "next/router"
 import { Content, LeftSidebar, Main, PageLayout } from "@atlaskit/page-layout"
 import {
-  Header,
   NavigationContent,
+  CustomItem,
   NavigationHeader,
   Section,
   SideNavigation,
@@ -13,7 +13,7 @@ import Button from "@atlaskit/button"
 import TextField from "@atlaskit/textfield"
 import { CheckboxField, Field, Fieldset } from "@atlaskit/form"
 import { Checkbox } from "@atlaskit/checkbox"
-import Link from "next/link"
+import NextLinkItem from "./NextLinkItem"
 
 const GlobalStyle = createGlobalStyle`
 body {
@@ -21,33 +21,57 @@ body {
   margin: 0;
   padding: 0;
   --dark-gray: rgb(39,40,38);
-  --dark-slate-gray: rgb(32,32,35);
-  --off-white: rgb(204,207,194);
+  --dark-slate-gray: #0d1117;
+  --side-bar-color: #161b22;
+  --button-background-color: #21262d;
+  --off-white: rgba(240,246,252,0.1);
+  --border-color: rgba(240,246,252,0.1);
+  --input-hovered-background-color: var(--border-color);
   --ds-surface: var(--dark-slate-gray);
+  --text-color: #c9d1d9;
+  --text-subtle-color: var(--dark-slate-gray);
+  --text-muted-color: #8b949e;
   background: var(--dark-slate-gray);
-  color: var(--off-white);
-  --ds-text: var(--off-white);
-  --ds-text-subtlest: var(--off-white);
-  --ds-text-subtle: var(--off-white);
+  color: var(--text-color);
+  --ds-text: var(--text-color);
+  --ds-text-subtlest: var(--text-muted-color);
+  --ds-text-subtle: var(--text-color);
   --ds-background-neutral-subtle-hovered: var(--dark-gray);
 }
 #__next {
   height: 100vh;
 }
+
+button[class$="ButtonBase"] {
+  border: 1px solid var(--border-color) !important;
+  background: var(--button-background-color) !important;
+  color: var(--text-color);
+}
+
+[data-resize-button] {
+  color: var(--dark-slate-gray) !important;
+}
+[data-ds--text-field--container] {
+  border-radius: 0 !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-top: 0 !important;
+  --ds-border: var(--border-color);
+}
 `
 const Sidebar = styled.div`
   height: 100%;
+  --ds-surface: var(--side-bar-color);
 `
 const NavBorder = styled(Sidebar)`
-  border-right: 1px solid rgb(88, 89, 86);
+  border-right: 1px solid var(--border-color);
 `
-const DetailsPane = styled(Sidebar)`
-  border-left: 1px solid rgb(88, 89, 86);
-`
+
 const NavLayout = styled.div`
   height: 100% !important;
   flex-direction: column;
   display: flex;
+  background: var(--side-bar-color);
   > * {
     height: unset !important;
   }
@@ -57,17 +81,20 @@ const NavLayout = styled.div`
 `
 const FindFilters = styled.div`
   padding: 0 10px;
-  --ds-background-input: var(--dark-slate-gray);
-  --ds-background-input-hovered: var(--dark-gray);
-  --ds-background-input-pressed: var(--dark-gray);
-  [data-ds--text-field--container] {
-    border-radius: 0;
-    border-left: 0;
-    border-right: 0;
-    border-top: 0;
-  }
+  --ds-background-neutral-subtle-hovered: var(--side-bar-color);
+  --ds-background-input: var(--side-bar-color);
+  --ds-background-input-hovered: var(--input-hovered-background-color);
+  --ds-background-input-pressed: var(--input-hovered-background-color);
+  --ds-border-color: var(--border-color);
+
   > * {
     margin-top: 12px;
+  }
+  fieldset {
+    border-color: var(--border-color);
+  }
+  fieldset legend label {
+    color: var(--text-muted-color) !important;
   }
 `
 
@@ -80,13 +107,33 @@ const Chips = styled.div`
   }
 `
 const Chip = styled(Button)`
-  background: var(--dark-gray);
-  border-radius: 8px;
-  border: 1px solid var(--off-white) !important;
-  color: var(--off-white);
-  text-decoration: none;
+  border-radius: 18px !important;
   text-align: center;
   min-width: 94px !important;
+`
+
+const MainContent = styled.div`
+  padding: 40px;
+`
+
+const PlayCard = styled.div`
+  margin: 18px;
+  min-height: 64px;
+  padding: 18px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  display: flex;
+
+  img {
+    height: 64px;
+    width: 64px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+  }
+  > *:not(img) {
+    padding-top: 12px;
+    padding-left: 18px;
+  }
 `
 
 const getNewValue = (
@@ -175,131 +222,156 @@ function Layout({ children }) {
           <NavBorder>
             <LeftSidebar width={350}>
               <SideNavigation label="Game Room Navigation">
-                <NavigationHeader>
-                  <Chips>
-                    <Chip name="recent" onClick={handleCollectionChange}>
-                      recent
-                    </Chip>
-                    <Chip name="all" onClick={handleCollectionChange}>
-                      all
-                    </Chip>
-                  </Chips>
-                </NavigationHeader>
                 <NavLayout>
                   <NavigationContent>
-                    <Section title="Filter">
-                      <FindFilters>
-                        <Fieldset legend="Search">
-                          <Field name="search">
-                            {({ fieldProps }: any) => (
-                              <TextField
-                                placeholder="by title"
-                                {...fieldProps}
-                              />
-                            )}
-                          </Field>
-                        </Fieldset>
-                        <Fieldset legend="Platform">
-                          <CheckboxField name="platform">
-                            {(fieldProps) => (
-                              <Checkbox
-                                {...fieldProps}
-                                label="TV or Movies"
-                                value="tv"
-                                isChecked={
-                                  !!router.query.platform?.includes("tv")
-                                }
-                                size="large"
-                                name="platform"
-                                onChange={handleCheckboxChange}
-                              />
-                            )}
-                          </CheckboxField>
-                          <CheckboxField name="platform">
-                            {(fieldProps) => (
-                              <Checkbox
-                                label="PC"
-                                value="pc"
-                                name="platform"
-                                isChecked={
-                                  !!router.query.platform?.includes("pc")
-                                }
-                                onChange={handleCheckboxChange}
-                                size="large"
-                              />
-                            )}
-                          </CheckboxField>
-                          <CheckboxField name="platform">
-                            {(fieldProps) => (
-                              <Checkbox
-                                {...fieldProps}
-                                label="PlayStation"
-                                value="playstation"
-                                size="large"
-                                isChecked={
-                                  !!router.query.platform?.includes(
-                                    "playstation",
-                                  )
-                                }
-                                name="platform"
-                                onChange={handleCheckboxChange}
-                              />
-                            )}
-                          </CheckboxField>
-                        </Fieldset>
-                        <Fieldset legend="Co-op / Multiplayer">
-                          <CheckboxField name="players">
-                            {(fieldProps) => (
-                              <Checkbox
-                                {...fieldProps}
-                                label="Single"
-                                value="single"
-                                size="large"
-                                name="players"
-                                onChange={handleCheckboxChange}
-                              />
-                            )}
-                          </CheckboxField>
-                          <CheckboxField name="players">
-                            {(fieldProps) => (
-                              <Checkbox
-                                {...fieldProps}
-                                label="Local"
-                                value="local"
-                                size="large"
-                                name="players"
-                                onChange={handleCheckboxChange}
-                              />
-                            )}
-                          </CheckboxField>
-                          <CheckboxField name="players">
-                            {(fieldProps) => (
-                              <Checkbox
-                                {...fieldProps}
-                                label="Online"
-                                value="online"
-                                size="large"
-                                name="players"
-                                onChange={handleCheckboxChange}
-                              />
-                            )}
-                          </CheckboxField>
-                        </Fieldset>
-                        <Button
-                          shouldFitContainer
-                          appearance="subtle"
-                          onClick={handleClear}
-                        >
-                          Clear
-                        </Button>
-                      </FindFilters>
+                    <Section>
+                      <PlayCard>
+                        <img />
+                        <span>Nothing playing</span>
+                      </PlayCard>
+                      {router.route !== "/" && (
+                        <CustomItem href="/" component={NextLinkItem}>
+                          Back
+                        </CustomItem>
+                      )}
+                      {router.route === "/" && (
+                        <CustomItem href="/browse" component={NextLinkItem}>
+                          Browse
+                        </CustomItem>
+                      )}
                     </Section>
+                    {router.route === "/browse" && (
+                      <>
+                        <Section>
+                          <Chips>
+                            <Chip
+                              name="recent"
+                              onClick={handleCollectionChange}
+                            >
+                              recent
+                            </Chip>
+                            <Chip name="all" onClick={handleCollectionChange}>
+                              all
+                            </Chip>
+                          </Chips>
+                        </Section>
+                        <Section>
+                          <FindFilters>
+                            <Fieldset legend="Search">
+                              <Field name="search">
+                                {({ fieldProps }: any) => (
+                                  <TextField
+                                    placeholder="by title"
+                                    {...fieldProps}
+                                  />
+                                )}
+                              </Field>
+                            </Fieldset>
+                            <Fieldset legend="Platform">
+                              <CheckboxField name="platform">
+                                {(fieldProps) => (
+                                  <Checkbox
+                                    {...fieldProps}
+                                    label="TV or Movies"
+                                    value="tv"
+                                    isChecked={
+                                      !!router.query.platform?.includes("tv")
+                                    }
+                                    size="large"
+                                    name="platform"
+                                    onChange={handleCheckboxChange}
+                                  />
+                                )}
+                              </CheckboxField>
+                              <CheckboxField name="platform">
+                                {(fieldProps) => (
+                                  <Checkbox
+                                    label="PC"
+                                    value="pc"
+                                    name="platform"
+                                    isChecked={
+                                      !!router.query.platform?.includes("pc")
+                                    }
+                                    onChange={handleCheckboxChange}
+                                    size="large"
+                                  />
+                                )}
+                              </CheckboxField>
+                              <CheckboxField name="platform">
+                                {(fieldProps) => (
+                                  <Checkbox
+                                    {...fieldProps}
+                                    label="PlayStation"
+                                    value="playstation"
+                                    size="large"
+                                    isChecked={
+                                      !!router.query.platform?.includes(
+                                        "playstation",
+                                      )
+                                    }
+                                    name="platform"
+                                    onChange={handleCheckboxChange}
+                                  />
+                                )}
+                              </CheckboxField>
+                            </Fieldset>
+                            <Fieldset legend="Co-op / Multiplayer">
+                              <CheckboxField name="players">
+                                {(fieldProps) => (
+                                  <Checkbox
+                                    {...fieldProps}
+                                    label="Single"
+                                    value="single"
+                                    size="large"
+                                    name="players"
+                                    onChange={handleCheckboxChange}
+                                  />
+                                )}
+                              </CheckboxField>
+                              <CheckboxField name="players">
+                                {(fieldProps) => (
+                                  <Checkbox
+                                    {...fieldProps}
+                                    label="Local"
+                                    value="local"
+                                    size="large"
+                                    name="players"
+                                    onChange={handleCheckboxChange}
+                                  />
+                                )}
+                              </CheckboxField>
+                              <CheckboxField name="players">
+                                {(fieldProps) => (
+                                  <Checkbox
+                                    {...fieldProps}
+                                    label="Online"
+                                    value="online"
+                                    size="large"
+                                    name="players"
+                                    onChange={handleCheckboxChange}
+                                  />
+                                )}
+                              </CheckboxField>
+                            </Fieldset>
+                            <Button
+                              shouldFitContainer
+                              appearance="subtle"
+                              onClick={handleClear}
+                            >
+                              Clear
+                            </Button>
+                          </FindFilters>
+                        </Section>
+                      </>
+                    )}
                   </NavigationContent>
                 </NavLayout>
               </SideNavigation>
             </LeftSidebar>
           </NavBorder>
-          <Main>{children}</Main>
+          <Main>
+            <MainContent>{children}</MainContent>
+          </Main>
         </Content>
       </PageLayout>
     </>
