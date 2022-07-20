@@ -1,5 +1,5 @@
 import * as React from "react"
-import Document, { Head, Main, NextScript } from "next/document"
+import Document, { Head, Html, Main, NextScript } from "next/document"
 import { ServerStyleSheet } from "styled-components"
 
 class MyDocument extends Document<{ styleTags: any }> {
@@ -17,13 +17,13 @@ class MyDocument extends Document<{ styleTags: any }> {
 
   render() {
     return (
-      <html>
+      <Html>
         <Head>{this.props.styleTags}</Head>
         <body>
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     )
   }
 }
