@@ -31,3 +31,8 @@ jobs:
           YARN_CACHE_FOLDER: ".yarn-cache"
       - name: Update PiHole
         run: sudo yarn nx run pihole:update
+        env:
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_KEY_VAULT_NAME: ${{ secrets.AZURE_KEY_VAULT_NAME }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
