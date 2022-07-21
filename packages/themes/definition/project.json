@@ -1,0 +1,5 @@
+{
+  "root": "packages/themes/definition",
+  "sourceRoot": "packages/themes/definition/src",
+  "projectType": "library"
+}

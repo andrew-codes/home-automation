@@ -1,0 +1,8 @@
+{
+  "name": "@ha/themes-slate",
+  "version": "0.0.1",
+  "main": "src/index.ts",
+  "dependencies": {
+    "@ha/themes-definition": "^0.0.1"
+  }
+}

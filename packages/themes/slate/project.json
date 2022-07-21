@@ -1,0 +1,5 @@
+{
+  "root": "packages/themes/slate",
+  "sourceRoot": "packages/themes/slate/src",
+  "projectType": "library"
+}
