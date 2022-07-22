@@ -64,10 +64,11 @@
       }
     },
     "serve": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "@ha/nx-executors:telepresence-local",
       "options": {
         "command": "nodemon src/index.ts --inspect=0.0.0.0:9233",
-        "cwd": "apps/ps5"
+        "cwd": "apps/ps5",
+        "port": 80
       }
     }
   },
