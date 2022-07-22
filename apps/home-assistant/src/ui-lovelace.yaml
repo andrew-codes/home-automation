@@ -537,8 +537,8 @@ views:
                             hide_state: false
                             layout: vertical
                 - type: picture-entity
-                  entity: camera.car_port_door
-                  camera_image: camera.car_port_door
+                  entity: camera.front_door
+                  camera_image: camera.front_door
           # Carport door (desktop)
           - type: custom:mod-card
             style: |
@@ -553,7 +553,7 @@ views:
               type: vertical-stack
               cards:
                 - type: custom:mushroom-template-card
-                  primary: Front Door
+                  primary: Carport Door
                   secondary: >-
                     {% set seconds_difference = (as_timestamp(now()) -
                     as_timestamp(states.sensor.car_port_door_person_count.last_changed)) %}
