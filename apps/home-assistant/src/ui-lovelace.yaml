@@ -608,39 +608,39 @@ views:
                             show_name: false
                             camera_view: auto
                           - type: custom:frigate-card
-                              cameras:
-                                - live_provider: frigate-jsmpeg
-                                  camera_entity: camera.car_port_door
-                              view:
-                                default: live
-                                camera_select: live
-                                update_cycle_camera: true
-                              menu:
-                                mode: hidden-top
-                                buttons:
-                                  snapshots: false
-                                  frigate_ui: true
-                              live:
-                                preload: true
-                                auto_unmute: false
-                                controls:
-                                  next_previous:
-                                    style: chevrons
-                                  thumbnails:
-                                    mode: below
-                                    media: clips
-                                transition_effect: slide
-                              event_gallery:
-                                min_columns: 4
-                              event_viewer:
-                                controls:
-                                  next_previous:
-                                    style: chevrons
-                                  thumbnails:
-                                    mode: below
-                                transition_effect: slide
-                              dimensions:
-                                aspect_ratio_mode: unconstrained
+                            cameras:
+                              - live_provider: frigate-jsmpeg
+                                camera_entity: camera.car_port_door
+                            view:
+                              default: live
+                              camera_select: live
+                              update_cycle_camera: true
+                            menu:
+                              mode: hidden-top
+                              buttons:
+                                snapshots: false
+                                frigate_ui: true
+                            live:
+                              preload: true
+                              auto_unmute: false
+                              controls:
+                                next_previous:
+                                  style: chevrons
+                                thumbnails:
+                                  mode: below
+                                  media: clips
+                              transition_effect: slide
+                            event_gallery:
+                              min_columns: 4
+                            event_viewer:
+                              controls:
+                                next_previous:
+                                  style: chevrons
+                                thumbnails:
+                                  mode: below
+                              transition_effect: slide
+                            dimensions:
+                              aspect_ratio_mode: unconstrained
                           - type: custom:mushroom-lock-card
                             entity: lock.carport_deadbolt
                             name: Carport Door
