@@ -579,12 +579,12 @@ views:
                     action: call-service
                     service: browser_mod.popup
                     data:
-                      title: Front Door
+                      title: Carport Door
                       card:
                         type: vertical-stack
                         cards:
                           - type: custom:mushroom-template-card
-                            primary: Front Door
+                            primary: Carport Door
                             secondary: >-
                               {% set seconds_difference = (as_timestamp(now()) -
                               as_timestamp(states.sensor.car_port_door_person_count.last_changed)) %}
@@ -607,7 +607,7 @@ views:
                             show_state: false
                             show_name: false
                             camera_view: auto
-                          - - type: custom:frigate-card
+                          - type: custom:frigate-card
                               cameras:
                                 - live_provider: frigate-jsmpeg
                                   camera_entity: camera.car_port_door

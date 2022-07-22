@@ -1,15 +1,15 @@
 automation:
-  - alias: Doorbell notification
-    id: doorbell_notification
+  - alias: Guests at door notification
+    id: guests_at_door_notification
     trigger:
       - platform: state
         id: carport_door
-        entity_id: binary_sensor.carport_doorbell_doorbell
+        entity_id: binary_sensor.guests_recently_detected_carport_door
         to: "on"
         from: "off"
       - platform: state
         id: front_door
-        entity_id: binary_sensor.front_doorbell_doorbell
+        entity_id: binary_sensor.guests_recently_detected_front_door
         to: "on"
         from: "off"
     condition:
