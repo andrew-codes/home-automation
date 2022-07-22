@@ -54,36 +54,36 @@ snapshots:
     default: 1
 
 cameras:
-  # front_door:
-  #   mqtt:
-  #     timestamp: False
-  #     bounding_box: False
-  #     crop: True
-  #     height: 500
-  #     quality: 95
-  #   best_image_timeout: 120
-  #   ffmpeg:
-  #     inputs:
-  #       - path: "$FRONT_DOOR_RTSP"
-  #         roles:
-  #           - detect
-  #       - path: "$FRONT_DOOR_RTSP"
-  #         roles:
-  #           - rtmp
-  #           - record
-  #   detect:
-  #     width: 1600
-  #     height: 1200
-  #     fps: 5
-  #   motion:
-  #     mask:
-  #       - 1600,0,1600,313,0,319,0,0
-  #   objects:
-  #     filters:
-  #       person:
-  #         mask:
-  #           - 138,812,615,806,745,652,584,587,119,655
-  #           - 1600,589,1600,985,1136,851,872,846,895,622
+  front_door:
+    mqtt:
+      timestamp: False
+      bounding_box: False
+      crop: True
+      height: 500
+      quality: 95
+    best_image_timeout: 120
+    ffmpeg:
+      inputs:
+        - path: "$FRONT_DOOR_RTSP"
+          roles:
+            - detect
+        - path: "$FRONT_DOOR_RTSP"
+          roles:
+            - rtmp
+            - record
+    detect:
+      width: 1600
+      height: 1200
+      fps: 5
+    motion:
+      mask:
+        - 1600,0,1600,313,0,319,0,0
+    objects:
+      filters:
+        person:
+          mask:
+            - 138,812,615,806,745,652,584,587,119,655
+            - 1600,589,1600,985,1136,851,872,846,895,622
 
   car_port_door:
     mqtt:
