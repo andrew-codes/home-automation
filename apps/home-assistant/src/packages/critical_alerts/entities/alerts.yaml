@@ -10,13 +10,13 @@ template:
         state: >
           {% set carport_door_minutes_difference = (as_timestamp(now()) -
             as_timestamp(states.binary_sensor.car_port_door_person_occupancy.last_changed)) / 60 %}
-          {{ carport_door_minutes_difference <= 5 or states('binary_sensor.car_port_door_person_occupancy') or states('binary_sensor.carport_doorbell_doorbell') }}
+          {{ (carport_door_minutes_difference <= 5 and states('binary_sensor.car_port_door_person_occupancy')) or states('binary_sensor.carport_doorbell_doorbell') }}
       - name: Guests recently detected at front door
         unique_id: guests_recently_detected_front_door
         state: >
-          # {% set carport_door_minutes_difference = (as_timestamp(now()) -
-            as_timestamp(states.binary_sensor.car_port_door_person_occupancy.last_changed)) / 60 %}
-          {{ states('binary_sensor.front_doorbell_doorbell') }}
+          # {% set front_door_minutes_difference = (as_timestamp(now()) -
+            as_timestamp(states.binary_sensor.front_door_person_occupancy.last_changed)) / 60 %}
+          {{ (front_door_minutes_difference <= 5 and states('binary_sensor.front_door_person_occupancy')) or states('binary_sensor.front_doorbell_doorbell') }}
       - name: Guests recently detected
         unique_id: guests_recently_detected
         state: >
