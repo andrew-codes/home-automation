@@ -27,4 +27,4 @@ interface ThemeFunction {
 }
 
 export default ThemeFunction
-export { Colors, Theme }
+export type { Colors, Theme }

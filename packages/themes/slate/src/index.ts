@@ -1,4 +1,5 @@
-import ThemeFunction, { Colors } from "@ha/themes-definition"
+import type ThemeFunction from "@ha/themes-definition"
+import type { Colors } from "@ha/themes-definition"
 
 const transparent = "rgba(0,0,0,0)"
 
