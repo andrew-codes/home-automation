@@ -125,7 +125,7 @@ views:
                               primary: Front Door
                               secondary: >-
                                 {% set seconds_difference = (as_timestamp(now()) -
-                                as_timestamp(states.sensor.car_port_door_person_count.last_changed)) %}
+                                as_timestamp(states.sensor.front_door_person_count.last_changed)) %}
                                 {% set minutes_difference = (seconds_difference) / 60 %}
                                 {% set time_ago = iif(seconds_difference < 60, 'now',
                                 iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
@@ -133,11 +133,11 @@ views:
                                 ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                                 ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                                 ago')) %}
-                                {{ states('sensor.car_port_door_person_count') | int(1) }} guest{%if
-                                (states('sensor.car_port_door_person_count') | int(1) > 1) %}s{%endif%}
+                                {{ states('sensor.front_door_person_count') | int(1) }} guest{%if
+                                (states('sensor.front_door_person_count') | int(1) > 1) %}s{%endif%}
                                 {{ time_ago }}
                               icon: mdi:shield-account
-                              entity: sensor.car_port_door_person_count
+                              entity: sensor.front_door_person_count
                               badge_icon: ""
                               multiline_secondary: false
                               fill_container: false
@@ -157,7 +157,7 @@ views:
                                         primary: Guests
                                         secondary: >-
                                           {% set seconds_difference = (as_timestamp(now()) -
-                                          as_timestamp(states.sensor.car_port_door_person_count.last_changed)) %}
+                                          as_timestamp(states.sensor.front_door_person_count.last_changed)) %}
                                           {% set minutes_difference = (seconds_difference) / 60 %}
                                           {% set time_ago = iif(seconds_difference < 60, 'now',
                                           iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
@@ -165,11 +165,11 @@ views:
                                           ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                                           ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                                           ago')) %}
-                                          {{ states('sensor.car_port_door_person_count') | int(1) }} guest{%if
-                                          (states('sensor.car_port_door_person_count') | int(1) > 1) %}s{%endif%}
+                                          {{ states('sensor.front_door_person_count') | int(1) }} guest{%if
+                                          (states('sensor.front_door_person_count') | int(1) > 1) %}s{%endif%}
                                           {{ time_ago }}
                                         icon: mdi:shield-account
-                                        entity: sensor.car_port_door_person_count
+                                        entity: sensor.front_door_person_count
                                         badge_icon: ""
                                         multiline_secondary: false
                                         fill_container: false
@@ -179,7 +179,7 @@ views:
                                       - type: custom:frigate-card
                                         cameras:
                                           - live_provider: frigate-jsmpeg
-                                            camera_entity: camera.car_port_door
+                                            camera_entity: camera.front_door
                                         view:
                                           default: live
                                           camera_select: live
@@ -316,8 +316,8 @@ views:
                                         dimensions:
                                           aspect_ratio_mode: unconstrained
                                       - type: custom:mushroom-lock-card
-                                        entity: lock.front_door_deadbolt
-                                        name: Front Door Lock
+                                        entity: lock.carport_deadbolt
+                                        name: Carport Lock
                                         fill_container: false
                                         hide_state: false
 
@@ -444,7 +444,7 @@ views:
                   primary: Front Door
                   secondary: >-
                     {% set seconds_difference = (as_timestamp(now()) -
-                    as_timestamp(states.sensor.car_port_door_person_count.last_changed)) %}
+                    as_timestamp(states.sensor.front_door_person_count.last_changed)) %}
                     {% set minutes_difference = (seconds_difference) / 60 %}
                     {% set time_ago = iif(seconds_difference < 60, 'now',
                     iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
@@ -452,11 +452,11 @@ views:
                     ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                     ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                     ago')) %}
-                    {{ states('sensor.car_port_door_person_count') | int(1) }} guest{%if
-                    (states('sensor.car_port_door_person_count') | int(1) > 1) %}s{%endif%}
+                    {{ states('sensor.front_door_person_count') | int(1) }} guest{%if
+                    (states('sensor.front_door_person_count') | int(1) > 1) %}s{%endif%}
                     {{ time_ago }}
                   icon: mdi:shield-account
-                  entity: sensor.car_port_door_person_count
+                  entity: sensor.front_door_person_count
                   badge_icon: ""
                   multiline_secondary: false
                   fill_container: false
@@ -476,7 +476,7 @@ views:
                             primary: Front Door
                             secondary: >-
                               {% set seconds_difference = (as_timestamp(now()) -
-                              as_timestamp(states.sensor.car_port_door_person_count.last_changed)) %}
+                              as_timestamp(states.sensor.front_door_person_count.last_changed)) %}
                               {% set minutes_difference = (seconds_difference) / 60 %}
                               {% set time_ago = iif(seconds_difference < 60, 'now',
                               iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
@@ -484,11 +484,11 @@ views:
                               ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                               ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                               ago')) %}
-                              {{ states('sensor.car_port_door_person_count') | int(1) }} guest{%if
-                              (states('sensor.car_port_door_person_count') | int(1) > 1) %}s{%endif%}
+                              {{ states('sensor.front_door_person_count') | int(1) }} guest{%if
+                              (states('sensor.front_door_person_count') | int(1) > 1) %}s{%endif%}
                               {{ time_ago }}
                             icon: mdi:shield-account
-                            entity: sensor.car_port_door_person_count
+                            entity: sensor.front_door_person_count
                             badge_icon: ""
                             multiline_secondary: false
                             fill_container: false
@@ -499,7 +499,7 @@ views:
                           - type: custom:frigate-card
                             cameras:
                               - live_provider: frigate-jsmpeg
-                                camera_entity: camera.car_port_door
+                                camera_entity: camera.front_door
                             view:
                               default: live
                               camera_select: live
@@ -642,8 +642,8 @@ views:
                               dimensions:
                                 aspect_ratio_mode: unconstrained
                           - type: custom:mushroom-lock-card
-                            entity: lock.front_door_deadbolt
-                            name: Front Door
+                            entity: lock.carport_deadbolt
+                            name: Carport Door
                             fill_container: false
                             hide_state: false
                             layout: vertical
@@ -691,8 +691,8 @@ views:
                     hide_state: false
                     layout: vertical
                   - type: custom:mushroom-lock-card
-                    entity: lock.front_door_deadbolt
-                    name: Front Door Lock
+                    entity: lock.carport_deadbolt
+                    name: Carport Lock
                     fill_container: false
                     hide_state: false
                     layout: vertical
@@ -978,8 +978,8 @@ views:
               recording_duration: 10
               show_capture_buttons: false
               cameras:
-                - entity: camera.car_port_door
-                  motion_entity: binary_sensor.carport_doorbell_motion
+                - entity: camera.front_door
+                  motion_entity: binary_sensor.front_door_doorbell_motion
                 - entity: camera.car_port_door
                   motion_entity: binary_sensor.carport_doorbell_motion
           - type: custom:mod-card
@@ -993,8 +993,8 @@ views:
               type: vertical-stack
               cards:
                 - type: picture-entity
-                  entity: camera.car_port_door
-                  camera_image: camera.car_port_door
+                  entity: camera.front_door
+                  camera_image: camera.front_door
                 - type: picture-entity
                   entity: camera.car_port_door
                   camera_image: camera.car_port_door
