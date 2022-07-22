@@ -64,10 +64,10 @@ cameras:
     best_image_timeout: 120
     ffmpeg:
       inputs:
-        - path: "$FRONT_DOOR_RTSP"
+        - path: "$FRIGATE_RTSP_FRONT_DOOR"
           roles:
             - detect
-        - path: "$FRONT_DOOR_RTSP"
+        - path: "$FRIGATE_RTSP_FRONT_DOOR"
           roles:
             - rtmp
             - record
