@@ -17,7 +17,7 @@ const run = async (
 
   sh.env["TF_VAR_ip"] = `${TF_VAR_ip}/8`
   sh.env["TF_VAR_gateway"] = TF_VAR_gateway
-  sh.env["TF_VAR_pm_api_url"] = `${pveHost}/api2/json`
+  sh.env["TF_VAR_pm_api_url"] = `https://${pveHost}/api2/json`
   sh.env["TF_VAR_pm_password"] = TF_VAR_pm_password
   sh.env["TF_VAR_pm_username"] = TF_VAR_pm_username
   sh.env["TF_VAR_hostname"] = TF_VAR_hostname
