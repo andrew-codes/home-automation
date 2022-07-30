@@ -1,0 +1,99 @@
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+
+  tasks:
+    - name: Set hostname
+      hostname:
+        name: "{{ hostname }}"
+
+    - name: Add myself to /etc/hosts
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '^127\.0\.0\.1[ \t]+localhost'
+        line: "127.0.0.1 localhost {{ hostname }}"
+        state: present
+
+    - name: Update apt
+      become_user: root
+      become_method: sudo
+      become: yes
+      shell: apt-get update --allow-releaseinfo-change
+
+    - name: Installing Prerequisites
+      apt:
+        name:
+          - gnupg2
+          - software-properties-common
+          - apt-transport-https
+          - curl
+          - qemu-guest-agent
+        state: present
+
+    - name: Add vscode apt-key
+      apt_key:
+        url: https://packages.microsoft.com/keys/microsoft.asc
+        state: present
+
+    - name: Add vscode Repository
+      apt_repository:
+        repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
+        state: present
+        filename: vscode
+        mode: 0600
+
+    - name: Add Docker official GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+        filename: docker
+        mode: 0600
+
+    - name: Update apt
+      become_user: root
+      become_method: sudo
+      become: yes
+      shell: apt-get update
+
+    - name: Install dev tools
+      apt:
+        name:
+          - docker.io
+          - code
+          - libasound2
+        state: present
+
+    - name: Enable service docker, and enable persistently
+      service:
+        name: docker
+        enabled: yes
+
+    - name: Setup docker daemon config.
+      shell: 'echo ''{ "features": { "buildkit": true }, "exec-opts": ["native.cgroupdriver=systemd"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"}, "default-shm-size": "256M" }'' > /etc/docker/daemon.json'
+
+    - name: Restart docker.
+      command: "{{ item }}"
+      become_user: root
+      become_method: sudo
+      become: yes
+      with_items:
+        - systemctl daemon-reload
+        - systemctl restart docker
+
+    - name: Install extensions for vscode
+      shell: code --install-extension ms-vscode-remote.vscode-remote-extensionpack --no-sandbox --user-data-dir /root
+
+    - name: Add user to docker group
+      ansible.builtin.user:
+        name: "{{ ansible_user }}"
+        group: docker
+        append: yes
