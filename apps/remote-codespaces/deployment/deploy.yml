@@ -97,3 +97,8 @@
         name: "{{ ansible_user }}"
         group: docker
         append: yes
+
+    - name: Add gitconfig
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/andrew-codes/devtools/master/git/.gitconfig
+        dest: /home/{{ ansible_user }}/.gitconfig
