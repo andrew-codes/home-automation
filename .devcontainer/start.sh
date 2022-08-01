@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-chown -R root /workspaces/
 # Switch to the .devcontainer folder
 cd "$(dirname "${BASH_SOURCE[0]}")"
 

@@ -41,13 +41,15 @@
     "wallabyjs.wallaby-vscode"
   ],
   "initializeCommand": "bash -c '.devcontainer/save-config.sh'",
+  "postCreateCommand": "bash -c .devcontainer/postCreate.sh",
   "postAttachCommand": "bash -c '.devcontainer/start.sh'",
+  "remoteUser": "root",
   "runArgs": [
     "--cap-add=NET_ADMIN",
     "--cap-add=NET_RAW",
     "--device=/dev/net/tun",
     "--security-opt",
     "seccomp=unconfined",
-    "--privileged"
-  ]
+    "--privileged",
+    "-v", "${env:HOME}/.gnupg:/root/.gnupg"  ]
 }
