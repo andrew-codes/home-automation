@@ -102,3 +102,26 @@
       ansible.builtin.get_url:
         url: https://raw.githubusercontent.com/andrew-codes/devtools/master/git/.gitconfig
         dest: /home/{{ ansible_user }}/.gitconfig
+
+    - name: Add gitconfig for root
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/andrew-codes/devtools/master/git/.gitconfig
+        dest: /root/.gitconfig
+
+    - name: export GPG TTY
+      blockinfile:
+        state: present
+        insertafter: EOF
+        dest: /home/{{ ansible_user }}/.bashrc
+        marker: "<!-- add export gpg tty ANSIBLE MANAGED BLOCK -->"
+        content: |
+          export GPG_TTY=$(tty)
+
+    - name: export GPG TTY
+      blockinfile:
+        state: present
+        insertafter: EOF
+        dest: /root/.bashrc
+        marker: "<!-- add export gpg tty ANSIBLE MANAGED BLOCK -->"
+        content: |
+          export GPG_TTY=$(tty)
