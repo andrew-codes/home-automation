@@ -1,3 +1,32 @@
+mqtt:
+  switch:
+    - name: PS5-538 Power
+      unique_id: ps5_538
+      command_topic: playstation/78C881DDBD74/set/power
+      state_topic: playstation/78C881DDBD74
+      availability:
+        - topic: playstation/78C881DDBD74
+          value_template: "{{ value_json.device_status }}"
+      optimistic: false
+      icon: "mdi:sony-playstation"
+      state_on: AWAKE
+      state_off: STANDBY
+      payload_on: AWAKE
+      payload_off: STANDBY
+      device:
+        manufacturer: Sony
+        model: Playstation 5
+        name: PS5-538
+        identifiers:
+          - "78C881DDBD74"
+        connections:
+          - ip:
+              address: "10.0.44.90"
+              family: IPv4
+              port: 9302
+              size: 170
+        sw_version: "09690001"
+
 media_player:
   - name: Gaming Room Universal PlayStation 5
     unique_id: gaming_room_universal_playstation_5
