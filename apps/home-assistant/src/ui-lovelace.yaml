@@ -772,6 +772,14 @@ views:
                     hide_icon: false
                     icon_color: purple
                   - type: custom:mushroom-entity-card
+                    entity: sensor.outside_temperature
+                    layout: vertical
+                    name: Outdoors
+                    fill_container: false
+                    use_entity_picture: false
+                    hide_icon: false
+                    icon_color: green
+                  - type: custom:mushroom-entity-card
                     entity: sensor.current_target_high_temp
                     layout: vertical
                     name: Max
@@ -787,14 +795,6 @@ views:
                     use_entity_picture: false
                     hide_icon: false
                     icon_color: red
-                  - type: custom:mushroom-entity-card
-                    entity: sensor.outside_temperature
-                    layout: vertical
-                    name: Outdoors
-                    fill_container: false
-                    use_entity_picture: false
-                    hide_icon: false
-                    icon_color: green
               - type: custom:numberbox-card
                 border: false
                 entity: input_number.user_target_daytime_temp_input
