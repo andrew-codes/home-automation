@@ -9,12 +9,8 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   const ip = await configurationApi.get("pihole/ip")
-  const password = await configurationApi.get("pihole/password")
-  const sshPublicKey = await configurationApi.get(
-    "home-assistant/ssh-key/public",
-  )
 
-  sh.mkdir(".secrets", { recursive: true })
+  await fs.mkdir(".secrets", { recursive: true })
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "hosts.yml"),
     `
