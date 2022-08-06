@@ -12,9 +12,6 @@ automation:
         entity_id: binary_sensor.guests_recently_detected_at_front_door
         to: "on"
         from: "off"
-    condition:
-      condition: template
-      value_template: "{{ ((as_timestamp(now()) - as_timestamp(state_attr('automation.doorbell_notification', 'last_triggered') | int(now()))) > 30) }}"
     action:
       - choose:
           - conditions:
