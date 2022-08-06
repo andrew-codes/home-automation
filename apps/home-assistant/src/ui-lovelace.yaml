@@ -74,9 +74,9 @@ views:
                               icon: mdi:water-alert
                               icon_color: red
                               tap_action:
-                                action: call-service
-                                service: browser_mod.popup
-                                data:
+                                action: fire-dom-event
+                                browser_mod:
+                                  command: popup
                                   title: Water Leak
                                   card:
                                     - type: vertical-stack
@@ -98,9 +98,9 @@ views:
                               content_info: name
                               icon: mdi:snowflake-alert
                               tap_action:
-                                action: call-service
-                                service: browser_mod.popup
-                                data:
+                                action: fire-dom-event
+                                browser_mod:
+                                  command: popup
                                   title: Freeze Alert
                                   card:
                                     - type: horizontal-stack
@@ -146,9 +146,9 @@ views:
                               show_name: false
                               camera_view: auto
                               tap_action:
-                                action: call-service
-                                service: browser_mod.popup
-                                data:
+                                action: fire-dom-event
+                                browser_mod:
+                                  command: popup
                                   title: Front Door
                                   card:
                                     type: vertical-stack
@@ -226,7 +226,7 @@ views:
                           type: vertical-stack
                           cards:
                             - type: custom:mushroom-template-card
-                              primary: Front Door
+                              primary: Carport Door
                               secondary: >-
                                 {% set seconds_difference = (as_timestamp(now()) -
                                 as_timestamp(states.sensor.car_port_door_person_count.last_changed)) %}
@@ -251,9 +251,9 @@ views:
                               show_name: false
                               camera_view: auto
                               tap_action:
-                                action: call-service
-                                service: browser_mod.popup
-                                data:
+                                action: fire-dom-event
+                                browser_mod:
+                                  command: popup
                                   title: Front Door
                                   card:
                                     type: vertical-stack
@@ -465,9 +465,9 @@ views:
                   show_name: false
                   camera_view: auto
                   tap_action:
-                    action: call-service
-                    service: browser_mod.popup
-                    data:
+                    action: fire-dom-event
+                    browser_mod:
+                      command: popup
                       title: Front Door
                       card:
                         type: vertical-stack
@@ -576,9 +576,9 @@ views:
                   multiline_secondary: false
                   fill_container: false
                   tap_action:
-                    action: call-service
-                    service: browser_mod.popup
-                    data:
+                    action: fire-dom-event
+                    browser_mod:
+                      command: popup
                       title: Carport Door
                       card:
                         type: vertical-stack
@@ -908,9 +908,9 @@ views:
                           icon: mdi:wifi
                           use_entity_picture: false
                           tap_action:
-                            action: call-service
-                            service: browser_mod.popup
-                            data:
+                            action: fire-dom-event
+                            browser_mod:
+                              command: popup
                               title: Guest Wifi
                               card:
                                 type: vertical-stack
