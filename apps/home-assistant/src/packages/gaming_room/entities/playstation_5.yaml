@@ -29,14 +29,14 @@ media_player:
       - media_player.gaming_room_avr
       - media_player.gaming_room_tv
     state_template: >
-      {{ states('switch.ps5_538') }}
+      {{ states('switch.ps5_538_power') }}
     commands:
       turn_off:
         service: switch.turn_off
-        entity_id: switch.ps5_538
+        entity_id: switch.ps5_538_power
       turn_on:
         service: switch.turn_on
-        entity_id: switch.ps5_538
+        entity_id: switch.ps5_538_power
       volume_set:
         service: media_player.volume_set
         entity_id: media_player.gaming_room_avr
