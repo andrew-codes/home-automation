@@ -47,9 +47,6 @@ function* registerWithHomeAssistant(
         model: `Playstation ${action.payload.type === 'PS5' ? '5' : '4'}`,
         name: action.payload.name,
         identifiers: [action.payload.id],
-        connections: [
-          ["ip", action.payload.address]
-        ],
         sw_version: action.payload.systemVersion
       }
     }),
