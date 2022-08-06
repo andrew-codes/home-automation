@@ -1,4 +1,3 @@
-local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
 local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
 
 [
