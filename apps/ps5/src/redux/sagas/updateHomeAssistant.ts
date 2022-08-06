@@ -17,7 +17,7 @@ function* updateHomeAssistant(action: UpdateHomeAssistantAction) {
     ) => Promise<IPublishPacket>
   >(
     mqtt.publish.bind(mqtt),
-    `playstation/switch/${action.payload.device.id}`,
+    `playstation/${action.payload.device.id}`,
     JSON.stringify({
       power: action.payload.device.status,
       device_status: action.payload.device.available ? 'online' : 'offline'

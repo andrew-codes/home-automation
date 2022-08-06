@@ -14,6 +14,7 @@ const debug = createDebugger("@ha/ps5/addDevice")
 function* registerWithHomeAssistant(
   action: RegisterDeviceWithHomeAssistantAction
 ) {
+  debug(`Registering with HA ${action.payload.name}`)
   const mqtt: AsyncMqttClient = yield call(createMqtt)
   yield call<
     (
@@ -31,7 +32,7 @@ function* registerWithHomeAssistant(
           value_template: "{{ value_json.device_status }}"
         }
       ],
-      name: action.payload.name,
+      name: `${action.payload.name} Power`,
       command_topic: `playstation/${action.payload.id}/set/power`,
       state_topic: `playstation/${action.payload.id}`,
       optimistic: false,
