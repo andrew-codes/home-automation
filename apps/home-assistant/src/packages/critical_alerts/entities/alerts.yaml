@@ -6,13 +6,13 @@ template:
         state: >
           {{ (states('sensor.water_temperature') | int(33)) < 32 or (state_attr('weather.main_floor', 'temperature') | int(33)) < 32 }}
       - name: Guests recently detected at carport door
-        unique_id: guests_recently_detected_car_port_door
+        unique_id: guests_recently_detected_at_carport_door
         state: >
           {% set carport_door_minutes_difference = (as_timestamp(now()) -
             as_timestamp(states.binary_sensor.car_port_door_person_occupancy.last_changed)) / 60 %}
           {{ carport_door_minutes_difference <= 5 or states('binary_sensor.car_port_door_person_occupancy') or states('binary_sensor.carport_doorbell_doorbell') }}
       - name: Guests recently detected at front door
-        unique_id: guests_recently_detected_front_door
+        unique_id: guests_recently_detected_at_front_door
         state: >
           {% set front_door_minutes_difference = (as_timestamp(now()) -
             as_timestamp(states.binary_sensor.front_door_person_occupancy.last_changed)) / 60 %}
@@ -20,7 +20,7 @@ template:
       - name: Guests recently detected
         unique_id: guests_recently_detected
         state: >
-          {{ states('binary_sensor.guests_recently_detected_car_port_door') or states('binary_sensor.guests_recently_detected_front_door') }}
+          {{ states('binary_sensor.guests_recently_detected_at_carport_door') or states('binary_sensor.guests_recently_detected_at_front_door') }}
 
   - sensor:
       - name: Under Sink Leak Detections
