@@ -8,7 +8,7 @@ function* pollDisovery() {
   while (true) {
     try {
       yield put(discoverDevices())
-      yield delay(300000)
+      yield delay(15000)
     } catch (e) {
       debug(e)
     }

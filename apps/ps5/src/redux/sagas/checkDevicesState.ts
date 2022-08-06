@@ -3,41 +3,49 @@ import { merge } from "lodash"
 import { put, select } from "redux-saga/effects"
 import sh from "shelljs"
 import type { Device } from "../types"
-import { getDevices, getStateMappings } from "../selectors"
+import { getDevices } from "../selectors"
 import { updateHomeAssistant } from "../actionCreators"
 
 const debug = createDebugger("@ha/ps5/checkDevicesState")
 
 function* checkDevicesState() {
   const devices: Device[] = yield select(getDevices)
-  const stateMappings = yield select(getStateMappings)
   for (const device of devices) {
-    const shellOutput = sh.exec(`playactor check --host-name ${device.name};`, {
-      silent: true,
-    })
     try {
+      const shellOutput = sh.exec(`playactor check --host-name ${device.name} --machine-friendly --no-open-urls --no-auth;`, {
+        silent: true,
+      })
       const updatedDevice = JSON.parse(shellOutput.stdout)
-      if (
-        device.transitioning &&
-        device.homeAssistantState !== stateMappings[updatedDevice.status]
-      ) {
+      if (device.transitioning) {
         debug(
           "Device is transitioning",
           device.transitioning,
-          device.homeAssistantState,
           updatedDevice.status,
         )
         break
       }
-
-      debug("Update HA")
-      yield put(
-        updateHomeAssistant(
-          merge({}, device, { status: updatedDevice.status }),
-        ),
-      )
+      if (device.status !== updatedDevice.status || !device.available) {
+        debug("Update HA")
+        yield put(
+          updateHomeAssistant(
+            merge({}, device, { status: updatedDevice.status, available: true }),
+          ),
+        )
+      }
     } catch (e) {
       debug(e)
+      yield put(
+        updateHomeAssistant(
+          merge(
+            {},
+            device,
+            {
+              status: "UNKNOWN",
+              available: false
+            }
+          )
+        )
+      )
     }
   }
 }

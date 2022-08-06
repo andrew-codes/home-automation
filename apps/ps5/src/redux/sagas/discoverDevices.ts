@@ -9,21 +9,21 @@ const debug = createDebugger("@ha/ps5/discoverDevices")
 
 const useAsyncIterableWithSaga =
   (fn, ...args) =>
-  () =>
-    new Promise(async (resolve, reject) => {
-      const iterable = fn(...args)
-      const outputs: any[] = []
-      try {
-        for await (const iterableAction of await iterable) {
-          if (!!iterableAction) {
-            outputs.push(iterableAction)
+    () =>
+      new Promise(async (resolve, reject) => {
+        const iterable = fn(...args)
+        const outputs: any[] = []
+        try {
+          for await (const iterableAction of await iterable) {
+            if (!!iterableAction) {
+              outputs.push(iterableAction)
+            }
           }
+          resolve(outputs)
+        } catch (error) {
+          reject(error)
         }
-        resolve(outputs)
-      } catch (error) {
-        reject(error)
-      }
-    })
+      })
 
 function* discoverDevices(action: DiscoverDevicesAction) {
   const discovery = new Discovery()
@@ -41,7 +41,10 @@ function* discoverDevices(action: DiscoverDevicesAction) {
     yield put(
       registerDeviceWithHomeAssistant(
         merge({}, device, {
-          homeAssistantId: toLower(device.name.replace(/-/, "_")),
+          normalizedName:
+            device.name.replace(/[^a-zA-Z\d\s-_:]/g, '')
+              .replace(/[\s-]/g, '_')
+              .toLowerCase()
         }),
       ),
     )

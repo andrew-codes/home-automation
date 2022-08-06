@@ -2,18 +2,19 @@ type Device = {
   id: string
   name: string
   transitioning: boolean
-  homeAssistantId: string
-  homeAssistantState: SwitchStatus
-  status: Ps5Status
+  normalizedName: string
+  available: boolean
+  status: SwitchStatus
   type: "PS5" | "PS4"
   address: {
     address: string
     port: number
-  }
+  },
+  systemVersion: string
 }
 
-type Ps5Status = "PLAYING" | "STANDBY" | "AWAKE"
-type SwitchStatus = "ON" | "OFF" | "NONE"
+type Ps5Status = "STANDBY" | "AWAKE"
+type SwitchStatus = Ps5Status | "UNKNOWN"
 
 type DiscoverDevicesAction = {
   type: "DISCOVER_DEVICES"
@@ -78,10 +79,7 @@ type AnyAction =
   | UpdateHomeAssistantAction
 
 type State = {
-  device: {
-    devices: Record<string, Device>
-    stateMapping: Record<Ps5Status, SwitchStatus>
-  }
+  devices: Record<string, Device>
 }
 
 export type {

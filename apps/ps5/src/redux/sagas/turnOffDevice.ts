@@ -2,21 +2,15 @@ import createDebugger from "debug"
 import { merge } from "lodash"
 import { put } from "redux-saga/effects"
 import sh from "shelljs"
+import { throwIfError } from '@ha/shell-utils'
 import type { ApplyToDeviceAction } from "../types"
 import { setTransitioning, updateHomeAssistant } from "../actionCreators"
 
 const debug = createDebugger("@ha/ps5/turnOffDevice")
 
 function* turnOffDevice(action: ApplyToDeviceAction) {
-  yield put(
-    updateHomeAssistant(
-      merge({}, action.payload.device, { status: "STANDBY" }),
-    ),
-  )
-
   if (
-    action.payload.on !== "OFF" ||
-    action.payload.device.status === "STANDBY"
+    action.payload.device.status !== "STANDBY"
   ) {
     return
   }
@@ -24,12 +18,22 @@ function* turnOffDevice(action: ApplyToDeviceAction) {
   yield put(
     setTransitioning(merge({}, action.payload.device, { transitioning: true })),
   )
-  debug(
-    sh.exec(
-      `playactor standby --ip ${action.payload.device.address.address};`,
-      { silent: true },
-    ),
-  )
+
+  try {
+    throwIfError(sh.exec(
+      `playactor standby --ip ${action.payload.device.address.address} --timeout 5000 --connect-timeout 5000 --no-open-urls --no-auth;`,
+      { silent: true, timeout: 5000 }
+    ))
+
+    yield put(
+      updateHomeAssistant(
+        merge({}, action.payload.device, { status: "STANDBY" })
+      )
+    )
+  } catch (e) {
+    debug(e)
+  }
+
 }
 
 export { turnOffDevice }

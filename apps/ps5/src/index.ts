@@ -3,7 +3,7 @@ import createSagaMiddleware from "redux-saga"
 import { createStore, applyMiddleware } from "redux"
 import reducer, {
   applyToDevice,
-  getDevices,
+  getDeviceRegistry,
   pollDevices,
   pollDiscovery,
   saga,
@@ -28,25 +28,25 @@ async function run() {
     sagaMiddleware.run(saga)
     const mqtt = await createMqtt()
 
-    const topicRegEx = /^homeassistant\/switch\/(.*)\/set$/
+    const topicRegEx = /^playstation\/([^/]*)\/set\/(.*)$/
     mqtt.on("message", (topic, payload) => {
       if (topicRegEx.test(topic)) {
         const matches = topicRegEx.exec(topic)
         if (!matches) {
           return
         }
-        const homeAssistantId = matches[1]
-        const devices = getDevices(store.getState())
-        const device = devices.find(
-          (device) => device.homeAssistantId === homeAssistantId,
-        )
-        if (!device) {
+        const [, deviceId, deviceProperty] = matches
+        const devices = getDeviceRegistry(store.getState())
+        const device = devices[deviceId]
+        if (!device || deviceProperty !== 'power') {
           return
         }
         const data = payload.toString()
         store.dispatch(applyToDevice(device, data as SwitchStatus))
       }
     })
+
+    await mqtt.subscribe('playstation/#')
 
     store.dispatch(pollDevices())
     store.dispatch(pollDiscovery())

@@ -1,7 +1,6 @@
 import type {
   AsyncMqttClient,
   IPublishPacket,
-  ISubscriptionGrant,
 } from "@ha/mqtt-client"
 import createDebugger from "debug"
 import { call, put, select } from "redux-saga/effects"
@@ -24,14 +23,34 @@ function* registerWithHomeAssistant(
     ) => Promise<IPublishPacket>
   >(
     mqtt.publish.bind(mqtt),
-    `homeassistant/switch/${action.payload.homeAssistantId}/config`,
+    `homeassistant/switch/${action.payload.id}/power/config`,
     JSON.stringify({
+      availability: [
+        {
+          topic: `playstation/${action.payload.id}`,
+          value_template: "{{ value_json.device_status }}"
+        }
+      ],
       name: action.payload.name,
-      command_topic: `homeassistant/switch/${action.payload.homeAssistantId}/set`,
-      state_topic: `homeassistant/switch/${action.payload.homeAssistantId}/state`,
-      optimistic: true,
-      device_class: "switch",
-      unique_id: action.payload.homeAssistantId,
+      command_topic: `playstation/${action.payload.id}/set/power`,
+      state_topic: `playstation/${action.payload.id}`,
+      optimistic: false,
+      icon: "mdi:sony-playstation",
+      state_on: "AWAKE",
+      state_off: "STANDBY",
+      payload_on: "AWAKE",
+      payload_off: "STANDBY",
+      unique_id: `${action.payload.normalizedName}_switch_power`,
+      device: {
+        manufacturer: "Sony",
+        model: `Playstation ${action.payload.type === 'PS5' ? '5' : '4'}`,
+        name: action.payload.name,
+        identifiers: [action.payload.id],
+        connections: [
+          ["ip", action.payload.address]
+        ],
+        sw_version: action.payload.systemVersion
+      }
     }),
     { qos: 1 }
   )
@@ -43,10 +62,6 @@ function* registerWithHomeAssistant(
 
   yield put(addDevice(action.payload))
   yield put(updateHomeAssistant(action.payload))
-  yield call<(topic: string) => Promise<ISubscriptionGrant[]>>(
-    mqtt.subscribe.bind(mqtt),
-    `homeassistant/switch/${action.payload.homeAssistantId}/set`
-  )
 }
 
 export { registerWithHomeAssistant }
