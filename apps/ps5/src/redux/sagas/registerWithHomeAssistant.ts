@@ -24,7 +24,7 @@ function* registerWithHomeAssistant(
     ) => Promise<IPublishPacket>
   >(
     mqtt.publish.bind(mqtt),
-    `homeassistant/switch/${action.payload.id}/config`,
+    `homeassistant/switch/${action.payload.id}/power/config`,
     JSON.stringify({
       availability: [
         {
