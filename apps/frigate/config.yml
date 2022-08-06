@@ -25,6 +25,9 @@ detectors:
   coral:
     type: edgetpu
     device: usb
+  cpu1:
+    type: cpu
+    num_threads: 2
 
 rtmp:
   enabled: True
