@@ -14,7 +14,7 @@ template:
       - name: Guests recently detected at front door
         unique_id: guests_recently_detected_front_door
         state: >
-          # {% set front_door_minutes_difference = (as_timestamp(now()) -
+          {% set front_door_minutes_difference = (as_timestamp(now()) -
             as_timestamp(states.binary_sensor.front_door_person_occupancy.last_changed)) / 60 %}
           {{ front_door_minutes_difference <= 5 or states('binary_sensor.front_door_person_occupancy') or states('binary_sensor.front_doorbell_doorbell') }}
       - name: Guests recently detected
