@@ -19,9 +19,9 @@ async function executor(
     if (!!cwd) {
       currentDir = path.resolve(context.root, cwd)
     }
+    process.chdir(currentDir)
     const loadedModule = require(path.resolve(currentDir, module))
     const configApi = await createConfigurationApi()
-    process.chdir(currentDir)
     await loadedModule.default(configApi)
   } catch (error) {
     console.log(error)
