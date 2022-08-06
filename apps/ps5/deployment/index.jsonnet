@@ -5,7 +5,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
 local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), std.extVar('secrets'))
                    + lib.deployment.withEnvVars(0, [
                      { name: 'NODE_ENV', value: 'production' },
-                     { name: 'DEBUG', value: '@ha/ps5' },
+                     { name: 'DEBUG', value: '@ha/ps5*' },
                      { name: 'MQTT_HOST', value: 'mqtt' },
                      { name: 'MQTT_PORT', value: '1883' },
                    ])
