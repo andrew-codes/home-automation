@@ -9,6 +9,8 @@ const throwIfError = ({ stdout, stderr, code }) => {
     debug(stderr)
     throw new Error(stderr)
   })
+
+  return stdout
 }
 
 export { throwIfError }

@@ -27,7 +27,7 @@ function* turnOffDevice(action: ApplyToDeviceAction) {
 
     yield put(
       updateHomeAssistant(
-        merge({}, action.payload.device, { status: "STANDBY" })
+        merge({}, action.payload.device, { status: "STANDBY", available: false })
       )
     )
   } catch (e) {

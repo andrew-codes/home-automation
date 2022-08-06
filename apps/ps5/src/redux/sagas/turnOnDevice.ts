@@ -26,7 +26,7 @@ function* turnOnDevice(action: ApplyToDeviceAction) {
     ))
     yield put(
       updateHomeAssistant(
-        merge({}, action.payload.device, { status: "AWAKE" })
+        merge({}, action.payload.device, { status: "AWAKE", available: true })
       )
     )
   } catch (e) {

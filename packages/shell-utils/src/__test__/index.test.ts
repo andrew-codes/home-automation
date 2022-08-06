@@ -12,4 +12,8 @@ describe("throw if process error", () => {
       throwIfError({ stdout: "", stderr: "", code: 0 }),
     ).not.toThrow()
   })
+
+  test("Returns stdout when no error is thrown.", () => {
+    expect(throwIfError({ stdout: "hello", stderr: "", code: 0 })).toEqual('hello')
+  })
 })

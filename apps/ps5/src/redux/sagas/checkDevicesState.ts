@@ -2,6 +2,7 @@ import createDebugger from "debug"
 import { merge } from "lodash"
 import { put, select } from "redux-saga/effects"
 import sh from "shelljs"
+import { throwIfError } from '@ha/shell-utils'
 import type { Device } from "../types"
 import { getDevices } from "../selectors"
 import { updateHomeAssistant } from "../actionCreators"
@@ -12,10 +13,10 @@ function* checkDevicesState() {
   const devices: Device[] = yield select(getDevices)
   for (const device of devices) {
     try {
-      const shellOutput = sh.exec(`playactor check --host-name ${device.name} --machine-friendly --no-open-urls --no-auth;`, {
-        silent: true,
-      })
-      const updatedDevice = JSON.parse(shellOutput.stdout)
+      debug(`Checking device state for device ${device.id}`)
+      const stdout = throwIfError(sh.exec(`playactor check --host-name ${device.name} --machine-friendly --no-open-urls --no-auth;`))
+      const updatedDevice = JSON.parse(stdout.stdout)
+
       if (device.transitioning) {
         debug(
           "Device is transitioning",
@@ -24,6 +25,7 @@ function* checkDevicesState() {
         )
         break
       }
+      debug(`Device status (old, new) - availability: (${device.status}, ${updatedDevice.status}) - ${device.available}`)
       if (device.status !== updatedDevice.status || !device.available) {
         debug("Update HA")
         yield put(
