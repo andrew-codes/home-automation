@@ -41,6 +41,7 @@ function* discoverDevices(action: DiscoverDevicesAction) {
     yield put(
       registerDeviceWithHomeAssistant(
         merge({}, device, {
+          available: true,
           normalizedName:
             device.name.replace(/[^a-zA-Z\d\s-_:]/g, '')
               .replace(/[\s-]/g, '_')
