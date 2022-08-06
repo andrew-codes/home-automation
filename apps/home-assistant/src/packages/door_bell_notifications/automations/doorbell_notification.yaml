@@ -29,7 +29,7 @@ automation:
                   data:
                     image: "https://ha.smith-simms.family/local/carport_doorbell.jpg"
                     tag: "carport-doorbell"
-                    when: "{{ strptime(as_timestamp(now()), '%m/%d/%Y, %I:%M:%S %p') | as_timestamp | int }}"
+                    when: "{{ as_timestamp(now()) }}"
                     url: /lovelace/default_view
                     click_action: /lovelace/default_view
                     actions:
@@ -53,7 +53,7 @@ automation:
                   data:
                     image: "https://ha.smith-simms.family/local/front_doorbell.jpg"
                     tag: "front-doorbell"
-                    when: "{{ strptime(as_timestamp(now()), '%m/%d/%Y, %I:%M:%S %p') | as_timestamp | int }}"
+                    when: "{{ as_timestamp(now()) }}"
                     url: /lovelace/default_view
                     click_action: /lovelace/default_view
                     actions:
