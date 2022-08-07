@@ -17,17 +17,15 @@
         {
           "target": "deploy",
           "projects": "dependencies"
+        },
+        {
+          "target": "image/push",
+          "projects": "self"
         }
       ]
     },
     "image/push": {
       "executor": "@ha/nx-executors:invoke",
-      "dependsOn": [
-        {
-          "target": "compile",
-          "projects": "self"
-        }
-      ],
       "options": {
         "module": "scripts/image-push.ts",
         "cwd": "apps/github-action-runners"
