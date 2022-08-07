@@ -36,7 +36,6 @@ local elasticSearch = {
               storage: '100Gi',
             },
           },
-          storageClassName: 'standard',
         },
       }],
       podTemplate: {
@@ -80,7 +79,7 @@ local kibana = {
     version: '8.3.3',
     count: 1,
     elasticsearchRef: {
-      name: 'quickstart',
+      name: 'elk-stack',
     },
   },
 };
