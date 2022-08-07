@@ -22,6 +22,8 @@ const configurationNames = [
   "docker-registry/port/external",
   "docker-registry/username",
   "double-take/port/external",
+  "elk-stack/elastic-search/port/external",
+  "elk-stack/kibana/port/external",
   "external-services-dns-updater/sub-domains",
   "facebox/mb-key",
   "facebox/port/external",

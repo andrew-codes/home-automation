@@ -1,0 +1,22 @@
+{
+  "root": "apps/elk-stack",
+  "sourceRoot": "apps/elk-stack",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/elk-stack",
+        "module": "scripts/deploy.ts"
+      },
+      "dependsOn": [
+        {
+          "target": "deploy",
+          "projects": "dependencies"
+        }
+      ]
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["secrets"]
+}
