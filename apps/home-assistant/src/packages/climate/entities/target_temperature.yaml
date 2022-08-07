@@ -72,7 +72,7 @@ input_number:
     mode: box
   target_away_high_temp_input:
     name: Target Away High Temperature Input
-    initial: 78
+    initial: 76
     step: 1
     min: 55
     max: 80
