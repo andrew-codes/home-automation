@@ -11,7 +11,7 @@ local storageClassName = {
     { type: 'gp2' },
   reclaimPolicy: 'Retain',
   allowVolumeExpansion: true,
-  volumeBindingMode: 'WaitForFirstConsumer',
+  volumeBindingMode: 'Immediate',
 };
 
 local elasticSearch = {
