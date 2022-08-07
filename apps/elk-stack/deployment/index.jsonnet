@@ -6,12 +6,10 @@ local storageClassName = {
   metadata: {
     name: 'standard',
   },
-  provisioner: 'kubernetes.io/aws-ebs',
-  parameters:
-    { type: 'gp2' },
+  provisioner: 'kubernetes.io/no-provisioner',
   reclaimPolicy: 'Retain',
   allowVolumeExpansion: true,
-  volumeBindingMode: 'Immediate',
+  volumeBindingMode: 'WaitForFirstConsumer',
 };
 
 local elasticSearch = {
