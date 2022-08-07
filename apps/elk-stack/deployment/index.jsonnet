@@ -1,5 +1,19 @@
 local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
 
+local storageClassName = {
+  apiVersion: 'storage.k8s.io/v1',
+  kind: 'StorageClass',
+  metadata: {
+    name: 'standard',
+  },
+  provisioner: 'kubernetes.io/aws-ebs',
+  parameters:
+    { type: 'gp2' },
+  reclaimPolicy: 'Retain',
+  allowVolumeExpansion: true,
+  volumeBindingMode: 'WaitForFirstConsumer',
+};
+
 local elasticSearch = {
   apiVersion: 'elasticsearch.k8s.elastic.co/v1',
   kind: 'Elasticsearch',
@@ -24,7 +38,7 @@ local elasticSearch = {
               storage: '100Gi',
             },
           },
-          storageClassName: 'manual',
+          storageClassName: 'standard',
         },
       }],
       podTemplate: {
@@ -74,4 +88,4 @@ local kibana = {
 };
 
 
-[elasticSearch, kibana, elasticSearchService, kibanaService]
+[storageClassName, elasticSearch, kibana, elasticSearchService, kibanaService]
