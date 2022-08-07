@@ -84,5 +84,6 @@ local kibana = {
   },
 };
 
+local volume = lib.volume.persistentVolume.new('elk-stack-data', '150Gi', '/mnt/data/elk-stack');
 
-[storageClassName, elasticSearch, kibana, elasticSearchService, kibanaService]
+[volume, storageClassName, elasticSearch, kibana, elasticSearchService, kibanaService]
