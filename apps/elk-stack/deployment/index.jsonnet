@@ -24,7 +24,7 @@ local elasticSearch = {
               storage: '100Gi',
             },
           },
-          storageClassName: 'standard',
+          storageClassName: 'manual',
         },
       }],
       podTemplate: {
