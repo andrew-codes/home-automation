@@ -1,4 +1,3 @@
-local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
 local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
 
 local storageClassName = {
@@ -85,6 +84,11 @@ local kibana = {
   },
 };
 
-local volume = lib.volume.persistentVolume.new('elk-stack-data', '150Gi', '/mnt/data/elk-stack');
+local volume = k.core.v1.persistentVolume.new('elk-stack-pv-volume')
+               + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
+               + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
+               + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
+               + k.core.v1.persistentVolume.spec.withCapacity({ storage: '150Gi' })
+               + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/elk-stack-elasticsearch-data');
 
 [volume, storageClassName, elasticSearch, kibana, elasticSearchService, kibanaService]
