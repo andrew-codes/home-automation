@@ -62,5 +62,5 @@ RUN sudo ln -s  $(go env GOPATH)/bin/jb /usr/local/bin
 RUN sudo curl -Os https://uploader.codecov.io/latest/linux/codecov
 RUN sudo chmod +x codecov
 RUN sudo ln -s codecov /usr/local/bin
-COPY entrypoint.sh entrypoint.custom.sh
-ENTRYPOINT [ "entrypoint.custom.sh" ]
+COPY ./entrypoint.sh ./entrypoint.custom.sh
+ENTRYPOINT [ "./entrypoint.custom.sh" ]

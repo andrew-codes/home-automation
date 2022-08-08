@@ -34,7 +34,7 @@ local elasticSearch = {
           ],
           resources: {
             requests: {
-              storage: '100Gi',
+              storage: '150Gi',
             },
           },
         },
