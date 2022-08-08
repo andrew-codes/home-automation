@@ -20,9 +20,20 @@ local elasticSearch = {
   },
   spec: {
     version: '8.3.3',
+    http: {
+      tls: {
+        selfSignedCertificate: {
+          disabled: true,
+        },
+      },
+    },
     nodeSets: [{
       name: 'default',
       count: 1,
+      config: {
+        'node.roles': ['master'],
+        'xpack.ml.enabled': true,
+      },
       volumeClaimTemplates: [{
         metadata: {
           name: 'elasticsearch-data',
@@ -36,6 +47,7 @@ local elasticSearch = {
               storage: '150Gi',
             },
           },
+          storageClassName: 'manual',
         },
       }],
       podTemplate: {
@@ -54,19 +66,14 @@ local elasticSearch = {
   },
 };
 
-local elasticSearchNodePort = { name: 'http', port: 5200, targetPort: 5200 } +
-                              k.core.v1.servicePort.withNodePort(std.parseInt(
-                                std.extVar('elasticPort')
-                              ));
-
-local elasticSearchService = k.core.v1.service.new('elk-stack', { name: 'elk-stack' }, [elasticSearchNodePort]) +
-                             k.core.v1.service.spec.withType('NodePort',);
-
-local kibanaNodePort = { name: 'http', port: 5601, targetPort: 5601 } +
+local kibanaNodePort = { name: 'elk-stack-kb-http', port: 5601, targetPort: 5601 } +
                        k.core.v1.servicePort.withNodePort(std.parseInt(
                          std.extVar('kibanaPort')
                        ));
-local kibanaService = k.core.v1.service.new('kibana', { name: 'kibana' }, [kibanaNodePort]) +
+local kibanaService = k.core.v1.service.new('kibana', {
+                        'common.k8s.elastic.co/type': 'kibana',
+                        'kibana.k8s.elastic.co/name': 'elk-stack',
+                      }, [kibanaNodePort]) +
                       k.core.v1.service.spec.withType('NodePort',);
 
 local kibana = {
@@ -78,6 +85,16 @@ local kibana = {
   spec: {
     version: '8.3.3',
     count: 1,
+    config: {
+      'server.publicBaseUrl': 'https://kibana.smith-simms.family',
+    },
+    http: {
+      tls: {
+        selfSignedCertificate: {
+          disabled: true,
+        },
+      },
+    },
     elasticsearchRef: {
       name: 'elk-stack',
     },
@@ -86,9 +103,9 @@ local kibana = {
 
 local volume = k.core.v1.persistentVolume.new('elk-stack-pv-volume')
                + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
-               + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
+               + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteOnce')
                + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
                + k.core.v1.persistentVolume.spec.withCapacity({ storage: '150Gi' })
-               + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/elk-stack-elasticsearch-data');
+               + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/elk-stack-elasticsearch-data-2');
 
-[volume, storageClassName, elasticSearch, kibana, elasticSearchService, kibanaService]
+[volume, storageClassName, elasticSearch, kibana, kibanaService]

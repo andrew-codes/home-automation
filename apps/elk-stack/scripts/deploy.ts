@@ -26,8 +26,6 @@ const run = async (
   resourceJson.forEach((resource) => {
     kubectl.applyToCluster(JSON.stringify(resource))
   })
-
-  kubectl.rolloutDeployment("restart", name)
 }
 
 export default run
