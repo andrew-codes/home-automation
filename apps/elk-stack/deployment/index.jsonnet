@@ -1,17 +1,5 @@
 local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
 
-local storageClassName = {
-  apiVersion: 'storage.k8s.io/v1',
-  kind: 'StorageClass',
-  metadata: {
-    name: 'standard',
-  },
-  provisioner: 'kubernetes.io/no-provisioner',
-  reclaimPolicy: 'Retain',
-  allowVolumeExpansion: true,
-  volumeBindingMode: 'WaitForFirstConsumer',
-};
-
 local elasticSearch = {
   apiVersion: 'elasticsearch.k8s.elastic.co/v1',
   kind: 'Elasticsearch',
@@ -27,42 +15,80 @@ local elasticSearch = {
         },
       },
     },
-    nodeSets: [{
-      name: 'default',
-      count: 1,
-      config: {
-        'node.roles': ['master'],
-        'xpack.ml.enabled': true,
-      },
-      volumeClaimTemplates: [{
-        metadata: {
-          name: 'elasticsearch-data',
+    nodeSets: [
+      {
+        name: 'default',
+        count: 1,
+        config: {
+          'node.roles': ['master'],
+          'xpack.ml.enabled': true,
         },
-        spec: {
-          accessModes: [
-            'ReadWriteOnce',
-          ],
-          resources: {
-            requests: {
-              storage: '150Gi',
-            },
+        volumeClaimTemplates: [{
+          metadata: {
+            name: 'elasticsearch-data',
           },
-          storageClassName: 'manual',
-        },
-      }],
-      podTemplate: {
-        spec: {
-          initContainers: [{
-            name: 'sysctl',
-            securityContext: {
-              privileged: true,
-              runAsUser: 0,
+          spec: {
+            accessModes: [
+              'ReadWriteMany',
+            ],
+            resources: {
+              requests: {
+                storage: '150Gi',
+              },
             },
-            command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144'],
-          }],
+            storageClassName: 'manual',
+          },
+        }],
+        podTemplate: {
+          spec: {
+            initContainers: [{
+              name: 'sysctl',
+              securityContext: {
+                privileged: true,
+                runAsUser: 0,
+              },
+              command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144'],
+            }],
+          },
         },
       },
-    }],
+      {
+        name: 'data',
+        count: 1,
+        config: {
+          'node.roles': ['master'],
+          'xpack.ml.enabled': true,
+        },
+        volumeClaimTemplates: [{
+          metadata: {
+            name: 'elasticsearch-data',
+          },
+          spec: {
+            accessModes: [
+              'ReadWriteMany',
+            ],
+            resources: {
+              requests: {
+                storage: '150Gi',
+              },
+            },
+            storageClassName: 'manual',
+          },
+        }],
+        podTemplate: {
+          spec: {
+            initContainers: [{
+              name: 'sysctl',
+              securityContext: {
+                privileged: true,
+                runAsUser: 0,
+              },
+              command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144'],
+            }],
+          },
+        },
+      },
+    ],
   },
 };
 
@@ -76,6 +102,17 @@ local kibanaService = k.core.v1.service.new('kibana', {
                       }, [kibanaNodePort]) +
                       k.core.v1.service.spec.withType('NodePort',);
 
+local elasticNodePort = { name: 'elk-stack-es-http', port: 9200, targetPort: 'http' } +
+                        k.core.v1.servicePort.withNodePort(std.parseInt(
+                          std.extVar('elasticPort')
+                        ));
+local elasticSearchService = k.core.v1.service.new('elastic-search', {
+
+                               'common.k8s.elastic.co/type': 'elasticsearch',
+                               'elasticsearch.k8s.elastic.co/cluster-name': 'elk-stack',
+                             }, [elasticNodePort]) +
+                             k.core.v1.service.spec.withType('NodePort',);
+
 local kibana = {
   apiVersion: 'kibana.k8s.elastic.co/v1',
   kind: 'Kibana',
@@ -87,6 +124,7 @@ local kibana = {
     count: 1,
     config: {
       'server.publicBaseUrl': 'https://kibana.smith-simms.family',
+      'elasticsearch.requestTimeout': 300000,
     },
     http: {
       tls: {
@@ -101,11 +139,17 @@ local kibana = {
   },
 };
 
-local volume = k.core.v1.persistentVolume.new('elk-stack-pv-volume')
-               + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
-               + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteOnce')
-               + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
-               + k.core.v1.persistentVolume.spec.withCapacity({ storage: '150Gi' })
-               + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/elk-stack-elasticsearch-data-2');
+local volume1 = k.core.v1.persistentVolume.new('elk-stack-pv-volume')
+                + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
+                + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
+                + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
+                + k.core.v1.persistentVolume.spec.withCapacity({ storage: '150Gi' })
+                + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/elk-stack-elasticsearch-data-1');
+local volume2 = k.core.v1.persistentVolume.new('elk-stack-pv-volume')
+                + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
+                + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
+                + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
+                + k.core.v1.persistentVolume.spec.withCapacity({ storage: '150Gi' })
+                + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/elk-stack-elasticsearch-data-2');
 
-[volume, storageClassName, elasticSearch, kibana, kibanaService]
+[volume1, volume2, elasticSearch, elasticSearchService, kibana, kibanaService]

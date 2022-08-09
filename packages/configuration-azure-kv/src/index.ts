@@ -24,6 +24,8 @@ const configurationNames = [
   "double-take/port/external",
   "elk-stack/elastic-search/port/external",
   "elk-stack/kibana/port/external",
+  "elk-stack/fleet/ip",
+  "elk-stack/fleet/hostname",
   "external-services-dns-updater/sub-domains",
   "facebox/mb-key",
   "facebox/port/external",

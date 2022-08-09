@@ -26,7 +26,8 @@ const run = async (
     path.join(distNginx, "conf.d", "optimize.conf"),
   )
 
-  const confContents = `${subDomainConfigurations.map(
+  const confContents = `
+${subDomainConfigurations.map(
     ({ subDomain, locations, proxy }) => `
 server {
   server_name ${subDomain}.smith-simms.family;
@@ -43,7 +44,7 @@ server {
   ssl_certificate /etc/letsencrypt/live/smith-simms.family-0001/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/smith-simms.family-0001/privkey.pem;
   ${locations.map(
-    ({ from, to }) => `
+      ({ from, to }) => `
   location ${from} {
     proxy_pass ${proxy}${to};
     proxy_pass_header Authorization;
@@ -58,7 +59,7 @@ server {
     proxy_set_header Connection "upgrade";
   }
 `,
-  ).join(`
+    ).join(`
 `)}
 }`,
   ).join(`
