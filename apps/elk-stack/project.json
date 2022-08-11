@@ -18,5 +18,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["secrets"]
+  "implicitDependencies": ["secrets", "metrics"]
 }
