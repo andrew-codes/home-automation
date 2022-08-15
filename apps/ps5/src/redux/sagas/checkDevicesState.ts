@@ -14,7 +14,7 @@ function* checkDevicesState() {
   for (const device of devices) {
     try {
       logger.info('Checking device state for device', device)
-      const stdout = throwIfError(sh.exec(`playactor check --host-name ${device.name} --machine-friendly --no-open-urls --no-auth;`, { silent: true }))
+      const stdout = throwIfError(sh.exec(`playactor check --host-name ${device.name} --machine-friendly --no-open-urls --no-auth;`))
       const updatedDevice = JSON.parse(stdout)
 
       if (device.transitioning) {
