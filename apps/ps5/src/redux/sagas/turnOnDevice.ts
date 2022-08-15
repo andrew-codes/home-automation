@@ -20,10 +20,10 @@ function* turnOnDevice(action: ApplyToDeviceAction) {
     setTransitioning(merge({}, action.payload.device, { transitioning: true })),
   )
   try {
-    throwIfError(sh.exec(
+    logger.info((sh.exec(
       `playactor wake --ip ${action.payload.device.address.address} --timeout 5000 --connect-timeout 5000 --no-open-urls --no-auth;`,
       { timeout: 5000 }
-    ))
+    )))
     yield put(
       updateHomeAssistant(
         merge({}, action.payload.device, { status: "AWAKE", available: true })

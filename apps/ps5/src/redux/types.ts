@@ -20,10 +20,6 @@ type DiscoverDevicesAction = {
   type: "DISCOVER_DEVICES"
 }
 
-type AddDeviceAction = {
-  type: "ADD_DEVICE"
-  payload: Device
-}
 type RegisterDeviceWithHomeAssistantAction = {
   type: "REGISTER_DEVICE"
   payload: Device
@@ -69,7 +65,6 @@ type PollDiscoveryAction = {
 type AnyAction =
   | RegisterDeviceWithHomeAssistantAction
   | ApplyToDeviceAction
-  | AddDeviceAction
   | CheckDevicesStateAction
   | DiscoverDevicesAction
   | PollDevicesAction
@@ -85,7 +80,6 @@ type State = {
 export type {
   RegisterDeviceWithHomeAssistantAction,
   AnyAction,
-  AddDeviceAction,
   ApplyToDeviceAction,
   CheckDevicesStateAction,
   Device,

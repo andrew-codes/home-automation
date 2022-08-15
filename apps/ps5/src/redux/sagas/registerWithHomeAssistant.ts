@@ -6,7 +6,7 @@ import { createLogger } from "@ha/logger"
 import { call, put, select } from "redux-saga/effects"
 import { createMqtt } from "@ha/mqtt-client"
 import type { RegisterDeviceWithHomeAssistantAction } from "../types"
-import { addDevice, updateHomeAssistant } from "../actionCreators"
+import { updateHomeAssistant } from "../actionCreators"
 import { getDevices } from "../selectors"
 
 const logger = createLogger()
@@ -58,7 +58,6 @@ function* registerWithHomeAssistant(
     return
   }
 
-  yield put(addDevice(action.payload))
   yield put(updateHomeAssistant(action.payload))
 }
 

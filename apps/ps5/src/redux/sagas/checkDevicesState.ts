@@ -14,7 +14,10 @@ function* checkDevicesState() {
   for (const device of devices) {
     try {
       logger.info('Checking device state for device', device)
-      const stdout = throwIfError(sh.exec(`playactor check --host-name ${device.name} --machine-friendly --no-open-urls --no-auth;`))
+      const { stdout, stderr } = sh.exec(`playactor check --host-name ${device.name} --machine-friendly --no-open-urls --no-auth;`)
+      if (stderr) {
+        throw new Error(stderr)
+      }
       const updatedDevice = JSON.parse(stdout)
       logger.info('Parsed device JSON', updatedDevice)
 

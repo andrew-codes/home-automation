@@ -8,7 +8,6 @@ import type {
   CheckDevicesStateAction,
   PollDevicesAction,
   PollDiscoveryAction,
-  AddDeviceAction,
   SetTransitioningAction,
 } from "./types"
 
@@ -20,10 +19,6 @@ const registerDeviceWithHomeAssistant = (
   device
 ): RegisterDeviceWithHomeAssistantAction => ({
   type: "REGISTER_DEVICE",
-  payload: device,
-})
-const addDevice = (device): AddDeviceAction => ({
-  type: "ADD_DEVICE",
   payload: device,
 })
 
@@ -61,7 +56,6 @@ const updateHomeAssistant = (device: Device): UpdateHomeAssistantAction => ({
 })
 
 export {
-  addDevice,
   registerDeviceWithHomeAssistant,
   applyToDevice,
   checkDevicesState,

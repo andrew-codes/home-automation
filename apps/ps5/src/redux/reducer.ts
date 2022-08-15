@@ -7,21 +7,10 @@ const defaultState: State = {
 
 const reducer = (state = defaultState, action: AnyAction) => {
   switch (action.type) {
-    case "ADD_DEVICE": {
-      return merge({}, state, {
-        devices: {
-          [action.payload.id]: action.payload,
-        },
-      })
-    }
-
     case "UPDATE_HOME_ASSISTANT": {
       return merge({}, state, {
         devices: {
-          [action.payload.device.id]: {
-            status: action.payload.device.status,
-            available: action.payload.device.available
-          },
+          [action.payload.device.id]: action.payload.device
         },
       })
     }
