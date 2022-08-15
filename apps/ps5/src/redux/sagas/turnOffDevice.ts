@@ -23,7 +23,7 @@ function* turnOffDevice(action: ApplyToDeviceAction) {
   try {
     throwIfError(sh.exec(
       `playactor standby --ip ${action.payload.device.address.address} --timeout 5000 --connect-timeout 5000 --no-open-urls --no-auth;`,
-      { silent: true, timeout: 5000 }
+      { timeout: 5000 }
     ))
 
     yield put(

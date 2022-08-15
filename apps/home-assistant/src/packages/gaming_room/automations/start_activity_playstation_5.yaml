@@ -9,7 +9,7 @@ automation:
       - service: media_player.select_source
         entity_id: media_player.gaming_room_avr
         data:
-          source: PS4
+          source: PS
       - service: media_player.turn_off
         entity_id: media_player.gaming_room_universal_media_player
       - service: media_player.turn_off

@@ -33,5 +33,5 @@ media_player:
     attributes:
       is_volume_muted: media_player.gaming_room_avr|is_volume_muted
       volume_level: media_player.gaming_room_avr|volume_level
-      source: PS4
+      source: PS
       source_list: media_player.gaming_room_avr|source_list
