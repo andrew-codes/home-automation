@@ -28,7 +28,7 @@ function* checkDevicesState() {
         )
         break
       }
-      logger.info('Device status (old, new), availability', device.status, updatedDevice.status, device.available)
+      logger.info('Device status (old, new), availability', device, updatedDevice)
       if (device.status !== updatedDevice.status || !device.available) {
         const newDevice = merge({}, device, { status: updatedDevice.status, available: true })
         logger.info("Update HA")

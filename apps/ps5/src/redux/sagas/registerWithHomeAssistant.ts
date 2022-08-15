@@ -3,11 +3,11 @@ import type {
   IPublishPacket,
 } from "@ha/mqtt-client"
 import { createLogger } from "@ha/logger"
-import { call, put, select } from "redux-saga/effects"
+import { call, put } from "redux-saga/effects"
+import { merge } from 'lodash'
 import { createMqtt } from "@ha/mqtt-client"
 import type { RegisterDeviceWithHomeAssistantAction } from "../types"
 import { updateHomeAssistant } from "../actionCreators"
-import { getDevices } from "../selectors"
 
 const logger = createLogger()
 
@@ -28,7 +28,7 @@ function* registerWithHomeAssistant(
     JSON.stringify({
       availability: [
         {
-          topic: `playstation / ${action.payload.id} `,
+          topic: `playstation/${action.payload.id} `,
           value_template: "{{ value_json.device_status }}"
         }
       ],
@@ -53,12 +53,7 @@ function* registerWithHomeAssistant(
     { qos: 1 }
   )
 
-  const devices = yield select(getDevices)
-  if (!!devices[action.payload.id]) {
-    return
-  }
-
-  yield put(updateHomeAssistant(action.payload))
+  yield put(updateHomeAssistant(merge({}, action.payload, { status: "UNKNOWN" })))
 }
 
 export { registerWithHomeAssistant }
