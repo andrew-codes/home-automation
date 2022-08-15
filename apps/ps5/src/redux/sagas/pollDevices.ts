@@ -6,7 +6,7 @@ const logger = createLogger()
 function* pollDevices() {
   while (true) {
     try {
-      logger.verbose('Check devices state')
+      logger.info('Check devices state')
       yield put(checkDevicesState())
       yield delay(1000)
     } catch (e) {

@@ -1,12 +1,12 @@
 import { doIf } from "@ha/env-utils"
-import createDebugger from "debug"
+import { createLogger } from "@ha/logger"
 
-const debug = createDebugger("@ha/shell-utils/index")
+const logger = createLogger()
 
 const throwIfError = ({ stdout, stderr, code }) => {
-  debug(stdout)
+  logger.info('Shell stdout', stdout)
   doIf(() => code !== 0)(() => {
-    debug(stderr)
+    logger.error('Shell error', stderr, code)
     throw new Error(stderr)
   })
 

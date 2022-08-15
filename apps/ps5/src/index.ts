@@ -29,7 +29,7 @@ async function run() {
 
     const topicRegEx = /^playstation\/([^/]*)\/set\/(.*)$/
     mqtt.on("message", (topic, payload) => {
-      logger.verbose('MQTT message', topic, payload.toString())
+      logger.info('MQTT message', topic, payload.toString())
       if (topicRegEx.test(topic)) {
         const matches = topicRegEx.exec(topic)
         if (!matches) {
@@ -39,7 +39,7 @@ async function run() {
         const devices = getDeviceRegistry(store.getState())
         const device = devices[deviceId]
         if (!device || deviceProperty !== 'power') {
-          logger.verbose('No device or deviceProperty is not set to power')
+          logger.info('No device or deviceProperty is not set to power')
           return
         }
         const data = payload.toString()

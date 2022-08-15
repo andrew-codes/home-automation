@@ -5,9 +5,7 @@
   "license": "MIT",
   "main": "src/index.ts",
   "dependencies": {
-    "@ha/env-utils": "^0.0.1"
-  },
-  "devDependencies": {
-    "debug": "^4.3.1"
+    "@ha/env-utils": "^0.0.1",
+    "@ha/logger": "^0.0.1"
   }
 }

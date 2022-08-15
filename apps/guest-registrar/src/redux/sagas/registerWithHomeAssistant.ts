@@ -49,7 +49,7 @@ function* registerWithHomeAssistant(action: RegisterWithHomeAssistantAction) {
       action.payload.passPhrase
     )
   )
-  logger.verbose('Subscribing to HA MQTT topic', action.payload.homeAssistantId)
+  logger.info('Subscribing to HA MQTT topic', action.payload.homeAssistantId)
   yield call<(topic: string) => Promise<ISubscriptionGrant[]>>(
     mqtt.subscribe.bind(mqtt),
     `homeassistant/sensor/${action.payload.homeAssistantId}/set`

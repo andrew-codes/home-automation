@@ -16,6 +16,7 @@ function* checkDevicesState() {
       logger.info('Checking device state for device', device)
       const stdout = throwIfError(sh.exec(`playactor check --host-name ${device.name} --machine-friendly --no-open-urls --no-auth;`))
       const updatedDevice = JSON.parse(stdout)
+      logger.info('Parsed device JSON', updatedDevice)
 
       if (device.transitioning) {
         logger.info(
@@ -24,7 +25,7 @@ function* checkDevicesState() {
         )
         break
       }
-      logger.verbose('Device status (old, new), availability', device.status, updatedDevice.status, device.available)
+      logger.info('Device status (old, new), availability', device.status, updatedDevice.status, device.available)
       if (device.status !== updatedDevice.status || !device.available) {
         const newDevice = merge({}, device, { status: updatedDevice.status, available: true })
         logger.info("Update HA")

@@ -36,7 +36,7 @@ function* discoverDevices(action: DiscoverDevicesAction) {
       },
     ),
   )
-  logger.debug('Discovered devices', devices)
+  logger.info('Discovered devices', devices)
   for (const device of devices) {
     logger.info('Registering device with HA', device)
     yield put(
