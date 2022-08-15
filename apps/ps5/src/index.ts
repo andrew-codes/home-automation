@@ -1,4 +1,4 @@
-import createDebugger from "debug"
+import { createLogger } from "@ha/logger"
 import createSagaMiddleware from "redux-saga"
 import { createStore, applyMiddleware } from "redux"
 import reducer, {
@@ -12,24 +12,24 @@ import { createHeartbeat } from "@ha/mqtt-heartbeat"
 import { createMqtt } from "@ha/mqtt-client"
 import { SwitchStatus } from "./redux/types"
 
-const debug = createDebugger("@ha/ps5/index")
-const debugState = createDebugger("@ha/state")
+const logger = createLogger()
 
 async function run() {
-  debug("Started")
+  logger.info("Started")
   try {
     await createHeartbeat("ps5")
 
     const sagaMiddleware = createSagaMiddleware()
     const store = createStore(reducer, applyMiddleware(sagaMiddleware))
     store.subscribe(() => {
-      debugState(JSON.stringify(store.getState(), null, 2))
+      logger.debug('State change', store.getState())
     })
     sagaMiddleware.run(saga)
     const mqtt = await createMqtt()
 
     const topicRegEx = /^playstation\/([^/]*)\/set\/(.*)$/
     mqtt.on("message", (topic, payload) => {
+      logger.verbose('MQTT message', topic, payload.toString())
       if (topicRegEx.test(topic)) {
         const matches = topicRegEx.exec(topic)
         if (!matches) {
@@ -39,6 +39,7 @@ async function run() {
         const devices = getDeviceRegistry(store.getState())
         const device = devices[deviceId]
         if (!device || deviceProperty !== 'power') {
+          logger.verbose('No device or deviceProperty is not set to power')
           return
         }
         const data = payload.toString()
@@ -51,7 +52,7 @@ async function run() {
     store.dispatch(pollDevices())
     store.dispatch(pollDiscovery())
   } catch (e) {
-    debug(e)
+    logger.error(e)
   }
 }
 

@@ -1,17 +1,16 @@
-import createDebugger from "debug"
+import { createLogger } from "@ha/logger"
 import { delay, put } from "redux-saga/effects"
 import { checkDevicesState } from "../actionCreators"
 
-const debug = createDebugger("@ha/ps5/pollDevices")
-let callCount = 0
+const logger = createLogger()
 function* pollDevices() {
   while (true) {
     try {
-      debug(callCount++)
+      logger.verbose('Check devices state')
       yield put(checkDevicesState())
       yield delay(1000)
     } catch (e) {
-      debug(e)
+      logger.error(e)
     }
   }
 }

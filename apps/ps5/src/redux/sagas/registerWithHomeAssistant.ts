@@ -2,19 +2,19 @@ import type {
   AsyncMqttClient,
   IPublishPacket,
 } from "@ha/mqtt-client"
-import createDebugger from "debug"
+import { createLogger } from "@ha/logger"
 import { call, put, select } from "redux-saga/effects"
 import { createMqtt } from "@ha/mqtt-client"
 import type { RegisterDeviceWithHomeAssistantAction } from "../types"
 import { addDevice, updateHomeAssistant } from "../actionCreators"
 import { getDevices } from "../selectors"
 
-const debug = createDebugger("@ha/ps5/addDevice")
+const logger = createLogger()
 
 function* registerWithHomeAssistant(
   action: RegisterDeviceWithHomeAssistantAction
 ) {
-  debug(`Registering with HA ${action.payload.name}`)
+  logger.info('Registering with HA', action.payload)
   const mqtt: AsyncMqttClient = yield call(createMqtt)
   yield call<
     (
@@ -28,7 +28,7 @@ function* registerWithHomeAssistant(
     JSON.stringify({
       availability: [
         {
-          topic: `playstation/${action.payload.id}`,
+          topic: `playstation / ${action.payload.id} `,
           value_template: "{{ value_json.device_status }}"
         }
       ],
@@ -44,7 +44,7 @@ function* registerWithHomeAssistant(
       unique_id: `${action.payload.normalizedName}_switch_power`,
       device: {
         manufacturer: "Sony",
-        model: `Playstation ${action.payload.type === 'PS5' ? '5' : '4'}`,
+        model: `Playstation ${action.payload.type === 'PS5' ? '5' : '4'} `,
         name: action.payload.name,
         identifiers: [action.payload.id],
         sw_version: action.payload.systemVersion

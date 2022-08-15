@@ -1,16 +1,17 @@
-import createDebugger from "debug"
+import { createLogger } from "@ha/logger"
 import { delay, put } from "redux-saga/effects"
 import { discoverDevices } from "../actionCreators"
 
-const debug = createDebugger("@ha/ps5/pollDevicess")
+const logger = createLogger()
 
 function* pollDisovery() {
   while (true) {
     try {
+      logger.verbose('Discover devices')
       yield put(discoverDevices())
       yield delay(15000)
     } catch (e) {
-      debug(e)
+      logger.error(e)
     }
   }
 }
