@@ -1,9 +1,9 @@
-import createDebug from "debug"
+import { createLogger } from "@ha/logger"
 import { createMqtt } from "@ha/mqtt-client"
 import { createHeartbeat } from "@ha/mqtt-heartbeat"
 import { createUnifi } from "@ha/unifi-client"
 
-const debug = createDebug("@ha/guest-wifi-renewal")
+const logger = createLogger()
 
 const run = async (): Promise<void> => {
   await createHeartbeat("guest-wifi-renewal-service")
@@ -15,14 +15,15 @@ const run = async (): Promise<void> => {
 
   mqtt.on("message", async (topic, payload) => {
     try {
+      logger.info('Mmessage received', topic, payload)
       if (topic !== "homeassistant/group/guest/renew") return
       const macAddresses = payload.toString().replace(/ /g, "").split(",")
       for (const mac of macAddresses) {
-        debug(mac)
+        logger.info('Authorizing MAC', mac)
         await unifi.authorizeGuest(mac, 4320)
       }
     } catch (error) {
-      debug(error)
+      logger.error(error)
     }
   })
 }

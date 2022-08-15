@@ -3,16 +3,17 @@ import type {
   IPublishPacket,
   ISubscriptionGrant,
 } from "@ha/mqtt-client"
-import createDebugger from "debug"
+import { createLogger } from "@ha/logger"
 import { call, put, select } from "redux-saga/effects"
 import { createMqtt } from "@ha/mqtt-client"
 import type { RegisterWithHomeAssistantAction } from "../types"
 import { addGuestWifiNetwork } from "../actionCreators"
 import { getNetworkDictionary } from "../selectors"
 
-const debug = createDebugger("@ha/ps5/registerWithHomeAssistant")
+const logger = createLogger()
 
 function* registerWithHomeAssistant(action: RegisterWithHomeAssistantAction) {
+  logger.info('Registering with HA', action.payload)
   const mqtt: AsyncMqttClient = yield call(createMqtt)
   yield call<
     (
@@ -36,6 +37,7 @@ function* registerWithHomeAssistant(action: RegisterWithHomeAssistantAction) {
 
   const networks = yield select(getNetworkDictionary)
   if (!!networks[action.payload.id]) {
+    logger.info('No network found for ID', networks, action.payload.id)
     return
   }
 
@@ -47,6 +49,7 @@ function* registerWithHomeAssistant(action: RegisterWithHomeAssistantAction) {
       action.payload.passPhrase
     )
   )
+  logger.verbose('Subscribing to HA MQTT topic', action.payload.homeAssistantId)
   yield call<(topic: string) => Promise<ISubscriptionGrant[]>>(
     mqtt.subscribe.bind(mqtt),
     `homeassistant/sensor/${action.payload.homeAssistantId}/set`
