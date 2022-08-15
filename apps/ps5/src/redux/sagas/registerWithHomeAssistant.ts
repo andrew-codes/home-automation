@@ -28,8 +28,10 @@ function* registerWithHomeAssistant(
     JSON.stringify({
       availability: [
         {
-          topic: `playstation/${action.payload.id} `,
-          value_template: "{{ value_json.device_status }}"
+          topic: `playstation/${action.payload.id}`,
+          value_template: "{{ value_json.device_status }}",
+          payload_available: "online",
+          payload_not_available: "offline"
         }
       ],
       name: `${action.payload.name} Power`,
@@ -37,6 +39,8 @@ function* registerWithHomeAssistant(
       state_topic: `playstation/${action.payload.id}`,
       optimistic: false,
       icon: "mdi:sony-playstation",
+      payload_available: "online",
+      payload_not_available: "offline",
       state_on: "AWAKE",
       state_off: "STANDBY",
       payload_on: "AWAKE",

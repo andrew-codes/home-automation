@@ -27,12 +27,12 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
         deployment: k.apps.v1.deployment.new(name=name, containers=[appContainer])
                     + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: 'regcred' },)
                     + k.apps.v1.deployment.spec.template.spec.withServiceAccount('app',)
-                    + k.apps.v1.deployment.withAnnotations({
+                    + { metadata: { annotations: {
                       'co.elastic.logs/json.keys_under_root': true,
                       'co.elastic.logs/json.overwrite_keys': true,
                       'co.elastic.logs/json.add_error_key': true,
                       'co.elastic.logs/json.expand_keys': true,
-                    },),
+                    } } },
       };
 
       local output = if (containerPort != '') then

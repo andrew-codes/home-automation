@@ -2,7 +2,6 @@ import { createLogger } from "@ha/logger"
 import { merge } from "lodash"
 import { put, select } from "redux-saga/effects"
 import sh from "shelljs"
-import { throwIfError } from '@ha/shell-utils'
 import type { Device } from "../types"
 import { getDevices } from "../selectors"
 import { updateHomeAssistant } from "../actionCreators"
