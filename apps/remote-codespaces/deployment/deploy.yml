@@ -121,3 +121,10 @@
         marker: "<!-- add export gpg tty ANSIBLE MANAGED BLOCK -->"
         content: |
           pinentry-program /usr/bin/pinentry
+
+    - name: Increase file handlers for vscode on Linux
+      lineinfile:
+        dest: /etc/sysctl.conf
+        regexp: '^fs\.inotify\.max_user_watches=[1-9]+[0-9]*'
+        line: "fs.inotify.max_user_watches=524288"
+        state: present
