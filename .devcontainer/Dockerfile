@@ -47,6 +47,7 @@ RUN apt-get install -y  \
     python-apt \
     snmp \
     sshfs \
+    sshpass \
     sudo \
     terraform \
     unzip \

@@ -28,6 +28,7 @@ RUN sudo apt-get install -y \
   nodejs \
   python3-pip \
   python3.8 \
+  sshpass \
   software-properties-common \ 
   yarn
 RUN sudo sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen
