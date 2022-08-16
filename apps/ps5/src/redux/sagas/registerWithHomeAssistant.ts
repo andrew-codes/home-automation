@@ -34,7 +34,7 @@ function* registerWithHomeAssistant(
           payload_not_available: "offline"
         }
       ],
-      name: `${action.payload.name} Power`,
+      name: `${action.payload.name} Switch Power`,
       command_topic: `playstation/${action.payload.id}/set/power`,
       state_topic: `playstation/${action.payload.id}`,
       optimistic: false,
@@ -45,7 +45,6 @@ function* registerWithHomeAssistant(
       state_off: "STANDBY",
       payload_on: "AWAKE",
       payload_off: "STANDBY",
-      unique_id: `${action.payload.normalizedName}_switch_power`,
       device: {
         manufacturer: "Sony",
         model: `Playstation ${action.payload.type === 'PS5' ? '5' : '4'} `,
