@@ -45,6 +45,7 @@ function* registerWithHomeAssistant(
       state_off: "STANDBY",
       payload_on: "AWAKE",
       payload_off: "STANDBY",
+      unique_id: `${action.payload.name}_switch_power`,
       device: {
         manufacturer: "Sony",
         model: `Playstation ${action.payload.type === 'PS5' ? '5' : '4'} `,
