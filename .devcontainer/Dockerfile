@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 USER root
 
@@ -22,12 +22,12 @@ RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys DA418C88A3219F7B
 RUN apt-add-repository -y --update "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 
-RUN apt update -y
+RUN apt update -y --fix-missing
 RUN apt-get upgrade -y
 
 RUN apt-get remove docker docker-engine docker.io containerd
 
-RUN apt-get install -y  \
+RUN apt-get install -y \
     ansible \
     apt-transport-https \
     ca-certificates \
@@ -44,7 +44,8 @@ RUN apt-get install -y  \
     nodejs \
     python3-pip \
     python3.10 \
-    python-apt \
+    python3-apt \
+    python-apt-common \
     snmp \
     sshfs \
     sshpass \
@@ -52,7 +53,7 @@ RUN apt-get install -y  \
     terraform \
     unzip \
     xsel \
-    yarn 
+    yarn
 
 RUN apt-get -y install --no-install-recommends openvpn \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/library-scripts \
