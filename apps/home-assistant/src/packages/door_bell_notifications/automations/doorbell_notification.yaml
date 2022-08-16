@@ -12,7 +12,7 @@ automation:
         entity_id: binary_sensor.guests_recently_detected_at_front_door
         to: "on"
         from: "off"
-   condition:
+    condition:
       condition: template
       value_template: "{{ as_timestamp(now()) - as_timestamp(states('sensor.uptime_home_assistant')) >= 45 }}"
     action:
