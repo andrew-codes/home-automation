@@ -37,11 +37,6 @@
         name: uplay
         state: present
 
-    - name: Ensure Nvidia GeForce Experience/drivers are installed
-      win_chocolatey:
-        name: geforce-game-ready-driver
-        state: present
-
     - name: Ensure nuget is installed
       win_chocolatey:
         name: nuget.commandline
@@ -67,4 +62,19 @@
       win_chocolatey:
         name: git
         package_params: /GitAndUnixToolsOnPath /NoShellIntegration
+        state: present
+
+    - name: Ensure vscode
+      win_chocolatey:
+        name: vscode
+        state: present
+
+    - name: Ensure Visual Studio is installed
+      win_chocolatey:
+        name: visualstudio2022community
+        state: present
+
+    - name: Ensure Nvidia GeForce Experience/drivers are installed
+      win_chocolatey:
+        name: geforce-game-ready-driver
         state: present
