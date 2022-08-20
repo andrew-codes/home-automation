@@ -1,0 +1,34 @@
+automation:
+  - alias: Set number of people last at front door
+    id: set_number_of_people_last_at_front_door
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.front_door_person_occupancy
+        to: "on"
+        from: "off"
+    condition:
+      condition: template
+      value_template: "{{ states('sensor.front_door_person_count')  >= 1 }}"
+    action:
+      - service: input_number.set_value
+        target:
+          entity_id: input_number.number_of_people_last_at_front_door
+        data:
+          value: "{{ states('sensor.front_door_person_count') }}"
+
+  - alias: Set number of people last at carport door
+    id: set_number_of_people_last_at_carport_door
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.carport_door_person_occupancy
+        to: "on"
+        from: "off"
+    condition:
+      condition: template
+      value_template: "{{ states('sensor.carport_door_person_count')  >= 1 }}"
+    action:
+      - service: input_number.set_value
+        target:
+          entity_id: input_number.number_of_people_last_at_carport_door
+        data:
+          value: "{{ states('sensor.carport_door_person_count') }}"

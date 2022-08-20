@@ -125,7 +125,7 @@ views:
                               primary: Front Door
                               secondary: >-
                                 {% set seconds_difference = (as_timestamp(now()) -
-                                as_timestamp(states.sensor.front_door_person_count.last_changed)) %}
+                                as_timestamp(states.input_number.number_of_people_last_at_front_door.last_changed)) %}
                                 {% set minutes_difference = (seconds_difference) / 60 %}
                                 {% set time_ago = iif(seconds_difference < 60, 'now',
                                 iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
@@ -133,11 +133,11 @@ views:
                                 ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                                 ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                                 ago')) %}
-                                {{ states('sensor.front_door_person_count') | int(1) }} guest{%if
-                                (states('sensor.front_door_person_count') | int(1) > 1) %}s{%endif%}
+                                {{ states('input_number.number_of_people_last_at_front_door') }} guest{%if
+                                (states('input_number.number_of_people_last_at_front_door') > 1) %}s{%endif%}
                                 {{ time_ago }}
                               icon: mdi:shield-account
-                              entity: sensor.front_door_person_count
+                              entity: input_number.number_of_people_last_at_front_door
                               badge_icon: ""
                               multiline_secondary: false
                               fill_container: false
@@ -157,7 +157,7 @@ views:
                                         primary: Guests
                                         secondary: >-
                                           {% set seconds_difference = (as_timestamp(now()) -
-                                          as_timestamp(states.sensor.front_door_person_count.last_changed)) %}
+                                          as_timestamp(states.input_number.number_of_people_last_at_front_door.last_changed)) %}
                                           {% set minutes_difference = (seconds_difference) / 60 %}
                                           {% set time_ago = iif(seconds_difference < 60, 'now',
                                           iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
@@ -165,11 +165,11 @@ views:
                                           ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                                           ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                                           ago')) %}
-                                          {{ states('sensor.front_door_person_count') | int(1) }} guest{%if
-                                          (states('sensor.front_door_person_count') | int(1) > 1) %}s{%endif%}
+                                          {{ states('input_number.number_of_people_last_at_front_door') }} guest{%if
+                                          (states('input_number.number_of_people_last_at_front_door') > 1) %}s{%endif%}
                                           {{ time_ago }}
                                         icon: mdi:shield-account
-                                        entity: sensor.front_door_person_count
+                                        entity: input_number.number_of_people_last_at_front_door
                                         badge_icon: ""
                                         multiline_secondary: false
                                         fill_container: false
@@ -229,7 +229,7 @@ views:
                               primary: Carport Door
                               secondary: >-
                                 {% set seconds_difference = (as_timestamp(now()) -
-                                as_timestamp(states.sensor.car_port_door_person_count.last_changed)) %}
+                                as_timestamp(states.input_number.number_of_people_last_at_carport_door.last_changed)) %}
                                 {% set minutes_difference = (seconds_difference) / 60 %}
                                 {% set time_ago = iif(seconds_difference < 60, 'now',
                                 iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
@@ -238,11 +238,11 @@ views:
                                 ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                                 ago')) %}
 
-                                {{ states('sensor.car_port_door_person_count') | int(1) }} guest{%if
-                                (states('sensor.car_port_door_person_count') | int(1) > 1) %}s{%endif%}
+                                {{ states('input_number.number_of_people_last_at_carport_door') }} guest{%if
+                                (states('input_number.number_of_people_last_at_carport_door') > 1) %}s{%endif%}
                                 {{ time_ago }}
                               icon: mdi:shield-account
-                              entity: sensor.car_port_door_person_count
+                              entity: input_number.number_of_people_last_at_carport_door
                               badge_icon: ""
                               multiline_secondary: false
                               fill_container: false
@@ -262,7 +262,7 @@ views:
                                         primary: Guests
                                         secondary: >-
                                           {% set seconds_difference = (as_timestamp(now()) -
-                                          as_timestamp(states.sensor.car_port_door_person_count.last_changed)) %}
+                                          as_timestamp(states.input_number.number_of_people_last_at_carport_door.last_changed)) %}
                                           {% set minutes_difference = (seconds_difference) / 60 %}
                                           {% set time_ago = iif(seconds_difference < 60, 'now',
                                           iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
@@ -270,11 +270,11 @@ views:
                                           ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                                           ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                                           ago')) %}
-                                          {{ states('sensor.car_port_door_person_count') | int(1) }} guest{%if
-                                          (states('sensor.car_port_door_person_count') | int(1) > 1) %}s{%endif%}
+                                          {{ states('input_number.number_of_people_last_at_carport_door') }} guest{%if
+                                          (states('input_number.number_of_people_last_at_carport_door') > 1) %}s{%endif%}
                                           {{ time_ago }}
                                         icon: mdi:shield-account
-                                        entity: sensor.car_port_door_person_count
+                                        entity: input_number.number_of_people_last_at_carport_door
                                         badge_icon: ""
                                         multiline_secondary: false
                                         fill_container: false
@@ -385,7 +385,7 @@ views:
                       action: none
                     double_tap_action:
                       action: none
-                  
+
                   - type: conditional
                     conditions:
                       - entity: binary_sensor.are_packages_delivered
@@ -445,7 +445,7 @@ views:
                   primary: Front Door
                   secondary: >-
                     {% set seconds_difference = (as_timestamp(now()) -
-                    as_timestamp(states.sensor.front_door_person_count.last_changed)) %}
+                    as_timestamp(states.input_number.number_of_people_last_at_front_door.last_changed)) %}
                     {% set minutes_difference = (seconds_difference) / 60 %}
                     {% set time_ago = iif(seconds_difference < 60, 'now',
                     iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
@@ -453,11 +453,11 @@ views:
                     ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                     ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                     ago')) %}
-                    {{ states('sensor.front_door_person_count') | int(1) }} guest{%if
-                    (states('sensor.front_door_person_count') | int(1) > 1) %}s{%endif%}
+                    {{ states('input_number.number_of_people_last_at_front_door') }} guest{%if
+                    (states('input_number.number_of_people_last_at_front_door') > 1) %}s{%endif%}
                     {{ time_ago }}
                   icon: mdi:shield-account
-                  entity: sensor.front_door_person_count
+                  entity: input_number.number_of_people_last_at_front_door
                   badge_icon: ""
                   multiline_secondary: false
                   fill_container: false
@@ -477,7 +477,7 @@ views:
                             primary: Front Door
                             secondary: >-
                               {% set seconds_difference = (as_timestamp(now()) -
-                              as_timestamp(states.sensor.front_door_person_count.last_changed)) %}
+                              as_timestamp(states.input_number.number_of_people_last_at_front_door.last_changed)) %}
                               {% set minutes_difference = (seconds_difference) / 60 %}
                               {% set time_ago = iif(seconds_difference < 60, 'now',
                               iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
@@ -485,11 +485,11 @@ views:
                               ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                               ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                               ago')) %}
-                              {{ states('sensor.front_door_person_count') | int(1) }} guest{%if
-                              (states('sensor.front_door_person_count') | int(1) > 1) %}s{%endif%}
+                              {{ states('input_number.number_of_people_last_at_front_door') }} guest{%if
+                              (states('input_number.number_of_people_last_at_front_door') > 1) %}s{%endif%}
                               {{ time_ago }}
                             icon: mdi:shield-account
-                            entity: sensor.front_door_person_count
+                            entity: input_number.number_of_people_last_at_front_door
                             badge_icon: ""
                             multiline_secondary: false
                             fill_container: false
@@ -557,7 +557,7 @@ views:
                   primary: Carport Door
                   secondary: >-
                     {% set seconds_difference = (as_timestamp(now()) -
-                    as_timestamp(states.sensor.car_port_door_person_count.last_changed)) %}
+                    as_timestamp(states.input_number.number_of_people_last_at_carport_door.last_changed)) %}
 
                     {% set minutes_difference = (seconds_difference) / 60 %}
 
@@ -568,11 +568,11 @@ views:
                     ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                     ago')) %}
 
-                    {{ states('sensor.car_port_door_person_count') | int(1) }} guest{%if
-                    (states('sensor.car_port_door_person_count') | int(1) > 1) %}s{%endif%}
+                    {{ states('input_number.number_of_people_last_at_carport_door') | int(1) }} guest{%if
+                    (states('input_number.number_of_people_last_at_carport_door') | int(1) > 1) %}s{%endif%}
                     {{ time_ago }}
                   icon: mdi:shield-account
-                  entity: sensor.car_port_door_person_count
+                  entity: input_number.number_of_people_last_at_carport_door
                   badge_icon: ""
                   multiline_secondary: false
                   fill_container: false
@@ -588,7 +588,7 @@ views:
                             primary: Carport Door
                             secondary: >-
                               {% set seconds_difference = (as_timestamp(now()) -
-                              as_timestamp(states.sensor.car_port_door_person_count.last_changed)) %}
+                              as_timestamp(states.input_number.number_of_people_last_at_carport_door.last_changed)) %}
                               {% set minutes_difference = (seconds_difference) / 60 %}
                               {% set time_ago = iif(seconds_difference < 60, 'now',
                               iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
@@ -596,11 +596,11 @@ views:
                               ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                               ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                               ago')) %}
-                              {{ states('sensor.car_port_door_person_count') | int(1) }} guest{%if
-                              (states('sensor.car_port_door_person_count') | int(1) > 1) %}s{%endif%}
+                              {{ states('input_number.number_of_people_last_at_carport_door') | int(1) }} guest{%if
+                              (states('input_number.number_of_people_last_at_carport_door') | int(1) > 1) %}s{%endif%}
                               {{ time_ago }}
                             icon: mdi:shield-account
-                            entity: sensor.car_port_door_person_count
+                            entity: input_number.number_of_people_last_at_carport_door
                             badge_icon: ""
                             multiline_secondary: false
                             fill_container: false
