@@ -4,11 +4,9 @@ automation:
     trigger:
       - platform: state
         entity_id: sensor.uptime_home_assistant
-    condition:
-      - "{{ is_state('input_boolean.ha_not_recently_restarted', false) }}"
-      - "{{ ((as_timestamp(now()) -
-        as_timestamp(states('sensor.uptime_home_assistant'))) / 60) > 5 }}"
     action:
+      - delay:
+          minutes: 5
       - service: input_boolean.turn_on
         target:
           entity_id: input_boolean.ha_not_recently_restarted
