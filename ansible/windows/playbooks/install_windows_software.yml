@@ -9,11 +9,6 @@
         name: 7zip
         state: present
 
-    - name: Ensure Google Chrome is installed
-      win_chocolatey:
-        name: googlechrome
-        state: present
-    
     - name: Ensure Git is installed
       win_chocolatey:
         name: git
