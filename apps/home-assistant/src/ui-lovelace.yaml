@@ -133,7 +133,7 @@ views:
                                 ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                                 ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                                 ago')) %}
-                                {{ states('input_number.number_of_people_last_at_front_door') }} guest{%if
+                                {{ states('input_number.number_of_people_last_at_front_door') | int }} guest{%if
                                 (states('input_number.number_of_people_last_at_front_door') | int(0) > 1) %}s{%endif%}
                                 {{ time_ago }}
                               icon: mdi:shield-account
@@ -165,7 +165,7 @@ views:
                                           ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                                           ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                                           ago')) %}
-                                          {{ states('input_number.number_of_people_last_at_front_door') }} guest{%if
+                                          {{ states('input_number.number_of_people_last_at_front_door') | int }} guest{%if
                                           (states('input_number.number_of_people_last_at_front_door') | int(0) > 1) %}s{%endif%}
                                           {{ time_ago }}
                                         icon: mdi:shield-account
@@ -238,7 +238,7 @@ views:
                                 ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                                 ago')) %}
 
-                                {{ states('input_number.number_of_people_last_at_carport_door') }} guest{%if
+                                {{ states('input_number.number_of_people_last_at_carport_door') | int }} guest{%if
                                 (states('input_number.number_of_people_last_at_carport_door') | int(0) > 1) %}s{%endif%}
                                 {{ time_ago }}
                               icon: mdi:shield-account
@@ -270,7 +270,7 @@ views:
                                           ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                                           ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                                           ago')) %}
-                                          {{ states('input_number.number_of_people_last_at_carport_door') }} guest{%if
+                                          {{ states('input_number.number_of_people_last_at_carport_door') | int }} guest{%if
                                           (states('input_number.number_of_people_last_at_carport_door') | int(0) > 1) %}s{%endif%}
                                           {{ time_ago }}
                                         icon: mdi:shield-account
@@ -453,7 +453,7 @@ views:
                     ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                     ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                     ago')) %}
-                    {{ states('input_number.number_of_people_last_at_front_door') }} guest{%if
+                    {{ states('input_number.number_of_people_last_at_front_door') | int }} guest{%if
                     (states('input_number.number_of_people_last_at_front_door') | int(0) > 1) %}s{%endif%}
                     {{ time_ago }}
                   icon: mdi:shield-account
@@ -485,7 +485,7 @@ views:
                               ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                               ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                               ago')) %}
-                              {{ states('input_number.number_of_people_last_at_front_door') }} guest{%if
+                              {{ states('input_number.number_of_people_last_at_front_door') | int }} guest{%if
                               (states('input_number.number_of_people_last_at_front_door') | int(0) > 1) %}s{%endif%}
                               {{ time_ago }}
                             icon: mdi:shield-account
