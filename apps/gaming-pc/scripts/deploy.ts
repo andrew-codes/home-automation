@@ -10,8 +10,11 @@ const run = async (
 ): Promise<void> => {
     sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
     const ip = await configurationApi.get("gaming-pc/ip")
+    const user = await configurationApi.get("gaming-pc/user")
     const username = await configurationApi.get("gaming-pc/machine/username")
     const password = await configurationApi.get("gaming-pc/machine/password")
+    const haSshPub = await configurationApi.get('home-assistant/ssh-key/public')
+    const devSshPub = await configurationApi.get('dev/ssh-key/public')
 
     await fs.mkdir(path.join(__dirname, "..", ".secrets"), { recursive: true })
 
@@ -32,9 +35,13 @@ const run = async (
     await fs.writeFile(
         path.join(__dirname, "..", ".secrets", "ansible-secrets.yml"),
         `---
-
-    `,
+user: ${user.replace(/ /g, '\\ ')}
+`,
         "utf8",
+    )
+    await fs.writeFile(
+        path.join(__dirname, "..", ".secrets", "authorized_keys"), `${haSshPub}
+${devSshPub}`, "utf8",
     )
 
     throwIfError(
