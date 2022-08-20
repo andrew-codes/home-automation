@@ -8,7 +8,6 @@ import type {
   CheckDevicesStateAction,
   PollDevicesAction,
   PollDiscoveryAction,
-  SetTransitioningAction,
 } from "./types"
 
 const discoverDevices = (): DiscoverDevicesAction => ({
@@ -34,14 +33,6 @@ const checkDevicesState = (): CheckDevicesStateAction => ({
   type: "CHECK_DEVICES_STATE",
 })
 
-const setTransitioning = (device: {
-  id: string
-  transitioning: boolean
-}): SetTransitioningAction => ({
-  type: "TRANSITIONING",
-  payload: device,
-})
-
 const pollDevices = (): PollDevicesAction => ({
   type: "POLL_DEVICES",
 })
@@ -59,7 +50,6 @@ export {
   registerDeviceWithHomeAssistant,
   applyToDevice,
   checkDevicesState,
-  setTransitioning,
   discoverDevices,
   pollDevices,
   pollDiscovery,

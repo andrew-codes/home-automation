@@ -14,18 +14,6 @@ const reducer = (state = defaultState, action: AnyAction) => {
         },
       })
     }
-
-    case "TRANSITIONING": {
-      return merge({}, state, {
-        device: {
-          devices: {
-            [action.payload.id]: {
-              transitioning: action.payload.transitioning,
-            },
-          },
-        },
-      })
-    }
   }
 
   return state

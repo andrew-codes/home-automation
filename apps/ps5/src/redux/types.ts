@@ -1,7 +1,6 @@
 type Device = {
   id: string
   name: string
-  transitioning: boolean
   normalizedName: string
   available: boolean
   status: SwitchStatus
@@ -40,11 +39,6 @@ type ApplyToDeviceAction = {
   }
 }
 
-type SetTransitioningAction = {
-  type: "TRANSITIONING"
-  payload: { id: string; transitioning: boolean }
-}
-
 type UpdateDeviceAction = {
   type: "UPDATE_DEVICE"
   payload: Partial<Device> & { id: string }
@@ -69,7 +63,6 @@ type AnyAction =
   | DiscoverDevicesAction
   | PollDevicesAction
   | PollDiscoveryAction
-  | SetTransitioningAction
   | UpdateDeviceAction
   | UpdateHomeAssistantAction
 
@@ -84,7 +77,6 @@ export type {
   CheckDevicesStateAction,
   Device,
   DiscoverDevicesAction,
-  SetTransitioningAction,
   PollDevicesAction,
   PollDiscoveryAction,
   Ps5Status,

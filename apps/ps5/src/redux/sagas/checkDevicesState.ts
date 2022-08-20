@@ -20,13 +20,6 @@ function* checkDevicesState() {
       const updatedDevice = JSON.parse(stdout)
       logger.info('Parsed device JSON', updatedDevice)
 
-      if (device.transitioning) {
-        logger.info(
-          "Device is transitioning",
-          updatedDevice,
-        )
-        break
-      }
       logger.info('Device status (old, new), availability', device, updatedDevice)
       if (device.status !== updatedDevice.status || !device.available) {
         const newDevice = merge({}, device, { status: updatedDevice.status, available: true })

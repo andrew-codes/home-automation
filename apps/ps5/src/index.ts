@@ -29,12 +29,12 @@ async function run() {
 
     const topicRegEx = /^playstation\/([^/]*)\/set\/(.*)$/
     mqtt.on("message", (topic, payload) => {
-      logger.info('MQTT message', topic, payload.toString())
       if (topicRegEx.test(topic)) {
         const matches = topicRegEx.exec(topic)
         if (!matches) {
           return
         }
+        logger.info('MQTT message', topic, payload.toString())
         const [, deviceId, deviceProperty] = matches
         const devices = getDeviceRegistry(store.getState())
         const device = devices[deviceId]
