@@ -134,7 +134,7 @@ views:
                                 ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                                 ago')) %}
                                 {{ states('input_number.number_of_people_last_at_front_door') }} guest{%if
-                                (states('input_number.number_of_people_last_at_front_door') > 1) %}s{%endif%}
+                                (states('input_number.number_of_people_last_at_front_door') | int(0) > 1) %}s{%endif%}
                                 {{ time_ago }}
                               icon: mdi:shield-account
                               entity: input_number.number_of_people_last_at_front_door
@@ -166,7 +166,7 @@ views:
                                           ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                                           ago')) %}
                                           {{ states('input_number.number_of_people_last_at_front_door') }} guest{%if
-                                          (states('input_number.number_of_people_last_at_front_door') > 1) %}s{%endif%}
+                                          (states('input_number.number_of_people_last_at_front_door') | int(0) > 1) %}s{%endif%}
                                           {{ time_ago }}
                                         icon: mdi:shield-account
                                         entity: input_number.number_of_people_last_at_front_door
@@ -239,7 +239,7 @@ views:
                                 ago')) %}
 
                                 {{ states('input_number.number_of_people_last_at_carport_door') }} guest{%if
-                                (states('input_number.number_of_people_last_at_carport_door') > 1) %}s{%endif%}
+                                (states('input_number.number_of_people_last_at_carport_door') | int(0) > 1) %}s{%endif%}
                                 {{ time_ago }}
                               icon: mdi:shield-account
                               entity: input_number.number_of_people_last_at_carport_door
@@ -271,7 +271,7 @@ views:
                                           ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                                           ago')) %}
                                           {{ states('input_number.number_of_people_last_at_carport_door') }} guest{%if
-                                          (states('input_number.number_of_people_last_at_carport_door') > 1) %}s{%endif%}
+                                          (states('input_number.number_of_people_last_at_carport_door') | int(0) > 1) %}s{%endif%}
                                           {{ time_ago }}
                                         icon: mdi:shield-account
                                         entity: input_number.number_of_people_last_at_carport_door
@@ -454,7 +454,7 @@ views:
                     ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                     ago')) %}
                     {{ states('input_number.number_of_people_last_at_front_door') }} guest{%if
-                    (states('input_number.number_of_people_last_at_front_door') > 1) %}s{%endif%}
+                    (states('input_number.number_of_people_last_at_front_door') | int(0) > 1) %}s{%endif%}
                     {{ time_ago }}
                   icon: mdi:shield-account
                   entity: input_number.number_of_people_last_at_front_door
@@ -486,7 +486,7 @@ views:
                               ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                               ago')) %}
                               {{ states('input_number.number_of_people_last_at_front_door') }} guest{%if
-                              (states('input_number.number_of_people_last_at_front_door') > 1) %}s{%endif%}
+                              (states('input_number.number_of_people_last_at_front_door') | int(0) > 1) %}s{%endif%}
                               {{ time_ago }}
                             icon: mdi:shield-account
                             entity: input_number.number_of_people_last_at_front_door
