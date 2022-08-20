@@ -10,13 +10,13 @@ template:
         state: >
           {% set carport_door_minutes_difference = (as_timestamp(now()) -
             as_timestamp(states.binary_sensor.car_port_door_person_occupancy.last_changed)) / 60 %}
-          {{ (carport_door_minutes_difference <= 5 and is_state('binary_sensor.car_port_door_person_occupancy', 'off')) or is_state('binary_sensor.car_port_door_person_occupancy', 'on') or is_state('binary_sensor.carport_doorbell_doorbell', 'on') }}
+          {{ (is_state('binary_sensor.ha_recently_restarted', 'off')) and (carport_door_minutes_difference <= 5 and is_state('binary_sensor.car_port_door_person_occupancy', 'off')) or is_state('binary_sensor.car_port_door_person_occupancy', 'on') or is_state('binary_sensor.carport_doorbell_doorbell', 'on') }}
       - name: Guests recently detected at front door
         unique_id: guests_recently_detected_at_front_door
         state: >
           {% set front_door_minutes_difference = (as_timestamp(now()) -
             as_timestamp(states.binary_sensor.front_door_person_occupancy.last_changed)) / 60 %}
-          {{ (front_door_minutes_difference <= 5 and is_state('binary_sensor.front_door_person_occupancy', 'off')) or is_state('binary_sensor.front_door_person_occupancy', 'on') or is_state('binary_sensor.front_doorbell_doorbell', 'on') }}
+          {{ (is_state('binary_sensor.ha_recently_restarted', 'off')) and (front_door_minutes_difference <= 5 and is_state('binary_sensor.front_door_person_occupancy', 'off')) or is_state('binary_sensor.front_door_person_occupancy', 'on') or is_state('binary_sensor.front_doorbell_doorbell', 'on') }}
       - name: Guests recently detected
         unique_id: guests_recently_detected
         state: >

@@ -1,0 +1,8 @@
+template:
+  - binary_sensor:
+      - name: HA recently restarted
+        unique_id: ha_recently_restarted
+        state: >
+          {% set minutes_since_resetart = (as_timestamp(now()) -
+            as_timestamp(states('sensor.uptime_home_assistant'))) / 60 %}
+          {{ (minutes_since_resetart <= 3) }}

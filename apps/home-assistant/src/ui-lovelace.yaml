@@ -385,6 +385,7 @@ views:
                       action: none
                     double_tap_action:
                       action: none
+                  
                   - type: conditional
                     conditions:
                       - entity: binary_sensor.are_packages_delivered
