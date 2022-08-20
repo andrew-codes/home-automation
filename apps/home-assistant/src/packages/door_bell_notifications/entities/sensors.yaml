@@ -22,10 +22,14 @@ input_number:
     name: Number of people last at front door
     initial: 0
     step: 1
+    min: 0
+    max: 100
     mode: box
 
   number_of_people_last_at_carport_door:
     name: Number of people last at carport door
     initial: 0
     step: 1
+    min: 0
+    max: 100
     mode: box
