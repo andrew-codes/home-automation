@@ -24,7 +24,7 @@ namespace LibraryExporter
             settings = new LibraryExporterSettingsViewModel(this);
             Properties = new GenericPluginProperties
             {
-                HasSettings = true
+                HasSettings = false
             };
         }
 
@@ -66,16 +66,6 @@ namespace LibraryExporter
         public override void OnLibraryUpdated(OnLibraryUpdatedEventArgs args)
         {
             // Add code to be executed when library is updated.
-        }
-
-        public override ISettings GetSettings(bool firstRunSettings)
-        {
-            return settings;
-        }
-
-        public override UserControl GetSettingsView(bool firstRunSettings)
-        {
-            return new LibraryExporterSettingsView();
         }
     }
 }

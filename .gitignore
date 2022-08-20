@@ -19,3 +19,5 @@ id_rsa
 .test-runs
 .vscode/settings.json
 /logs
+obj
+.vs
