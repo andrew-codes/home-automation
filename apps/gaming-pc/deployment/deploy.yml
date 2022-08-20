@@ -47,6 +47,11 @@
         name: nodejs
         state: present
 
+    - name: Ensure yarn is installed
+      win_chocolatey:
+        name: yarn
+        state: present
+
     - name: Ensure 1password is installed
       win_chocolatey:
         name: 1password
@@ -137,7 +142,7 @@
         ansible_become_user: "{{ user }}"
         ansible_become_password: "{{ ansible_password }}"
 
-    - name: Home Automation Repo
+    - name: Clone and update Home Automation Repo
       win_shell: |
         cd "C:\Users\{{ user }}\developer\repos"
         try {
@@ -146,7 +151,14 @@
         catch { }
         cd home-automation
         git fetch --all
-        git reset --hard origin/main
+      vars:
+        ansible_become_user: "{{ user }}"
+        ansible_become_password: "{{ ansible_password }}"
+
+    - name: Prepare repo
+      win_shell: |
+        cd "C:\Users\{{ user }}\developer\repos\home-automation"
+        yarn
       vars:
         ansible_become_user: "{{ user }}"
         ansible_become_password: "{{ ansible_password }}"
