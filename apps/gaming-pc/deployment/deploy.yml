@@ -60,7 +60,7 @@
 
     - name: Playnite supported dotnet version is installed
       win_chocolatey:
-        name: netfx-4.6.2
+        name: netfx-4.6.2-devpack
         state: present
 
     - name: Ensure vscode
