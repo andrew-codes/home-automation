@@ -153,12 +153,6 @@ lovelace:
     - url: /hacsfiles/banner-card/banner-card.js
       type: module
   dashboards:
-    beta-release:
-      mode: yaml
-      title: Beta
-      icon: fas:home
-      filename: lovelace/beta.yaml
-      show_in_sidebar: true
     admin-dashboard:
       mode: yaml
       title: Admin
