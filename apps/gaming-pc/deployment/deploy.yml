@@ -58,6 +58,11 @@
         package_params: /GitAndUnixToolsOnPath /NoShellIntegration
         state: present
 
+    - name: Playnite supported dotnet version is installed
+      win_chocolatey:
+        name: netfx-4.6.2
+        state: present
+
     - name: Ensure vscode
       win_chocolatey:
         name: vscode
