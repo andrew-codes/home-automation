@@ -341,9 +341,9 @@ views:
                 icon: fas:clipboard-list
                 layout: horizontal
                 tap_action:
-                  action: call-service
-                  service: local_conditional_card.toggle
-                  service_data:
+                  action: fire-dom-event
+                  local_conditional_card:
+                    action: toggle
                     ids:
                       - report_issue
                 icon_color: blue
@@ -375,9 +375,9 @@ views:
                   - type: entity
                     entity: sensor.current_temp
                     tap_action:
-                      action: call-service
-                      service: local_conditional_card.toggle
-                      service_data:
+                      action: fire-dom-event
+                      local_conditional_card:
+                        action: toggle
                         ids:
                           - climate
                     name: Current temperature
