@@ -25,7 +25,7 @@
     "postinstall": "yarn patch && nx run nx-executors:compile --skip-nx-cache && jb install",
     "predeploy": "nx run-many --target compile --projects secrets",
     "provision": "nx run-many --target provision --projects",
-    "serve": "nx run-many --target serve --parallel --verbose --projects",
+    "start": "nx run-many --target serve --parallel --verbose --projects",
     "start/dev": "nx run-many --target start/dev --parallel --projects",
     "prestop": "./scripts/bin/stop.sh",
     "stop": "nx run-many --target stop --parallel --all",
