@@ -14,7 +14,7 @@ input_number:
     mode: box
 
   target_high_temp:
-    name: Target Low Temp
+    name: Target High Temp
     initial: 70
     step: 1
     min: 50
