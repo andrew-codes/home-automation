@@ -81,14 +81,14 @@
 
     - name: Remove old .ssh directory
       win_shell: |
-        Remove-Item -Path C:\Users\{{ user }}\.ssh -Force -Recurse
+        Remove-Item -Path "C:\Users\{{ user }}\.ssh" -Force -Recurse
       vars:
         ansible_become_user: "{{ ansible_user }}"
         ansible_become_password: "{{ ansible_password }}"
 
     - name: Create .ssh directory
       win_shell: |
-        New-Item -Force -Path C:\Users\{{ user }}\.ssh -ItemType Directory
+        New-Item -Force -Path "C:\Users\{{ user }}\.ssh" -ItemType Directory
       vars:
         ansible_become_user: "{{ ansible_user }}"
         ansible_become_password: "{{ ansible_password }}"
@@ -117,8 +117,8 @@
 
     - name: Dev tools
       win_shell: |
-        New-Item -Force -Path C:\Users\{{ user }}\developer\repos -ItemType Directory
-        cd C:\Users\{{ user }}\developer\repos
+        New-Item -Force -Path "C:\Users\{{ user }}\developer\repos" -ItemType Directory
+        cd "C:\Users\{{ user }}\developer\repos"
         git config --global http.sslVerify "false"
         $installed=$(Test-Path devtools -PathType Any)
         try {
@@ -139,6 +139,7 @@
 
     - name: Home Automation Repo
       win_shell: |
+        cd "C:\Users\{{ user }}\developer\repos"
         try {
           git clone https://github.com/andrew-codes/home-automation.git
         }
