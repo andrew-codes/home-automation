@@ -1,0 +1,7 @@
+﻿Id: LibraryExporter_10e851eb-2fee-4cf9-9d9f-be09f4c855f7
+Name: Generic Plugin
+Author: John Doe
+Version: 1.0
+Module: LibraryExporter.dll
+Type: GenericPlugin
+Icon: icon.png
