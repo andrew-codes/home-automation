@@ -22,10 +22,10 @@
         name: epicgameslauncher
         state: present
 
-    - name: Ensure GOG is installed
+    - name: Remove GOG
       win_chocolatey:
         name: goggalaxy
-        state: present
+        state: absent
 
     - name: Ensure Playnite is installed
       win_chocolatey:
@@ -41,12 +41,6 @@
       win_chocolatey:
         name: nuget.commandline
         state: present
-
-    - name: Ensure mqtt powershell is available
-      win_shell: nuget.exe install M2Mqtt -o c:\lib
-      vars:
-        ansible_become_user: "{{ ansible_user }}"
-        ansible_become_password: "{{ ansible_password }}"
 
     - name: Ensure node is installed
       win_chocolatey:
@@ -64,6 +58,11 @@
         package_params: /GitAndUnixToolsOnPath /NoShellIntegration
         state: present
 
+    - name: Playnite supported dotnet version is installed
+      win_chocolatey:
+        name: netfx-4.6.2-devpack
+        state: present
+
     - name: Ensure vscode
       win_chocolatey:
         name: vscode
@@ -73,6 +72,84 @@
       win_chocolatey:
         name: visualstudio2022community
         state: present
+
+    - name: Install the Win32-OpenSSH service
+      win_chocolatey:
+        name: openssh
+        package_params: /SSHServerFeature /AlsoLogToFile
+        state: present
+
+    - name: Remove old .ssh directory
+      win_shell: |
+        Remove-Item -Path "C:\Users\{{ user }}\.ssh" -Force -Recurse
+      vars:
+        ansible_become_user: "{{ ansible_user }}"
+        ansible_become_password: "{{ ansible_password }}"
+
+    - name: Create .ssh directory
+      win_shell: |
+        New-Item -Force -Path "C:\Users\{{ user }}\.ssh" -ItemType Directory
+      vars:
+        ansible_become_user: "{{ ansible_user }}"
+        ansible_become_password: "{{ ansible_password }}"
+
+    - name: Copy authorized_keys
+      ansible.windows.win_copy:
+        src: ../.secrets/authorized_keys
+        dest: C:\Users\{{ user }}\.ssh\authorized_keys
+      vars:
+        ansible_become_user: "{{ ansible_user }}"
+        ansible_become_password: "{{ ansible_password }}"
+        ansible_remote_tmp: 'C:\tmp'
+
+    - name: Copy sshd_config
+      ansible.windows.win_copy:
+        src: ../sshd_config
+        dest: C:\ProgramData\ssh\sshd_config
+      vars:
+        ansible_become_user: BUILTIN\Administrators
+        ansible_become_password: "{{ ansible_password }}"
+        ansible_remote_tmp: 'C:\tmp'
+
+    - name: Restart SSH Service
+      win_shell: |
+        Get-Service -Name sshd | Restart-Service
+
+    - name: Dev tools
+      win_shell: |
+        New-Item -Force -Path "C:\Users\{{ user }}\developer\repos" -ItemType Directory
+        cd "C:\Users\{{ user }}\developer\repos"
+        git config --global http.sslVerify "false"
+        $installed=$(Test-Path devtools -PathType Any)
+        try {
+          git clone https://github.com/andrew-codes/devtools.git
+        }
+        catch { }
+        cd devtools
+        git fetch --all
+        git reset --hard origin/main
+
+        if (-not($installed))
+        {
+          bash.exe -c "source install.win.sh"
+        }
+      vars:
+        ansible_become_user: "{{ user }}"
+        ansible_become_password: "{{ ansible_password }}"
+
+    - name: Home Automation Repo
+      win_shell: |
+        cd "C:\Users\{{ user }}\developer\repos"
+        try {
+          git clone https://github.com/andrew-codes/home-automation.git
+        }
+        catch { }
+        cd home-automation
+        git fetch --all
+        git reset --hard origin/main
+      vars:
+        ansible_become_user: "{{ user }}"
+        ansible_become_password: "{{ ansible_password }}"
 
     - name: Ensure Nvidia GeForce Experience/drivers are installed
       win_chocolatey:
