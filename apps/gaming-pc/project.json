@@ -1,0 +1,16 @@
+{
+  "root": "apps/gaming-pc",
+  "sourceRoot": "apps/gaming-pc",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/gaming-pc",
+        "module": "scripts/deploy.ts"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["secrets"]
+}

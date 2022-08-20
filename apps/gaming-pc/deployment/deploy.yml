@@ -1,0 +1,70 @@
+---
+- hosts: all
+  gather_facts: yes
+  connection: winrm
+  vars_files:
+    - ../.secrets/ansible-secrets.yml
+
+  tasks:
+    # - name: Create local user
+    #   win_user:
+    #     name: "{{ gaming_room_gaming_pc_username }}"
+    #     update_password: on_create
+    #     password_never_expires: yes
+
+    - name: Ensure Steam is installed
+      win_chocolatey:
+        name: steam
+        state: present
+
+    - name: Ensure Epic is installed
+      win_chocolatey:
+        name: epicgameslauncher
+        state: present
+
+    - name: Ensure GOG is installed
+      win_chocolatey:
+        name: goggalaxy
+        state: present
+
+    - name: Ensure Playnite is installed
+      win_chocolatey:
+        name: playnite
+        state: present
+
+    - name: Ensure Uplay is installed
+      win_chocolatey:
+        name: uplay
+        state: present
+
+    - name: Ensure Nvidia GeForce Experience/drivers are installed
+      win_chocolatey:
+        name: geforce-game-ready-driver
+        state: present
+
+    - name: Ensure nuget is installed
+      win_chocolatey:
+        name: nuget.commandline
+        state: present
+
+    - name: Ensure mqtt powershell is available
+      win_shell: nuget.exe install M2Mqtt -o c:\lib
+      vars:
+        ansible_become_user: "{{ ansible_user }}"
+        ansible_become_password: "{{ ansible_password }}"
+
+    - name: Ensure node is installed
+      win_chocolatey:
+        name: nodejs
+        state: present
+
+    - name: Ensure 1password is installed
+      win_chocolatey:
+        name: 1password
+        state: present
+
+    - name: Ensure Git is installed
+      win_chocolatey:
+        name: git
+        package_params: /GitAndUnixToolsOnPath /NoShellIntegration
+        state: present
