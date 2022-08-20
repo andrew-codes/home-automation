@@ -125,7 +125,7 @@ views:
                               primary: Front Door
                               secondary: >-
                                 {% set seconds_difference = (as_timestamp(now()) -
-                                as_timestamp(states.input_number.number_of_people_last_at_front_door.last_changed)) %}
+                                as_timestamp(states.sensor.front_door_person_count.last_changed)) %}
                                 {% set minutes_difference = (seconds_difference) / 60 %}
                                 {% set time_ago = iif(seconds_difference < 60, 'now',
                                 iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
@@ -157,7 +157,7 @@ views:
                                         primary: Guests
                                         secondary: >-
                                           {% set seconds_difference = (as_timestamp(now()) -
-                                          as_timestamp(states.input_number.number_of_people_last_at_front_door.last_changed)) %}
+                                          as_timestamp(states.sensor.front_door_person_count.last_changed)) %}
                                           {% set minutes_difference = (seconds_difference) / 60 %}
                                           {% set time_ago = iif(seconds_difference < 60, 'now',
                                           iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
@@ -229,7 +229,7 @@ views:
                               primary: Carport Door
                               secondary: >-
                                 {% set seconds_difference = (as_timestamp(now()) -
-                                as_timestamp(states.input_number.number_of_people_last_at_carport_door.last_changed)) %}
+                                as_timestamp(states.sensor.car_port_door_person_count.last_changed)) %}
                                 {% set minutes_difference = (seconds_difference) / 60 %}
                                 {% set time_ago = iif(seconds_difference < 60, 'now',
                                 iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
@@ -262,7 +262,7 @@ views:
                                         primary: Guests
                                         secondary: >-
                                           {% set seconds_difference = (as_timestamp(now()) -
-                                          as_timestamp(states.input_number.number_of_people_last_at_carport_door.last_changed)) %}
+                                          as_timestamp(states.sensor.car_port_door_person_count.last_changed)) %}
                                           {% set minutes_difference = (seconds_difference) / 60 %}
                                           {% set time_ago = iif(seconds_difference < 60, 'now',
                                           iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
@@ -445,7 +445,7 @@ views:
                   primary: Front Door
                   secondary: >-
                     {% set seconds_difference = (as_timestamp(now()) -
-                    as_timestamp(states.input_number.number_of_people_last_at_front_door.last_changed)) %}
+                    as_timestamp(states.sensor.front_door_person_count.last_changed)) %}
                     {% set minutes_difference = (seconds_difference) / 60 %}
                     {% set time_ago = iif(seconds_difference < 60, 'now',
                     iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
@@ -477,7 +477,7 @@ views:
                             primary: Front Door
                             secondary: >-
                               {% set seconds_difference = (as_timestamp(now()) -
-                              as_timestamp(states.input_number.number_of_people_last_at_front_door.last_changed)) %}
+                              as_timestamp(states.sensor.front_door_person_count.last_changed)) %}
                               {% set minutes_difference = (seconds_difference) / 60 %}
                               {% set time_ago = iif(seconds_difference < 60, 'now',
                               iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
@@ -557,7 +557,7 @@ views:
                   primary: Carport Door
                   secondary: >-
                     {% set seconds_difference = (as_timestamp(now()) -
-                    as_timestamp(states.input_number.number_of_people_last_at_carport_door.last_changed)) %}
+                    as_timestamp(states.sensor.car_port_door_person_count.last_changed)) %}
 
                     {% set minutes_difference = (seconds_difference) / 60 %}
 
@@ -588,7 +588,7 @@ views:
                             primary: Carport Door
                             secondary: >-
                               {% set seconds_difference = (as_timestamp(now()) -
-                              as_timestamp(states.input_number.number_of_people_last_at_carport_door.last_changed)) %}
+                              as_timestamp(states.sensor.car_port_door_person_count.last_changed)) %}
                               {% set minutes_difference = (seconds_difference) / 60 %}
                               {% set time_ago = iif(seconds_difference < 60, 'now',
                               iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
