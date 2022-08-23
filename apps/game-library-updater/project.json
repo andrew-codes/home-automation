@@ -1,0 +1,83 @@
+{
+  "root": "apps/game-library-updater",
+  "sourceRoot": "apps/game-library-updater/src",
+  "projectType": "application",
+  "targets": {
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["dist", ".test-runs"],
+      "options": {
+        "command": "rm -rf dist .test-runs",
+        "cwd": "apps/game-library-updater"
+      }
+    },
+    "compile": {
+      "executor": "@ha/nx-executors:invoke",
+      "outputs": ["apps/game-library-updater/dist"],
+      "options": {
+        "module": "scripts/compile.ts",
+        "cwd": "apps/game-library-updater"
+      }
+    },
+    "deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/game-library-updater",
+        "module": "scripts/deploy.ts"
+      },
+      "dependsOn": [
+        {
+          "target": "image/push",
+          "projects": "self"
+        },
+        {
+          "target": "deploy",
+          "projects": "dependencies"
+        }
+      ]
+    },
+    "image/push": {
+      "executor": "@ha/nx-executors:invoke",
+      "dependsOn": [
+        {
+          "target": "compile",
+          "projects": "self"
+        }
+      ],
+      "options": {
+        "module": "scripts/image-push.ts",
+        "cwd": "apps/game-library-updater"
+      }
+    },
+    "serve": {
+      "executor": "@ha/nx-executors:telepresence-local",
+      "options": {
+        "cwd": "apps/game-library-updater",
+        "command": "nodemon src/index.ts"
+      }
+    },
+    "start/dev": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "nodemon src/index.ts --inspect=0.0.0.0:9233",
+        "cwd": "apps/game-library-updater"
+      }
+    },
+    "test": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [".test-runs/unit"],
+      "options": {
+        "command": "jest",
+        "cwd": "apps/game-library-updater"
+      }
+    },
+    "code-coverage": {
+      "executor": "@ha/nx-executors:upload-codecov",
+      "options": {
+        "coverageFilePath": "apps/game-library-updater/.test-runs/unit/lcov.info"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["mqtt", "secrets"]
+}
