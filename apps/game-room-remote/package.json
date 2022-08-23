@@ -16,10 +16,18 @@
     "@atlaskit/textfield": "^5.1.12",
     "@atlaskit/toggle": "^12.4.8",
     "@ha/themes-slate": "^0.0.1",
+    "@reduxjs/toolkit":"^1.8.5",
     "async-mqtt": "^2.6.1",
     "next": "^12.2.2",
+    "nextjs-websocket":"^1.0.7",
+    "next-redux-wrapper":"^7.0.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-redux":"^8.0.2",
+    "redux": "^4.2.0",
+    "redux-logger":"^3.0.6",
+    "redux-saga": "^1.2.1",
+    "socket.io": "^2.5.0",
     "styled-components": "^5.3.1"
   },
   "devDependencies": {

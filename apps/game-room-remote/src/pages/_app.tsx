@@ -1,25 +1,35 @@
-import React from "react"
-import PropTypes from "prop-types"
-import Head from "next/head"
+import React, { useEffect } from "react"
+import { Provider } from "react-redux";
+import store from "../app/store";
 
-export default function MyApp(props) {
+const MyApp = (props) => {
   const { Component, pageProps } = props
 
+  useEffect(() => {
+    store.dispatch({
+      type: "SOCKET/CONNECT", payload: {
+        socketUrl: "/api/socket",
+        eventHandlers: {
+          onError: (args) => {
+            return { type: "SOCKET/ERROR", payload: args }
+          },
+          onMessage: (payload) => {
+            return { type: "SOCKET/MESSAGE", payload }
+          },
+          onClose: () => {
+            return { type: "SOCKET/MESSAGE", payload: "closed" }
+          },
+          onOpen: () => {
+            return { type: "SOCKET/MESSAGE", payload: "opened" }
+          },
+        }
+      }
+    })
+  }, [])
+
   return (
-    <React.Fragment>
-      <Head>
-        <title>Game Room Remote</title>
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width"
-        />
-      </Head>
-      <Component {...pageProps} />
-    </React.Fragment>
+    <Provider store={store}><Component {...pageProps} /></Provider>
   )
 }
 
-MyApp.propTypes = {
-  Component: PropTypes.elementType.isRequired,
-  pageProps: PropTypes.object.isRequired,
-}
+export default MyApp

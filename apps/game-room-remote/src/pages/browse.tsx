@@ -1,9 +1,8 @@
 import * as React from "react"
 import Layout from "../components/Layout"
-import styled from "styled-components"
 import Text from "../components/Text"
 
-function Index() {
+function Browse() {
   return (
     <Layout>
       <Text as="h1">Browse</Text>
@@ -11,4 +10,4 @@ function Index() {
   )
 }
 
-export default Index
+export default Browse

@@ -34,6 +34,7 @@ const configurationNames = [
   "frigate/port/external/rmtp",
   "frigate/rtsp/car-port",
   "frigate/rtsp/front-door",
+  "game-library-db/port",
   "game-room-remote/port/external",
   "gaming-pc/ip",
   "gaming-pc/machine/username",

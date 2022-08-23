@@ -19,7 +19,13 @@ class MyDocument extends Document<{ styleTags: any }> {
   render() {
     return (
       <Html>
-        <Head>{this.props.styleTags}</Head>
+        <Head>{this.props.styleTags}
+          <title>Game Room Remote</title>
+          <meta
+            name="viewport"
+            content="minimum-scale=1, initial-scale=1, width=device-width"
+          />
+        </Head>
         <body>
           <ThemeProvider theme={themeFunction(light, dark)}>
             <Main />
