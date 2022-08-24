@@ -9,8 +9,4 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    ])
                    + lib.deployment.withInitContainer('mqtt-is-ready', std.extVar('registryHostname') + '/mqtt-client:latest', { env: [secrets['mqtt/username'], secrets['mqtt/password']], command: ['sh'], args: ['-c', 'timeout 10 sub -h mqtt -t "\\$SYS/#" -C 1 -u $MQTT_USERNAME -P $MQTT_PASSWORD | grep -v Error || exit 1'] },);
 
-local gamedb = lib.deployment.new('game-library-db', 'mongo:focal', std.extVar('secrets'), std.extVar('dbPort'), '27017')
-                   + lib.deployment.withEnvVars(0, [
-                   ]);
-
-std.objectValues(deployment) + std.objectValues(gamedb)
+std.objectValues(deployment)

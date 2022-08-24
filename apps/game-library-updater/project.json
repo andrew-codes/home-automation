@@ -79,5 +79,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["mqtt", "secrets"]
+  "implicitDependencies": ["mqtt", "secrets", "game-library-db"]
 }
