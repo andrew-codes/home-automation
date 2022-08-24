@@ -12,7 +12,6 @@ const kubectl = {
   applyToCluster: (content: string): void => {
     throwIfError(
       sh.exec(`echo -n '${safeCliString(content)}' | kubectl apply -f -;`, {
-        silent: true,
         shell: "/usr/bin/bash",
       }),
     )
@@ -25,7 +24,6 @@ const kubectl = {
     throwIfError(
       sh.exec(
         `kubectl -n ${options.namespace} rollout ${command} deployment ${deploymentName};`,
-        { silent: true },
       ),
     )
   },

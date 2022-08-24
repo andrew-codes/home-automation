@@ -10,10 +10,6 @@ const run = async (
 ): Promise<void> => {
   const registry = await configurationApi.get("docker/registry/hostname")
   const dbPort = await configurationApi.get("game-library-db/port")
-  const secrets: Array<keyof Configuration> = [
-    "mqtt/password",
-    "mqtt/username",
-  ]
   const dbUsername = await configurationApi.get("game-library-db/username")
   const dbPassword = await configurationApi.get("game-library-db/password")
   const resources = await jsonnet.eval(
@@ -24,7 +20,6 @@ const run = async (
       image: `${registry}/${name}:latest`,
       name,
       registryHostname: registry,
-      secrets,
       dbPort
     },
   )
