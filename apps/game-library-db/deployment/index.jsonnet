@@ -1,7 +1,7 @@
 local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
 local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
 
-local deployment = lib.deployment.new('game-library-db', 'mongo:focal', '', std.extVar('dbPort'), '27017')
+local deployment = lib.deployment.new('game-library-db', std.extVar('image'), '', std.extVar('dbPort'), '27017')
                    + lib.deployment.withEnvVars(0, [
                      { name: 'MONGO_INITDB_ROOT_USERNAME', value: std.extVar('dbUsername') },
                      { name: 'MONGO_INITDB_ROOT_PASSWORD', value: std.extVar('dbPassword') },

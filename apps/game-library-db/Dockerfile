@@ -1,3 +1,5 @@
 FROM mongo:focal
 
-COPY src /docker-entrypoint-initdb.d
+COPY src/mongod.conf /etc/mongo/mongod.conf
+
+ENTRYPOINT [ "mongod", "--config", "/etc/mongo/mongod.conf" ]
