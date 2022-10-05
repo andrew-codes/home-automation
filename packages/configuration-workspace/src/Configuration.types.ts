@@ -3,4 +3,4 @@ import { Configuration as EnvConfiguration } from "@ha/configuration-env-secrets
 
 type Configuration = {} & AzureKvConfiguration & EnvConfiguration
 
-export type { Configuration }
+export type { Configuration, EnvConfiguration }

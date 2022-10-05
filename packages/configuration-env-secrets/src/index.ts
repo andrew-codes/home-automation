@@ -4,10 +4,12 @@ import { config } from "dotenv"
 import { toEnvName } from "@ha/secret-utils"
 
 const configurationNames = [
-  "azure/key-vault/name",
-  "azure/tenant/id",
   "azure/client/id",
   "azure/client/secret",
+  "azure/key-vault/name",
+  "azure/resource-group",
+  "azure/subscription/id",
+  "azure/tenant/id",
 ] as const
 
 type ConfigurationKeys = typeof configurationNames
@@ -28,7 +30,7 @@ const configurationApi: ConfigurationApi<Configuration> = {
     return value
   },
   getNames: () => configurationNames as ReadonlyArray<keyof Configuration>,
-  set: async () => {},
+  set: async () => { },
 }
 
 export type { Configuration }

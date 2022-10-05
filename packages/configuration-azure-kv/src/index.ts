@@ -7,7 +7,6 @@ import { toK8sName } from "@ha/secret-utils"
 const configurationNames = [
   "alexa-shopping-list-updater-skill/port/external",
   "azure/location",
-  "azure/resource-group",
   "azure/tenant/id",
   "azure/client/id",
   "azure/client/secret",
