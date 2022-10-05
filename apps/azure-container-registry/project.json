@@ -1,0 +1,16 @@
+{
+  "root": "apps/azure-container-registry",
+  "sourceRoot": "apps/azure-container-registry",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/azure-container-registry",
+        "module": "scripts/deploy.ts"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

@@ -1,13 +1,12 @@
 {
   "private": true,
-  "name": "@ha/azure-key-vault",
+  "name": "@ha/azure-container-registry",
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {},
   "devDependencies": {
-    "@azure/arm-keyvault": "^2.0.0",
+    "@azure/arm-containerregistry": "^10.0.0",
     "@azure/identity": "2.0.4",
-    "@azure/keyvault-admin": "^4.3.0",
     "shelljs": "^0.8.5"
   }
 }

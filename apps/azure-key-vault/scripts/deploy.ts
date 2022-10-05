@@ -1,10 +1,10 @@
 import type { ConfigurationApi } from "@ha/configuration-api"
-import type { EnvConfiguration } from "@ha/configuration-workspace/src/Configuration.types";
+import type { EnvConfiguration } from "@ha/configuration-workspace/src/Configuration.types"
 import { EnvironmentCredential } from "@azure/identity"
 import {
     KeyVaultManagementClient,
     VaultCreateOrUpdateParameters,
-} from "@azure/arm-keyvault";
+} from "@azure/arm-keyvault"
 import sh from 'shelljs'
 
 const run = async (
