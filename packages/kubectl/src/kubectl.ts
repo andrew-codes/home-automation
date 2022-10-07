@@ -13,6 +13,7 @@ const kubectl = {
     throwIfError(
       sh.exec(`echo -n '${safeCliString(content)}' | kubectl apply -f -;`, {
         shell: "/usr/bin/bash",
+        silent: true,
       }),
     )
   },
@@ -24,6 +25,7 @@ const kubectl = {
     throwIfError(
       sh.exec(
         `kubectl -n ${options.namespace} rollout ${command} deployment ${deploymentName};`,
+        { silent: true, }
       ),
     )
   },
