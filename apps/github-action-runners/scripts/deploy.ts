@@ -55,11 +55,19 @@ const run = async (
     "home-assistant/game-room/gaming-pc/mac",
     "k8s/machine/password",
     "docker/registry/hostname",
+    "azure/tenant/id",
+    "azure/key-vault/name",
+    "azure/client/id",
+    "azure/client/secret",
   ]
   const names: string[] = [
     "GAMING_ROOM_GAMING_PC_MAC",
     "MACHINE_PASSWORD",
     "DOCKER_REGISTRY_HOSTNAME",
+    "AZURE_TENANT_ID",
+    "AZURE_KEY_VAULT_NAME",
+    "AZURE_CLIENT_ID",
+    "AZURE_CLIENT_SECRET",
   ]
 
   await Promise.all(

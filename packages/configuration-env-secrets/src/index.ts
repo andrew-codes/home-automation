@@ -5,6 +5,7 @@ import { toEnvName } from "@ha/secret-utils"
 
 const configurationNames = [
   "azure/client/id",
+  "azure/client/object/id",
   "azure/client/secret",
   "azure/key-vault/name",
   "azure/resource-group",

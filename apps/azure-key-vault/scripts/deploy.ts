@@ -15,6 +15,7 @@ const run = async (
     const kvClient = new KeyVaultManagementClient(credential, subscriptionId);
 
     const tenantId = await configurationApi.get('azure/tenant/id')
+    const objectId = await configurationApi.get('azure/client/object/id')
     const clientId = await configurationApi.get('azure/client/id')
     const resourceGroup = await configurationApi.get('azure/resource-group')
     const vaultName = await configurationApi.get('azure/key-vault/name')
@@ -29,7 +30,7 @@ const run = async (
             accessPolicies: [
                 {
                     tenantId: tenantId,
-                    objectId: clientId,
+                    objectId: objectId,
                     permissions: {
                         keys: [
                             "encrypt",
