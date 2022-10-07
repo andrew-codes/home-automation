@@ -46,24 +46,14 @@ const run = async (
     { silent: true },
   )
   const seal = createSeal(githubToken)
-  const mqttPassword = await configurationApi.get("mqtt/password")
-  const mqttUsername = await configurationApi.get("mqtt/username")
-  const mqttHost = await configurationApi.get("k8s/main-node/ip")
-  const mqttPort = await configurationApi.get("mqtt/port/external")
 
   const secrets: Array<keyof Configuration> = [
-    "home-assistant/game-room/gaming-pc/mac",
-    "k8s/machine/password",
-    "docker/registry/hostname",
     "azure/tenant/id",
     "azure/key-vault/name",
     "azure/client/id",
     "azure/client/secret",
   ]
   const names: string[] = [
-    "GAMING_ROOM_GAMING_PC_MAC",
-    "MACHINE_PASSWORD",
-    "DOCKER_REGISTRY_HOSTNAME",
     "AZURE_TENANT_ID",
     "AZURE_KEY_VAULT_NAME",
     "AZURE_CLIENT_ID",
@@ -78,12 +68,6 @@ const run = async (
     }),
   )
 
-  const mqttConnection = `
-  $MQTT_HOST = "${mqttHost}"
-  $MQTT_PORT = ${mqttPort}
-  $MQTT_USERNAME = "${mqttUsername}"
-  $MQTT_PASSWORD = "${mqttPassword}"`
-  await seal(repo_owner, repo_name, "MQTT_CONNECTION", mqttConnection)
   await seal(repo_owner, repo_name, "JEST_REPORTER_TOKEN", githubToken)
 
   const resourceJson = JSON.parse(resources)
