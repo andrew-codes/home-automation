@@ -13,7 +13,7 @@ const run = async (
     const client = new ContainerRegistryManagementClient(credential, subscriptionId)
 
     const resourceGroup = await configurationApi.get('azure/resource-group')
-    const registryName = await configurationApi.get('docker-registry/name')
+    const registryName = await configurationApi.get('docker/registry/name')
     const externalIp = sh.exec('curl https://checkip.amazonaws.com').stdout
     const parameters: Registry = {
         location: "eastus",

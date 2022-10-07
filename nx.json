@@ -5,7 +5,14 @@
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["compile", "test", "lint", "package", "prepare"]
+        "cacheableOperations": [
+          "compile",
+          "test",
+          "lint",
+          "package",
+          "prepare",
+          "deploy"
+        ]
       }
     }
   },

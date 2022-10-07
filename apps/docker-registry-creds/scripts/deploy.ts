@@ -11,9 +11,8 @@ const run = async (
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
 
   const hostname = await configurationApi.get("docker/registry/hostname")
-  const username = await configurationApi.get("docker-registry/username")
-  const password = await configurationApi.get("docker-registry/password")
-  const email = await configurationApi.get("docker-registry/email")
+  const username = await configurationApi.get("azure/client/id")
+  const password = await configurationApi.get("azure/client/secret")
 
   const deleteOldCreds = sh.exec(`kubectl delete secret regcred || true;`, {
     silent: true,
@@ -21,7 +20,7 @@ const run = async (
   throwIfError(deleteOldCreds)
 
   const createCreds = sh.exec(
-    `kubectl create secret docker-registry regcred --docker-username="${username}" --docker-password="${password}" --docker-email="${email}" --docker-server="${hostname}";`,
+    `kubectl create secret docker-registry regcred --docker-username="${username}" --docker-password="${password}" --docker-server="${hostname}";`,
     { silent: true },
   )
   throwIfError(createCreds)
