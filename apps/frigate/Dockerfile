@@ -1,7 +1,8 @@
 FROM blakeblackshear/frigate:0.11.0
 RUN apt-get update -y
 RUN apt-get install -y \
-    curl
+    curl \
+    gnupg2
 
 RUN echo "deb https://packages.cloud.google.com/apt coral-edgetpu-stable main" | tee /etc/apt/sources.list.d/coral-edgetpu.list
 RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
