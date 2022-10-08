@@ -41,8 +41,8 @@ notify:
   - platform: group
     name: all_devices
     services:
-      - service: mobile_app_andrew_s_iphone
-      - service: mobile_app_dorri_s_iphone
+      - service: mobile_app_andrews_iphone
+      - service: mobile_app_dorris_iphone
 
 recorder:
   db_url: !secret DB_URL
