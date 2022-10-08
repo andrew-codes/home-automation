@@ -1,4 +1,0 @@
-input_boolean:
-  ha_not_recently_restarted:
-    name: HA not recently restarted
-    initial: false

@@ -1,4 +1,4 @@
-FROM blakeblackshear/frigate:0.10.1-amd64
+FROM blakeblackshear/frigate:0.11.0
 RUN apt-get update -y
 RUN apt-get install -y \
     curl
