@@ -11,33 +11,33 @@ import { name } from "./config"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const registry = await configurationApi.get("docker/registry/hostname")
-  const port = await configurationApi.get("captive-portal/port/external")
+  // const registry = await configurationApi.get("docker/registry/hostname")
+  // const port = await configurationApi.get("captive-portal/port/external")
   const unifiIp = await configurationApi.get("unifi/ip")
   const host = await configurationApi.get("captive-portal/host")
-  const secrets: Array<keyof Configuration> = [
-    "mqtt/password",
-    "mqtt/username",
-    "unifi/ip",
-    "unifi/port",
-    "unifi/password",
-    "unifi/username",
-  ]
-  const resources = await jsonnet.eval(
-    path.join(__dirname, "..", "deployment", "index.jsonnet"),
-    {
-      image: `${registry}/${name}:latest`,
-      name,
-      secrets,
-      port,
-    },
-  )
-  const resourceJson = JSON.parse(resources)
-  resourceJson.forEach((resource) => {
-    kubectl.applyToCluster(JSON.stringify(resource))
-  })
+  // const secrets: Array<keyof Configuration> = [
+  //   "mqtt/password",
+  //   "mqtt/username",
+  //   "unifi/ip",
+  //   "unifi/port",
+  //   "unifi/password",
+  //   "unifi/username",
+  // ]
+  // const resources = await jsonnet.eval(
+  //   path.join(__dirname, "..", "deployment", "index.jsonnet"),
+  //   {
+  //     image: `${registry}/${name}:latest`,
+  //     name,
+  //     secrets,
+  //     port,
+  //   },
+  // )
+  // const resourceJson = JSON.parse(resources)
+  // resourceJson.forEach((resource) => {
+  //   kubectl.applyToCluster(JSON.stringify(resource))
+  // })
 
-  kubectl.rolloutDeployment("restart", name)
+  // kubectl.rolloutDeployment("restart", name)
 
   const unifiCaptivePortal = `<!DOCTYPE html>
   <html>

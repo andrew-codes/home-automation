@@ -8,7 +8,7 @@ automation:
         from: "off"
     condition:
       condition: template
-      value_template: "{{ states('sensor.front_door_person_count')  >= 1 }}"
+      value_template: "{{ states('sensor.front_door_person_count') | int(0) >= 1 }}"
     action:
       - service: input_number.set_value
         target:
@@ -25,7 +25,7 @@ automation:
         from: "off"
     condition:
       condition: template
-      value_template: "{{ states('sensor.carport_door_person_count')  >= 1 }}"
+      value_template: "{{ states('sensor.carport_door_person_count') | int(0) >= 1 }}"
     action:
       - service: input_number.set_value
         target:
