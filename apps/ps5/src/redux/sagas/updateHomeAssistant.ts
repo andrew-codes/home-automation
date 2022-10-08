@@ -24,18 +24,6 @@ function* updateHomeAssistant(action: UpdateHomeAssistantAction) {
     }),
     { qos: 1 },
   )
-
-  yield call<
-    (
-      topic: string,
-      message: string | Buffer,
-      { qos: number },
-    ) => Promise<IPublishPacket>
-  >(mqtt.publish.bind(mqtt),
-    `playstation/${action.payload.device.id}`,
-    action.payload.device.status,
-    { qos: 1 },
-  )
 }
 
 export { updateHomeAssistant }

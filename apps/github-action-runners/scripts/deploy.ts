@@ -50,14 +50,20 @@ const run = async (
   const secrets: Array<keyof Configuration> = [
     "azure/tenant/id",
     "azure/key-vault/name",
+    "azure/client/object/id",
     "azure/client/id",
     "azure/client/secret",
+    "azure/subscription/id",
+    "azure/resource-group",
   ]
   const names: string[] = [
     "AZURE_TENANT_ID",
     "AZURE_KEY_VAULT_NAME",
+    "AZURE_CLIENT_OBJECT_ID",
     "AZURE_CLIENT_ID",
     "AZURE_CLIENT_SECRET",
+    "AZURE_SUBSCRIPTION_ID",
+    "AZURE_RESOURCE_GROUP",
   ]
 
   await Promise.all(
