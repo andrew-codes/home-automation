@@ -55,6 +55,7 @@ const run = async (
     "azure/client/secret",
     "azure/subscription/id",
     "azure/resource-group",
+    "code-cov/token"
   ]
   const names: string[] = [
     "AZURE_TENANT_ID",
@@ -64,6 +65,7 @@ const run = async (
     "AZURE_CLIENT_SECRET",
     "AZURE_SUBSCRIPTION_ID",
     "AZURE_RESOURCE_GROUP",
+    "CODE_COV_TOKEN"
   ]
 
   await Promise.all(

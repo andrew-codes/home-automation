@@ -54,7 +54,6 @@
   "implicitDependencies": [
     "docker-registry-creds",
     "home-assistant-config-applicator",
-    "frigate",
     "influxdb",
     "mqtt",
     "secrets",

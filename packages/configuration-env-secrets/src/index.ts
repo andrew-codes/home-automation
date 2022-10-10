@@ -11,6 +11,7 @@ const configurationNames = [
   "azure/resource-group",
   "azure/subscription/id",
   "azure/tenant/id",
+  "code-cov/token"
 ] as const
 
 type ConfigurationKeys = typeof configurationNames

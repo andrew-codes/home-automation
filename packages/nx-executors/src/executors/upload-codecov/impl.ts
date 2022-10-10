@@ -4,6 +4,7 @@ import type { ExecutorContext } from "@nrwl/devkit"
 import { exec } from "child_process"
 import { promisify } from "util"
 import { throwIfError } from "@ha/shell-utils"
+import { configurationApi } from "@ha/configuration-env-secrets"
 
 interface UploadCodeCovOptions {
   coverageFilePath: string
@@ -26,7 +27,7 @@ async function executor(
       })
     }
 
-    const command = `${codeCovPath} --file ${options.coverageFilePath} --name ${context.projectName}`
+    const command = `${codeCovPath} --file ${options.coverageFilePath} --name ${context.projectName};`
     const commandChildProcess = await promisify(exec)(command)
     throwIfError({
       ...commandChildProcess,

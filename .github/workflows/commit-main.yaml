@@ -39,6 +39,8 @@ jobs:
       - name: Coverage
         if: always()
         run: yarn test/coverage/all
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODE_COV_TOKEN }}
       - name: Deploy affected apps
         run: yarn deploy/affected --base HEAD~ --head HEAD --verbose --exclude manual-deployment --exclude pihole
         env:

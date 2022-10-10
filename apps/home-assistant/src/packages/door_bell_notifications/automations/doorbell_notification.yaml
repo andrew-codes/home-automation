@@ -4,64 +4,53 @@ automation:
     trigger:
       - platform: state
         id: carport_door
-        entity_id: binary_sensor.guests_recently_detected_at_carport_door
+        entity_id: binary_sensor.guests_detected_at_front_door
         to: "on"
         from: "off"
       - platform: state
         id: front_door
-        entity_id: binary_sensor.guests_recently_detected_at_front_door
+        entity_id: binary_sensor.guests_detected_at_carport_door
         to: "on"
         from: "off"
-    condition:
-      condition: template
-      value_template: "{{ as_timestamp(now()) - as_timestamp(states('sensor.uptime_home_assistant')) >= 45 }}"
     action:
       - choose:
           - conditions:
               condition: trigger
               id: carport_door
             sequence:
-              - service: camera.snapshot
-                data:
-                  entity_id: camera.carport_doorbell_high
-                  filename: "/config/www/carport_doorbell.jpg"
               - service: notify.all_devices
                 data_template:
                   title: "Guests at door"
                   message: "Guests at carport door."
                   data:
-                    image: "https://ha.smith-simms.family/local/carport_doorbell.jpg"
+                    entity_id: camera.carport_doorbell_high
                     tag: "carport-doorbell"
                     when: "{{ as_timestamp(now())  }}"
-                    url: /lovelace/default_view
-                    click_action: /lovelace/default_view
+                    url: /lovelace/security
+                    click_action: /lovelace/security
                     actions:
                       - action: "URI"
                         title: "View Live Feed"
-                        uri: "/lovelace/default_view"
+                        uri: "/lovelace/security"
                     push:
                       thread-id: security
           - conditions:
               condition: trigger
               id: front_door
             sequence:
-              - service: camera.snapshot
-                data:
-                  entity_id: camera.front_doorbell_high
-                  filename: "/config/www/front_doorbell.jpg"
               - service: notify.all_devices
                 data_template:
                   title: "Guests at door"
                   message: "Guests at front door."
                   data:
-                    image: "https://ha.smith-simms.family/local/front_doorbell.jpg"
+                    entity_id: camera.front_door_doorbell_high
                     tag: "front-doorbell"
                     when: "{{ as_timestamp(now()) }}"
-                    url: /lovelace/default_view
-                    click_action: /lovelace/default_view
+                    url: /lovelace/security
+                    click_action: /lovelace/security
                     actions:
                       - action: "URI"
                         title: "View Live Feed"
-                        uri: "/lovelace/default_view"
+                        uri: "/lovelace/security"
                     push:
                       thread-id: security

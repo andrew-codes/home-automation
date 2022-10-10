@@ -30,7 +30,6 @@ binary_sensor:
       - binary_sensor.guest_bathroom_sink_1_ias_zone
       - binary_sensor.guest_bathroom_sink_2_ias_zone
       - binary_sensor.office_bathroom_sink_ias_zone
-      - binary_sensor.guests_recently_detected
 
   - platform: group
     name: Under Sink Leak

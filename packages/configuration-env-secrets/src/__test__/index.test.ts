@@ -26,6 +26,7 @@ describe("configuration api module exports", () => {
       "azure/resource-group",
       "azure/subscription/id",
       "azure/tenant/id",
+      "code-cov/token"
     ])
   })
 })

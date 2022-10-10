@@ -35,6 +35,8 @@ jobs:
       - name: Coverage
         run: yarn test/coverage/all
         if: always()
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODE_COV_TOKEN }}
       - name: Deploy all apps
         run: yarn deploy/all --exclude docker-registry --exclude k8s --exclude openvpn --exclude pihole --exclude azure-key-vault --exclude manual-deployment --verbose
         env:
