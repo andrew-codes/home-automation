@@ -245,6 +245,7 @@ views:
                         ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                         ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                         ago')) %}
+
                         Guests seen {{ time_ago }}
                       icon: mdi:shield-account
                       entity: binary_sensor.guests_detected_at_front_door
@@ -256,7 +257,7 @@ views:
                       name: Front Door
                       fill_container: false
                       hide_state: false
-                      layout: vertical
+                      layout: horizontal
                 - type: picture-entity
                   entity: camera.front_door_doorbell_high
                   camera_image: camera.front_door_doorbell_high
@@ -287,6 +288,7 @@ views:
                         ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                         ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                         ago')) %}
+
                         Guests seen {{ time_ago }}
                       icon: mdi:shield-account
                       entity: binary_sensor.guests_detected_at_carport_door
@@ -298,7 +300,7 @@ views:
                       name: Carport Door
                       fill_container: false
                       hide_state: false
-                      layout: vertical
+                      layout: horizontal
                 - type: picture-entity
                   entity: camera.carport_doorbell_high
                   camera_image: camera.carport_doorbell_high
@@ -598,9 +600,9 @@ views:
               recording_duration: 10
               show_capture_buttons: false
               cameras:
-                - entity: camera.front_door
+                - entity: camera.front_door_doorbell_high
                   motion_entity: binary_sensor.front_door_doorbell_motion
-                - entity: camera.car_port_door
+                - entity: camera.carport_doorbell_high
                   motion_entity: binary_sensor.carport_doorbell_motion
           - type: custom:mod-card
             style: |-
@@ -631,6 +633,7 @@ views:
                               ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                               ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                               ago')) %}
+
                               Guests seen {{ time_ago }}
                             icon: mdi:shield-account
                             entity: binary_sensor.guests_detected_at_front_door
@@ -658,6 +661,7 @@ views:
                               ago', ((seconds_difference / 60) | round(0)) | string + ' minute
                               ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
                               ago')) %}
+
                               Guests seen {{ time_ago }}
                             icon: mdi:shield-account
                             entity: binary_sensor.guests_detected_at_carport_door
@@ -669,11 +673,11 @@ views:
                             show_name: false
                             camera_view: auto
                 - type: picture-entity
-                  entity: camera.front_door
-                  camera_image: camera.front_door
+                  entity: camera.front_door_doorbell_high
+                  camera_image: camera.front_door_doorbell_high
                 - type: picture-entity
-                  entity: camera.car_port_door
-                  camera_image: camera.car_port_door
+                  entity: camera.carport_doorbell_high
+                  camera_image: camera.carport_doorbell_high
                 - type: horizontal-stack
                   cards:
                     - type: custom:mushroom-lock-card
