@@ -3,7 +3,6 @@ import styled from "styled-components"
 
 const StyledText = styled.span`
   font-family: Open-Sans, Helvetica, Sans-Serif;
-  color: var(--text-color);
 `
 
 type TextProps = {

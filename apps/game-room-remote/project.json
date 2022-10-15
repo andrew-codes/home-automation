@@ -12,12 +12,12 @@
       }
     },
     "compile": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["apps/game-room-remote/dist"],
+      "executor": "@ha/nx-executors:invoke",
       "options": {
-        "command": "next build",
-        "cwd": "apps/game-room-remote"
-      }
+        "cwd": "apps/game-room-remote",
+        "module": "scripts/compile.ts"
+      },
+      "outputs": ["apps/game-room-remote/dist"]
     },
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
@@ -50,11 +50,10 @@
       }
     },
     "serve": {
-      "executor": "@ha/nx-executors:telepresence-local",
+      "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/game-room-remote",
-        "port": 80,
-        "command": "next dev -p 80"
+        "module": "scripts/start.ts"
       }
     },
     "test": {

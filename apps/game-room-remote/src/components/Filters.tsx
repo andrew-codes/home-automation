@@ -1,11 +1,12 @@
-import * as React from "react"
+import { useCallback } from "react"
 import styled from "styled-components"
 import Button from "./Button"
 import TextField from "./TextField"
 import { Checkbox } from "@atlaskit/checkbox"
-import { CheckboxField, Field, Fieldset } from "@atlaskit/form"
+import { Fieldset } from "@atlaskit/form"
 import { Section } from "@atlaskit/side-navigation"
-import { useRouter } from "next/router"
+import { useLocation, useNavigate } from "@remix-run/react"
+import Text from "./Text"
 
 const FindFilters = styled.div`
   padding: 0 10px;
@@ -42,10 +43,10 @@ const ChipButton = styled(Button)`
 `
 
 const getNewValue = (
-  value: string | null,
+  value: string,
   values: string | string[],
   selected: boolean,
-): string | string[] | undefined => {
+): string[] => {
   if (Array.isArray(values)) {
     const newValues = values.filter((v) => v !== value)
     if (selected && !!value) {
@@ -54,68 +55,41 @@ const getNewValue = (
     return newValues
   }
 
-  if (!value) {
-    return undefined
-  }
-
-  return value
+  return [value]
 }
 
 const Filters = () => {
-  const router = useRouter()
+  const location = useLocation()
+  const params = new URLSearchParams(location.search)
+  const navigate = useNavigate()
 
-  const [query, setQuery] = React.useState(router.query)
-  React.useEffect(() => {
-    setQuery(router.query)
-  }, [router.query])
-
-  const handleClear = React.useCallback(() => {
-    router.push("/browse?collection=all")
+  const handleClear = useCallback(() => {
+    navigate("/games?collection=all")
   }, [])
-  const handleCheckboxChange = React.useCallback(
+
+  const handleCheckboxChange = useCallback(
     (evt) => {
-      let fieldValues: string[] = (query[evt.target.name] ?? []) as string[]
-      if (!Array.isArray(fieldValues)) {
-        fieldValues = [fieldValues]
-      }
-      const newQuery = query
-      newQuery[evt.target.name] = getNewValue(
+      let fieldValues = params.getAll(evt.target.name)
+      const newValues = getNewValue(
         evt.target.value,
         fieldValues,
         evt.target.checked,
       )
-      const params = new URLSearchParams()
-      Object.entries(newQuery)
-        .filter(([key, value]) => !!value)
-        .forEach(([key, value]) => {
-          if (Array.isArray(value)) {
-            value.forEach((v) => params.append(key, v))
-          } else {
-            params.append(key, ((value as any) ?? "").toString())
-          }
-        })
-      router.push(`${router.route}?${params.toString()}`)
+      params.delete(evt.target.name)
+      newValues.forEach((v) => params.append(evt.target.name, v))
+      navigate(`/games?${params.toString()}`)
     },
-    [query],
+    [params],
   )
-  const handleCollectionChange = React.useCallback(
+
+  const handleCollectionChange = useCallback(
     (evt) => {
-      const collection = evt.target.parentNode.name
-      const newQuery = query
-      newQuery.collection = getNewValue(collection, [], true)
-      const params = new URLSearchParams()
-      Object.entries(newQuery)
-        .filter(([key, value]) => !!value)
-        .forEach(([key, value]) => {
-          if (Array.isArray(value)) {
-            value.forEach((v) => params.append(key, v))
-          } else {
-            params.append(key, ((value as any) ?? "").toString())
-          }
-        })
-      router.push(`${router.route}?${params.toString()}`)
+      const collection = evt.currentTarget.name
+      params.delete("collection")
+      params.set("collection", collection)
+      navigate(`/games?${params.toString()}`)
     },
-    [query],
+    [params],
   )
 
   return (
@@ -123,105 +97,72 @@ const Filters = () => {
       <Section>
         <ChipButtonGroup>
           <ChipButton name="recent" onClick={handleCollectionChange}>
-            recent
+            <Text as="span">recent</Text>
           </ChipButton>
           <ChipButton name="all" onClick={handleCollectionChange}>
-            all
+            <Text as="span">all</Text>
           </ChipButton>
         </ChipButtonGroup>
       </Section>
       <Section>
         <FindFilters>
           <Fieldset legend="Search">
-            <Field name="search">
-              {({ fieldProps }: any) => (
-                <TextField placeholder="by title" {...fieldProps} />
-              )}
-            </Field>
+            <TextField placeholder="by title" />
           </Fieldset>
           <Fieldset legend="Platform">
-            <CheckboxField name="platform">
-              {(fieldProps) => (
-                <Checkbox
-                  {...fieldProps}
-                  label="TV or Movies"
-                  value="tv"
-                  isChecked={!!router.query.platform?.includes("tv")}
-                  size="large"
-                  name="platform"
-                  onChange={handleCheckboxChange}
-                />
-              )}
-            </CheckboxField>
-            <CheckboxField name="platform">
-              {(fieldProps) => (
-                <Checkbox
-                  label="PC"
-                  value="pc"
-                  name="platform"
-                  isChecked={!!router.query.platform?.includes("pc")}
-                  onChange={handleCheckboxChange}
-                  size="large"
-                />
-              )}
-            </CheckboxField>
-            <CheckboxField name="platform">
-              {(fieldProps) => (
-                <Checkbox
-                  {...fieldProps}
-                  label="PlayStation"
-                  value="playstation"
-                  size="large"
-                  isChecked={!!router.query.platform?.includes("playstation")}
-                  name="platform"
-                  onChange={handleCheckboxChange}
-                />
-              )}
-            </CheckboxField>
+            <Checkbox
+              label="TV or Movies"
+              value="tv"
+              isChecked={!!params.getAll("platform")?.includes("tv")}
+              size="large"
+              name="platform"
+              onChange={handleCheckboxChange}
+            />
+            <Checkbox
+              label="PC"
+              value="pc"
+              name="platform"
+              isChecked={!!params.getAll("platform")?.includes("pc")}
+              onChange={handleCheckboxChange}
+              size="large"
+            />
+            <Checkbox
+              label="PlayStation"
+              value="playstation"
+              size="large"
+              isChecked={!!params.getAll("platform")?.includes("playstation")}
+              name="platform"
+              onChange={handleCheckboxChange}
+            />
           </Fieldset>
           <Fieldset legend="Co-op / Multiplayer">
-            <CheckboxField name="players">
-              {(fieldProps) => (
-                <Checkbox
-                  {...fieldProps}
-                  label="Single"
-                  value="single"
-                  size="large"
-                  name="players"
-                  onChange={handleCheckboxChange}
-                  isChecked={!!router.query.players?.includes("single")}
-                />
-              )}
-            </CheckboxField>
-            <CheckboxField name="players">
-              {(fieldProps) => (
-                <Checkbox
-                  {...fieldProps}
-                  label="Local"
-                  value="local"
-                  size="large"
-                  name="players"
-                  onChange={handleCheckboxChange}
-                  isChecked={!!router.query.players?.includes("local")}
-                />
-              )}
-            </CheckboxField>
-            <CheckboxField name="players">
-              {(fieldProps) => (
-                <Checkbox
-                  {...fieldProps}
-                  label="Online"
-                  value="online"
-                  size="large"
-                  name="players"
-                  onChange={handleCheckboxChange}
-                  isChecked={!!router.query.players?.includes("online")}
-                />
-              )}
-            </CheckboxField>
+            <Checkbox
+              label="Single"
+              value="single"
+              size="large"
+              name="players"
+              onChange={handleCheckboxChange}
+              isChecked={!!params.getAll("players")?.includes("single")}
+            />
+            <Checkbox
+              label="Local"
+              value="local"
+              size="large"
+              name="players"
+              onChange={handleCheckboxChange}
+              isChecked={!!params.getAll("players")?.includes("local")}
+            />
+            <Checkbox
+              label="Online"
+              value="online"
+              size="large"
+              name="players"
+              onChange={handleCheckboxChange}
+              isChecked={!!params.getAll("players")?.includes("online")}
+            />
           </Fieldset>
           <Button shouldFitContainer appearance="subtle" onClick={handleClear}>
-            Clear
+            <Text as="span">Clear</Text>
           </Button>
         </FindFilters>
       </Section>
