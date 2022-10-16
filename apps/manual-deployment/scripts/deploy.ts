@@ -23,8 +23,6 @@ const run = async (
     auth: token,
   })
   await octokit.request(`POST /repos/${owner}/${repo}/dispatches`, {
-    owner,
-    repo,
     event_type: "manual-deploy",
     client_payload: {
       projects: projects.join(","),
