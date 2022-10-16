@@ -17,9 +17,9 @@ interface DockerClient {
 const createClient = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<DockerClient> => {
-  const registry = await configurationApi.get("docker/registry/hostname")
-  const username = await configurationApi.get("docker/registry/username")
-  const password = await configurationApi.get("docker/registry/password")
+  const registry = await configurationApi.get("docker-registry/hostname")
+  const username = await configurationApi.get("docker-registry/username")
+  const password = await configurationApi.get("docker-registry/password")
   throwIfError(
     sh.exec(
       `docker login ${registry} --username ${username} --password ${password};`,

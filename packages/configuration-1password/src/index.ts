@@ -158,10 +158,13 @@ const createConfigApi = async (): Promise<
       const itemTitle = first(names)
       const itemFieldName = name.replace(`${itemTitle}/`, "")
       const secret = await op.getItemByTitle(vaultId, itemTitle)
+      const field = secret.fields?.find((f) => f.label === itemFieldName)
 
-      console.log(secret)
+      if (!field?.value) {
+        throw new Error(`Configuration value not found, ${name}.`)
+      }
 
-      return secret[itemFieldName] as OnePasswordConfiguration[typeof name]
+      return field.value as OnePasswordConfiguration[typeof name]
     },
     getNames: () => configurationNames,
     set: async (name, value) => {

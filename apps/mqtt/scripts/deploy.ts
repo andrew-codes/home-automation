@@ -8,7 +8,6 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   const port_external = await configurationApi.get("mqtt/port/external")
-  const registry = await configurationApi.get("docker/registry/hostname")
   const secrets: Array<keyof Configuration> = ["mqtt/password", "mqtt/username"]
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),

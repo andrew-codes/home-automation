@@ -15,7 +15,7 @@ const createConfigurationApi = async (
   const onepasswordConfiguration = await createOnepasswordConfiguration()
   const configurationProviders = providers.concat(
     onepasswordConfiguration,
-    akvConfigurationApi,
+    // akvConfigurationApi,
   )
 
   return {
