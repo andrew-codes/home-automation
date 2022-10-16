@@ -52,7 +52,7 @@
   },
   "tags": [],
   "implicitDependencies": [
-    "docker-registry-creds",
+    "docker-creds",
     "home-assistant-config-applicator",
     "influxdb",
     "mqtt",

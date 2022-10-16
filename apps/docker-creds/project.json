@@ -1,12 +1,12 @@
 {
-  "root": "apps/docker-registry-creds",
-  "sourceRoot": "apps/docker-registry-creds",
+  "root": "apps/docker-creds",
+  "sourceRoot": "apps/docker-creds",
   "projectType": "application",
   "targets": {
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
-        "cwd": "apps/docker-registry-creds",
+        "cwd": "apps/docker-creds",
         "module": "scripts/deploy.ts"
       },
       "dependsOn": [

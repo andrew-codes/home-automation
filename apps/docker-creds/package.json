@@ -1,5 +1,5 @@
 {
-  "name": "@ha/docker-registry-creds",
+  "name": "@ha/docker-creds",
   "version": "0.0.1",
   "devDependencies": {
     "@ha/shell-utils": "^0.0.1"
