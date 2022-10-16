@@ -44,12 +44,9 @@ jobs:
       - name: Deploy affected apps
         run: yarn deploy/affected --base HEAD~ --head HEAD --verbose --exclude manual-deployment --exclude pihole
         env:
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          AZURE_CLIENT_OBJECT_ID: ${{ secrets.AZURE_CLIENT_OBJECT_ID }}
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          AZURE_KEY_VAULT_NAME: ${{ secrets.AZURE_KEY_VAULT_NAME }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          ONEPASSWORD_TOKEN: ${{ secrets.ONEPASSWORD_TOKEN }}
+          ONEPASSWORD_SERVER_URL: ${{ secrets.ONEPASSWORD_SERVER_URL }}
+          ONEPASSWORD_VAULT_ID: ${{ secrets.ONEPASSWORD_VAULT_ID }}
           NODE_ENV: production
       - name: Remove disk pressure taint
         run: ./scripts/bin/remove-evicted-pods.sh || true

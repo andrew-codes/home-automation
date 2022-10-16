@@ -11,7 +11,7 @@ import { name } from "./config"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const registry = await configurationApi.get("docker/registry/hostname")
+  const registry = await configurationApi.get("docker-registry/hostname")
   const repo_owner = await configurationApi.get("repository/owner")
   const repo_name = await configurationApi.get("repository/name")
   const resources = await jsonnet.eval(
@@ -48,24 +48,16 @@ const run = async (
   const seal = createSeal(githubToken)
 
   const secrets: Array<keyof Configuration> = [
-    "azure/tenant/id",
-    "azure/key-vault/name",
-    "azure/client/object/id",
-    "azure/client/id",
-    "azure/client/secret",
-    "azure/subscription/id",
-    "azure/resource-group",
-    "code-cov/token"
+    "onepassword/server-url",
+    "onepassword/token",
+    "onepassword/vault-id",
+    "code-cov/token",
   ]
   const names: string[] = [
-    "AZURE_TENANT_ID",
-    "AZURE_KEY_VAULT_NAME",
-    "AZURE_CLIENT_OBJECT_ID",
-    "AZURE_CLIENT_ID",
-    "AZURE_CLIENT_SECRET",
-    "AZURE_SUBSCRIPTION_ID",
-    "AZURE_RESOURCE_GROUP",
-    "CODE_COV_TOKEN"
+    "ONEPASSWORD_SERVER_URL",
+    "ONEPASSWORD_TOKEN",
+    "ONEPASSWORD_VAULT_ID",
+    "CODE_COV_TOKEN",
   ]
 
   await Promise.all(
