@@ -1,3 +1,3 @@
 #!/bin/sh
 
-yarn start/prod
+remix-serve dist
