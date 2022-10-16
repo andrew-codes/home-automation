@@ -44,7 +44,7 @@
       "executor": "@ha/nx-executors:telepresence",
       "options": {
         "port": 8123,
-        "image": "andrewcodes.azurecr.io/home-assistant:latest",
+        "image": "docker-registry:5000/home-assistant:latest",
         "envOverrides": ["HOME_ASSISTANT_SERVER=http://localhost:8123"],
         "volumes": ["apps/home-assistant/src:/home-assistant-src"]
       }
