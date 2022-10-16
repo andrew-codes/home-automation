@@ -7,13 +7,13 @@ describe("configuration api module exports", () => {
   test("Configuration gets values from .secrets.env env variables.", async () => {
     jest
       .mocked(config)
-      .mockReturnValue({ parsed: { AZURE_CLIENT_ID: "client id" } })
+      .mockReturnValue({ parsed: { ONEPASSWORD_TOKEN: "value" } })
 
-    const actual = await configurationApi.get("azure/client/id")
+    const actual = await configurationApi.get("onepassword/token")
     expect(config).toHaveBeenCalledWith({
       path: path.join(__dirname, "..", "..", "..", "..", ".secrets.env"),
     })
-    expect(actual).toEqual("client id")
+    expect(actual).toEqual("value")
   })
 
   test("Can get a list of all configuration names", () => {
@@ -22,13 +22,6 @@ describe("configuration api module exports", () => {
       "onepassword/server-url",
       "onepassword/token",
       "onepassword/vault-id",
-      "azure/client/id",
-      "azure/client/object/id",
-      "azure/client/secret",
-      "azure/key-vault/name",
-      "azure/resource-group",
-      "azure/subscription/id",
-      "azure/tenant/id",
       "code-cov/token",
     ])
   })

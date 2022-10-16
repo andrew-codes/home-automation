@@ -7,13 +7,6 @@ const configurationNames = [
   "onepassword/server-url",
   "onepassword/token",
   "onepassword/vault-id",
-  "azure/client/id",
-  "azure/client/object/id",
-  "azure/client/secret",
-  "azure/key-vault/name",
-  "azure/resource-group",
-  "azure/subscription/id",
-  "azure/tenant/id",
   "code-cov/token",
 ] as const
 

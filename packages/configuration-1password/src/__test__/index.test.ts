@@ -1,5 +1,4 @@
 jest.mock("@ha/configuration-env-secrets")
-jest.mock("@azure/keyvault-secrets")
 jest.mock("@1password/connect")
 import { configurationApi as EnvSecretsConfiguration } from "@ha/configuration-env-secrets"
 import { OnePasswordConnect } from "@1password/connect"
@@ -13,7 +12,7 @@ describe("configuration api module exports", () => {
 
   const getItemByTitle = jest.fn()
 
-  test("Uses the env-secrets configuration api to connect to Azure Key Vault and retrieve the value by name", async () => {
+  test("Uses the env-secrets configuration api to connect to 1Password and retrieve the value by name", async () => {
     when(EnvSecretsConfiguration.get)
       .calledWith("onepassword/token")
       .mockResolvedValue("token")
@@ -43,5 +42,5 @@ describe("configuration api module exports", () => {
     expect(actual).toEqual("name")
   })
 
-  test.skip("Can set a configutation value via saving it to Azure Key Vault.", async () => {})
+  test.skip("Can set a configutation value via saving it to 1Password.", async () => {})
 })

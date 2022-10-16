@@ -1,7 +1,5 @@
-jest.mock("@ha/configuration-azure-kv")
 jest.mock("@ha/configuration-1password")
 jest.mock("@ha/configuration-env-secrets")
-import { createConfigApi as createAzureKvConfiguration } from "@ha/configuration-azure-kv"
 import { createConfigApi as create1PasswordConfiguration } from "@ha/configuration-1password"
 import { configurationApi as envConfiguration } from "@ha/configuration-env-secrets"
 import { ConfigurationApi } from "@ha/configuration-api"
@@ -9,19 +7,13 @@ import * as sut from ".."
 
 describe("configuration api module exports", () => {
   beforeEach(() => {
-    jest.restoreAllMocks
+    jest.resetAllMocks()
   })
 
   const get = jest.fn()
   const getNames = jest.fn()
   const set = jest.fn()
   beforeEach(() => {
-    jest.mocked(createAzureKvConfiguration).mockResolvedValue({
-      get,
-      getNames,
-      set,
-    } as unknown as ConfigurationApi<any>)
-
     jest.mocked(create1PasswordConfiguration).mockResolvedValue({
       get,
       getNames,
@@ -51,7 +43,7 @@ describe("configuration api module exports", () => {
     expect(actual).toEqual("value")
   })
 
-  test("Created configuration API defaults to providers (in order): env, azure key vault providers.", async () => {
+  test("Created configuration API defaults to providers (in order): env, 1Password providers.", async () => {
     jest
       .mocked(envConfiguration.get)
       .mockRejectedValue("Configuration value not found.")
@@ -73,37 +65,41 @@ describe("configuration api module exports", () => {
     ])
 
     const actual = api.getNames()
-    expect(actual).toEqual(["azureKeyVaultName", "azure/location", "one"])
+    expect(actual).toEqual([
+      "onepassword/token",
+      "onepassword/server-url",
+      "one",
+    ])
   })
 
   test("Setting a value will use all providers that supports the value.", async () => {
-    getNames.mockReturnValue(["azure/location"])
+    getNames.mockReturnValue(["onepassword/server-url"])
     const api = await sut.createConfigurationApi([
       TestConfigProvder,
       TestConfigProvder2,
     ])
 
-    api.set("azure/location", "test")
-    expect(set).toHaveBeenCalledWith("azure/location", "test")
+    api.set("onepassword/server-url", "test")
+    expect(set).toHaveBeenCalledWith("onepassword/server-url", "test")
     expect(TestConfigProvder.set).not.toHaveBeenCalled()
     expect(TestConfigProvder2.set).toHaveBeenCalledWith(
-      "azure/location",
+      "onepassword/server-url",
       "test",
     )
   })
 })
 
-const TestConfigProvder: ConfigurationApi<{ azureKeyVaultName: string }> = {
+const TestConfigProvder: ConfigurationApi<{ "onepassword/token": string }> = {
   get: async (name) => "value",
-  getNames: () => ["azureKeyVaultName"],
+  getNames: () => ["onepassword/token"],
   set: jest.fn(),
 }
 
 const TestConfigProvder2: ConfigurationApi<{
-  azureKeyVaultName: string
-  "azure/location": string
+  "onepassword/token": string
+  "onepassword/server-url": string
 }> = {
   get: async (name) => "different value",
-  getNames: () => ["azureKeyVaultName", "azure/location"],
+  getNames: () => ["onepassword/token", "onepassword/server-url"],
   set: jest.fn(),
 }
