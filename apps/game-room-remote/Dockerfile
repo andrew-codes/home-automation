@@ -7,9 +7,8 @@ ENV PORT 80
 
 COPY entrypoint.sh entrypoint.sh
 COPY dist dist
-# COPY package.json package.json
-# RUN yarn --ignore-scripts --no-lockfile
-RUN yarn global add @remix-run/serve
+COPY package.json package.json
+RUN yarn --ignore-scripts --no-lockfile
 
 EXPOSE 80
 
