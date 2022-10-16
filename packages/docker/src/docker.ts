@@ -18,14 +18,14 @@ const createClient = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<DockerClient> => {
   const registry = await configurationApi.get("docker/registry/hostname")
-  const username = await configurationApi.get("azure/client/id")
-  const password = await configurationApi.get("azure/client/secret")
-  throwIfError(
-    sh.exec(
-      `docker login ${registry} --username ${username} --password ${password};`,
-      { silent: true },
-    ),
-  )
+  // const username = await configurationApi.get("azure/client/id")
+  // const password = await configurationApi.get("azure/client/secret")
+  // throwIfError(
+  //   sh.exec(
+  //     `docker login ${registry} --username ${username} --password ${password};`,
+  //     { silent: true },
+  //   ),
+  // )
 
   return {
     build: async (name, options = {}) => {
