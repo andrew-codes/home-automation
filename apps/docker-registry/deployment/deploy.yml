@@ -1,0 +1,109 @@
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+
+  tasks:
+    - name: Disabling Swap on all nodes
+      shell: swapoff -a
+
+    - name: Commenting Swap entries in /etc/fstab
+      replace:
+        path: /etc/fstab
+        regexp: "(^/.*swap*)"
+        replace: '# \1'
+
+    - name: Set hostname
+      hostname:
+        name: "{{ hostname }}"
+
+    - name: Add myself to /etc/hosts
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '^127\.0\.0\.1[ \t]+localhost'
+        line: "127.0.0.1 localhost {{ hostname }}"
+        state: present
+
+    - name: Update apt
+      become_user: root
+      become_method: sudo
+      become: yes
+      shell: apt-get update --allow-releaseinfo-change
+
+    - name: Installing Prerequisites
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg-agent
+          - jq
+          - software-properties-common
+          - qemu-guest-agent
+        state: present
+
+    - name: Installing yq
+      shell: wget https://github.com/mikefarah/yq/releases/download/v4.6.3/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
+
+    - name: Add Docker’s official GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+        filename: docker
+        mode: 0600
+
+    - name: Install Docker Engine
+      apt:
+        name:
+          - docker.io
+        state: present
+
+    - name: Enable service docker, and enable persistently
+      service:
+        name: docker
+        enabled: yes
+
+    - name: Setup docker daemon config.
+      shell: 'echo ''{ "features": { "buildkit": true }, "exec-opts": ["native.cgroupdriver=systemd"], "insecure-registries": ["docker-registry"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }'' > /etc/docker/daemon.json'
+
+    - name: Restart docker.
+      command: "{{ item }}"
+      become_user: root
+      become_method: sudo
+      become: yes
+      with_items:
+        - systemctl daemon-reload
+        - systemctl restart docker
+
+    - name: Registry directory
+      become_user: root
+      become_method: sudo
+      become: yes
+      file:
+        path: /data/registry
+        state: directory
+
+    - name: Stop registry
+      shell: docker stop registry || true
+
+    - name: Remove container
+      shell: docker container rm registry || true
+
+    - name: Run registry as service
+      shell: >
+        docker run -d \
+          --name registry \
+          -v /data/registry:/var/lib/registry \
+          -e "REGISTRY_HTTP_ADDR=0.0.0.0:5000" \
+          -e "REGISTRY_STORAGE_DELETE_ENABLED=true" \
+          -p 5000:5000 \
+          --restart always \
+          registry:2.8.1

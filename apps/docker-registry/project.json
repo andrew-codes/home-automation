@@ -1,0 +1,16 @@
+{
+  "root": "apps/docker-registry",
+  "sourceRoot": "apps/docker-registry",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "module": "scripts/deploy.ts",
+        "cwd": "apps/docker-registry"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}
