@@ -7,8 +7,8 @@
   connection: ssh
 
   tasks:
-    - name: Disabling Swap on all nodes
-      shell: swapoff -a
+    # - name: Disabling Swap on all nodes
+    #   shell: swapoff -a
 
     - name: Commenting Swap entries in /etc/fstab
       replace:
@@ -16,9 +16,9 @@
         regexp: "(^/.*swap*)"
         replace: '# \1'
 
-    - name: Set hostname
-      hostname:
-        name: "{{ hostname }}"
+    # - name: Set hostname
+    #   hostname:
+    #     name: "{{ hostname }}"
 
     - name: Add myself to /etc/hosts
       lineinfile:

@@ -10,8 +10,8 @@ const run = async (
 ): Promise<void> => {
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
   const ip = await configurationApi.get("docker/registry/ip")
-  const k8sName = await configurationApi.get("docker/registry/name")
-  const k8sUsername = await configurationApi.get("docker/registry/machine/username")
+  const name = await configurationApi.get("docker/registry/name")
+  const machineUsername = await configurationApi.get("docker/registry/machine/username")
   const machinePassword = await configurationApi.get("docker/registry/machine/password")
 
   await fs.mkdir(path.join(__dirname, "..", ".secrets"), { recursive: true })
@@ -21,8 +21,8 @@ const run = async (
     `
 all:
   vars:
-    ansible_user: ${k8sUsername}
-    hostname: "${k8sName}"
+    ansible_user: ${machineUsername}
+    hostname: "${name}"
   hosts:
     ${ip}:
 `,
