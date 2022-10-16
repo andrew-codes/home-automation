@@ -1,0 +1,174 @@
+import { ConfigurationApi } from "@ha/configuration-api"
+import { first } from "lodash"
+import { OnePasswordConnect } from "@1password/connect"
+import { configurationApi as EnvSecretsConfiguration } from "@ha/configuration-env-secrets"
+import { toK8sName } from "@ha/secret-utils"
+
+const configurationNames = [
+  // "alexa-shopping-list-updater-skill/port/external",
+  // "azure/location",
+  // "azure/tenant/id",
+  // "azure/client/id",
+  // "azure/client/secret",
+  // "captive-portal/host",
+  // "captive-portal/port/external",
+  // "dev/ssh-key/public",
+  "docker-registry/hostname",
+  "docker-registry/ip",
+  "docker-registry/name",
+  "docker-registry/password",
+  "docker-registry/username",
+  // "elk-stack/elastic-search/port/external",
+  // "elk-stack/kibana/port/external",
+  // "elk-stack/fleet/ip",
+  // "elk-stack/fleet/hostname",
+  // "external-services-dns-updater/sub-domains",
+  // "frigate/port/external",
+  // "frigate/port/external/rmtp",
+  // "frigate/rtsp/car-port",
+  // "frigate/rtsp/front-door",
+  // "game-library-db/port",
+  // "game-library-db/password",
+  // "game-library-db/username",
+  // "game-room-remote/port/external",
+  // "gaming-pc/ip",
+  // "gaming-pc/machine/username",
+  // "gaming-pc/machine/password",
+  // "gaming-pc/user",
+  // "github/token",
+  // "grafana/influxdb/token",
+  // "grafana/password",
+  // "grafana/port/external",
+  // "grafana/username",
+  // "guest-pin-codes/calendar-id",
+  // "guest-pin-codes/door-locks",
+  // "guest-pin-codes/google-private-key",
+  // "guest-pin-codes/guest-code-index-offset",
+  // "guest-pin-codes/guest-lock-code-exclusions",
+  // "guest-pin-codes/number-of-guest-codes",
+  // "home-assistant/appdaemon/password",
+  // "home-assistant/appdaemon/url",
+  // "home-assistant/domain",
+  // "home-assistant/double-take/token",
+  // "home-assistant/elevation",
+  // "home-assistant/game-room/gaming-pc/ip",
+  // "home-assistant/game-room/gaming-pc/mac",
+  // "home-assistant/game-room/gaming-pc/machine-username",
+  // "home-assistant/game-room/nvidia-shield/ip",
+  // "home-assistant/game-room/playstation-5/ip",
+  // "home-assistant/game-room/tv/ip",
+  // "home-assistant/game-room/tv/mac",
+  // "home-assistant/github/token",
+  // "home-assistant/google/calendar/client-id",
+  // "home-assistant/google/calendar/client-secret",
+  // "home-assistant/ssh-key/private",
+  // "home-assistant/ssh-key/public",
+  // "home-assistant/influxdb/token",
+  // "home-assistant/jira-authorization-header",
+  // "home-assistant/latitude",
+  // "home-assistant/longitude",
+  // "home-assistant/port/external",
+  // "home-assistant/postgres/db",
+  // "home-assistant/postgres/password",
+  // "home-assistant/postgres/username",
+  // "home-assistant/server",
+  // "home-assistant/spotcast/dc-2",
+  // "home-assistant/spotcast/dc",
+  // "home-assistant/spotcast/key-2",
+  // "home-assistant/spotcast/key",
+  // "home-assistant/spotify/client-id",
+  // "home-assistant/spotify/client-secret",
+  // "home-assistant/time-zone",
+  // "home-assistant/token",
+  // "home-assistant/unit-system",
+  // "home-assistant/url",
+  // "home-assistant/withings/client-id",
+  // "home-assistant/withings/client-secret",
+  // "influxdb/bucket",
+  // "influxdb/org",
+  // "influxdb/password",
+  // "influxdb/port/external",
+  // "influxdb/username",
+  // "k8s/machine/password",
+  // "k8s/machine/username",
+  // "k8s/main-node/ip",
+  // "k8s/name",
+  // "k8s/pod-network-cidr",
+  // "known-hosts",
+  // "mqtt/password",
+  // "mqtt/port/external",
+  // "mqtt/username",
+  // "openvpn/hostname",
+  // "openvpn/ip",
+  // "openvpn/passwords",
+  // "openvpn/usernames",
+  // "pihole/hostname",
+  // "pihole/ip",
+  // "pihole/password",
+  // "proxmox/host/pve",
+  // "proxmox/host/pve-nuc",
+  // "proxmox/ip",
+  // "proxmox/nameserver",
+  // "proxmox/password",
+  // "proxmox/provision/ssh-key/public",
+  // "proxmox/ssh-key/private",
+  // "proxmox/ssh-key/public",
+  // "proxmox/username",
+  // "proxy/ddns/cert-email",
+  // "proxy/ddns/service-account/credentials-json",
+  // "proxy/hostname",
+  // "proxy/ip",
+  // "proxy/sub-domain/redirects",
+  // "ps5/credentials-json",
+  // "remote-codespaces/ip",
+  // "remote-codespaces/machine/username",
+  // "remote-codespaces/machine/password",
+  // "remote-codespaces/name",
+  // "repository/name",
+  // "repository/owner",
+  // "unifi/ip",
+  // "unifi/password",
+  // "unifi/port",
+  // "unifi/username",
+  // "uptime-kuma/port/external",
+  // "zigbee2mqtt/port/external",
+  // "zwavejs/port/external",
+  // "zwavejs/port/external/web-socket",
+] as const
+
+type ConfigurationKeys = typeof configurationNames
+type OnePasswordConfiguration = Record<ConfigurationKeys[number], string>
+
+const createConfigApi = async (): Promise<
+  ConfigurationApi<OnePasswordConfiguration>
+> => {
+  // Create new connector with HTTP Pooling
+  const serverURL = await EnvSecretsConfiguration.get("onepassword/server-url")
+  const token = await EnvSecretsConfiguration.get("onepassword/token")
+  const vaultId = await EnvSecretsConfiguration.get("onepassword/vault-id")
+  const op = OnePasswordConnect({
+    serverURL,
+    token,
+    keepAlive: true,
+  })
+
+  return {
+    get: async (name) => {
+      const names = name.split("/")
+      const itemTitle = first(names)
+      const itemFieldName = name.replace(`${itemTitle}/`, "")
+      const secret = await op.getItemByTitle(vaultId, itemTitle)
+
+      console.log(secret)
+
+      return secret[itemFieldName] as OnePasswordConfiguration[typeof name]
+    },
+    getNames: () => configurationNames,
+    set: async (name, value) => {
+      // await client.setSecret(toK8sName(name), value)
+    },
+  }
+}
+
+export type { OnePasswordConfiguration as Configuration }
+export { createConfigApi, configurationNames }

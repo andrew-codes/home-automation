@@ -19,6 +19,9 @@ describe("configuration api module exports", () => {
   test("Can get a list of all configuration names", () => {
     const actual = configurationApi.getNames()
     expect(actual).toEqual([
+      "onepassword/server-url",
+      "onepassword/token",
+      "onepassword/vault-id",
       "azure/client/id",
       "azure/client/object/id",
       "azure/client/secret",
@@ -26,7 +29,7 @@ describe("configuration api module exports", () => {
       "azure/resource-group",
       "azure/subscription/id",
       "azure/tenant/id",
-      "code-cov/token"
+      "code-cov/token",
     ])
   })
 })

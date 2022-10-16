@@ -1,6 +1,8 @@
 jest.mock("@ha/configuration-azure-kv")
+jest.mock("@ha/configuration-1password")
 jest.mock("@ha/configuration-env-secrets")
 import { createConfigApi as createAzureKvConfiguration } from "@ha/configuration-azure-kv"
+import { createConfigApi as create1PasswordConfiguration } from "@ha/configuration-1password"
 import { configurationApi as envConfiguration } from "@ha/configuration-env-secrets"
 import { ConfigurationApi } from "@ha/configuration-api"
 import * as sut from ".."
@@ -19,6 +21,12 @@ describe("configuration api module exports", () => {
       getNames,
       set,
     } as unknown as ConfigurationApi<any>)
+
+    jest.mocked(create1PasswordConfiguration).mockResolvedValue({
+      get,
+      getNames,
+      set,
+    })
   })
 
   test("Created configuration API will throw error if configuration value cannot be found by name.", async () => {
