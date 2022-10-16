@@ -18,8 +18,12 @@ describe("docker", () => {
     when(get)
       .calledWith("docker/registry/hostname")
       .mockResolvedValue("registry.com")
-    when(get).calledWith("azure/client/id").mockResolvedValue("username")
-    when(get).calledWith("azure/client/secret").mockResolvedValue("password")
+    when(get)
+      .calledWith("docker/registry/username")
+      .mockResolvedValue("username")
+    when(get)
+      .calledWith("docker/registry/password")
+      .mockResolvedValue("password")
   })
 
   test("Creating a docker client will authenticate the docker CLI to the registry.", async () => {
