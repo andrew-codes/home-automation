@@ -24,7 +24,6 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    },)
                    + lib.deployment.withInitContainer('mqtt-is-ready', std.extVar('registryHostname') + '/mqtt-client:latest', { env: [secrets['mqtt/username'], secrets['mqtt/password']], command: ['sh'], args: ['-c', 'timeout 10 sub -h mqtt -t "\\$SYS/#" -C 1 -u $MQTT_USERNAME -P $MQTT_PASSWORD | grep -v Error || exit 1'] })
                    + lib.deployment.withInitContainer('home-assistant-config-applicator', std.extVar('registryHostname') + '/home-assistant-config-applicator:latest', configApplicatorInitContainerProperies,)
-                   + lib.deployment.withInitContainer('frigate-is-ready', 'curlimages/curl:latest', { command: ['sh'], args: ['-c', "timeout 10 curl --fail --insecure --silent --output /dev/null --write-out 'HTTP Code %{http_code}' 'http://frigate:5000' || exit 1"] })
                    + lib.deployment.withInitContainer('postgres-is-ready', 'postgres:13.3-alpine', { command: ['sh'], args: ['-c', 'until pg_isready -h home-assistant-postgres -p 5432; do echo waiting for database; sleep 2; done;'] })
                    + lib.deployment.withPersistentVolume('home-assistant')
                    + lib.deployment.withPersistentVolume('home-assistant-new-config')
