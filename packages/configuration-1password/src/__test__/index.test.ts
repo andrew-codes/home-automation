@@ -35,8 +35,8 @@ describe("configuration api module exports", () => {
       } as unknown as typeof OnePasswordConnect)
 
     when(getItemByTitle)
-      .calledWith("vault-id", "docker-registry")
-      .mockResolvedValue({ name: "name" })
+      .calledWith("vault-id", "docker-registry/name")
+      .mockResolvedValue({ fields: [{ label: "secret-value", value: "name" }] })
 
     const api = await createConfigApi()
     const actual = await api.get("docker-registry/name")

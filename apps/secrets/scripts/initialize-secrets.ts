@@ -32,11 +32,9 @@ const run = async (
     )
   }
 
-  await Promise.all(
-    secretsSetFromTemplate.default.map(({ name, value }) =>
-      configurationApi.set(name, value.replace(/\n/g, "\\n")),
-    ),
-  )
+  for (const item of secretsSetFromTemplate.default) {
+    await configurationApi.set(item.name, item.value.replace(/\n/g, "\\n"))
+  }
 }
 
 export default run

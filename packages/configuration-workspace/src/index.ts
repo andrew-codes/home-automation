@@ -1,6 +1,5 @@
 import type { ConfigurationApi } from "@ha/configuration-api"
 import { configurationApi as envConfiguration } from "@ha/configuration-env-secrets"
-import { createConfigApi as createAzureKvConfiguration } from "@ha/configuration-azure-kv"
 import { createConfigApi as createOnepasswordConfiguration } from "@ha/configuration-1password"
 import { uniq } from "lodash"
 import type { Configuration } from "./Configuration.types"
@@ -11,12 +10,8 @@ const debug = createDebugger("@ha/configuration-workspace/index")
 const createConfigurationApi = async (
   providers: ConfigurationApi<any>[] = [envConfiguration],
 ): Promise<ConfigurationApi<Configuration>> => {
-  const akvConfigurationApi = await createAzureKvConfiguration()
   const onepasswordConfiguration = await createOnepasswordConfiguration()
-  const configurationProviders = providers.concat(
-    onepasswordConfiguration,
-    // akvConfigurationApi,
-  )
+  const configurationProviders = providers.concat(onepasswordConfiguration)
 
   return {
     get: async (name) => {
