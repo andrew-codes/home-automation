@@ -21,17 +21,6 @@ const run = async (
     )
   }
 
-  const allSecretsSet = secretNames.every((secretName) =>
-    secretsSetFromTemplate.default.some(
-      ({ name, value }) => secretName === name && !!value,
-    ),
-  )
-  if (!allSecretsSet) {
-    throw new Error(
-      "Not all secrets in template set and accounted for. Please re-run  `yarn nx run secrets:template` and ensure no secrets are removed and all secrets are set.",
-    )
-  }
-
   for (const item of secretsSetFromTemplate.default) {
     await configurationApi.set(item.name, item.value.replace(/\n/g, "\\n"))
   }
