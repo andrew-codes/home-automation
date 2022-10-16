@@ -18,6 +18,8 @@ const configurationNames = [
   "docker/registry/machine/password",
   "docker/registry/machine/username",
   "docker/registry/name",
+  "docker/registry/password",
+  "docker/registry/username",
   "elk-stack/elastic-search/port/external",
   "elk-stack/kibana/port/external",
   "elk-stack/fleet/ip",

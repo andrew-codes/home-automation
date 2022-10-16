@@ -11,8 +11,14 @@ const run = async (
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
   const ip = await configurationApi.get("docker/registry/ip")
   const name = await configurationApi.get("docker/registry/name")
-  const machineUsername = await configurationApi.get("docker/registry/machine/username")
-  const machinePassword = await configurationApi.get("docker/registry/machine/password")
+  const machineUsername = await configurationApi.get(
+    "docker/registry/machine/username",
+  )
+  const machinePassword = await configurationApi.get(
+    "docker/registry/machine/password",
+  )
+  const username = await configurationApi.get("docker/registry/username")
+  const password = await configurationApi.get("docker/registry/password")
 
   await fs.mkdir(path.join(__dirname, "..", ".secrets"), { recursive: true })
 
@@ -28,6 +34,11 @@ all:
 `,
     "utf8",
   )
+
+  const auth = sh.exec(
+    `docker run --entrypoint htpasswd httpd:2 -Bbn ${username} ${password}`,
+  ).stdout
+  await fs.writeFile(path.join(__dirname, "..", ".secrets", "htpasswd"), "utf8")
 
   throwIfError(
     sh.exec(

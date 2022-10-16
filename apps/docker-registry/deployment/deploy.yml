@@ -74,6 +74,11 @@
     - name: Setup docker daemon config.
       shell: 'echo ''{ "features": { "buildkit": true }, "exec-opts": ["native.cgroupdriver=systemd"], "insecure-registries": ["docker-registry"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }'' > /etc/docker/daemon.json'
 
+    - name: Copy auth file
+      ansible.builtin.copy:
+        src: .secrets/htpasswd
+        dest: /etc/foo.conf
+
     - name: Restart docker.
       command: "{{ item }}"
       become_user: root
@@ -101,9 +106,12 @@
       shell: >
         docker run -d \
           --name registry \
+          -v /data/auth:/auth \
           -v /data/registry:/var/lib/registry \
+          -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \
           -e "REGISTRY_HTTP_ADDR=0.0.0.0:5000" \
           -e "REGISTRY_STORAGE_DELETE_ENABLED=true" \
+          -e "REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd" \
           -p 5000:5000 \
           --restart always \
           registry:2.8.1
