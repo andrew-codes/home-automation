@@ -7,14 +7,14 @@ import { toEnvName, toK8sName } from "@ha/secret-utils"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const secretNames = configurationApi.getNames()
-  const kvName = await configurationApi.get("azure/key-vault/name")
   await fs.mkdir(path.join(__dirname, "..", "dist"), { recursive: true })
 
+  const secretNames = configurationApi.getNames()
+  const vaultId = configurationApi.get("onepassword/vault-id")
   const secretDefinitionsJsonnet = secretNames.map((name, index) => {
-    return `"${name}": lib.akvSecrets.new("${kvName}", "${toK8sName(
+    return `"${name}": lib.onePasswordSecrets.new("${vaultId}", "${toK8sName(
       name,
-    )}", "${toEnvName(name)}")`
+    )}", "${name}")`
   })
   const secretDefinitionJsonnet = `
 local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';

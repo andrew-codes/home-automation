@@ -305,23 +305,16 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
     },
   },
 
-  akvSecrets+: {
-    new(kvName, k8sName, name)::
+  onePasswordSecrets+: {
+    new(vaultId, k8sName, name)::
       {
-        apiVersion: 'spv.no/v2beta1',
-        kind: 'AzureKeyVaultSecret',
+        apiVersion: 'onepassword.com/v1',
+        kind: 'OnePasswordItem',
         metadata: {
           name: k8sName,
         },
         spec: {
-          vault: {
-            name: kvName,
-            object: {
-              name: k8sName,
-              type: 'secret',
-            },
-          },
-          output: { secret: { name: k8sName, dataKey: 'secret-value' } },
+          itemPath: 'vaults/' + vaultId + '/items/' + name,
         },
       },
   },
