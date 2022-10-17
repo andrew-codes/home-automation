@@ -10,7 +10,7 @@ const run = async (
   const subDomainRedirects = await configurationApi.get(
     "proxy/sub-domain/redirects",
   )
-  const subDomainConfigurations = JSON.parse(subDomainRedirects)
+  const subDomainConfigurations = JSON.parse(subDomainRedirects.value)
   const distNginx = path.join(__dirname, "..", "dist", "nginx")
   const distSites = path.join(distNginx, "sites-enabled")
   const distStream = path.join(distNginx, "stream", "enabled")

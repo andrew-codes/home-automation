@@ -15,14 +15,14 @@ const run = async (
   const TF_VAR_ssh_key = await configurationApi.get("proxmox/ssh-key/public")
   const TF_VAR_nameserver = await configurationApi.get("proxmox/nameserver")
 
-  sh.env["TF_VAR_ip"] = `${TF_VAR_ip}/8`
-  sh.env["TF_VAR_gateway"] = TF_VAR_gateway
-  sh.env["TF_VAR_pm_api_url"] = `https://${pveHost}/api2/json`
-  sh.env["TF_VAR_pm_password"] = TF_VAR_pm_password
-  sh.env["TF_VAR_pm_username"] = TF_VAR_pm_username
-  sh.env["TF_VAR_hostname"] = TF_VAR_hostname
-  sh.env["TF_VAR_ssh_key"] = TF_VAR_ssh_key
-  sh.env["TF_VAR_nameserver"] = TF_VAR_nameserver
+  sh.env["TF_VAR_ip"] = `${TF_VAR_ip.value}/8`
+  sh.env["TF_VAR_gateway"] = TF_VAR_gateway.value
+  sh.env["TF_VAR_pm_api_url"] = `https://${pveHost.value}/api2/json`
+  sh.env["TF_VAR_pm_password"] = TF_VAR_pm_password.value
+  sh.env["TF_VAR_pm_username"] = TF_VAR_pm_username.value
+  sh.env["TF_VAR_hostname"] = TF_VAR_hostname.value
+  sh.env["TF_VAR_ssh_key"] = TF_VAR_ssh_key.value
+  sh.env["TF_VAR_nameserver"] = TF_VAR_nameserver.value
 
   const terraformProcess = sh.exec(
     `terraform init && terraform plan && terraform apply --auto-approve;`,

@@ -25,10 +25,10 @@ const run = async (
     `
 all:
   vars:
-    ansible_user: ${machineUsername}
-    hostname: ${machineName}
+    ansible_user: ${machineUsername.value}
+    hostname: ${machineName.value}
   hosts:
-    ${ip}:
+    ${ip.value}:
 `,
     "utf8",
   )
@@ -45,7 +45,7 @@ all:
         "..",
         ".secrets",
         "hosts.yml",
-      )} --extra-vars "ansible_become_pass='${machinePassword}'";`,
+      )} --extra-vars "ansible_become_pass='${machinePassword.value}'";`,
       { silent: true },
     ),
   )

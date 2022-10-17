@@ -16,10 +16,10 @@ const run = async (
   const deployments = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      grafana_username,
-      grafana_password,
-      port,
-      grafana_influxdb_token,
+      grafana_username: grafana_username.value,
+      grafana_password: grafana_password.value,
+      port:port.value,
+      grafana_influxdb_token:grafana_influxdb_token.value,
     },
   )
   const deploymentsJson = JSON.parse(deployments).grafana

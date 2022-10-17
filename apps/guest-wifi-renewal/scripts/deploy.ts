@@ -8,7 +8,7 @@ import { name } from "./config"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const registry = await configurationApi.get("docker/registry/hostname")
+  const registry = await configurationApi.get("docker-registry/hostname")
   const haDomain = await configurationApi.get("home-assistant/domain")
   const secrets: Array<keyof Configuration> = [
     "mqtt/password",
@@ -21,10 +21,10 @@ const run = async (
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      haDomain,
-      image: `${registry}/${name}:latest`,
+      haDomain: haDomain.value,
+      image: `${registry.value}/${name}:latest`,
       name,
-      registryHostname: registry,
+      registryHostname: registry.value,
       secrets,
     },
   )

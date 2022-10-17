@@ -17,8 +17,8 @@ const run = async (
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "users.env"),
     `
-passwords="${passwords}"
-usernames="${usernames}"`,
+passwords="${passwords.value}"
+usernames="${usernames.value}"`,
     "utf8",
   )
   const hostsPath = path.join(__dirname, "..", ".secrets", "hosts.yml")
@@ -29,7 +29,7 @@ all:
   vars:
     ansible_user: root
   hosts:
-    ${ip}:`,
+    ${ip.value}:`,
     "utf8",
   )
 
@@ -50,7 +50,7 @@ all:
   )
 
   const githubToken = await configurationApi.get("github/token")
-  const client = await createCodeSpaceSecretClient(githubToken, [
+  const client = await createCodeSpaceSecretClient(githubToken.value, [
     "317289870",
   ] as never[])
 
@@ -60,13 +60,13 @@ all:
   )
   await client.set("OPENVPN_CONFIG", codespaceOvpn)
 
-  const codespaceUsernameIndex = usernames
+  const codespaceUsernameIndex = usernames.value
     .split(",")
     .findIndex((username) => username === "codespaces")
   if (codespaceUsernameIndex >= 0) {
     await client.set(
       "VPN_CREDS",
-      `codespaces\n${passwords.split(",")[codespaceUsernameIndex]}`,
+      `codespaces\n${passwords.value.split(",")[codespaceUsernameIndex]}`,
     )
   }
 }

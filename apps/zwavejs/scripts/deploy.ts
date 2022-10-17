@@ -8,7 +8,7 @@ import { name } from "./config"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const registry = await configurationApi.get("docker/registry/hostname")
+  const registry = await configurationApi.get("docker-registry/hostname")
   const port_external = await configurationApi.get("zwavejs/port/external")
   const wsPort = await configurationApi.get("zwavejs/port/external/web-socket")
   const secrets: Array<keyof Configuration> = []
@@ -18,9 +18,9 @@ const run = async (
       image: `zwavejs/zwavejs2mqtt:latest`,
       name,
       secrets,
-      port: port_external,
-      registryHostname: registry,
-      wsPort: wsPort,
+      port: port_external.value,
+      registryHostname: registry.value,
+      wsPort: wsPort.value,
     },
   )
   const resourceJson = JSON.parse(resources)

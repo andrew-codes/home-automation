@@ -5,7 +5,7 @@ import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
-import { throwIfError } from '@ha/shell-utils'
+import { throwIfError } from "@ha/shell-utils"
 import { name } from "./config"
 
 const run = async (
@@ -43,7 +43,7 @@ const run = async (
   <html>
     <head>
       <title>Smith-Simms Wifi</title>
-      <meta http-equiv="refresh" content="0;url=https://${host}?mac=<unifi var="mac" />">
+      <meta http-equiv="refresh" content="0;url=https://${host.value}?mac=<unifi var="mac" />">
     </head>
     <body>
     </body>
@@ -54,14 +54,13 @@ const run = async (
     unifiCaptivePortal,
     "utf8",
   )
-  throwIfError(sh.exec(
-    `scp ${path.join(
-      __dirname,
-      "..",
-      ".secrets",
-      "unifi.html",
-    )} "root@${unifiIp}:/data/unifi/data/sites/default/app-unifi-hotspot-portal/index.html"`,
-  ))
+  throwIfError(
+    sh.exec(
+      `scp ${path.join(__dirname, "..", ".secrets", "unifi.html")} "root@${
+        unifiIp.value
+      }:/data/unifi/data/sites/default/app-unifi-hotspot-portal/index.html"`,
+    ),
+  )
 }
 
 export default run

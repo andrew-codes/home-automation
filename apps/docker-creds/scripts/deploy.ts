@@ -10,9 +10,9 @@ const run = async (
 ): Promise<void> => {
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
 
-  const hostname = await configurationApi.get("docker/registry/hostname")
-  const username = await configurationApi.get("docker/registry/username")
-  const password = await configurationApi.get("docker/registry/password")
+  const hostname = await configurationApi.get("docker-registry/hostname")
+  const username = await configurationApi.get("docker-registry/username")
+  const password = await configurationApi.get("docker-registry/password")
 
   const deleteOldCreds = sh.exec(`kubectl delete secret regcred || true;`, {
     silent: true,
@@ -20,7 +20,7 @@ const run = async (
   throwIfError(deleteOldCreds)
 
   const createCreds = sh.exec(
-    `kubectl create secret docker-registry regcred --docker-username="${username}" --docker-password="${password}" --docker-server="${hostname}";`,
+    `kubectl create secret docker-registry regcred --docker-username="${username.value}" --docker-password="${password.value}" --docker-server="${hostname.value}";`,
     { silent: true },
   )
   throwIfError(createCreds)

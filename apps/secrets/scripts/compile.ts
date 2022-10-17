@@ -10,11 +10,21 @@ const run = async (
   await fs.mkdir(path.join(__dirname, "..", "dist"), { recursive: true })
 
   const secretNames = configurationApi.getNames()
-  const vaultId = configurationApi.get("onepassword/vault-id")
+  const secretItems = await Promise.all(
+    secretNames.map((name) => configurationApi.get(name)),
+  )
+
+  const vaultId = await configurationApi.get("onepassword/vault-id")
   const secretDefinitionsJsonnet = secretNames.map((name, index) => {
+    const item = secretItems[index]
+    let itemIdentifier: string = name
+    if (typeof item !== "string") {
+      itemIdentifier = item.id
+    }
+
     return `"${name}": lib.onePasswordSecrets.new("${vaultId}", "${toK8sName(
       name,
-    )}", "${name}")`
+    )}", "${itemIdentifier}")`
   })
   const secretDefinitionJsonnet = `
 local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';

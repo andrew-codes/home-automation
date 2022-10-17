@@ -9,16 +9,13 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
-  const ip = await configurationApi.get("docker/registry/ip")
-  const name = await configurationApi.get("docker/registry/name")
+  const ip = await configurationApi.get("docker-registry/ip")
+  const name = await configurationApi.get("docker-registry/name")
   const machineUsername = await configurationApi.get(
-    "docker/registry/machine/username",
+    "docker-registry/machine/username",
   )
-  const machinePassword = await configurationApi.get(
-    "docker/registry/machine/password",
-  )
-  const username = await configurationApi.get("docker/registry/username")
-  const password = await configurationApi.get("docker/registry/password")
+  const username = await configurationApi.get("docker-registry/username")
+  const password = await configurationApi.get("docker-registry/password")
 
   await fs.mkdir(path.join(__dirname, "..", ".secrets"), { recursive: true })
 
@@ -27,16 +24,16 @@ const run = async (
     `
 all:
   vars:
-    ansible_user: ${machineUsername}
-    hostname: "${name}"
+    ansible_user: ${machineUsername.value}
+    hostname: "${name.value}"
   hosts:
-    ${ip}:
+    ${ip.value}:
 `,
     "utf8",
   )
 
   const auth = sh.exec(
-    `docker run --entrypoint htpasswd httpd:2 -Bbn ${username} ${password}`,
+    `docker run --entrypoint htpasswd httpd:2 -Bbn ${username.value} ${password.value}`,
   ).stdout
   await fs.writeFile(path.join(__dirname, "..", ".secrets", "htpasswd"), "utf8")
 
@@ -47,12 +44,7 @@ all:
         "..",
         "deployment",
         "deploy.yml",
-      )} -i ${path.join(
-        __dirname,
-        "..",
-        ".secrets",
-        "hosts.yml",
-      )} --extra-vars "ansible_become_pass='${machinePassword}'";`,
+      )} -i ${path.join(__dirname, "..", ".secrets", "hosts.yml")};`,
       { silent: true },
     ),
   )

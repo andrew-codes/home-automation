@@ -3,12 +3,12 @@ import { OnePasswordConnect, ItemBuilder, FullItem } from "@1password/connect"
 import { configurationApi as EnvSecretsConfiguration } from "@ha/configuration-env-secrets"
 
 const configurationNames = [
-  "alexa-shopping-list-updater-skill/port/external",
   "captive-portal/host",
   "captive-portal/port/external",
   "dev/ssh-key/public",
   "docker-registry/hostname",
   "docker-registry/ip",
+  "docker-registry/machine/username",
   "docker-registry/name",
   "docker-registry/password",
   "docker-registry/username",
@@ -39,7 +39,6 @@ const configurationNames = [
   "home-assistant/appdaemon/password",
   "home-assistant/appdaemon/url",
   "home-assistant/domain",
-  "home-assistant/double-take/token",
   "home-assistant/elevation",
   "home-assistant/game-room/gaming-pc/ip",
   "home-assistant/game-room/gaming-pc/mac",
@@ -127,7 +126,10 @@ const configurationNames = [
 ] as const
 
 type ConfigurationKeys = typeof configurationNames
-type OnePasswordConfiguration = Record<ConfigurationKeys[number], string>
+type OnePasswordConfiguration = Record<
+  ConfigurationKeys[number],
+  { id: string; value: string }
+>
 
 const createConfigApi = async (): Promise<
   ConfigurationApi<OnePasswordConfiguration>
@@ -148,11 +150,14 @@ const createConfigApi = async (): Promise<
       const item = await op.getItemByTitle(vaultId, itemTitle)
       const field = item.fields?.find((f) => f.label === itemFieldName)
 
-      if (!field?.value) {
+      if (!item.id || !field?.value) {
         throw new Error(`Configuration value not found, ${name}.`)
       }
 
-      return field.value as OnePasswordConfiguration[typeof name]
+      return {
+        id: item.id,
+        value: field.value,
+      }
     },
     getNames: () => configurationNames,
     set: async (name, value) => {

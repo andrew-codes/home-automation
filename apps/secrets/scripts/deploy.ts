@@ -15,7 +15,7 @@ const run = async (
   const knownHosts = await configurationApi.get("known-hosts")
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "known_hosts"),
-    knownHosts,
+    knownHosts.value,
     "utf8",
   )
   const sshPrivateKey = await configurationApi.get(
@@ -23,7 +23,7 @@ const run = async (
   )
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "id_rsa"),
-    sshPrivateKey,
+    sshPrivateKey.value.replace("\\n", "\n"),
     "utf8",
   )
 

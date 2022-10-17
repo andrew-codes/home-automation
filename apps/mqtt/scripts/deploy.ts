@@ -15,7 +15,7 @@ const run = async (
       image: `eclipse-mosquitto:latest`,
       name: "mqtt",
       secrets,
-      port: port_external,
+      port: port_external.value,
     },
   )
   const resourceJson = JSON.parse(resources)

@@ -8,11 +8,11 @@ const run = async (
 ): Promise<void> => {
   const pveHost = await configurationApi.get("proxmox/ip")
   const pveUsername = await configurationApi.get("proxmox/username")
-  const username = pveUsername.split("@")[0]
+  const username = pveUsername.value.split("@")[0]
 
   sh.exec(
     `
-  ssh -i ~/.ssh/proxmox ${username}@${pveHost} '
+  ssh -i ~/.ssh/proxmox ${username}@${pveHost.value} '
     qm destroy 9000;
 '`,
     { silent: true },
@@ -21,7 +21,7 @@ const run = async (
   throwIfError(
     sh.exec(
       `
-    ssh -i ~/.ssh/proxmox ${username}@${pveHost} '
+    ssh -i ~/.ssh/proxmox ${username}@${pveHost.value} '
       set -e;
       [ ! -f debian-11-generic-amd64.qcow2 ] && wget https://cdimage.debian.org/images/cloud/bullseye/latest/debian-11-generic-amd64.qcow2;
       qm create 9000 -name debian-11-template -memory 1024 -net0 virtio,bridge=vmbr0 -cores 2 -sockets 1 -cpu cputype=kvm64 -description "Debian 11 cloud image" -kvm 1 -numa 1;

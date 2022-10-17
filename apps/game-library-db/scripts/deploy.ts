@@ -8,19 +8,19 @@ import { name } from "./config"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const registry = await configurationApi.get("docker/registry/hostname")
+  const registry = await configurationApi.get("docker-registry/hostname")
   const dbPort = await configurationApi.get("game-library-db/port")
   const dbUsername = await configurationApi.get("game-library-db/username")
   const dbPassword = await configurationApi.get("game-library-db/password")
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      dbUsername,
-      dbPassword,
-      image: `${registry}/${name}:latest`,
+      dbUsername: dbUsername.value,
+      dbPassword: dbPassword.value,
+      image: `${registry.value}/${name}:latest`,
       name,
-      registryHostname: registry,
-      dbPort
+      registryHostname: registry.value,
+      dbPort: dbPort.value,
     },
   )
   const resourceJson = JSON.parse(resources)

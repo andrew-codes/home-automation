@@ -8,32 +8,32 @@ import { name } from "./config"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const registry = await configurationApi.get("docker/registry/hostname")
-  const port_external = await configurationApi.get("frigate/port/external")
-  const external_rmtp_port = await configurationApi.get(
-    "frigate/port/external/rmtp",
-  )
-  const secrets: Array<keyof Configuration> = [
-    "frigate/rtsp/car-port",
-    "frigate/rtsp/front-door",
-  ]
-  const resources = await jsonnet.eval(
-    path.join(__dirname, "..", "deployment", "index.jsonnet"),
-    {
-      image: `${registry}/${name}:latest`,
-      name,
-      registryHostname: registry,
-      secrets,
-      port: port_external,
-      external_rmtp_port: parseInt(external_rmtp_port),
-    },
-  )
-  const resourceJson = JSON.parse(resources)
-  resourceJson.forEach((resource) => {
-    kubectl.applyToCluster(JSON.stringify(resource))
-  })
+  const registry = await configurationApi.get("docker-registry/hostname")
+  // const port_external = await configurationApi.get("frigate/port/external")
+  // const external_rmtp_port = await configurationApi.get(
+  //   "frigate/port/external/rmtp",
+  // )
+  // const secrets: Array<keyof Configuration> = [
+  //   "frigate/rtsp/car-port",
+  //   "frigate/rtsp/front-door",
+  // ]
+  // const resources = await jsonnet.eval(
+  //   path.join(__dirname, "..", "deployment", "index.jsonnet"),
+  //   {
+  //     image: `${registry}/${name}:latest`,
+  //     name,
+  //     registryHostname: registry,
+  //     secrets,
+  //     port: port_external,
+  //     external_rmtp_port: parseInt(external_rmtp_port),
+  //   },
+  // )
+  // const resourceJson = JSON.parse(resources)
+  // resourceJson.forEach((resource) => {
+  //   kubectl.applyToCluster(JSON.stringify(resource))
+  // })
 
-  kubectl.rolloutDeployment("restart", name)
+  // kubectl.rolloutDeployment("restart", name)
 }
 
 export default run

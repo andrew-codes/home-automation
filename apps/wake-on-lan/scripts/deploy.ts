@@ -10,14 +10,14 @@ import { name } from "./config"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const registry = await configurationApi.get("docker/registry/hostname")
+  const registry = await configurationApi.get("docker-registry/hostname")
   const secrets: Array<keyof Configuration> = ["mqtt/password", "mqtt/username"]
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      image: `${registry}/${name}:latest`,
+      image: `${registry.value}/${name}:latest`,
       name,
-      registryHostname: registry,
+      registryHostname: registry.value,
       secrets,
     },
   )

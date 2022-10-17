@@ -18,7 +18,7 @@ const run = async (
       vars:
         ansible_user: root
       hosts:
-        ${ip}:`,
+        ${ip.value}:`,
     "utf8",
   )
 

@@ -8,7 +8,7 @@ import { name } from "./config"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const registry = await configurationApi.get("docker/registry/hostname")
+  const registry = await configurationApi.get("docker-registry/hostname")
   const repositoryOwner = await configurationApi.get("repository/owner")
   const repositoryName = await configurationApi.get("repository/name")
   const port = await configurationApi.get("home-assistant/port/external")
@@ -18,7 +18,6 @@ const run = async (
     "home-assistant/appdaemon/password",
     "home-assistant/appdaemon/url",
     "home-assistant/domain",
-    "home-assistant/double-take/token",
     "home-assistant/elevation",
     "home-assistant/game-room/gaming-pc/ip",
     "home-assistant/game-room/gaming-pc/mac",
@@ -59,13 +58,13 @@ const run = async (
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      image: `${registry}/${name}:latest`,
+      image: `${registry.value}/${name}:latest`,
       name,
       postgresImage: "postgres:13.3-alpine",
-      repositoryName,
-      repositoryOwner,
-      registryHostname: registry,
-      port,
+      repositoryName: repositoryName.value,
+      repositoryOwner: repositoryOwner.value,
+      registryHostname: registry.value,
+      port: port.value,
       secrets,
     },
   )

@@ -19,7 +19,7 @@ const run = async (
     path.join(__dirname, "..", ".secrets", "users.env"),
     `
 ---
-pihole_password: "${password}"`,
+pihole_password: "${password.value}"`,
     "utf8",
   )
   const hostsPath = path.join(__dirname, "..", ".secrets", "hosts.yml")
@@ -30,12 +30,12 @@ pihole_password: "${password}"`,
       vars:
         ansible_user: root
       hosts:
-        ${ip}:`,
+        ${ip.value}:`,
     "utf8",
   )
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "ha.pub"),
-    `${sshPublicKey}`,
+    `${sshPublicKey.value}`,
     "utf8",
   )
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"

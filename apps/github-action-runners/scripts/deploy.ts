@@ -17,9 +17,9 @@ const run = async (
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      image: `${registry}/${name}:latest`,
+      image: `${registry.value}/${name}:latest`,
       secrets: JSON.stringify([]),
-      repository_name: `${repo_owner}/${repo_name}`,
+      repository_name: `${repo_owner.value}/${repo_name.value}`,
     },
   )
 
@@ -31,7 +31,7 @@ const run = async (
   )
   throwIfError(
     sh.exec(
-      `kubectl create secret generic controller-manager --namespace=actions-runner-system --from-literal=github_token="${githubToken}";`,
+      `kubectl create secret generic controller-manager --namespace=actions-runner-system --from-literal=github_token="${githubToken.value}";`,
       { silent: true },
     ),
   )
@@ -45,7 +45,7 @@ const run = async (
     `kubectl create -f https://github.com/actions-runner-controller/actions-runner-controller/releases/download/v0.24.1/actions-runner-controller.yaml;`,
     { silent: true },
   )
-  const seal = createSeal(githubToken)
+  const seal = createSeal(githubToken.value)
 
   const secrets: Array<keyof Configuration> = [
     "onepassword/server-url",
@@ -64,11 +64,16 @@ const run = async (
     secrets.map(async (secretName, index) => {
       const secretValue = await configurationApi.get(secretName)
 
-      return await seal(repo_owner, repo_name, names[index], secretValue)
+      return await seal(
+        repo_owner.value,
+        repo_name.value,
+        names[index],
+        typeof secretValue === "string" ? secretValue : secretValue.value,
+      )
     }),
   )
 
-  await seal(repo_owner, repo_name, "JEST_REPORTER_TOKEN", githubToken)
+  await seal(repo_owner, repo_name, "JEST_REPORTER_TOKEN", githubToken.value)
 
   const resourceJson = JSON.parse(resources)
   resourceJson.forEach((resource) => {

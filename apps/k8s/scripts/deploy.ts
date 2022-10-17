@@ -23,13 +23,13 @@ const run = async (
     `
 all:
   vars:
-    ansible_user: ${k8sUsername}
+    ansible_user: ${k8sUsername.value}
   children:
     main:
       vars:
-        hostname: "${k8sName}"
+        hostname: "${k8sName.value}"
       hosts:
-        ${ip}:
+        ${ip.value}:
     workers:
       hosts:
 `,
@@ -38,13 +38,13 @@ all:
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "ansible-secrets.yml"),
     `---
-pod_network_cidr: "${networkCIDR}"
+pod_network_cidr: "${networkCIDR.value}"
 `,
     "utf8",
   )
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "flannel-pod-network-cidr.json"),
-    `{"Network": "${networkCIDR}","Backend":{"Type":"vxlan"}}`,
+    `{"Network": "${networkCIDR.value}","Backend":{"Type":"vxlan"}}`,
     "utf8",
   )
 
@@ -60,7 +60,7 @@ pod_network_cidr: "${networkCIDR}"
         "..",
         ".secrets",
         "hosts.yml",
-      )} --extra-vars "ansible_become_pass='${machinePassword}'";`,
+      )} --extra-vars "ansible_become_pass='${machinePassword.value}'";`,
       { silent: true },
     ),
   )
@@ -75,7 +75,7 @@ pod_network_cidr: "${networkCIDR}"
   const kubeConfig = await fs.readFile(kubeConfigPath, "utf8")
 
   const githubToken = await configurationApi.get("github/token")
-  const client = await createCodeSpaceSecretClient(githubToken, [
+  const client = await createCodeSpaceSecretClient(githubToken.value, [
     "317289870",
   ] as never[])
   await client.set("K8S_CONFIG", kubeConfig)

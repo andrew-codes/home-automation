@@ -26,7 +26,7 @@ const run = async (
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "ansible-secrets.yml"),
     `---
-cert_email: "${certEmail}"`,
+cert_email: "${certEmail.value}"`,
     "utf8",
   )
   await fs.writeFile(
@@ -36,17 +36,17 @@ cert_email: "${certEmail}"`,
       vars:
         ansible_user: root
       hosts:
-        ${ip}:`,
+        ${ip.value}:`,
     "utf8",
   )
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "google.json"),
-    `${dnsCredentials}`,
+    `${dnsCredentials.value}`,
     "utf8",
   )
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "ha.pub"),
-    `${sshPublicKey}`,
+    `${sshPublicKey.value}`,
     "utf8",
   )
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
