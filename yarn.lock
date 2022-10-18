@@ -10741,10 +10741,10 @@ neo-async@^2.5.0, neo-async@^2.6.0, neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-next-test-api-route-handler@^3.1.6:
-  version "3.1.6"
-  resolved "https://registry.yarnpkg.com/next-test-api-route-handler/-/next-test-api-route-handler-3.1.6.tgz#c0b82bf6440aafb4c47b0577b63055d49cec3815"
-  integrity sha512-pKK1ftOkQEGYodF39jh6iTEHSi8GaSPRB1KUvGkGZKCX+y2+mnTLYcUHueC7ODLN3KhpTwuRYtBQFhdJLSAYPQ==
+next-test-api-route-handler@^3.1.7:
+  version "3.1.7"
+  resolved "https://registry.yarnpkg.com/next-test-api-route-handler/-/next-test-api-route-handler-3.1.7.tgz#bdb91d9981942f0bf73f201ddc24c1dfd732fd27"
+  integrity sha512-ds4VH7TOMRY8iT0vAnOi88uXsIGk9r6Yf/VrZPGHuG1ceRuTHIN3pyzKaPtQO2MisHH4z9ZDXmGrh3NJgq56ag==
   dependencies:
     cookie "^0.5.0"
     node-fetch "^2.6.7"
@@ -10805,12 +10805,7 @@ node-fetch@1.7.3:
     encoding "^0.1.11"
     is-stream "^1.0.1"
 
-node-fetch@^2.3.0, node-fetch@^2.6.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
-  integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
-
-node-fetch@^2.6.7:
+node-fetch@^2.3.0, node-fetch@^2.6.1, node-fetch@^2.6.7:
   version "2.6.7"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.7.tgz#24de9fba827e3b4ae44dc8b20256a379160052ad"
   integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
