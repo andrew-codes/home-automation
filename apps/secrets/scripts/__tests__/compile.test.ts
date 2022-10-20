@@ -14,9 +14,17 @@ describe("compile secrets", () => {
     jest.resetAllMocks()
   })
 
+  beforeEach(() => {
+    getNames.mockReturnValue(["mqtt/username", "home-assistant/client/id"])
+    when(get).calledWith("onepassword/vault-id").mockResolvedValue("vaultId")
+    when(get).calledWith("mqtt/username").mockResolvedValue({ id: "1" })
+    when(get)
+      .calledWith("home-assistant/client/id")
+      .mockResolvedValue({ id: "2" })
+  })
+
   test(`Will output a jsonnet file with each secret defined as a k8s env var secret.
     The intention is to be able to import this file and access any secret jsonnet to use with an app k8s deployment (env var from secret).`, async () => {
-    getNames.mockReturnValue(["mqtt/username", "home-assistant/client/id"])
     await run({ get, getNames } as unknown as ConfigurationApi<Configuration>)
 
     const expectedFileContents = `
@@ -39,7 +47,6 @@ local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet";
   })
 
   test(`Will output a jsonnet file containing the Azure Key Vault secret definitions.`, async () => {
-    when(get).calledWith("azure/key-vault/name").mockResolvedValue("kv-name")
     getNames.mockReturnValue(["mqtt/username", "home-assistant/client/id"])
     await run({ get, getNames } as unknown as ConfigurationApi<Configuration>)
 
@@ -47,8 +54,8 @@ local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet";
 local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
 
 {
-  "mqtt/username": lib.akvSecrets.new(\"kv-name\", \"mqtt-username\", \"MQTT_USERNAME\"),
-  "home-assistant/client/id": lib.akvSecrets.new(\"kv-name\", \"home-assistant-client-id\", \"HOME_ASSISTANT_CLIENT_ID\")
+  "mqtt/username": lib.onePasswordSecrets.new(\"vaultId\", \"mqtt-username\", \"1\"),
+  "home-assistant/client/id": lib.onePasswordSecrets.new(\"vaultId\", \"home-assistant-client-id\", \"2\")
 }`
 
     expect(fs.mkdir).toHaveBeenCalledWith(

@@ -13,22 +13,24 @@ describe("deploy", () => {
     jest.resetAllMocks()
   })
 
-  const configApiGet = jest.fn()
+  const get = jest.fn()
+
+  beforeEach(() => {
+    when(get)
+      .calledWith("grafana/username")
+      .mockResolvedValue({ value: "username" })
+    when(get)
+      .calledWith("grafana/password")
+      .mockResolvedValue({ value: "password" })
+    when(get)
+      .calledWith("grafana/port/external")
+      .mockResolvedValue({ value: "8080" })
+    when(get)
+      .calledWith("grafana/influxdb/token")
+      .mockResolvedValue({ value: "token" })
+  })
 
   test("index.jsonnet file is evaluated with GRAFANA configuration values and applied to the cluster.", async () => {
-    when(configApiGet)
-      .calledWith("grafana/username")
-      .mockResolvedValue("username")
-    when(configApiGet)
-      .calledWith("grafana/password")
-      .mockResolvedValue("password")
-    when(configApiGet)
-      .calledWith("grafana/port/external")
-      .mockResolvedValue("8080")
-    when(configApiGet)
-      .calledWith("grafana/influxdb/token")
-      .mockResolvedValue("token")
-
     when(jsonnet.eval)
       .calledWith(
         path.join(__dirname, "..", "..", "deployment", "index.jsonnet"),
@@ -48,7 +50,7 @@ describe("deploy", () => {
         }),
       )
     await run({
-      get: configApiGet,
+      get: get,
     } as unknown as ConfigurationApi<Configuration>)
 
     expect(kubectl.applyToCluster).toHaveBeenCalledWith('{"graph":1}')
@@ -65,12 +67,9 @@ describe("deploy", () => {
       }),
     )
     await run({
-      get: configApiGet,
+      get: get,
     } as unknown as ConfigurationApi<Configuration>)
 
-    expect(kubectl.rolloutDeployment).toHaveBeenCalledWith(
-      "restart",
-      "grafana",
-    )
+    expect(kubectl.rolloutDeployment).toHaveBeenCalledWith("restart", "grafana")
   })
 })

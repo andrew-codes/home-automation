@@ -17,13 +17,13 @@ describe("docker", () => {
       .mockReturnValue({ stderr: "", stdout: "", code: 0 })
     when(get)
       .calledWith("docker-registry/hostname")
-      .mockResolvedValue("registry.com")
+      .mockResolvedValue({ value: "registry.com" })
     when(get)
       .calledWith("docker-registry/username")
-      .mockResolvedValue("username")
+      .mockResolvedValue({ value: "username" })
     when(get)
       .calledWith("docker-registry/password")
-      .mockResolvedValue("password")
+      .mockResolvedValue({ value: "password" })
   })
 
   test("Creating a docker client will authenticate the docker CLI to the registry.", async () => {
