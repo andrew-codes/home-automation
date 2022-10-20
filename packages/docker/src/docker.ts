@@ -20,9 +20,10 @@ const createClient = async (
   const registry = await configurationApi.get("docker-registry/hostname")
   const username = await configurationApi.get("docker-registry/username")
   const password = await configurationApi.get("docker-registry/password")
+
   throwIfError(
     sh.exec(
-      `docker login ${registry} --username ${username} --password ${password};`,
+      `docker login ${registry.value} --username ${username.value} --password ${password.value};`,
       { silent: true },
     ),
   )
@@ -31,7 +32,7 @@ const createClient = async (
     build: async (name, options = {}) => {
       throwIfError(
         sh.exec(
-          `docker build -t ${registry}/${name} ${
+          `docker build -t ${registry.value}/${name} ${
             options.context ?? process.cwd()
           } -f ${options.dockerFile ?? "Dockerfile"};`,
           { silent: true },
@@ -40,7 +41,7 @@ const createClient = async (
     },
     pushImage: async (name) => {
       throwIfError(
-        sh.exec(`docker push ${registry}/${name};`, { silent: true }),
+        sh.exec(`docker push ${registry.value}/${name};`, { silent: true }),
       )
     },
   }
