@@ -35,11 +35,15 @@ describe("configuration api module exports", () => {
 
     when(getItemByTitle)
       .calledWith("vault-id", "docker-registry/name")
-      .mockResolvedValue({ fields: [{ label: "secret-value", value: "name" }] })
+      .mockResolvedValue({
+        id: "123",
+        title: "docker-registry/name",
+        fields: [{ label: "secret-value", value: "name" }],
+      })
 
     const api = await createConfigApi()
     const actual = await api.get("docker-registry/name")
-    expect(actual).toEqual("name")
+    expect(actual).toEqual({ id: "123", value: "name" })
   })
 
   test.skip("Can set a configutation value via saving it to 1Password.", async () => {})
