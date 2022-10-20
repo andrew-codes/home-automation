@@ -10,4 +10,5 @@ RUN apk add \
 WORKDIR /app
 COPY dist dist
 COPY entrypoint.sh entrypoint.sh
-ENTRYPOINT ["/app/entrypoint.sh"]
+RUN chmod +x entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
