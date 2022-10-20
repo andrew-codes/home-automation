@@ -8,7 +8,5 @@ RUN apk add \
     git \
     jq
 WORKDIR /app
-COPY dist dist
-COPY entrypoint.sh entrypoint.sh
-RUN chmod +x entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
+COPY dist /app/dist
+ENTRYPOINT ["node", "dist/index.js"]
