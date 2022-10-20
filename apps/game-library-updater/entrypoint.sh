@@ -1,3 +1,3 @@
-#!/usr/bin/env sh
+#!/bin/sh
 
 node dist/index.js
