@@ -21,6 +21,12 @@ RUN add-apt-repository -y --update ppa:deadsnakes/ppa
 RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys DA418C88A3219F7B
 RUN apt-add-repository -y --update "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+RUN curl -sS https://downloads.1password.com/linux/keys/1password.asc | gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
+RUN echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main' | tee /etc/apt/sources.list.d/1password.list
+RUN mkdir -p /etc/debsig/policies/AC2D62742012EA22/
+RUN curl -sS https://downloads.1password.com/linux/debian/debsig/1password.pol | tee /etc/debsig/policies/AC2D62742012EA22/1password.pol
+RUN mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22
+RUN curl -sS https://downloads.1password.com/linux/keys/1password.asc | gpg --dearmor --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
 
 RUN apt update -y --fix-missing
 RUN apt-get upgrade -y
@@ -28,6 +34,7 @@ RUN apt-get upgrade -y
 RUN apt-get remove docker docker-engine docker.io containerd
 
 RUN apt-get install -y \
+    1password-cli \
     ansible \
     apt-transport-https \
     ca-certificates \
