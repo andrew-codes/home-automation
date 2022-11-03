@@ -26,10 +26,6 @@
         {
           "target": "image/push",
           "projects": "self"
-        },
-        {
-          "target": "deploy",
-          "projects": "dependencies"
         }
       ]
     },

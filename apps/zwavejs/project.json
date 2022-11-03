@@ -8,13 +8,7 @@
       "options": {
         "cwd": "apps/zwavejs",
         "module": "scripts/deploy.ts"
-      },
-      "dependsOn": [
-        {
-          "target": "deploy",
-          "projects": "dependencies"
-        }
-      ]
+      }
     }
   },
   "tags": [],

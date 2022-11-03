@@ -8,13 +8,7 @@
       "options": {
         "cwd": "apps/pihole",
         "module": "scripts/deploy.ts"
-      },
-      "dependsOn": [
-        {
-          "target": "deploy",
-          "projects": "dependencies"
-        }
-      ]
+      }
     },
     "update": {
       "executor": "@ha/nx-executors:invoke",

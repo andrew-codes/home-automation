@@ -8,13 +8,7 @@
       "options": {
         "cwd": "apps/influxdb",
         "module": "scripts/deploy.ts"
-      },
-      "dependsOn": [
-        {
-          "target": "deploy",
-          "projects": "dependencies"
-        }
-      ]
+      }
     }
   },
   "tags": [],

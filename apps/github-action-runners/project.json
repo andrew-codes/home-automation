@@ -15,10 +15,6 @@
           "projects": "dependencies"
         },
         {
-          "target": "deploy",
-          "projects": "dependencies"
-        },
-        {
           "target": "image/push",
           "projects": "self"
         }
