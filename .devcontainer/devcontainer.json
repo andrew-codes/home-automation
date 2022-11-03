@@ -51,5 +51,7 @@
     "--security-opt",
     "seccomp=unconfined",
     "--privileged",
-    "-v", "${env:HOME}/.gnupg:/root/.gnupg"  ]
+    "-v",
+    "${env:HOME}/.gnupg:/root/.gnupg"
+  ]
 }
