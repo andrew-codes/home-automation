@@ -4,31 +4,15 @@ import sh from "shelljs"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 
-const run = async (
-  configurationApi: ConfigurationApi<Configuration>,
-): Promise<void> => {
-  const subDomainRedirects = await configurationApi.get(
-    "proxy/sub-domain/redirects",
-  )
-  const subDomainConfigurations = JSON.parse(subDomainRedirects.value)
-  const distNginx = path.join(__dirname, "..", "dist", "nginx")
-  const distSites = path.join(distNginx, "sites-enabled")
-  const distStream = path.join(distNginx, "stream", "enabled")
-  sh.exec(`mkdir -p ${path.join(distNginx, "conf.d")};`, { silent: true })
-  sh.exec(`mkdir -p ${distSites};`, { silent: true })
-  sh.exec(`mkdir -p ${distStream};`, { silent: true })
-  sh.cp(
-    path.join(__dirname, "..", "src", "nginx", "nginx.conf"),
-    path.join(distNginx, "nginx.conf"),
-  )
-  sh.cp(
-    path.join(__dirname, "..", "src", "nginx", "conf.d", "optimize.conf"),
-    path.join(distNginx, "conf.d", "optimize.conf"),
-  )
-
-  const confContents = `
+const generateConfContents = (
+  subDomainConfigurations: {
+    subDomain: string
+    locations: { from: string; to: string }[]
+    proxy: string
+  }[],
+) => `
 ${subDomainConfigurations.map(
-    ({ subDomain, locations, proxy }) => `
+  ({ subDomain, locations, proxy }) => `
 server {
   server_name ${subDomain}.smith-simms.family;
   listen 80;
@@ -44,7 +28,7 @@ server {
   ssl_certificate /etc/letsencrypt/live/smith-simms.family-0001/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/smith-simms.family-0001/privkey.pem;
   ${locations.map(
-      ({ from, to }) => `
+    ({ from, to }) => `
   location ${from} {
     proxy_pass ${proxy}${to};
     proxy_pass_header Authorization;
@@ -59,10 +43,10 @@ server {
     proxy_set_header Connection "upgrade";
   }
 `,
-    ).join(`
+  ).join(`
 `)}
 }`,
-  ).join(`
+).join(`
 
 
 `)}
@@ -76,33 +60,84 @@ server {
 
   return 444;
 }`
-  await fs.writeFile(
-    path.join(distSites, "01_sites.conf"),
-    confContents,
-    "utf8",
-  )
-  const streamContents = `
+
+const generateStreamConf = (
+  subDomainConfigurations: {
+    subDomain: string
+    locations: { from: string; to: string }[]
+    proxy: string
+  }[],
+) => `
   
- map $ssl_preread_server_name:$server_port $upstream {
-  ${subDomainConfigurations.map(
-    (config) =>
-      `${config.subDomain}.smith-simms.family:443 ${config.subDomain};`,
-  ).join(`
-  `)}
+map $ssl_preread_server_name:$server_port $upstream {
+ ${subDomainConfigurations.map(
+   ({ subDomain }) => `${subDomain}.smith-simms.family:443 ${subDomain};`,
+ ).join(`
+ `)}
 }
-  ${subDomainConfigurations.map(
-    ({ proxy, subDomain }) => `
+ ${subDomainConfigurations.map(
+   ({ proxy, subDomain }) => `
 upstream ${subDomain} {
-  hash $remote_addr consistent;
-  server ${proxy.replace(/^https?:\/\//, "").replace(/\/.*/, "")};
+ hash $remote_addr consistent;
+ server ${proxy.replace(/^https?:\/\//, "").replace(/\/.*/, "")};
 }
 `,
-  ).join(`
+ ).join(`
 `)}
 `
+
+const run = async (
+  configurationApi: ConfigurationApi<Configuration>,
+): Promise<void> => {
+  const dist = path.join(__dirname, "..", "dist")
+  const distInternal = path.join("proxy-internal", "nginx")
+  const distNginx = path.join(dist, "proxy", "nginx")
+  const distSites = path.join(distNginx, "sites-enabled")
+  const distStream = path.join(distNginx, "stream", "enabled")
+  const distSitesInternal = path.join(distInternal, "sites-enabled")
+  const distStreamInternal = path.join(distInternal, "stream", "enabled")
+  const dirs = [
+    distSites,
+    distSitesInternal,
+    distStream,
+    distStreamInternal,
+  ].forEach((dir) => {
+    sh.exec(`mkdir -p ${dir};`, { silent: true })
+  })
+
+  const subDomainRedirects = await configurationApi.get(
+    "proxy/sub-domain/redirects",
+  )
+  const subDomainConfigurations = JSON.parse(subDomainRedirects.value)
+  const proxyConf = generateConfContents(subDomainConfigurations)
+  await fs.writeFile(path.join(distSites, "01_sites.conf"), proxyConf, "utf8")
+  const proxyStreamConf = generateStreamConf(subDomainConfigurations)
   await fs.writeFile(
     path.join(distStream, "01_sites.conf"),
-    streamContents,
+    proxyStreamConf,
+    "utf8",
+  )
+
+  const internalSubDomainRedirects = await configurationApi.get(
+    "proxy-internal/sub-domain/redirects",
+  )
+  const internalSubDomainConfigurations = JSON.parse(
+    internalSubDomainRedirects.value,
+  )
+  const proxyInternalConf = generateConfContents(
+    internalSubDomainConfigurations,
+  )
+  await fs.writeFile(
+    path.join(distSitesInternal, "01_sites_interanl.conf"),
+    proxyInternalConf,
+    "utf8",
+  )
+  const proxyInternalStreamConf = generateStreamConf(
+    internalSubDomainConfigurations,
+  )
+  await fs.writeFile(
+    path.join(distStreamInternal, "01_sites_internal.conf"),
+    proxyInternalStreamConf,
     "utf8",
   )
 }

@@ -108,6 +108,8 @@ const configurationNames = [
   "proxy/hostname",
   "proxy/ip",
   "proxy/sub-domain/redirects",
+  "proxy-internal/ip",
+  "proxy-internal/sub-domain/redirects",
   "ps5/credentials-json",
   "remote-codespaces/ip",
   "remote-codespaces/machine/username",

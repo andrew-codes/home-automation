@@ -94,7 +94,7 @@
 
     - name: Copy nginx domain configuration
       copy:
-        src: ../dist/nginx/
+        src: ../dist/{{ nginxDir }}/nginx/
         dest: /etc/nginx/
         owner: root
         group: root

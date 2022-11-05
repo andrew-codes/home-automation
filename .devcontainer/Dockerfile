@@ -7,6 +7,7 @@ RUN apt-get install -y \
     curl \
     gpg \
     wget \
+    make libssl-dev libghc-zlib-dev libcurl4-gnutls-dev libexpat1-dev gettext unzip \
     software-properties-common
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
@@ -96,3 +97,8 @@ RUN go install -a github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
 RUN ln -s $(go env GOPATH)/bin/jsonnet /usr/local/bin
 RUN ln -s  $(go env GOPATH)/bin/jb /usr/local/bin
 RUN yarn global add jest
+RUN git clone https://github.com/git/git.git
+RUN cd git-* \
+    && git checkout v2.38.1 \
+    && make prefix=/usr/local all \
+    && make prefix=/usr/local install

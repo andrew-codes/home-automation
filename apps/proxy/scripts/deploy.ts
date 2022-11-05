@@ -9,6 +9,7 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   const ip = await configurationApi.get("proxy/ip")
+  const ipInternal = await configurationApi.get("proxy-internal/ip")
   const certEmail = await configurationApi.get("proxy/ddns/cert-email")
   const dnsCredentials = await configurationApi.get(
     "proxy/ddns/service-account/credentials-json",
@@ -40,6 +41,16 @@ cert_email: "${certEmail.value}"`,
     "utf8",
   )
   await fs.writeFile(
+    path.join(__dirname, "..", ".secrets", "hosts-internal.yml"),
+    `
+    all:
+      vars:
+        ansible_user: root
+      hosts:
+        ${ipInternal.value}:`,
+    "utf8",
+  )
+  await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "google.json"),
     `${dnsCredentials.value}`,
     "utf8",
@@ -57,7 +68,27 @@ cert_email: "${certEmail.value}"`,
       "..",
       "deployment",
       "index.yml",
-    )} -i ${path.join(__dirname, "..", ".secrets", "hosts.yml")}`,
+    )} -i ${path.join(
+      __dirname,
+      "..",
+      ".secrets",
+      "hosts.yml",
+    )} --extra-vars "nginxDir='proxy'"`,
+    { silent: true },
+  )
+
+  sh.exec(
+    `ansible-playbook ${path.join(
+      __dirname,
+      "..",
+      "deployment",
+      "index.yml",
+    )} -i ${path.join(
+      __dirname,
+      "..",
+      ".secrets",
+      "hosts-internal.yml",
+    )} --extra-vars "nginxDir='proxy-internal'"`,
     { silent: true },
   )
 }
