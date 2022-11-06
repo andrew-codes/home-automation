@@ -78,8 +78,6 @@ influxdb:
 
 logger:
   default: info
-  logs:
-    custom_components.qrcode.camera: debug
 
 homeassistant:
   currency: USD

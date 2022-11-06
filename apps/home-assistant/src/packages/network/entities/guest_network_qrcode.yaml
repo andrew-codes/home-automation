@@ -1,6 +1,0 @@
-camera:
-  - platform: qrcam
-    name: Guest WiFi
-    content: "WIFI:S:Smith-Simms;T:WPA/WPA2;P:{{ states('sensor.guest_wifi_smith_simms') }};;"
-    fill_color: "255,255,255"
-    back_color: "0,0,0"
