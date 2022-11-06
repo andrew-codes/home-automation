@@ -47,12 +47,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": [
-    "docker-creds",
-    "home-assistant-config-applicator",
-    "influxdb",
-    "mqtt",
-    "secrets",
-    "zwavejs"
-  ]
+  "implicitDependencies": ["docker-creds", "secrets"]
 }

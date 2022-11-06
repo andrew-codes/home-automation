@@ -69,5 +69,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["mqtt", "secrets"]
+  "implicitDependencies": ["secrets"]
 }
