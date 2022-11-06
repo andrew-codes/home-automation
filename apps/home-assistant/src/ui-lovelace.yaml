@@ -1,6 +1,6 @@
 title: Home
 views:
-  - theme: Backend-selected
+  - theme: Mushroom Shadow
     title: Home
     path: default_view
     icon: fas:home
@@ -542,7 +542,7 @@ views:
                   entities: []
 
   # Shopping list
-  - theme: Backend-selected
+  - theme: Mushroom Shadow
     title: Shopping List
     path: shopping-list
     icon: mdi:cart
@@ -568,7 +568,7 @@ views:
                 }
 
   # Security
-  - theme: Backend-selected
+  - theme: Mushroom Shadow
     title: Security
     path: security
     icon: mdi:cctv
@@ -674,7 +674,7 @@ views:
                   camera_image: camera.carport_doorbell_high
 
   # Critical Alerts and Service Status
-  - theme: Backend-selected
+  - theme: Mushroom Shadow
     title: Critical Alerts
     path: critical-alerts
     icon: fas:exclamation-circle

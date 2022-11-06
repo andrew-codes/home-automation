@@ -1,5 +1,5 @@
 views:
-  - theme: Backend-selected
+  - theme: Mushroom Shadow
     title: Critical Alerts
     icon: fas:exclamation-circle
     path: critical-alerts
@@ -194,7 +194,7 @@ views:
             entity: input_number.target_nighttime_temp_input
             name: Target Nighttime Temperature
             icon: mdi:weather-night
-  - theme: Backend-selected
+  - theme: Mushroom Shadow
     title: All Locks
     path: all-locks
     icon: mdi:lock-smart
