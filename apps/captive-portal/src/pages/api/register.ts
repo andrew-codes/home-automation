@@ -1,10 +1,9 @@
 import { connectAsync } from "async-mqtt"
-import createDebug from "debug"
-import { Controller } from "node-unifi"
+import { createLogger } from "@ha/logger"
+import { createUnifi } from "@ha/unifi-client"
 import { NextApiRequest, NextApiResponse } from "next"
 
-const debug = createDebug("@ha/captive-portal/api/register")
-
+const logger = createLogger()
 const macExp = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/
 
 export default async function handler(
@@ -23,13 +22,7 @@ export default async function handler(
       return
     }
 
-    const { UNIFI_IP, UNIFI_PORT, UNIFI_PASSWORD, UNIFI_USERNAME } = process.env
-    const controller = new Controller({
-      host: UNIFI_IP,
-      port: UNIFI_PORT,
-      sslverify: false,
-    })
-    await controller.login(UNIFI_USERNAME, UNIFI_PASSWORD)
+    const controller = await createUnifi()
     await controller.authorizeGuest(payload.mac, 4320)
 
     if (payload.isPrimaryDevice) {
@@ -44,7 +37,7 @@ export default async function handler(
     }
     res.status(200).send("")
   } catch (error) {
-    debug(error)
+    logger.error(error)
     res.status(500).end("Server Error")
   }
 }
