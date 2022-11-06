@@ -28,7 +28,7 @@ automation:
         for:
           minutes: 1
     action:
-      - service: notify.mobile_app_andrew_s_iphone
+      - service: notify.mobile_app_andrews_iphone
         data_template:
           title: Check the grocery list
           message: "Don't forget to check the shopping list while you are at the grocery store"
