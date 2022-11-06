@@ -4,12 +4,12 @@ automation:
     trigger:
       - platform: state
         id: carport_door
-        entity_id: binary_sensor.guests_detected_at_front_door
+        entity_id: binary_sensor.guests_detected_at_carport_door
         to: "on"
         from: "off"
       - platform: state
         id: front_door
-        entity_id: binary_sensor.guests_detected_at_carport_door
+        entity_id: binary_sensor.guests_detected_at_front_door
         to: "on"
         from: "off"
     action:
