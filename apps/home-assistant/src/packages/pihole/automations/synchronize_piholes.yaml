@@ -1,0 +1,20 @@
+automation:
+  - alias: Turning off pihole turns off all piholes
+    id: notify_users_pihole_was_not_turned_back_on
+    trigger:
+      platform: state
+      entity_id: switch.pi_hole
+      to: "off"
+    action:
+      - service: switch.turn_off
+        entity_id: switch.pi_hole_2
+
+  - alias: Turning on pihole turns on all piholes
+    id: notify_users_pihole_was_not_turned_back_on
+    trigger:
+      platform: state
+      entity_id: switch.pi_hole
+      to: "on"
+    action:
+      - service: switch.turn_on
+        entity_id: switch.pi_hole_2
