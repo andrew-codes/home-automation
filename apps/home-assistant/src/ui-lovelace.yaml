@@ -237,14 +237,11 @@ views:
                       primary: Front Door
                       secondary: >-
                         {% set seconds_difference = (as_timestamp(now()) -
-                        as_timestamp(states.sensor.front_door_person_count.last_changed)) %}
+                        as_timestamp(states.binary_sensor.front_door_doorbell_detections_person.last_changed)) %}
                         {% set minutes_difference = (seconds_difference) / 60 %}
                         {% set time_ago = iif(seconds_difference < 60, 'now',
                         iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
-                        > 1, ((seconds_difference / 60) | round(0)) | string + ' minutes
-                        ago', ((seconds_difference / 60) | round(0)) | string + ' minute
-                        ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
-                        ago')) %}
+                        > 1, ((seconds_difference / 60) | round(0)) | string + ' minutes ago', ((seconds_difference / 60) | round(0)) | string + ' minute ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours ago')) %}
 
                         Guests seen {{ time_ago }}
                       icon: mdi:shield-account
@@ -280,14 +277,11 @@ views:
                       primary: Carport Door
                       secondary: >-
                         {% set seconds_difference = (as_timestamp(now()) -
-                        as_timestamp(states.sensor.car_port_door_person_count.last_changed)) %}
+                        as_timestamp(states.binary_sensor.carport_doorbell_detections_person.last_changed)) %}
                         {% set minutes_difference = (seconds_difference) / 60 %}
                         {% set time_ago = iif(seconds_difference < 60, 'now',
                         iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
-                        > 1, ((seconds_difference / 60) | round(0)) | string + ' minutes
-                        ago', ((seconds_difference / 60) | round(0)) | string + ' minute
-                        ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
-                        ago')) %}
+                        > 1, ((seconds_difference / 60) | round(0)) | string + ' minutes ago', ((seconds_difference / 60) | round(0)) | string + ' minute ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours ago')) %}
 
                         Guests seen {{ time_ago }}
                       icon: mdi:shield-account
@@ -625,17 +619,13 @@ views:
                             primary: Front Door
                             secondary: >-
                               {% set seconds_difference = (as_timestamp(now()) -
-                              as_timestamp(states.sensor.front_door_person_count.last_changed)) %}
+                              as_timestamp(states.binary_sensor.front_door_doorbell_detections_person.last_changed)) %}
                               {% set minutes_difference = (seconds_difference) / 60 %}
                               {% set time_ago = iif(seconds_difference < 60, 'now',
                               iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
-                              > 1, ((seconds_difference / 60) | round(0)) | string + ' minutes
-                              ago', ((seconds_difference / 60) | round(0)) | string + ' minute
-                              ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
-                              ago')) %}
+                              > 1, ((seconds_difference / 60) | round(0)) | string + ' minutes ago', ((seconds_difference / 60) | round(0)) | string + ' minute ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours ago')) %}
 
                               Guests seen {{ time_ago }}
-                            icon: mdi:shield-account
                             entity: binary_sensor.guests_detected_at_front_door
                             badge_icon: ""
                             multiline_secondary: false
@@ -644,6 +634,11 @@ views:
                             show_state: false
                             show_name: false
                             camera_view: auto
+                          - type: custom:mushroom-lock-card
+                            entity: lock.front_door_deadbolt
+                            name: Lock
+                            fill_container: false
+                            hide_state: false
                     # Carport door last seen guests
                     - type: custom:mod-card
                       card:
@@ -653,17 +648,13 @@ views:
                             primary: Carport Door
                             secondary: >-
                               {% set seconds_difference = (as_timestamp(now()) -
-                              as_timestamp(states.sensor.car_port_door_person_count.last_changed)) %}
+                              as_timestamp(states.binary_sensor.carport_doorbell_detections_person.last_changed)) %}
                               {% set minutes_difference = (seconds_difference) / 60 %}
                               {% set time_ago = iif(seconds_difference < 60, 'now',
                               iif(seconds_difference < 3600, iif(seconds_difference / 60 | round
-                              > 1, ((seconds_difference / 60) | round(0)) | string + ' minutes
-                              ago', ((seconds_difference / 60) | round(0)) | string + ' minute
-                              ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours
-                              ago')) %}
+                              > 1, ((seconds_difference / 60) | round(0)) | string + ' minutes ago', ((seconds_difference / 60) | round(0)) | string + ' minute ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours ago')) %}
 
                               Guests seen {{ time_ago }}
-                            icon: mdi:shield-account
                             entity: binary_sensor.guests_detected_at_carport_door
                             badge_icon: ""
                             multiline_secondary: false
@@ -672,24 +663,17 @@ views:
                             show_state: false
                             show_name: false
                             camera_view: auto
+                          - type: custom:mushroom-lock-card
+                            entity: lock.carport_deadbolt
+                            name: Lock
+                            fill_container: false
+                            hide_state: false
                 - type: picture-entity
                   entity: camera.front_door_doorbell_high
                   camera_image: camera.front_door_doorbell_high
                 - type: picture-entity
                   entity: camera.carport_doorbell_high
                   camera_image: camera.carport_doorbell_high
-                - type: horizontal-stack
-                  cards:
-                    - type: custom:mushroom-lock-card
-                      entity: lock.front_door_deadbolt
-                      name: Front Door Lock
-                      fill_container: false
-                      hide_state: false
-                    - type: custom:mushroom-lock-card
-                      entity: lock.carport_deadbolt
-                      name: Carport Lock
-                      fill_container: false
-                      hide_state: false
 
   # Critical Alerts and Service Status
   - theme: Backend-selected
