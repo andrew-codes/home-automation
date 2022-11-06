@@ -98,7 +98,7 @@ RUN ln -s $(go env GOPATH)/bin/jsonnet /usr/local/bin
 RUN ln -s  $(go env GOPATH)/bin/jb /usr/local/bin
 RUN yarn global add jest
 RUN git clone https://github.com/git/git.git
-RUN cd git-* \
+RUN cd git \
     && git checkout v2.38.1 \
-    && make prefix=/usr/local all \
-    && make prefix=/usr/local install
+    && sudo make prefix=/usr/local all \
+    && sudo make prefix=/usr/local install

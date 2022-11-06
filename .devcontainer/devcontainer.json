@@ -1,7 +1,8 @@
 {
   "name": "Home Automation",
   "dockerFile": "Dockerfile",
-
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=remote-workspace,target=/workspace,type=volume",
   "settings": {
     "terminal.integrated.profiles.linux": {
       "bash": {
