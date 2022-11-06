@@ -516,7 +516,7 @@ views:
                       alignment: end
                       chips:
                         - type: entity
-                          entity: camera.guest_wifi
+                          entity: camera.guest_wi_fi
                           content_info: name
                           name: Guest Wifi
                           icon: mdi:wifi
@@ -528,7 +528,9 @@ views:
                               title: Guest Wifi
                               card:
                                 type: vertical-stack
-                                cards: []
+                                cards:
+                                  - type: picture-entity
+                                    entity: camera.guest_wi_fi
                   card:
                     type: custom:mushroom-title-card
                     title: Upcoming Guests
