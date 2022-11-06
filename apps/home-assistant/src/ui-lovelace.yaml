@@ -245,7 +245,6 @@ views:
 
                         Guests seen {{ time_ago }}
                       icon: mdi:shield-account
-                      entity: binary_sensor.guests_detected_at_front_door
                       badge_icon: ""
                       multiline_secondary: false
                       fill_container: false
@@ -285,7 +284,6 @@ views:
 
                         Guests seen {{ time_ago }}
                       icon: mdi:shield-account
-                      entity: binary_sensor.guests_detected_at_carport_door
                       badge_icon: ""
                       multiline_secondary: false
                       fill_container: false
@@ -626,7 +624,6 @@ views:
                               > 1, ((seconds_difference / 60) | round(0)) | string + ' minutes ago', ((seconds_difference / 60) | round(0)) | string + ' minute ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours ago')) %}
 
                               Guests seen {{ time_ago }}
-                            entity: binary_sensor.guests_detected_at_front_door
                             badge_icon: ""
                             multiline_secondary: false
                             fill_container: false
@@ -655,7 +652,6 @@ views:
                               > 1, ((seconds_difference / 60) | round(0)) | string + ' minutes ago', ((seconds_difference / 60) | round(0)) | string + ' minute ago' ), ((seconds_difference / 3600) | round(0))| string + ' hours ago')) %}
 
                               Guests seen {{ time_ago }}
-                            entity: binary_sensor.guests_detected_at_carport_door
                             badge_icon: ""
                             multiline_secondary: false
                             fill_container: false
