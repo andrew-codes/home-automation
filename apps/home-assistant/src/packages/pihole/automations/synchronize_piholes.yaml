@@ -1,6 +1,6 @@
 automation:
   - alias: Turning off pihole turns off all piholes
-    id: notify_users_pihole_was_not_turned_back_on
+    id: turning_off_pihole_turns_off_all_piholes
     trigger:
       platform: state
       entity_id: switch.pi_hole
@@ -10,7 +10,7 @@ automation:
         entity_id: switch.pi_hole_2
 
   - alias: Turning on pihole turns on all piholes
-    id: notify_users_pihole_was_not_turned_back_on
+    id: turning_on_pihole_turns_on_all_piholes
     trigger:
       platform: state
       entity_id: switch.pi_hole
