@@ -15,6 +15,30 @@ const run = async (
   const port = await configurationApi.get("captive-portal/port/external")
   const unifiIp = await configurationApi.get("unifi/ip")
   const host = await configurationApi.get("captive-portal/host")
+
+  const unifiCaptivePortal = `<!DOCTYPE html>
+  <html>
+    <head>
+      <title>Smith-Simms Wifi</title>
+      <meta http-equiv="refresh" content="0;url=https://${host.value}/register/<unifi var="mac" />">
+    </head>
+    <body>
+    </body>
+  </html>`
+  await fs.mkdir(path.join(__dirname, "..", ".secrets"), { recursive: true })
+  await fs.writeFile(
+    path.join(__dirname, "..", ".secrets", "unifi.html"),
+    unifiCaptivePortal,
+    "utf8",
+  )
+  throwIfError(
+    sh.exec(
+      `scp -O ${path.join(__dirname, "..", ".secrets", "unifi.html")} "root@${
+        unifiIp.value
+      }:/data/unifi/data/sites/default/app-unifi-hotspot-portal/index.html"`,
+    ),
+  )
+
   const secrets: Array<keyof Configuration> = [
     "mqtt/password",
     "mqtt/username",
@@ -38,29 +62,6 @@ const run = async (
   })
 
   kubectl.rolloutDeployment("restart", name)
-
-  const unifiCaptivePortal = `<!DOCTYPE html>
-  <html>
-    <head>
-      <title>Smith-Simms Wifi</title>
-      <meta http-equiv="refresh" content="0;url=https://${host.value}/register/<unifi var="mac" />">
-    </head>
-    <body>
-    </body>
-  </html>`
-  await fs.mkdir(path.join(__dirname, "..", ".secrets"), { recursive: true })
-  await fs.writeFile(
-    path.join(__dirname, "..", ".secrets", "unifi.html"),
-    unifiCaptivePortal,
-    "utf8",
-  )
-  throwIfError(
-    sh.exec(
-      `scp ${path.join(__dirname, "..", ".secrets", "unifi.html")} "root@${
-        unifiIp.value
-      }:/data/unifi/data/sites/default/app-unifi-hotspot-portal/index.html"`,
-    ),
-  )
 }
 
 export default run
