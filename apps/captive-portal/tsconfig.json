@@ -1,15 +1,9 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": [
-    "src/**/*.ts"
-  ],
+  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "remix.config.js"],
   "compilerOptions": {
-    "jsx": "preserve",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "jsx": "react-jsx",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "noEmit": true,
     "outDir": "dist",
     "removeComments": true,

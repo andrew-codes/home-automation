@@ -12,12 +12,12 @@
       }
     },
     "compile": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["apps/captive-portal/dist"],
+      "executor": "@ha/nx-executors:invoke",
       "options": {
-        "command": "next build",
-        "cwd": "apps/captive-portal"
-      }
+        "cwd": "apps/captive-portal",
+        "module": "scripts/compile.ts"
+      },
+      "outputs": ["apps/captive-portal/dist"]
     },
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
@@ -46,13 +46,10 @@
       }
     },
     "serve": {
-      "executor": "@ha/nx-executors:telepresence"
-    },
-    "start/dev": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "@ha/nx-executors:invoke",
       "options": {
-        "command": "next dev -p 80",
-        "cwd": "apps/captive-portal"
+        "cwd": "apps/captive-portal",
+        "module": "scripts/start.ts"
       }
     },
     "test": {

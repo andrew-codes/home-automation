@@ -1,38 +1,37 @@
 {
   "private": true,
   "name": "@ha/captive-portal",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "src/index.ts",
   "license": "MIT",
-  "scripts": {
-    "start/prod": "next start"
-  },
   "dependencies": {
+    "@atlaskit/button": "^16.3.4",
+    "@atlaskit/checkbox": "^12.3.16",
+    "@atlaskit/form": "^8.5.5",
+    "@atlaskit/page-layout": "^1.2.6",
+    "@atlaskit/side-navigation": "^1.2.12",
+    "@atlaskit/textfield": "^5.1.12",
+    "@atlaskit/toggle": "^12.4.8",
     "@ha/logger": "^0.0.1",
+    "@ha/mqtt-client": "^0.0.1",
+    "@ha/themes-slate": "^0.0.1",
     "@ha/unifi-client": "^0.1.0",
-    "@material-ui/core": "^4.12.3",
-    "@material-ui/icons": "^4.11.2",
-    "async-mqtt": "^2.6.1",
+    "@remix-run/node": "^1.7.2",
+    "@remix-run/react": "^1.7.2",
+    "@remix-run/serve": "^1.7.2",
     "lodash": "^4.17.21",
-    "next": "^12.2.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "styled-components": "^5.3.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.10",
-    "@babel/preset-env": "^7.12.10",
-    "@babel/preset-typescript": "^7.12.7",
-    "@types/express": "^4.17.13",
+    "@remix-run/dev": "^1.7.2",
+    "@remix-run/eslint-config": "^1.7.2",
     "@types/node": "^17.0.2",
-    "@types/tough-cookie": "^2.3.3",
-    "babel-plugin-styled-components": "^2.0.2",
-    "file-loader": "^6.2.0",
+    "@types/react": "^17.0.38",
+    "@types/react-dom": "^17.0.11",
     "jest-when": "^3.2.1",
-    "next-test-api-route-handler": "^3.1.6",
-    "react-is": "^17.0.2",
     "shelljs": "^0.8.5",
-    "typescript": "^4.3.4",
-    "webpack": "^5.21.1"
+    "tsc": "^2.0.4"
   }
 }

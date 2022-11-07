@@ -1,4 +1,3 @@
-# Production image, copy all the files and run next
 FROM node:16.15.1-alpine AS runner
 WORKDIR /app
 

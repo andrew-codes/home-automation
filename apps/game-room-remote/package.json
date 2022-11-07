@@ -3,9 +3,6 @@
   "name": "@ha/game-room-remote",
   "version": "0.0.1",
   "license": "MIT",
-  "scripts": {
-    "start/prod": ""
-  },
   "dependencies": {
     "@atlaskit/button": "^16.3.4",
     "@atlaskit/checkbox": "^12.3.16",
