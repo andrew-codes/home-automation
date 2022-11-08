@@ -7,7 +7,7 @@ ENV PORT 80
 COPY entrypoint.sh entrypoint.sh
 COPY dist dist
 COPY package.json dist/package.json
-RUN yarn global add remix-serve
+RUN yarn global add @remix-run/serve
 
 EXPOSE 80
 
