@@ -1,3 +1,3 @@
 #!/bin/sh
 
-remix-serve dist
+yarn remix-serve dist
