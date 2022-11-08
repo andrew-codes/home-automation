@@ -176,6 +176,19 @@ views:
                     double_tap_action:
                       action: none
 
+                  - type: entity
+                    entity: switch.pi_hole
+                    tap_action:
+                      action: call-service
+                      service: switch.toggle
+                      target:
+                        entity_id: switch.pi_hole
+                    name: PiHole
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: none
+
                   - type: conditional
                     conditions:
                       - entity: binary_sensor.are_packages_delivered
