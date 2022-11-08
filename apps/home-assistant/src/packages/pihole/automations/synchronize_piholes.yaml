@@ -7,7 +7,9 @@ automation:
       to: "off"
     action:
       - service: switch.turn_off
-        entity_id: switch.pi_hole_2
+        data: {}
+        target:
+          entity_id: switch.pi_hole_2
 
   - alias: Turning on pihole turns on all piholes
     id: turning_on_pihole_turns_on_all_piholes
@@ -17,4 +19,6 @@ automation:
       to: "on"
     action:
       - service: switch.turn_on
-        entity_id: switch.pi_hole_2
+        data: {}
+        target:
+          entity_id: switch.pi_hole_2

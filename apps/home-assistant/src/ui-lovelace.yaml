@@ -181,6 +181,7 @@ views:
                     tap_action:
                       action: call-service
                       service: switch.toggle
+                      data: {}
                       target:
                         entity_id: switch.pi_hole
                     name: PiHole
