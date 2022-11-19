@@ -19,9 +19,10 @@ const jsonnet = {
     if (!!variablesContent) {
       command += ` ${variablesContent}`
     }
-    command += ` $(echo -n "${content}" | tr '\\n' ' ');`
+    command += ` "$(echo -n "${content}" | tr '\\n' ' ')";`
     const { stderr, stdout } = sh.exec(command, { silent: true })
     if (!!stderr) {
+      console.log(command)
       throw new Error(stderr)
     }
 
