@@ -17,6 +17,9 @@ const run = async (
     "unifi/password",
     "unifi/port",
     "unifi/username",
+    "wifi_porter/location_id",
+    "wifi_porter/api_key",
+    "wifi_porter/account_password",
   ]
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
