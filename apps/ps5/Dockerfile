@@ -1,4 +1,4 @@
-FROM node:16.15.1-alpine
+FROM node:18.12.1-alpine
 ENV NODE_ENV=production
 
 RUN apk update
@@ -10,7 +10,7 @@ RUN apk add \
 WORKDIR /app
 COPY . .
 COPY package.json package.json.temp
-RUN jq '.dependencies |= with_entries( select( .key | startswith("@ha/") | not)) | .devDependencies|=with_entries( select( .key | startswith("@ha/") |not ))' package.json.temp > package.json
+RUN jq '.dependencies |= with_entries( select( .key | startswith("@ha/") | not)) | .devDependencies|=with_entries( select( .key | startswith("@ha/") |not ))' package.json.temp >package.json
 RUN yarn install --production
 RUN yarn global add playactor
 RUN mkdir -p ~/.config/playactor

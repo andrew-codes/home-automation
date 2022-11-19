@@ -1,4 +1,4 @@
-FROM node:16.15.1-alpine AS runner
+FROM node:18.12.1-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
