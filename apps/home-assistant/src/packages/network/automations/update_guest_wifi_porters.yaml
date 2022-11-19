@@ -1,0 +1,12 @@
+automation:
+  - alias: Update Guest Wifi Porters
+    id: update_guest_wifi_porters
+    trigger:
+      - platform: state
+        entity_id: sensor.guest_wifi_smith_simms
+    action:
+      - service: mqtt.publish
+        data:
+          topic: homeassistant/sensor/guest_wifi_smith_simms/set
+          qos: "2"
+          payload_template: "{{ states('sensor.guest_wifi_smith_simms') }}"
