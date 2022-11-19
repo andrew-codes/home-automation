@@ -13,13 +13,13 @@ import { getNetworkDictionary } from "../selectors"
 const logger = createLogger()
 
 function* registerWithHomeAssistant(action: RegisterWithHomeAssistantAction) {
-  logger.info('Registering with HA', action.payload)
+  logger.info("Registering with HA", action.payload)
   const mqtt: AsyncMqttClient = yield call(createMqtt)
   yield call<
     (
       topic: string,
       message: string | Buffer,
-      { qos: number }
+      { qos }: { qos: number },
     ) => Promise<IPublishPacket>
   >(
     mqtt.publish.bind(mqtt),
@@ -32,12 +32,12 @@ function* registerWithHomeAssistant(action: RegisterWithHomeAssistantAction) {
       object_id: action.payload.homeAssistantId,
       unique_id: action.payload.homeAssistantId,
     }),
-    { qos: 1 }
+    { qos: 1 },
   )
 
   const networks = yield select(getNetworkDictionary)
   if (!!networks[action.payload.id]) {
-    logger.info('No network found for ID', networks, action.payload.id)
+    logger.info("No network found for ID", networks, action.payload.id)
     return
   }
 
@@ -46,13 +46,13 @@ function* registerWithHomeAssistant(action: RegisterWithHomeAssistantAction) {
       action.payload.id,
       action.payload.name,
       action.payload.homeAssistantId,
-      action.payload.passPhrase
-    )
+      action.payload.passPhrase,
+    ),
   )
-  logger.info('Subscribing to HA MQTT topic', action.payload.homeAssistantId)
+  logger.info("Subscribing to HA MQTT topic", action.payload.homeAssistantId)
   yield call<(topic: string) => Promise<ISubscriptionGrant[]>>(
     mqtt.subscribe.bind(mqtt),
-    `homeassistant/sensor/${action.payload.homeAssistantId}/set`
+    `homeassistant/sensor/${action.payload.homeAssistantId}/set`,
   )
 }
 

@@ -68,5 +68,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["secrets"]
+  "implicitDependencies": []
 }

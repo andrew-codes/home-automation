@@ -3,6 +3,7 @@ import pollDiscovery from "./sagas/pollDiscovery"
 import discoverDevices from "./sagas/discover"
 import registerWithHomeAssistant from "./sagas/registerWithHomeAssistant"
 import updateHomeAssistant from "./sagas/updateHomeAssistant"
+import updatePorters from "./sagas/updatePorters"
 
 function* discoverDevicesSaga() {
   yield takeLatest("DISCOVER", discoverDevices)
@@ -20,6 +21,10 @@ function* updateHomeAssistantSaga() {
   yield takeLatest("UPDATE_HOME_ASSISTANT", updateHomeAssistant)
 }
 
+function* updatePortersSaga() {
+  yield takeLatest("UPDATE_PORTERS", updatePorters)
+}
+
 function* saga() {
   yield all(
     [
@@ -27,7 +32,8 @@ function* saga() {
       pollDisoverySaga,
       registerWithHomeAssistantSaga,
       updateHomeAssistantSaga,
-    ].map((saga) => fork(saga))
+      updatePortersSaga,
+    ].map((saga) => fork(saga)),
   )
 }
 

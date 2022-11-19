@@ -30,7 +30,8 @@ export const action: ActionFunction = async ({ request }) => {
 
     return redirect("/thankyou")
   } catch (error: any) {
-    logger.error(error.toString())
+    console.log(error)
+    logger.error(error)
 
     return json({
       errors: { "500": "There was an error connecting you to the wi-fi." },
@@ -47,6 +48,9 @@ export default function RegisterMacRoute() {
     <Form method="post">
       {actionData?.errors.mac ? (
         <p style={{ color: "red" }}>{actionData.errors.mac}</p>
+      ) : null}
+      {actionData?.errors["500"] ? (
+        <p style={{ color: "red" }}>{actionData.errors["500"]}</p>
       ) : null}
       <input name="mac" type="hidden" value={params.mac} />
       <fieldset disabled={transition.state === "submitting"}>

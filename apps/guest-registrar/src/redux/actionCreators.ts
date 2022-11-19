@@ -6,14 +6,18 @@ import type {
   RegisterWithHomeAssistantAction,
   SetGuestWifiPassPhraseAction,
   UpdateHomeAssistantAction,
+  UpdatePortersAction,
 } from "./types"
 
 const setGuestWifiPassPhrase = (
-  id: string,
+  network: {
+    id
+    name
+  },
   homeAssistantId: string,
   passPhrase: string,
 ): SetGuestWifiPassPhraseAction => ({
-  payload: { id, homeAssistantId, passPhrase },
+  payload: { network, homeAssistantId, passPhrase },
   type: "SET_GUEST_WIFI_PASS_PHRASE",
 })
 
@@ -51,6 +55,14 @@ const updateHomeAssistant = (
   },
 })
 
+const updatePorters = (
+  name: string,
+  passPhrase: string,
+): UpdatePortersAction => ({
+  type: "UPDATE_PORTERS",
+  payload: { name, passPhrase },
+})
+
 const addGuestWifiNetwork = (
   id: string,
   name: string,
@@ -73,4 +85,5 @@ export {
   registerWithHomeAssistant,
   setGuestWifiPassPhrase,
   updateHomeAssistant,
+  updatePorters,
 }

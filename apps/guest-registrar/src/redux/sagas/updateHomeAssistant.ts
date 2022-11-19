@@ -7,19 +7,19 @@ import type { UpdateHomeAssistantAction } from "../types"
 const logger = createLogger()
 
 function* updateHomeAssistant(action: UpdateHomeAssistantAction) {
-  logger.info('Updating HA', action.payload)
+  logger.info("Updating HA", action.payload)
   const mqtt: AsyncMqttClient = yield call(createMqtt)
   yield call<
     (
       topic: string,
       message: string | Buffer,
-      { qos: number }
+      { qos }: { qos: number },
     ) => Promise<IPublishPacket>
   >(
     mqtt.publish.bind(mqtt),
     `homeassistant/sensor/${action.payload.homeAssistantId}/state`,
     action.payload.passPhrase,
-    { qos: 1 }
+    { qos: 1 },
   )
 }
 

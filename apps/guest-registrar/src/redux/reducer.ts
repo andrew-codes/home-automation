@@ -16,7 +16,7 @@ const reducer = (state = defaultState, action: AnyAction) => {
     case "SET_GUEST_WIFI_PASS_PHRASE": {
       return merge({}, state, {
         guestWifi: {
-          [action.payload.id]: {
+          [action.payload.network.id]: {
             passPhrase: action.payload.passPhrase,
           },
         },

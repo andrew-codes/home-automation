@@ -12,7 +12,11 @@ type State = {
 
 type SetGuestWifiPassPhraseAction = {
   type: "SET_GUEST_WIFI_PASS_PHRASE"
-  payload: { id: string; homeAssistantId: string; passPhrase: string }
+  payload: {
+    network: { id: string; name: string }
+    homeAssistantId: string
+    passPhrase: string
+  }
 }
 
 type PollDiscoveryAction = {
@@ -33,10 +37,19 @@ type RegisterWithHomeAssistantAction = {
     passPhrase: string
   }
 }
+
 type UpdateHomeAssistantAction = {
   type: "UPDATE_HOME_ASSISTANT"
   payload: {
     homeAssistantId: string
+    passPhrase: string
+  }
+}
+
+type UpdatePortersAction = {
+  type: "UPDATE_PORTERS"
+  payload: {
+    name: string
     passPhrase: string
   }
 }
@@ -58,6 +71,7 @@ type AnyAction =
   | RegisterWithHomeAssistantAction
   | SetGuestWifiPassPhraseAction
   | UpdateHomeAssistantAction
+  | UpdatePortersAction
 
 export type {
   AnyAction,
@@ -68,4 +82,5 @@ export type {
   SetGuestWifiPassPhraseAction,
   State,
   UpdateHomeAssistantAction,
+  UpdatePortersAction,
 }

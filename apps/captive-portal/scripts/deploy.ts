@@ -31,13 +31,13 @@ const run = async (
     unifiCaptivePortal,
     "utf8",
   )
-  throwIfError(
-    sh.exec(
-      `scp -O ${path.join(__dirname, "..", ".secrets", "unifi.html")} "root@${
-        unifiIp.value
-      }:/data/unifi/data/sites/default/app-unifi-hotspot-portal/index.html"`,
-    ),
-  )
+  // throwIfError(
+  //   sh.exec(
+  //     `scp -O ${path.join(__dirname, "..", ".secrets", "unifi.html")} "root@${
+  //       unifiIp.value
+  //     }:/data/unifi/data/sites/default/app-unifi-hotspot-portal/index.html"`,
+  //   ),
+  // )
 
   const secrets: Array<keyof Configuration> = [
     "mqtt/password",
