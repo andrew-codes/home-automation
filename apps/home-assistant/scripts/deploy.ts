@@ -51,6 +51,7 @@ const run = async (
     "home-assistant/url",
     "home-assistant/withings/client-id",
     "home-assistant/withings/client-secret",
+    "influxdb/org-id",
     "unifi/ip",
     "unifi/password",
     "unifi/username",

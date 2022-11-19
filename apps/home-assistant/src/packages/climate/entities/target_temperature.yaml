@@ -80,6 +80,20 @@ input_number:
     mode: box
 
 sensor:
+  - platform: influxdb
+    api_version: 2
+    organization: !secret INFLUXDB_ORG_ID
+    token: !secret INFLUXDB_TOKEN
+    queries_flux:
+      - bucket: home-automation
+        name: "outside temperature qauntile"
+        query: >
+          filter(fn: (r) => r["domain"] == "weather")
+          |> filter(fn: (r) => r["_field"] == "temperature")
+          |> filter(fn: (r) => r["entity_id"] == "main_floor")
+          |> quantile(q: 0.8, method: "exact_selector")
+        range_start: "-4d"
+
   - platform: template
     sensors:
       outside_temperature:

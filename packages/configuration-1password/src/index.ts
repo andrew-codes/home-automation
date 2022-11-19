@@ -75,6 +75,7 @@ const configurationNames = [
   "home-assistant/withings/client-secret",
   "influxdb/bucket",
   "influxdb/org",
+  "influxdb/org-id",
   "influxdb/password",
   "influxdb/port/external",
   "influxdb/username",
