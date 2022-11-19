@@ -37,7 +37,7 @@ function* registerWithHomeAssistant(action: RegisterWithHomeAssistantAction) {
 
   const networks = yield select(getNetworkDictionary)
   if (!!networks[action.payload.id]) {
-    logger.info("No network found for ID", networks, action.payload.id)
+    logger.info("Network already found for ID", networks, action.payload.id)
     return
   }
 
@@ -49,7 +49,9 @@ function* registerWithHomeAssistant(action: RegisterWithHomeAssistantAction) {
       action.payload.passPhrase,
     ),
   )
-  logger.info("Subscribing to HA MQTT topic", action.payload.homeAssistantId)
+  logger.info(
+    `Subscribing to HA MQTT topic homeassistant/sensor/${action.payload.homeAssistantId}/set`,
+  )
   yield call<(topic: string) => Promise<ISubscriptionGrant[]>>(
     mqtt.subscribe.bind(mqtt),
     `homeassistant/sensor/${action.payload.homeAssistantId}/set`,

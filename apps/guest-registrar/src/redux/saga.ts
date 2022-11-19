@@ -4,6 +4,7 @@ import discoverDevices from "./sagas/discover"
 import registerWithHomeAssistant from "./sagas/registerWithHomeAssistant"
 import updateHomeAssistant from "./sagas/updateHomeAssistant"
 import updatePorters from "./sagas/updatePorters"
+import setGuestWifiPassPhrase from "./sagas/setGuestWifiPassPhrase"
 
 function* discoverDevicesSaga() {
   yield takeLatest("DISCOVER", discoverDevices)
@@ -24,6 +25,9 @@ function* updateHomeAssistantSaga() {
 function* updatePortersSaga() {
   yield takeLatest("UPDATE_PORTERS", updatePorters)
 }
+function* setWifiPassPhrase() {
+  yield takeLatest("SET_GUEST_WIFI_PASS_PHRASE", setGuestWifiPassPhrase)
+}
 
 function* saga() {
   yield all(
@@ -33,6 +37,7 @@ function* saga() {
       registerWithHomeAssistantSaga,
       updateHomeAssistantSaga,
       updatePortersSaga,
+      setWifiPassPhrase,
     ].map((saga) => fork(saga)),
   )
 }

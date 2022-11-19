@@ -17,9 +17,6 @@ function* setWifiGuestPassPhrase(action: SetGuestWifiPassPhraseAction) {
       action.payload.passPhrase,
     )
     logger.info("Setting wifi passphrase result", result)
-    yield put(
-      updatePorters(action.payload.network.name, action.payload.passPhrase),
-    )
   } catch (e) {
     logger.error(e)
   }
