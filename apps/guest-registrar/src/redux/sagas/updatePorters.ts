@@ -26,6 +26,7 @@ function* updatePorters(action: UpdatePortersAction) {
       },
     )
     logger.info(`Porter update response: ${response.ok} ${response.statusText}`)
+    logger.debug(response.json)
     const responseBody = yield call(response.json)
     logger.debug(JSON.stringify(responseBody))
   } catch (error) {
