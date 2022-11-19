@@ -82,11 +82,14 @@ input_number:
 sensor:
   - platform: influxdb
     api_version: 2
-    organization: !secret INFLUXDB_ORG_ID
+    ssl: false
+    host: influxdb
+    port: 8086
+    organization: smith-simms
     token: !secret INFLUXDB_TOKEN
     queries_flux:
       - bucket: home-automation
-        name: "outside temperature qauntile"
+        name: "Outside temperature qauntile"
         query: >
           filter(fn: (r) => r["domain"] == "weather")
           |> filter(fn: (r) => r["_field"] == "temperature")
