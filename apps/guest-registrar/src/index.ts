@@ -3,12 +3,7 @@ import { createMqtt } from "@ha/mqtt-client"
 import { createHeartbeat } from "@ha/mqtt-heartbeat"
 import createSagaMiddleware from "redux-saga"
 import { createStore, applyMiddleware } from "redux"
-import reducer, {
-  pollDiscovery,
-  saga,
-  setGuestWifiPassPhrase,
-  updatePorters,
-} from "./redux"
+import reducer, { pollDiscovery, saga, updatePorters } from "./redux"
 import { getNetworks } from "./redux/selectors"
 
 const logger = createLogger()

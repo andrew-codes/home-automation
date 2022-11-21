@@ -18,17 +18,18 @@ function* updatePorters(action: UpdatePortersAction) {
         },
         body: JSON.stringify({
           plaintext_credential: {
-            ssid: action.payload.name,
+            captive_portal_password: null,
+            captive_portal_username: null,
+            hidden: false,
             key: action.payload.passPhrase,
+            security: "wpa2",
+            ssid: action.payload.name,
           },
           account_password: process.env.WIFI_PORTER_ACCOUNT_PASSWORD,
         }),
       },
     )
     logger.info(`Porter update response: ${response.ok} ${response.statusText}`)
-    logger.debug(response.json)
-    const responseBody = yield call(response.json)
-    logger.debug(JSON.stringify(responseBody))
   } catch (error) {
     logger.error(error)
   }
