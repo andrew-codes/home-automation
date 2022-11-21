@@ -192,7 +192,7 @@ automation:
                 target:
                   entity_id: input_number.target_high_temp
                 data:
-                  value: "{{ states('input_number.user_target_daytime_temp_input') + 6 }}"
+                  value: "{{ (states('input_number.user_target_daytime_temp_input') | int) + 6 }}"
 
           - conditions:
               condition: and
@@ -244,7 +244,7 @@ automation:
                 target:
                   entity_id: input_number.target_high_temp
                 data:
-                  value: "{{ states('input_number.target_daytime_temp_input') + 6 }}"
+                  value: "{{ (states('input_number.target_daytime_temp_input') | int) + 6 }}"
 
           - conditions:
               condition: and
