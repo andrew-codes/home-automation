@@ -9,6 +9,7 @@ interface HttpServer {}
 const createHeartbeat = async (
   path?: string,
   server?: Server,
+  port?: number,
 ): Promise<Server> => {
   logger.info("Heartbeat started")
   const healthPath = defaultTo(path, "/health")
@@ -23,7 +24,7 @@ const createHeartbeat = async (
   if (!server) {
     const http = await import("http")
     const healthServer = http.createServer(handler)
-    healthServer.listen(80, () => {
+    healthServer.listen(port ?? 80, () => {
       logger.info("Heart beat available on port 80")
     })
     return healthServer

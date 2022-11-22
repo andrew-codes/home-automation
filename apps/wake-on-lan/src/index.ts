@@ -8,7 +8,7 @@ const logger = createLogger()
 async function run() {
   logger.info("Started")
   try {
-    await createHeartbeat()
+    await createHeartbeat(null, null, 8081)
 
     const mqtt = await createMqtt()
     await mqtt.subscribe("homeassistant/wake-on-lan")

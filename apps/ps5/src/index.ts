@@ -17,7 +17,7 @@ const logger = createLogger()
 async function run() {
   logger.info("Started")
   try {
-    await createHeartbeat()
+    await createHeartbeat(null, null, 8080)
 
     const sagaMiddleware = createSagaMiddleware()
     const store = createStore(reducer, applyMiddleware(sagaMiddleware))

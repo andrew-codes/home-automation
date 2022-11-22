@@ -1,13 +1,13 @@
 import createDebugger from "debug"
 import { createMqtt } from "@ha/mqtt-client"
-import { createHeartbeat } from "@ha/mqtt-heartbeat"
+import { createHeartbeat } from "@ha/http-heartbeat"
 import { google, dns_v1 } from "googleapis"
 
 const debug = createDebugger("@ha/external-services-dns-updater/index")
 
 async function run() {
   debug("Started")
-  await createHeartbeat("external-services-dns-updater-service")
+  await createHeartbeat()
   const mqtt = await createMqtt()
   await mqtt.subscribe("homeassistant/sensor/external_ip/set")
   try {

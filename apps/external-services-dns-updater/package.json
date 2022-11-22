@@ -6,8 +6,8 @@
   "dependencies": {},
   "devDependencies": {
     "@ha/build-ts": "^0.0.1",
+    "@ha/http-heartbeat": "^0.0.1",
     "@ha/mqtt-client": "^0.0.1",
-    "@ha/mqtt-heartbeat": "^0.0.1",
     "async-mqtt": "^2.6.1",
     "debug": "^4.3.1",
     "esbuild-register": "^3.3.2",
