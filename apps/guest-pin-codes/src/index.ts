@@ -1,6 +1,6 @@
 import createDebugger from "debug"
 import createSagaMiddleware from "redux-saga"
-import { createHeartbeat } from "@ha/mqtt-heartbeat"
+import { createHeartbeat } from "@ha/http-heartbeat"
 import { createStore, applyMiddleware } from "redux"
 import { CronJob } from "cron"
 import candiateCodes from "./candidateCodes"
@@ -30,7 +30,7 @@ const run = async (
   numberOfGuestCodes: number,
 ) => {
   debug("Started")
-  await createHeartbeat("guest-pin-codes-service")
+  await createHeartbeat()
   const sagaMiddleware = createSagaMiddleware()
   const store = createStore(reducer, applyMiddleware(sagaMiddleware))
 
