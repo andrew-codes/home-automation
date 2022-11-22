@@ -1,21 +1,21 @@
 import type { RequestListener, Server } from "http"
-import createDebugger from "debug"
+import { createLogger } from "@ha/logger"
 import { defaultTo } from "lodash"
 
-const debug = createDebugger("@ha/http-heartbeat/heartbeat")
+const logger = createLogger()
 
 interface HttpServer {}
 
 const createHeartbeat = async (
-  path: string,
+  path?: string,
   server?: Server,
 ): Promise<Server> => {
-  debug("Started")
+  logger.info("Heartbeat started")
   const healthPath = defaultTo(path, "/health")
   const urlMatchExpression = new RegExp(`.*${healthPath.replace(/\//, "\\/")}$`)
   const handler: RequestListener = (req, resp) => {
     if (urlMatchExpression.test(req.url ?? "")) {
-      debug("Heartbeat endpoint matched")
+      logger.info("Heartbeat endpoint matched")
       resp.statusCode = 200
       resp.end(JSON.stringify({ state: "up" }))
     }
@@ -24,7 +24,7 @@ const createHeartbeat = async (
     const http = await import("http")
     const healthServer = http.createServer(handler)
     healthServer.listen(80, () => {
-      debug("heart beat on port 80")
+      logger.info("Heart beat available on port 80")
     })
     return healthServer
   }

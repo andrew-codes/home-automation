@@ -6,9 +6,9 @@
   "dependencies": {},
   "devDependencies": {
     "@ha/ha-entity-utils": "^0.0.1",
+    "@ha/http-heartbeat": "^0.0.1",
     "@ha/logger": "^0.0.1",
     "@ha/mqtt-client": "^0.0.1",
-    "@ha/mqtt-heartbeat": "^0.0.1",
     "@ha/unifi-client": "^0.1.0",
     "async-mqtt": "^2.6.1",
     "esbuild-register": "^3.3.2",

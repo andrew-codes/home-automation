@@ -1,6 +1,6 @@
 import { createLogger } from "@ha/logger"
 import { createMqtt } from "@ha/mqtt-client"
-import { createHeartbeat } from "@ha/mqtt-heartbeat"
+import { createHeartbeat } from "@ha/http-heartbeat"
 import createSagaMiddleware from "redux-saga"
 import { createStore, applyMiddleware } from "redux"
 import reducer, { pollDiscovery, saga, updatePorters } from "./redux"
@@ -11,7 +11,8 @@ const logger = createLogger()
 async function run() {
   logger.info("Started")
   try {
-    await createHeartbeat("guest-registrar-service")
+    await createHeartbeat()
+
     const sagaMiddleware = createSagaMiddleware()
     const store = createStore(reducer, applyMiddleware(sagaMiddleware))
     store.subscribe(() => {
