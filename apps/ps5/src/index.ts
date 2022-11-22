@@ -8,7 +8,7 @@ import reducer, {
   pollDiscovery,
   saga,
 } from "./redux"
-import { createHeartbeat } from "@ha/mqtt-heartbeat"
+import { createHeartbeat } from "@ha/http-heartbeat"
 import { createMqtt } from "@ha/mqtt-client"
 import { SwitchStatus } from "./redux/types"
 
@@ -17,12 +17,12 @@ const logger = createLogger()
 async function run() {
   logger.info("Started")
   try {
-    await createHeartbeat("ps5")
+    await createHeartbeat()
 
     const sagaMiddleware = createSagaMiddleware()
     const store = createStore(reducer, applyMiddleware(sagaMiddleware))
     store.subscribe(() => {
-      logger.debug('State change', store.getState())
+      logger.debug("State change", store.getState())
     })
     sagaMiddleware.run(saga)
     const mqtt = await createMqtt()
@@ -34,12 +34,12 @@ async function run() {
         if (!matches) {
           return
         }
-        logger.info('MQTT message', topic, payload.toString())
+        logger.info("MQTT message", topic, payload.toString())
         const [, deviceId, deviceProperty] = matches
         const devices = getDeviceRegistry(store.getState())
         const device = devices[deviceId]
-        if (!device || deviceProperty !== 'power') {
-          logger.info('No device or deviceProperty is not set to power')
+        if (!device || deviceProperty !== "power") {
+          logger.info("No device or deviceProperty is not set to power")
           return
         }
         const data = payload.toString()
@@ -47,7 +47,7 @@ async function run() {
       }
     })
 
-    await mqtt.subscribe('playstation/#')
+    await mqtt.subscribe("playstation/#")
 
     store.dispatch(pollDevices())
     store.dispatch(pollDiscovery())
