@@ -177,14 +177,14 @@ views:
                       action: none
 
                   - type: entity
-                    entity: switch.pi_hole
+                    entity: sensor.unifi_gateway_www
                     tap_action:
-                      action: call-service
-                      service: switch.toggle
-                      data: {}
-                      target:
-                        entity_id: switch.pi_hole
-                    name: PiHole
+                      action: fire-dom-event
+                      local_conditional_card:
+                        action: toggle
+                        ids:
+                          - network
+                    name: Network
                     hold_action:
                       action: none
                     double_tap_action:
@@ -435,6 +435,65 @@ views:
                 name: Target Nighttime Temperature
                 icon: mdi:weather-night
 
+          # Desktop Network
+          - type: custom:mod-card
+            style: |-
+              @media(max-width: 600px) {
+                ha-card {
+                  display: none !important;
+                }
+              }
+            view_layout:
+              grid-area: 1/1
+            card:
+              type: custom:stack-in-card
+              mode: vertical
+              card_mod:
+                style: |
+                  ha-card {
+                  }
+              cards:
+                 - type: custom:mushroom-title-card
+                  title: Network
+                - type: custom:layout-card
+                  layout_type: custom:grid-layout
+                  layout:
+                    grid-template-columns: 20% 20% 20% 40%
+                    grid-template-rows: auto
+                  cards:
+                    - type: custom:mushroom-entity-card
+                      entity: switch.pi_hole
+                      name: Pi-Hole
+                      layout: vertical
+                      tap_action:
+                        action: toggle
+                      fill_container: true
+                    - type: sensor
+                      graph: line
+                      hours_to_show: 24
+                      entity: sensor.speedtest_download
+                      detail: 2
+                      name: Download
+                      icon: none
+                    - type: sensor
+                      graph: line
+                      hours_to_show: 24
+                      entity: sensor.speedtest_upload
+                      detail: 2
+                      name: Upload
+                      icon: none
+                    - type: gauge
+                      entity: sensor.current_monthly_bandwidth_usage
+                      name: Monthly Bandwidth Usage
+                      unit: GB
+                      needle: true
+                      max: 1250
+                      min: 1
+                      severity:
+                        green: 1
+                        yellow: 750
+                        red: 1000
+
           # Mobile climate
           - type: custom:mod-card
             style: |-
@@ -506,6 +565,77 @@ views:
                     entity: input_number.user_target_nighttime_temp_input
                     name: Target Nighttime Temperature
                     icon: mdi:weather-night
+
+          # Mobile network
+          - type: custom:mod-card
+            style: |-
+              @media(min-width: 600px) {
+                ha-card {
+                  display: none !important;
+                }
+              }
+            view_layout:
+              grid-area: 1/1
+            card:
+              type: custom:local-conditional-card
+              id: network
+              hide: true
+              card:
+                type: custom:stack-in-card
+                mode: vertical
+                card_mod:
+                  style: |
+                    ha-card {
+                    }
+                cards:
+                  - type: custom:mushroom-title-card
+                    title: Network
+                  - type: custom:layout-card
+                    layout_type: custom:grid-layout
+                    layout:
+                      grid-template-columns: 30% 70%
+                      grid-template-rows: auto
+                    cards:
+                      - type: custom:mushroom-entity-card
+                        entity: switch.pi_hole
+                        name: Pi-Hole
+                        layout: vertical
+                        tap_action:
+                          action: toggle
+                        fill_container: true
+                      - type: gauge
+                        entity: sensor.current_monthly_bandwidth_usage
+                        name: Monthly Bandwidth Usage
+                        unit: GB
+                        needle: true
+                        max: 1250
+                        min: 1
+                        severity:
+                          green: 1
+                          yellow: 750
+                          red: 1000
+                  - type: custom:layout-card
+                    layout_type: custom:grid-layout
+                    layout:
+                      grid-template-columns: 50% 50%
+                      grid-template-rows: auto
+                    cards:
+                      - type: sensor
+                        graph: line
+                        hours_to_show: 24
+                        entity: sensor.speedtest_download
+                        detail: 2
+                        name: Download
+                        icon: none
+                      - type: sensor
+                        graph: line
+                        hours_to_show: 24
+                        entity: sensor.speedtest_upload
+                        detail: 2
+                        name: Upload
+                        icon: none
+
+          #  Guests
           - type: custom:mod-card
             card:
               type: vertical-stack
