@@ -453,7 +453,7 @@ views:
                   ha-card {
                   }
               cards:
-                 - type: custom:mushroom-title-card
+                - type: custom:mushroom-title-card
                   title: Network
                 - type: custom:layout-card
                   layout_type: custom:grid-layout
