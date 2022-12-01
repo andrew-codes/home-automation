@@ -2,7 +2,7 @@ FROM summerwind/actions-runner:latest
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN sudo apt update -y
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | sudo bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | sudo bash -
 RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 RUN echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
@@ -15,7 +15,7 @@ RUN sudo apt update -y
 RUN sudo apt-get remove docker docker-engine docker.io containerd
 RUN sudo apt-get install -y \
   ansible \ 
-  apt-transport-https \
+apt-transport-https \
   bash \
   docker-ce \
   etherwake \
@@ -30,12 +30,12 @@ RUN sudo apt-get install -y \
   python3.8 \
   sshpass \
   software-properties-common \ 
-  yarn
+yarn
 RUN sudo sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen
 RUN sudo locale-gen
-ENV LANG en_US.UTF-8  
-ENV LANGUAGE en_US:en  
-ENV LC_ALL en_US.UTF-8 
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 RUN pip3 install "pywinrm>=0.3.0"
 RUN export KUBECONFIG=/home/runner/.kube/config
 RUN mkdir -p /home/runner/.docker
@@ -49,7 +49,7 @@ RUN sudo tar -xvf containerd-1.4.3-linux-amd64.tar.gz --directory containerd
 RUN sudo mv containerd/bin/* /usr/bin
 RUN sudo wget https://github.com/mikefarah/yq/releases/download/v4.6.3/yq_linux_amd64 -O /usr/local/bin/yq
 RUN sudo chmod +x /usr/local/bin/yq
-RUN sudo curl -fsSL -o helm.tar.gz  https://get.helm.sh/helm-v3.6.1-linux-amd64.tar.gz
+RUN sudo curl -fsSL -o helm.tar.gz https://get.helm.sh/helm-v3.6.1-linux-amd64.tar.gz
 RUN sudo tar -zxvf helm.tar.gz
 RUN sudo mv linux-amd64/helm /usr/local/bin/helm
 RUN sudo chmod +x /usr/local/bin/helm
@@ -61,7 +61,7 @@ RUN sudo ln -s /usr/local/go/bin/go /usr/local/bin
 RUN go install github.com/google/go-jsonnet/cmd/jsonnet@latest
 RUN go install -a github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
 RUN sudo ln -s $(go env GOPATH)/bin/jsonnet /usr/local/bin
-RUN sudo ln -s  $(go env GOPATH)/bin/jb /usr/local/bin
+RUN sudo ln -s $(go env GOPATH)/bin/jb /usr/local/bin
 RUN sudo curl -Os https://uploader.codecov.io/latest/linux/codecov
 RUN sudo chmod +x codecov
 RUN sudo ln -s codecov /usr/local/bin
