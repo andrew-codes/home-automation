@@ -20,6 +20,41 @@ const createUnifi = async (
     await client.login(username, password)
   }
 
+  client.authorizeGuest = async (mac: string, minutes: number) => {
+    const authorizeResponse = await fetch(
+      `https://${host}:${port}/api/auth/login`,
+      {
+        credentials: "include",
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      },
+    )
+
+    const csrfToken = authorizeResponse.headers.get("x-csrf-token") ?? ""
+
+    return fetch(
+      `https://${host}:${port}/proxy/network/api/s/default/cmd/stamgr`,
+      {
+        credentials: "include",
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "x-csrf-token": csrfToken,
+        },
+        body: JSON.stringify({
+          cmd: "authorize-guest",
+          mac: mac.toLowerCase(),
+        }),
+      },
+    )
+  }
+
   return client
 }
 
