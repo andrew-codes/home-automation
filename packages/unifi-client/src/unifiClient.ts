@@ -38,7 +38,7 @@ const createUnifi = async (
 
     const csrfToken = authorizeResponse.headers.get("x-csrf-token") ?? ""
 
-    return fetch(
+    await fetch(
       `https://${host}:${port}/proxy/network/api/s/default/cmd/stamgr`,
       {
         credentials: "include",
@@ -53,6 +53,8 @@ const createUnifi = async (
         }),
       },
     )
+
+    return
   }
 
   return client
