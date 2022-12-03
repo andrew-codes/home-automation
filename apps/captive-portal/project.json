@@ -5,9 +5,9 @@
   "targets": {
     "clean": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["dist", ".test-runs"],
+      "outputs": ["dist", ".test-runs", ".cache"],
       "options": {
-        "command": "rm -rf dist .test-runs",
+        "command": "rm -rf dist .test-runs .cache",
         "cwd": "apps/captive-portal"
       }
     },
