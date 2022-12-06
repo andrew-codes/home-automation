@@ -3,11 +3,9 @@ automation:
     id: notify_family_of_water_leak
     trigger:
       - platform: state
-        entity_id: binary_sensor.pending_system_alerts
-        to: "on"
-    action:
-      - service: switch.turn_off
         entity_id: switch.shutoff_valve
+        to: "off"
+    action:
       - service: notify.all_devices
         data:
           title: "Critical Alert: Water Leak"
