@@ -108,9 +108,9 @@ sensor:
       season:
         friendly_name: Hot or cold season
         value_template: >
-          {% if ((states("sensor.outside_temperature_qauntile") | int(70)) <= 50) %}
+          {% if ((states("sensor.outside_temperature_qauntile") | int(70)) <= 55) %}
             cold
-          {% elif ((states("sensor.outside_temperature_qauntile") | int(70)) > 55) %}
+          {% elif ((states("sensor.outside_temperature_qauntile") | int(70)) > 61) %}
             hot
           {% else %}
             {{ states('sensor.season') }}
