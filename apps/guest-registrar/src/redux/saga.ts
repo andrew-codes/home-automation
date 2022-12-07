@@ -1,44 +1,21 @@
 import { all, fork, takeLatest } from "redux-saga/effects"
-import pollDiscovery from "./sagas/pollDiscovery"
-import discoverDevices from "./sagas/discover"
-import registerWithHomeAssistant from "./sagas/registerWithHomeAssistant"
-import updateHomeAssistant from "./sagas/updateHomeAssistant"
-import updatePorters from "./sagas/updatePorters"
-import setGuestWifiPassPhrase from "./sagas/setGuestWifiPassPhrase"
+import addGuest from "./sagas/addGuest"
+import updateHomeAssistantWithGuests from "./sagas/updateHomeAssistantWithGuests"
 
-function* discoverDevicesSaga() {
-  yield takeLatest("DISCOVER", discoverDevices)
+function* addGuestSaga() {
+  yield takeLatest("ADD_GUEST", addGuest)
 }
 
-function* pollDisoverySaga() {
-  yield takeLatest("POLL_DISCOVERY", pollDiscovery)
-}
-
-function* registerWithHomeAssistantSaga() {
-  yield takeLatest("REGISTER_WITH_HOME_ASSISTANT", registerWithHomeAssistant)
-}
-
-function* updateHomeAssistantSaga() {
-  yield takeLatest("UPDATE_HOME_ASSISTANT", updateHomeAssistant)
-}
-
-function* updatePortersSaga() {
-  yield takeLatest("UPDATE_PORTERS", updatePorters)
-}
-function* setWifiPassPhrase() {
-  yield takeLatest("SET_GUEST_WIFI_PASS_PHRASE", setGuestWifiPassPhrase)
+function* updateHomeAssistantWithGuestsSaga() {
+  yield takeLatest(
+    "UPDATE_HOME_ASSISTANT_WITH_GUESTS",
+    updateHomeAssistantWithGuests,
+  )
 }
 
 function* saga() {
   yield all(
-    [
-      discoverDevicesSaga,
-      pollDisoverySaga,
-      registerWithHomeAssistantSaga,
-      updateHomeAssistantSaga,
-      updatePortersSaga,
-      setWifiPassPhrase,
-    ].map((saga) => fork(saga)),
+    [addGuestSaga, updateHomeAssistantWithGuestsSaga].map((saga) => fork(saga)),
   )
 }
 

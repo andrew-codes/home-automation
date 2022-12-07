@@ -3,8 +3,7 @@ import { createMqtt } from "@ha/mqtt-client"
 import { createHeartbeat } from "@ha/http-heartbeat"
 import createSagaMiddleware from "redux-saga"
 import { createStore, applyMiddleware } from "redux"
-import reducer, { pollDiscovery, saga, updatePorters } from "./redux"
-import { getNetworks } from "./redux/selectors"
+import reducer, { addGuest, saga, updateHomeAssistantWithGuests } from "./redux"
 
 const logger = createLogger()
 
@@ -19,38 +18,26 @@ async function run() {
       logger.debug("State change", store.getState())
     })
     sagaMiddleware.run(saga)
+    store.dispatch(updateHomeAssistantWithGuests())
     const mqtt = await createMqtt()
-    const topicRegEx = /^homeassistant\/sensor\/guest_wifi_(.*)\/set$/
+    const restartTopic = "homeassistant/restarted"
+    const addGuestTopic = "homeassistant/group/guests/add"
     mqtt.on("message", async (topic, payload) => {
       try {
         logger.info(`MQTT message recieved: ${topic}`)
-        const matches = topicRegEx.exec(topic)
-        if (!matches) {
-          return
+        switch (topic) {
+          case restartTopic:
+            store.dispatch(updateHomeAssistantWithGuests())
+            break
+          case addGuestTopic:
+            store.dispatch(addGuest(payload.toString()))
+            break
+          default:
         }
-
-        const homeAssistantId = `guest_wifi_${matches[1]}`
-        const networks = getNetworks(store.getState())
-        const network = networks.find(
-          (network) => network.homeAssistantId === homeAssistantId,
-        )
-
-        if (!network) {
-          logger.info(`No network found for ${homeAssistantId}`)
-          return
-        }
-        logger.debug(JSON.stringify(network))
-        const passPhrase = payload.toString()
-        store.dispatch(updatePorters(network.name, passPhrase))
-        // store.dispatch(
-        //   setGuestWifiPassPhrase(network, homeAssistantId, passPhrase),
-        // )
       } catch (error) {
         logger.error(error)
       }
     })
-
-    store.dispatch(pollDiscovery())
   } catch (e) {
     logger.error(e)
   }
