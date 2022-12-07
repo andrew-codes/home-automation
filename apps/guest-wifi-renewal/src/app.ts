@@ -22,7 +22,6 @@ const run = async (): Promise<void> => {
       const macAddresses = payload.toString().replace(/ /g, "").split(",")
       for (const mac of macAddresses) {
         logger.info(mac)
-        logger.info(mac)
         await unifi.authorizeGuest(mac, 4320)
       }
     } catch (error) {

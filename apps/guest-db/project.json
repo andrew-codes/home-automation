@@ -1,0 +1,35 @@
+{
+  "root": "apps/guest-db",
+  "sourceRoot": "apps/guest-db/src",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/guest-db",
+        "module": "scripts/deploy.ts"
+      },
+      "dependsOn": [
+        {
+          "target": "image/push",
+          "projects": "self"
+        }
+      ]
+    },
+    "image/push": {
+      "executor": "@ha/nx-executors:invoke",
+      "dependsOn": [
+        {
+          "target": "compile",
+          "projects": "self"
+        }
+      ],
+      "options": {
+        "module": "scripts/image-push.ts",
+        "cwd": "apps/guest-db"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["secrets"]
+}
