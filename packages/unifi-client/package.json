@@ -4,6 +4,9 @@
   "version": "0.1.0",
   "license": "MIT",
   "main": "src/index.ts",
+  "dependencies": {
+    "@ha/shell-utils": "^0.0.1"
+  },
   "peerDependencies": {
     "node-unifi": "^2.2.1"
   }

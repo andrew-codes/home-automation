@@ -1,4 +1,8 @@
+import { readFile } from "fs/promises"
 import { Controller } from "node-unifi"
+import { throwIfError } from "@ha/shell-utils"
+import path from "path"
+import cp from "child_process"
 
 const { UNIFI_IP, UNIFI_PORT, UNIFI_PASSWORD, UNIFI_USERNAME } = process.env
 const unifiPort = parseInt(UNIFI_PORT || "8443", 10)
@@ -21,40 +25,37 @@ const createUnifi = async (
   }
 
   client.authorizeGuest = async (mac: string, minutes: number) => {
-    const authorizeResponse = await fetch(
-      `https://${host}:${port}/api/auth/login`,
-      {
-        credentials: "include",
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          password,
-        }),
-      },
+    cp.exec("rm -f headers.txt cookies.txt")
+    const authorize = cp.exec(
+      `curl -k -D headers.txt -X POST --data '{"username": "${username}", "password": "${password}"}' --header 'Content-Type: application/json' https://${host}:${port}/api/auth/login -b cookies.txt -c cookies.txt`,
     )
-
-    const csrfToken = authorizeResponse.headers.get("x-csrf-token") ?? ""
-
-    await fetch(
-      `https://${host}:${port}/proxy/network/api/s/default/cmd/stamgr`,
-      {
-        credentials: "include",
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          "x-csrf-token": csrfToken,
-        },
-        body: JSON.stringify({
-          cmd: "authorize-guest",
-          mac: mac.toLowerCase(),
-        }),
-      },
+    throwIfError({
+      stdout: authorize.stdout,
+      stderr: authorize.stderr,
+      code: authorize.exitCode,
+    })
+    const headersText = await readFile(
+      path.join(__dirname, "headers.txt"),
+      "utf8",
     )
+    const headers = headersText.split("\n")
+    const csrfHeader =
+      headers.find((header) => header.includes("x-csrf-token")) ?? ":"
+    const [, csrfToken] = csrfHeader.split(":") ?? ["x-csrf-token", ""]
 
-    return
+    if (!csrfToken) {
+      throw new Error(`No CSRF token found in header.
+    ${headersText}`)
+    }
+
+    const authorizeGuest = cp.exec(
+      `curl -k -X POST https://${host}:${port}/proxy/network/api/s/default/cmd/stamgr --data '{"cmd":"authorize-guest", "mac": "${mac}"}' -H "x-csrf-token: ${csrfToken}" -b cookies.txt`,
+    )
+    throwIfError({
+      stdout: authorizeGuest.stdout,
+      stderr: authorizeGuest.stderr,
+      code: authorizeGuest.exitCode,
+    })
   }
 
   return client

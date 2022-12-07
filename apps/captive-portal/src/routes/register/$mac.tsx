@@ -1,5 +1,6 @@
 import { ActionFunction, json, redirect } from "@remix-run/node"
 import { useActionData, useParams, useTransition, Form } from "@remix-run/react"
+import createUnifi from "./../../unifi-client.server"
 
 export const action: ActionFunction = async ({ request }) => {
   const { createLogger } = await import("@ha/logger")
@@ -17,7 +18,6 @@ export const action: ActionFunction = async ({ request }) => {
       })
     }
 
-    const { createUnifi } = await import("@ha/unifi-client")
     const controller = await createUnifi()
     await controller.authorizeGuest(mac, 4320)
 
