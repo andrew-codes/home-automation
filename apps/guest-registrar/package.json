@@ -4,11 +4,6 @@
   "version": "0.0.1",
   "license": "MIT",
   "dependencies": {
-    "@ha/ha-entity-utils": "^0.0.1",
-    "@ha/http-heartbeat": "^0.0.1",
-    "@ha/logger": "^0.0.1",
-    "@ha/mqtt-client": "^0.0.1",
-    "@ha/unifi-client": "^0.1.0",
     "async-mqtt": "^2.6.1",
     "lodash": "^4.17.21",
     "mongodb": "^4.9.0",
@@ -18,6 +13,11 @@
     "reselect": "^4.1.5"
   },
   "devDependencies": {
+    "@ha/ha-entity-utils": "^0.0.1",
+    "@ha/http-heartbeat": "^0.0.1",
+    "@ha/logger": "^0.0.1",
+    "@ha/mqtt-client": "^0.0.1",
+    "@ha/unifi-client": "^0.1.0",
     "esbuild-register": "^3.3.2",
     "nodemon": "^2.0.6"
   }
