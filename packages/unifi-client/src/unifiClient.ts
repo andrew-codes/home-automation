@@ -1,5 +1,6 @@
 import { readFile } from "fs/promises"
 import { Controller } from "node-unifi"
+import { throwIfError } from "@ha/shell-utils"
 import path from "path"
 import cp from "child_process"
 
@@ -28,7 +29,10 @@ const createUnifi = async (
     cp.execSync(
       `curl -k -D headers.txt -X POST --header "Content-Type: application/json" --data '{"username": "${username}", "password": "${password}"}' -b cookies.txt -c cookies.txt https://${host}:${port}/api/auth/login`,
     )
-    const headersText = await readFile("headers.txt", "utf8")
+    const headersText = await readFile(
+      path.join(__dirname, "..", "headers.txt"),
+      "utf8",
+    )
     const headers = headersText.split("\n")
     const csrfHeader =
       headers.find((header) => header.includes("x-csrf-token")) ?? ":"
