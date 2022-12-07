@@ -1,6 +1,5 @@
 import { readFile } from "fs/promises"
 import { Controller } from "node-unifi"
-import { throwIfError } from "@ha/shell-utils"
 import path from "path"
 import cp from "child_process"
 
@@ -25,19 +24,11 @@ const createUnifi = async (
   }
 
   client.authorizeGuest = async (mac: string, minutes: number) => {
-    cp.exec("rm -f headers.txt cookies.txt")
-    const authorize = cp.exec(
-      `curl -k -D headers.txt -X POST --data '{"username": "${username}", "password": "${password}"}' --header 'Content-Type: application/json' https://${host}:${port}/api/auth/login -b cookies.txt -c cookies.txt`,
+    cp.execSync("rm -f headers.txt cookies.txt")
+    cp.execSync(
+      `curl -k -D headers.txt -X POST --header "Content-Type: application/json" --data '{"username": "${username}", "password": "${password}"}' -b cookies.txt -c cookies.txt https://${host}:${port}/api/auth/login`,
     )
-    throwIfError({
-      stdout: authorize.stdout,
-      stderr: authorize.stderr,
-      code: authorize.exitCode,
-    })
-    const headersText = await readFile(
-      path.join(__dirname, "headers.txt"),
-      "utf8",
-    )
+    const headersText = await readFile("headers.txt", "utf8")
     const headers = headersText.split("\n")
     const csrfHeader =
       headers.find((header) => header.includes("x-csrf-token")) ?? ":"
@@ -48,14 +39,9 @@ const createUnifi = async (
     ${headersText}`)
     }
 
-    const authorizeGuest = cp.exec(
-      `curl -k -X POST https://${host}:${port}/proxy/network/api/s/default/cmd/stamgr --data '{"cmd":"authorize-guest", "mac": "${mac}"}' -H "x-csrf-token: ${csrfToken}" -b cookies.txt`,
+    cp.execSync(
+      `curl -k -X POST --header "Content-Type: application/json" --header "x-csrf-token: ${csrfToken}" --data '{"cmd":"authorize-guest", "mac": "${mac}"}' -b cookies.txt -c cookies.txt https://${host}:${port}/proxy/network/api/s/default/cmd/stamgr`,
     )
-    throwIfError({
-      stdout: authorizeGuest.stdout,
-      stderr: authorizeGuest.stderr,
-      code: authorizeGuest.exitCode,
-    })
   }
 
   return client
