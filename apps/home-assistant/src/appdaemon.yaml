@@ -6,7 +6,7 @@ appdaemon:
   plugins:
     HASS:
       type: hass
-      ha_url: http://home-assistant
+      ha_url: !secret HA_URL
       token: !secret HA_TOKEN
     MQTT:
       type: mqtt
