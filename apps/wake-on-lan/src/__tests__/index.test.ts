@@ -1,12 +1,12 @@
 jest.mock("@ha/mqtt-client")
-jest.mock("@ha/http-heartbeat")
+jest.mock("@ha/mqtt-heartbeat")
 import run from "../"
-import { createHeartbeat } from "@ha/http-heartbeat"
+import { createHeartbeat } from "@ha/mqtt-heartbeat"
 
 describe("wake-on-lan", () => {
   test("sets up a heartbeat health check", async () => {
     await run()
 
-    expect(createHeartbeat).toBeCalled()
+    expect(createHeartbeat).toBeCalledWith("wake-on-lan")
   })
 })

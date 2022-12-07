@@ -1,6 +1,6 @@
 import { createLogger } from "@ha/logger"
 import wol from "wakeonlan"
-import { createHeartbeat } from "@ha/http-heartbeat"
+import { createHeartbeat } from "@ha/mqtt-heartbeat"
 import { createMqtt } from "@ha/mqtt-client"
 
 const logger = createLogger()
@@ -8,7 +8,7 @@ const logger = createLogger()
 async function run() {
   logger.info("Started")
   try {
-    await createHeartbeat()
+    await createHeartbeat("wake-on-lan")
 
     const mqtt = await createMqtt()
     await mqtt.subscribe("homeassistant/wake-on-lan")
