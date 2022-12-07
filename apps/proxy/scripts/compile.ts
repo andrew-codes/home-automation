@@ -90,7 +90,7 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   const dist = path.join(__dirname, "..", "dist")
-  const distInternal = path.join("proxy-internal", "nginx")
+  const distInternal = path.join(dist, "proxy-internal", "nginx")
   const distNginx = path.join(dist, "proxy", "nginx")
   const distSites = path.join(distNginx, "sites-enabled")
   const distStream = path.join(distNginx, "stream", "enabled")

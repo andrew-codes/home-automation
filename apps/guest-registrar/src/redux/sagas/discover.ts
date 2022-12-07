@@ -15,12 +15,13 @@ function* pollDiscovery(action: DiscoverAction) {
     const unifi: Controller = yield call(createUnifi)
     const wlans: any[] = yield call([unifi, unifi.getWLanSettings])
     const guestNetworks: any[] = wlans.filter(
-      (wlan) => !!wlan.enabled && !!wlan.is_guest
+      (wlan) => !!wlan.enabled && !!wlan.is_guest,
     )
-    logger.info('Found guest networks', guestNetworks)
+    logger.info("Found guest networks")
+    logger.info(guestNetworks)
     for (let wlan of guestNetworks) {
       yield put(
-        registerWithHomeAssistant(wlan._id, wlan.name, wlan.x_passphrase)
+        registerWithHomeAssistant(wlan._id, wlan.name, wlan.x_passphrase),
       )
       yield put(updateHomeAssistant(wlan.name, wlan.x_passphrase))
     }

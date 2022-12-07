@@ -13,7 +13,8 @@ import { getNetworkDictionary } from "../selectors"
 const logger = createLogger()
 
 function* registerWithHomeAssistant(action: RegisterWithHomeAssistantAction) {
-  logger.info("Registering with HA", action.payload)
+  logger.info(action.payload)
+  logger.info(action.payload)
   const mqtt: AsyncMqttClient = yield call(createMqtt)
   yield call<
     (
@@ -37,7 +38,9 @@ function* registerWithHomeAssistant(action: RegisterWithHomeAssistantAction) {
 
   const networks = yield select(getNetworkDictionary)
   if (!!networks[action.payload.id]) {
-    logger.info("Network already found for ID", networks, action.payload.id)
+    logger.info("Network already found for ID")
+    logger.info(networks)
+    logger.info(action.payload.id)
     return
   }
 

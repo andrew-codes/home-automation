@@ -40,7 +40,7 @@ describe("jsonnet", () => {
             "..",
             "..",
             "vendor",
-          )} $(echo -n "${cliJsonnetContent}" | tr '\\n' ' ');`,
+          )} "$(echo -n "${cliJsonnetContent}" | tr '\\n' ' ')";`,
           { silent: true },
         )
         .mockReturnValue({ stderr: "", stdout: "output", code: 0 })

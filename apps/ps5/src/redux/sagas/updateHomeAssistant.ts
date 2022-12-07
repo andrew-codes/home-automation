@@ -8,7 +8,8 @@ const logger = createLogger()
 
 function* updateHomeAssistant(action: UpdateHomeAssistantAction) {
   const mqtt: AsyncMqttClient = yield call(createMqtt)
-  logger.info("Update PS state in HA", action.payload)
+  logger.info(action.payload)
+  logger.info(action.payload)
   yield call<
     (
       topic: string,
@@ -20,7 +21,7 @@ function* updateHomeAssistant(action: UpdateHomeAssistantAction) {
     `playstation/${action.payload.device.id}`,
     JSON.stringify({
       power: action.payload.device.status,
-      device_status: action.payload.device.available ? 'online' : 'offline'
+      device_status: action.payload.device.available ? "online" : "offline",
     }),
     { qos: 1 },
   )

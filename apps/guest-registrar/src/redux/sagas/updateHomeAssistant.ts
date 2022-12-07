@@ -7,7 +7,8 @@ import type { UpdateHomeAssistantAction } from "../types"
 const logger = createLogger()
 
 function* updateHomeAssistant(action: UpdateHomeAssistantAction) {
-  logger.info("Updating HA", action.payload)
+  logger.info(action.payload)
+  logger.info(action.payload)
   const mqtt: AsyncMqttClient = yield call(createMqtt)
   yield call<
     (

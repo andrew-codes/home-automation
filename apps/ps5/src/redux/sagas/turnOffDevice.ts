@@ -8,22 +8,23 @@ import { updateHomeAssistant } from "../actionCreators"
 const logger = createLogger()
 
 function* turnOffDevice(action: ApplyToDeviceAction) {
-  if (
-    action.payload.device.status !== "STANDBY"
-  ) {
+  if (action.payload.device.status !== "STANDBY") {
     return
   }
 
-  logger.info('Turning off device', action.payload)
-  logger.info(sh.exec(
-    `playactor standby --ip ${action.payload.device.address.address} --timeout 5000 --connect-timeout 5000 --no-open-urls --no-auth;`,
-    { timeout: 5000 }
-  ))
+  logger.info("Turning off device")
+  logger.info(action.payload)
+  logger.info(
+    sh.exec(
+      `playactor standby --ip ${action.payload.device.address.address} --timeout 5000 --connect-timeout 5000 --no-open-urls --no-auth;`,
+      { timeout: 5000 },
+    ),
+  )
 
   yield put(
     updateHomeAssistant(
-      merge({}, action.payload.device, { status: "STANDBY", available: false })
-    )
+      merge({}, action.payload.device, { status: "STANDBY", available: false }),
+    ),
   )
 }
 

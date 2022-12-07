@@ -9,14 +9,16 @@ const logger = createLogger()
 
 function* setWifiGuestPassPhrase(action: SetGuestWifiPassPhraseAction) {
   try {
-    logger.info("Setting wifi passphrase", action.payload)
+    logger.info(action.payload)
+    logger.info(action.payload)
     const unifi: Controller = yield call(createUnifi)
     const result = yield call(
       [unifi, unifi.setWLanSettings],
       action.payload.network.id,
       action.payload.passPhrase,
     )
-    logger.info("Setting wifi passphrase result", result)
+    logger.info(result)
+    logger.info(result)
   } catch (e) {
     logger.error(e)
   }

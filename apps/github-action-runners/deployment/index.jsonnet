@@ -56,7 +56,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
           repository: std.extVar('repository_name'),
           labels: ['amd64-runner', 'github-action-runner'],
           dockerEnabled: true,
-          dockerdWithinRunnerContainer: false,
+          dockerdWithinRunnerContainer: true,
           imagePullSecrets: [{
             name: 'regcred',
           }],
@@ -70,13 +70,6 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
             },
           },
           imagePullPolicy: 'Always',
-          env:
-            [
-              {
-                name: 'DOCKER_HOST',
-                value: 'localhost:2736',
-              },
-            ],
           volumeMounts: [
             {
               name: 'ssh-volume',

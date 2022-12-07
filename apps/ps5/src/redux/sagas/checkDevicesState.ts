@@ -12,37 +12,38 @@ function* checkDevicesState() {
   const devices: Device[] = yield select(getDevices)
   for (const device of devices) {
     try {
-      logger.info('Checking device state for device', device)
-      const { stdout, stderr } = sh.exec(`playactor check --host-name ${device.name} --machine-friendly --no-open-urls --no-auth;`)
+      logger.info("Checking device state for device")
+      logger.info(device)
+      const { stdout, stderr } = sh.exec(
+        `playactor check --host-name ${device.name} --machine-friendly --no-open-urls --no-auth;`,
+      )
       if (stderr) {
         throw new Error(stderr)
       }
       const updatedDevice = JSON.parse(stdout)
-      logger.info('Parsed device JSON', updatedDevice)
+      logger.info("Parsed device JSON")
+      logger.info(updatedDevice)
 
-      logger.info('Device status (old, new), availability', device, updatedDevice)
+      logger.info("Device status (old, new), availability")
+      logger.info(device)
+      logger.info(updatedDevice)
       if (device.status !== updatedDevice.status || !device.available) {
-        const newDevice = merge({}, device, { status: updatedDevice.status, available: true })
+        const newDevice = merge({}, device, {
+          status: updatedDevice.status,
+          available: true,
+        })
         logger.info("Update HA")
-        yield put(
-          updateHomeAssistant(
-            newDevice,
-          ),
-        )
+        yield put(updateHomeAssistant(newDevice))
       }
     } catch (e) {
       logger.error(e)
       yield put(
         updateHomeAssistant(
-          merge(
-            {},
-            device,
-            {
-              status: "UNKNOWN",
-              available: false
-            }
-          )
-        )
+          merge({}, device, {
+            status: "UNKNOWN",
+            available: false,
+          }),
+        ),
       )
     }
   }

@@ -9,21 +9,21 @@ const logger = createLogger()
 
 const useAsyncIterableWithSaga =
   (fn, ...args) =>
-    () =>
-      new Promise(async (resolve, reject) => {
-        const iterable = fn(...args)
-        const outputs: any[] = []
-        try {
-          for await (const iterableAction of await iterable) {
-            if (!!iterableAction) {
-              outputs.push(iterableAction)
-            }
+  () =>
+    new Promise(async (resolve, reject) => {
+      const iterable = fn(...args)
+      const outputs: any[] = []
+      try {
+        for await (const iterableAction of await iterable) {
+          if (!!iterableAction) {
+            outputs.push(iterableAction)
           }
-          resolve(outputs)
-        } catch (error) {
-          reject(error)
         }
-      })
+        resolve(outputs)
+      } catch (error) {
+        reject(error)
+      }
+    })
 
 function* discoverDevices(action: DiscoverDevicesAction) {
   const discovery = new Discovery()
@@ -36,17 +36,19 @@ function* discoverDevices(action: DiscoverDevicesAction) {
       },
     ),
   )
-  logger.info('Discovered devices', devices)
+  logger.info("Discovered devices")
+  logger.info(devices)
   for (const device of devices) {
-    logger.info('Registering device with HA', device)
+    logger.info("Registering device with HA")
+    logger.info(device)
     yield put(
       registerDeviceWithHomeAssistant(
         merge({}, device, {
           available: true,
-          normalizedName:
-            device.name.replace(/[^a-zA-Z\d\s-_:]/g, '')
-              .replace(/[\s-]/g, '_')
-              .toLowerCase()
+          normalizedName: device.name
+            .replace(/[^a-zA-Z\d\s-_:]/g, "")
+            .replace(/[\s-]/g, "_")
+            .toLowerCase(),
         }),
       ),
     )

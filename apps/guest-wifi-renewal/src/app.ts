@@ -15,11 +15,14 @@ const run = async (): Promise<void> => {
 
   mqtt.on("message", async (topic, payload) => {
     try {
-      logger.info("Message received", topic, payload)
+      logger.info("Message received")
+      logger.info(topic)
+      logger.info(payload)
       if (topic !== "homeassistant/group/guest/renew") return
       const macAddresses = payload.toString().replace(/ /g, "").split(",")
       for (const mac of macAddresses) {
-        logger.info("Authorizing MAC", mac)
+        logger.info(mac)
+        logger.info(mac)
         await unifi.authorizeGuest(mac, 4320)
       }
     } catch (error) {

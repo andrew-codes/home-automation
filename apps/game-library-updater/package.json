@@ -6,7 +6,7 @@
   "dependencies": {
     "@ha/logger": "^0.0.1",
     "@ha/mqtt-client": "^0.0.1",
-    "@ha/mqtt-heartbeat": "^0.0.1",
+    "@ha/http-heartbeat": "^0.0.1",
     "@ha/string-utils": "^0.0.1",
     "async-mqtt": "^2.6.1",
     "lodash": "^4.17.21",

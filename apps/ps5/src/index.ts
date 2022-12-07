@@ -17,7 +17,7 @@ const logger = createLogger()
 async function run() {
   logger.info("Started")
   try {
-    await createHeartbeat(null, null, 8080)
+    await createHeartbeat()
 
     const sagaMiddleware = createSagaMiddleware()
     const store = createStore(reducer, applyMiddleware(sagaMiddleware))
@@ -34,7 +34,9 @@ async function run() {
         if (!matches) {
           return
         }
-        logger.info("MQTT message", topic, payload.toString())
+        logger.info("MQTT message")
+        logger.info(topic)
+        logger.info(payload.toString())
         const [, deviceId, deviceProperty] = matches
         const devices = getDeviceRegistry(store.getState())
         const device = devices[deviceId]

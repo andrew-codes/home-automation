@@ -1,10 +1,7 @@
-import type {
-  AsyncMqttClient,
-  IPublishPacket,
-} from "@ha/mqtt-client"
+import type { AsyncMqttClient, IPublishPacket } from "@ha/mqtt-client"
 import { createLogger } from "@ha/logger"
 import { call, put } from "redux-saga/effects"
-import { merge } from 'lodash'
+import { merge } from "lodash"
 import { createMqtt } from "@ha/mqtt-client"
 import type { RegisterDeviceWithHomeAssistantAction } from "../types"
 import { updateHomeAssistant } from "../actionCreators"
@@ -12,15 +9,16 @@ import { updateHomeAssistant } from "../actionCreators"
 const logger = createLogger()
 
 function* registerWithHomeAssistant(
-  action: RegisterDeviceWithHomeAssistantAction
+  action: RegisterDeviceWithHomeAssistantAction,
 ) {
-  logger.info('Registering with HA', action.payload)
+  logger.info("Registering with HA")
+  logger.info(action.payload)
   const mqtt: AsyncMqttClient = yield call(createMqtt)
   yield call<
     (
       topic: string,
       message: string | Buffer,
-      { qos: number }
+      { qos: number },
     ) => Promise<IPublishPacket>
   >(
     mqtt.publish.bind(mqtt),
@@ -31,8 +29,8 @@ function* registerWithHomeAssistant(
           topic: `playstation/${action.payload.id}`,
           value_template: "{{ value_json.device_status }}",
           payload_available: "online",
-          payload_not_available: "offline"
-        }
+          payload_not_available: "offline",
+        },
       ],
       name: `${action.payload.name} Switch Power`,
       command_topic: `playstation/${action.payload.id}/set/power`,
@@ -48,16 +46,18 @@ function* registerWithHomeAssistant(
       unique_id: `${action.payload.name}_switch_power`,
       device: {
         manufacturer: "Sony",
-        model: `Playstation ${action.payload.type === 'PS5' ? '5' : '4'} `,
+        model: `Playstation ${action.payload.type === "PS5" ? "5" : "4"} `,
         name: action.payload.name,
         identifiers: [action.payload.id],
-        sw_version: action.payload.systemVersion
-      }
+        sw_version: action.payload.systemVersion,
+      },
     }),
-    { qos: 1 }
+    { qos: 1 },
   )
 
-  yield put(updateHomeAssistant(merge({}, action.payload, { status: "UNKNOWN" })))
+  yield put(
+    updateHomeAssistant(merge({}, action.payload, { status: "UNKNOWN" })),
+  )
 }
 
 export { registerWithHomeAssistant }
