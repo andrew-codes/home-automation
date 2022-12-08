@@ -23,7 +23,7 @@ const run = async (
     const item = secretItems[index]
     let itemIdentifier: string = name
     if (!item) {
-      return ""
+      return null
     }
 
     if (typeof item !== "string") {
@@ -38,7 +38,7 @@ const run = async (
 local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
 
 {
-  ${secretDefinitionsJsonnet.join(`,
+  ${secretDefinitionsJsonnet.filter((def) => !!def).join(`,
   `)}
 }`
   await fs.writeFile(
@@ -47,7 +47,7 @@ local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
     "utf8",
   )
 
-  const secretsJsonnet = secretNames.map((name, index) => {
+  const secretsJsonnet = secretNames.map((name) => {
     return `"${name}": k.core.v1.envVar.fromSecretRef("${toEnvName(
       name,
     )}", "${toK8sName(name)}", 'secret-value')`
