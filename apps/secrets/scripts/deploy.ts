@@ -10,6 +10,14 @@ import { kubectl } from "@ha/kubectl"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
+  const resources = await jsonnet.eval(
+    path.join(__dirname, "..", "dist", "index.jsonnet"),
+  )
+  const resourceJson = JSON.parse(resources)
+  Object.values(resourceJson).forEach((resource) => {
+    kubectl.applyToCluster(JSON.stringify(resource))
+  })
+
   await fs.mkdir(path.join(__dirname, "..", ".secrets"), { recursive: true })
 
   const knownHosts = await configurationApi.get("known-hosts")
@@ -39,13 +47,6 @@ const run = async (
       { silent: true },
     ),
   )
-  const resources = await jsonnet.eval(
-    path.join(__dirname, "..", "dist", "index.jsonnet"),
-  )
-  const resourceJson = JSON.parse(resources)
-  Object.values(resourceJson).forEach((resource) => {
-    kubectl.applyToCluster(JSON.stringify(resource))
-  })
 }
 
 export default run
