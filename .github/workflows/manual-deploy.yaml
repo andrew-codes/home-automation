@@ -30,6 +30,7 @@ jobs:
       - name: Deploy apps
         run: yarn deploy ${{ github.event.client_payload.projects }} --exclude docker-registry --exclude k8s --exclude openvpn --exclude pihole --exclude azure-key-vault --verbose
         env:
+          CODECOV_TOKEN: ${{ secrets.CODE_COV_TOKEN }}
           ONEPASSWORD_TOKEN: ${{ secrets.ONEPASSWORD_TOKEN }}
           ONEPASSWORD_SERVER_URL: ${{ secrets.ONEPASSWORD_SERVER_URL }}
           ONEPASSWORD_VAULT_ID: ${{ secrets.ONEPASSWORD_VAULT_ID }}
