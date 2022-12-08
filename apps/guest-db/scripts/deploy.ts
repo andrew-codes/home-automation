@@ -12,6 +12,7 @@ const run = async (
   const dbPort = await configurationApi.get("guest-db/port")
   const dbUsername = await configurationApi.get("guest-db/username")
   const dbPassword = await configurationApi.get("guest-db/password")
+  console.log(dbPort.id, dbPort.value)
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
@@ -20,7 +21,7 @@ const run = async (
       image: `${registry.value}/${name}:latest`,
       name,
       registryHostname: registry.value,
-      dbPort: dbPort.value,
+      dbPort: dbPort.value.toString(),
     },
   )
   const resourceJson = JSON.parse(resources)
