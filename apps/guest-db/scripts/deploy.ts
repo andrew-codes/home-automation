@@ -12,7 +12,6 @@ const run = async (
   const dbPort = await configurationApi.get("guest-db/port")
   const dbUsername = await configurationApi.get("guest-db/username")
   const dbPassword = await configurationApi.get("guest-db/password")
-  console.log(dbPort.id, dbPort.value)
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
