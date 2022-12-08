@@ -1,5 +1,5 @@
 script:
-  script_start_gaming_room_gaming_pc_activity:
+  start_gaming_room_gaming_pc_activity:
     sequence:
       - service: script.start_gaming_room_activity
       - service: media_player.select_source
