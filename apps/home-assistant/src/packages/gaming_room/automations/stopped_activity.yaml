@@ -2,8 +2,9 @@ automation:
   - alias: Stopping generalized media player activity turns off devices
     id: gaming_room_stop_activity
     trigger:
-      platform: state
-      entity_id: media_player.gaming_room_media_player
-      to: "off"
+      - platform: event
+        event_type: ios.action_fired
+        event_data:
+          actionName: "Stop Gaming Room Activity"
     action:
       - service: script.gaming_room_turn_off_all_media_players
