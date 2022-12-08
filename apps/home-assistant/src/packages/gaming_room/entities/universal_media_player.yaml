@@ -19,8 +19,7 @@ media_player:
       {% endif %}
     commands:
       turn_off:
-        service: script.turn_on
-        entity_id: script.gaming_room_turn_off_all_media_players
+        service: script.gaming_room_turn_off_all_media_players
       volume_set:
         service: media_player.volume_set
         target:

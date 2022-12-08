@@ -1,8 +1,7 @@
 script:
   watch_youtube:
     sequence:
-      - service: script.turn_on
-        entity_id: script.start_gaming_room_streaming_media_activity
+      - service: script.start_gaming_room_streaming_media_activity
       - service: androidtv.adb_command
         entity_id: media_player.shield
         data:

@@ -6,5 +6,4 @@ automation:
       entity_id: media_player.gaming_room_media_player
       to: "off"
     action:
-      - service: script.turn_on
-        entity_id: script.gaming_room_turn_off_all_media_players
+      - service: script.gaming_room_turn_off_all_media_players

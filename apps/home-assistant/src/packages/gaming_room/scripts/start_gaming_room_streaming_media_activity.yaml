@@ -1,8 +1,7 @@
 script:
   start_gaming_room_streaming_media_activity:
     sequence:
-      - service: script.turn_on
-        entity_id: script.start_gaming_room_activity
+      - service: script.start_gaming_room_activity
       - service: media_player.select_source
         entity_id: media_player.gaming_room_avr
         data:

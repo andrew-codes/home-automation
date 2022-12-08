@@ -7,5 +7,4 @@ automation:
         event_data:
           actionName: Start Gaming Room PlayStation Activity
     action:
-      - service: script.turn_on
-        entity_id: script.start_gaming_room_gaming_pc_activity
+      - service: script.start_gaming_room_gaming_pc_activity
