@@ -13,7 +13,7 @@ function* checkDevicesState() {
   for (const device of devices) {
     try {
       logger.info("Checking device state for device")
-      logger.info(device)
+      logger.info(JSON.stringify(device, null, 2))
       const { stdout, stderr } = sh.exec(
         `playactor check --host-name ${device.name} --machine-friendly --no-open-urls --no-auth;`,
       )
@@ -22,11 +22,11 @@ function* checkDevicesState() {
       }
       const updatedDevice = JSON.parse(stdout)
       logger.info("Parsed device JSON")
-      logger.info(updatedDevice)
+      logger.info(JSON.stringify(updatedDevice, null, 2))
 
       logger.info("Device status (old, new), availability")
-      logger.info(device)
-      logger.info(updatedDevice)
+      logger.info(JSON.stringify(device, null, 2))
+      logger.info(JSON.stringify(updatedDevice, null, 2))
       if (device.status !== updatedDevice.status || !device.available) {
         const newDevice = merge({}, device, {
           status: updatedDevice.status,
