@@ -1,0 +1,18 @@
+ios:
+  actions:
+    - name: Start Gaming Room PlayStation Activity
+      background_color: "#000000"
+      label:
+        text: "Start Game Room PlayStation"
+        color: "#ff0000"
+      icon:
+        icon: sony_playstation
+        color: "#ffffff"
+    - name: Start Gaming Room Gaming PC Activity
+      background_color: "#000000"
+      label:
+        text: "Start Game Room PC"
+        color: "#ff0000"
+      icon:
+        icon: microsoft_xbox_controller
+        color: "#ffffff"

@@ -1,0 +1,11 @@
+automation:
+  - alias: Start Gaming Room Gaming PC Activity
+    id: start_gaming_room_gaming_pc_activity
+    trigger:
+      - platform: event
+        event_type: ios.action_fired
+        event_data:
+          actionName: Start Gaming Room PlayStation Activity
+    action:
+      - service: script.turn_on
+        entity_id: script.start_gaming_room_gaming_pc_activity
