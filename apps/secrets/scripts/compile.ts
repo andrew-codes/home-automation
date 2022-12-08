@@ -11,13 +11,21 @@ const run = async (
 
   const secretNames = configurationApi.getNames()
   const secretItems = await Promise.all(
-    secretNames.map((name) => configurationApi.get(name)),
+    secretNames.map(async (name) => {
+      try {
+        return await configurationApi.get(name)
+      } catch (error) {}
+    }),
   )
 
   const vaultId = await configurationApi.get("onepassword/vault-id")
   const secretDefinitionsJsonnet = secretNames.map((name, index) => {
     const item = secretItems[index]
     let itemIdentifier: string = name
+    if (!item) {
+      return ""
+    }
+
     if (typeof item !== "string") {
       itemIdentifier = item.id
     }
