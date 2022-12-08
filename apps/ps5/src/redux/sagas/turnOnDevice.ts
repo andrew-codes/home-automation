@@ -8,7 +8,7 @@ import { updateHomeAssistant } from "../actionCreators"
 const logger = createLogger()
 
 function* turnOnDevice(action: ApplyToDeviceAction) {
-  if (action.payload.device.status !== "AWAKE") {
+  if (action.payload.on !== "AWAKE") {
     return
   }
 

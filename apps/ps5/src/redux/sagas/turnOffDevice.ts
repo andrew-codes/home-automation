@@ -8,7 +8,7 @@ import { updateHomeAssistant } from "../actionCreators"
 const logger = createLogger()
 
 function* turnOffDevice(action: ApplyToDeviceAction) {
-  if (action.payload.device.status !== "STANDBY") {
+  if (action.payload.on !== "STANDBY") {
     return
   }
 
