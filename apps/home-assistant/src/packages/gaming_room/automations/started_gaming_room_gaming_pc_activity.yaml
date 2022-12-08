@@ -5,6 +5,6 @@ automation:
       - platform: event
         event_type: ios.action_fired
         event_data:
-          actionName: "Start Gaming Room PlayStation Activity"
+          actionName: "Start Gaming Room Gaming PC Activity"
     action:
       - service: script.start_gaming_room_gaming_pc_activity
