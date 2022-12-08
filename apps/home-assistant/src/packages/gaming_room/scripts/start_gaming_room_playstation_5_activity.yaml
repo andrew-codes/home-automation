@@ -2,6 +2,8 @@ script:
   start_gaming_room_playstation_5_activity:
     sequence:
       - service: script.start_gaming_room_activity
+      - service: media_player.turn_on
+        entity_id: media_player.gaming_room_universal_playstation_5
       - service: media_player.select_source
         entity_id: media_player.gaming_room_avr
         data:
