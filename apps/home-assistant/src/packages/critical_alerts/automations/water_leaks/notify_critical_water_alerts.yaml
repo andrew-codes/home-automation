@@ -5,6 +5,12 @@ automation:
       - platform: state
         entity_id: switch.shutoff_valve
         to: "off"
+    condition:
+      alias: "Flo did not restart recently"
+      condition: template
+      value_template: |-
+        {% set minutes_difference = (as_timestamp(now()) - as_timestamp(states(sensor.flo_uptime))) / 60 %}
+        {{ minutes_difference > 2 }}
     action:
       - service: notify.all_devices
         data:
