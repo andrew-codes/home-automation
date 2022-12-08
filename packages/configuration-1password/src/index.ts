@@ -178,9 +178,11 @@ const createConfigApi = async (): Promise<
       if (!!existingItem?.id) {
         item = await op.getItemById(vaultId, existingItem.id)
         if (!!item?.fields) {
-          item.fields[1].value = value
+          const index = item.fields.findIndex((f) => f.label === itemFieldName)
+          item.fields[index].value = value
+
+          await op.updateItem(vaultId, item)
         }
-        await op.updateItem(vaultId, item)
       } else {
         const newItem = new ItemBuilder()
           .setTitle(itemTitle)
