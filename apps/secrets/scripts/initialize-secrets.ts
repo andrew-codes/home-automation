@@ -4,9 +4,8 @@ import { ConfigurationApi } from "@ha/configuration-api"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const secretNames = configurationApi.getNames()
   let secretsSetFromTemplate: {
-    default: { default: { name: keyof Configuration; value: string }[] }
+    default: { name: keyof Configuration; value: string }[]
   }
 
   try {

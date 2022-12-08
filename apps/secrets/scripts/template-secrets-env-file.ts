@@ -6,15 +6,23 @@ import { ConfigurationApi } from "@ha/configuration-api"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const secretNames = configurationApi.getNames()
   await fs.mkdir(path.join(__dirname, "..", ".secrets"), { recursive: true })
-  const secretTemplate = `const secrets = [
-  ${secretNames.map(
-    (name) => `{
+  const secretNames = configurationApi.getNames()
+  const secretsValues = await Promise.all(
+    secretNames.map(async (name) => {
+      const value = await configurationApi.get(name)
+      return { name, value: typeof value === "string" ? value : value.value }
+    }),
+  )
+  const secretTemplates = secretsValues.map(
+    ({ name, value }) => `{
     name: "${name}",
-    value: \`\`,
+    value: \`${value}\`,
   },`,
-  ).join(`
+  )
+
+  const secretTemplate = `const secrets = [
+  ${secretTemplates.join(`
   `)}
 ]
 
