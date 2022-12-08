@@ -37,10 +37,10 @@ function* discoverDevices(action: DiscoverDevicesAction) {
     ),
   )
   logger.info("Discovered devices")
-  logger.info(devices)
+  logger.info(JSON.stringify(devices, null, 2))
   for (const device of devices) {
     logger.info("Registering device with HA")
-    logger.info(device)
+    logger.info(JSON.stringify(device, null, 2))
     yield put(
       registerDeviceWithHomeAssistant(
         merge({}, device, {

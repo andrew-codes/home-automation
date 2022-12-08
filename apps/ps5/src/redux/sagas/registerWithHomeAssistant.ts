@@ -12,7 +12,7 @@ function* registerWithHomeAssistant(
   action: RegisterDeviceWithHomeAssistantAction,
 ) {
   logger.info("Registering with HA")
-  logger.info(action.payload)
+  logger.info(JSON.stringify(action.payload, null, 2))
   const mqtt: AsyncMqttClient = yield call(createMqtt)
   yield call<
     (

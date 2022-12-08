@@ -13,13 +13,15 @@ function* turnOffDevice(action: ApplyToDeviceAction) {
   }
 
   logger.info("Turning off device")
-  logger.info(action.payload)
-  logger.info(
-    sh.exec(
-      `playactor standby --ip ${action.payload.device.address.address} --timeout 5000 --connect-timeout 5000 --no-open-urls --no-auth;`,
-      { timeout: 5000 },
-    ),
+  logger.info(JSON.stringify(action.payload, null, 2))
+  const { stdout, stderr, code } = sh.exec(
+    `playactor standby --ip ${action.payload.device.address.address} --timeout 5000 --connect-timeout 5000 --no-open-urls --no-auth;`,
+    { timeout: 5000 },
   )
+  logger.info(stdout.toString())
+  if (code !== 0) {
+    logger.error(stderr.toString())
+  }
 
   yield put(
     updateHomeAssistant(
