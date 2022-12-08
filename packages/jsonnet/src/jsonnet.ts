@@ -25,6 +25,7 @@ const jsonnet = {
     command += ` "$(echo -n "${content}" | tr '\\n' ' ')";`
     const { stderr, stdout } = sh.exec(command, { silent: true })
     if (!!stderr) {
+      logger.error(stderr)
       throw new Error("Failed")
     }
 
