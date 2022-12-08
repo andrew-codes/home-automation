@@ -7,10 +7,10 @@ const logger = createLogger()
 
 const jsonnet = {
   eval: async (
-    jsonnetContent: string,
+    jsonnetPath: string,
     variables: Record<string, string | number | string[]> = {},
   ): Promise<string> => {
-    const content = safeCliStringWithDoubleQuotes(jsonnetContent)
+    const content = safeCliStringWithDoubleQuotes(jsonnetPath)
     const variablesContent = variablesToCLIString(variables)
     let command = `jsonnet -J ${path.join(
       __dirname,
@@ -22,9 +22,9 @@ const jsonnet = {
     if (!!variablesContent) {
       command += ` ${variablesContent}`
     }
-    command += ` "$(echo -n "${content}" | tr '\\n' ' ')";`
-    const { stderr, stdout } = sh.exec(command, { silent: true })
-    if (!!stderr) {
+    command += ` ${content};`
+    const { stderr, stdout, code } = sh.exec(command, { silent: true })
+    if (code > 0) {
       logger.error(stderr)
       throw new Error("Failed")
     }
@@ -48,12 +48,12 @@ const variablesToCLIString = (
         v = value
       } else if (Array.isArray(value)) {
         if (value.length === 0) {
-          v = `\$(echo -n ${safeCliString("")})`
+          v = `\$(echo ${safeCliString("")})`
         } else {
-          v = `\$(echo -n ${safeCliString(JSON.stringify(value.join(",")))})`
+          v = `\$(echo ${safeCliString(JSON.stringify(value.join(",")))})`
         }
       } else {
-        v = `\$(echo -n ${safeCliString(JSON.stringify(value))})`
+        v = `\$(echo ${safeCliString(JSON.stringify(value))})`
       }
       return `--ext-str "${key}=${v}"`
     })

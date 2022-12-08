@@ -1,4 +1,3 @@
-import path from "path"
 import sh from "shelljs"
 import { safeCliString } from "@ha/cli-utils"
 import { throwIfError } from "@ha/shell-utils"
@@ -11,8 +10,7 @@ type DeploymentCommand = "restart"
 const kubectl = {
   applyToCluster: (content: string): void => {
     throwIfError(
-      sh.exec(`echo -n '${safeCliString(content)}' | kubectl apply -f -;`, {
-        shell: "/usr/bin/bash",
+      sh.exec(`echo -n '${content}' | kubectl apply -f -;`, {
         silent: true,
       }),
     )
@@ -25,7 +23,7 @@ const kubectl = {
     throwIfError(
       sh.exec(
         `kubectl -n ${options.namespace} rollout ${command} deployment ${deploymentName};`,
-        { silent: true, }
+        { silent: true },
       ),
     )
   },

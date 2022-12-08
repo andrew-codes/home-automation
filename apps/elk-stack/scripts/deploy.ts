@@ -26,8 +26,8 @@ const run = async (
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
       secrets: [],
-      elasticPort: elasticPort.value,
-      kibanaPort: kibanaPort.value,
+      elasticPort: parseInt(elasticPort.value),
+      kibanaPort: parseInt(kibanaPort.value),
     },
   )
   const resourceJson = JSON.parse(resources)

@@ -24,8 +24,8 @@ const run = async (
   //     name,
   //     registryHostname: registry,
   //     secrets,
-  //     port: port_external,
-  //     external_rmtp_port: parseInt(external_rmtp_port),
+  //     port: parseint(port_external),
+  //     external_rmtp_port: parseInt(parseInt(external_rmtp_port)),
   //   },
   // )
   // const resourceJson = JSON.parse(resources)

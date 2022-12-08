@@ -16,7 +16,7 @@ const run = async (
       image: `louislam/uptime-kuma:latest`,
       name,
       secrets,
-      port: port_external.value,
+      port: parseint(port_external.value),
     },
   )
   const resourceJson = JSON.parse(resources)
