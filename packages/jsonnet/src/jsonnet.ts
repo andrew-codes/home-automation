@@ -1,6 +1,9 @@
 import path from "path"
 import sh from "shelljs"
 import { safeCliString, safeCliStringWithDoubleQuotes } from "@ha/cli-utils"
+import { createLogger } from "@ha/logger"
+
+const logger = createLogger()
 
 const jsonnet = {
   eval: async (
@@ -35,6 +38,11 @@ const variablesToCLIString = (
 ): string => {
   return Object.entries(variables)
     .map(([key, value]) => {
+      if (!value) {
+        logger.error(`Value for ${key} has no value.`)
+
+        return
+      }
       let v
       if (typeof value === "number") {
         v = value
