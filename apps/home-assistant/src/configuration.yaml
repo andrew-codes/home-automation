@@ -80,6 +80,7 @@ logger:
   default: info
 
 homeassistant:
+  country: US
   currency: USD
   external_url: !secret HA_URL
   internal_url: !secret HA_URL
