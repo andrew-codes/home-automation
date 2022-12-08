@@ -1,11 +1,6 @@
-automation:
-  - alias: Start an activity on the gaming room playstation 5
-    id: gaming_room_start_activity_gaming_room_playstation_5
-    trigger:
-      platform: state
-      entity_id: media_player.gaming_room_universal_playstation_5
-      to: "on"
-    action:
+script:
+  start_gaming_room_playstation_5_activity:
+    sequence:
       - service: media_player.select_source
         entity_id: media_player.gaming_room_avr
         data:

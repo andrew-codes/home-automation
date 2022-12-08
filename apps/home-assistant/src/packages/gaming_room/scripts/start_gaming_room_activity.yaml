@@ -1,11 +1,6 @@
-automation:
-  - alias: Start a gaming room activity
-    id: gaming_room_start_activity
-    trigger:
-      - platform: state
-        entity_id: media_player.gaming_room_media_player
-        to: "on"
-    action:
+script:
+  start_gaming_room_activity:
+    sequence:
       - service: media_player.turn_on
         entity_id: media_player.gaming_room_avr
       - service: media_player.select_sound_mode
