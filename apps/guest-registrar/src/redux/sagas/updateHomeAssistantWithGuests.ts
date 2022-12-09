@@ -1,7 +1,7 @@
-import type { AsyncMqttClient, IPublishPacket } from "@ha/mqtt-client"
+import { AsyncMqttClient, IPublishPacket } from "@ha/mqtt-client"
 import { createLogger } from "@ha/logger"
 import { call, put } from "redux-saga/effects"
-import { MongoClient, Db, WithId, Document } from "mongodb"
+import { MongoClient, Db, WithId, Document, FindCursor } from "mongodb"
 import { createMqtt } from "@ha/mqtt-client"
 import getMongoDbClient from "../../dbClient"
 import { AddGuestAction } from "../types"
@@ -13,11 +13,11 @@ function* updateHomeAssistantWithGuests(action: AddGuestAction) {
   try {
     logger.info("Updating HA with guests")
     const dbClient: MongoClient = yield call(getMongoDbClient)
-    const db: Db = yield call(dbClient.db, "guests")
+    const db = dbClient.db("guests")
     const findResults = db.collection("macs").find({})
-    const results: WithId<Document>[] = yield call<
-      () => Promise<WithId<Document>[]>
-    >(findResults.toArray)
+    const results: WithId<Document>[] = yield (
+      call as unknown as (args: any[]) => void
+    )([findResults, findResults.toArray])
     logger.info(JSON.stringify(results, null, 2))
     const macs = results.map((r) => r.mac)
     logger.info("Registered guest MACs")

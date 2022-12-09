@@ -18,7 +18,7 @@ function* addGuest(action: AddGuestAction) {
   try {
     logger.info(`Guest MAC to add: ${action.payload}`)
     const dbClient: MongoClient = yield call(getMongoDbClient)
-    const db: Db = yield call(dbClient.db, "guests")
+    const db = dbClient.db("guests")
     const collection = db.collection("macs")
     yield call<
       (

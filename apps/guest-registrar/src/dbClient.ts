@@ -14,6 +14,8 @@ const getClient = async () => {
     await client.connect()
   }
 
+  logger.info("Returning new client")
+
   return client
 }
 
