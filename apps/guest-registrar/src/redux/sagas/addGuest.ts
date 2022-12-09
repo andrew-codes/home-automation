@@ -1,9 +1,8 @@
 import { createLogger } from "@ha/logger"
-import { call } from "redux-saga/effects"
+import { call, put } from "redux-saga/effects"
 import {
   MongoClient,
   Db,
-  WithId,
   Filter,
   Document,
   UpdateResult,
@@ -11,6 +10,7 @@ import {
 } from "mongodb"
 import getMongoDbClient from "../../dbClient"
 import { AddGuestAction } from "../types"
+import { updateMacs } from "../actionCreators"
 
 const logger = createLogger()
 
@@ -27,6 +27,7 @@ function* addGuest(action: AddGuestAction) {
         options: UpdateOptions,
       ) => Promise<UpdateResult>
     >(collection.updateOne, {}, { mac: action.payload.mac }, { upsert: true })
+    yield put(updateMacs([action.payload.mac]))
   } catch (error) {
     logger.error(error)
   }

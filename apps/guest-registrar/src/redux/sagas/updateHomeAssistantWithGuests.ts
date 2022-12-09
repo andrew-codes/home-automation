@@ -1,10 +1,11 @@
 import type { AsyncMqttClient, IPublishPacket } from "@ha/mqtt-client"
 import { createLogger } from "@ha/logger"
-import { call } from "redux-saga/effects"
+import { call, put } from "redux-saga/effects"
 import { MongoClient, Db, WithId, Document } from "mongodb"
 import { createMqtt } from "@ha/mqtt-client"
 import getMongoDbClient from "../../dbClient"
 import { AddGuestAction } from "../types"
+import { updateMacs } from "../actionCreators"
 
 const logger = createLogger()
 
@@ -33,6 +34,7 @@ function* updateHomeAssistantWithGuests(action: AddGuestAction) {
         qos: 1,
       })
     }
+    yield put(updateMacs(macs))
   } catch (error) {
     logger.error(error)
   }

@@ -1,6 +1,7 @@
 import type {
   AddGuestAction,
   UpdateHomeAssistantWithGuestsAction,
+  UpdateMacsAction,
 } from "./types"
 
 const addGuest = (mac: string): AddGuestAction => ({
@@ -13,4 +14,9 @@ const updateHomeAssistantWithGuests =
     type: "UPDATE_HOME_ASSISTANT_WITH_GUESTS",
   })
 
-export { addGuest, updateHomeAssistantWithGuests }
+const updateMacs = (macs: string[]): UpdateMacsAction => ({
+  type: "UPDATE_MACS",
+  payload: macs,
+})
+
+export { addGuest, updateHomeAssistantWithGuests, updateMacs }

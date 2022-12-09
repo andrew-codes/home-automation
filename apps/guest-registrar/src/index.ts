@@ -22,6 +22,7 @@ async function run() {
     const mqtt = await createMqtt()
     const restartTopic = "homeassistant/restarted"
     const addGuestTopic = "homeassistant/group/guests/add"
+    const debugStateTopic = "guest-registrar/debug/state"
     mqtt.on("message", async (topic, payload) => {
       try {
         logger.info(`MQTT message recieved: ${topic}`)
@@ -31,6 +32,9 @@ async function run() {
             break
           case addGuestTopic:
             store.dispatch(addGuest(payload.toString()))
+            break
+          case debugStateTopic:
+            logger.debug(JSON.stringify(store.getState(), null, 2))
             break
           default:
         }
