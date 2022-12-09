@@ -9,18 +9,12 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   const registry = await configurationApi.get("docker-registry/hostname")
-  const dbPort = await configurationApi.get("guest-db/port")
-  const dbUsername = await configurationApi.get("guest-db/username")
-  const dbPassword = await configurationApi.get("guest-db/password")
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      dbUsername: dbUsername.value,
-      dbPassword: dbPassword.value,
       image: `${registry.value}/${name}:latest`,
       name,
       registryHostname: registry.value,
-      dbPort: parseInt(dbPort.value),
     },
   )
   const resourceJson = JSON.parse(resources)
