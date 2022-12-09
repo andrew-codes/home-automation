@@ -8,7 +8,7 @@ const getClient = async () => {
     const password = process.env.GAME_LIBRARY_DB_PASSWORD
     const host = process.env.DB_HOST
     const port = process.env.GAME_LIBRARY_DB_PORT
-    const connectionUrl = `mongodb://${username}:${password}@${host}:${port}`
+    const connectionUrl = `mongodb://${username}:${password}@${host}`
     client = new MongoClient(connectionUrl)
     await client.connect()
   }
