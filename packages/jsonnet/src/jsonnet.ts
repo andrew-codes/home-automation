@@ -53,7 +53,7 @@ const variablesToCLIString = (
           v = `${value.join(",")}`
         }
       } else {
-        v = `${JSON.stringify(value)}`
+        v = JSON.stringify(value)
       }
       return `--ext-str '${key}=${v}'`
     })
