@@ -10,7 +10,7 @@ const kubectl = {
   applyToCluster: (content: string): void => {
     throwIfError(
       sh.exec(`echo -n '${content}' | kubectl apply -f -;`, {
-        shell: "/usr/bin/bash",
+        shell: "/bin/bash",
         silent: true,
       }),
     )

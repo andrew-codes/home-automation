@@ -23,7 +23,7 @@ describe("kubectl", () => {
         expect.stringMatching(
           /echo '{\\n        \"person\"\\n      }' | kubectl apply -f -;/,
         ),
-        { silent: true, shell: "/usr/bin/bash" },
+        { silent: true, shell: "/bin/bash" },
       )
     })
   })
