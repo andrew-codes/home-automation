@@ -43,21 +43,24 @@ describe("jsonnet", () => {
         TEST_2: `some value with
 new lines`,
         TEST_3: 80,
+        TEST_4: ["1", "2", "3"],
       })
 
       expect(sh.exec).toBeCalledTimes(1)
       expect(sh.exec).toBeCalledWith(
-        expect.stringMatching(/ --ext-str 'TEST_1="test \\\"value\\\""'/),
+        expect.stringMatching(/ --ext-str 'TEST_1=test \"value\"'/),
         { silent: true },
       )
       expect(sh.exec).toBeCalledWith(
-        expect.stringMatching(
-          / --ext-str 'TEST_2="some value with\\nnew lines"'/,
-        ),
+        expect.stringMatching(/ --ext-str 'TEST_2=some value with\nnew lines'/),
         { silent: true },
       )
       expect(sh.exec).toBeCalledWith(
         expect.stringMatching(/ --ext-str 'TEST_3=80'/),
+        { silent: true },
+      )
+      expect(sh.exec).toBeCalledWith(
+        expect.stringMatching(/ --ext-str 'TEST_4=1,2,3'/),
         { silent: true },
       )
     })

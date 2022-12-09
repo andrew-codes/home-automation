@@ -10,7 +10,7 @@ type DeploymentCommand = "restart"
 const kubectl = {
   applyToCluster: (content: string): void => {
     throwIfError(
-      sh.exec(`echo -n '${content}' | kubectl apply -f -;`, {
+      sh.exec(`echo '${content}' | kubectl apply -f -;`, {
         silent: true,
       }),
     )

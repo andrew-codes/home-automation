@@ -44,16 +44,16 @@ const variablesToCLIString = (
         return
       }
       let v
-      if (typeof value === "number") {
+      if (typeof value === "number" || typeof value === "string") {
         v = value
       } else if (Array.isArray(value)) {
         if (value.length === 0) {
-          v = `${safeCliString("")}`
+          v = ``
         } else {
-          v = `${safeCliString(JSON.stringify(value.join(",")))}`
+          v = `${value.join(",")}`
         }
       } else {
-        v = `${safeCliString(JSON.stringify(value))}`
+        v = `${JSON.stringify(value)}`
       }
       return `--ext-str '${key}=${v}'`
     })
