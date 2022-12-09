@@ -4,7 +4,6 @@ import type { ExecutorContext } from "@nrwl/devkit"
 import { exec } from "child_process"
 import { promisify } from "util"
 import { throwIfError } from "@ha/shell-utils"
-import { configurationApi } from "@ha/configuration-env-secrets"
 
 interface UploadCodeCovOptions {
   coverageFilePath: string
@@ -35,7 +34,9 @@ async function executor(
     })
   } catch (error) {
     console.log(error)
-    return { success: false }
+    console.log("Retrying...")
+
+    return executor(options, context)
   }
   return { success: true }
 }
