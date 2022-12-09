@@ -9,7 +9,7 @@ const getClient = async () => {
   if (!client) {
     const username = process.env.GUEST_DB_USERNAME
     const password = process.env.GUEST_DB_PASSWORD
-    const host = process.env.GUEST_DB_HOST
+    const host = process.env.DB_HOST
     const port = process.env.GUEST_DB_PORT
     const connectionUrl = `mongodb://${username}:${password}@${host}:${port}`
     client = new MongoClient(connectionUrl)
