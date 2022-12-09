@@ -20,8 +20,10 @@ describe("kubectl", () => {
       }`
       kubectl.applyToCluster(input)
       expect(sh.exec).toHaveBeenCalledWith(
-        "echo -n '{\\n        \"person\"\\n      }' | kubectl apply -f -;",
-        { silent: true, shell: "/usr/bin/bash" },
+        expect.stringMatching(
+          /echo -n '{\\n        \"person\"\\n      }' | kubectl apply -f -;/,
+        ),
+        { silent: true },
       )
     })
   })

@@ -14,21 +14,9 @@ describe("jsonnet", () => {
   beforeEach(() => {
     jest.mocked(sh.exec).mockReturnValue({ stderr: "", stdout: "", code: 0 })
   })
+
   describe("eval", () => {
-    const jsonnetContent = `{
-        person1: {
-            name: "Alice",
-            welcome: "Hello " + self.name + "!",
-        },
-        person2: self.person1 { name: "Bob" },
-    }`
-    const cliJsonnetContent = `{
-        person1: {
-            name: \"Alice\",
-            welcome: \"Hello \" + self.name + \"!\",
-        },
-        person2: self.person1 { name: \"Bob\" },
-    }`
+    const jsonnetPath = `testing/test.jsonnet`
 
     test("eval takes a string of jsonnet, provides it to the jsonnet CLI and returns the result.", async () => {
       when(sh.exec)
@@ -40,17 +28,17 @@ describe("jsonnet", () => {
             "..",
             "..",
             "vendor",
-          )} "$(echo -n "${cliJsonnetContent}" | tr '\\n' ' ')";`,
+          )} ${jsonnetPath};`,
           { silent: true },
         )
         .mockReturnValue({ stderr: "", stdout: "output", code: 0 })
 
-      const actual = await jsonnet.eval(jsonnetContent)
+      const actual = await jsonnet.eval(jsonnetPath)
       expect(actual).toEqual("output")
     })
 
     test("Values may be provided to be passed as extStr variables to the jsonnet CLI", async () => {
-      await jsonnet.eval(jsonnetContent, {
+      await jsonnet.eval(jsonnetPath, {
         TEST_1: `test "value"`,
         TEST_2: `some value with
 new lines`,
@@ -59,19 +47,17 @@ new lines`,
 
       expect(sh.exec).toBeCalledTimes(1)
       expect(sh.exec).toBeCalledWith(
-        expect.stringMatching(
-          / --ext-str "TEST_1=\$\(echo -n "test \\"value\\""\)"/,
-        ),
+        expect.stringMatching(/ --ext-str 'TEST_1="test \\\"value\\\""'/),
         { silent: true },
       )
       expect(sh.exec).toBeCalledWith(
         expect.stringMatching(
-          / --ext-str "TEST_2=\$\(echo -n "some value with\\nnew lines"\)"/,
+          / --ext-str 'TEST_2="some value with\\nnew lines"'/,
         ),
         { silent: true },
       )
       expect(sh.exec).toBeCalledWith(
-        expect.stringMatching(/ --ext-str "TEST_3=80"/),
+        expect.stringMatching(/ --ext-str 'TEST_3=80'/),
         { silent: true },
       )
     })

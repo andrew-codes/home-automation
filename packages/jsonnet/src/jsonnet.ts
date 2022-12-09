@@ -48,14 +48,14 @@ const variablesToCLIString = (
         v = value
       } else if (Array.isArray(value)) {
         if (value.length === 0) {
-          v = `\$(echo ${safeCliString("")})`
+          v = `${safeCliString("")}`
         } else {
-          v = `\$(echo ${safeCliString(JSON.stringify(value.join(",")))})`
+          v = `${safeCliString(JSON.stringify(value.join(",")))}`
         }
       } else {
-        v = `\$(echo ${safeCliString(JSON.stringify(value))})`
+        v = `${safeCliString(JSON.stringify(value))}`
       }
-      return `--ext-str "${key}=${v}"`
+      return `--ext-str '${key}=${v}'`
     })
     .join(" ")
 }
