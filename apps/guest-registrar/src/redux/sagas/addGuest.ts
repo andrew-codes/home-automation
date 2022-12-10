@@ -19,10 +19,10 @@ function* addGuest(action: AddGuestAction) {
       call as unknown as (...args: any) => void
     )(
       [collection, collection.insertOne],
-      { $set: { mac: action.payload.mac } },
+      { mac: action.payload.mac },
       { upsert: true },
     )
-    logger.debug(JSON.stringify(response, null, 2))
+    logger.debug(`DB Response: ${JSON.stringify(response, null, 2)}`)
     yield put(updateMacs([action.payload.mac]))
   } catch (error) {
     logger.error(error)
