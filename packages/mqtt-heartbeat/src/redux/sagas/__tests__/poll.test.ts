@@ -15,7 +15,7 @@ describe("registerWithHomeAssistant saga", () => {
       .provide([[call(createMqtt), { publish: jest.fn() }]])
       .dispatch(poll("service_name"))
       .put(updateHomeAssistant("service_name"))
-      .call.like({ fn: delay, args: [30000] })
+      .call.like({ fn: delay, args: [60000] })
       .silentRun(2000)
   })
 })
