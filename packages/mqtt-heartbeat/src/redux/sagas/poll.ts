@@ -6,7 +6,7 @@ import { PollHeartbeatAction } from "../actions.types"
 function* poll(action: PollHeartbeatAction) {
   while (true) {
     yield put(updateHomeAssistant(action.payload))
-    yield call(delay, 30000)
+    yield call(delay, 60000)
   }
 }
 

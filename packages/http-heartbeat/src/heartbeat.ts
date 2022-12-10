@@ -16,7 +16,7 @@ const createHeartbeat = async (
   const urlMatchExpression = new RegExp(`.*${healthPath.replace(/\//, "\\/")}$`)
   const handler: RequestListener = (req, resp) => {
     if (urlMatchExpression.test(req.url ?? "")) {
-      logger.info("Heartbeat endpoint matched")
+      logger.debug("Heartbeat endpoint matched")
       resp.statusCode = 200
       resp.end(JSON.stringify({ state: "up" }))
     }

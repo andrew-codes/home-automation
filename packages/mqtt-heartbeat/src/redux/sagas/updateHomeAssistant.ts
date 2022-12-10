@@ -1,13 +1,13 @@
 import { createMqtt } from "@ha/mqtt-client"
 import { call } from "redux-saga/effects"
 import { UpdateHomeAssistantAction } from "../actions.types"
-import createDebugger from "debug"
+import { createLogger } from "@ha/logger"
 
-const debug = createDebugger("@ha/mqtt-heartbeat/updateHomeAssistantSaga")
+const logger = createLogger()
 
 function* updateHomeAssistant(action: UpdateHomeAssistantAction) {
   const mqtt = yield call(createMqtt)
-  debug("Updating HA via MQTT")
+  logger.debug("Updating via MQTT")
   yield call(
     [mqtt, mqtt.publish],
     `homeassistant/binary_sensor/${action.payload}_status/state`,

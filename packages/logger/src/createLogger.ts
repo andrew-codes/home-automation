@@ -1,16 +1,14 @@
-import winston from 'winston'
-import ecsFormat from '@elastic/ecs-winston-format'
+import winston from "winston"
+import ecsFormat from "@elastic/ecs-winston-format"
 
 const createLogger = () => {
-    const logger = winston.createLogger({
-        level: 'info',
-        format: ecsFormat(),
-        transports: [
-            new winston.transports.Console()
-        ]
-    })
+  const logger = winston.createLogger({
+    level: "debug",
+    format: ecsFormat(),
+    transports: [new winston.transports.Console()],
+  })
 
-    return logger
+  return logger
 }
 
 export default createLogger

@@ -34,7 +34,7 @@ async function run() {
             store.dispatch(addGuest(payload.toString()))
             break
           case debugStateTopic:
-            logger.info(JSON.stringify(store.getState(), null, 2))
+            logger.debug(JSON.stringify(store.getState(), null, 2))
             break
           default:
         }

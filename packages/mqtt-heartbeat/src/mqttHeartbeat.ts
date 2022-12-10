@@ -1,12 +1,12 @@
-import createDebugger from "debug"
 import createSagaMiddleware from "@redux-saga/core"
 import { applyMiddleware, createStore } from "redux"
 import { reducer, registerWithHomeAssistant, saga } from "./redux"
+import { createLogger } from "@ha/logger"
 
-const debug = createDebugger("@ha/mqtt-heartbeat/mqttHeartbeat")
+const logger = createLogger()
 
 const createHeartbeat = async (serviceName: string): Promise<void> => {
-  debug("Started")
+  logger.info("Started")
   const sagaMiddleware = createSagaMiddleware()
   const store = createStore(reducer, applyMiddleware(sagaMiddleware))
   sagaMiddleware.run(saga)
