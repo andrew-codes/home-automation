@@ -42,6 +42,10 @@ async function run() {
         logger.error(error)
       }
     })
+
+    mqtt.subscribe(restartTopic)
+    mqtt.subscribe(addGuestTopic)
+    mqtt.subscribe(debugStateTopic)
   } catch (e) {
     logger.error(e)
   }
