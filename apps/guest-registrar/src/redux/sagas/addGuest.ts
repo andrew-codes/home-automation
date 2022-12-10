@@ -1,13 +1,6 @@
 import { createLogger } from "@ha/logger"
 import { call, put } from "redux-saga/effects"
-import {
-  MongoClient,
-  Db,
-  Filter,
-  Document,
-  UpdateResult,
-  UpdateOptions,
-} from "mongodb"
+import { Collection, MongoClient, UpdateResult } from "mongodb"
 import getMongoDbClient from "../../dbClient"
 import { AddGuestAction } from "../types"
 import { updateMacs } from "../actionCreators"
@@ -16,17 +9,20 @@ const logger = createLogger()
 
 function* addGuest(action: AddGuestAction) {
   try {
-    logger.info(`Guest MAC to add: ${action.payload}`)
+    logger.info(`Guest MAC to add: ${action.payload.mac}`)
     const dbClient: MongoClient = yield call(getMongoDbClient)
     const db = dbClient.db("guests")
+    logger.debug("Guest db")
     const collection = db.collection("macs")
-    yield call<
-      (
-        filterDoc: Filter<Document>,
-        doc: Partial<Document>,
-        options: UpdateOptions,
-      ) => Promise<UpdateResult>
-    >(collection.updateOne, {}, { mac: action.payload.mac }, { upsert: true })
+    logger.debug("macs collection")
+    const response: UpdateResult = yield (
+      call as unknown as (...args: any) => void
+    )(
+      [collection, collection.insertOne],
+      { $set: { mac: action.payload.mac } },
+      { upsert: true },
+    )
+    logger.debug(JSON.stringify(response, null, 2))
     yield put(updateMacs([action.payload.mac]))
   } catch (error) {
     logger.error(error)

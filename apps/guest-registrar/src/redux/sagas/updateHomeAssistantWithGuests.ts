@@ -18,10 +18,10 @@ function* updateHomeAssistantWithGuests(action: AddGuestAction) {
     const results: WithId<Document>[] = yield (
       call as unknown as (args: any[]) => void
     )([findResults, findResults.toArray])
-    logger.info(JSON.stringify(results, null, 2))
+    logger.debug(JSON.stringify(results, null, 2))
     const macs = results.map((r) => r.mac)
     logger.info("Registered guest MACs")
-    logger.info(JSON.stringify(macs, null, 2))
+    logger.debug(JSON.stringify(macs, null, 2))
     for (const mac in macs) {
       const mqtt: AsyncMqttClient = yield call(createMqtt)
       yield call<

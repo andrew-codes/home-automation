@@ -1,0 +1,10 @@
+automation:
+  - alias: Guest group entities set on restart
+    id: guest_group_entities_set_on_restart
+    trigger:
+      - platform: homeassistant
+        event: start
+    action:
+      - service: mqtt.publish
+        data:
+          topic: "homeassistant/restarted"

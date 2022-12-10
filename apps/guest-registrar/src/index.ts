@@ -15,7 +15,8 @@ async function run() {
     const sagaMiddleware = createSagaMiddleware()
     const store = createStore(reducer, applyMiddleware(sagaMiddleware))
     store.subscribe(() => {
-      logger.debug("State change", store.getState())
+      logger.debug("State change")
+      logger.debug(JSON.stringify(store.getState(), null, 2))
     })
     sagaMiddleware.run(saga)
     store.dispatch(updateHomeAssistantWithGuests())
