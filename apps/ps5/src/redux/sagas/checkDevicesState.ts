@@ -9,32 +9,26 @@ import { updateHomeAssistant } from "../actionCreators"
 const logger = createLogger()
 
 function* checkDevicesState() {
+  logger.info("Check device state.")
   const devices: Device[] = yield select(getDevices)
   for (const device of devices) {
     try {
-      logger.info("Checking device state for device")
-      logger.info(JSON.stringify(device, null, 2))
-      const { stdout, stderr } = sh.exec(
+      logger.info(`Checking device state for device ${device.name}`)
+      logger.debug(JSON.stringify(device, null, 2))
+      const { stdout, stderr, code } = sh.exec(
         `playactor check --host-name ${device.name} --machine-friendly --no-open-urls --no-auth;`,
       )
       if (stderr) {
-        throw new Error(stderr)
+        logger.error(`Exit code: ${code}; ${stderr}`)
       }
-      const updatedDevice = JSON.parse(stdout)
-      logger.info("Parsed device JSON")
-      logger.info(JSON.stringify(updatedDevice, null, 2))
 
-      logger.info("Device status (old, new), availability")
-      logger.info(JSON.stringify(device, null, 2))
-      logger.info(JSON.stringify(updatedDevice, null, 2))
-      if (device.status !== updatedDevice.status || !device.available) {
-        const newDevice = merge({}, device, {
-          status: updatedDevice.status,
-          available: true,
-        })
-        logger.info("Update HA")
-        yield put(updateHomeAssistant(newDevice))
-      }
+      const updatedDevice = JSON.parse(stdout)
+      logger.debug(`Parsed device JSON:
+${JSON.stringify(updatedDevice, null, 2)}`)
+      const newDevice = merge({}, device, updatedDevice, {
+        available: true,
+      })
+      yield put(updateHomeAssistant(newDevice))
     } catch (e) {
       logger.error(e)
       yield put(

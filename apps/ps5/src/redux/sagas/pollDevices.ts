@@ -4,9 +4,9 @@ import { checkDevicesState } from "../actionCreators"
 
 const logger = createLogger()
 function* pollDevices() {
+  logger.info("Polling devices")
   while (true) {
     try {
-      logger.info('Check devices state')
       yield put(checkDevicesState())
       yield delay(1000)
     } catch (e) {

@@ -5,10 +5,15 @@ type Device = {
   available: boolean
   status: SwitchStatus
   type: "PS5" | "PS4"
+  extras: {
+    status: Ps5Status
+    statusCode: number
+    statusMessage: string
+  }
   address: {
     address: string
     port: number
-  },
+  }
   systemVersion: string
 }
 

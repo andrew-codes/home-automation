@@ -23,6 +23,7 @@ async function run() {
     const store = createStore(reducer, applyMiddleware(sagaMiddleware))
     store.subscribe(() => {
       logger.debug("State change", store.getState())
+      logger.debug(JSON.stringify(store.getState(), null, 2))
     })
     sagaMiddleware.run(saga)
     const mqtt = await createMqtt()

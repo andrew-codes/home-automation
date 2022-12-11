@@ -7,22 +7,31 @@ import type { UpdateHomeAssistantAction } from "../types"
 const logger = createLogger()
 
 function* updateHomeAssistant(action: UpdateHomeAssistantAction) {
-  logger.info("updateHomeAssistantSaga")
-  logger.info(JSON.stringify(action.payload, null, 2))
+  logger.info("Updating HA")
+  logger.debug(JSON.stringify(action.payload, null, 2))
   const mqtt: AsyncMqttClient = yield call(createMqtt)
   yield call<
     (
       topic: string,
       message: string | Buffer,
-      { qos: number },
+      { qos }: { qos: number },
     ) => Promise<IPublishPacket>
   >(
     mqtt.publish.bind(mqtt),
-    `playstation/${action.payload.device.id}`,
-    JSON.stringify({
-      power: action.payload.device.status,
-      device_status: action.payload.device.available ? "online" : "offline",
-    }),
+    `playstation/${action.payload.device.id}/available`,
+    action.payload.device.available ? "online" : "offline",
+    { qos: 1 },
+  )
+  yield call<
+    (
+      topic: string,
+      message: string | Buffer,
+      { qos }: { qos: number },
+    ) => Promise<IPublishPacket>
+  >(
+    mqtt.publish.bind(mqtt),
+    `playstation/${action.payload.device.id}/state`,
+    action.payload.device.status,
     { qos: 1 },
   )
 }

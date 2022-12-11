@@ -1,4 +1,13 @@
-import { all, call, fork, race, take, takeLatest } from "redux-saga/effects"
+import {
+  all,
+  call,
+  delay,
+  fork,
+  race,
+  take,
+  takeLatest,
+} from "redux-saga/effects"
+import { createLogger } from "@ha/logger"
 import { discoverDevices } from "./sagas/discoverDevices"
 import { registerWithHomeAssistant } from "./sagas/registerWithHomeAssistant"
 import { turnOnDevice } from "./sagas/turnOnDevice"
@@ -7,6 +16,8 @@ import { updateHomeAssistant } from "./sagas/updateHomeAssistant"
 import { pollDevices } from "./sagas/pollDevices"
 import { checkDevicesState } from "./sagas/checkDevicesState"
 import { pollDisovery } from "./sagas/pollDiscovery"
+
+const logger = createLogger()
 
 function* discoverDevicesSaga() {
   yield takeLatest("DISCOVER_DEVICES", discoverDevices)
@@ -38,10 +49,14 @@ function* checkDevicesStateSaga() {
 
 function* pollPs5StatesSaga() {
   yield takeLatest("POLL_DEVICES", function* pollingRace() {
-    yield race({
-      task: call(pollDevices),
-      cancel: take("APPLY_TO_DEVICE"),
-    })
+    while (true) {
+      yield race({
+        task: call(pollDevices),
+        cancel: take("APPLY_TO_DEVICE"),
+      })
+      logger.info("Temporarily stopping polling, will resume shortly.")
+      yield delay(6000)
+    }
   })
 }
 
@@ -56,7 +71,7 @@ function* saga() {
       checkDevicesStateSaga,
       pollPs5StatesSaga,
       pollDisoverySaga,
-    ].map((saga) => fork(saga))
+    ].map((saga) => fork(saga)),
   )
 }
 

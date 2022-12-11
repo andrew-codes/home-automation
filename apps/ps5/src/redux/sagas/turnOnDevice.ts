@@ -13,7 +13,7 @@ function* turnOnDevice(action: ApplyToDeviceAction) {
   }
 
   logger.info("Turning on device")
-  logger.info(JSON.stringify(action.payload, null, 2))
+  logger.debug(JSON.stringify(action.payload, null, 2))
   const { stdout, stderr, code } = sh.exec(
     `playactor wake --ip ${action.payload.device.address.address} --timeout 5000 --connect-timeout 5000 --no-open-urls --no-auth;`,
     { timeout: 5000 },
@@ -24,9 +24,7 @@ function* turnOnDevice(action: ApplyToDeviceAction) {
   }
 
   yield put(
-    updateHomeAssistant(
-      merge({}, action.payload.device, { status: "AWAKE", available: true }),
-    ),
+    updateHomeAssistant(merge({}, action.payload.device, { status: "AWAKE" })),
   )
 }
 

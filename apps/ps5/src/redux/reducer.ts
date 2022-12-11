@@ -10,7 +10,9 @@ const reducer = (state = defaultState, action: AnyAction) => {
     case "UPDATE_HOME_ASSISTANT": {
       return merge({}, state, {
         devices: {
-          [action.payload.device.id]: action.payload.device
+          [action.payload.device.id]: merge({}, action.payload.device, {
+            status: action.payload.device.extras.status,
+          }),
         },
       })
     }

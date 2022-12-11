@@ -1,9 +1,10 @@
 import { createLogger } from "@ha/logger"
-import { call, put } from "redux-saga/effects"
+import { call, put, select } from "redux-saga/effects"
 import { Discovery } from "playactor/dist/discovery"
 import { toLower, merge } from "lodash"
-import type { DiscoverDevicesAction } from "../types"
+import type { Device, DiscoverDevicesAction } from "../types"
 import { registerDeviceWithHomeAssistant } from "../actionCreators"
+import { getDevices } from "../selectors"
 
 const logger = createLogger()
 
@@ -26,6 +27,7 @@ const useAsyncIterableWithSaga =
     })
 
 function* discoverDevices(action: DiscoverDevicesAction) {
+  logger.info("Discovering devices")
   const discovery = new Discovery()
   const devices = yield call(
     useAsyncIterableWithSaga(
@@ -37,10 +39,17 @@ function* discoverDevices(action: DiscoverDevicesAction) {
     ),
   )
   logger.info("Discovered devices")
-  logger.info(JSON.stringify(devices, null, 2))
+  logger.debug(JSON.stringify(devices, null, 2))
+  const knownDevices: Device[] = yield select(getDevices)
   for (const device of devices) {
-    logger.info("Registering device with HA")
-    logger.info(JSON.stringify(device, null, 2))
+    if (!!knownDevices.find((knownDevice) => knownDevice.id === device.id)) {
+      logger.info(`Device already known to HA: ${device.name}`)
+
+      return
+    }
+
+    logger.info(`Registering device, ${device.name} with HA`)
+    logger.debug(JSON.stringify(device, null, 2))
     yield put(
       registerDeviceWithHomeAssistant(
         merge({}, device, {

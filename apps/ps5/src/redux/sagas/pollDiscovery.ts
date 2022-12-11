@@ -7,7 +7,7 @@ const logger = createLogger()
 function* pollDisovery() {
   while (true) {
     try {
-      logger.info('Discover devices')
+      logger.info("Polling the discovery of devices")
       yield put(discoverDevices())
       yield delay(15000)
     } catch (e) {

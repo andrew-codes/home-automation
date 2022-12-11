@@ -12,13 +12,13 @@ function* registerWithHomeAssistant(
   action: RegisterDeviceWithHomeAssistantAction,
 ) {
   logger.info("Registering with HA")
-  logger.info(JSON.stringify(action.payload, null, 2))
+  logger.debug(JSON.stringify(action.payload, null, 2))
   const mqtt: AsyncMqttClient = yield call(createMqtt)
   yield call<
     (
       topic: string,
       message: string | Buffer,
-      { qos: number },
+      { qos }: { qos: number },
     ) => Promise<IPublishPacket>
   >(
     mqtt.publish.bind(mqtt),
@@ -26,15 +26,14 @@ function* registerWithHomeAssistant(
     JSON.stringify({
       availability: [
         {
-          topic: `playstation/${action.payload.id}`,
-          value_template: "{{ value_json.device_status }}",
+          topic: `playstation/${action.payload.id}/available`,
           payload_available: "online",
           payload_not_available: "offline",
         },
       ],
       name: `${action.payload.name} Switch Power`,
       command_topic: `playstation/${action.payload.id}/set/power`,
-      state_topic: `playstation/${action.payload.id}`,
+      state_topic: `playstation/${action.payload.id}/state`,
       optimistic: false,
       icon: "mdi:sony-playstation",
       payload_available: "online",
@@ -55,9 +54,7 @@ function* registerWithHomeAssistant(
     { qos: 1 },
   )
 
-  yield put(
-    updateHomeAssistant(merge({}, action.payload, { status: "UNKNOWN" })),
-  )
+  yield put(updateHomeAssistant(merge({}, action.payload)))
 }
 
 export { registerWithHomeAssistant }
