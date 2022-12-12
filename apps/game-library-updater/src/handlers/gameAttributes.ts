@@ -67,10 +67,13 @@ const messageHandler: MessageHandler = {
   shouldHandle: (topic) => /^playnite\/library\/games\/attributes$/.test(topic),
   handle: async (topic, payload) => {
     try {
-      logger.info("Handler for topic")
-      logger.info(topic)
+      logger.info(`Game attributes handling topic: ${topic}`)
       const deserializedGames = flow(JSON.parse, formatKeys)(payload.toString())
+      logger.debug(`Payload:
+${deserializedGames}`)
       const games = toGames(deserializedGames)
+      logger.debug(`Games in payload:
+${JSON.stringify(games, null, 2)}`)
 
       const nonForeignKeys = toNonForeignKeys(games)
       const toGamesWithoutForeignKeys = flow(map(pick(nonForeignKeys)))
@@ -88,11 +91,15 @@ const messageHandler: MessageHandler = {
       const dbInserts = flow(
         prepareForDbInsert,
         map(([key, value]) =>
-          map((item) =>
-            db
+          map((item) => {
+            logger.debug(
+              `Updating item ${item._id};
+${JSON.stringify(item, null, 2)}`,
+            )
+            return db
               .collection(key)
-              .updateOne({ _id: item._id }, { $set: item }, { upsert: true }),
-          )(value),
+              .updateOne({ _id: item._id }, { $set: item }, { upsert: true })
+          })(value),
         ),
         flatten,
       )

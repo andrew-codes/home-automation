@@ -1,8 +1,7 @@
 jest.mock("@ha/mqtt-client")
-jest.mock("@ha/mqtt-heartbeat")
+jest.mock("@ha/http-heartbeat")
 import { createMqtt } from "@ha/mqtt-client"
-import { createHeartbeat } from "@ha/mqtt-heartbeat"
-import { when } from "jest-when"
+import { createHeartbeat } from "@ha/http-heartbeat"
 import run from "../"
 
 describe("game library updater", () => {
@@ -13,15 +12,12 @@ describe("game library updater", () => {
     jest
       .mocked<() => Promise<{ subscribe; on }>>(createMqtt)
       .mockResolvedValue({ subscribe, on })
-
   })
 
   test("sets up a heartbeat health check", async () => {
     await run()
 
-    expect(createHeartbeat).toBeCalledWith(
-      "game-library-updater",
-    )
+    expect(createHeartbeat).toBeCalled()
   })
 
   test("Subscribes to playnite library updates.", async () => {
