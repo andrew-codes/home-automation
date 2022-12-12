@@ -32,7 +32,7 @@ media_player:
         service: script.gaming_room_turn_on_gaming_pc
       turn_off:
         service: button.press
-        entithy_id: button.gaming_pc_sleep
+        entity_id: button.gaming_pc_sleep
       volume_set:
         service: media_player.volume_set
         entity_id: media_player.gaming_room_avr
