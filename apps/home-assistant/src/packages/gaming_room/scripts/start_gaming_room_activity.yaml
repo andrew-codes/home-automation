@@ -18,5 +18,8 @@ script:
             state: "home"
           - condition: template
             value_template: "{{ state_attr('media_player.gaming_room_nvidia_sheild_pro', 'source') != 'Spotify' }}"
+      - condition: state
+        entity_id: person.andrew_smith
+        state: "home"
       - service: media_player.turn_on
         entity_id: media_player.gaming_room_tv

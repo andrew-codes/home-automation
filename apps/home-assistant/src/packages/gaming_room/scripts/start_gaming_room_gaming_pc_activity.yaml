@@ -16,6 +16,6 @@ script:
         entity_id: person.andrew_smith
         state: "home"
       - service: media_player.volume_set
-        entity_id: media_player.gaming_room_media_player
+        entity_id: media_player.gaming_room_avr
         data:
           volume_level: 0.42
