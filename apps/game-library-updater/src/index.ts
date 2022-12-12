@@ -7,7 +7,7 @@ const logger = createLogger()
 
 async function run() {
   logger.info("Started")
-  await createHeartbeat("game-library-updater")
+  await createHeartbeat()
   const mqtt = await createMqtt()
   await mqtt.subscribe("playnite/library/#")
 
