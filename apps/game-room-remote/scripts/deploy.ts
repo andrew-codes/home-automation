@@ -19,7 +19,7 @@ const run = async (
       image: `${registry.value}/${name}:latest`,
       name,
       secrets,
-      port: parseint(port.value),
+      port: parseInt(port.value),
     },
   )
   const resourceJson = JSON.parse(resources)

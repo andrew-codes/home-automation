@@ -19,7 +19,7 @@ const run = async (
   //     image: `${registry}/${name}:latest`,
   //     name,
   //     secrets: secrets,
-  //     port: parseint(port_external),
+  //     port: parseInt(port_external),
   //   },
   // )
   // const resourceJson = JSON.parse(resources)

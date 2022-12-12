@@ -65,7 +65,7 @@ const run = async (
       repositoryName: repositoryName.value,
       repositoryOwner: repositoryOwner.value,
       registryHostname: registry.value,
-      port: parseint(port.value),
+      port: parseInt(port.value),
       secrets,
     },
   )

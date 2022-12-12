@@ -24,7 +24,7 @@ const run = async (
   //     name,
   //     registryHostname: registry,
   //     secrets,
-  //     port: parseint(port_external),
+  //     port: parseInt(port_external),
   //     external_rmtp_port: parseInt(parseInt(external_rmtp_port)),
   //   },
   // )

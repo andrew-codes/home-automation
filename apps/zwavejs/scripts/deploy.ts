@@ -18,7 +18,7 @@ const run = async (
       image: `zwavejs/zwavejs2mqtt:latest`,
       name,
       secrets,
-      port: parseint(port_external.value),
+      port: parseInt(port_external.value),
       registryHostname: registry.value,
       wsPort: parseInt(wsPort.value),
     },

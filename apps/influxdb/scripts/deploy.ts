@@ -29,7 +29,7 @@ const run = async (
       DOCKER_INFLUXDB_INIT_PASSWORD: DOCKER_INFLUXDB_INIT_PASSWORD.value,
       DOCKER_INFLUXDB_INIT_ORG: DOCKER_INFLUXDB_INIT_ORG.value,
       DOCKER_INFLUXDB_INIT_BUCKET: DOCKER_INFLUXDB_INIT_BUCKET.value,
-      port: parseint(port.value),
+      port: parseInt(port.value),
       secrets,
     },
   )
