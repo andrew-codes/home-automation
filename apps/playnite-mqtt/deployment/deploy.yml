@@ -1,0 +1,45 @@
+---
+- hosts: all
+  gather_facts: yes
+  connection: winrm
+  vars_files:
+    - ../.secrets/ansible-secrets.yml
+
+  tasks:
+    - name: Ensure Steam is installed
+      win_chocolatey:
+        name: steam
+        state: present
+
+    - name: Ensure Epic is installed
+      win_chocolatey:
+        name: epicgameslauncher
+        state: present
+
+    - name: Remove GOG
+      win_chocolatey:
+        name: goggalaxy
+        state: absent
+
+    - name: Ensure Playnite is installed
+      win_chocolatey:
+        name: playnite
+        state: present
+
+    - name: Ensure Uplay is installed
+      win_chocolatey:
+        name: uplay
+        state: present
+
+    - name: Playnite supported dotnet version is installed
+      win_chocolatey:
+        name: netfx-4.6.2-devpack
+        state: present
+
+    - name: Copy playnite-mqtt DLLs
+      ansible.windows.win_copy:
+        src: src/bin/Release
+        dest: C:\Playnite-MQTT
+      vars:
+        ansible_become_user: "{{ user }}"
+        ansible_become_password: "{{ ansible_password }}"

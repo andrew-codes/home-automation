@@ -2,6 +2,7 @@ FROM summerwind/actions-runner-dind-rootless:ubuntu-20.04
 ENV DEBIAN_FRONTEND=noninteractive
 USER root
 RUN apt update -y
+RUN apt-get install apt-transport-https
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 RUN echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
@@ -9,12 +10,16 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 RUN apt-add-repository -y --update ppa:ansible/ansible
 RUN add-apt-repository ppa:deadsnakes/ppa
+RUN wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+RUN dpkg -i packages-microsoft-prod.deb
+RUN rm packages-microsoft-prod.deb
 RUN apt update -y
 RUN apt-get install -y \
   ansible \ 
-apt-transport-https \
-  bash \
+bash \
   dbus-user-session \
+  dotnet-runtime-7.0 \
+  dotnet-sdk-7.0 \
   etherwake \
   gettext-base \
   gnupg2 \
@@ -63,6 +68,6 @@ RUN curl -Os https://uploader.codecov.io/latest/linux/codecov
 RUN chmod +x codecov
 RUN ln -s codecov /usr/local/bin
 COPY ./entrypoint.sh ./entrypoint.custom.sh
-USER runner
 RUN mkdir -p /home/runner/.config/docker
 RUN echo '{ "features": { "buildkit": true }, "exec-opts": [], "insecure-registries": ["docker-registry:5000"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' | tee /home/runner/.config/docker/daemon.json
+USER runner

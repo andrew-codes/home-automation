@@ -1,0 +1,23 @@
+{
+  "root": "apps/playnite-mqtt",
+  "sourceRoot": "apps/playnite-mqtt/src",
+  "projectType": "application",
+  "targets": {
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "rm -rf src/bin src/obj src/.vs",
+        "cwd": "apps/playnite-mqtt"
+      }
+    },
+    "deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/playnite-mqtt",
+        "module": "scripts/deploy.ts"
+      }
+    }
+  },
+  "tags": ["windows"],
+  "implicitDependencies": ["secrets"]
+}
