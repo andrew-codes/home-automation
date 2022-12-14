@@ -271,7 +271,7 @@ namespace MQTTClient
             logger.Info($"Publishing {games.Count()} games.");
             await client.PublishStringAsync($"{topicPart}/games/attributes", serializer.Serialize(games), retain: false, qualityOfServiceLevel: MqttQualityOfServiceLevel.AtLeastOnce);
 
-            var platforms = games.SelectMany(game => game.Platforms).Distinct();
+            var platforms = games.Where(game => game.Platforms != null).SelectMany(game => game.Platforms).Distinct();
             logger.Info($"Publishing {platforms.Count()} platforms.");
             await client.PublishStringAsync($"{topicPart}/platforms/attributes", serializer.Serialize(platforms), retain: false, qualityOfServiceLevel: MqttQualityOfServiceLevel.AtLeastOnce);
 
