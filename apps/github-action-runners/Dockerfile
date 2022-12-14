@@ -1,5 +1,6 @@
 FROM summerwind/actions-runner-dind-rootless:ubuntu-20.04
 ENV DEBIAN_FRONTEND=noninteractive
+ENV OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 USER root
 RUN apt update -y
 RUN apt-get install apt-transport-https

@@ -16,11 +16,6 @@
         name: epicgameslauncher
         state: present
 
-    - name: Remove GOG
-      win_chocolatey:
-        name: goggalaxy
-        state: absent
-
     - name: Ensure Playnite is installed
       win_chocolatey:
         name: playnite
@@ -38,7 +33,7 @@
 
     - name: Copy playnite-mqtt DLLs
       ansible.windows.win_copy:
-        src: src/bin/Release
+        src: ../src/bin/Release
         dest: C:\Playnite-MQTT
       vars:
         ansible_become_user: "{{ user }}"
