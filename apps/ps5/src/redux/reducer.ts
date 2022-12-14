@@ -16,6 +16,13 @@ const reducer = (state = defaultState, action: AnyAction) => {
         },
       })
     }
+    case "CLEAR_ALL_DEVICES":
+      const newState = merge({}, state)
+      state.devices = {}
+
+      return state
+    default:
+      return state
   }
 
   return state

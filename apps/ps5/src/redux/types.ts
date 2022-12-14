@@ -44,6 +44,10 @@ type ApplyToDeviceAction = {
   }
 }
 
+type ClearAllDevicesAction = {
+  type: "CLEAR_ALL_DEVICES"
+}
+
 type UpdateDeviceAction = {
   type: "UPDATE_DEVICE"
   payload: Partial<Device> & { id: string }
@@ -62,6 +66,7 @@ type PollDiscoveryAction = {
 }
 
 type AnyAction =
+  | ClearAllDevicesAction
   | RegisterDeviceWithHomeAssistantAction
   | ApplyToDeviceAction
   | CheckDevicesStateAction
@@ -77,6 +82,7 @@ type State = {
 
 export type {
   RegisterDeviceWithHomeAssistantAction,
+  ClearAllDevicesAction,
   AnyAction,
   ApplyToDeviceAction,
   CheckDevicesStateAction,
