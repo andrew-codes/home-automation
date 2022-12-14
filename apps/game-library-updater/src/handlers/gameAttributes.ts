@@ -93,12 +93,12 @@ ${JSON.stringify(games, null, 2)}`)
         map(([key, value]) =>
           map((item) => {
             logger.debug(
-              `Updating item ${item._id};
+              `Updating item ${item.id};
 ${JSON.stringify(item, null, 2)}`,
             )
             return db
               .collection(key)
-              .updateOne({ _id: item._id }, { $set: item }, { upsert: true })
+              .updateOne({ _id: item.id }, { $set: item }, { upsert: true })
           })(value),
         ),
         flatten,
