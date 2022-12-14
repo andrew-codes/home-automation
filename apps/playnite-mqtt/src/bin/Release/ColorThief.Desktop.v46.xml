@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ColorThief.Desktop.v46</name>
+    </assembly>
+    <members>
+        <member name="M:ColorThiefDotNet.ColorThief.GetColor(System.Drawing.Bitmap,System.Int32,System.Boolean)">
+            <summary>
+                Use the median cut algorithm to cluster similar colors and return the base color from the largest cluster.
+            </summary>
+            <param name="sourceImage">The source image.</param>
+            <param name="quality">
+                1 is the highest quality settings. 10 is the default. There is
+                a trade-off between quality and speed. The bigger the number,
+                the faster a color will be returned but the greater the
+                likelihood that it will not be the visually most dominant color.
+            </param>
+            <param name="ignoreWhite">if set to <c>true</c> [ignore white].</param>
+            <returns></returns>
+        </member>
+        <member name="M:ColorThiefDotNet.ColorThief.GetPalette(System.Drawing.Bitmap,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+                Use the median cut algorithm to cluster similar colors.
+            </summary>
+            <param name="sourceImage">The source image.</param>
+            <param name="colorCount">The color count.</param>
+            <param name="quality">
+                1 is the highest quality settings. 10 is the default. There is
+                a trade-off between quality and speed. The bigger the number,
+                the faster a color will be returned but the greater the
+                likelihood that it will not be the visually most dominant color.
+            </param>
+            <param name="ignoreWhite">if set to <c>true</c> [ignore white].</param>
+            <returns></returns>
+            <code>true</code>
+        </member>
+        <member name="M:ColorThiefDotNet.ColorThief.GetColorMap(System.Byte[][],System.Int32)">
+            <summary>
+                Use the median cut algorithm to cluster similar colors.
+            </summary>
+            <param name="pixelArray">Pixel array.</param>
+            <param name="colorCount">The color count.</param>
+            <returns></returns>
+        </member>
+        <member name="T:ColorThiefDotNet.CMap">
+            <summary>
+                Color map
+            </summary>
+        </member>
+        <member name="T:ColorThiefDotNet.Color">
+            <summary>
+                Defines a color in RGB space.
+            </summary>
+        </member>
+        <member name="F:ColorThiefDotNet.Color.A">
+            <summary>
+                Get or Set the Alpha component value for sRGB.
+            </summary>
+        </member>
+        <member name="F:ColorThiefDotNet.Color.B">
+            <summary>
+                Get or Set the Blue component value for sRGB.
+            </summary>
+        </member>
+        <member name="F:ColorThiefDotNet.Color.G">
+            <summary>
+                Get or Set the Green component value for sRGB.
+            </summary>
+        </member>
+        <member name="F:ColorThiefDotNet.Color.R">
+            <summary>
+                Get or Set the Red component value for sRGB.
+            </summary>
+        </member>
+        <member name="M:ColorThiefDotNet.Color.ToHsl">
+            <summary>
+                Get HSL color.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ColorThiefDotNet.HslColor">
+            <summary>
+                Defines a color in Hue/Saturation/Lightness (HSL) space.
+            </summary>
+        </member>
+        <member name="F:ColorThiefDotNet.HslColor.A">
+            <summary>
+                The Alpha/opacity in 0..1 range.
+            </summary>
+        </member>
+        <member name="F:ColorThiefDotNet.HslColor.H">
+            <summary>
+                The Hue in 0..360 range.
+            </summary>
+        </member>
+        <member name="F:ColorThiefDotNet.HslColor.L">
+            <summary>
+                The Lightness in 0..1 range.
+            </summary>
+        </member>
+        <member name="F:ColorThiefDotNet.HslColor.S">
+            <summary>
+                The Saturation in 0..1 range.
+            </summary>
+        </member>
+        <member name="M:ColorThiefDotNet.Mmcq.GetHisto(System.Collections.Generic.IEnumerable{System.Byte[]})">
+            <summary>
+                Gets the histo.
+            </summary>
+            <param name="pixels">The pixels.</param>
+            <returns>Histo (1-d array, giving the number of pixels in each quantized region of color space), or null on error.</returns>
+        </member>
+        <member name="M:ColorThiefDotNet.Mmcq.Iter(System.Collections.Generic.List{ColorThiefDotNet.VBox},System.Collections.Generic.IComparer{ColorThiefDotNet.VBox},System.Int32,System.Collections.Generic.IList{System.Int32})">
+            <summary>
+                Inner function to do the iteration.
+            </summary>
+            <param name="lh">The lh.</param>
+            <param name="comparator">The comparator.</param>
+            <param name="target">The target.</param>
+            <param name="histo">The histo.</param>
+            <exception cref="T:System.Exception">vbox1 not defined; shouldn't happen!</exception>
+        </member>
+        <member name="T:ColorThiefDotNet.VBox">
+            <summary>
+                3D color space box.
+            </summary>
+        </member>
+    </members>
+</doc>
