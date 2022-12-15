@@ -4,7 +4,6 @@ import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
-import { throwIfError } from "@ha/shell-utils"
 import { name } from "./config"
 
 const run = async (
