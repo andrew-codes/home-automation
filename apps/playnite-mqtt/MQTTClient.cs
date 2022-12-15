@@ -191,15 +191,6 @@ namespace MQTTClient
             await PublishGames(PlayniteApi.Database.Games);
             PlayniteApi.Database.Games.ItemCollectionChanged += Games_ItemCollectionChanged;
             PlayniteApi.Database.Games.ItemUpdated += Games_ItemUpdated;
-            client.ApplicationMessageReceivedAsync += Handle_Message;
-            await client.SubscribeAsync(new MqttClientSubscribeOptions { TopicFilters = new List<MQTTnet.Packets.MqttTopicFilter>() { new MQTTnet.Packets.MqttTopicFilter() { Topic = "playnite/library/refresh" } } });
-        }
-
-        private Task Handle_Message(MqttApplicationMessageReceivedEventArgs arg)
-        {
-            PublishGames(PlayniteApi.Database.Games).Wait();
-
-            return Task.CompletedTask;
         }
 
         private void DisconnectMenuAction(MainMenuItemActionArgs obj)
