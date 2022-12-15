@@ -9,7 +9,7 @@
     "@ha/http-heartbeat": "^0.0.1",
     "@ha/logger": "^0.0.1",
     "@ha/mqtt-client": "^0.0.1",
-    "@ha/shell-utils": "^0.0.1",
+    "@ha/shell-utils": "^1.0.0",
     "async-mqtt": "^2.6.1",
     "esbuild-register": "^3.3.2",
     "lodash": "^4.17.21",

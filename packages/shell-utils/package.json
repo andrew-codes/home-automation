@@ -1,11 +1,12 @@
 {
   "private": true,
   "name": "@ha/shell-utils",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "license": "MIT",
   "main": "src/index.ts",
   "dependencies": {
     "@ha/env-utils": "^0.0.1",
-    "@ha/logger": "^0.0.1"
+    "@ha/logger": "^0.0.1",
+    "debug": "^4.3.4"
   }
 }

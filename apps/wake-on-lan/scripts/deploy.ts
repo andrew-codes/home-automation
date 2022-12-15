@@ -23,9 +23,11 @@ const run = async (
   )
   sh.exec(`kubectl delete deployment ${name}`)
   const resourceJson = JSON.parse(resources)
-  resourceJson.forEach((resource) => {
-    kubectl.applyToCluster(JSON.stringify(resource))
-  })
+  await Promise.all(
+    resourceJson.map((resource) =>
+      kubectl.applyToCluster(JSON.stringify(resource)),
+    ),
+  )
 }
 
 export default run

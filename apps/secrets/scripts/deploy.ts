@@ -15,7 +15,7 @@ const run = async (
   )
   const resourceJson = JSON.parse(resources)
   Object.values(resourceJson).forEach((resource) => {
-    kubectl.applyToCluster(JSON.stringify(resource))
+    await kubectl.applyToCluster(JSON.stringify(resource))
   })
 
   await fs.mkdir(path.join(__dirname, "..", ".secrets"), { recursive: true })
@@ -36,7 +36,7 @@ const run = async (
   )
 
   sh.exec(`kubectl delete secret ssh;`, { silent: true })
-  throwIfError(
+  await throwIfError(
     sh.exec(
       `kubectl create secret generic ssh --from-file=${path.join(
         __dirname,

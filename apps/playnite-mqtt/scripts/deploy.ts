@@ -55,7 +55,7 @@ ${devSshPub.value}`,
     "utf8",
   )
 
-  throwIfError(
+  await await throwIfError(
     sh.exec(
       `ansible-playbook ${path.join(
         __dirname,
@@ -68,7 +68,7 @@ ${devSshPub.value}`,
         ".secrets",
         "hosts.yml",
       )} --extra-vars "ansible_become_pass='${password.value}'" -vvv;`,
-      { silent: true },
+      { async: true, silent: true },
     ),
   )
 }

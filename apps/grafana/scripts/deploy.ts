@@ -18,16 +18,18 @@ const run = async (
     {
       grafana_username: grafana_username.value,
       grafana_password: grafana_password.value,
-      port:port.value,
-      grafana_influxdb_token:grafana_influxdb_token.value,
+      port: port.value,
+      grafana_influxdb_token: grafana_influxdb_token.value,
     },
   )
   const deploymentsJson = JSON.parse(deployments).grafana
-  Object.values(deploymentsJson).forEach((deployment) => {
-    kubectl.applyToCluster(JSON.stringify(deployment))
-  })
+  await Promise.all(
+    Object.values(deploymentsJson).map((deployment) =>
+      kubectl.applyToCluster(JSON.stringify(deployment)),
+    ),
+  )
 
-  kubectl.rolloutDeployment("restart", "grafana")
+  await kubectl.rolloutDeployment("restart", "grafana")
 }
 
 export default run

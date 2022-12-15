@@ -29,8 +29,8 @@ const run = async (
     `terraform init && terraform plan && terraform apply --auto-approve;`,
     { silent: true },
   )
-  throwIfError(terraformProcess)
-  throwIfError(
+  await throwIfError(terraformProcess)
+  await throwIfError(
     sh.exec(
       `
 ssh -i ~/.ssh/proxmox ${username}@${pveHost.value} '

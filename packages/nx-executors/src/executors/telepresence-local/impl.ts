@@ -1,9 +1,5 @@
-import fs from "fs"
-import path from "path"
 import sh from "shelljs"
-import { createConfigurationApi } from "@ha/configuration-workspace"
 import type { ExecutorContext } from "@nrwl/devkit"
-import { spawn } from "child_process"
 import { throwIfError } from "@ha/shell-utils"
 
 interface TelepresenceExecutorOptions {
@@ -27,7 +23,7 @@ async function executor(
     }" --service "${options.serviceName ?? context.projectName}" --port ${
       options.port
     }:${options.port} --mount false -- ${options.command}`
-    throwIfError(sh.exec(command, { cwd: options.cwd }))
+    await throwIfError(sh.exec(command, { cwd: options.cwd }))
   } catch (error) {
     console.log(error)
     return { success: false }

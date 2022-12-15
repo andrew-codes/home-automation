@@ -31,7 +31,7 @@ const run = async (
     unifiCaptivePortal,
     "utf8",
   )
-  // throwIfError(
+  // await throwIfError(
   //   sh.exec(
   //     `scp -O ${path.join(__dirname, "..", ".secrets", "unifi.html")} "root@${
   //       unifiIp.value
@@ -57,11 +57,13 @@ const run = async (
     },
   )
   const resourceJson = JSON.parse(resources)
-  resourceJson.forEach((resource) => {
-    kubectl.applyToCluster(JSON.stringify(resource))
-  })
+  await Promise.all(
+    resourceJson.map((resource) =>
+      kubectl.applyToCluster(JSON.stringify(resource)),
+    ),
+  )
 
-  kubectl.rolloutDeployment("restart", name)
+  await kubectl.rolloutDeployment("restart", name)
 }
 
 export default run

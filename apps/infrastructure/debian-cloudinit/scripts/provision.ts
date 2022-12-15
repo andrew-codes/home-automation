@@ -18,7 +18,7 @@ const run = async (
     { silent: true },
   )
 
-  throwIfError(
+  await throwIfError(
     sh.exec(
       `
     ssh -i ~/.ssh/proxmox ${username}@${pveHost.value} '

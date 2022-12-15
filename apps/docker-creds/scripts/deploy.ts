@@ -17,13 +17,13 @@ const run = async (
   const deleteOldCreds = sh.exec(`kubectl delete secret regcred || true;`, {
     silent: true,
   })
-  throwIfError(deleteOldCreds)
+  await throwIfError(deleteOldCreds)
 
   const createCreds = sh.exec(
     `kubectl create secret docker-registry regcred --docker-username="${username.value}" --docker-password="${password.value}" --docker-server="${hostname.value}";`,
     { silent: true },
   )
-  throwIfError(createCreds)
+  await throwIfError(createCreds)
 }
 
 export default run

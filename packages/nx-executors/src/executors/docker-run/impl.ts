@@ -45,7 +45,7 @@ ${(options.envOverrides ?? []).join(`
       .map((volumeMapping) => `-v "${volumeMapping}"`)
       .join(" ")
     const command = `docker run --name ${context.projectName} --rm -t ${dockerEnvVars} ${dockerVolumes} -p ${options.port} ${options.image}`
-    throwIfError(sh.exec(command))
+    await throwIfError(sh.exec(command))
   } catch (error) {
     console.log(error)
     return { success: false }

@@ -24,7 +24,7 @@ ${command}`
       exitCode = code
     })
     const connectChildProcess = await processPromise
-    throwIfError({ ...connectChildProcess, code: exitCode })
+    await throwIfError({ ...connectChildProcess, code: exitCode })
   } catch (error) {
     console.log(error)
     return { success: false }

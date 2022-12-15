@@ -23,7 +23,7 @@ const run = async (
   )
 
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
-  throwIfError(
+  await throwIfError(
     sh.exec(`ansible-playbook deployment/update.yml -i .secrets/hosts.yml;`),
   )
 }

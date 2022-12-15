@@ -27,7 +27,7 @@ const run = async (
     `terraform init && terraform plan && terraform apply --auto-approve;`,
     { silent: true },
   )
-  throwIfError(terraformProcess)
+  await throwIfError(terraformProcess)
 }
 
 export default run

@@ -10,7 +10,7 @@
   "devDependencies": {
     "@ha/configuration-api": "^0.0.1",
     "@ha/configuration-workspace": "^0.0.1",
-    "@ha/shell-utils": "^0.0.1",
+    "@ha/shell-utils": "^1.0.0",
     "jest-when": "^3.2.1"
   }
 }

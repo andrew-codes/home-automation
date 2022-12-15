@@ -46,7 +46,7 @@ ${devSshPub.value}`,
     "utf8",
   )
 
-  throwIfError(
+  await throwIfError(
     sh.exec(
       `ansible-playbook ${path.join(
         __dirname,

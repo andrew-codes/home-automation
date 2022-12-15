@@ -57,6 +57,11 @@
         name: python2
         state: absent
 
+    - name: Ensure nuget is installed
+      win_chocolatey:
+        name: nuget.commandline
+        state: present
+
     - name: Python is present for node-gyp
       win_chocolatey:
         name: python3
@@ -82,14 +87,12 @@
       win_shell: |
         cd "C:\Users\{{ user }}\developer\repos\home-automation"
         yarn
-      vars:
-        ansible_become_user: "{{ user }}"
-        ansible_become_password: "{{ ansible_password }}"
 
     - name: Compile playnite-mqtt app
       win_shell: |
-        cd "C:\Users\{{ user }}\developer\repos\home-automation"
-        yarn compile playnite-mqtt
+        cd "C:\Users\{{ user }}\developer\repos\home-automation\apps\playnite-mqtt"
+        nuget restore
+        dotnet build
       vars:
         ansible_become_user: "{{ user }}"
         ansible_become_password: "{{ ansible_password }}"

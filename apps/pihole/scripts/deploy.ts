@@ -39,7 +39,7 @@ pihole_password: "${password.value}"`,
     "utf8",
   )
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
-  throwIfError(
+  await throwIfError(
     sh.exec(
       `ansible-playbook ${path.join(
         __dirname,

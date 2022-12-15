@@ -48,7 +48,7 @@ pod_network_cidr: "${networkCIDR.value}"
     "utf8",
   )
 
-  throwIfError(
+  await throwIfError(
     sh.exec(
       `ansible-playbook ${path.join(
         __dirname,
@@ -81,7 +81,7 @@ pod_network_cidr: "${networkCIDR.value}"
   await client.set("K8S_CONFIG", kubeConfig)
 
   sh.env["KUBECONFIG"] = kubeConfigPath
-  throwIfError(sh.exec(`kubectl create sa app;`, { silent: true }))
+  await throwIfError(sh.exec(`kubectl create sa app;`, { silent: true }))
 }
 
 export default run

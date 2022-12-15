@@ -20,7 +20,7 @@ async function executor(
       console.log("No codecov comand, downloading uploader")
       const curlCommand = `curl -s -o ${codeCovPath} https://uploader.codecov.io/latest/linux/codecov && chmod +x ${codeCovPath}`
       const curlCommandChildProcess = await promisify(exec)(curlCommand)
-      throwIfError({
+      await throwIfError({
         ...curlCommandChildProcess,
         code: !!curlCommandChildProcess.stderr ? 1 : 0,
       })
@@ -28,7 +28,7 @@ async function executor(
 
     const command = `${codeCovPath} --file ${options.coverageFilePath} --name ${context.projectName};`
     const commandChildProcess = await promisify(exec)(command)
-    throwIfError({
+    await throwIfError({
       ...commandChildProcess,
       code: !!commandChildProcess.stderr ? 1 : 0,
     })

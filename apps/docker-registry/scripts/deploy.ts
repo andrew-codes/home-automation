@@ -37,7 +37,7 @@ all:
   ).stdout
   await fs.writeFile(path.join(__dirname, "..", ".secrets", "htpasswd"), "utf8")
 
-  throwIfError(
+  await throwIfError(
     sh.exec(
       `ansible-playbook ${path.join(
         __dirname,

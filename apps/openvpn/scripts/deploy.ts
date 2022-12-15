@@ -13,7 +13,9 @@ const run = async (
   const usernames = await configurationApi.get("openvpn/usernames")
   const passwords = await configurationApi.get("openvpn/passwords")
 
-  throwIfError(sh.exec(`mkdir -p ${path.join(__dirname, "..", ".secrets")}`))
+  await throwIfError(
+    sh.exec(`mkdir -p ${path.join(__dirname, "..", ".secrets")}`),
+  )
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "users.env"),
     `
@@ -35,7 +37,7 @@ all:
 
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
 
-  throwIfError(
+  await throwIfError(
     sh.exec(
       `ansible-playbook ${path.join(
         __dirname,

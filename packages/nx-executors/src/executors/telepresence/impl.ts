@@ -52,14 +52,14 @@ ssh -t ${k8sUsername}@${k8sIp} "umount /home/${k8sUsername}/mnt/data/${context.p
     console.log(
       `Mounting ${k8sIp}:/home/${k8sUsername}/mnt/data/${context.projectName} to /tmp/${context.projectName}.`,
     )
-    throwIfError(
+    await throwIfError(
       sh.exec(
         `sshfs ${k8sUsername}@${k8sIp}:/home/${k8sUsername}/mnt/data/${context.projectName} /tmp/${context.projectName}`,
       ),
     )
 
     if (options.pull) {
-      throwIfError(sh.exec(`docker pull ${options.image}`))
+      await throwIfError(sh.exec(`docker pull ${options.image}`))
     }
 
     const command = `telepresence intercept "${

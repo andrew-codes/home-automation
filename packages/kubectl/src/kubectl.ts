@@ -7,20 +7,20 @@ type DeploymentOptions = {
 type DeploymentCommand = "restart"
 
 const kubectl = {
-  applyToCluster: (content: string): void => {
-    throwIfError(
+  applyToCluster: async (content: string): Promise<void> => {
+    await throwIfError(
       sh.exec(`echo -n '${content}' | kubectl apply -f -;`, {
         shell: "/bin/bash",
         silent: true,
       }),
     )
   },
-  rolloutDeployment: (
+  rolloutDeployment: async (
     command: DeploymentCommand,
     deploymentName: string,
     options: DeploymentOptions = { namespace: "default" },
-  ) => {
-    throwIfError(
+  ): Promise<void> => {
+    await throwIfError(
       sh.exec(
         `kubectl -n ${options.namespace} rollout ${command} deployment ${deploymentName};`,
         { silent: true },

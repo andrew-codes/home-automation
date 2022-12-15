@@ -6,7 +6,7 @@ import sh from "shelljs"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  throwIfError(sh.exec("remix dev --port 80"))
+  await throwIfError(sh.exec("remix dev --port 80"))
 }
 
 export default run

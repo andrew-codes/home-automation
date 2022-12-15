@@ -19,11 +19,13 @@ const run = async (
     },
   )
   const resourceJson = JSON.parse(resources)
-  resourceJson.forEach((resource) => {
-    kubectl.applyToCluster(JSON.stringify(resource))
-  })
+  await Promise.all(
+    resourceJson.map((resource) =>
+      kubectl.applyToCluster(JSON.stringify(resource)),
+    ),
+  )
 
-  kubectl.rolloutDeployment("restart", "mqtt")
+  await kubectl.rolloutDeployment("restart", "mqtt")
 }
 
 export default run

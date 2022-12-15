@@ -41,7 +41,7 @@ describe("docker", () => {
     when(sh.exec)
       .calledWith(expect.stringContaining("docker login"), { silent: true })
       .mockReturnValue({ stderr: "error", stdout: "", code: 1 })
-    expect(
+    await expect(
       createClient({
         get,
       } as unknown as ConfigurationApi<Configuration>),
@@ -101,7 +101,7 @@ describe("docker", () => {
       get,
     } as unknown as ConfigurationApi<Configuration>)
 
-    expect(docker.build("some/imageName:latest")).rejects.toThrow("error")
+    await expect(docker.build("some/imageName:latest")).rejects.toThrow("error")
   })
 
   test("Pushing an image to a registy proxy to the docker CLI.", async () => {
@@ -125,6 +125,8 @@ describe("docker", () => {
       get,
     } as unknown as ConfigurationApi<Configuration>)
 
-    expect(docker.pushImage("some/imageName:latest")).rejects.toThrow("error")
+    await expect(docker.pushImage("some/imageName:latest")).rejects.toThrow(
+      "error",
+    )
   })
 })

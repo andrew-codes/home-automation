@@ -29,7 +29,7 @@ const run = async (
     `kubectl delete secret controller-manager --namespace=actions-runner-system;`,
     { silent: true },
   )
-  throwIfError(
+  await throwIfError(
     sh.exec(
       `kubectl create secret generic controller-manager --namespace=actions-runner-system --from-literal=github_token="${githubToken.value}";`,
       { silent: true },
@@ -76,11 +76,13 @@ const run = async (
   await seal(repo_owner, repo_name, "JEST_REPORTER_TOKEN", githubToken.value)
 
   const resourceJson = JSON.parse(resources)
-  resourceJson.forEach((resource) => {
-    kubectl.applyToCluster(JSON.stringify(resource))
-  })
+  await Promise.all(
+    resourceJson.map((resource) =>
+      kubectl.applyToCluster(JSON.stringify(resource)),
+    ),
+  )
 
-  kubectl.rolloutDeployment("restart", "controller-manager", {
+  await kubectl.rolloutDeployment("restart", "controller-manager", {
     namespace: "actions-runner-system",
   })
 }

@@ -18,7 +18,7 @@ const run = async (
     "home-assistant/ssh-key/public",
   )
 
-  throwIfError(
+  await throwIfError(
     sh.exec(`mkdir -p ${path.join(__dirname, "..", ".secrets")};`, {
       silent: true,
     }),
