@@ -6,9 +6,17 @@
     "clean": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "rm -rf src/bin src/obj src/.vs",
+        "command": "rm -rf bin obj .vs",
         "cwd": "apps/playnite-mqtt"
       }
+    },
+    "compile": {
+      "outputs": ["apps/playnite-mqtt/bin/Release"],
+      "executor": "@nx-dotnet/core:build",
+      "options": {
+        "configuration": "Release"
+      },
+      "configurations": { "production": { "configuration": "Release" } }
     },
     "deploy": {
       "executor": "@ha/nx-executors:invoke",

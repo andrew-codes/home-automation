@@ -34,6 +34,8 @@ jobs:
         run: yarn
         env:
           YARN_CACHE_FOLDER: ".yarn-cache"
+      - name: Install jsonnet plugins
+        run: jb install
       - name: Run all tests
         run: yarn test/all
       - name: Coverage

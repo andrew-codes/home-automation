@@ -15,16 +15,15 @@ async function run() {
 
     const topicRegEx = /^homeassistant\/wake-on-lan/
     mqtt.on("message", async (topic, payload) => {
-      logger.info("Message received")
-      logger.info(topic)
-      logger.info(payload)
+      logger.info(`Message received for ${topic}`)
+      logger.debug(payload.toString())
       if (topicRegEx.test(topic)) {
         const matches = topicRegEx.exec(topic)
         if (!matches) {
           return
         }
         logger.info("Topic matched")
-        logger.info("sending wake on lan")
+        logger.info("Sending wake on lan")
         const data = payload.toString()
         await wol(data)
       }

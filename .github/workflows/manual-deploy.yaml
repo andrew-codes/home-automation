@@ -27,6 +27,8 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install deps
         run: yarn
+      - name: Install jsonnet plugins
+        run: jb install
       - name: Deploy apps
         run: yarn deploy ${{ github.event.client_payload.projects }} --exclude docker-registry --exclude k8s --exclude openvpn --exclude pihole --exclude azure-key-vault --verbose
         env:

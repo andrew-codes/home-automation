@@ -26,15 +26,70 @@
         name: uplay
         state: present
 
+    - name: Ensure nuget is installed
+      win_chocolatey:
+        name: nuget.commandline
+        state: present
+
+    - name: Ensure node is installed
+      win_chocolatey:
+        name: nodejs
+        state: present
+
+    - name: Ensure yarn is installed
+      win_chocolatey:
+        name: yarn
+        state: present
+
+    - name: Ensure Git is installed
+      win_chocolatey:
+        name: git
+        package_params: /GitAndUnixToolsOnPath /NoShellIntegration
+        state: present
+
     - name: Playnite supported dotnet version is installed
       win_chocolatey:
         name: netfx-4.6.2-devpack
         state: present
 
-    - name: Copy playnite-mqtt DLLs
-      ansible.windows.win_copy:
-        src: ../src/bin/Release
-        dest: C:\Playnite-MQTT
+    - name: Python2 is present for node-gyp
+      win_chocolatey:
+        name: python2
+        state: absent
+
+    - name: Python is present for node-gyp
+      win_chocolatey:
+        name: python3
+        state: present
+
+    - name: Clone and update Home Automation Repo
+      win_shell: |
+        New-Item -Force -Path "C:\Users\{{ user }}\developer\repos" -ItemType Directory
+        cd "C:\Users\{{ user }}\developer\repos"
+        try {
+          git clone https://github.com/andrew-codes/home-automation.git
+        }
+        catch { }
+        cd home-automation
+        git fetch --all
+        git checkout main
+        git reset --hard origin/main
+      vars:
+        ansible_become_user: "{{ user }}"
+        ansible_become_password: "{{ ansible_password }}"
+
+    - name: Prepare repo
+      win_shell: |
+        cd "C:\Users\{{ user }}\developer\repos\home-automation"
+        yarn
+      vars:
+        ansible_become_user: "{{ user }}"
+        ansible_become_password: "{{ ansible_password }}"
+
+    - name: Compile playnite-mqtt app
+      win_shell: |
+        cd "C:\Users\{{ user }}\developer\repos\home-automation"
+        yarn compile playnite-mqtt
       vars:
         ansible_become_user: "{{ user }}"
         ansible_become_password: "{{ ansible_password }}"

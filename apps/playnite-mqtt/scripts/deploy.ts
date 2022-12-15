@@ -4,10 +4,16 @@ import sh from "shelljs"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { throwIfError } from "@ha/shell-utils"
+import wol from "wakeonlan"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
+  const mac = await configurationApi.get(
+    "home-assistant/game-room/gaming-pc/mac",
+  )
+  await wol(mac.value)
+
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
   const ip = await configurationApi.get("gaming-pc/ip")
   const user = await configurationApi.get("gaming-pc/user")
@@ -58,7 +64,7 @@ ${devSshPub.value}`,
         "..",
         ".secrets",
         "hosts.yml",
-      )} --extra-vars "ansible_become_pass='${password.value}'";`,
+      )} --extra-vars "ansible_become_pass='${password.value}'" -vvv;`,
       { silent: true },
     ),
   )

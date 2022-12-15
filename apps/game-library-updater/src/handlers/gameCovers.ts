@@ -34,16 +34,13 @@ const messageHandler: MessageHandler = {
         logger.info("Cover stream write ended.")
       })
 
-      stream.push(payload)
-      stream.push(null)
-      stream
-        .pipe(
-          bucket.openUploadStream("cover.png", {
-            chunkSizeBytes: 1048576,
-            metadata: { field: "gameId", value: gameId },
-          }),
-        )
-        .end()
+      const s = stream.pipe(
+        bucket.openUploadStream("cover.png", {
+          chunkSizeBytes: 1048576,
+          metadata: { field: "gameId", value: gameId },
+        }),
+      )
+      s.write(payload)
     } catch (error) {
       logger.error(error)
     }
