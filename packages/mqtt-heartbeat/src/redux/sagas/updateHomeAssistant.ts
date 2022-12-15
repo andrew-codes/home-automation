@@ -7,7 +7,7 @@ const logger = createLogger()
 
 function* updateHomeAssistant(action: UpdateHomeAssistantAction) {
   const mqtt = yield call(createMqtt)
-  logger.debug("Updating via MQTT")
+  logger.silly("MQTT hearbeat")
   yield call(
     [mqtt, mqtt.publish],
     `homeassistant/binary_sensor/${action.payload}_status/state`,

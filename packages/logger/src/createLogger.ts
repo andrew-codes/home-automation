@@ -3,7 +3,7 @@ import ecsFormat from "@elastic/ecs-winston-format"
 
 const createLogger = () => {
   const logger = winston.createLogger({
-    level: "debug",
+    level: "silly",
     format: ecsFormat(),
     transports: [new winston.transports.Console()],
   })
