@@ -5,6 +5,7 @@ import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { throwIfError } from "@ha/shell-utils"
 import wol from "wakeonlan"
+import { delay } from "@ha/delay"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
@@ -13,6 +14,8 @@ const run = async (
     "home-assistant/game-room/gaming-pc/mac",
   )
   await wol(mac.value)
+
+  await delay(6000)
 
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
   const ip = await configurationApi.get("gaming-pc/ip")
