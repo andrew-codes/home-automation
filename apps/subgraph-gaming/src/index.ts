@@ -10,7 +10,7 @@ import gql from "graphql-tag"
 import { buildSubgraphSchema } from "@apollo/subgraph"
 import { createLogger } from "@ha/logger"
 import { createHeartbeat } from "@ha/http-heartbeat"
-import { Db, MongoClient, ObjectId } from "mongodb"
+import { Db, GridFSBucket, MongoClient, ObjectId } from "mongodb"
 import { first } from "lodash"
 import { GraphQLError } from "graphql"
 import type { GraphQLResolverMap } from "@apollo/subgraph/dist/schema-helper"
@@ -64,6 +64,7 @@ const typeDefs = gql`
     id ID!
     added: DateTime!
     communityScore Int
+    coverImage String
     criticScore Int
     description String
     gameId String!
@@ -195,6 +196,36 @@ const run = async () => {
       initialQuery: `{ games { id name } }`,
     }),
   )
+
+  app.use("/cover", async (req, resp) => {
+    const id = req.query.id
+    if (!id || Array.isArray(id)) {
+      resp.status(400)
+
+      return
+    }
+
+    try {
+      const host = process.env.DB_HOST
+      const connectionUrl = `mongodb://${host}`
+      const client = new MongoClient(connectionUrl)
+      await client.connect()
+      const db = client.db("gameLibrary")
+      const bucket = new GridFSBucket(db, {
+        bucketName: "covers",
+      })
+      resp.writeHead(200, {
+        "Content-Type": "image/png",
+        "Content-disposition": `attachment;filename=${id}.png`,
+      })
+      bucket
+        .openDownloadStream(new ObjectId(id as string))
+        .pipe(resp)
+        .end()
+    } catch (error) {
+      resp.status(500)
+    }
+  })
 
   await new Promise<void>((resolve) => httpServer.listen({ port: 80 }, resolve))
   logger.info(`🚀 Server ready on port 80`)

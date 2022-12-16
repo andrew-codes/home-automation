@@ -35,7 +35,7 @@ const messageHandler: MessageHandler = {
       })
 
       const s = stream.pipe(
-        bucket.openUploadStream("cover.png", {
+        bucket.openUploadStream(gameId, {
           chunkSizeBytes: 1048576,
           metadata: { field: "gameId", value: gameId },
         }),
