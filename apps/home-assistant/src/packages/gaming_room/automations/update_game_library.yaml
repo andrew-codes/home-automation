@@ -1,0 +1,27 @@
+automation:
+  - alias: Update game library
+    id: update_game_library
+    trigger:
+      - platform: mqtt
+        topic: "playnite/library/refresh"
+    condition:
+      alias: Gaming PC is not active/on
+      condition: state
+      entity_id: media_player.gaming_room_universal_gaming_pc
+      state: off
+    action:
+      - service: media_player.turn_on
+        target:
+          entity_id: media_player.gaming_room_universal_gaming_pc
+      - delay: 6
+      - service: mqtt.publish
+        data:
+          topic: "homeassistant/button/GAMING-PC/GAMING-PC-start-playnite/action"
+      - delay: "05:00"
+      - service: media_player.turn_off
+        target:
+          entity_id: media_player.gaming_room_universal_gaming_pc
+      - service: mqtt.publish
+        data:
+          topic: "homeassistant/button/GAMING-PC/GAMING-PC-powershell/action"
+          payload: 'Get-WmiObject -Filter "Name LIKE ''Playnite%''" -Class Win32_Process | Select-Object -ExpandProperty ProcessId | ForEach { stop-process $_ }'
