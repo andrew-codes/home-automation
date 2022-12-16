@@ -12,11 +12,11 @@
       }
     },
     "compile": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["apps/guest-registrar/dist"],
+      "executor": "@ha/nx-executors:invoke",
       "options": {
-        "command": "node -r esbuild-register build.ts",
-        "cwd": "apps/guest-registrar"
+        "outputs": ["apps/guest-registrar/dist"],
+        "cwd": "apps/guest-registrar",
+        "module": "scripts/compile.ts"
       }
     },
     "deploy": {

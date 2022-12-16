@@ -18,10 +18,10 @@ automation:
         data:
           topic: "homeassistant/button/GAMING-PC/GAMING-PC-start-playnite/action"
       - delay: "05:00"
-      - service: media_player.turn_off
-        target:
-          entity_id: media_player.gaming_room_universal_gaming_pc
       - service: mqtt.publish
         data:
           topic: "homeassistant/button/GAMING-PC/GAMING-PC-powershell/action"
           payload: 'Get-WmiObject -Filter "Name LIKE ''Playnite%''" -Class Win32_Process | Select-Object -ExpandProperty ProcessId | ForEach { stop-process $_ }'
+      - service: media_player.turn_off
+        target:
+          entity_id: media_player.gaming_room_universal_gaming_pc
