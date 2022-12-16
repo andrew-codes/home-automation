@@ -38,49 +38,49 @@ const typeDefs = gql`
   }
 
   type GamePlatform @key(fields: "id") {
-    id ID!
-    name String!
-    games [Game!]!
+    id: ID!
+    name: String!
+    games: [Game!]!
   }
 
   type GameGenres @key(fields: "id") {
-    id ID!
-    name String!
+    id: ID!
+    name: String!
   }
 
   type GameSeries @key(fields: "id") {
-    id ID!
-    name String!
-    games [Game!]!
+    id: ID!
+    name: String!
+    games: [Game!]!
   }
 
   type GameSource @key(fields: "id") {
-    id ID!
-    name String!
-    games [Game!]!
+    id: ID!
+    name: String!
+    games: [Game!]!
   }
 
   type Game @key(fields: "id") {
-    id ID!
+    id: ID!
     added: DateTime!
-    communityScore Int
-    coverImage String
-    criticScore Int
-    description String
-    gameId String!
-    genres [GameGenre!]!
-    isInstalled Boolean!
-    isInstalling Boolean!
-    isLaunching Boolean!
-    isRunning Boolean!
-    isUninstalling Boolean!
-    name String!
-    platforms [GamePlatforms!]!
-    recentActivity DateTime
-    releaseDate Date
-    releaseYear Int
-    series [GameSeries!]!
-    source GameSource!
+    communityScore: Int
+    coverImage: String
+    criticScore: Int
+    description: String
+    gameId: String!
+    genres: [GameGenre!]!
+    isInstalled: Boolean!
+    isInstalling: Boolean!
+    isLaunching: Boolean!
+    isRunning: Boolean!
+    isUninstalling: Boolean!
+    name: String!
+    platforms: [GamePlatforms!]!
+    recentActivity: DateTime
+    releaseDate: Date
+    releaseYear: Int
+    series: [GameSeries!]!
+    source: GameSource!
   }
 `
 
