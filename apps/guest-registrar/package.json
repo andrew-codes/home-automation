@@ -13,12 +13,12 @@
     "reselect": "^4.1.5"
   },
   "devDependencies": {
+    "@ha/build-ts": "^1.0.0",
     "@ha/ha-entity-utils": "^0.0.1",
     "@ha/http-heartbeat": "^0.0.1",
     "@ha/logger": "^0.0.1",
     "@ha/mqtt-client": "^0.0.1",
     "@ha/unifi-client": "^0.1.0",
-    "esbuild-register": "^3.3.2",
     "nodemon": "^2.0.6"
   }
 }

@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
+    "@ha/build-ts": "^1.0.0",
     "@ha/ha-entity-utils": "^0.0.1",
     "@ha/http-heartbeat": "^0.0.1",
     "@ha/logger": "^0.0.1",

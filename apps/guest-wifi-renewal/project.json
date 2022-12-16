@@ -12,10 +12,10 @@
       }
     },
     "compile": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "@ha/nx-executors:invoke",
       "outputs": ["apps/guest-wifi-renewal/dist"],
       "options": {
-        "command": "node -r esbuild-register build.ts",
+        "module": "scripts/compile.ts",
         "cwd": "apps/guest-wifi-renewal"
       }
     },

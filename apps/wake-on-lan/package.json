@@ -5,7 +5,7 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "@ha/build-ts": "^0.0.1",
+    "@ha/build-ts": "^1.0.0",
     "@ha/http-heartbeat": "^0.0.1",
     "@ha/logger": "^0.0.1",
     "@ha/mqtt-client": "^0.0.1",

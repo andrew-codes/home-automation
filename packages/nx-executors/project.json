@@ -15,7 +15,7 @@
       "executor": "@nrwl/workspace:run-commands",
       "outputs": ["packages/nx-executors/dist"],
       "options": {
-        "command": "node -r esbuild-register build.ts",
+        "command": "node -r esbuild-register scripts/compile.ts",
         "cwd": "packages/nx-executors"
       }
     },

@@ -12,10 +12,10 @@
       }
     },
     "compile": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "@ha/nx-executors:invoke",
       "outputs": ["apps/ps5/dist"],
       "options": {
-        "command": "node -r esbuild-register build.ts",
+        "module": "scripts/compile.ts",
         "cwd": "apps/ps5"
       }
     },

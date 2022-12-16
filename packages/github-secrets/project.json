@@ -12,10 +12,10 @@
       }
     },
     "compile": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "@ha/nx-executors:invoke",
       "outputs": ["packages/github-secrets/dist"],
       "options": {
-        "command": "node -r esbuild-register build.ts",
+        "module": "scripts/compile.ts",
         "cwd": "packages/github-secrets"
       }
     },

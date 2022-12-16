@@ -1,5 +1,6 @@
 import build from "@ha/build-ts"
-import pkg from "./package.json"
+import path from "path"
+import pkg from "../package.json"
 
 const entryPoints = [
   "./src/executors/docker-run/impl.ts",
@@ -8,7 +9,7 @@ const entryPoints = [
   "./src/executors/telepresence/impl.ts",
   "./src/executors/telepresence-local/impl.ts",
   "./src/executors/upload-codecov/impl.ts",
-]
+].map((ep) => path.join(__dirname, "..", ep))
 
 run()
 

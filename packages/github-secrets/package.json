@@ -11,5 +11,8 @@
     "@octokit/core": "^3.6.0",
     "lodash": "^4.17.21",
     "tweetsodium": "^0.0.5"
+  },
+  "devDependencies": {
+    "@ha/build-ts": "^1.0.0"
   }
 }
