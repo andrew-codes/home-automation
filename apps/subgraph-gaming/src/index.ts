@@ -13,8 +13,12 @@ import { createHeartbeat } from "@ha/http-heartbeat"
 import { Db, MongoClient, ObjectId } from "mongodb"
 import { first } from "lodash"
 import { GraphQLError } from "graphql"
-import { GraphQLResolverMap } from "@apollo/subgraph/dist/schema-helper"
-import { DateTimeResolver, DateTimeTypeDefinition } from "graphql-scalars"
+import type { GraphQLResolverMap } from "@apollo/subgraph/dist/schema-helper"
+import {
+  typeDefs as scalarTypeDefs,
+  resolvers as scalarResolvers,
+} from "graphql-scalars"
+import { altairExpress } from "altair-express-middleware"
 
 const logger = createLogger()
 type GraphContext = {
@@ -25,7 +29,9 @@ type GraphContext = {
 const typeDefs = gql`
   extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@shareable"])
 
-  ${DateTimeTypeDefinition}
+  ${scalarTypeDefs.join(`
+  
+  `)}
 
   type Query {
     games: [Game!]!
@@ -59,6 +65,7 @@ const typeDefs = gql`
 
   type Game @key(fields: "id") {
     id ID!
+    added: DateTime!
     communityScore Int
     criticScore Int
     description String
@@ -71,6 +78,8 @@ const typeDefs = gql`
     isUninstalling Boolean!
     name String!
     platforms [GamePlatforms!]!
+    recentActivity DateTime
+    releaseDate Date
     releaseYear Int
     series [GameSeries!]!
     source GameSource!
@@ -78,7 +87,7 @@ const typeDefs = gql`
 `
 
 const resolvers: GraphQLResolverMap<GraphContext> = {
-  DateTimeResolver,
+  ...scalarResolvers,
   Query: {
     genres(parent, args, ctx) {
       return ctx.db.collection("genres").find({})
@@ -169,6 +178,14 @@ const run = async () => {
 
         return { db, token }
       },
+    }),
+  )
+  app.use(
+    "/altair",
+    altairExpress({
+      endpointURL: "/",
+      subscriptionsEndpoint: `ws://localhost:80/subscriptions`,
+      initialQuery: `{ games { id name } }`,
     }),
   )
 

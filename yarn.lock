@@ -5059,6 +5059,19 @@ ajv@^6.11.0:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
+altair-express-middleware@^5.0.9:
+  version "5.0.9"
+  resolved "https://registry.yarnpkg.com/altair-express-middleware/-/altair-express-middleware-5.0.9.tgz#a152606bfeb36f3b261f1e38a118f1b54056e232"
+  integrity sha512-R9vak5xuEKXwQ3y3mTwHtL7Tl6xhQXEA3FTqB9A5lvn6N/tCKHlQBCTY24jfKIQhnLEWcJc82GZtEugLdB/p3w==
+  dependencies:
+    altair-static "^5.0.9"
+    express "^4.16.2"
+
+altair-static@^5.0.9:
+  version "5.0.9"
+  resolved "https://registry.yarnpkg.com/altair-static/-/altair-static-5.0.9.tgz#af1b1180ae15778e49c3f04c61ef6ba0f78251e9"
+  integrity sha512-magJa3fCg8yk2J0jjsRzQIh2pQQvaXZDKzxunHosrlKWRGAAeTGbVTc2Xe1Vsd2RdAmzPWQxSX5cpQvrWtYIrA==
+
 amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
@@ -7619,43 +7632,7 @@ expect@^28.1.0:
     jest-message-util "^28.1.0"
     jest-util "^28.1.0"
 
-express@^4.17.1:
-  version "4.17.3"
-  resolved "https://registry.yarnpkg.com/express/-/express-4.17.3.tgz#f6c7302194a4fb54271b73a1fe7a06478c8f85a1"
-  integrity sha512-yuSQpz5I+Ch7gFrPCk4/c+dIBKlQUxtgwqzph132bsT6qhuzss6I8cLJQz7B3rFblzd6wtcI0ZbGltH/C4LjUg==
-  dependencies:
-    accepts "~1.3.8"
-    array-flatten "1.1.1"
-    body-parser "1.19.2"
-    content-disposition "0.5.4"
-    content-type "~1.0.4"
-    cookie "0.4.2"
-    cookie-signature "1.0.6"
-    debug "2.6.9"
-    depd "~1.1.2"
-    encodeurl "~1.0.2"
-    escape-html "~1.0.3"
-    etag "~1.8.1"
-    finalhandler "~1.1.2"
-    fresh "0.5.2"
-    merge-descriptors "1.0.1"
-    methods "~1.1.2"
-    on-finished "~2.3.0"
-    parseurl "~1.3.3"
-    path-to-regexp "0.1.7"
-    proxy-addr "~2.0.7"
-    qs "6.9.7"
-    range-parser "~1.2.1"
-    safe-buffer "5.2.1"
-    send "0.17.2"
-    serve-static "1.14.2"
-    setprototypeof "1.2.0"
-    statuses "~1.5.0"
-    type-is "~1.6.18"
-    utils-merge "1.0.1"
-    vary "~1.1.2"
-
-express@^4.18.2:
+express@^4.16.2, express@^4.18.2:
   version "4.18.2"
   resolved "https://registry.yarnpkg.com/express/-/express-4.18.2.tgz#3fabe08296e930c796c19e3c516979386ba9fd59"
   integrity sha512-5/PsL6iGPdfQ/lKM1UuielYgv3BUoJfz1aUwU9vHZ+J7gyvwdQXFEBIEIaxeGf0GIcreATNyBExtalisDbuMqQ==
@@ -7688,6 +7665,42 @@ express@^4.18.2:
     serve-static "1.15.0"
     setprototypeof "1.2.0"
     statuses "2.0.1"
+    type-is "~1.6.18"
+    utils-merge "1.0.1"
+    vary "~1.1.2"
+
+express@^4.17.1:
+  version "4.17.3"
+  resolved "https://registry.yarnpkg.com/express/-/express-4.17.3.tgz#f6c7302194a4fb54271b73a1fe7a06478c8f85a1"
+  integrity sha512-yuSQpz5I+Ch7gFrPCk4/c+dIBKlQUxtgwqzph132bsT6qhuzss6I8cLJQz7B3rFblzd6wtcI0ZbGltH/C4LjUg==
+  dependencies:
+    accepts "~1.3.8"
+    array-flatten "1.1.1"
+    body-parser "1.19.2"
+    content-disposition "0.5.4"
+    content-type "~1.0.4"
+    cookie "0.4.2"
+    cookie-signature "1.0.6"
+    debug "2.6.9"
+    depd "~1.1.2"
+    encodeurl "~1.0.2"
+    escape-html "~1.0.3"
+    etag "~1.8.1"
+    finalhandler "~1.1.2"
+    fresh "0.5.2"
+    merge-descriptors "1.0.1"
+    methods "~1.1.2"
+    on-finished "~2.3.0"
+    parseurl "~1.3.3"
+    path-to-regexp "0.1.7"
+    proxy-addr "~2.0.7"
+    qs "6.9.7"
+    range-parser "~1.2.1"
+    safe-buffer "5.2.1"
+    send "0.17.2"
+    serve-static "1.14.2"
+    setprototypeof "1.2.0"
+    statuses "~1.5.0"
     type-is "~1.6.18"
     utils-merge "1.0.1"
     vary "~1.1.2"
