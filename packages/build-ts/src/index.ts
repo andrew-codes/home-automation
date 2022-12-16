@@ -15,7 +15,10 @@ const defaultConfig = {
   define: { "process.env.NODE_ENV": `"${process.env.NODE_ENV}"` },
 }
 
-const build = async (overrides = {}) => {
+const build = async (overrides: { external: string[] } = { external: [] }) => {
+  overrides.external = overrides.external.filter(
+    (moduleName) => !/^@ha\/.*/.test(moduleName),
+  )
   await esbuild.build(merge({}, defaultConfig, overrides) as any)
 }
 
