@@ -10,7 +10,7 @@ async function run() {
   await createHeartbeat()
   const mqtt = await createMqtt()
   await mqtt.subscribe("playnite/library/#")
-  await mqtt.subscribe("homeassistant/button/GAMING-PC/#/action")
+  await mqtt.subscribe("homeassistant/button/GAMING-PC/+/action")
 
   try {
     mqtt.on("message", async (topic, payload) => {
