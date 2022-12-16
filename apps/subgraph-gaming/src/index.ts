@@ -30,22 +30,17 @@ const typeDefs = gql`
   extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@shareable"])
 
   ${scalarTypeDefs.join(`
-  
-  `)}
 
+  `)}
   type Query {
     games: [Game!]!
     genres: [GameGenre!]!
   }
 
-  type User @key(fields: "id") {
-    id: ID!
-    username: String
-  }
-
   type GamePlatform @key(fields: "id") {
     id ID!
     name String!
+    games [Game!]!
   }
 
   type GameGenres @key(fields: "id") {
@@ -56,11 +51,13 @@ const typeDefs = gql`
   type GameSeries @key(fields: "id") {
     id ID!
     name String!
+    games [Game!]!
   }
 
   type GameSource @key(fields: "id") {
     id ID!
     name String!
+    games [Game!]!
   }
 
   type Game @key(fields: "id") {
@@ -94,6 +91,16 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
     },
     games(parent, args, ctx) {
       return ctx.db.collection("games").find({})
+    },
+  },
+  Game: {
+    __resolveReference(ref, ctx: GraphContext) {
+      return ctx.db.collection("games").find({ _id: new ObjectId(ref.id) })
+    },
+    games(parent, args, ctx) {
+      return ctx.db
+        .collection("games")
+        .find({ _id: { $in: parent.gameIds.map((id) => new ObjectId(id)) } })
     },
   },
   GameGenre: {

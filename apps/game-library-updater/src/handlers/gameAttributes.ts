@@ -84,6 +84,32 @@ ${JSON.stringify(games, null, 2)}`)
         concat([gamesWithoutRelations]),
         zipObject(["games"].concat(foreignKeys)),
         entries,
+        reduce(
+          (
+            acc,
+            [key, values],
+            index,
+            items: [key: string, value: { id }[]][],
+          ) => {
+            if (key === "games") {
+              return acc.concat([key, values])
+            }
+
+            const games =
+              items.find(([keyFromList]) => keyFromList === "games")?.[1] ?? []
+
+            const valuesWithInverseGameRelation = values.map((value) =>
+              merge({}, value, {
+                gameIds: games
+                  .filter((game) => game[key].includes(value.id))
+                  .map((game) => game.id),
+              }),
+            )
+
+            return acc.concat([key, valuesWithInverseGameRelation])
+          },
+          [],
+        ),
       )
 
       const client = await getMongoDbClient()
