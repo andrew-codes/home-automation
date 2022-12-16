@@ -1,0 +1,71 @@
+{
+  "root": "apps/subgraph-gaming",
+  "sourceRoot": "apps/subgraph-gaming/src",
+  "projectType": "application",
+  "targets": {
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "rm -rf dist .test-runs .cache",
+        "cwd": "apps/subgraph-gaming"
+      }
+    },
+    "compile": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/subgraph-gaming",
+        "module": "scripts/compile.ts"
+      },
+      "outputs": ["apps/subgraph-gaming/dist"]
+    },
+    "deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/subgraph-gaming",
+        "module": "scripts/deploy.ts"
+      },
+      "dependsOn": [
+        {
+          "target": "image/push",
+          "projects": "self"
+        }
+      ]
+    },
+    "image/push": {
+      "executor": "@ha/nx-executors:invoke",
+      "dependsOn": [
+        {
+          "target": "compile",
+          "projects": "self"
+        }
+      ],
+      "options": {
+        "cwd": "apps/subgraph-gaming",
+        "module": "scripts/image-push.ts"
+      }
+    },
+    "serve": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/subgraph-gaming",
+        "module": "scripts/start.ts"
+      }
+    },
+    "test": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [".test-runs/unit"],
+      "options": {
+        "command": "jest",
+        "cwd": "apps/subgraph-gaming"
+      }
+    },
+    "code-coverage": {
+      "executor": "@ha/nx-executors:upload-codecov",
+      "options": {
+        "coverageFilePath": "apps/subgraph-gaming/.test-runs/unit/lcov.info"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

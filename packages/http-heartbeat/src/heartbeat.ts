@@ -31,6 +31,7 @@ const createHeartbeat = async (
   }
 
   server.addListener("request", handler)
+
   return server
 }
 
