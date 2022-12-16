@@ -5,9 +5,9 @@ import path from "path"
 
 const defaultConfig = {
   bundle: true,
-  entryPoints: [path.join(process.cwd(), "..", "src", "index.ts")],
+  entryPoints: [path.join(process.cwd(), "src", "index.ts")],
   minify: isProd(),
-  outfile: path.join(process.cwd(), "..", "dist", "index.js"),
+  outfile: path.join(process.cwd(), "dist", "index.js"),
   platform: "node",
   sourcemap: true,
   target: "node16",
