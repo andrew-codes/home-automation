@@ -14,6 +14,7 @@ import { Db, MongoClient, ObjectId } from "mongodb"
 import { first } from "lodash"
 import { GraphQLError } from "graphql"
 import { GraphQLResolverMap } from "@apollo/subgraph/dist/schema-helper"
+import { DateTimeResolver, DateTimeTypeDefinition } from "graphql-scalars"
 
 const logger = createLogger()
 type GraphContext = {
@@ -23,6 +24,8 @@ type GraphContext = {
 
 const typeDefs = gql`
   extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@shareable"])
+
+  ${DateTimeTypeDefinition}
 
   type Query {
     games: [Game!]!
@@ -75,6 +78,7 @@ const typeDefs = gql`
 `
 
 const resolvers: GraphQLResolverMap<GraphContext> = {
+  DateTimeResolver,
   Query: {
     genres(parent, args, ctx) {
       return ctx.db.collection("genres").find({})
@@ -131,7 +135,7 @@ const run = async () => {
 
   const server = new ApolloServer<GraphContext>({
     schema: buildSubgraphSchema({
-      typeDefs,
+      typeDefs: typeDefs,
       resolvers: resolvers as GraphQLResolverMap<any>,
     }),
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],

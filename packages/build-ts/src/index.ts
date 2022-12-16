@@ -1,12 +1,13 @@
 import esbuild from "esbuild"
 import { isProd } from "@ha/env-utils"
 import { merge } from "lodash"
+import path from "path"
 
 const defaultConfig = {
   bundle: true,
-  entryPoints: ["../src/index.ts"],
+  entryPoints: [path.join(process.cwd(), "..", "src", "index.ts")],
   minify: isProd(),
-  outfile: "../dist/index.js",
+  outfile: path.join(process.cwd(), "..", "dist", "index.js"),
   platform: "node",
   sourcemap: true,
   target: "node16",
