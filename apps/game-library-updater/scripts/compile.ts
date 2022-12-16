@@ -1,8 +1,8 @@
 import build from "@ha/build-ts"
-import path from 'path'
+import pkg from "../package.json"
 
 const run = async () => {
-    await build({ entryPoints: [path.join(__dirname, '..', 'src', 'index.ts')], outfile: path.join(__dirname, '..', 'dist', 'index.js'), })
+  await build({ external: Object.keys(pkg.dependencies) })
 }
 
 export default run
