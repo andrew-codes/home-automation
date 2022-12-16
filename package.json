@@ -18,6 +18,7 @@
     "compile/affected": "nx affected --target compile --parallel",
     "compile/all": "nx run-many --target compile --parallel --all",
     "deploy": "nx run-many --target deploy --parallel --projects",
+    "manual-deploy": "nx run manual-deployment:deploy --skip-nx-cache --target-projects",
     "deploy/affected": "nx affected --target deploy --parallel",
     "deploy/all": "nx run-many --target deploy --parallel --all",
     "initialize-secrets": "nx run-many --target initialize-secrets --parallel --all",
