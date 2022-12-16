@@ -15,11 +15,13 @@ async function run() {
     mqtt.on("message", async (topic, payload) => {
       try {
         logger.info(`Topic: ${topic} received.`)
+        logger.info(`Start handling topic.`)
         await Promise.all(
           handlers
             .filter((handler) => handler.shouldHandle(topic))
             .map((handler) => handler.handle(topic, payload)),
         )
+        logger.info("Ending topic handling.")
       } catch (error) {
         logger.error(error)
       }
