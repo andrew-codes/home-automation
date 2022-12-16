@@ -4,9 +4,9 @@ import { merge } from "lodash"
 
 const defaultConfig = {
   bundle: true,
-  entryPoints: ["./src/index.ts"],
+  entryPoints: ["../src/index.ts"],
   minify: isProd(),
-  outfile: "dist/index.js",
+  outfile: "../dist/index.js",
   platform: "node",
   sourcemap: true,
   target: "node16",
