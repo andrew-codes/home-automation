@@ -32,7 +32,7 @@ async function run() {
           payload.toString() ===
             "Get-WmiObject -Filter \"Name LIKE 'Playnite%'\" -Class Win32_Process | Select-Object -ExpandProperty ProcessId | ForEach { stop-process $_ }"
         ) {
-          logger.log("Stopping a library refresh")
+          logger.info("Stopping a library refresh")
         }
       } catch (error) {
         logger.error(error)
