@@ -43,7 +43,7 @@ const typeDefs = gql`
     games: [Game!]!
   }
 
-  type GameGenres @key(fields: "id") {
+  type GameGenre @key(fields: "id") {
     id: ID!
     name: String!
   }
