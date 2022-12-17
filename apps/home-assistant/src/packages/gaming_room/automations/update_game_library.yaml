@@ -13,7 +13,7 @@ automation:
       - service: media_player.turn_on
         target:
           entity_id: media_player.gaming_room_universal_gaming_pc
-      - delay: 6
+      - delay: 30
       - service: mqtt.publish
         data:
           topic: "homeassistant/button/GAMING-PC/GAMING-PC_start-playnite/action"
