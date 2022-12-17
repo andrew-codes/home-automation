@@ -75,7 +75,7 @@ const typeDefs = gql`
     isRunning: Boolean!
     isUninstalling: Boolean!
     name: String!
-    platforms: [GamePlatforms!]!
+    platforms: [GamePlatform!]!
     recentActivity: DateTime
     releaseDate: Date
     releaseYear: Int
