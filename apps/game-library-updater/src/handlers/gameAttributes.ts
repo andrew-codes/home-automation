@@ -69,11 +69,9 @@ const messageHandler: MessageHandler = {
     try {
       logger.info(`Game attributes handling topic: ${topic}`)
       const deserializedGames = flow(JSON.parse, formatKeys)(payload.toString())
-      logger.debug(`Payload:
-${deserializedGames}`)
+      logger.debug("Deserialized games", deserializedGames)
       const games = toGames(deserializedGames)
-      logger.debug(`Games in payload:
-${JSON.stringify(games, null, 2)}`)
+      logger.debug("Games in payload", games)
 
       const nonForeignKeys = toNonForeignKeys(games)
       const toGamesWithoutForeignKeys = flow(map(pick(nonForeignKeys)))
@@ -118,10 +116,7 @@ ${JSON.stringify(games, null, 2)}`)
         prepareForDbInsert,
         map(([key, value]) =>
           map(async (item) => {
-            logger.debug(
-              `Collection ${key}; Updating item ${item.id};
-${JSON.stringify(item, null, 2)}`,
-            )
+            logger.debug(`Collection ${key}; Updating item ${item.id}`, item)
             return await db
               .collection(key)
               .updateOne({ _id: item.id }, { $set: item }, { upsert: true })
