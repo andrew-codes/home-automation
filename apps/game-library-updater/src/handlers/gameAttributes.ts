@@ -119,10 +119,9 @@ ${JSON.stringify(games, null, 2)}`)
         map(([key, value]) =>
           map(async (item) => {
             logger.debug(
-              `Updating item ${item.id};
+              `Collection ${key}; Updating item ${item.id};
 ${JSON.stringify(item, null, 2)}`,
             )
-            logger.debug(`Collection ${key}`)
             return await db
               .collection(key)
               .updateOne({ _id: item.id }, { $set: item }, { upsert: true })
