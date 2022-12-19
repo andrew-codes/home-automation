@@ -6,7 +6,7 @@
     "clean": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "",
+        "command": "rm -rf dist",
         "cwd": "apps/graph"
       }
     },

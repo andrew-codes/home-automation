@@ -1,0 +1,8 @@
+supergraph:
+  listen: 127.0.0.1:80
+  path: /graphql
+  introspection: true
+homepage:
+  enabled: false
+sandbox:
+  enabled: true
