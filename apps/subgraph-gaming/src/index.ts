@@ -18,7 +18,6 @@ import {
   typeDefs as scalarTypeDefs,
   resolvers as scalarResolvers,
 } from "graphql-scalars"
-import { altairExpress } from "altair-express-middleware"
 
 const logger = createLogger()
 type GraphContext = {
@@ -186,14 +185,6 @@ const run = async () => {
 
         return { db, token }
       },
-    }),
-  )
-  app.use(
-    "/altair",
-    altairExpress({
-      endpointURL: "/",
-      subscriptionsEndpoint: `ws://localhost:80/subscriptions`,
-      initialQuery: `{ games { id name } }`,
     }),
   )
 

@@ -1,0 +1,50 @@
+{
+  "root": "apps/graph",
+  "sourceRoot": "apps/graph/src",
+  "projectType": "application",
+  "targets": {
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "",
+        "cwd": "apps/graph"
+      }
+    },
+    "download-router": {
+      "executor": "@ha/nx-executors:invoke",
+      "outputs": ["apps/graph/router"],
+      "options": {
+        "module": "scripts/download-router.ts",
+        "cwd": "apps/graph"
+      }
+    },
+    "deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/graph",
+        "module": "scripts/deploy.ts"
+      },
+      "dependsOn": [
+        {
+          "target": "image/push",
+          "projects": "self"
+        }
+      ]
+    },
+    "image/push": {
+      "executor": "@ha/nx-executors:invoke",
+      "dependsOn": [
+        {
+          "target": "compile",
+          "projects": "self"
+        }
+      ],
+      "options": {
+        "module": "scripts/image-push.ts",
+        "cwd": "apps/graph"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["secrets", "subgraph-gaming"]
+}
