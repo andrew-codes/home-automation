@@ -86,10 +86,10 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
   ...scalarResolvers,
   Query: {
     genres(parent, args, ctx) {
-      return ctx.db.collection("genres").find({})
+      return ctx.db.collection("genres").find({}).toArray()
     },
     games(parent, args, ctx) {
-      return ctx.db.collection("games").find({})
+      return ctx.db.collection("games").find({}).toArray()
     },
   },
   Game: {
@@ -110,33 +110,38 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
       return ctx.db
         .collection("genres")
         .find({ _id: { $in: parent.genreIds.map((id) => new ObjectId(id)) } })
+        .toArray()
     },
   },
   GamePlatform: {
     __resolveReference(ref, ctx: GraphContext) {
       return ctx.db.collection("platforms").find({ _id: new ObjectId(ref.id) })
     },
-    genres(parent, args, ctx) {
-      return ctx.db.collection("platforms").find({
-        _id: { $in: parent.platformIds.map((id) => new ObjectId(id)) },
-      })
+    platforms(parent, args, ctx) {
+      return ctx.db
+        .collection("platforms")
+        .find({
+          _id: { $in: parent.platformIds.map((id) => new ObjectId(id)) },
+        })
+        .toArray()
     },
   },
   GameSeries: {
     __resolveReference(ref, ctx: GraphContext) {
       return ctx.db.collection("series").find({ _id: new ObjectId(ref.id) })
     },
-    genres(parent, args, ctx) {
+    series(parent, args, ctx) {
       return ctx.db
         .collection("series")
         .find({ _id: { $in: parent.seriesIds.map((id) => new ObjectId(id)) } })
+        .toArray()
     },
   },
   GameSource: {
     __resolveReference(ref, ctx: GraphContext) {
       return ctx.db.collection("sources").find({ _id: new ObjectId(ref.id) })
     },
-    genres(parent, args, ctx) {
+    source(parent, args, ctx) {
       return ctx.db
         .collection("platforms")
         .find({ _id: new ObjectId(parent.sourceId) })
