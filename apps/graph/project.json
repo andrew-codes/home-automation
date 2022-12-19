@@ -43,6 +43,13 @@
         "module": "scripts/image-push.ts",
         "cwd": "apps/graph"
       }
+    },
+    "compile": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "module": "scripts/compile.ts",
+        "cwd": "apps/graph"
+      }
     }
   },
   "tags": [],
