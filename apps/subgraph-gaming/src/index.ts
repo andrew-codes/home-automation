@@ -10,7 +10,6 @@ import gql from "graphql-tag"
 import { buildSubgraphSchema } from "@apollo/subgraph"
 import { createLogger } from "@ha/logger"
 import { Db, GridFSBucket, MongoClient, ObjectId } from "mongodb"
-import { map } from "lodash/fp"
 import { merge } from "lodash"
 import type { GraphQLResolverMap } from "@apollo/subgraph/dist/schema-helper"
 import {
