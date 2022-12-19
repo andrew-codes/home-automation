@@ -9,7 +9,6 @@ import bodyParser from "body-parser"
 import gql from "graphql-tag"
 import { buildSubgraphSchema } from "@apollo/subgraph"
 import { createLogger } from "@ha/logger"
-import { createHeartbeat } from "@ha/http-heartbeat"
 import { Db, GridFSBucket, MongoClient, ObjectId } from "mongodb"
 import { first } from "lodash"
 import { GraphQLError } from "graphql"
@@ -147,7 +146,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
 
 const run = async () => {
   const app = express()
-  const httpServer = await createHeartbeat("/health", http.createServer(app))
+  const httpServer = http.createServer(app)
 
   const server = new ApolloServer<GraphContext>({
     schema: buildSubgraphSchema({
@@ -162,6 +161,11 @@ const run = async () => {
     },
   })
   await server.start()
+
+  app.use("/health", (req, resp) => {
+    resp.status(200).send("up")
+  })
+
   app.use(
     "/",
     cors<cors.CorsRequest>(),
