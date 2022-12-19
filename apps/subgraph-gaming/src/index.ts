@@ -163,6 +163,7 @@ const run = async () => {
   await server.start()
 
   app.use("/health", (req, resp) => {
+    logger.silly("Health endpoint hit")
     resp.status(200).send("up")
   })
 
