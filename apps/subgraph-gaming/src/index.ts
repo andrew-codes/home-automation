@@ -104,13 +104,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
   },
   Game: {
     async __resolveReference(ref, ctx: GraphContext) {
-      const game = await ctx.db.collection("games").findOne({ _id: ref.id })
-      return merge({}, game, {
-        releaseDate:
-          game?.releaseDate !== null
-            ? Date.parse((game as any).releaseDate?.releaseDate).toString()
-            : null,
-      })
+      return ref
     },
     async games(parent, args, ctx) {
       const output =
@@ -132,8 +126,8 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
   },
   GameGenre: {
     __resolveReference(ref, ctx: GraphContext) {
+      return ref
       logger.info("genre by id")
-      return ctx.db.collection("genres").findOne({ _id: ref.id })
     },
     async genres(parent, args, ctx) {
       logger.info("genres")
@@ -151,7 +145,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
   },
   GamePlatform: {
     __resolveReference(ref, ctx: GraphContext) {
-      return ctx.db.collection("platforms").findOne({ _id: ref.id })
+      return ref
     },
     async platforms(parent, args, ctx) {
       return await (ctx.db
@@ -164,7 +158,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
   },
   GameSeries: {
     __resolveReference(ref, ctx: GraphContext) {
-      return ctx.db.collection("series").findOne({ _id: ref.id })
+      return ref
     },
     async series(parent, args, ctx) {
       return (
@@ -179,7 +173,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
   },
   GameSource: {
     __resolveReference(ref, ctx: GraphContext) {
-      return ctx.db.collection("sources").findOne({ _id: ref.id })
+      return ref
     },
     source(parent, args, ctx) {
       return ctx.db.collection("sources").findOne({ _id: parent.sourceId })
