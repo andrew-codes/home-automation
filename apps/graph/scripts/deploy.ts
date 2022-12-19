@@ -1,11 +1,9 @@
 import fs from "fs/promises"
 import path from "path"
-import sh from "shelljs"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
-import { throwIfError } from "@ha/shell-utils"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
