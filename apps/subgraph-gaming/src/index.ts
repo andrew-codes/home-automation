@@ -82,10 +82,6 @@ const typeDefs = gql`
     source: GameSource
   }
 `
-const mapGameReleaseDate = map((game) =>
-  merge({}, game, { releaseDate: game.releaseDate.releaseDate }),
-)
-
 const resolvers: GraphQLResolverMap<GraphContext> = {
   ...scalarResolvers,
   Query: {
@@ -93,30 +89,39 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
       return ctx.db.collection("genres").find({}).toArray()
     },
     games(parent, args, ctx) {
-      return mapGameReleaseDate(ctx.db.collection("games").find({}).toArray())
+      return ctx.db
+        .collection("games")
+        .find({})
+        .map((game) =>
+          merge({}, game, { releaseDate: game.releaseDate.releaseDate }),
+        )
+        .toArray()
     },
   },
   Game: {
-    __resolveReference(ref, ctx: GraphContext) {
-      const game = ctx.db
+    async __resolveReference(ref, ctx: GraphContext) {
+      const game = await ctx.db
         .collection("games")
-        .find({ _id: new ObjectId(ref.id) })
+        .findOne({ _id: new ObjectId(ref.id) })
       return merge({}, game, {
         releaseDate: (game as any).releaseDate.releaseDate,
       })
     },
     games(parent, args, ctx) {
-      return mapGameReleaseDate(
+      return (
         ctx.db
           .collection("games")
           .find({ _id: { $in: parent.gameIds.map((id) => new ObjectId(id)) } })
-          .toArray() ?? [],
+          .map((game) =>
+            merge({}, game, { releaseDate: game.releaseDate.releaseDate }),
+          )
+          .toArray() ?? []
       )
     },
   },
   GameGenre: {
     __resolveReference(ref, ctx: GraphContext) {
-      return ctx.db.collection("genres").find({ _id: new ObjectId(ref.id) })
+      return ctx.db.collection("genres").findOne({ _id: new ObjectId(ref.id) })
     },
     genres(parent, args, ctx) {
       return (
@@ -129,7 +134,9 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
   },
   GamePlatform: {
     __resolveReference(ref, ctx: GraphContext) {
-      return ctx.db.collection("platforms").find({ _id: new ObjectId(ref.id) })
+      return ctx.db
+        .collection("platforms")
+        .findOne({ _id: new ObjectId(ref.id) })
     },
     platforms(parent, args, ctx) {
       return (
@@ -144,7 +151,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
   },
   GameSeries: {
     __resolveReference(ref, ctx: GraphContext) {
-      return ctx.db.collection("series").find({ _id: new ObjectId(ref.id) })
+      return ctx.db.collection("series").findOne({ _id: new ObjectId(ref.id) })
     },
     series(parent, args, ctx) {
       return (
@@ -164,7 +171,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
     source(parent, args, ctx) {
       return ctx.db
         .collection("sources")
-        .find({ _id: new ObjectId(parent.sourceId) })
+        .findOne({ _id: new ObjectId(parent.sourceId) })
     },
   },
 }
