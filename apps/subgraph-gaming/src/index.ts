@@ -106,15 +106,15 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
         releaseDate: (game as any).releaseDate?.releaseDate,
       })
     },
-    games(parent, args, ctx) {
+    async games(parent, args, ctx) {
       return (
-        ctx.db
+        (await ctx.db
           .collection("games")
           .find({ _id: { $in: parent.gameIds.map((id) => new ObjectId(id)) } })
           .map((game) =>
             merge({}, game, { releaseDate: game.releaseDate?.releaseDate }),
           )
-          .toArray() ?? []
+          .toArray()) ?? []
       )
     },
   },
@@ -122,12 +122,12 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
     __resolveReference(ref, ctx: GraphContext) {
       return ctx.db.collection("genres").findOne({ _id: new ObjectId(ref.id) })
     },
-    genres(parent, args, ctx) {
+    async genres(parent, args, ctx) {
       return (
-        ctx.db
+        (await ctx.db
           .collection("genres")
           .find({ _id: { $in: parent.genreIds.map((id) => new ObjectId(id)) } })
-          .toArray() ?? []
+          .toArray()) ?? []
       )
     },
   },
@@ -137,29 +137,27 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
         .collection("platforms")
         .findOne({ _id: new ObjectId(ref.id) })
     },
-    platforms(parent, args, ctx) {
-      return (
-        ctx.db
-          .collection("platforms")
-          .find({
-            _id: { $in: parent.platformIds.map((id) => new ObjectId(id)) },
-          })
-          .toArray() ?? []
-      )
+    async platforms(parent, args, ctx) {
+      return await (ctx.db
+        .collection("platforms")
+        .find({
+          _id: { $in: parent.platformIds.map((id) => new ObjectId(id)) },
+        })
+        .toArray() ?? [])
     },
   },
   GameSeries: {
     __resolveReference(ref, ctx: GraphContext) {
       return ctx.db.collection("series").findOne({ _id: new ObjectId(ref.id) })
     },
-    series(parent, args, ctx) {
+    async series(parent, args, ctx) {
       return (
-        ctx.db
+        (await ctx.db
           .collection("series")
           .find({
             _id: { $in: parent.seriesIds.map((id) => new ObjectId(id)) },
           })
-          .toArray() ?? []
+          .toArray()) ?? []
       )
     },
   },
