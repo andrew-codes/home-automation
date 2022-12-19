@@ -6,7 +6,7 @@ const run = async (): Promise<void> => {
   sh.env["APOLLO_ELV2_LICENSE"] = "yes"
   await throwIfError(
     sh.exec(
-      `rover supergraph compose --config src/supergraph.yaml > dist/schema.graphql`,
+      `~/.rover/bin/rover supergraph compose --config src/supergraph.yaml > dist/schema.graphql`,
       { shell: "/bin/bash" },
     ),
   )
