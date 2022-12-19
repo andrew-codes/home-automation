@@ -13,7 +13,7 @@ automation:
       - service: media_player.turn_on
         target:
           entity_id: media_player.gaming_room_universal_gaming_pc
-      - delay: 30
+      - delay: 10
       - service: mqtt.publish
         data:
           topic: "homeassistant/button/GAMING-PC/GAMING-PC_powershell/action"
