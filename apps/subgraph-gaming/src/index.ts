@@ -139,6 +139,8 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
       logger.info("genres")
 
       logger.debug(JSON.stringify(parent))
+      logger.debug(JSON.stringify(args))
+      logger.debug(JSON.stringify(ctx))
       return (
         (await ctx.db
           .collection("genres")
@@ -149,7 +151,6 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
   },
   GamePlatform: {
     __resolveReference(ref, ctx: GraphContext) {
-      logger.info("did I get called?")
       return ctx.db.collection("platforms").findOne({ _id: ref.id })
     },
     async platforms(parent, args, ctx) {
@@ -163,7 +164,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
   },
   GameSeries: {
     __resolveReference(ref, ctx: GraphContext) {
-      return ctx.db.collection("series").findOne({ _id: new ObjectId(ref.id) })
+      return ctx.db.collection("series").findOne({ _id: ref.id })
     },
     async series(parent, args, ctx) {
       return (
@@ -178,12 +179,10 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
   },
   GameSource: {
     __resolveReference(ref, ctx: GraphContext) {
-      return ctx.db.collection("sources").find({ _id: new ObjectId(ref.id) })
+      return ctx.db.collection("sources").findOne({ _id: ref.id })
     },
     source(parent, args, ctx) {
-      return ctx.db
-        .collection("sources")
-        .findOne({ _id: new ObjectId(parent.sourceId) })
+      return ctx.db.collection("sources").findOne({ _id: parent.sourceId })
     },
   },
 }
