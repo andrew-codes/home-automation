@@ -3,6 +3,6 @@ supergraph:
   path: /graphql
   introspection: true
 homepage:
-  enabled: false
+  enabled: true
 sandbox:
   enabled: true
