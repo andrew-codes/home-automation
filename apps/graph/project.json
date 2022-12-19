@@ -49,7 +49,13 @@
       "options": {
         "module": "scripts/compile.ts",
         "cwd": "apps/graph"
-      }
+      },
+      "dependsOn": [
+        {
+          "target": "deploy",
+          "projects": "dependencies"
+        }
+      ]
     }
   },
   "tags": [],
