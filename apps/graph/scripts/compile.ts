@@ -7,6 +7,7 @@ const run = async (): Promise<void> => {
   await throwIfError(
     sh.exec(
       `rover supergraph compose --config src/supergraph.yaml > dist/schema.graphql`,
+      { shell: "/bin/bash" },
     ),
   )
 }
