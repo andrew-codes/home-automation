@@ -132,9 +132,13 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
   },
   GameGenre: {
     __resolveReference(ref, ctx: GraphContext) {
+      logger.info("genre by id")
       return ctx.db.collection("genres").findOne({ _id: ref.id })
     },
     async genres(parent, args, ctx) {
+      logger.info("genres")
+
+      logger.debug(JSON.stringify(parent))
       return (
         (await ctx.db
           .collection("genres")
