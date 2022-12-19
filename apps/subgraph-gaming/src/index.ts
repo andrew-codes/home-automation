@@ -93,7 +93,10 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
         .find({})
         .map((game) =>
           merge({}, game, {
-            releaseDate: Date.parse(game.releaseDate?.releaseDate).toString(),
+            releaseDate:
+              game.releaseDate !== null
+                ? Date.parse(game.releaseDate?.releaseDate).toString()
+                : null,
           }),
         )
         .toArray()
@@ -105,9 +108,10 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
         .collection("games")
         .findOne({ _id: new ObjectId(ref.id) })
       return merge({}, game, {
-        releaseDate: Date.parse(
-          (game as any).releaseDate?.releaseDate,
-        ).toString(),
+        releaseDate:
+          game?.releaseDate !== null
+            ? Date.parse((game as any).releaseDate?.releaseDate).toString()
+            : null,
       })
     },
     async games(parent, args, ctx) {
@@ -117,7 +121,10 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
           .find({ _id: { $in: parent.gameIds.map((id) => new ObjectId(id)) } })
           .map((game) =>
             merge({}, game, {
-              releaseDate: Date.parse(game.releaseDate?.releaseDate).toString(),
+              releaseDate:
+                game.releaseDate !== null
+                  ? Date.parse(game.releaseDate?.releaseDate).toString()
+                  : null,
             }),
           )
           .toArray()) ?? []
