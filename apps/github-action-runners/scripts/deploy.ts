@@ -73,7 +73,12 @@ const run = async (
     }),
   )
 
-  await seal(repo_owner, repo_name, "JEST_REPORTER_TOKEN", githubToken.value)
+  await seal(
+    repo_owner.value,
+    repo_name.value,
+    "JEST_REPORTER_TOKEN",
+    githubToken.value,
+  )
 
   const resourceJson = JSON.parse(resources)
   await Promise.all(

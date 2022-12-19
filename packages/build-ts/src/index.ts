@@ -1,4 +1,4 @@
-import esbuild from "esbuild"
+import esbuild, { BuildOptions } from "esbuild"
 import { isProd } from "@ha/env-utils"
 import { merge } from "lodash"
 import path from "path"
@@ -15,10 +15,10 @@ const defaultConfig = {
   define: { "process.env.NODE_ENV": `"${process.env.NODE_ENV}"` },
 }
 
-const build = async (overrides: { external: string[] } = { external: [] }) => {
-  overrides.external = overrides.external.filter(
-    (moduleName) => !/^@ha\/.*/.test(moduleName),
-  )
+const build = async (overrides: BuildOptions = { external: [] }) => {
+  overrides.external =
+    overrides?.external?.filter((moduleName) => !/^@ha\/.*/.test(moduleName)) ??
+    []
   await esbuild.build(merge({}, defaultConfig, overrides) as any)
 }
 
