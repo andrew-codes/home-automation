@@ -108,7 +108,8 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
       return mapGameReleaseDate(
         ctx.db
           .collection("games")
-          .find({ _id: { $in: parent.gameIds.map((id) => new ObjectId(id)) } }),
+          .find({ _id: { $in: parent.gameIds.map((id) => new ObjectId(id)) } })
+          .toArray() ?? [],
       )
     },
   },
@@ -117,10 +118,12 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
       return ctx.db.collection("genres").find({ _id: new ObjectId(ref.id) })
     },
     genres(parent, args, ctx) {
-      return ctx.db
-        .collection("genres")
-        .find({ _id: { $in: parent.genreIds.map((id) => new ObjectId(id)) } })
-        .toArray()
+      return (
+        ctx.db
+          .collection("genres")
+          .find({ _id: { $in: parent.genreIds.map((id) => new ObjectId(id)) } })
+          .toArray() ?? []
+      )
     },
   },
   GamePlatform: {
@@ -128,12 +131,14 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
       return ctx.db.collection("platforms").find({ _id: new ObjectId(ref.id) })
     },
     platforms(parent, args, ctx) {
-      return ctx.db
-        .collection("platforms")
-        .find({
-          _id: { $in: parent.platformIds.map((id) => new ObjectId(id)) },
-        })
-        .toArray()
+      return (
+        ctx.db
+          .collection("platforms")
+          .find({
+            _id: { $in: parent.platformIds.map((id) => new ObjectId(id)) },
+          })
+          .toArray() ?? []
+      )
     },
   },
   GameSeries: {
@@ -141,10 +146,14 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
       return ctx.db.collection("series").find({ _id: new ObjectId(ref.id) })
     },
     series(parent, args, ctx) {
-      return ctx.db
-        .collection("series")
-        .find({ _id: { $in: parent.seriesIds.map((id) => new ObjectId(id)) } })
-        .toArray()
+      return (
+        ctx.db
+          .collection("series")
+          .find({
+            _id: { $in: parent.seriesIds.map((id) => new ObjectId(id)) },
+          })
+          .toArray() ?? []
+      )
     },
   },
   GameSource: {
