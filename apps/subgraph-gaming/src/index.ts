@@ -10,8 +10,8 @@ import gql from "graphql-tag"
 import { buildSubgraphSchema } from "@apollo/subgraph"
 import { createLogger } from "@ha/logger"
 import { Db, GridFSBucket, MongoClient, ObjectId } from "mongodb"
-import { first } from "lodash"
-import { GraphQLError } from "graphql"
+import { map } from "lodash/fp"
+import { merge } from "lodash"
 import type { GraphQLResolverMap } from "@apollo/subgraph/dist/schema-helper"
 import {
   typeDefs as scalarTypeDefs,
@@ -81,6 +81,9 @@ const typeDefs = gql`
     source: GameSource!
   }
 `
+const mapGameReleaseDate = map((game) =>
+  merge({}, game, { releaseDate: game.releaseDate.releaseDate }),
+)
 
 const resolvers: GraphQLResolverMap<GraphContext> = {
   ...scalarResolvers,
@@ -89,17 +92,24 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
       return ctx.db.collection("genres").find({}).toArray()
     },
     games(parent, args, ctx) {
-      return ctx.db.collection("games").find({}).toArray()
+      return mapGameReleaseDate(ctx.db.collection("games").find({}).toArray())
     },
   },
   Game: {
     __resolveReference(ref, ctx: GraphContext) {
-      return ctx.db.collection("games").find({ _id: new ObjectId(ref.id) })
+      const game = ctx.db
+        .collection("games")
+        .find({ _id: new ObjectId(ref.id) })
+      return merge({}, game, {
+        releaseDate: (game as any).releaseDate.releaseDate,
+      })
     },
     games(parent, args, ctx) {
-      return ctx.db
-        .collection("games")
-        .find({ _id: { $in: parent.gameIds.map((id) => new ObjectId(id)) } })
+      return mapGameReleaseDate(
+        ctx.db
+          .collection("games")
+          .find({ _id: { $in: parent.gameIds.map((id) => new ObjectId(id)) } }),
+      )
     },
   },
   GameGenre: {
