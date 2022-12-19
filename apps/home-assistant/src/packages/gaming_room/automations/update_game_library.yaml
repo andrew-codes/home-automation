@@ -17,7 +17,9 @@ automation:
       - service: mqtt.publish
         data:
           topic: "homeassistant/button/GAMING-PC/GAMING-PC_powershell/action"
-          payload: 'Get-WmiObject -Filter "Name LIKE ''Playnite%''" -Class Win32_Process | Select-Object -ExpandProperty ProcessId | ForEach { stop-process $_ }'
+          payload: >-
+            Get-WmiObject -Filter "Name LIKE 'Playnite%'" -Class Win32_Process | Select-Object -ExpandProperty ProcessId | ForEach { stop-process $_ }
+
       - delay: 10
       - service: mqtt.publish
         data:
@@ -27,7 +29,8 @@ automation:
       - service: mqtt.publish
         data:
           topic: "homeassistant/button/GAMING-PC/GAMING-PC_powershell/action"
-          payload: 'Get-WmiObject -Filter "Name LIKE ''Playnite%''" -Class Win32_Process | Select-Object -ExpandProperty ProcessId | ForEach { stop-process $_ }'
+          payload: >-
+            Get-WmiObject -Filter "Name LIKE 'Playnite%'" -Class Win32_Process | Select-Object -ExpandProperty ProcessId | ForEach { stop-process $_ }
       - delay: 10
       - service: media_player.turn_off
         target:
