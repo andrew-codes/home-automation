@@ -109,7 +109,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
       })
     },
     async games(parent, args, ctx) {
-      return (
+      const output =
         (await ctx.db
           .collection("games")
           .find({ _id: { $in: parent.gameIds.map((id) => new ObjectId(id)) } })
@@ -119,7 +119,8 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
             }),
           )
           .toArray()) ?? []
-      )
+      logger.info(`games output: ${JSON.stringify(output)}`)
+      return output
     },
   },
   GameGenre: {
@@ -137,6 +138,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
   },
   GamePlatform: {
     __resolveReference(ref, ctx: GraphContext) {
+      logger.info("did I get called?")
       return ctx.db
         .collection("platforms")
         .findOne({ _id: new ObjectId(ref.id) })
