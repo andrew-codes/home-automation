@@ -15,7 +15,7 @@ const run = async (
     )
   }
 
-  console.log(`Deploying proejcts: ${projects.join(",")}`)
+  console.log(`Deploying projects: ${projects.join(",")}`)
   const token = await configurationApi.get("github/token")
   const owner = await configurationApi.get("repository/owner")
   const repo = await configurationApi.get("repository/name")
