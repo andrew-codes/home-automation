@@ -44,6 +44,7 @@ const typeDefs = gql`
   type GameGenre @key(fields: "id") {
     id: ID!
     name: String!
+    games: [Game!]!
   }
 
   type GameSeries @key(fields: "id") {
@@ -66,19 +67,19 @@ const typeDefs = gql`
     criticScore: Int
     description: String
     gameId: String!
-    genres: [GameGenre]!
+    genres: [GameGenre!]!
     isInstalled: Boolean!
     isInstalling: Boolean!
     isLaunching: Boolean!
     isRunning: Boolean!
     isUninstalling: Boolean!
     name: String!
-    platforms: [GamePlatform]!
+    platforms: [GamePlatform!]!
     recentActivity: DateTime
     releaseDate: Date
     releaseYear: Int
-    series: [GameSeries]!
-    source: GameSource!
+    series: [GameSeries!]!
+    source: GameSource
   }
 `
 const mapGameReleaseDate = map((game) =>
