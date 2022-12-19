@@ -6,7 +6,7 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                      { name: 'MQTT_HOST', value: 'mqtt' },
                      { name: 'MQTT_PORT', value: '1883' },
                      { name: 'NODE_TLS_REJECT_UNAUTHORIZED', value: '0' },
-                     { name: 'DB_HOST', value: 'gaming-library-db' },
+                     { name: 'DB_HOST', value: 'game-library-db' },
                    ]);
 
 std.objectValues(deployment)

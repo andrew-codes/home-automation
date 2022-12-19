@@ -1,6 +1,6 @@
 federation_version: 2
 subgraphs:
   gaming:
-    routing_url: https://subgraph-gaming
+    routing_url: http://subgraph-gaming
     schema:
-      subgraph_url: https://subgraph-gaming
+      subgraph_url: http://subgraph-gaming

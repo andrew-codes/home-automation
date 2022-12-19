@@ -20,7 +20,7 @@ import {
 
 const logger = createLogger()
 type GraphContext = {
-  token: string
+  // token: string
   db: Db
 } & BaseContext
 
@@ -173,22 +173,22 @@ const run = async () => {
     bodyParser.json({ limit: "50mb" }),
     expressMiddleware(server, {
       context: async ({ req }) => {
-        const token = first(req.headers.authorization)
-        if (!token) {
-          throw new GraphQLError("User is not authenticated", {
-            extensions: {
-              code: "UNAUTHENTICATED",
-              http: { status: 401 },
-            },
-          })
-        }
+        // const token = first(req.headers.authorization)
+        // if (!token) {
+        //   throw new GraphQLError("User is not authenticated", {
+        //     extensions: {
+        //       code: "UNAUTHENTICATED",
+        //       http: { status: 401 },
+        //     },
+        //   })
+        // }
         const host = process.env.DB_HOST
         const connectionUrl = `mongodb://${host}`
         const client = new MongoClient(connectionUrl)
         await client.connect()
         const db = client.db("gameLibrary")
 
-        return { db, token }
+        return { db }
       },
     }),
   )
