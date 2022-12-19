@@ -162,7 +162,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
     },
     source(parent, args, ctx) {
       return ctx.db
-        .collection("platforms")
+        .collection("sources")
         .find({ _id: new ObjectId(parent.sourceId) })
     },
   },
