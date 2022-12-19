@@ -104,9 +104,11 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
   },
   Game: {
     async __resolveReference(ref, ctx: GraphContext) {
+      console.log("resolve game", ref)
       return ref
     },
     async games(parent, args, ctx) {
+      console.log("resolve games", parent, args, ctx)
       const output =
         (await ctx.db
           .collection("games")
@@ -126,8 +128,9 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
   },
   GameGenre: {
     __resolveReference(ref, ctx: GraphContext) {
-      return ref
       logger.info("genre by id")
+      console.log("genre by id", ref, ctx)
+      return ref
     },
     async genres(parent, args, ctx) {
       logger.info("genres")
@@ -135,6 +138,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
       logger.debug(JSON.stringify(parent))
       logger.debug(JSON.stringify(args))
       logger.debug(JSON.stringify(ctx))
+      console.log("genres", parent, args, ctx)
       return (
         (await ctx.db
           .collection("genres")
