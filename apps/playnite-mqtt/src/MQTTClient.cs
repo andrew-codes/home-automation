@@ -246,6 +246,7 @@ namespace MQTTClient
 
         private async Task PublishGames(IEnumerable<Game> games, bool isUpdate = false)
         {
+            await client.PublishStringAsync($"playnite/library/refreshing", "", retain: false, qualityOfServiceLevel: MqttQualityOfServiceLevel.AtLeastOnce);
             if (!games.Any())
             {
                 return;
@@ -277,6 +278,7 @@ namespace MQTTClient
                 await PublishFileAsync($"{topicPart}/platform/{platform.Id}/attributes/background", platform.Background, MqttQualityOfServiceLevel.AtLeastOnce, false);
                 await PublishFileAsync($"{topicPart}/platform/{platform.Id}/attributes/icon", platform.Icon, MqttQualityOfServiceLevel.AtLeastOnce, false);
             }
+            await client.PublishStringAsync($"playnite/library/refreshed", "", retain: false, qualityOfServiceLevel: MqttQualityOfServiceLevel.AtLeastOnce);
         }
 
         private void Games_ItemUpdated(object sender, ItemUpdatedEventArgs<Game> e)

@@ -10,7 +10,6 @@ async function run() {
   await createHeartbeat()
   const mqtt = await createMqtt()
   await mqtt.subscribe("playnite/library/#")
-  await mqtt.subscribe("homeassistant/button/GAMING-PC/+/action")
 
   try {
     mqtt.on("message", async (topic, payload) => {
@@ -22,16 +21,9 @@ async function run() {
               .filter((handler) => handler.shouldHandle(topic))
               .map((handler) => handler.handle(topic, payload)),
           )
-        } else if (
-          topic ===
-          "homeassistant/button/GAMING-PC/GAMING-PC_start-playnite/action"
-        ) {
+        } else if (topic === "playnite/library/refreshing") {
           logger.info("Starting a library refresh")
-        } else if (
-          topic === "homeassistant/button/GAMING-PC/GAMING-PC_run/action" &&
-          payload.toString() ===
-            "Get-WmiObject -Filter \"Name LIKE 'Playnite%'\" -Class Win32_Process | Select-Object -ExpandProperty ProcessId | ForEach { stop-process $_ }"
-        ) {
+        } else if (topic === "playnite/library/refreshed") {
           logger.info("Stopping a library refresh")
         }
       } catch (error) {

@@ -69,9 +69,8 @@ const messageHandler: MessageHandler = {
     try {
       logger.info(`Game attributes handling topic: ${topic}`)
       const deserializedGames = flow(JSON.parse, formatKeys)(payload.toString())
-      logger.debug("Deserialized games", deserializedGames)
+      logger.debug("Deserialized games", { games: deserializedGames })
       const games = toGames(deserializedGames)
-      logger.debug("Games in payload", games)
 
       const nonForeignKeys = toNonForeignKeys(games)
       const toGamesWithoutForeignKeys = flow(map(pick(nonForeignKeys)))
@@ -82,32 +81,27 @@ const messageHandler: MessageHandler = {
         concat([gamesWithoutRelations]),
         zipObject(["games"].concat(foreignKeys)),
         entries,
-        reduce(
-          (
-            acc,
-            [key, values],
-            index,
-            items: [key: string, value: { id }[]][],
-          ) => {
-            if (key === "games") {
-              return acc.concat([key, values])
-            }
+        reduce((acc, [key, values], index) => {
+          if (key === "games") {
+            return acc.concat([key, values])
+          }
 
-            const games =
-              items.find(([keyFromList]) => keyFromList === "games")?.[1] ?? []
+          const valuesWithInverseGameRelation = values.map((value) =>
+            merge({}, value, {
+              gameIds: games
+                .filter((game) => {
+                  if (Array.isArray(game[key])) {
+                    return game[key].includes(value.id)
+                  } else {
+                    return game[key] === value.id
+                  }
+                })
+                .map((game) => game.id),
+            }),
+          )
 
-            const valuesWithInverseGameRelation = values.map((value) =>
-              merge({}, value, {
-                gameIds: games
-                  .filter((game) => game[key].includes(value.id))
-                  .map((game) => game.id),
-              }),
-            )
-
-            return acc.concat([key, valuesWithInverseGameRelation])
-          },
-          [],
-        ),
+          return acc.concat([key, valuesWithInverseGameRelation])
+        }, []),
       )
 
       const client = await getMongoDbClient()
@@ -116,7 +110,9 @@ const messageHandler: MessageHandler = {
         prepareForDbInsert,
         map(([key, value]) =>
           map(async (item) => {
-            logger.debug(`Collection ${key}; Updating item ${item.id}`, item)
+            logger.debug(`Collection ${key}; Updating item ${item.id}`, {
+              item,
+            })
             return await db
               .collection(key)
               .updateOne({ _id: item.id }, { $set: item }, { upsert: true })
@@ -127,7 +123,7 @@ const messageHandler: MessageHandler = {
 
       await Promise.all(dbInserts(games))
     } catch (error) {
-      logger.error(`DB Game update Error: ${error}`)
+      logger.error(`DB Game update Error`, error)
     }
   },
 }
