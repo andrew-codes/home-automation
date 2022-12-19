@@ -37,25 +37,25 @@ const typeDefs = gql`
   type GamePlatform @key(fields: "id") {
     id: ID!
     name: String!
-    games: [Game]
+    games: [Game]!
   }
 
   type GameGenre @key(fields: "id") {
     id: ID!
     name: String!
-    games: [Game]
+    games: [Game]!
   }
 
   type GameSeries @key(fields: "id") {
     id: ID!
     name: String!
-    games: [Game]
+    games: [Game]!
   }
 
   type GameSource @key(fields: "id") {
     id: ID!
     name: String!
-    games: [Game]
+    games: [Game]!
   }
 
   type Game @key(fields: "id") {
@@ -66,18 +66,18 @@ const typeDefs = gql`
     criticScore: Int
     description: String
     gameId: String!
-    genres: [GameGenre]
+    genres: [GameGenre]!
     isInstalled: Boolean!
     isInstalling: Boolean!
     isLaunching: Boolean!
     isRunning: Boolean!
     isUninstalling: Boolean!
     name: String!
-    platforms: [GamePlatform]
+    platforms: [GamePlatform]!
     recentActivity: DateTime
     releaseDate: Date
     releaseYear: Int
-    series: [GameSeries]
+    series: [GameSeries]!
     source: GameSource
   }
 `
@@ -107,7 +107,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
   Game: {
     async __resolveReference(ref, ctx: GraphContext) {
       console.log("resolve game", ref)
-      return ref
+      return ctx.db.collection("games").findOne({ _id: ref.id })
     },
     async games(parent, args, ctx) {
       console.log("resolve games", parent, args, ctx)
@@ -132,7 +132,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
     __resolveReference(ref, ctx: GraphContext) {
       logger.info("genre by id")
       console.log("genre by id", ref, ctx)
-      return ref
+      return ctx.db.collection("genres").findOne({ _id: ref.id })
     },
     async genres(parent, args, ctx) {
       logger.info("genres")
@@ -151,7 +151,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
   },
   GamePlatform: {
     __resolveReference(ref, ctx: GraphContext) {
-      return ref
+      return ctx.db.collection("platforms").findOne({ _id: ref.id })
     },
     async platforms(parent, args, ctx) {
       return await (ctx.db
@@ -164,7 +164,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
   },
   GameSeries: {
     __resolveReference(ref, ctx: GraphContext) {
-      return ref
+      return ctx.db.collection("").findOne({ _id: ref.id })
     },
     async series(parent, args, ctx) {
       return (
@@ -179,7 +179,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
   },
   GameSource: {
     __resolveReference(ref, ctx: GraphContext) {
-      return ref
+      return ctx.db.collection("sources").findOne({ _id: ref.id })
     },
     source(parent, args, ctx) {
       return ctx.db.collection("sources").findOne({ _id: parent.sourceId })
