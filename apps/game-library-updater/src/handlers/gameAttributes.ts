@@ -81,26 +81,27 @@ const messageHandler: MessageHandler = {
         concat([gamesWithoutRelations]),
         zipObject(["games"].concat(foreignKeys)),
         entries,
-        reduce((acc, [key, values], index) => {
+        reduce((acc, [key, values]) => {
           if (key === "games") {
-            return acc.concat([key, values])
+            return acc.concat([[key, values]])
           }
 
-          const valuesWithInverseGameRelation = values.map((value) =>
-            merge({}, value, {
-              gameIds: games
-                .filter((game) => {
-                  if (Array.isArray(game[key])) {
-                    return game[key].includes(value.id)
-                  } else {
-                    return game[key] === value.id
-                  }
-                })
-                .map((game) => game.id),
-            }),
-          )
+          const valuesWithInverseGameRelation =
+            values?.map((value) =>
+              merge({}, value, {
+                gameIds: games
+                  .filter((game) => {
+                    if (Array.isArray(game[key])) {
+                      return game[key].find((k) => k.id === value.id)
+                    } else {
+                      return game[`${key}Id`] === value.id
+                    }
+                  })
+                  .map((game) => game.id),
+              }),
+            ) ?? []
 
-          return acc.concat([key, valuesWithInverseGameRelation])
+          return acc.concat([[key, valuesWithInverseGameRelation]])
         }, []),
       )
 
@@ -108,6 +109,9 @@ const messageHandler: MessageHandler = {
       const db = await client.db("gameLibrary")
       const dbInserts = flow(
         prepareForDbInsert,
+        tap((data) => {
+          logger.debug(JSON.stringify(data))
+        }),
         map(([key, value]) =>
           map(async (item) => {
             logger.debug(`Collection ${key}; Updating item ${item.id}`, {
