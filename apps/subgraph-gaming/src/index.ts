@@ -92,7 +92,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
         .collection("games")
         .find({})
         .map((game) =>
-          merge({}, game, { releaseDate: game.releaseDate.releaseDate }),
+          merge({}, game, { releaseDate: game.releaseDate?.releaseDate }),
         )
         .toArray()
     },
@@ -103,7 +103,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
         .collection("games")
         .findOne({ _id: new ObjectId(ref.id) })
       return merge({}, game, {
-        releaseDate: (game as any).releaseDate.releaseDate,
+        releaseDate: (game as any).releaseDate?.releaseDate,
       })
     },
     games(parent, args, ctx) {
@@ -112,7 +112,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
           .collection("games")
           .find({ _id: { $in: parent.gameIds.map((id) => new ObjectId(id)) } })
           .map((game) =>
-            merge({}, game, { releaseDate: game.releaseDate.releaseDate }),
+            merge({}, game, { releaseDate: game.releaseDate?.releaseDate }),
           )
           .toArray() ?? []
       )
