@@ -87,8 +87,8 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
     genres(parent, args, ctx) {
       return ctx.db.collection("genres").find({}).toArray()
     },
-    games(parent, args, ctx) {
-      return ctx.db
+    async games(parent, args, ctx) {
+      const games = ctx.db
         .collection("games")
         .find({})
         .map((game) =>
@@ -100,6 +100,8 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
           }),
         )
         .toArray()
+      console.log("games", games)
+      return games
     },
   },
   Game: {
