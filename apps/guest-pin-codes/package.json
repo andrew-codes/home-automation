@@ -17,7 +17,7 @@
     "async-mqtt": "^2.6.1",
     "cron": "^1.8.2",
     "debug": "^4.3.1",
-    "esbuild-register": "^3.3.2",
+    "esbuild-register": "^3.4.2",
     "google-auth-library": "^7.0.4",
     "googleapis": "^92.0.0",
     "lodash": "^4.17.21",

@@ -7,7 +7,7 @@
   "executors": "./executors.js",
   "dependencies": {
     "@nrwl/devkit": "^14.1.7",
-    "esbuild-register": "^3.3.2",
+    "esbuild-register": "^3.4.2",
     "lodash": "^4.17.21",
     "shelljs": "^0.8.5"
   },

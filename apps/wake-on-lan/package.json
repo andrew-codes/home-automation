@@ -11,7 +11,7 @@
     "@ha/mqtt-client": "^0.0.1",
     "@ha/shell-utils": "^1.0.0",
     "async-mqtt": "^2.6.1",
-    "esbuild-register": "^3.3.2",
+    "esbuild-register": "^3.4.2",
     "lodash": "^4.17.21",
     "nodemon": "^2.0.6",
     "wakeonlan": "^0.1.0"

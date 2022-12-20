@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@ha/build-ts": "^1.0.0",
-    "esbuild-register": "^3.3.2",
+    "esbuild-register": "^3.4.2",
     "jest-when": "^3.2.1",
     "nodemon": "^2.0.6"
   }

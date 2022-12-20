@@ -13,7 +13,7 @@
     "@ha/mqtt-client": "^0.0.1",
     "@ha/unifi-client": "^0.1.0",
     "async-mqtt": "^2.6.1",
-    "esbuild-register": "^3.3.2",
+    "esbuild-register": "^3.4.2",
     "jest-when": "^3.2.1",
     "nodemon": "^2.0.6"
   }
