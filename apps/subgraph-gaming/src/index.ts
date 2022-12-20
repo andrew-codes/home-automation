@@ -10,6 +10,7 @@ import gql from "graphql-tag"
 import { buildSubgraphSchema } from "@apollo/subgraph"
 import { createLogger } from "@ha/logger"
 import { Db, GridFSBucket, MongoClient, ObjectId } from "mongodb"
+import { flow, map, first } from "lodash/fp"
 import { merge } from "lodash"
 import type { GraphQLResolverMap } from "@apollo/subgraph/dist/schema-helper"
 import {
@@ -81,6 +82,20 @@ const typeDefs = gql`
     source: GameSource
   }
 `
+
+const toGames = map((dbGame) =>
+  merge({}, dbGame, {
+    platforms: dbGame.platformIds,
+    genres: dbGame.genreIds,
+    series: dbGame.seriesIds,
+    releaseDate:
+      dbGame.releaseDate !== null
+        ? Date.parse(dbGame.releaseDate?.releaseDate).toString()
+        : null,
+  }),
+)
+const toGame = flow(toGames, first)
+
 const resolvers: GraphQLResolverMap<GraphContext> = {
   ...scalarResolvers,
   Query: {
@@ -88,50 +103,25 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
       return ctx.db.collection("genres").find({}).toArray()
     },
     async games(parent, args, ctx) {
-      const games = ctx.db
-        .collection("games")
-        .find({})
-        .map((game) =>
-          merge({}, game, {
-            releaseDate:
-              game.releaseDate !== null
-                ? Date.parse(game.releaseDate?.releaseDate).toString()
-                : null,
-          }),
-        )
-        .toArray()
-      console.log("games", games)
-      return games
+      const games = await ctx.db.collection("games").find({}).toArray()
+      return toGames(games)
     },
   },
   Game: {
     async __resolveReference(ref, ctx: GraphContext) {
-      console.log("resolve game", ref)
-      return ctx.db.collection("games").findOne({ _id: ref.id })
+      const game = await ctx.db.collection("games").findOne({ _id: ref.id })
+      return toGame([game])
     },
     async games(parent, args, ctx) {
-      console.log("resolve games", parent, args, ctx)
-      const output =
-        (await ctx.db
-          .collection("games")
-          .find({ _id: { $in: parent.gameIds } })
-          .map((game) =>
-            merge({}, game, {
-              releaseDate:
-                game.releaseDate !== null
-                  ? Date.parse(game.releaseDate?.releaseDate).toString()
-                  : null,
-            }),
-          )
-          .toArray()) ?? []
-      logger.info(`games output: ${JSON.stringify(output)}`)
-      return output
+      const games = await ctx.db
+        .collection("games")
+        .find({ _id: { $in: parent.gameIds } })
+        .toArray()
+      return toGames(games)
     },
   },
   GameGenre: {
     __resolveReference(ref, ctx: GraphContext) {
-      logger.info("genre by id")
-      console.log("genre by id", ref, ctx)
       return ctx.db.collection("genres").findOne({ _id: ref.id })
     },
     async genres(parent, args, ctx) {
