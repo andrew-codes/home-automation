@@ -5,7 +5,8 @@ import { throwIfError } from "@ha/shell-utils"
 interface TelepresenceExecutorOptions {
   command: string
   cwd: string
-  port: number
+  fromPort: number
+  toPort: number
   serviceName?: string
 }
 
@@ -14,6 +15,7 @@ async function executor(
   context: ExecutorContext,
 ): Promise<{ success: boolean }> {
   try {
+    console.log("Starting local")
     if (!context.projectName) {
       return { success: false }
     }
@@ -21,8 +23,8 @@ async function executor(
     const command = `telepresence intercept "${
       context.projectName
     }" --service "${options.serviceName ?? context.projectName}" --port ${
-      options.port
-    }:${options.port} --mount false -- ${options.command}`
+      options.fromPort
+    }:${options.toPort} --mount false -- ${options.command}`
     await throwIfError(sh.exec(command, { cwd: options.cwd }))
   } catch (error) {
     console.log(error)

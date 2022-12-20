@@ -9,19 +9,21 @@ import bodyParser from "body-parser"
 import gql from "graphql-tag"
 import { buildSubgraphSchema } from "@apollo/subgraph"
 import { createLogger } from "@ha/logger"
-import { Db, GridFSBucket, MongoClient, ObjectId } from "mongodb"
-import { flow, map, first } from "lodash/fp"
-import { merge } from "lodash"
 import type { GraphQLResolverMap } from "@apollo/subgraph/dist/schema-helper"
 import {
   typeDefs as scalarTypeDefs,
   resolvers as scalarResolvers,
 } from "graphql-scalars"
+import { Db, GridFSBucket, MongoClient, ObjectId } from "mongodb"
+import { get } from "lodash/fp"
+import type { Loaders } from "./loaders"
+import createLoader from "./loaders"
 
 const logger = createLogger()
 type GraphContext = {
   // token: string
   db: Db
+  loaders: Loaders
 } & BaseContext
 
 const typeDefs = gql`
@@ -33,30 +35,31 @@ const typeDefs = gql`
   type Query {
     games: [Game!]!
     genres: [GameGenre!]!
+    platforms: [GamePlatform!]!
   }
 
   type GamePlatform @key(fields: "id") {
     id: ID!
     name: String!
-    games: [Game]!
+    games: [Game!]!
   }
 
   type GameGenre @key(fields: "id") {
     id: ID!
     name: String!
-    games: [Game]!
+    games: [Game!]!
   }
 
   type GameSeries @key(fields: "id") {
     id: ID!
     name: String!
-    games: [Game]!
+    games: [Game!]!
   }
 
   type GameSource @key(fields: "id") {
     id: ID!
     name: String!
-    games: [Game]!
+    games: [Game!]!
   }
 
   type Game @key(fields: "id") {
@@ -67,104 +70,82 @@ const typeDefs = gql`
     criticScore: Int
     description: String
     gameId: String!
-    genres: [GameGenre]!
+    genres: [GameGenre!]!
     isInstalled: Boolean!
     isInstalling: Boolean!
     isLaunching: Boolean!
     isRunning: Boolean!
     isUninstalling: Boolean!
     name: String!
-    platforms: [GamePlatform]!
+    platforms: [GamePlatform!]
     recentActivity: DateTime
     releaseDate: Date
     releaseYear: Int
-    series: [GameSeries]!
+    series: [GameSeries!]!
     source: GameSource
   }
 `
 
-const toGames = map((dbGame) =>
-  merge({}, dbGame, {
-    platforms: dbGame.platformIds,
-    genres: dbGame.genreIds,
-    series: dbGame.seriesIds,
-    releaseDate:
-      dbGame.releaseDate !== null
-        ? Date.parse(dbGame.releaseDate?.releaseDate).toString()
-        : null,
-  }),
-)
-const toGame = flow(toGames, first)
-
 const resolvers: GraphQLResolverMap<GraphContext> = {
   ...scalarResolvers,
   Query: {
-    genres(parent, args, ctx) {
-      return ctx.db.collection("genres").find({}).toArray()
+    async genres(parent, args, ctx) {
+      const ids =
+        ((await ctx.db
+          .collection("genres")
+          .find({})
+          .map(get("id"))
+          .toArray()) as string[]) ?? ([] as string[])
+
+      return ctx.loaders.games.loadMany(ids)
     },
     async games(parent, args, ctx) {
-      const games = await ctx.db.collection("games").find({}).toArray()
-      return toGames(games)
+      const ids =
+        ((await ctx.db
+          .collection("games")
+          .find({})
+          .map(get("id"))
+          .toArray()) as string[]) ?? ([] as string[])
+
+      return ctx.loaders.games.loadMany(ids)
     },
   },
   Game: {
-    async __resolveReference(ref, ctx: GraphContext) {
-      const game = await ctx.db.collection("games").findOne({ _id: ref.id })
-      return toGame([game])
+    __resolveReference(ref, ctx: GraphContext) {
+      return ctx.loaders.games.load(ref.id)
     },
-    async games(parent, args, ctx) {
-      const games = await ctx.db
-        .collection("games")
-        .find({ _id: { $in: parent.gameIds } })
-        .toArray()
-      return toGames(games)
+    platforms(parent, args, ctx) {
+      return ctx.loaders.platforms.loadMany(parent.platformIds)
+    },
+    genres(parent, args, ctx) {
+      return ctx.loaders.genres.loadMany(parent.genreIds)
+    },
+    series(parent, args, ctx) {
+      return ctx.loaders.series.loadMany(parent.seriesIds)
     },
   },
   GameGenre: {
     __resolveReference(ref, ctx: GraphContext) {
       return ctx.db.collection("genres").findOne({ _id: ref.id })
     },
-    async genres(parent, args, ctx) {
-      logger.info("genres")
-
-      logger.debug(JSON.stringify(parent))
-      logger.debug(JSON.stringify(args))
-      logger.debug(JSON.stringify(ctx))
-      console.log("genres", parent, args, ctx)
-      return (
-        (await ctx.db
-          .collection("genres")
-          .find({ _id: { $in: parent.genreIds } })
-          .toArray()) ?? []
-      )
+    games(parent, args, ctx) {
+      return ctx.loaders.games.loadMany(parent.gameIds)
     },
   },
   GamePlatform: {
     __resolveReference(ref, ctx: GraphContext) {
       return ctx.db.collection("platforms").findOne({ _id: ref.id })
     },
-    async platforms(parent, args, ctx) {
-      return await (ctx.db
-        .collection("platforms")
-        .find({
-          _id: { $in: parent.platformIds },
-        })
-        .toArray() ?? [])
+    games(parent, args, ctx) {
+      return ctx.loaders.games.loadMany(parent.gameIds)
     },
   },
   GameSeries: {
     __resolveReference(ref, ctx: GraphContext) {
       return ctx.db.collection("").findOne({ _id: ref.id })
     },
-    async series(parent, args, ctx) {
-      return (
-        (await ctx.db
-          .collection("series")
-          .find({
-            _id: { $in: parent.seriesIds },
-          })
-          .toArray()) ?? []
-      )
+    games(parent, args, ctx) {
+      return ctx.loaders.games.loadMany(parent.gameIds)
     },
   },
   GameSource: {
@@ -173,6 +154,9 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
     },
     source(parent, args, ctx) {
       return ctx.db.collection("sources").findOne({ _id: parent.sourceId })
+    },
+    games(parent, args, ctx) {
+      return ctx.loaders.games.loadMany(parent.gameIds)
     },
   },
 }
@@ -220,8 +204,9 @@ const run = async () => {
         const client = new MongoClient(connectionUrl)
         await client.connect()
         const db = client.db("gameLibrary")
+        const loaders = await createLoader(db)
 
-        return { db }
+        return { db, loaders }
       },
     }),
   )

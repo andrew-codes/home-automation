@@ -4,7 +4,7 @@
   "description": "Nx executors for projects.",
   "version": "0.0.1",
   "license": "MIT",
-  "executors": "./executors.js",
+  "executors": "./executors.json",
   "dependencies": {
     "@nrwl/devkit": "^14.1.7",
     "esbuild-register": "^3.4.2",

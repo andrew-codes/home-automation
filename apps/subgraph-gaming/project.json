@@ -45,10 +45,12 @@
       }
     },
     "serve": {
-      "executor": "@ha/nx-executors:invoke",
+      "executor": "@ha/nx-executors:telepresence-local",
       "options": {
         "cwd": "apps/subgraph-gaming",
-        "module": "scripts/start.ts"
+        "fromPort": 8081,
+        "toPort": 80,
+        "command": "nodemon src/index.ts"
       }
     },
     "test": {
