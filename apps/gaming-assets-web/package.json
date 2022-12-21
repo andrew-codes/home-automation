@@ -12,11 +12,14 @@
     "mongodb": "^4.12.1"
   },
   "devDependencies": {
-    "@ha/shell-utils": "^1.0.0",
+    "@ha/build-ts": "^1.0.0",
+    "@ha/configuration-api": "^0.0.1",
+    "@ha/configuration-workspace": "^0.0.1",
+    "@ha/jsonnet": "^0.0.1",
+    "@ha/kubectl": "^1.0.0",
     "@types/node": "^17.0.2",
     "esbuild-register": "3.4.2",
     "jest-when": "^3.2.1",
-    "nodemon": "^2.0.20",
-    "shelljs": "^0.8.5"
+    "nodemon": "^2.0.20"
   }
 }
