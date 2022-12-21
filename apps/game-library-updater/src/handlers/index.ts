@@ -1,7 +1,7 @@
 import gameAttributes from "./gameAttributes"
-import gameCovers from "./gameCovers"
+import gameAssets from "./gameAssets"
 import { MessageHandler } from "./types"
 
-const handlers: MessageHandler[] = [gameAttributes]
+const handlers: MessageHandler[] = [gameAttributes, gameAssets]
 
 export default handlers

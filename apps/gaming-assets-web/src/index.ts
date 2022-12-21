@@ -39,12 +39,12 @@ const run = async () => {
       await client.connect()
       const db = client.db("gameLibrary")
       const bucket = new GridFSBucket(db, {
-        bucketName: "covers",
+        bucketName: "assets",
       })
       bucket
         .openDownloadStream(new ObjectId(id as string))
         .pipe(resp)
-        .end()
+        .end(() => resp.end())
     } catch (error) {
       logger.error(error)
       resp.status(500)

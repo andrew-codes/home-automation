@@ -36,7 +36,26 @@ const customizer = (objValue, srcValue) => {
   return obj.concat(src)
 }
 
-const toGames = flow(map((game) => merge(game, { _id: game.id })))
+const assetIdRegExpression = /.*\\\\(.*)$/
+const toAssetId = (id: string, asset: string) => {
+  const matches = asset.match(assetIdRegExpression)
+  if (!matches?.[1]) {
+    throw new Error("Cannot extract asset ID.")
+  }
+
+  return `${id}_${matches[1]}`
+}
+
+const toGames = flow(
+  map((game) =>
+    merge(game, {
+      _id: game.id,
+      backgroundImage: toAssetId(game.id, game.backgroundImage),
+      coverImage: toAssetId(game.id, game.coverImage),
+      icon: toAssetId(game.id, game.icon),
+    }),
+  ),
+)
 const foreignKeys = [
   "genres",
   "developers",

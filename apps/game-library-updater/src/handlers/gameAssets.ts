@@ -6,7 +6,7 @@ import { Readable } from "stream"
 
 const logger = createLogger()
 
-const expr = /^playnite\/library\/game\/(.*)\/attributes\/cover$/
+const expr = /^playnite\/library\/game\/(.*)\/attributes\/asset\/(.*)$/
 
 const messageHandler: MessageHandler = {
   shouldHandle: (topic) => expr.test(topic),
@@ -20,14 +20,16 @@ const messageHandler: MessageHandler = {
         return
       }
       const gameId = matches[1]
-      logger.debug(`Game ID: ${gameId}`)
+      const assetId = matches[2]
+      logger.debug(`Game ID: ${gameId} and asset ${assetId}`)
+      const id = `${gameId}_${assetId}`
 
       const client = await getMongoDbClient()
       const db = await client.db("gameLibrary")
 
       logger.info("Createing GridFS Bucket")
       const bucket = new GridFSBucket(db, {
-        bucketName: "covers",
+        bucketName: "assets",
       })
       const stream = new Readable()
       stream.on("end", () => {
@@ -35,7 +37,7 @@ const messageHandler: MessageHandler = {
       })
 
       const s = stream.pipe(
-        bucket.openUploadStream(gameId, {
+        bucket.openUploadStream(id, {
           chunkSizeBytes: 1048576,
           metadata: { field: "gameId", value: gameId },
         }),
@@ -46,4 +48,5 @@ const messageHandler: MessageHandler = {
     }
   },
 }
+
 export default messageHandler
