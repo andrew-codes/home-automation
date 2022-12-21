@@ -220,15 +220,16 @@ namespace MQTTClient
         {
             if (!string.IsNullOrEmpty(filePath))
             {
-                var coverPath = PlayniteApi.Database.GetFullFilePath(filePath);
-                if (File.Exists(coverPath))
+                var fullPath = PlayniteApi.Database.GetFullFilePath(filePath);
+                var assetId = fullPath.Substring(fullPath.IndexOf("//"));
+                if (File.Exists(fullPath))
                 {
-                    using (var fileStream = File.OpenRead(coverPath))
+                    using (var fileStream = File.OpenRead(fullPath))
                     {
                         var result = new byte[fileStream.Length];
                         await fileStream.ReadAsync(result, 0, result.Length, cancellationToken);
                         return await client.PublishBinaryAsync(
-                            topic,
+                            $"{topic}/{assetId}",
                             result,
                             retain: retain,
                             qualityOfServiceLevel: qualityOfServiceLevel,
@@ -243,6 +244,7 @@ namespace MQTTClient
                 qualityOfServiceLevel: qualityOfServiceLevel,
                 cancellationToken: cancellationToken);
         }
+
 
         private async Task PublishGames(IEnumerable<Game> games, bool isUpdate = false)
         {
@@ -269,14 +271,14 @@ namespace MQTTClient
 
             foreach (var game in games)
             {
-                await PublishFileAsync($"{topicPart}/game/{game.Id}/attributes/cover", game.CoverImage, MqttQualityOfServiceLevel.AtLeastOnce, false);
-                await PublishFileAsync($"{topicPart}/game/{game.Id}/attributes/background", game.BackgroundImage, MqttQualityOfServiceLevel.AtLeastOnce, false);
+                await PublishFileAsync($"{topicPart}/game/{game.Id}/attributes/asset", game.CoverImage, MqttQualityOfServiceLevel.AtLeastOnce, false);
+                await PublishFileAsync($"{topicPart}/game/{game.Id}/attributes/asset", game.BackgroundImage, MqttQualityOfServiceLevel.AtLeastOnce, false);
             }
             foreach (var platform in platforms)
             {
-                await PublishFileAsync($"{topicPart}/platform/{platform.Id}/attributes/cover", platform.Cover, MqttQualityOfServiceLevel.AtLeastOnce, false);
-                await PublishFileAsync($"{topicPart}/platform/{platform.Id}/attributes/background", platform.Background, MqttQualityOfServiceLevel.AtLeastOnce, false);
-                await PublishFileAsync($"{topicPart}/platform/{platform.Id}/attributes/icon", platform.Icon, MqttQualityOfServiceLevel.AtLeastOnce, false);
+                await PublishFileAsync($"{topicPart}/platform/{platform.Id}/attributes/asset", platform.Cover, MqttQualityOfServiceLevel.AtLeastOnce, false);
+                await PublishFileAsync($"{topicPart}/platform/{platform.Id}/attributes/asset", platform.Background, MqttQualityOfServiceLevel.AtLeastOnce, false);
+                await PublishFileAsync($"{topicPart}/platform/{platform.Id}/attributes/asset", platform.Icon, MqttQualityOfServiceLevel.AtLeastOnce, false);
             }
             await client.PublishStringAsync($"playnite/library/refreshed", "", retain: false, qualityOfServiceLevel: MqttQualityOfServiceLevel.AtLeastOnce);
         }
