@@ -1,7 +1,7 @@
 import { createLogger } from "@ha/logger"
 import { MessageHandler } from "./types"
 import getMongoDbClient from "../dbClient"
-import { GridFSBucket } from "mongodb"
+import { GridFSBucket, ObjectId } from "mongodb"
 import { Readable } from "stream"
 
 const logger = createLogger()
@@ -37,7 +37,7 @@ const messageHandler: MessageHandler = {
       })
 
       const s = stream.pipe(
-        bucket.openUploadStream(id, {
+        bucket.openUploadStreamWithId(new ObjectId(id), id, {
           chunkSizeBytes: 1048576,
           metadata: { field: "gameId", value: gameId },
         }),

@@ -41,6 +41,12 @@ const run = async () => {
       const bucket = new GridFSBucket(db, {
         bucketName: "assets",
       })
+      const _id = new ObjectId(id as string)
+      const assetExists = (await bucket.find({ _id }).count()) > 0
+      if (!assetExists) {
+        throw new Error(`Asset ${id} not found.`)
+      }
+
       bucket
         .openDownloadStream(new ObjectId(id as string))
         .pipe(resp)
