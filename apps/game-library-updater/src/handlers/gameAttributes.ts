@@ -36,7 +36,7 @@ const customizer = (objValue, srcValue) => {
   return obj.concat(src)
 }
 
-const assetIdRegExpression = /.*\\\\(.*)$/
+const assetIdRegExpression = /.*\\\\?(.*)$/
 const toAssetId = (id: string, asset: string) => {
   const matches = asset.match(assetIdRegExpression)
   if (!matches?.[1]) {
