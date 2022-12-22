@@ -2,9 +2,6 @@ import fs from "fs/promises"
 import path from "path"
 import { createLogger } from "@ha/logger"
 import { MessageHandler } from "./types"
-import getMongoDbClient from "../dbClient"
-import { GridFSBucket, ObjectId } from "mongodb"
-import { Readable } from "stream"
 
 const logger = createLogger()
 
