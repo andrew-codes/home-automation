@@ -221,7 +221,7 @@ namespace MQTTClient
             if (!string.IsNullOrEmpty(filePath))
             {
                 var fullPath = PlayniteApi.Database.GetFullFilePath(filePath);
-                var assetId = filePath;
+                var assetId = filePath.Split('\\').Last();
                 if (File.Exists(fullPath))
                 {
                     using (var fileStream = File.OpenRead(fullPath))
