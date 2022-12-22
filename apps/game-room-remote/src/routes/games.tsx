@@ -1,10 +1,11 @@
 import { Main } from "@atlaskit/page-layout"
-import { LoaderFunction } from "@remix-run/node"
+import { LoaderFunction, json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import type { GraphQLError } from "graphql"
 import { sendGraphQLRequest } from "remix-graphql/index.server"
 import { AutoSizer } from "react-virtualized/dist/commonjs/AutoSizer"
 import { WindowScroller } from "react-virtualized/dist/commonjs/WindowScroller"
+import { merge } from "lodash"
 import {
   createCellPositioner,
   Masonry,
@@ -23,8 +24,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 type LoaderData = {
   data?: {
-    games: { id: string; name: string; coverImage: string | null }[]
-    releaseYear: number
+    games: {
+      id: string
+      name: string
+      coverImage: string
+      releaseYear: number
+    }[]
   }
   errors?: GraphQLError[]
 }
@@ -40,8 +45,8 @@ const gamesQuery = /* GraphQL */ `
   }
 `
 
-export const loader: LoaderFunction = (args) =>
-  sendGraphQLRequest({
+export const loader: LoaderFunction = async (args) => {
+  const loadGamesReq = (await sendGraphQLRequest({
     // Pass on the arguments that Remix passes to a loader function.
     args,
     // Provide the endpoint of the remote GraphQL API.
@@ -56,13 +61,37 @@ export const loader: LoaderFunction = (args) =>
     // - ...the submitted `formData` (if it exists).
     // That means the following is the default and could also be ommited.
     // variables: args.params,
+  }).then((res) => res.json())) as LoaderData
+
+  return json({
+    data: {
+      games: loadGamesReq.data?.games.map((game) =>
+        merge({}, game, {
+          coverImage: `${process.env.GAMING_ASSETS_WEB_HOST}/${game.id}/${
+            game.coverImage?.split("\\")?.[1] ?? "NULL"
+          }`,
+        }),
+      ),
+    },
   })
+}
 
 const CenterPane = styled.div`
   height: 100vh;
   display: flex;
   width: 100%;
   flex-direction: column;
+  margin-left: 0 16px;
+`
+
+const CardTitle = styled.span`
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 64px;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 8px;
 `
 
 function Games() {
@@ -70,7 +99,8 @@ function Games() {
   const columnWidth = 300
   const gutterSize = 24
   const overscanRows = 12
-  const overscanByPixels = ((columnWidth * 4) / 3) * overscanRows
+  const cardHeight = (columnWidth * 4) / 3
+  const overscanByPixels = (cardHeight + gutterSize) * overscanRows
   const cache = useMemo(
     () =>
       new CellMeasurerCache({
@@ -107,14 +137,19 @@ function Games() {
   const renderGame = useCallback(({ index, parent, key, style }) => {
     return (
       <CellMeasurer cache={cache} index={index} key={key} parent={parent}>
-        <div style={{ ...style, columnWidth }}>
-          {games[index].name}
+        <div
+          style={{
+            ...style,
+            columnWidth,
+            height: `${cardHeight}px`,
+            position: "relative",
+          }}
+        >
+          <CardTitle>games[index].name</CardTitle>
           <img
-            src={`http://${process.env.GAMING_ASSETS_WEB_HOST}/${
-              games[index].id
-            }/${games[index].coverImage?.split("\\")[1]}`}
+            src={games[index].coverImage}
             width={columnWidth}
-            height={(columnWidth * 4) / 3}
+            height={cardHeight}
           />
            
         </div>
