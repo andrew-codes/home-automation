@@ -69,7 +69,8 @@ function Games() {
   const masonryRef = useRef()
   const columnWidth = 300
   const gutterSize = 24
-  const overscanByPixels = ((columnWidth * 4) / 3) * 6
+  const overscanRows = 12
+  const overscanByPixels = ((columnWidth * 4) / 3) * overscanRows
   const cache = useMemo(
     () =>
       new CellMeasurerCache({
