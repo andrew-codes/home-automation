@@ -9,6 +9,7 @@ COPY dist dist
 RUN mv dist/patches patches
 RUN mv dist/package.json package.json
 RUN yarn --no-lockfile --production
+RUN yarn patch
 
 EXPOSE 80
 
