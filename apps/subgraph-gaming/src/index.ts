@@ -100,6 +100,16 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
 
       return ctx.loaders.games.loadMany(ids)
     },
+    async platforms(parent, args, ctx) {
+      const ids =
+        ((await ctx.db
+          .collection("platforms")
+          .find({})
+          .map(get("id"))
+          .toArray()) as string[]) ?? ([] as string[])
+
+      return ctx.loaders.platforms.loadMany(ids)
+    },
     async games(parent, args, ctx) {
       const ids =
         ((await ctx.db
