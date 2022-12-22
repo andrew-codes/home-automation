@@ -21,8 +21,8 @@ const messageHandler: MessageHandler = {
       const gameId = matches[1]
       const assetFileName = matches[2]
       logger.info(`Game ID: ${gameId} and asset ${assetFileName}`)
-
-      fs.writeFile(
+      await fs.mkdir(path.join("/assets", gameId), { recursive: true })
+      await fs.writeFile(
         path.join("/assets", gameId, assetFileName),
         payload,
         "binary",
