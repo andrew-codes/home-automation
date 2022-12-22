@@ -1,3 +1,5 @@
+import fs from "fs/promises"
+import path from "path"
 import { createLogger } from "@ha/logger"
 import { MessageHandler } from "./types"
 import getMongoDbClient from "../dbClient"
@@ -20,29 +22,14 @@ const messageHandler: MessageHandler = {
         return
       }
       const gameId = matches[1]
-      const assetId = matches[2]
-      logger.debug(`Game ID: ${gameId} and asset ${assetId}`)
-      const id = `${gameId}_${assetId}`
+      const assetFileName = matches[2]
+      logger.info(`Game ID: ${gameId} and asset ${assetFileName}`)
 
-      const client = await getMongoDbClient()
-      const db = await client.db("gameLibrary")
-
-      logger.info("Createing GridFS Bucket")
-      const bucket = new GridFSBucket(db, {
-        bucketName: "assets",
-      })
-      const stream = new Readable()
-      stream.on("end", () => {
-        logger.info("Cover stream write ended.")
-      })
-
-      const s = stream.pipe(
-        bucket.openUploadStreamWithId(new ObjectId(id), id, {
-          chunkSizeBytes: 1048576,
-          metadata: { field: "gameId", value: gameId },
-        }),
+      fs.writeFile(
+        path.join("/assets", gameId, assetFileName),
+        payload,
+        "binary",
       )
-      s.write(payload)
     } catch (error) {
       logger.error(error)
     }

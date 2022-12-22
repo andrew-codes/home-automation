@@ -8,6 +8,8 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                      { name: 'MQTT_PORT', value: '1883' },
                      { name: 'DB_HOST', value: 'game-library-db' },
                    ])
+                   + lib.deployment.withPersistentVolume('game-assets')
+                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('game-assets', '/assets',))
                    + lib.deployment.withInitContainer('mqtt-is-ready', std.extVar('registryHostname') + '/mqtt-client:latest', { env: [secrets['mqtt/username'], secrets['mqtt/password']], command: ['sh'], args: ['-c', 'timeout 10 sub -h mqtt -t "\\$SYS/#" -C 1 -u $MQTT_USERNAME -P $MQTT_PASSWORD | grep -v Error || exit 1'] },);
 
 std.objectValues(deployment)
