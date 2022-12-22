@@ -79,5 +79,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["secrets"]
+  "implicitDependencies": ["gaming-assets-shared-volume"]
 }
