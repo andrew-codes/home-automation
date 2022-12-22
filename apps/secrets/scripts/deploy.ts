@@ -14,9 +14,11 @@ const run = async (
     path.join(__dirname, "..", "dist", "index.jsonnet"),
   )
   const resourceJson = JSON.parse(resources)
-  Object.values(resourceJson).forEach((resource) => {
-    await kubectl.applyToCluster(JSON.stringify(resource))
-  })
+  await Promise.all(
+    Object.values(resourceJson).map((resource) =>
+      kubectl.applyToCluster(JSON.stringify(resource)),
+    ),
+  )
 
   await fs.mkdir(path.join(__dirname, "..", ".secrets"), { recursive: true })
 
