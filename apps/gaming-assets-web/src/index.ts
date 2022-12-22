@@ -18,7 +18,7 @@ const run = async () => {
     express.static("/assets", {
       cacheControl: true,
       etag: true,
-      maxAge: "30dm",
+      maxAge: "30d",
     }),
   )
 
