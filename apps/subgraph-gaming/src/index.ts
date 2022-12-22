@@ -65,6 +65,7 @@ const typeDefs = gql`
   type Game @key(fields: "id") {
     id: ID!
     added: DateTime!
+    backgroundImage: String
     communityScore: Int
     coverImage: String
     criticScore: Int

@@ -14,7 +14,7 @@ import {
   uniqBy,
   zipObject,
 } from "lodash/fp"
-import { merge } from "lodash"
+import { last, merge } from "lodash"
 import { createLogger } from "@ha/logger"
 import { formatKeys } from "@ha/string-utils"
 import { MessageHandler } from "./types"
@@ -36,23 +36,15 @@ const customizer = (objValue, srcValue) => {
   return obj.concat(src)
 }
 
-const assetIdRegExpression = /.*\\\\?(.*)$/
-const toAssetId = (id: string, asset: string) => {
-  const matches = asset.match(assetIdRegExpression)
-  if (!matches?.[1]) {
-    throw new Error("Cannot extract asset ID.")
-  }
-
-  return `${id}_${matches[1]}`
-}
+const toAssetId = (asset: string) => last(asset.split("\\"))
 
 const toGames = flow(
   map((game) =>
     merge(game, {
       _id: game.id,
-      backgroundImage: toAssetId(game.id, game.backgroundImage),
-      coverImage: toAssetId(game.id, game.coverImage),
-      icon: toAssetId(game.id, game.icon),
+      backgroundImage: toAssetId(game.backgroundImage),
+      coverImage: toAssetId(game.coverImage),
+      icon: toAssetId(game.icon),
     }),
   ),
 )
