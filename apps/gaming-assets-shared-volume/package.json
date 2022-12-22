@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "@ha/game-library-updater",
+  "version": "0.0.1",
+  "license": "MIT",
+  "devDependencies": {
+    "@ha/configuration-api": "^0.0.1",
+    "@ha/configuration-workspace": "^0.0.1",
+    "@ha/kubectl": "^1.0.0",
+    "@ha/jsonnet": "^0.0.1"
+  }
+}

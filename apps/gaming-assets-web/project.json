@@ -73,5 +73,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["game-library-updater"]
+  "implicitDependencies": ["gaming-assets-shared-volume"]
 }

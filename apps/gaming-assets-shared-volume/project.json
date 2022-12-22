@@ -1,0 +1,16 @@
+{
+  "root": "apps/game-library-updater",
+  "sourceRoot": "apps/game-library-updater/src",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/game-library-updater",
+        "module": "scripts/deploy.ts"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["secrets"]
+}
