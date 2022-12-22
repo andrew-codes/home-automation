@@ -109,9 +109,9 @@ function Games() {
         <div style={{ ...style, columnWidth }}>
           {games[index].name}
           <img
-            src={`http://gaming-assets-web/${games[index].id}/${
-              games[index].coverImage?.split("\\")[1]
-            }`}
+            src={`http://${process.env.GAMING_ASSETS_WEB_HOST}/${
+              games[index].id
+            }/${games[index].coverImage?.split("\\")[1]}`}
             width={columnWidth}
             height={(columnWidth * 4) / 3}
           />

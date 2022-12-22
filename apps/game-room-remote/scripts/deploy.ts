@@ -12,7 +12,11 @@ const run = async (
 ): Promise<void> => {
   const registry = await configurationApi.get("docker-registry/hostname")
   const port = await configurationApi.get("game-room-remote/port/external")
-  const secrets: Array<keyof Configuration> = ["mqtt/password", "mqtt/username"]
+  const secrets: Array<keyof Configuration> = [
+    "mqtt/password",
+    "mqtt/username",
+    "gaming-assets-web/host",
+  ]
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {

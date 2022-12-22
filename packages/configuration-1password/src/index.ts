@@ -21,6 +21,8 @@ const configurationNames = [
   "game-library-db/password",
   "game-library-db/username",
   "game-room-remote/port/external",
+  "gaming-assets-web/port",
+  "gaming-assets-web/host",
   "gaming-pc/ip",
   "gaming-pc/machine/username",
   "gaming-pc/machine/password",

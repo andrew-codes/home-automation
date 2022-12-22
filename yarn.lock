@@ -12723,6 +12723,11 @@ remix-graphql@^0.2.1:
   dependencies:
     graphql-helix "^1.11.0"
 
+remix@^1.7.2:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/remix/-/remix-1.9.0.tgz#4a3996ff93112a3913254eb0138df3aac5e79fb2"
+  integrity sha512-+4FV7kRqcPiV0Ir0q3rPqILmT5oTZVO5DhnJbc7iJugQAZm0FAAQmOzeTnfOHH4CIc+SvqjGFcKkYBkUxme9bg==
+
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/remove-trailing-separator/-/remove-trailing-separator-1.1.0.tgz#c24bce2a283adad5bc3f58e0d48249b92379d8ef"
