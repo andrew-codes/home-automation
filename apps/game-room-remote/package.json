@@ -3,6 +3,9 @@
   "name": "@ha/game-room-remote",
   "version": "0.0.1",
   "license": "MIT",
+  "scripts" : {
+    "patch": "patch-package"
+  },
   "dependencies": {
     "@atlaskit/button": "^16.3.4",
     "@atlaskit/checkbox": "^12.3.16",
@@ -17,8 +20,11 @@
     "@remix-run/serve": "^1.7.2",
     "async-mqtt": "^2.6.1",
     "graphql": "^16.6.0",
+    "patch-package": "^6.2.2",
+    "postinstall-postinstall": "^2.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "remix": "^1.7.2",
     "react-virtualized": "^9.22.3",
     "remix-graphql": "^0.2.1",
     "styled-components": "^5.3.1"

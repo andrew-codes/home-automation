@@ -21,6 +21,12 @@ const run = async (
     JSON.stringify(packageJson, null, 2),
   )
 
+  await fs.cp(
+    path.join(__dirname, "..", "..", "..", "patches"),
+    path.join(__dirname, "..", "dist", "patches"),
+    { recursive: true },
+  )
+
   const docker = await createClient(configurationApi)
   await docker.build(`${name}:latest`)
   await docker.pushImage(`${name}:latest`)

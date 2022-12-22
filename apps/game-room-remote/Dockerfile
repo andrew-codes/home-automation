@@ -6,8 +6,9 @@ ENV PORT 80
 
 COPY entrypoint.sh entrypoint.sh
 COPY dist dist
+RUN mv dist/patches patches
 RUN mv dist/package.json package.json
-RUN yarn --ignore-scripts --no-lockfile
+RUN yarn --no-lockfile --production
 
 EXPOSE 80
 
