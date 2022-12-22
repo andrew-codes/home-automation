@@ -10,6 +10,20 @@ const run = async (
 ): Promise<void> => {
   const registry = await configurationApi.get("docker-registry/hostname")
   const secrets: Array<keyof Configuration> = ["mqtt/password", "mqtt/username"]
+  const volumeResources = await jsonnet.eval(
+    path.join(__dirname, "..", "deployment", "volumes.jsonnet"),
+  )
+  const volumeResourcesJson = JSON.parse(volumeResources)
+  try {
+    await Promise.all(
+      volumeResourcesJson.map((resource) =>
+        kubectl.applyToCluster(JSON.stringify(resource)),
+      ),
+    )
+  } catch (error) {
+    console.log(error)
+  }
+
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {

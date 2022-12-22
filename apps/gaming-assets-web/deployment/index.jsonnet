@@ -10,8 +10,6 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withPersistentVolume('game-assets')
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('game-assets', '/assets',));
 
-local gameLibraryDbVolume = lib.volume.persistentVolume.new('game-assets', '100Gi', '/mnt/data/game-assets');
-
 local service = k.core.v1.service.new(std.extVar('name'), { name: std.extVar('name') }, [{
   name: 'http',
   port: 80,
@@ -19,4 +17,4 @@ local service = k.core.v1.service.new(std.extVar('name'), { name: std.extVar('na
   targetPort: 'http',
 }],);
 
-std.objectValues(deployment) + [service, gameLibraryDbVolume]
+std.objectValues(deployment) + [service]

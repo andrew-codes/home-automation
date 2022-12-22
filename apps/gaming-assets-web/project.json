@@ -28,6 +28,10 @@
         {
           "target": "image/push",
           "projects": "self"
+        },
+        {
+          "target": "deploy",
+          "projects": "dependencies"
         }
       ]
     },
@@ -69,5 +73,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": []
+  "implicitDependencies": ["game-library-updater"]
 }
