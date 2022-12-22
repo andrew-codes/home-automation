@@ -1,12 +1,12 @@
 {
-  "root": "apps/game-library-updater",
-  "sourceRoot": "apps/game-library-updater/src",
+  "root": "apps/gaming-assets-shared-volume",
+  "sourceRoot": "apps/gaming-assets-shared-volume/src",
   "projectType": "application",
   "targets": {
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
-        "cwd": "apps/game-library-updater",
+        "cwd": "apps/gaming-assets-shared-volume",
         "module": "scripts/deploy.ts"
       }
     }
