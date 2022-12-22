@@ -140,15 +140,6 @@ function Games() {
         </Navigation>
         <Main>
           <CenterPane>
-            {data?.games.map((game) => (
-              <link
-                key={game.id}
-                rel="prefetch"
-                href={`http://gaming-assets-web/${game.id}/${
-                  game.coverImage?.split("\\")[1]
-                }`}
-              />
-            ))}
             <Text as="h1">Browse</Text>
             <button onClick={() => setSort(sort + 1)}>Invert</button>
             <div style={{ flex: "1 1 auto" }}>
