@@ -2,16 +2,15 @@ import themeFunction, { light, dark } from "@ha/themes-slate"
 import { LiveReload, Outlet, Scripts } from "@remix-run/react"
 import { ThemeProvider } from "styled-components"
 import PrefetchGameLinks from "./components/PrefetchGameLinks"
-
-import { LoaderFunction } from "@remix-run/node"
+import { merge } from "lodash"
+import { json, LoaderFunction } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { GraphQLError } from "graphql"
 import { sendGraphQLRequest } from "remix-graphql/index.server"
 
 type LoaderData = {
   data?: {
-    games: { id: string; name: string; coverImage: string | null }[]
-    releaseYear: number
+    games: { coverImage: string }[]
   }
   errors?: GraphQLError[]
 }
@@ -19,20 +18,16 @@ type LoaderData = {
 const gamesQuery = /* GraphQL */ `
   query Games {
     games {
-      id
-      name
       coverImage
-      releaseYear
     }
   }
 `
-
-export const loader: LoaderFunction = (args) =>
-  sendGraphQLRequest({
+export const loader: LoaderFunction = async (args) => {
+  const loadGamesReq = (await sendGraphQLRequest({
     // Pass on the arguments that Remix passes to a loader function.
     args,
     // Provide the endpoint of the remote GraphQL API.
-    endpoint: process.env.GRAPHQL_HOST ?? "http://graph/graphql",
+    endpoint: process.env.GRAPH_HOST ?? "",
     // Optionally add headers to the request.
     // Provide the GraphQL operation to send to the remote API.
     query: gamesQuery,
@@ -43,7 +38,20 @@ export const loader: LoaderFunction = (args) =>
     // - ...the submitted `formData` (if it exists).
     // That means the following is the default and could also be ommited.
     // variables: args.params,
+  }).then((res) => res.json())) as LoaderData
+
+  return json({
+    data: {
+      games: loadGamesReq.data?.games.map((game) =>
+        merge({}, game, {
+          coverImage: `${process.env.GAMING_ASSETS_WEB_HOST}/${game.id}/${
+            game.coverImage?.split("\\")?.[1] ?? "NULL"
+          }`,
+        }),
+      ),
+    },
   })
+}
 
 export default function App() {
   const { data } = useLoaderData<LoaderData>()

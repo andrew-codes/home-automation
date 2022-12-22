@@ -5,7 +5,6 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                      { name: 'DEBUG', value: '' },
                      { name: 'MQTT_HOST', value: 'mqtt' },
                      { name: 'MQTT_PORT', value: '1883' },
-                     { name: 'GRAPHQL_HOST', value: 'http://graph/graphql' },
                    ]);
 
 std.objectValues(deployment)

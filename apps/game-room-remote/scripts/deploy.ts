@@ -16,6 +16,7 @@ const run = async (
     "mqtt/password",
     "mqtt/username",
     "gaming-assets-web/host",
+    "graph/host",
   ]
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),

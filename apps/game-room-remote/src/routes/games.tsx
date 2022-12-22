@@ -50,7 +50,7 @@ export const loader: LoaderFunction = async (args) => {
     // Pass on the arguments that Remix passes to a loader function.
     args,
     // Provide the endpoint of the remote GraphQL API.
-    endpoint: process.env.GRAPHQL_HOST ?? "http://graph/graphql",
+    endpoint: process.env.GRAPH_HOST ?? "",
     // Optionally add headers to the request.
     // Provide the GraphQL operation to send to the remote API.
     query: gamesQuery,

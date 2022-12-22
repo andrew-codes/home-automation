@@ -1,15 +1,11 @@
 import { FC } from "react"
 
-const PrefetchGameLinks: FC<{ games: { id; coverImage }[] }> = ({ games }) => (
+const PrefetchGameLinks: FC<{ games: { coverImage: string }[] }> = ({
+  games,
+}) => (
   <>
     {games.map((game) => (
-      <link
-        key={game.id}
-        rel="prefetch"
-        href={`http://gaming-assets-web/${game.id}/${
-          game.coverImage?.split("\\")[1]
-        }`}
-      />
+      <link key={game.coverImage} rel="prefetch" href={game.coverImage} />
     ))}
   </>
 )
