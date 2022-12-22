@@ -46,10 +46,12 @@
       }
     },
     "serve": {
-      "executor": "@ha/nx-executors:invoke",
+      "executor": "@ha/nx-executors:telepresence-local",
       "options": {
         "cwd": "apps/game-room-remote",
-        "module": "scripts/start.ts"
+        "command": "remix dev --port 80",
+        "fromPort": 8082,
+        "toPort": 80
       }
     },
     "test": {

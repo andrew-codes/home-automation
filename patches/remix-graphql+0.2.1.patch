@@ -1,0 +1,29 @@
+diff --git a/node_modules/remix-graphql/dist/index.js b/node_modules/remix-graphql/dist/index.js
+index 91b3e16..c555ea9 100644
+--- a/node_modules/remix-graphql/dist/index.js
++++ b/node_modules/remix-graphql/dist/index.js
+@@ -32,13 +32,13 @@ __export(src_exports, {
+ 
+ // src/action-function.ts
+ var import_graphql2 = require("graphql");
+-var import_remix2 = require("remix");
++var import_remix2 = require("@remix-run/node");
+ var import_stream = require("stream");
+ 
+ // src/handle-request.ts
+ var import_graphql = require("graphql");
+ var import_graphql_helix = require("graphql-helix");
+-var import_remix = require("remix");
++var import_remix = require("@remix-run/node");
+ 
+ // src/derive-status-code.ts
+ function deriveStatusCode(_executionResult, defaultStatusCode) {
+@@ -139,7 +139,7 @@ function getActionFunction({
+ // src/graphql-request.ts
+ var import_graphql3 = require("graphql");
+ var import_graphql_helix2 = require("graphql-helix");
+-var import_remix3 = require("remix");
++var import_remix3 = require("@remix-run/node");
+ async function parseVariables(args) {
+   const variables = args.params;
+   if (args.request.method !== "GET") {
