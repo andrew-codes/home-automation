@@ -10,7 +10,7 @@ import { sendGraphQLRequest } from "remix-graphql/index.server"
 
 type LoaderData = {
   data?: {
-    games: { coverImage: string }[]
+    games: { id: string; coverImage: string }[]
   }
   errors?: GraphQLError[]
 }
@@ -18,16 +18,18 @@ type LoaderData = {
 const gamesQuery = /* GraphQL */ `
   query Games {
     games {
+      id
       coverImage
     }
   }
 `
 export const loader: LoaderFunction = async (args) => {
+  console.log(process.env.GRAPH_HOST)
   const loadGamesReq = (await sendGraphQLRequest({
     // Pass on the arguments that Remix passes to a loader function.
     args,
     // Provide the endpoint of the remote GraphQL API.
-    endpoint: process.env.GRAPH_HOST ?? "",
+    endpoint: `${process.env.GRAPH_HOST}/graphql`,
     // Optionally add headers to the request.
     // Provide the GraphQL operation to send to the remote API.
     query: gamesQuery,
@@ -44,9 +46,9 @@ export const loader: LoaderFunction = async (args) => {
     data: {
       games: loadGamesReq.data?.games.map((game) =>
         merge({}, game, {
-          coverImage: `${process.env.GAMING_ASSETS_WEB_HOST}/${game.id}/${
-            game.coverImage?.split("\\")?.[1] ?? "NULL"
-          }`,
+          coverImage: `http://${process.env.GAMING_ASSETS_WEB_HOST}/${
+            game.id
+          }/${game.coverImage?.split("\\")?.[1]}`,
         }),
       ),
     },

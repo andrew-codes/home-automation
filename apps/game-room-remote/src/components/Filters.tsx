@@ -1,4 +1,4 @@
-import { useCallback } from "react"
+import { FC, useCallback } from "react"
 import styled from "styled-components"
 import Button from "./Button"
 import TextField from "./TextField"
@@ -58,7 +58,9 @@ const getNewValue = (
   return [value]
 }
 
-const Filters = () => {
+const Filters: FC<{ platforms: { id: string; name: string }[] }> = ({
+  platforms,
+}) => {
   const location = useLocation()
   const params = new URLSearchParams(location.search)
   const navigate = useNavigate()
@@ -110,30 +112,16 @@ const Filters = () => {
             <TextField placeholder="by title" />
           </Fieldset>
           <Fieldset legend="Platform">
-            <Checkbox
-              label="TV or Movies"
-              value="tv"
-              isChecked={!!params.getAll("platform")?.includes("tv")}
-              size="large"
-              name="platform"
-              onChange={handleCheckboxChange}
-            />
-            <Checkbox
-              label="PC"
-              value="pc"
-              name="platform"
-              isChecked={!!params.getAll("platform")?.includes("pc")}
-              onChange={handleCheckboxChange}
-              size="large"
-            />
-            <Checkbox
-              label="PlayStation"
-              value="playstation"
-              size="large"
-              isChecked={!!params.getAll("platform")?.includes("playstation")}
-              name="platform"
-              onChange={handleCheckboxChange}
-            />
+            {platforms.map((platform) => (
+              <Checkbox
+                label={platform.name}
+                value={platform.id}
+                isChecked={!!params.getAll("platform")?.includes(platform.id)}
+                size="large"
+                name="platform"
+                onChange={handleCheckboxChange}
+              />
+            ))}
           </Fieldset>
           <Fieldset legend="Co-op / Multiplayer">
             <Checkbox
