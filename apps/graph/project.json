@@ -49,13 +49,16 @@
       "options": {
         "module": "scripts/compile.ts",
         "cwd": "apps/graph"
-      },
-      "dependsOn": [
-        {
-          "target": "deploy",
-          "projects": "dependencies"
-        }
-      ]
+      }
+    },
+    "serve": {
+      "executor": "@ha/nx-executors:telepresence-local",
+      "options": {
+        "fromPort": "8081",
+        "toPort": "80",
+        "command": "node --require esbuild-register scripts/nodemon.ts",
+        "cwd": "apps/graph"
+      }
     }
   },
   "tags": [],

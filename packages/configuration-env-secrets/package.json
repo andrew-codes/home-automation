@@ -9,6 +9,6 @@
     "@ha/configuration-api": "^0.0.1",
     "@ha/configuration-env-secrets": "^0.0.1",
     "@ha/secret-utils": "^0.0.1",
-    "dotenv": "^16.0.1"
+    "dotenv": "^16.0.3"
   }
 }

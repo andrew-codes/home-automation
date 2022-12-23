@@ -49,8 +49,8 @@
       "executor": "@ha/nx-executors:telepresence-local",
       "options": {
         "cwd": "apps/game-room-remote",
-        "command": "remix dev --port 80",
-        "fromPort": 8082,
+        "command": "remix dev --port 8080",
+        "fromPort": 8080,
         "toPort": 80
       }
     },

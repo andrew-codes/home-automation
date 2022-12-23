@@ -8,8 +8,8 @@ RUN apk add \
     git \
     jq
 WORKDIR /app
-COPY . .
-COPY package.json package.json.temp
-RUN jq '.dependencies |= with_entries( select( .key | startswith("@ha/") | not)) | .devDependencies|=with_entries( select( .key | startswith("@ha/") |not ))' package.json.temp >package.json
+COPY entrypoint.sh entrypoint.sh
+COPY dist dist
+COPY dist/package.json package.json
 RUN NODE_ENV=production yarn install --production
 ENTRYPOINT ["/app/entrypoint.sh"]

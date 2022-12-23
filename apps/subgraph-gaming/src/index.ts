@@ -10,16 +10,15 @@ import gql from "graphql-tag"
 import { buildSubgraphSchema } from "@apollo/subgraph"
 import { createLogger } from "@ha/logger"
 import type { GraphQLResolverMap } from "@apollo/subgraph/dist/schema-helper"
-import {
-  typeDefs as scalarTypeDefs,
-  resolvers as scalarResolvers,
-} from "graphql-scalars"
+import { resolvers as scalarResolvers } from "graphql-scalars"
 import { Db, GridFSBucket, MongoClient, ObjectId } from "mongodb"
 import { get } from "lodash/fp"
 import type { Loaders } from "./loaders"
 import createLoader from "./loaders"
+import schema from "./schema"
 
 const logger = createLogger()
+
 type GraphContext = {
   // token: string
   db: Db
@@ -27,64 +26,7 @@ type GraphContext = {
 } & BaseContext
 
 const typeDefs = gql`
-  extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@shareable"])
-
-  ${scalarTypeDefs.join(`
-
-  `)}
-  type Query {
-    games: [Game!]!
-    genres: [GameGenre!]!
-    platforms: [GamePlatform!]!
-  }
-
-  type GamePlatform @key(fields: "id") {
-    id: ID!
-    name: String!
-    games: [Game!]!
-  }
-
-  type GameGenre @key(fields: "id") {
-    id: ID!
-    name: String!
-    games: [Game!]!
-  }
-
-  type GameSeries @key(fields: "id") {
-    id: ID!
-    name: String!
-    games: [Game!]!
-  }
-
-  type GameSource @key(fields: "id") {
-    id: ID!
-    name: String!
-    games: [Game!]!
-  }
-
-  type Game @key(fields: "id") {
-    id: ID!
-    added: DateTime!
-    backgroundImage: String
-    communityScore: Int
-    coverImage: String
-    criticScore: Int
-    description: String
-    gameId: String!
-    genres: [GameGenre!]!
-    isInstalled: Boolean!
-    isInstalling: Boolean!
-    isLaunching: Boolean!
-    isRunning: Boolean!
-    isUninstalling: Boolean!
-    name: String!
-    platforms: [GamePlatform!]
-    recentActivity: DateTime
-    releaseDate: Date
-    releaseYear: Int
-    series: [GameSeries!]!
-    source: GameSource
-  }
+  ${schema}
 `
 
 const resolvers: GraphQLResolverMap<GraphContext> = {
@@ -125,7 +67,16 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
     __resolveReference(ref, ctx: GraphContext) {
       return ctx.loaders.games.load(ref.id)
     },
-    platforms(parent, args, ctx) {
+    async platforms(parent, args, ctx) {
+      if (parent.id === "ccaa8504-80ab-49d1-a3bd-3b4dff6970ec") {
+        console.log(JSON.stringify(parent, null, 2))
+        const platforms = await ctx.loaders.platforms.loadMany(
+          parent.platformIds,
+        )
+        const platform = await ctx.loaders.platforms.load(parent.platformIds[0])
+        console.log(parent.platformIds[0], JSON.stringify(platform, null, 2))
+        console.log(JSON.stringify(platforms, null, 2))
+      }
       return ctx.loaders.platforms.loadMany(parent.platformIds)
     },
     genres(parent, args, ctx) {
@@ -252,8 +203,9 @@ const run = async () => {
     }
   })
 
-  await new Promise<void>((resolve) => httpServer.listen({ port: 80 }, resolve))
-  logger.info(`🚀 Server ready on port 80`)
+  const port = process.env.PORT ?? "80"
+  await new Promise<void>((resolve) => httpServer.listen({ port }, resolve))
+  logger.info(`🚀 Server ready on port ${port}`)
 }
 
 if (require.main === module) {

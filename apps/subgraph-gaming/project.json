@@ -48,9 +48,9 @@
       "executor": "@ha/nx-executors:telepresence-local",
       "options": {
         "cwd": "apps/subgraph-gaming",
-        "fromPort": 8081,
+        "fromPort": 8082,
         "toPort": 80,
-        "command": "nodemon src/index.ts"
+        "command": "node --require esbuild-register scripts/nodemon.ts"
       }
     },
     "test": {
