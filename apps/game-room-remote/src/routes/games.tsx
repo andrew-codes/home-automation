@@ -29,12 +29,6 @@ type GamesQueryData = {
       id: string
       name: string
       coverImage: string
-      releaseYear: number
-      recentActivity: string
-      platforms: {
-        id: string
-        name: string
-      }
     }[]
   }
   errors?: GraphQLError[]
@@ -49,16 +43,14 @@ type PlatformQueryData = {
 }
 const gamesQuery = /* GraphQL */ `
   query Games {
+    platforms {
+      id
+      name
+    }
     games {
       id
       name
       coverImage
-      recentActivity
-      platforms {
-        id
-        name
-      }
-      releaseYear
     }
   }
 `
@@ -73,7 +65,7 @@ const platformsQuery = /* GraphQL */ `
 `
 
 export const loader: LoaderFunction = async (args) => {
-  const loadGamesReq = await Promise.all([
+  const gqlRequest = await Promise.all([
     sendGraphQLRequest({
       // Pass on the arguments that Remix passes to a loader function.
       args,
@@ -108,6 +100,8 @@ export const loader: LoaderFunction = async (args) => {
     }).then((res) => res.json()) as PlatformQueryData,
   ])
 
+  console.log(JSON.stringify(gqlRequest, null, 2))
+
   const mapGames = flow(
     // platformFilter(removeNulls(platforms)),
     map((game) =>
@@ -121,8 +115,8 @@ export const loader: LoaderFunction = async (args) => {
 
   return json({
     data: {
-      games: mapGames(loadGamesReq[0].data?.games ?? []),
-      platforms: loadGamesReq[1].data?.platforms ?? [],
+      games: mapGames(gqlRequest[0].data?.games ?? []),
+      platforms: gqlRequest[1].data?.platforms ?? [],
     },
   })
 }
@@ -221,12 +215,14 @@ function Games() {
       return (
         isEmpty(platforms) ||
         game.platforms.some(({ id }) => {
-          console.log(id)
+          if (game.name === "Elden Ring") {
+            console.log("elden ring", id, game.name, game.platforms)
+          }
           return platforms.includes(id)
         })
       )
     })
-    const filterGames = flow(collectionFilter, platformFilter)
+    const filterGames = flow(collectionFilter)
 
     const filteredGames = filterGames(data?.games ?? [])
     setGames(

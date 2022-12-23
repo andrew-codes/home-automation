@@ -52,11 +52,9 @@
       }
     },
     "serve": {
-      "executor": "@ha/nx-executors:telepresence-local",
+      "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "fromPort": "8081",
-        "toPort": "80",
-        "command": "node --require esbuild-register scripts/nodemon.ts",
+        "commands": ["node --require esbuild-register scripts/nodemon.ts"],
         "cwd": "apps/graph"
       }
     }

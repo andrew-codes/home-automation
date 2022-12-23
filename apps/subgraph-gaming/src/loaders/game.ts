@@ -1,16 +1,16 @@
-import { merge } from "lodash"
+import { keyBy, merge } from "lodash"
 import CreateDataLoader from "./loader"
 import DataLoader from "dataloader"
 
 const createLoader: CreateDataLoader<any> = (db) => {
-  return new DataLoader<string, any>((ids) => {
-    return db
+  return new DataLoader<string, any>(async (ids) => {
+    const dbResults = await db
       .collection("games")
-      .find({ _id: { $in: ids } })
+      .find({ id: { $in: ids } })
       .map((item) =>
         merge({}, item, {
           genreIds: item.genreIds ?? [],
-          platformIds: item.platformIds ?? [],
+          platformReleaseIds: item.platformReleaseIds ?? [],
           seriesIds: item.seriesIds ?? [],
           releaseDate:
             item.releaseDate !== null
@@ -19,6 +19,9 @@ const createLoader: CreateDataLoader<any> = (db) => {
         }),
       )
       .toArray()
+    const results = keyBy(dbResults, "id")
+
+    return ids.map((id) => results[id] || new Error(`No result for ${id}`))
   })
 }
 

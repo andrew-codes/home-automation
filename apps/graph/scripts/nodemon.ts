@@ -4,6 +4,10 @@ import sh from "shelljs"
 import { throwIfError } from "@ha/shell-utils"
 
 const run = async () => {
+  try {
+    sh.exec("docker container rm intercept-graph-8081 || true")
+  } catch (error) {}
+
   nodemon({
     verbose: true,
     // ignore: ["**/apps/graph/dist/*.graphql"],
@@ -18,27 +22,15 @@ const run = async () => {
     .on("start", () => {
       console.log("nodemon started")
       console.log("Starting Docker container for Apollo Router")
-      throwIfError(
-        sh.exec(
-          `docker kill graph; docker container rm graph; docker run --name graph -d -p 8081:4000 --network host --volume ${path.join(
-            __dirname,
-            "..",
-            "dist",
-          )}:/schema ghcr.io/apollographql/router:v1.6.0 --dev --supergraph /schema/schema.graphql;`,
-        ),
+      sh.exec(
+        `telepresence intercept graph --mount false --service graph --port 8081:80 --docker-run -- --volume ${path.join(
+          __dirname,
+          "..",
+        )}:/config  ghcr.io/apollographql/router:v1.6.0 --dev --supergraph /config/dist/schema.graphql --config /config/src/config.yaml`,
+        { async: true },
       )
     })
-    .on("restart", (files) => {
-      throwIfError(
-        sh.exec(
-          `docker kill graph; docker container rm graph; docker run --name graph -d -p 8081:4000 --network host --volume ${path.join(
-            __dirname,
-            "..",
-            "dist",
-          )}:/schema ghcr.io/apollographql/router:v1.6.0 --dev --supergraph /schema/schema.graphql;`,
-        ),
-      )
-    })
+    .on("restart", (files) => {})
     .on("exit", () => {
       console.log("exiting")
     })

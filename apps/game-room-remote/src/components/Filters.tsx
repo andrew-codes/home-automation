@@ -1,11 +1,11 @@
-import { FC, useCallback } from "react"
+import { FC, useCallback, useEffect, useState } from "react"
 import styled from "styled-components"
 import Button from "./Button"
 import TextField from "./TextField"
 import { Checkbox } from "@atlaskit/checkbox"
 import { Fieldset } from "@atlaskit/form"
 import { Section } from "@atlaskit/side-navigation"
-import { useLocation, useNavigate } from "@remix-run/react"
+import { useLocation, useNavigate, useSearchParams } from "@remix-run/react"
 import Text from "./Text"
 
 const FindFilters = styled.div`
@@ -61,38 +61,43 @@ const getNewValue = (
 const Filters: FC<{ platforms: { id: string; name: string }[] }> = ({
   platforms,
 }) => {
-  const location = useLocation()
-  const params = new URLSearchParams(location.search)
+  const [params] = useSearchParams()
   const navigate = useNavigate()
 
-  const handleClear = useCallback(() => {
-    navigate("/games?collection=all")
-  }, [])
+  const [selectedPlatforms, setSelectedPlatforms] = useState(
+    params.getAll("platform"),
+  )
+  const [selectedCollections, setSelectedCollections] = useState(
+    params.getAll("collection"),
+  )
+  useEffect(() => {
+    params.delete("platform")
+    selectedPlatforms.forEach((platform) => params.append("platform", platform))
 
+    params.set("collection", selectedCollections?.[0] ?? "all")
+
+    navigate(`/games?${params.toString()}`)
+  }, [selectedPlatforms, selectedCollections])
+
+  const handleClear = useCallback(() => {
+    setSelectedCollections(["all"])
+  }, [])
   const handleCheckboxChange = useCallback(
     (evt) => {
-      let fieldValues = params.getAll(evt.target.name)
-      const newValues = getNewValue(
-        evt.target.value,
-        fieldValues,
-        evt.target.checked,
-      )
-      params.delete(evt.target.name)
-      newValues.forEach((v) => params.append(evt.target.name, v))
-      navigate(`/games?${params.toString()}`)
+      if (evt.target.checked) {
+        setSelectedPlatforms(selectedPlatforms.concat([evt.target.value]))
+      } else {
+        setSelectedPlatforms(
+          selectedPlatforms.filter((platform) => platform !== evt.target.value),
+        )
+      }
     },
-    [params],
+    [selectedPlatforms],
   )
 
-  const handleCollectionChange = useCallback(
-    (evt) => {
-      const collection = evt.currentTarget.name
-      params.delete("collection")
-      params.set("collection", collection)
-      navigate(`/games?${params.toString()}`)
-    },
-    [params],
-  )
+  const handleCollectionChange = useCallback((evt) => {
+    setSelectedCollections([evt.currentTarget.name])
+  }, [])
 
   return (
     <>
@@ -114,9 +119,10 @@ const Filters: FC<{ platforms: { id: string; name: string }[] }> = ({
           <Fieldset legend="Platform">
             {platforms.map((platform) => (
               <Checkbox
+                key={platform.id}
                 label={platform.name}
                 value={platform.id}
-                isChecked={!!params.getAll("platform")?.includes(platform.id)}
+                isChecked={!!selectedPlatforms.includes(platform.id)}
                 size="large"
                 name="platform"
                 onChange={handleCheckboxChange}

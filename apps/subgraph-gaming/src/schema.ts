@@ -50,7 +50,7 @@ const schema = `
     id: ID!
     communityScore: Int
     criticScore: Int
-    gameId: Game!
+    gameI: Game!
     description: String
     isInstalled: Boolean!
     isInstalling: Boolean!

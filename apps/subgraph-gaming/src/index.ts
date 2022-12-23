@@ -63,21 +63,20 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
       return ctx.loaders.games.loadMany(ids)
     },
   },
+  GameRelease: {
+    __resolveReference(ref, ctx: GraphContext) {
+      return ctx.loaders.gameReleases.load(ref.id)
+    },
+    game(parent, args, ctx) {
+      return ctx.loaders.games.load(parent.gameId)
+    },
+  },
   Game: {
     __resolveReference(ref, ctx: GraphContext) {
       return ctx.loaders.games.load(ref.id)
     },
-    async platforms(parent, args, ctx) {
-      if (parent.id === "ccaa8504-80ab-49d1-a3bd-3b4dff6970ec") {
-        console.log(JSON.stringify(parent, null, 2))
-        const platforms = await ctx.loaders.platforms.loadMany(
-          parent.platformIds,
-        )
-        const platform = await ctx.loaders.platforms.load(parent.platformIds[0])
-        console.log(parent.platformIds[0], JSON.stringify(platform, null, 2))
-        console.log(JSON.stringify(platforms, null, 2))
-      }
-      return ctx.loaders.platforms.loadMany(parent.platformIds)
+    async gameReleases(parent, args, ctx) {
+      return ctx.loaders.gameReleases.loadMany(parent.gameReleaseIds)
     },
     genres(parent, args, ctx) {
       return ctx.loaders.genres.loadMany(parent.genreIds)
