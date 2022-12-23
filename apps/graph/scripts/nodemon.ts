@@ -20,7 +20,7 @@ const run = async () => {
       console.log("Starting Docker container for Apollo Router")
       throwIfError(
         sh.exec(
-          `docker kill graph; docker container rm graph; docker run --name graph -d -p 8081:4000 --volume ${path.join(
+          `docker kill graph; docker container rm graph; docker run --name graph -d -p 8081:4000 --network host --volume ${path.join(
             __dirname,
             "..",
             "dist",
@@ -31,7 +31,7 @@ const run = async () => {
     .on("restart", (files) => {
       throwIfError(
         sh.exec(
-          `docker kill graph; docker container rm graph; docker run --name graph -d -p 8081:4000 --volume ${path.join(
+          `docker kill graph; docker container rm graph; docker run --name graph -d -p 8081:4000 --network host --volume ${path.join(
             __dirname,
             "..",
             "dist",
