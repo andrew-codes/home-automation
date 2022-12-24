@@ -52,15 +52,10 @@
     "serve": {
       "executor": "@ha/nx-executors:telepresence-local",
       "options": {
+        "fromPort": 8083,
+        "toPort": 80,
         "cwd": "apps/game-library-updater",
-        "command": "nodemon src/index.ts"
-      }
-    },
-    "start/dev": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "command": "nodemon src/index.ts --inspect=0.0.0.0:9233",
-        "cwd": "apps/game-library-updater"
+        "command": "nodemon --inspect src/index.ts"
       }
     },
     "test": {
