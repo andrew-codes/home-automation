@@ -4,9 +4,8 @@ import sh from "shelljs"
 import { throwIfError } from "@ha/shell-utils"
 
 const run = async () => {
-  try {
-    sh.exec("docker container rm intercept-graph-8081 || true")
-  } catch (error) {}
+  sh.exec("docker container rm intercept-graph-8081 || true")
+  sh.exec("telepresence uninstall --agent graph || true")
 
   nodemon({
     verbose: true,

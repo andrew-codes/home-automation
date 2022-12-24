@@ -100,8 +100,6 @@ export const loader: LoaderFunction = async (args) => {
     }).then((res) => res.json()) as PlatformQueryData,
   ])
 
-  console.log(JSON.stringify(gqlRequest, null, 2))
-
   const mapGames = flow(
     // platformFilter(removeNulls(platforms)),
     map((game) =>

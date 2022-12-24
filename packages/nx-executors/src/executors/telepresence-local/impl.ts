@@ -19,12 +19,10 @@ async function executor(
     if (!context.projectName) {
       return { success: false }
     }
+    const serviceName = options.serviceName ?? context.projectName
+    sh.exec(`telepresence uninstall --agent ${serviceName}`)
 
-    const command = `telepresence intercept "${
-      context.projectName
-    }" --service "${options.serviceName ?? context.projectName}" --port ${
-      options.fromPort
-    }:${options.toPort} --mount false -- ${options.command}`
+    const command = `telepresence intercept "${context.projectName}" --service "${serviceName}" --port ${options.fromPort}:${options.toPort} --mount false -- ${options.command}`
     await throwIfError(sh.exec(command, { cwd: options.cwd }))
   } catch (error) {
     console.log(error)
