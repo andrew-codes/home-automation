@@ -5,7 +5,7 @@ import { throwIfError } from "@ha/shell-utils"
 
 const run = async () => {
   sh.exec("docker container rm intercept-graph-8081 || true")
-  sh.exec("telepresence uninstall --agent graph || true")
+  sh.exec("telepresence leave graph")
 
   nodemon({
     verbose: true,
@@ -32,8 +32,12 @@ const run = async () => {
     .on("restart", (files) => {})
     .on("exit", () => {
       console.log("exiting")
+      sh.exec("telepresence leave graph")
     })
-    .on("crash", () => console.log("crashed"))
+    .on("crash", () => {
+      console.log("crashed")
+      sh.exec("telepresence leave graph")
+    })
 }
 
 if (require.main === module) {

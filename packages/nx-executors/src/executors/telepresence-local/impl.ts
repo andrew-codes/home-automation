@@ -14,18 +14,20 @@ async function executor(
   options: TelepresenceExecutorOptions,
   context: ExecutorContext,
 ): Promise<{ success: boolean }> {
+  const serviceName = options.serviceName ?? context.projectName
+
   try {
-    console.log("Starting local")
+    console.log("Starting local", serviceName)
     if (!context.projectName) {
       return { success: false }
     }
-    const serviceName = options.serviceName ?? context.projectName
-    sh.exec(`telepresence uninstall --agent ${serviceName}`)
+    sh.exec(`telepresence leave ${serviceName}`)
 
     const command = `telepresence intercept "${context.projectName}" --service "${serviceName}" --port ${options.fromPort}:${options.toPort} --mount false -- ${options.command}`
     await throwIfError(sh.exec(command, { cwd: options.cwd }))
   } catch (error) {
-    console.log(error)
+    console.log("Error occurred", error)
+    sh.exec(`telepresence leave ${serviceName}`)
     return { success: false }
   }
   return { success: true }

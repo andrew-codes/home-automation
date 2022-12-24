@@ -6,7 +6,6 @@ import fs from "fs/promises"
 import * as schemaAstPlugin from "@graphql-codegen/schema-ast"
 import { buildSubgraphSchema } from "@apollo/subgraph"
 import gql from "graphql-tag"
-import sh from "shelljs"
 
 const buildSchema = async () => {
   const buildDir = path.join(__dirname, "..", "..", "graph", "dist", "build")
