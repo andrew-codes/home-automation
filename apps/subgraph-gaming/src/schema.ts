@@ -36,10 +36,8 @@ const schema = `
 
   type Game @key(fields: "id") {
     id: ID!
-    added: DateTime!
     backgroundImage: String
     coverImage: String
-    playId: String!
     genres: [GameGenre!]!
     name: String!
     platformReleases: [GameRelease!]!
@@ -48,9 +46,11 @@ const schema = `
 
   type GameRelease @key(fields: "id") {
     id: ID!
+    playId: String!
+    added: DateTime!
     communityScore: Int
     criticScore: Int
-    gameI: Game!
+    gameId: Game!
     description: String
     isInstalled: Boolean!
     isInstalling: Boolean!
@@ -58,10 +58,12 @@ const schema = `
     isRunning: Boolean!
     isUninstalling: Boolean!
     platform: GamePlatform!
-    recentActivity: DateTime
+    lastActivity: DateTime
     source: GameSource
     releaseDate: Date
     releaseYear: Int
+    playCount: Int!
+    playTime: Time
   }
 `
 

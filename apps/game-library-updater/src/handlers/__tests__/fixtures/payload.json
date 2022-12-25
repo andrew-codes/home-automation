@@ -1,0 +1,3325 @@
+[
+  {
+    "BackgroundImage": "3d87f530-bee9-4f73-9d86-032819ff6ca9\\3442ae96-6ef8-475a-8bab-bddceb14905c.jpg",
+    "Description": "Hell’s armies have invaded Earth. Become the Slayer in an epic single-player campaign to conquer demons across dimensions and stop the final destruction of humanity. The only thing they fear... is you.",
+    "Notes": null,
+    "GenreIds": [
+      "0a567d14-7ad5-4bfb-a4a2-b7454e4464e5",
+      "5aa8473a-d485-434b-a708-dc119d50307a",
+      "4c0cd831-82f1-417e-a087-47b32d247936"
+    ],
+    "Hidden": false,
+    "Favorite": false,
+    "Icon": null,
+    "CoverImage": "3d87f530-bee9-4f73-9d86-032819ff6ca9\\9c9d62b6-ea63-4ff2-9cbe-e8b94fbf88ef.png",
+    "InstallDirectory": null,
+    "LastActivity": "2021-07-31T12:25:42.34-04:00",
+    "SortingName": null,
+    "GameId": "PPSA01981_00",
+    "PluginId": "e4ac81cb-1b1a-4ec9-8639-9a9633989a71",
+    "IncludeLibraryPluginAction": true,
+    "GameActions": null,
+    "PlatformIds": ["a7aae1e8-8a12-4282-9d4f-5ad2f70f6a37"],
+    "PublisherIds": ["4c0cd831-82f1-417e-a087-47b32d247936"],
+    "DeveloperIds": ["5aa8473a-d485-434b-a708-dc119d50307a"],
+    "ReleaseDate": {
+      "ReleaseDate": "2020-3-19"
+    },
+    "CategoryIds": null,
+    "TagIds": null,
+    "FeatureIds": [
+      "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+      "0f866adf-2afc-4600-9d6a-bf32a0547902"
+    ],
+    "Links": [
+      {
+        "Name": "Facebook",
+        "Url": "https://www.facebook.com/doom"
+      },
+      {
+        "Name": "Twitter",
+        "Url": "https://twitter.com/DOOM"
+      },
+      {
+        "Name": "Instagram",
+        "Url": "https://www.instagram.com/doom"
+      },
+      {
+        "Name": "Reddit",
+        "Url": "https://www.reddit.com/r/Doom"
+      },
+      {
+        "Name": "Official Website",
+        "Url": "https://bethesda.net/en/game/doom"
+      },
+      {
+        "Name": "Wikia",
+        "Url": "https://doom.fandom.com/wiki/Doom_Eternal"
+      },
+      {
+        "Name": "Wikipedia",
+        "Url": "https://en.wikipedia.org/wiki/Doom_Eternal"
+      },
+      {
+        "Name": "Steam",
+        "Url": "https://store.steampowered.com/app/782330"
+      },
+      {
+        "Name": "Discord",
+        "Url": "https://discordapp.com/invite/DOOM"
+      },
+      {
+        "Name": "Twitch",
+        "Url": "https://www.twitch.tv/directory/game/DOOM%20Eternal"
+      },
+      {
+        "Name": "Twitch",
+        "Url": "https://www.twitch.tv/directory/game/Doom Eternal"
+      }
+    ],
+    "Roms": null,
+    "IsInstalling": false,
+    "IsUninstalling": false,
+    "IsLaunching": false,
+    "IsRunning": false,
+    "IsInstalled": false,
+    "OverrideInstallState": false,
+    "Playtime": 12061,
+    "Added": "2022-12-23T09:20:32.303-05:00",
+    "Modified": "2022-12-23T09:21:35.886-05:00",
+    "PlayCount": 10,
+    "InstallSize": null,
+    "LastSizeScanDate": null,
+    "SeriesIds": ["9836bd97-1349-4109-891f-1f0d83390eca"],
+    "Version": null,
+    "AgeRatingIds": [
+      "61e556ed-2c84-40ae-b931-87b83dc07768",
+      "eb826f5b-5883-41cd-9a74-6beea462e8f7",
+      "8d519216-d414-46cd-a78b-261fefe64819",
+      "6b12dddb-aaee-4abb-8d90-ddbe5e010df6",
+      "7241ad60-e9de-443e-a4e9-e76c8366954b",
+      "92a98dd2-2767-4962-bb47-c723a49fa1e7"
+    ],
+    "RegionIds": null,
+    "SourceId": "7323d2ad-07cf-4c04-a1db-aec3886be258",
+    "CompletionStatusId": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+    "UserScore": null,
+    "CriticScore": 86,
+    "CommunityScore": 85,
+    "PreScript": null,
+    "PostScript": null,
+    "GameStartedScript": null,
+    "UseGlobalPostScript": true,
+    "UseGlobalPreScript": true,
+    "UseGlobalGameStartedScript": true,
+    "Manual": null,
+    "Genres": [
+      {
+        "Id": "0a567d14-7ad5-4bfb-a4a2-b7454e4464e5",
+        "Name": "Shooter"
+      }
+    ],
+    "Developers": [
+      {
+        "Id": "5aa8473a-d485-434b-a708-dc119d50307a",
+        "Name": "id Software"
+      }
+    ],
+    "Publishers": [
+      {
+        "Id": "4c0cd831-82f1-417e-a087-47b32d247936",
+        "Name": "Bethesda Softworks"
+      }
+    ],
+    "Tags": null,
+    "Features": [
+      {
+        "Id": "0f866adf-2afc-4600-9d6a-bf32a0547902",
+        "Name": "Multiplayer"
+      },
+      {
+        "Id": "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+        "Name": "Single Player"
+      }
+    ],
+    "Categories": null,
+    "Platforms": [
+      {
+        "SpecificationId": "pc_windows",
+        "Icon": null,
+        "Cover": null,
+        "Background": null,
+        "Id": "a7aae1e8-8a12-4282-9d4f-5ad2f70f6a37",
+        "Name": "PC (Windows)"
+      }
+    ],
+    "Series": [
+      {
+        "Id": "9836bd97-1349-4109-891f-1f0d83390eca",
+        "Name": "Doom"
+      }
+    ],
+    "AgeRatings": [
+      {
+        "Id": "7241ad60-e9de-443e-a4e9-e76c8366954b",
+        "Name": "ACB RC"
+      },
+      {
+        "Id": "92a98dd2-2767-4962-bb47-c723a49fa1e7",
+        "Name": "CERO Z"
+      },
+      {
+        "Id": "6b12dddb-aaee-4abb-8d90-ddbe5e010df6",
+        "Name": "ClassInd G"
+      },
+      {
+        "Id": "61e556ed-2c84-40ae-b931-87b83dc07768",
+        "Name": "ESRB M"
+      },
+      {
+        "Id": "8d519216-d414-46cd-a78b-261fefe64819",
+        "Name": "GRAC TESTING"
+      },
+      {
+        "Id": "eb826f5b-5883-41cd-9a74-6beea462e8f7",
+        "Name": "PEGI 18"
+      }
+    ],
+    "Regions": null,
+    "Source": {
+      "Id": "7323d2ad-07cf-4c04-a1db-aec3886be258",
+      "Name": "PlayStation"
+    },
+    "CompletionStatus": {
+      "Id": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+      "Name": "Not Played"
+    },
+    "ReleaseYear": 2020,
+    "RecentActivity": "2022-12-23T09:20:32.303-05:00",
+    "UserScoreRating": 0,
+    "CommunityScoreRating": 2,
+    "CriticScoreRating": 2,
+    "UserScoreGroup": 10,
+    "CommunityScoreGroup": 8,
+    "CriticScoreGroup": 8,
+    "LastActivitySegment": 5,
+    "RecentActivitySegment": 1,
+    "AddedSegment": 1,
+    "ModifiedSegment": 1,
+    "PlaytimeCategory": 2,
+    "InstallSizeGroup": 0,
+    "IsCustomGame": false,
+    "InstallationStatus": 0,
+    "Id": "3d87f530-bee9-4f73-9d86-032819ff6ca8",
+    "Name": "DOOM Eternal"
+  },
+  {
+    "BackgroundImage": "faefaf45-f616-4b8b-9b12-2bd69943b645\\58dddb81-ce68-40bc-b2d2-d0b92fffc708.jpg",
+    "Description": "Sacred 3 is an arcade Hack ‘n’ Slash game for up to four players, set in the war for Ancaria. Choose from legendary heroes and fight together against the rise of evil. You will face hordes of grimmocs, brute beasts, legions of mercenaries and undead wizards. Develop your character’s skills and abilities and band together to use powerful co-op abilities and tactics. Victory Is Ours. Glory Is Mine.<h2 class=\"bb_tag\">Main Game Features</h2><br><ul class=\"bb_ul\"><li>Play as 1 of 4 legendary heroes, each with unique skills and weapons</li><li>Master special attacks and quickly decimate hoards of enemies</li>         <li>Perform powerful co-op combat arts to defeat epic bosses together</li><li>Level up and customize your hero, outshine your fellow warriors</li><li>Equip dynamic weapon spirits to empower your journey</li></ul>",
+    "Notes": null,
+    "GenreIds": [
+      "372da25b-3930-4daf-97e2-691ad633a310",
+      "eb33aac1-5397-4aee-9dd4-e036a5e79217"
+    ],
+    "Hidden": false,
+    "Favorite": false,
+    "Icon": "faefaf45-f616-4b8b-9b12-2bd69943b645\\d95970d8-0176-4100-b6bf-6143374ea82b.ico",
+    "CoverImage": "faefaf45-f616-4b8b-9b12-2bd69943b645\\3a2d88e2-6bf6-428e-9aba-65ffd380dd53.jpg",
+    "InstallDirectory": null,
+    "LastActivity": null,
+    "SortingName": "Sacred 03",
+    "GameId": "247950",
+    "PluginId": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+    "IncludeLibraryPluginAction": true,
+    "GameActions": null,
+    "PlatformIds": ["a7aae1e8-8a12-4282-9d4f-5ad2f70f6a37"],
+    "PublisherIds": ["e333f879-a54d-4674-b92b-ac308b9309d9"],
+    "DeveloperIds": ["70eafe5e-a41d-4c50-9695-e3ddc01e1161"],
+    "ReleaseDate": {
+      "ReleaseDate": "2014-8-5"
+    },
+    "CategoryIds": null,
+    "TagIds": [
+      "eefb7cda-3abe-481e-bf6c-b0ac61d1edc6",
+      "bbf97ae9-6d3d-41b2-9cb8-cf8db4ccba08",
+      "6efa45a3-a4d6-4441-bf24-23fc242a0875",
+      "6f0e69e4-feba-4ab4-ae4d-52a8cce9bdeb",
+      "b65b0a14-064f-4da9-8b5d-6520b265ba0c",
+      "bf2ae6dc-1d0d-4314-a0e8-dbdf7378e733",
+      "8003f54a-ce30-4da8-b1ee-4a99dd7d4d20",
+      "b5c1b099-db0d-4b02-8e0c-f09851f36659",
+      "f1067f38-8c02-4383-875b-9a67ef7ca5dc",
+      "bb21f833-f3f9-48ef-8700-d277f99f9d67",
+      "c8308b0f-32ac-4b04-94c0-67596b90942b",
+      "280801a1-8777-409d-8a5c-9583d8e2b342",
+      "9cebc57a-eff7-4d36-b8a5-9b26697c2036",
+      "4954a8c9-6590-4060-a604-fce4db8beb4b",
+      "ce5fd6fe-8e17-46a0-8685-bf899ff9db65",
+      "3dbcab85-fa18-423d-b5f5-59c3a0690ae9",
+      "866511a0-17e7-4655-a205-d3a28962d2a3",
+      "e62ce59c-1484-49e7-9a10-ef68c6d258bb",
+      "152d9e50-9d12-43cf-b374-3964bb7fe27b",
+      "e02f3753-1b07-4ea7-b9da-ecdc88c7ee15"
+    ],
+    "FeatureIds": [
+      "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+      "0f866adf-2afc-4600-9d6a-bf32a0547902",
+      "1313f77b-dba0-4a28-b4a7-832bd71bd977",
+      "a03d97ac-ca9f-4939-9232-ed55859e3e95",
+      "c2252751-551c-4ece-891e-9e70915017ee",
+      "ffa852c2-ae72-41de-8d5c-3ddb8ce4ad66",
+      "64ce1c68-f574-45a1-a164-a53b4893fcaf",
+      "6203fcee-8eef-4eeb-b692-4fe7e2c1d74a",
+      "3f4eeb01-3f50-4f3f-8a3f-6acfde609108",
+      "eb1137e2-2a2e-4e7d-8728-221a77c601d0",
+      "ec77c8cf-748e-4ccd-b72c-792c793fc6ae"
+    ],
+    "Links": [
+      {
+        "Name": "Community Hub",
+        "Url": "https://steamcommunity.com/app/247950"
+      },
+      {
+        "Name": "Discussions",
+        "Url": "https://steamcommunity.com/app/247950/discussions/"
+      },
+      {
+        "Name": "Guides",
+        "Url": "https://steamcommunity.com/app/247950/guides/"
+      },
+      {
+        "Name": "News",
+        "Url": "https://store.steampowered.com/news/?appids=247950"
+      },
+      {
+        "Name": "Store Page",
+        "Url": "https://store.steampowered.com/app/247950"
+      },
+      {
+        "Name": "PCGamingWiki",
+        "Url": "https://pcgamingwiki.com/api/appid.php?appid=247950"
+      },
+      {
+        "Name": "Achievements",
+        "Url": "https://steamcommunity.com/stats/247950/achievements"
+      }
+    ],
+    "Roms": null,
+    "IsInstalling": false,
+    "IsUninstalling": false,
+    "IsLaunching": false,
+    "IsRunning": false,
+    "IsInstalled": false,
+    "OverrideInstallState": false,
+    "Playtime": 0,
+    "Added": "2022-12-23T09:20:52.291-05:00",
+    "Modified": "2022-12-23T09:25:07.612-05:00",
+    "PlayCount": 0,
+    "InstallSize": null,
+    "LastSizeScanDate": null,
+    "SeriesIds": ["ca9a9649-72e1-4a5e-b87e-0675c8035b78"],
+    "Version": null,
+    "AgeRatingIds": [
+      "1563275e-0b17-4d8b-99cf-ae54344e9af2",
+      "61e556ed-2c84-40ae-b931-87b83dc07768"
+    ],
+    "RegionIds": null,
+    "SourceId": "8d9af7da-0d14-4f75-b757-ad33a883ffd2",
+    "CompletionStatusId": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+    "UserScore": null,
+    "CriticScore": 57,
+    "CommunityScore": 28,
+    "PreScript": null,
+    "PostScript": null,
+    "GameStartedScript": null,
+    "UseGlobalPostScript": true,
+    "UseGlobalPreScript": true,
+    "UseGlobalGameStartedScript": true,
+    "Manual": null,
+    "Genres": [
+      {
+        "Id": "372da25b-3930-4daf-97e2-691ad633a310",
+        "Name": "Action"
+      },
+      {
+        "Id": "eb33aac1-5397-4aee-9dd4-e036a5e79217",
+        "Name": "RPG"
+      }
+    ],
+    "Developers": [
+      {
+        "Id": "70eafe5e-a41d-4c50-9695-e3ddc01e1161",
+        "Name": "Keen Games"
+      }
+    ],
+    "Publishers": [
+      {
+        "Id": "e333f879-a54d-4674-b92b-ac308b9309d9",
+        "Name": "THQ Nordic"
+      }
+    ],
+    "Tags": [
+      {
+        "Id": "bbf97ae9-6d3d-41b2-9cb8-cf8db4ccba08",
+        "Name": "Action"
+      },
+      {
+        "Id": "4954a8c9-6590-4060-a604-fce4db8beb4b",
+        "Name": "Action RPG"
+      },
+      {
+        "Id": "bf2ae6dc-1d0d-4314-a0e8-dbdf7378e733",
+        "Name": "Adventure"
+      },
+      {
+        "Id": "6f0e69e4-feba-4ab4-ae4d-52a8cce9bdeb",
+        "Name": "Arcade"
+      },
+      {
+        "Id": "bb21f833-f3f9-48ef-8700-d277f99f9d67",
+        "Name": "Beat 'em up"
+      },
+      {
+        "Id": "b65b0a14-064f-4da9-8b5d-6520b265ba0c",
+        "Name": "Co-op"
+      },
+      {
+        "Id": "f1067f38-8c02-4383-875b-9a67ef7ca5dc",
+        "Name": "Fantasy"
+      },
+      {
+        "Id": "152d9e50-9d12-43cf-b374-3964bb7fe27b",
+        "Name": "Female Protagonist"
+      },
+      {
+        "Id": "eefb7cda-3abe-481e-bf6c-b0ac61d1edc6",
+        "Name": "Hack and Slash"
+      },
+      {
+        "Id": "ce5fd6fe-8e17-46a0-8685-bf899ff9db65",
+        "Name": "Isometric"
+      },
+      {
+        "Id": "8003f54a-ce30-4da8-b1ee-4a99dd7d4d20",
+        "Name": "Linear"
+      },
+      {
+        "Id": "b5c1b099-db0d-4b02-8e0c-f09851f36659",
+        "Name": "Local Co-Op"
+      },
+      {
+        "Id": "866511a0-17e7-4655-a205-d3a28962d2a3",
+        "Name": "Magic"
+      },
+      {
+        "Id": "280801a1-8777-409d-8a5c-9583d8e2b342",
+        "Name": "Multiplayer"
+      },
+      {
+        "Id": "c8308b0f-32ac-4b04-94c0-67596b90942b",
+        "Name": "Online Co-Op"
+      },
+      {
+        "Id": "e02f3753-1b07-4ea7-b9da-ecdc88c7ee15",
+        "Name": "Open World"
+      },
+      {
+        "Id": "6efa45a3-a4d6-4441-bf24-23fc242a0875",
+        "Name": "RPG"
+      },
+      {
+        "Id": "9cebc57a-eff7-4d36-b8a5-9b26697c2036",
+        "Name": "Singleplayer"
+      },
+      {
+        "Id": "e62ce59c-1484-49e7-9a10-ef68c6d258bb",
+        "Name": "Third Person"
+      },
+      {
+        "Id": "3dbcab85-fa18-423d-b5f5-59c3a0690ae9",
+        "Name": "Top-Down"
+      }
+    ],
+    "Features": [
+      {
+        "Id": "c2252751-551c-4ece-891e-9e70915017ee",
+        "Name": "Achievements"
+      },
+      {
+        "Id": "6203fcee-8eef-4eeb-b692-4fe7e2c1d74a",
+        "Name": "Captions Available"
+      },
+      {
+        "Id": "3f4eeb01-3f50-4f3f-8a3f-6acfde609108",
+        "Name": "Cloud Saves"
+      },
+      {
+        "Id": "1313f77b-dba0-4a28-b4a7-832bd71bd977",
+        "Name": "Co-Op"
+      },
+      {
+        "Id": "ffa852c2-ae72-41de-8d5c-3ddb8ce4ad66",
+        "Name": "Full Controller Support"
+      },
+      {
+        "Id": "0f866adf-2afc-4600-9d6a-bf32a0547902",
+        "Name": "Multiplayer"
+      },
+      {
+        "Id": "eb1137e2-2a2e-4e7d-8728-221a77c601d0",
+        "Name": "Remote Play On TV"
+      },
+      {
+        "Id": "ec77c8cf-748e-4ccd-b72c-792c793fc6ae",
+        "Name": "Remote Play Together"
+      },
+      {
+        "Id": "a03d97ac-ca9f-4939-9232-ed55859e3e95",
+        "Name": "Shared/Split Screen"
+      },
+      {
+        "Id": "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+        "Name": "Single Player"
+      },
+      {
+        "Id": "64ce1c68-f574-45a1-a164-a53b4893fcaf",
+        "Name": "Trading Cards"
+      }
+    ],
+    "Categories": null,
+    "Platforms": [
+      {
+        "SpecificationId": "pc_windows",
+        "Icon": null,
+        "Cover": null,
+        "Background": null,
+        "Id": "a7aae1e8-8a12-4282-9d4f-5ad2f70f6a37",
+        "Name": "PC (Windows)"
+      }
+    ],
+    "Series": [
+      {
+        "Id": "ca9a9649-72e1-4a5e-b87e-0675c8035b78",
+        "Name": "Sacred"
+      }
+    ],
+    "AgeRatings": [
+      {
+        "Id": "61e556ed-2c84-40ae-b931-87b83dc07768",
+        "Name": "ESRB M"
+      },
+      {
+        "Id": "1563275e-0b17-4d8b-99cf-ae54344e9af2",
+        "Name": "PEGI 16"
+      }
+    ],
+    "Regions": null,
+    "Source": {
+      "Id": "8d9af7da-0d14-4f75-b757-ad33a883ffd2",
+      "Name": "Steam"
+    },
+    "CompletionStatus": {
+      "Id": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+      "Name": "Not Played"
+    },
+    "ReleaseYear": 2014,
+    "RecentActivity": "2022-12-23T09:20:52.291-05:00",
+    "UserScoreRating": 0,
+    "CommunityScoreRating": 3,
+    "CriticScoreRating": 3,
+    "UserScoreGroup": 10,
+    "CommunityScoreGroup": 2,
+    "CriticScoreGroup": 5,
+    "LastActivitySegment": 6,
+    "RecentActivitySegment": 1,
+    "AddedSegment": 1,
+    "ModifiedSegment": 1,
+    "PlaytimeCategory": 0,
+    "InstallSizeGroup": 0,
+    "IsCustomGame": false,
+    "InstallationStatus": 1,
+    "Id": "faefaf45-f616-4b8b-9b12-2bd69943b645",
+    "Name": "Sacred 3"
+  },
+  {
+    "BackgroundImage": "e8efbb0e-b54f-47fb-b5bc-67f7add95719\\bbfa5a3e-9b19-4618-a073-82ba1c2a2591.jpg",
+    "Description": "Dive into the world of Destiny 2 to explore the mysteries of the solar system and experience responsive first-person shooter combat. Unlock powerful elemental abilities and collect unique gear to customize your Guardian's look and playstyle. Enjoy Destiny 2’s cinematic story, challenging co-op missions, and a variety of PvP modes alone or with friends. Download for free today and write your legend in the stars.",
+    "Notes": null,
+    "GenreIds": [
+      "0a567d14-7ad5-4bfb-a4a2-b7454e4464e5",
+      "413806f3-4646-49f7-938b-79649133f232",
+      "cb1cff6d-b7bf-48ce-92dc-ffba57328e3d"
+    ],
+    "Hidden": false,
+    "Favorite": false,
+    "Icon": null,
+    "CoverImage": "e8efbb0e-b54f-47fb-b5bc-67f7add95719\\83b22888-df29-4103-916a-d2f46a3812ac.png",
+    "InstallDirectory": null,
+    "LastActivity": "2018-08-06T14:40:36.79-04:00",
+    "SortingName": "Destiny 02",
+    "GameId": "CUSA05042_00",
+    "PluginId": "e4ac81cb-1b1a-4ec9-8639-9a9633989a71",
+    "IncludeLibraryPluginAction": true,
+    "GameActions": null,
+    "PlatformIds": ["775b15e0-54e9-4768-9e38-bea248c50da3"],
+    "PublisherIds": ["14d08130-4cce-4cd2-bc0e-5cc637ac00d4"],
+    "DeveloperIds": ["7da912bf-1a22-40ca-b106-104838abe08d"],
+    "ReleaseDate": {
+      "ReleaseDate": "2017-9-6"
+    },
+    "CategoryIds": null,
+    "TagIds": null,
+    "FeatureIds": [
+      "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+      "0f866adf-2afc-4600-9d6a-bf32a0547902",
+      "50b01607-31f1-4a59-a753-5453e0224614",
+      "ef350faa-09a2-4f90-826e-2b84a0a5646a"
+    ],
+    "Links": [
+      {
+        "Name": "Official Website",
+        "Url": "https://www.destinythegame.com"
+      },
+      {
+        "Name": "Twitter",
+        "Url": "https://twitter.com/destinythegame"
+      },
+      {
+        "Name": "Wikia",
+        "Url": "http://destiny.wikia.com/wiki/Destiny_2"
+      },
+      {
+        "Name": "Wikipedia",
+        "Url": "https://en.wikipedia.org/wiki/Destiny_2"
+      },
+      {
+        "Name": "Youtube",
+        "Url": "https://www.youtube.com/user/destinygame"
+      },
+      {
+        "Name": "Facebook",
+        "Url": "https://www.facebook.com/DestinyTheGame"
+      },
+      {
+        "Name": "Steam",
+        "Url": "https://store.steampowered.com/app/1085660"
+      },
+      {
+        "Name": "Instagram",
+        "Url": "https://www.instagram.com/destinythegame"
+      },
+      {
+        "Name": "Discord",
+        "Url": "https://discord.gg/invite/d2"
+      },
+      {
+        "Name": "Reddit",
+        "Url": "https://www.reddit.com/r/DestinyTheGame"
+      },
+      {
+        "Name": "Epic",
+        "Url": "https://store.epicgames.com/p/destiny-2"
+      },
+      {
+        "Name": "Twitch",
+        "Url": "https://www.twitch.tv/directory/game/Destiny 2"
+      }
+    ],
+    "Roms": null,
+    "IsInstalling": false,
+    "IsUninstalling": false,
+    "IsLaunching": false,
+    "IsRunning": false,
+    "IsInstalled": false,
+    "OverrideInstallState": false,
+    "Playtime": 30472,
+    "Added": "2022-12-23T09:20:41.419-05:00",
+    "Modified": "2022-12-23T09:22:00.973-05:00",
+    "PlayCount": 16,
+    "InstallSize": null,
+    "LastSizeScanDate": null,
+    "SeriesIds": ["ff529797-4330-452e-b8cf-01f77c0dacb4"],
+    "Version": null,
+    "AgeRatingIds": [
+      "81d1aa88-4b15-424b-a4e8-638e8bf1b947",
+      "1563275e-0b17-4d8b-99cf-ae54344e9af2",
+      "67de5673-a6ba-4aea-981b-2c879ee56c4d",
+      "8695025b-b3c7-41bd-be72-a84a30931943"
+    ],
+    "RegionIds": null,
+    "SourceId": "7323d2ad-07cf-4c04-a1db-aec3886be258",
+    "CompletionStatusId": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+    "UserScore": null,
+    "CriticScore": 82,
+    "CommunityScore": 74,
+    "PreScript": null,
+    "PostScript": null,
+    "GameStartedScript": null,
+    "UseGlobalPostScript": true,
+    "UseGlobalPreScript": true,
+    "UseGlobalGameStartedScript": true,
+    "Manual": null,
+    "Genres": [
+      {
+        "Id": "cb1cff6d-b7bf-48ce-92dc-ffba57328e3d",
+        "Name": "Adventure"
+      },
+      {
+        "Id": "413806f3-4646-49f7-938b-79649133f232",
+        "Name": "Role-playing (RPG)"
+      },
+      {
+        "Id": "0a567d14-7ad5-4bfb-a4a2-b7454e4464e5",
+        "Name": "Shooter"
+      }
+    ],
+    "Developers": [
+      {
+        "Id": "7da912bf-1a22-40ca-b106-104838abe08d",
+        "Name": "Bungie"
+      }
+    ],
+    "Publishers": [
+      {
+        "Id": "14d08130-4cce-4cd2-bc0e-5cc637ac00d4",
+        "Name": "Activision"
+      }
+    ],
+    "Tags": null,
+    "Features": [
+      {
+        "Id": "50b01607-31f1-4a59-a753-5453e0224614",
+        "Name": "Co-Operative"
+      },
+      {
+        "Id": "ef350faa-09a2-4f90-826e-2b84a0a5646a",
+        "Name": "Massively Multiplayer Online (MMO)"
+      },
+      {
+        "Id": "0f866adf-2afc-4600-9d6a-bf32a0547902",
+        "Name": "Multiplayer"
+      },
+      {
+        "Id": "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+        "Name": "Single Player"
+      }
+    ],
+    "Categories": null,
+    "Platforms": [
+      {
+        "SpecificationId": "sony_playstation4",
+        "Icon": null,
+        "Cover": null,
+        "Background": null,
+        "Id": "775b15e0-54e9-4768-9e38-bea248c50da3",
+        "Name": "Sony PlayStation 4"
+      }
+    ],
+    "Series": [
+      {
+        "Id": "ff529797-4330-452e-b8cf-01f77c0dacb4",
+        "Name": "Destiny"
+      }
+    ],
+    "AgeRatings": [
+      {
+        "Id": "67de5673-a6ba-4aea-981b-2c879ee56c4d",
+        "Name": "CERO D"
+      },
+      {
+        "Id": "81d1aa88-4b15-424b-a4e8-638e8bf1b947",
+        "Name": "ESRB T"
+      },
+      {
+        "Id": "8695025b-b3c7-41bd-be72-a84a30931943",
+        "Name": "GRAC 18"
+      },
+      {
+        "Id": "1563275e-0b17-4d8b-99cf-ae54344e9af2",
+        "Name": "PEGI 16"
+      }
+    ],
+    "Regions": null,
+    "Source": {
+      "Id": "7323d2ad-07cf-4c04-a1db-aec3886be258",
+      "Name": "PlayStation"
+    },
+    "CompletionStatus": {
+      "Id": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+      "Name": "Not Played"
+    },
+    "ReleaseYear": 2017,
+    "RecentActivity": "2022-12-23T09:20:41.419-05:00",
+    "UserScoreRating": 0,
+    "CommunityScoreRating": 3,
+    "CriticScoreRating": 2,
+    "UserScoreGroup": 10,
+    "CommunityScoreGroup": 7,
+    "CriticScoreGroup": 8,
+    "LastActivitySegment": 5,
+    "RecentActivitySegment": 1,
+    "AddedSegment": 1,
+    "ModifiedSegment": 1,
+    "PlaytimeCategory": 2,
+    "InstallSizeGroup": 0,
+    "IsCustomGame": false,
+    "InstallationStatus": 1,
+    "Id": "e8efbb0e-b54f-47fb-b5bc-67f7add95719",
+    "Name": "Destiny 2"
+  },
+  {
+    "BackgroundImage": "d7b3c5f1-cca9-4984-b1aa-aee8e0af8765\\fa93b517-e173-483c-b5a3-0905f009c098.png",
+    "Description": null,
+    "Notes": null,
+    "GenreIds": null,
+    "Hidden": false,
+    "Favorite": false,
+    "Icon": "d7b3c5f1-cca9-4984-b1aa-aee8e0af8765\\f2ae96e9-787f-4fda-a1ca-881c823d937c.ico",
+    "CoverImage": "d7b3c5f1-cca9-4984-b1aa-aee8e0af8765\\c2120dec-3b3c-499a-9716-d2b2b8c519c3.jpg",
+    "InstallDirectory": null,
+    "LastActivity": null,
+    "SortingName": "Tom Clancy’s The Division 02 - PPS",
+    "GameId": "5159",
+    "PluginId": "c2f038e5-8b92-4877-91f1-da9094155fc5",
+    "IncludeLibraryPluginAction": true,
+    "GameActions": null,
+    "PlatformIds": ["a7aae1e8-8a12-4282-9d4f-5ad2f70f6a37"],
+    "PublisherIds": null,
+    "DeveloperIds": null,
+    "ReleaseDate": null,
+    "CategoryIds": null,
+    "TagIds": null,
+    "FeatureIds": null,
+    "Links": [
+      {
+        "Name": "PCGamingWiki",
+        "Url": "http://pcgamingwiki.com/w/index.php?search="
+      }
+    ],
+    "Roms": null,
+    "IsInstalling": false,
+    "IsUninstalling": false,
+    "IsLaunching": false,
+    "IsRunning": false,
+    "IsInstalled": false,
+    "OverrideInstallState": false,
+    "Playtime": 0,
+    "Added": "2022-12-23T09:20:53.213-05:00",
+    "Modified": "2022-12-23T09:26:09.403-05:00",
+    "PlayCount": 0,
+    "InstallSize": null,
+    "LastSizeScanDate": null,
+    "SeriesIds": null,
+    "Version": null,
+    "AgeRatingIds": null,
+    "RegionIds": null,
+    "SourceId": "025377e7-bef1-4178-9ede-ff4c326f6bf8",
+    "CompletionStatusId": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+    "UserScore": null,
+    "CriticScore": null,
+    "CommunityScore": null,
+    "PreScript": null,
+    "PostScript": null,
+    "GameStartedScript": null,
+    "UseGlobalPostScript": true,
+    "UseGlobalPreScript": true,
+    "UseGlobalGameStartedScript": true,
+    "Manual": null,
+    "Genres": null,
+    "Developers": null,
+    "Publishers": null,
+    "Tags": null,
+    "Features": null,
+    "Categories": null,
+    "Platforms": [
+      {
+        "SpecificationId": "pc_windows",
+        "Icon": null,
+        "Cover": null,
+        "Background": null,
+        "Id": "a7aae1e8-8a12-4282-9d4f-5ad2f70f6a37",
+        "Name": "PC (Windows)"
+      }
+    ],
+    "Series": null,
+    "AgeRatings": null,
+    "Regions": null,
+    "Source": {
+      "Id": "025377e7-bef1-4178-9ede-ff4c326f6bf8",
+      "Name": "Ubisoft Connect"
+    },
+    "CompletionStatus": {
+      "Id": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+      "Name": "Not Played"
+    },
+    "ReleaseYear": null,
+    "RecentActivity": "2022-12-23T09:20:53.213-05:00",
+    "UserScoreRating": 0,
+    "CommunityScoreRating": 0,
+    "CriticScoreRating": 0,
+    "UserScoreGroup": 10,
+    "CommunityScoreGroup": 10,
+    "CriticScoreGroup": 10,
+    "LastActivitySegment": 6,
+    "RecentActivitySegment": 1,
+    "AddedSegment": 1,
+    "ModifiedSegment": 1,
+    "PlaytimeCategory": 0,
+    "InstallSizeGroup": 0,
+    "IsCustomGame": false,
+    "InstallationStatus": 1,
+    "Id": "d7b3c5f1-cca9-4984-b1aa-aee8e0af8765",
+    "Name": "Tom Clancy’s The Division 2 - PPS"
+  },
+  {
+    "BackgroundImage": "b47de23f-408c-4e70-8e10-83e62d8ec65f\\a05ebf90-198f-4f70-99e7-b940f9aefa94.jpg",
+    "Description": "Assassin’s Creed® Unity is an action/adventure game set in the city of Paris during one of its darkest hours, the French Revolution. Take ownership of the story by customising Arno's equipement to make the experience unique to you, both visually and mechanically. In addition to an epic single-player experience, Assassin’s Creed Unity delivers the excitement of playing with up to three friends through online cooperative gameplay in specific missions. Throughout the game, take part in one of the most pivotal moments of French history in a compelling storyline and a breath-taking playground that brought you the city of lights of today.",
+    "Notes": null,
+    "GenreIds": [
+      "372da25b-3930-4daf-97e2-691ad633a310",
+      "cb1cff6d-b7bf-48ce-92dc-ffba57328e3d"
+    ],
+    "Hidden": false,
+    "Favorite": false,
+    "Icon": "b47de23f-408c-4e70-8e10-83e62d8ec65f\\7e897924-c48a-4e68-bd42-5620763a5463.ico",
+    "CoverImage": "b47de23f-408c-4e70-8e10-83e62d8ec65f\\bb63152a-9279-464d-bac2-2f497add5396.jpg",
+    "InstallDirectory": null,
+    "LastActivity": null,
+    "SortingName": null,
+    "GameId": "289650",
+    "PluginId": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+    "IncludeLibraryPluginAction": true,
+    "GameActions": null,
+    "PlatformIds": ["a7aae1e8-8a12-4282-9d4f-5ad2f70f6a37"],
+    "PublisherIds": ["dd2f6fa7-230d-4d84-8ada-07d93ed1e219"],
+    "DeveloperIds": ["dd2f6fa7-230d-4d84-8ada-07d93ed1e219"],
+    "ReleaseDate": {
+      "ReleaseDate": "2014-11-11"
+    },
+    "CategoryIds": null,
+    "TagIds": [
+      "e02f3753-1b07-4ea7-b9da-ecdc88c7ee15",
+      "a634d7f3-722a-46ea-ba49-e1e0b492c5cf",
+      "4da1930f-be75-401b-bdf7-02628ffb939e",
+      "dde0d05e-cedd-4b3e-ab9c-4b5c058b1241",
+      "6b1d5171-73e5-4568-b090-c019d7a9124c",
+      "b65b0a14-064f-4da9-8b5d-6520b265ba0c",
+      "bbf97ae9-6d3d-41b2-9cb8-cf8db4ccba08",
+      "bf2ae6dc-1d0d-4314-a0e8-dbdf7378e733",
+      "280801a1-8777-409d-8a5c-9583d8e2b342",
+      "e62ce59c-1484-49e7-9a10-ef68c6d258bb",
+      "c8308b0f-32ac-4b04-94c0-67596b90942b",
+      "587c0d82-08fb-427b-993c-168d6f99273c",
+      "9cebc57a-eff7-4d36-b8a5-9b26697c2036",
+      "276d8274-8c78-4631-9476-3d6b560e7ac5",
+      "d8af8d77-3677-42ca-8d1a-ea95af43dbea",
+      "6efa45a3-a4d6-4441-bf24-23fc242a0875",
+      "4954a8c9-6590-4060-a604-fce4db8beb4b",
+      "3224f42f-7684-408e-96fd-74e75a76ad55",
+      "4352f4ab-b6bb-4606-88b8-367ae74de8e8",
+      "3361dfde-9d94-4f92-b311-3fcb2665e91b"
+    ],
+    "FeatureIds": [
+      "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+      "0f866adf-2afc-4600-9d6a-bf32a0547902",
+      "1313f77b-dba0-4a28-b4a7-832bd71bd977",
+      "aadad9db-b010-438c-9d91-ba4a88089bf1",
+      "c49f86f6-39a9-48d2-b3c8-5650976c1d0e"
+    ],
+    "Links": [
+      {
+        "Name": "Community Hub",
+        "Url": "https://steamcommunity.com/app/289650"
+      },
+      {
+        "Name": "Discussions",
+        "Url": "https://steamcommunity.com/app/289650/discussions/"
+      },
+      {
+        "Name": "Guides",
+        "Url": "https://steamcommunity.com/app/289650/guides/"
+      },
+      {
+        "Name": "News",
+        "Url": "https://store.steampowered.com/news/?appids=289650"
+      },
+      {
+        "Name": "Store Page",
+        "Url": "https://store.steampowered.com/app/289650"
+      },
+      {
+        "Name": "PCGamingWiki",
+        "Url": "https://pcgamingwiki.com/api/appid.php?appid=289650"
+      }
+    ],
+    "Roms": null,
+    "IsInstalling": false,
+    "IsUninstalling": false,
+    "IsLaunching": false,
+    "IsRunning": false,
+    "IsInstalled": false,
+    "OverrideInstallState": false,
+    "Playtime": 0,
+    "Added": "2022-12-23T09:20:52.276-05:00",
+    "Modified": "2022-12-23T09:24:56.646-05:00",
+    "PlayCount": 0,
+    "InstallSize": null,
+    "LastSizeScanDate": null,
+    "SeriesIds": ["d681e0a5-cd71-4b28-8a6c-ad163b026831"],
+    "Version": null,
+    "AgeRatingIds": [
+      "61e556ed-2c84-40ae-b931-87b83dc07768",
+      "92a98dd2-2767-4962-bb47-c723a49fa1e7",
+      "b618a6d5-214c-4deb-a570-1a6720e26c8d",
+      "5788d5dd-2789-4c04-988f-1c5585f5a6a6",
+      "132107aa-8c37-4ae9-9340-b0ccadcc3e28",
+      "8d519216-d414-46cd-a78b-261fefe64819",
+      "eb826f5b-5883-41cd-9a74-6beea462e8f7"
+    ],
+    "RegionIds": null,
+    "SourceId": "8d9af7da-0d14-4f75-b757-ad33a883ffd2",
+    "CompletionStatusId": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+    "UserScore": null,
+    "CriticScore": 71,
+    "CommunityScore": 75,
+    "PreScript": null,
+    "PostScript": null,
+    "GameStartedScript": null,
+    "UseGlobalPostScript": true,
+    "UseGlobalPreScript": true,
+    "UseGlobalGameStartedScript": true,
+    "Manual": null,
+    "Genres": [
+      {
+        "Id": "372da25b-3930-4daf-97e2-691ad633a310",
+        "Name": "Action"
+      },
+      {
+        "Id": "cb1cff6d-b7bf-48ce-92dc-ffba57328e3d",
+        "Name": "Adventure"
+      }
+    ],
+    "Developers": [
+      {
+        "Id": "dd2f6fa7-230d-4d84-8ada-07d93ed1e219",
+        "Name": "Ubisoft"
+      }
+    ],
+    "Publishers": [
+      {
+        "Id": "dd2f6fa7-230d-4d84-8ada-07d93ed1e219",
+        "Name": "Ubisoft"
+      }
+    ],
+    "Tags": [
+      {
+        "Id": "bbf97ae9-6d3d-41b2-9cb8-cf8db4ccba08",
+        "Name": "Action"
+      },
+      {
+        "Id": "4954a8c9-6590-4060-a604-fce4db8beb4b",
+        "Name": "Action RPG"
+      },
+      {
+        "Id": "bf2ae6dc-1d0d-4314-a0e8-dbdf7378e733",
+        "Name": "Adventure"
+      },
+      {
+        "Id": "4da1930f-be75-401b-bdf7-02628ffb939e",
+        "Name": "Assassin"
+      },
+      {
+        "Id": "587c0d82-08fb-427b-993c-168d6f99273c",
+        "Name": "Atmospheric"
+      },
+      {
+        "Id": "b65b0a14-064f-4da9-8b5d-6520b265ba0c",
+        "Name": "Co-op"
+      },
+      {
+        "Id": "d8af8d77-3677-42ca-8d1a-ea95af43dbea",
+        "Name": "Great Soundtrack"
+      },
+      {
+        "Id": "6b1d5171-73e5-4568-b090-c019d7a9124c",
+        "Name": "Historical"
+      },
+      {
+        "Id": "280801a1-8777-409d-8a5c-9583d8e2b342",
+        "Name": "Multiplayer"
+      },
+      {
+        "Id": "c8308b0f-32ac-4b04-94c0-67596b90942b",
+        "Name": "Online Co-Op"
+      },
+      {
+        "Id": "e02f3753-1b07-4ea7-b9da-ecdc88c7ee15",
+        "Name": "Open World"
+      },
+      {
+        "Id": "a634d7f3-722a-46ea-ba49-e1e0b492c5cf",
+        "Name": "Parkour"
+      },
+      {
+        "Id": "6efa45a3-a4d6-4441-bf24-23fc242a0875",
+        "Name": "RPG"
+      },
+      {
+        "Id": "3224f42f-7684-408e-96fd-74e75a76ad55",
+        "Name": "Sandbox"
+      },
+      {
+        "Id": "3361dfde-9d94-4f92-b311-3fcb2665e91b",
+        "Name": "Simulation"
+      },
+      {
+        "Id": "9cebc57a-eff7-4d36-b8a5-9b26697c2036",
+        "Name": "Singleplayer"
+      },
+      {
+        "Id": "dde0d05e-cedd-4b3e-ab9c-4b5c058b1241",
+        "Name": "Stealth"
+      },
+      {
+        "Id": "276d8274-8c78-4631-9476-3d6b560e7ac5",
+        "Name": "Story Rich"
+      },
+      {
+        "Id": "4352f4ab-b6bb-4606-88b8-367ae74de8e8",
+        "Name": "Tactical"
+      },
+      {
+        "Id": "e62ce59c-1484-49e7-9a10-ef68c6d258bb",
+        "Name": "Third Person"
+      }
+    ],
+    "Features": [
+      {
+        "Id": "1313f77b-dba0-4a28-b4a7-832bd71bd977",
+        "Name": "Co-Op"
+      },
+      {
+        "Id": "aadad9db-b010-438c-9d91-ba4a88089bf1",
+        "Name": "In-App Purchases"
+      },
+      {
+        "Id": "0f866adf-2afc-4600-9d6a-bf32a0547902",
+        "Name": "Multiplayer"
+      },
+      {
+        "Id": "c49f86f6-39a9-48d2-b3c8-5650976c1d0e",
+        "Name": "Partial Controller Support"
+      },
+      {
+        "Id": "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+        "Name": "Single Player"
+      }
+    ],
+    "Categories": null,
+    "Platforms": [
+      {
+        "SpecificationId": "pc_windows",
+        "Icon": null,
+        "Cover": null,
+        "Background": null,
+        "Id": "a7aae1e8-8a12-4282-9d4f-5ad2f70f6a37",
+        "Name": "PC (Windows)"
+      }
+    ],
+    "Series": [
+      {
+        "Id": "d681e0a5-cd71-4b28-8a6c-ad163b026831",
+        "Name": "Assassin's Creed"
+      }
+    ],
+    "AgeRatings": [
+      {
+        "Id": "132107aa-8c37-4ae9-9340-b0ccadcc3e28",
+        "Name": "ACB R18"
+      },
+      {
+        "Id": "92a98dd2-2767-4962-bb47-c723a49fa1e7",
+        "Name": "CERO Z"
+      },
+      {
+        "Id": "5788d5dd-2789-4c04-988f-1c5585f5a6a6",
+        "Name": "ClassInd 18"
+      },
+      {
+        "Id": "61e556ed-2c84-40ae-b931-87b83dc07768",
+        "Name": "ESRB M"
+      },
+      {
+        "Id": "8d519216-d414-46cd-a78b-261fefe64819",
+        "Name": "GRAC TESTING"
+      },
+      {
+        "Id": "eb826f5b-5883-41cd-9a74-6beea462e8f7",
+        "Name": "PEGI 18"
+      },
+      {
+        "Id": "b618a6d5-214c-4deb-a570-1a6720e26c8d",
+        "Name": "USK 18"
+      }
+    ],
+    "Regions": null,
+    "Source": {
+      "Id": "8d9af7da-0d14-4f75-b757-ad33a883ffd2",
+      "Name": "Steam"
+    },
+    "CompletionStatus": {
+      "Id": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+      "Name": "Not Played"
+    },
+    "ReleaseYear": 2014,
+    "RecentActivity": "2022-12-23T09:20:52.276-05:00",
+    "UserScoreRating": 0,
+    "CommunityScoreRating": 3,
+    "CriticScoreRating": 3,
+    "UserScoreGroup": 10,
+    "CommunityScoreGroup": 7,
+    "CriticScoreGroup": 7,
+    "LastActivitySegment": 6,
+    "RecentActivitySegment": 1,
+    "AddedSegment": 1,
+    "ModifiedSegment": 1,
+    "PlaytimeCategory": 0,
+    "InstallSizeGroup": 0,
+    "IsCustomGame": false,
+    "InstallationStatus": 1,
+    "Id": "b47de23f-408c-4e70-8e10-83e62d8ec65f",
+    "Name": "Assassin's Creed Unity"
+  },
+  {
+    "BackgroundImage": "81df1871-89af-458f-ba39-75ae6727f499\\ac1f753e-f797-4946-8fc8-36cb5e995703.jpg",
+    "Description": "Build insane, fully customisable robot battle vehicles that drive, hover, walk and fly in the free-to-play action game Robocraft. Add weapons from the future and jump in the driving seat as you take your creation into battle against others online!<br><br><strong>BUILD</strong> - Combine blocks in an easy-to-use editor interface to create a futuristic robot battle vehicle armed with dozens of different weapon options.<br><img src=\"https://cdn.akamai.steamstatic.com/steam/apps/301520/extras/BUILD.gif?t=1667302415\" /><br><br><strong>DRIVE </strong>- Jump into the pilot seat and test out your robot design against AI. Jet cars, tanks, flying warships, helicopters, drones; almost any vehicle is possible in Robocraft!<br><img src=\"https://cdn.akamai.steamstatic.com/steam/apps/301520/extras/DRIVE.gif?t=1667302415\" /><br><br><strong>FIGHT</strong> - Battle online in vast battlefields against players from all over the world on dedicated servers.<br><img src=\"https://cdn.akamai.steamstatic.com/steam/apps/301520/extras/FIGHT.gif?t=1667302415\" /><br><br><strong><u>ADDITIONAL FEATURES</u></strong><br><br><ul class=\"bb_ul\"><li>Over 250 cubes and growing! Be part of a constantly changing metagame with new weapons, components and features added every month<br></li><li>Watch as enemy robots break apart cube by cube as you destroy them with powerful weaponry which players can switch between at their leisure<br></li><li>Form Parties and battle on the same team with your friends<br></li><li>Create or join Clans of up to 50 players<br></li><li>Share your robotic creations with other players online via the Community Robot Factory</li></ul><br><i>For more information about Robocraft, please visit <a href=\"https://steamcommunity.com/linkfilter/?url=http://Robocraftgame.com\" target=\"_blank\" rel=\" noopener\"  >Robocraftgame.com</a></i>",
+    "Notes": null,
+    "GenreIds": [
+      "372da25b-3930-4daf-97e2-691ad633a310",
+      "42e7f499-5163-4f45-b7e6-3c10746cbaa9",
+      "6397296c-49b1-40d0-8bc1-7c219494eb37",
+      "bbaf719e-f1eb-4ffc-8b59-09e5ba630aca",
+      "eb33aac1-5397-4aee-9dd4-e036a5e79217",
+      "488bc8c7-570b-40d5-8503-c9c92ba40614"
+    ],
+    "Hidden": false,
+    "Favorite": false,
+    "Icon": "81df1871-89af-458f-ba39-75ae6727f499\\de691a4c-11b8-47b4-ba18-6eee389e0f31.ico",
+    "CoverImage": "81df1871-89af-458f-ba39-75ae6727f499\\df046816-3fa8-4216-9fae-2f312447fb8b.jpg",
+    "InstallDirectory": null,
+    "LastActivity": null,
+    "SortingName": null,
+    "GameId": "301520",
+    "PluginId": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+    "IncludeLibraryPluginAction": true,
+    "GameActions": null,
+    "PlatformIds": ["a7aae1e8-8a12-4282-9d4f-5ad2f70f6a37"],
+    "PublisherIds": ["705ca2c9-cbf5-42fd-bcc6-90c5d7f09fbe"],
+    "DeveloperIds": ["705ca2c9-cbf5-42fd-bcc6-90c5d7f09fbe"],
+    "ReleaseDate": {
+      "ReleaseDate": "2017-8-24"
+    },
+    "CategoryIds": null,
+    "TagIds": [
+      "1a3e6711-2aed-4c1c-892f-866a07fac3a1",
+      "5981dba9-c86d-4310-951d-a232cd9824ab",
+      "09a33633-b153-4d39-93c2-440a3469935d",
+      "280801a1-8777-409d-8a5c-9583d8e2b342",
+      "bbf97ae9-6d3d-41b2-9cb8-cf8db4ccba08",
+      "520bf9dd-7958-4b46-807f-3914e4d3f4cc",
+      "76dc67d9-5b23-4a1f-b25a-464211b1f5db",
+      "11085946-e305-48c0-b8e0-8291def4fef3",
+      "3224f42f-7684-408e-96fd-74e75a76ad55",
+      "761b64e8-1540-4f91-b088-3f6d2558208d",
+      "4d130117-3d76-468e-adb0-680dd989c996",
+      "0f61db9a-9ccd-4653-a9c1-c7e387154d49",
+      "354b8fa4-5924-4488-9287-eaeee30bdcc5",
+      "3361dfde-9d94-4f92-b311-3fcb2665e91b",
+      "1289f589-6dfa-4276-a63c-cb7ae3b17efe",
+      "0cf66c00-91b6-46f3-b31a-888afd956205",
+      "e02f3753-1b07-4ea7-b9da-ecdc88c7ee15",
+      "72f96657-ad21-465f-9c3a-5a1943454e3e",
+      "bf2ae6dc-1d0d-4314-a0e8-dbdf7378e733",
+      "6efa45a3-a4d6-4441-bf24-23fc242a0875"
+    ],
+    "FeatureIds": [
+      "0f866adf-2afc-4600-9d6a-bf32a0547902",
+      "326b7038-8f32-4724-9e65-5be6b082a918",
+      "4b393129-9025-49b6-9d78-09bedbcfcf98",
+      "ff02beee-f1b7-490a-a466-d2032d3fb58b",
+      "1313f77b-dba0-4a28-b4a7-832bd71bd977",
+      "e8bfdb80-457a-455b-9d50-d6d4d5960cbb",
+      "c2252751-551c-4ece-891e-9e70915017ee",
+      "64ce1c68-f574-45a1-a164-a53b4893fcaf",
+      "aadad9db-b010-438c-9d91-ba4a88089bf1"
+    ],
+    "Links": [
+      {
+        "Name": "Community Hub",
+        "Url": "https://steamcommunity.com/app/301520"
+      },
+      {
+        "Name": "Discussions",
+        "Url": "https://steamcommunity.com/app/301520/discussions/"
+      },
+      {
+        "Name": "Guides",
+        "Url": "https://steamcommunity.com/app/301520/guides/"
+      },
+      {
+        "Name": "News",
+        "Url": "https://store.steampowered.com/news/?appids=301520"
+      },
+      {
+        "Name": "Store Page",
+        "Url": "https://store.steampowered.com/app/301520"
+      },
+      {
+        "Name": "PCGamingWiki",
+        "Url": "https://pcgamingwiki.com/api/appid.php?appid=301520"
+      },
+      {
+        "Name": "Achievements",
+        "Url": "https://steamcommunity.com/stats/301520/achievements"
+      }
+    ],
+    "Roms": null,
+    "IsInstalling": false,
+    "IsUninstalling": false,
+    "IsLaunching": false,
+    "IsRunning": false,
+    "IsInstalled": false,
+    "OverrideInstallState": false,
+    "Playtime": 0,
+    "Added": "2022-12-23T09:20:52.26-05:00",
+    "Modified": "2022-12-23T09:24:44.395-05:00",
+    "PlayCount": 0,
+    "InstallSize": null,
+    "LastSizeScanDate": null,
+    "SeriesIds": ["49de947a-7cc6-4d2e-ba21-03736db58e57"],
+    "Version": null,
+    "AgeRatingIds": ["1bdddc05-70bd-4423-9fbb-1d69be31626f"],
+    "RegionIds": null,
+    "SourceId": "8d9af7da-0d14-4f75-b757-ad33a883ffd2",
+    "CompletionStatusId": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+    "UserScore": null,
+    "CriticScore": null,
+    "CommunityScore": 72,
+    "PreScript": null,
+    "PostScript": null,
+    "GameStartedScript": null,
+    "UseGlobalPostScript": true,
+    "UseGlobalPreScript": true,
+    "UseGlobalGameStartedScript": true,
+    "Manual": null,
+    "Genres": [
+      {
+        "Id": "372da25b-3930-4daf-97e2-691ad633a310",
+        "Name": "Action"
+      },
+      {
+        "Id": "42e7f499-5163-4f45-b7e6-3c10746cbaa9",
+        "Name": "Free to Play"
+      },
+      {
+        "Id": "6397296c-49b1-40d0-8bc1-7c219494eb37",
+        "Name": "Indie"
+      },
+      {
+        "Id": "bbaf719e-f1eb-4ffc-8b59-09e5ba630aca",
+        "Name": "Massively Multiplayer"
+      },
+      {
+        "Id": "eb33aac1-5397-4aee-9dd4-e036a5e79217",
+        "Name": "RPG"
+      },
+      {
+        "Id": "488bc8c7-570b-40d5-8503-c9c92ba40614",
+        "Name": "Simulation"
+      }
+    ],
+    "Developers": [
+      {
+        "Id": "705ca2c9-cbf5-42fd-bcc6-90c5d7f09fbe",
+        "Name": "Freejam"
+      }
+    ],
+    "Publishers": [
+      {
+        "Id": "705ca2c9-cbf5-42fd-bcc6-90c5d7f09fbe",
+        "Name": "Freejam"
+      }
+    ],
+    "Tags": [
+      {
+        "Id": "bbf97ae9-6d3d-41b2-9cb8-cf8db4ccba08",
+        "Name": "Action"
+      },
+      {
+        "Id": "bf2ae6dc-1d0d-4314-a0e8-dbdf7378e733",
+        "Name": "Adventure"
+      },
+      {
+        "Id": "09a33633-b153-4d39-93c2-440a3469935d",
+        "Name": "Building"
+      },
+      {
+        "Id": "761b64e8-1540-4f91-b088-3f6d2558208d",
+        "Name": "Crafting"
+      },
+      {
+        "Id": "1289f589-6dfa-4276-a63c-cb7ae3b17efe",
+        "Name": "Early Access"
+      },
+      {
+        "Id": "1a3e6711-2aed-4c1c-892f-866a07fac3a1",
+        "Name": "Free to Play"
+      },
+      {
+        "Id": "72f96657-ad21-465f-9c3a-5a1943454e3e",
+        "Name": "Funny"
+      },
+      {
+        "Id": "0cf66c00-91b6-46f3-b31a-888afd956205",
+        "Name": "Indie"
+      },
+      {
+        "Id": "11085946-e305-48c0-b8e0-8291def4fef3",
+        "Name": "Massively Multiplayer"
+      },
+      {
+        "Id": "280801a1-8777-409d-8a5c-9583d8e2b342",
+        "Name": "Multiplayer"
+      },
+      {
+        "Id": "e02f3753-1b07-4ea7-b9da-ecdc88c7ee15",
+        "Name": "Open World"
+      },
+      {
+        "Id": "76dc67d9-5b23-4a1f-b25a-464211b1f5db",
+        "Name": "PvP"
+      },
+      {
+        "Id": "5981dba9-c86d-4310-951d-a232cd9824ab",
+        "Name": "Robots"
+      },
+      {
+        "Id": "6efa45a3-a4d6-4441-bf24-23fc242a0875",
+        "Name": "RPG"
+      },
+      {
+        "Id": "3224f42f-7684-408e-96fd-74e75a76ad55",
+        "Name": "Sandbox"
+      },
+      {
+        "Id": "0f61db9a-9ccd-4653-a9c1-c7e387154d49",
+        "Name": "Sci-fi"
+      },
+      {
+        "Id": "520bf9dd-7958-4b46-807f-3914e4d3f4cc",
+        "Name": "Shooter"
+      },
+      {
+        "Id": "3361dfde-9d94-4f92-b311-3fcb2665e91b",
+        "Name": "Simulation"
+      },
+      {
+        "Id": "354b8fa4-5924-4488-9287-eaeee30bdcc5",
+        "Name": "Strategy"
+      },
+      {
+        "Id": "4d130117-3d76-468e-adb0-680dd989c996",
+        "Name": "Third-Person Shooter"
+      }
+    ],
+    "Features": [
+      {
+        "Id": "c2252751-551c-4ece-891e-9e70915017ee",
+        "Name": "Achievements"
+      },
+      {
+        "Id": "1313f77b-dba0-4a28-b4a7-832bd71bd977",
+        "Name": "Co-Op"
+      },
+      {
+        "Id": "aadad9db-b010-438c-9d91-ba4a88089bf1",
+        "Name": "In-App Purchases"
+      },
+      {
+        "Id": "326b7038-8f32-4724-9e65-5be6b082a918",
+        "Name": "MMO"
+      },
+      {
+        "Id": "0f866adf-2afc-4600-9d6a-bf32a0547902",
+        "Name": "Multiplayer"
+      },
+      {
+        "Id": "e8bfdb80-457a-455b-9d50-d6d4d5960cbb",
+        "Name": "Online Co-Op"
+      },
+      {
+        "Id": "ff02beee-f1b7-490a-a466-d2032d3fb58b",
+        "Name": "Online Pvp"
+      },
+      {
+        "Id": "4b393129-9025-49b6-9d78-09bedbcfcf98",
+        "Name": "Pvp"
+      },
+      {
+        "Id": "64ce1c68-f574-45a1-a164-a53b4893fcaf",
+        "Name": "Trading Cards"
+      }
+    ],
+    "Categories": null,
+    "Platforms": [
+      {
+        "SpecificationId": "pc_windows",
+        "Icon": null,
+        "Cover": null,
+        "Background": null,
+        "Id": "a7aae1e8-8a12-4282-9d4f-5ad2f70f6a37",
+        "Name": "PC (Windows)"
+      }
+    ],
+    "Series": [
+      {
+        "Id": "49de947a-7cc6-4d2e-ba21-03736db58e57",
+        "Name": "Robocraft"
+      }
+    ],
+    "AgeRatings": [
+      {
+        "Id": "1bdddc05-70bd-4423-9fbb-1d69be31626f",
+        "Name": "ESRB E10"
+      }
+    ],
+    "Regions": null,
+    "Source": {
+      "Id": "8d9af7da-0d14-4f75-b757-ad33a883ffd2",
+      "Name": "Steam"
+    },
+    "CompletionStatus": {
+      "Id": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+      "Name": "Not Played"
+    },
+    "ReleaseYear": 2017,
+    "RecentActivity": "2022-12-23T09:20:52.26-05:00",
+    "UserScoreRating": 0,
+    "CommunityScoreRating": 3,
+    "CriticScoreRating": 0,
+    "UserScoreGroup": 10,
+    "CommunityScoreGroup": 7,
+    "CriticScoreGroup": 10,
+    "LastActivitySegment": 6,
+    "RecentActivitySegment": 1,
+    "AddedSegment": 1,
+    "ModifiedSegment": 1,
+    "PlaytimeCategory": 0,
+    "InstallSizeGroup": 0,
+    "IsCustomGame": false,
+    "InstallationStatus": 1,
+    "Id": "81df1871-89af-458f-ba39-75ae6727f499",
+    "Name": "Robocraft"
+  },
+  {
+    "BackgroundImage": "4d1490b5-4206-4938-a32e-b6a08642df35\\e92063a0-8196-4d5b-be29-a3eeb66477fa.jpg",
+    "Description": "Powered by Football, FIFA 22 brings the game even closer to the real thing with fundamental gameplay advances and a new season of innovation across every mode. Play with 17,000+ players, over 700 teams in 90+ stadiums and more than 30 leagues from all over the globe.",
+    "Notes": null,
+    "GenreIds": [
+      "b4378397-3fc8-4142-93a3-75ee5652a2dc",
+      "21017b85-c48e-4517-8cd3-1d8a4f33f378"
+    ],
+    "Hidden": false,
+    "Favorite": false,
+    "Icon": null,
+    "CoverImage": "4d1490b5-4206-4938-a32e-b6a08642df35\\67650d35-d3d0-4979-99c9-433613acfaf3.png",
+    "InstallDirectory": null,
+    "LastActivity": null,
+    "SortingName": null,
+    "GameId": "PPSA03180_00",
+    "PluginId": "e4ac81cb-1b1a-4ec9-8639-9a9633989a71",
+    "IncludeLibraryPluginAction": true,
+    "GameActions": null,
+    "PlatformIds": ["6ac977b9-f496-4c49-bb38-f9627a67affc"],
+    "PublisherIds": ["fe972ba7-b353-470f-8617-9d54310519ae"],
+    "DeveloperIds": ["2a79bf1a-2ab9-4f0f-81dc-2c1827cfc94f"],
+    "ReleaseDate": {
+      "ReleaseDate": "2021-9-30"
+    },
+    "CategoryIds": null,
+    "TagIds": null,
+    "FeatureIds": [
+      "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+      "0f866adf-2afc-4600-9d6a-bf32a0547902",
+      "50b01607-31f1-4a59-a753-5453e0224614",
+      "355a334f-5be2-4689-9d77-d3758839a622"
+    ],
+    "Links": [
+      {
+        "Name": "Steam",
+        "Url": "https://store.steampowered.com/app/1506830"
+      },
+      {
+        "Name": "Official Website",
+        "Url": "https://www.ea.com/games/fifa/fifa-22"
+      },
+      {
+        "Name": "Facebook",
+        "Url": "https://www.facebook.com/easportsfifa"
+      },
+      {
+        "Name": "Twitter",
+        "Url": "https://twitter.com/easportsfifa"
+      },
+      {
+        "Name": "Instagram",
+        "Url": "https://www.instagram.com/easportsfifa"
+      },
+      {
+        "Name": "Discord",
+        "Url": "https://discord.gg/easportsfifa"
+      },
+      {
+        "Name": "Reddit",
+        "Url": "https://www.reddit.com/r/FIFA"
+      },
+      {
+        "Name": "Wikia",
+        "Url": "https://fifa.fandom.com/wiki/FIFA_22"
+      },
+      {
+        "Name": "Wikipedia",
+        "Url": "https://en.wikipedia.org/wiki/FIFA_22"
+      },
+      {
+        "Name": "Twitch",
+        "Url": "https://www.twitch.tv/directory/game/FIFA%2022"
+      }
+    ],
+    "Roms": null,
+    "IsInstalling": false,
+    "IsUninstalling": false,
+    "IsLaunching": false,
+    "IsRunning": false,
+    "IsInstalled": false,
+    "OverrideInstallState": false,
+    "Playtime": 0,
+    "Added": "2022-12-23T09:20:25.461-05:00",
+    "Modified": "2022-12-23T09:21:23.538-05:00",
+    "PlayCount": 0,
+    "InstallSize": null,
+    "LastSizeScanDate": null,
+    "SeriesIds": ["0bb39a55-ef12-4698-8f3d-c94b504b77a9"],
+    "Version": null,
+    "AgeRatingIds": [
+      "e03dad02-7929-4cd0-8b84-050b6bf647c4",
+      "9357030a-f91d-4b03-9aa7-cc7bdfb9d6f3",
+      "1cf1955f-d106-4a99-a460-bbd3a2681dbd",
+      "30e120f0-8bb0-41d1-8fe2-d6113a47cb57",
+      "507ff719-9cd2-4b0f-98c9-2cc25d54972a",
+      "c2786785-4a19-4bce-b2c4-3553384f6720"
+    ],
+    "RegionIds": null,
+    "SourceId": "7323d2ad-07cf-4c04-a1db-aec3886be258",
+    "CompletionStatusId": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+    "UserScore": null,
+    "CriticScore": 79,
+    "CommunityScore": 78,
+    "PreScript": null,
+    "PostScript": null,
+    "GameStartedScript": null,
+    "UseGlobalPostScript": true,
+    "UseGlobalPreScript": true,
+    "UseGlobalGameStartedScript": true,
+    "Manual": null,
+    "Genres": [
+      {
+        "Id": "b4378397-3fc8-4142-93a3-75ee5652a2dc",
+        "Name": "Simulator"
+      },
+      {
+        "Id": "21017b85-c48e-4517-8cd3-1d8a4f33f378",
+        "Name": "Sport"
+      }
+    ],
+    "Developers": [
+      {
+        "Id": "2a79bf1a-2ab9-4f0f-81dc-2c1827cfc94f",
+        "Name": "EA Vancouver"
+      }
+    ],
+    "Publishers": [
+      {
+        "Id": "fe972ba7-b353-470f-8617-9d54310519ae",
+        "Name": "EA Sports"
+      }
+    ],
+    "Tags": null,
+    "Features": [
+      {
+        "Id": "50b01607-31f1-4a59-a753-5453e0224614",
+        "Name": "Co-Operative"
+      },
+      {
+        "Id": "0f866adf-2afc-4600-9d6a-bf32a0547902",
+        "Name": "Multiplayer"
+      },
+      {
+        "Id": "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+        "Name": "Single Player"
+      },
+      {
+        "Id": "355a334f-5be2-4689-9d77-d3758839a622",
+        "Name": "Split Screen"
+      }
+    ],
+    "Categories": null,
+    "Platforms": [
+      {
+        "SpecificationId": "sony_playstation5",
+        "Icon": null,
+        "Cover": null,
+        "Background": null,
+        "Id": "6ac977b9-f496-4c49-bb38-f9627a67affc",
+        "Name": "Sony PlayStation 5"
+      }
+    ],
+    "Series": [
+      {
+        "Id": "0bb39a55-ef12-4698-8f3d-c94b504b77a9",
+        "Name": "FIFA"
+      }
+    ],
+    "AgeRatings": [
+      {
+        "Id": "c2786785-4a19-4bce-b2c4-3553384f6720",
+        "Name": "ACB PG"
+      },
+      {
+        "Id": "1cf1955f-d106-4a99-a460-bbd3a2681dbd",
+        "Name": "CERO A"
+      },
+      {
+        "Id": "507ff719-9cd2-4b0f-98c9-2cc25d54972a",
+        "Name": "ClassInd 10"
+      },
+      {
+        "Id": "e03dad02-7929-4cd0-8b84-050b6bf647c4",
+        "Name": "ESRB E"
+      },
+      {
+        "Id": "30e120f0-8bb0-41d1-8fe2-d6113a47cb57",
+        "Name": "GRAC 12"
+      },
+      {
+        "Id": "9357030a-f91d-4b03-9aa7-cc7bdfb9d6f3",
+        "Name": "PEGI 3"
+      }
+    ],
+    "Regions": null,
+    "Source": {
+      "Id": "7323d2ad-07cf-4c04-a1db-aec3886be258",
+      "Name": "PlayStation"
+    },
+    "CompletionStatus": {
+      "Id": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+      "Name": "Not Played"
+    },
+    "ReleaseYear": 2021,
+    "RecentActivity": "2022-12-23T09:20:25.461-05:00",
+    "UserScoreRating": 0,
+    "CommunityScoreRating": 2,
+    "CriticScoreRating": 2,
+    "UserScoreGroup": 10,
+    "CommunityScoreGroup": 7,
+    "CriticScoreGroup": 7,
+    "LastActivitySegment": 6,
+    "RecentActivitySegment": 1,
+    "AddedSegment": 1,
+    "ModifiedSegment": 1,
+    "PlaytimeCategory": 0,
+    "InstallSizeGroup": 0,
+    "IsCustomGame": false,
+    "InstallationStatus": 1,
+    "Id": "4d1490b5-4206-4938-a32e-b6a08642df35",
+    "Name": "FIFA 22"
+  },
+  {
+    "BackgroundImage": "858df74d-517e-4b1d-a8d2-d8209ef85d42\\85c9547a-ff26-4bb5-a2a2-dd90ca6bcfcb.jpg",
+    "Description": "Bethesda Game Studios, the award-winning creators of Fallout 3 and The Elder Scrolls V: Skyrim, welcome you to the world of Fallout 4 – their most ambitious game ever, and the next generation of open-world gaming.<br><br>As the sole survivor of Vault 111, you enter a world destroyed by nuclear war. Every second is a fight for survival, and every choice is yours. Only you can rebuild and determine the fate of the Wasteland. Welcome home.<h2 class=\"bb_tag\">Key Features:</h2><ul class=\"bb_ul\"><li><strong>Freedom and Liberty!</strong><br>Do whatever you want in a massive open world with hundreds of locations, characters, and quests. Join multiple factions vying for power or go it alone, the choices are all yours.<br><br></li><li><strong>You’re S.P.E.C.I.A.L!</strong><br>Be whoever you want with the S.P.E.C.I.A.L. character system. From a Power Armored soldier to the charismatic smooth talker, you can choose from hundreds of Perks and develop your own playstyle.<br> <br></li><li><strong>Super Deluxe Pixels!</strong><br>An all-new next generation graphics and lighting engine brings to life the world of Fallout like never before. From the blasted forests of the Commonwealth to the ruins of Boston, every location is packed with dynamic detail. <br><br></li><li><strong>Violence and V.A.T.S.!</strong><br>Intense first or third person combat can also be slowed down with the new dynamic Vault-Tec Assisted Targeting System (V.A.T.S) that lets you choose your attacks and enjoy cinematic carnage.<br><br></li><li><strong>Collect and Build!</strong><br>Collect, upgrade, and build thousands of items in the most advanced crafting system ever. Weapons, armor, chemicals, and food are just the beginning - you can even build and manage entire settlements.</li></ul>",
+    "Notes": null,
+    "GenreIds": ["eb33aac1-5397-4aee-9dd4-e036a5e79217"],
+    "Hidden": false,
+    "Favorite": false,
+    "Icon": "858df74d-517e-4b1d-a8d2-d8209ef85d42\\6236d115-878e-4fb0-92d3-2a9937f23ead.ico",
+    "CoverImage": "858df74d-517e-4b1d-a8d2-d8209ef85d42\\a5a82faf-cd50-4717-b737-ee4bddbfd55b.jpg",
+    "InstallDirectory": null,
+    "LastActivity": "2016-08-08T19:45:01-04:00",
+    "SortingName": "Fallout 04",
+    "GameId": "377160",
+    "PluginId": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+    "IncludeLibraryPluginAction": true,
+    "GameActions": null,
+    "PlatformIds": ["a7aae1e8-8a12-4282-9d4f-5ad2f70f6a37"],
+    "PublisherIds": ["4c0cd831-82f1-417e-a087-47b32d247936"],
+    "DeveloperIds": [
+      "18fb01cd-60…547902",
+      "50b01607-31f1-4a59-a753-5453e0224614",
+      "355a334f-5be2-4689-9d77-d3758839a622"
+    ],
+    "Links": [
+      {
+        "Name": "Official Website",
+        "Url": "https://www.callofduty.com/wwii"
+      },
+      {
+        "Name": "Wikia",
+        "Url": "http://callofduty.wikia.com/wiki/Call_of_Duty:_World_War_II"
+      },
+      {
+        "Name": "Facebook",
+        "Url": "https://www.facebook.com/CallofDuty"
+      },
+      {
+        "Name": "Twitter",
+        "Url": "https://twitter.com/callofduty"
+      },
+      {
+        "Name": "Instagram",
+        "Url": "https://www.instagram.com/callofduty"
+      },
+      {
+        "Name": "Youtube",
+        "Url": "https://www.youtube.com/user/callofduty"
+      },
+      {
+        "Name": "Steam",
+        "Url": "https://store.steampowered.com/app/476600"
+      },
+      {
+        "Name": "Wikipedia",
+        "Url": "https://en.wikipedia.org/wiki/Call_of_Duty:_WWII"
+      },
+      {
+        "Name": "Twitch",
+        "Url": "https://www.twitch.tv/directory/game/Call%20of%20Duty%3A%20WWII"
+      },
+      {
+        "Name": "Discord",
+        "Url": "https://discord.gg/invite/callofduty"
+      },
+      {
+        "Name": "Reddit",
+        "Url": "https://www.reddit.com/r/CallOfDuty"
+      },
+      {
+        "Name": "Twitch",
+        "Url": "https://www.twitch.tv/directory/game/Call of Duty: WWII"
+      }
+    ],
+    "Roms": null,
+    "IsInstalling": false,
+    "IsUninstalling": false,
+    "IsLaunching": false,
+    "IsRunning": false,
+    "IsInstalled": false,
+    "OverrideInstallState": false,
+    "Playtime": 6387,
+    "Added": "2022-12-23T09:20:41.198-05:00",
+    "Modified": "2022-12-23T09:21:59.364-05:00",
+    "PlayCount": 2,
+    "InstallSize": null,
+    "LastSizeScanDate": null,
+    "SeriesIds": ["e3807b31-e0c8-4d3c-9c01-289fdbf60256"],
+    "Version": null,
+    "AgeRatingIds": [
+      "61e556ed-2c84-40ae-b931-87b83dc07768",
+      "eb826f5b-5883-41cd-9a74-6beea462e8f7",
+      "92a98dd2-2767-4962-bb47-c723a49fa1e7",
+      "f2b84c9a-8711-41dc-8436-75ae7415ea11",
+      "7241ad60-e9de-443e-a4e9-e76c8366954b"
+    ],
+    "RegionIds": null,
+    "SourceId": "7323d2ad-07cf-4c04-a1db-aec3886be258",
+    "CompletionStatusId": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+    "UserScore": null,
+    "CriticScore": 75,
+    "CommunityScore": 75,
+    "PreScript": null,
+    "PostScript": null,
+    "GameStartedScript": null,
+    "UseGlobalPostScript": true,
+    "UseGlobalPreScript": true,
+    "UseGlobalGameStartedScript": true,
+    "Manual": null,
+    "Genres": [
+      {
+        "Id": "0a567d14-7ad5-4bfb-a4a2-b7454e4464e5",
+        "Name": "Shooter"
+      }
+    ],
+    "Developers": [
+      {
+        "Id": "c77fc549-0dfa-442c-b169-f8ff8659e731",
+        "Name": "Sledgehammer Games"
+      }
+    ],
+    "Publishers": [
+      {
+        "Id": "14d08130-4cce-4cd2-bc0e-5cc637ac00d4",
+        "Name": "Activision"
+      }
+    ],
+    "Tags": null,
+    "Features": [
+      {
+        "Id": "50b01607-31f1-4a59-a753-5453e0224614",
+        "Name": "Co-Operative"
+      },
+      {
+        "Id": "0f866adf-2afc-4600-9d6a-bf32a0547902",
+        "Name": "Multiplayer"
+      },
+      {
+        "Id": "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+        "Name": "Single Player"
+      },
+      {
+        "Id": "355a334f-5be2-4689-9d77-d3758839a622",
+        "Name": "Split Screen"
+      }
+    ],
+    "Categories": null,
+    "Platforms": [
+      {
+        "SpecificationId": "sony_playstation4",
+        "Icon": null,
+        "Cover": null,
+        "Background": null,
+        "Id": "775b15e0-54e9-4768-9e38-bea248c50da3",
+        "Name": "Sony PlayStation 4"
+      }
+    ],
+    "Series": [
+      {
+        "Id": "e3807b31-e0c8-4d3c-9c01-289fdbf60256",
+        "Name": "Call of Duty"
+      }
+    ],
+    "AgeRatings": [
+      {
+        "Id": "7241ad60-e9de-443e-a4e9-e76c8366954b",
+        "Name": "ACB RC"
+      },
+      {
+        "Id": "92a98dd2-2767-4962-bb47-c723a49fa1e7",
+        "Name": "CERO Z"
+      },
+      {
+        "Id": "61e556ed-2c84-40ae-b931-87b83dc07768",
+        "Name": "ESRB M"
+      },
+      {
+        "Id": "eb826f5b-5883-41cd-9a74-6beea462e8f7",
+        "Name": "PEGI 18"
+      },
+      {
+        "Id": "f2b84c9a-8711-41dc-8436-75ae7415ea11",
+        "Name": "USK ALL"
+      }
+    ],
+    "Regions": null,
+    "Source": {
+      "Id": "7323d2ad-07cf-4c04-a1db-aec3886be258",
+      "Name": "PlayStation"
+    },
+    "CompletionStatus": {
+      "Id": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+      "Name": "Not Played"
+    },
+    "ReleaseYear": 2017,
+    "RecentActivity": "2022-12-23T09:20:41.198-05:00",
+    "UserScoreRating": 0,
+    "CommunityScoreRating": 3,
+    "CriticScoreRating": 3,
+    "UserScoreGroup": 10,
+    "CommunityScoreGroup": 7,
+    "CriticScoreGroup": 7,
+    "LastActivitySegment": 5,
+    "RecentActivitySegment": 1,
+    "AddedSegment": 1,
+    "ModifiedSegment": 1,
+    "PlaytimeCategory": 2,
+    "InstallSizeGroup": 0,
+    "IsCustomGame": false,
+    "InstallationStatus": 1,
+    "Id": "0e357c4b-10c8-4897-b191-4984810cec08",
+    "Name": "Call of Duty: WWII"
+  },
+  {
+    "BackgroundImage": "9bcd8bdb-4371-4726-91b3-986c3619fe9a\\bfbb618c-6d37-4496-888d-c8bafbf77cb2.jpg",
+    "Description": "Cuphead is a classic run and gun action game heavily focused on boss battles. Inspired by cartoons of the 1930s, the visuals and audio are painstakingly created with the same techniques of the era, i.e. traditional cel animation (hand drawn & hand inked!), watercolor backgrounds, and original jazz recordings. Play as Cuphead or Mugman (in single player or co-op) as you traverse strange worlds, acquire new weapons, learn powerful super moves, and discover hidden secrets. Cuphead is all action, all the time.",
+    "Notes": null,
+    "GenreIds": [
+      "0a567d14-7ad5-4bfb-a4a2-b7454e4464e5",
+      "803397f6-86a4-4eae-bf02-5df654395ccb",
+      "6397296c-49b1-40d0-8bc1-7c219494eb37"
+    ],
+    "Hidden": false,
+    "Favorite": false,
+    "Icon": null,
+    "CoverImage": "9bcd8bdb-4371-4726-91b3-986c3619fe9a\\74128962-4d10-43c9-9c21-9daf722f2ce8.png",
+    "InstallDirectory": null,
+    "LastActivity": "2022-07-24T19:15:07.89-04:00",
+    "SortingName": null,
+    "GameId": "CUSA20499_00",
+    "PluginId": "e4ac81cb-1b1a-4ec9-8639-9a9633989a71",
+    "IncludeLibraryPluginAction": true,
+    "GameActions": null,
+    "PlatformIds": null,
+    "PublisherIds": ["da42c262-03ea-4fef-8366-f5ea75dcdd83"],
+    "DeveloperIds": ["da42c262-03ea-4fef-8366-f5ea75dcdd83"],
+    "ReleaseDate": {
+      "ReleaseDate": "2017-9-29"
+    },
+    "CategoryIds": null,
+    "TagIds": null,
+    "FeatureIds": [
+      "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+      "0f866adf-2afc-4600-9d6a-bf32a0547902",
+      "50b01607-31f1-4a59-a753-5453e0224614"
+    ],
+    "Links": [
+      {
+        "Name": "Wikipedia",
+        "Url": "https://en.wikipedia.org/wiki/Cuphead"
+      },
+      {
+        "Name": "Twitter",
+        "Url": "https://twitter.com/StudioMDHR"
+      },
+      {
+        "Name": "Wikia",
+        "Url": "http://cuphead.wikia.com/wiki/Cuphead_(game)"
+      },
+      {
+        "Name": "Steam",
+        "Url": "https://store.steampowered.com/app/268910"
+      },
+      {
+        "Name": "Official Website",
+        "Url": "http://www.cupheadgame.com"
+      },
+      {
+        "Name": "GOG",
+        "Url": "https://www.gog.com/game/cuphead"
+      },
+      {
+        "Name": "Twitch",
+        "Url": "https://www.twitch.tv/directory/game/Cuphead"
+      },
+      {
+        "Name": "Reddit",
+        "Url": "https://www.reddit.com/r/Cuphead"
+      }
+    ],
+    "Roms": null,
+    "IsInstalling": false,
+    "IsUninstalling": false,
+    "IsLaunching": false,
+    "IsRunning": false,
+    "IsInstalled": false,
+    "OverrideInstallState": false,
+    "Playtime": 1088,
+    "Added": "2022-12-23T09:20:49.326-05:00",
+    "Modified": "2022-12-23T09:22:20.829-05:00",
+    "PlayCount": 1,
+    "InstallSize": null,
+    "LastSizeScanDate": null,
+    "SeriesIds": null,
+    "Version": null,
+    "AgeRatingIds": [
+      "10bca135-ec1b-4354-be70-eda5be94d79f",
+      "1bdddc05-70bd-4423-9fbb-1d69be31626f",
+      "1cf1955f-d106-4a99-a460-bbd3a2681dbd",
+      "30e120f0-8bb0-41d1-8fe2-d6113a47cb57",
+      "ba645c7e-430a-4b89-bbbe-fa8fe2d1f34c"
+    ],
+    "RegionIds": null,
+    "SourceId": "7323d2ad-07cf-4c04-a1db-aec3886be258",
+    "CompletionStatusId": "9547b5db-2475-4922-8994-f5b887db8514",
+    "UserScore": null,
+    "CriticScore": 87,
+    "CommunityScore": 86,
+    "PreScript": null,
+    "PostScript": null,
+    "GameStartedScript": null,
+    "UseGlobalPostScript": true,
+    "UseGlobalPreScript": true,
+    "UseGlobalGameStartedScript": true,
+    "Manual": null,
+    "Genres": [
+      {
+        "Id": "6397296c-49b1-40d0-8bc1-7c219494eb37",
+        "Name": "Indie"
+      },
+      {
+        "Id": "803397f6-86a4-4eae-bf02-5df654395ccb",
+        "Name": "Platform"
+      },
+      {
+        "Id": "0a567d14-7ad5-4bfb-a4a2-b7454e4464e5",
+        "Name": "Shooter"
+      }
+    ],
+    "Developers": [
+      {
+        "Id": "da42c262-03ea-4fef-8366-f5ea75dcdd83",
+        "Name": "Studio MDHR"
+      }
+    ],
+    "Publishers": [
+      {
+        "Id": "da42c262-03ea-4fef-8366-f5ea75dcdd83",
+        "Name": "Studio MDHR"
+      }
+    ],
+    "Tags": null,
+    "Features": [
+      {
+        "Id": "50b01607-31f1-4a59-a753-5453e0224614",
+        "Name": "Co-Operative"
+      },
+      {
+        "Id": "0f866adf-2afc-4600-9d6a-bf32a0547902",
+        "Name": "Multiplayer"
+      },
+      {
+        "Id": "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+        "Name": "Single Player"
+      }
+    ],
+    "Categories": null,
+    "Platforms": null,
+    "Series": null,
+    "AgeRatings": [
+      {
+        "Id": "ba645c7e-430a-4b89-bbbe-fa8fe2d1f34c",
+        "Name": "ACB M"
+      },
+      {
+        "Id": "1cf1955f-d106-4a99-a460-bbd3a2681dbd",
+        "Name": "CERO A"
+      },
+      {
+        "Id": "1bdddc05-70bd-4423-9fbb-1d69be31626f",
+        "Name": "ESRB E10"
+      },
+      {
+        "Id": "30e120f0-8bb0-41d1-8fe2-d6113a47cb57",
+        "Name": "GRAC 12"
+      },
+      {
+        "Id": "10bca135-ec1b-4354-be70-eda5be94d79f",
+        "Name": "PEGI 7"
+      }
+    ],
+    "Regions": null,
+    "Source": {
+      "Id": "7323d2ad-07cf-4c04-a1db-aec3886be258",
+      "Name": "PlayStation"
+    },
+    "CompletionStatus": {
+      "Id": "9547b5db-2475-4922-8994-f5b887db8514",
+      "Name": "Played"
+    },
+    "ReleaseYear": 2017,
+    "RecentActivity": "2022-12-23T09:20:49.326-05:00",
+    "UserScoreRating": 0,
+    "CommunityScoreRating": 2,
+    "CriticScoreRating": 2,
+    "UserScoreGroup": 10,
+    "CommunityScoreGroup": 8,
+    "CriticScoreGroup": 8,
+    "LastActivitySegment": 4,
+    "RecentActivitySegment": 1,
+    "AddedSegment": 1,
+    "ModifiedSegment": 1,
+    "PlaytimeCategory": 1,
+    "InstallSizeGroup": 0,
+    "IsCustomGame": false,
+    "InstallationStatus": 1,
+    "Id": "9bcd8bdb-4371-4726-91b3-986c3619fe9a",
+    "Name": "Cuphead"
+  },
+  {
+    "BackgroundImage": "67f6fc2f-6cd4-4273-8786-3585faf45c09\\bdaa541f-3e03-4d40-9be0-b230278330b8.jpg",
+    "Description": "<img src=\"https://cdn.akamai.steamstatic.com/steam/apps/391220/extras/ROTTR_AimGreater_30.jpg?t=1664182761\" /><br>Rise of the Tomb Raider: 20 Year Celebration includes the base game and Season Pass featuring all-new content. Explore Croft Manor in the new “Blood Ties” story, then defend it against a zombie invasion in “Lara’s Nightmare”. Survive extreme conditions with a friend in the new online Co-Op Endurance mode, and brave the new “Extreme Survivor” difficulty. Also features an outfit and weapon inspired by Tomb Raider III, and 5 classic Lara skins. Existing DLC will challenge you to explore a new tomb that houses an ancient terror in Baba Yaga: The Temple of the Witch, and combat waves of infected predators in Cold Darkness Awakened.<br><br><strong>KEY FEATURES:</strong><br><ul class=\"bb_ul\"><li>Lara’s Journey – Lara uncovers an ancient mystery that places her in the cross-hairs of a ruthless organization known as Trinity. As she races to find the secret before Trinity, the trail leads to a myth about the Lost City of Kitezh. Lara knows she must reach the Lost City and its hidden secrets before Trinity. With that, she sets out for Siberia on her first Tomb Raiding expedition.<br></li><li>Woman vs. Wild – In “Rise of the Tomb Raider,” Lara battles with not only enemies from around the world, but the world itself. Hunt animals to craft weapons and scavenge for rare resources in densely populated ecosystems. You’ll encounter beautifully hostile environments, full of treacherous conditions and unstable landscapes that will require Lara to push her limits to the very edge. <br></li><li>Guerilla Combat - Use the environment to your advantage, scale trees and dive underwater to avoid or takedown enemies, configure Lara’s gear, weapons, and ammo to suit your play style from stealth to guns blazing, craft explosives on the fly to sow chaos, and wield Lara’s signature combat bows and climbing axe. <br></li><li>Return to Tomb Raiding – Tombs are back, and they’re bigger and better than ever. In “Rise of the Tomb Raider” you’ll explore huge, awe-inspiring ancient spaces littered with deadly traps, solve dramatic environmental puzzles, and decipher ancient texts to reveal crypts as you take on a world filled with secrets to discover.</li></ul>",
+    "Notes": null,
+    "GenreIds": [
+      "372da25b-3930-4daf-97e2-691ad633a310",
+      "cb1cff6d-b7bf-48ce-92dc-ffba57328e3d"
+    ],
+    "Hidden": false,
+    "Favorite": false,
+    "Icon": "67f6fc2f-6cd4-4273-8786-3585faf45c09\\3dc1c8bb-87b7-4f13-8899-5c44668270d1.ico",
+    "CoverImage": "67f6fc2f-6cd4-4273-8786-3585faf45c09\\39cdd53f-2609-47ee-9755-022d37c76848.jpg",
+    "InstallDirectory": null,
+    "LastActivity": null,
+    "SortingName": null,
+    "GameId": "391220",
+    "PluginId": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+    "IncludeLibraryPluginAction": true,
+    "GameActions": null,
+    "PlatformIds": ["a7aae1e8-8a12-4282-9d4f-5ad2f70f6a37"],
+    "PublisherIds": [
+      "fc146a6d-2f69-4813-bc41-9d7349985ade",
+      "ebfef38a-d4ae-4324-8319-f0a19ca39aa9",
+      "76a68652-ad6a-4164-8ced-16ba152a32a7"
+    ],
+    "DeveloperIds": [
+      "3e52956a-70f8-457a-bc25-548eac637b74",
+      "1f35dc1e-5787-4446-8a85-9617fe3356b1",
+      "ebfef38a-d4ae-4324-8319-f0a19ca39aa9",
+      "76a68652-ad6a-4164-8ced-16ba152a32a7",
+      "472c5299-c334-4c2f-aaba-d11a82d4019e"
+    ],
+    "ReleaseDate": {
+      "ReleaseDate": "2016-2-9"
+    },
+    "CategoryIds": null,
+    "TagIds": [
+      "bf2ae6dc-1d0d-4314-a0e8-dbdf7378e733",
+      "bbf97ae9-6d3d-41b2-9cb8-cf8db4ccba08",
+      "152d9e50-9d12-43cf-b374-3964bb7fe27b",
+      "9cebc57a-eff7-4d36-b8a5-9b26697c2036",
+      "e62ce59c-1484-49e7-9a10-ef68c6d258bb",
+      "4412d251-0c17-40ae-8132-12a6e2ca96f4",
+      "e02f3753-1b07-4ea7-b9da-ecdc88c7ee15",
+      "89025c62-0428-465b-b580-8f2b9c69a669",
+      "276d8274-8c78-4631-9476-3d6b560e7ac5",
+      "f9a436f1-cdd1-4c85-ab0d-891bd46f6f96",
+      "3fcc88ff-93f0-450e-bebc-b8b04ffe5ef3",
+      "dde0d05e-cedd-4b3e-ab9c-4b5c058b1241",
+      "587c0d82-08fb-427b-993c-168d6f99273c",
+      "4d130117-3d76-468e-adb0-680dd989c996",
+      "a634d7f3-722a-46ea-ba49-e1e0b492c5cf",
+      "520bf9dd-7958-4b46-807f-3914e4d3f4cc",
+      "6efa45a3-a4d6-4441-bf24-23fc242a0875",
+      "d8af8d77-3677-42ca-8d1a-ea95af43dbea",
+      "280801a1-8777-409d-8a5c-9583d8e2b342",
+      "ad1c239c-005d-48c7-903a-39e5f6ae2e07"
+    ],
+    "FeatureIds": [
+      "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+      "c2252751-551c-4ece-891e-9e70915017ee",
+      "ffa852c2-ae72-41de-8d5c-3ddb8ce4ad66",
+      "eede4d79-cb5b-49b3-8bcd-b47ca33e0511",
+      "31e70b42-9d79-4f63-8d75-e19b41c2d65e",
+      "64ce1c68-f574-45a1-a164-a53b4893fcaf",
+      "3f4eeb01-3f50-4f3f-8a3f-6acfde609108",
+      "571378bd-9518-433d-a167-67af0e60c6ff",
+      "b8e1eeca-4d13-4091-aa17-b55954308464",
+      "85802d59-8293-4644-b01a-4209f068409f",
+      "eb1137e2-2a2e-4e7d-8728-221a77c601d0",
+      "8c18441a-1870-4321-bb9f-149a730d3bc3",
+      "c1d93aac-b501-4830-9f37-58b5820eb8b2",
+      "b626c358-8b73-47a1-8813-6600785da092",
+      "1827fad2-fdb6-42bd-a294-90e5af2e360e",
+      "87b21c36-0db1-4e73-87df-624f6abd7769",
+      "f35753be-1f25-4f5c-9956-db4028c605e4"
+    ],
+    "Links": [
+      {
+        "Name": "Community Hub",
+        "Url": "https://steamcommunity.com/app/391220"
+      },
+      {
+        "Name": "Discussions",
+        "Url": "https://steamcommunity.com/app/391220/discussions/"
+      },
+      {
+        "Name": "Guides",
+        "Url": "https://steamcommunity.com/app/391220/guides/"
+      },
+      {
+        "Name": "News",
+        "Url": "https://store.steampowered.com/news/?appids=391220"
+      },
+      {
+        "Name": "Store Page",
+        "Url": "https://store.steampowered.com/app/391220"
+      },
+      {
+        "Name": "PCGamingWiki",
+        "Url": "https://pcgamingwiki.com/api/appid.php?appid=391220"
+      },
+      {
+        "Name": "Achievements",
+        "Url": "https://steamcommunity.com/stats/391220/achievements"
+      }
+    ],
+    "Roms": null,
+    "IsInstalling": false,
+    "IsUninstalling": false,
+    "IsLaunching": false,
+    "IsRunning": false,
+    "IsInstalled": false,
+    "OverrideInstallState": false,
+    "Playtime": 0,
+    "Added": "2022-12-23T09:20:52.307-05:00",
+    "Modified": "2022-12-23T09:25:16.579-05:00",
+    "PlayCount": 0,
+    "InstallSize": null,
+    "LastSizeScanDate": null,
+    "SeriesIds": ["11d110a4-61dd-42e2-9971-c335ee664ef3"],
+    "Version": null,
+    "AgeRatingIds": [
+      "61e556ed-2c84-40ae-b931-87b83dc07768",
+      "eb826f5b-5883-41cd-9a74-6beea462e8f7",
+      "92a98dd2-2767-4962-bb47-c723a49fa1e7"
+    ],
+    "RegionIds": null,
+    "SourceId": "8d9af7da-0d14-4f75-b757-ad33a883ffd2",
+    "CompletionStatusId": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+    "UserScore": null,
+    "CriticScore": 86,
+    "CommunityScore": 93,
+    "PreScript": null,
+    "PostScript": null,
+    "GameStartedScript": null,
+    "UseGlobalPostScript": true,
+    "UseGlobalPreScript": true,
+    "UseGlobalGameStartedScript": true,
+    "Manual": null,
+    "Genres": [
+      {
+        "Id": "372da25b-3930-4daf-97e2-691ad633a310",
+        "Name": "Action"
+      },
+      {
+        "Id": "cb1cff6d-b7bf-48ce-92dc-ffba57328e3d",
+        "Name": "Adventure"
+      }
+    ],
+    "Developers": [
+      {
+        "Id": "3e52956a-70f8-457a-bc25-548eac637b74",
+        "Name": "Crystal Dynamics"
+      },
+      {
+        "Id": "1f35dc1e-5787-4446-8a85-9617fe3356b1",
+        "Name": "Eidos Montréal"
+      },
+      {
+        "Id": "76a68652-ad6a-4164-8ced-16ba152a32a7",
+        "Name": "Feral Interactive (Linux)"
+      },
+      {
+        "Id": "ebfef38a-d4ae-4324-8319-f0a19ca39aa9",
+        "Name": "Feral Interactive (Mac)"
+      },
+      {
+        "Id": "472c5299-c334-4c2f-aaba-d11a82d4019e",
+        "Name": "Nixxes"
+      }
+    ],
+    "Publishers": [
+      {
+        "Id": "76a68652-ad6a-4164-8ced-16ba152a32a7",
+        "Name": "Feral Interactive (Linux)"
+      },
+      {
+        "Id": "ebfef38a-d4ae-4324-8319-f0a19ca39aa9",
+        "Name": "Feral Interactive (Mac)"
+      },
+      {
+        "Id": "fc146a6d-2f69-4813-bc41-9d7349985ade",
+        "Name": "Square Enix"
+      }
+    ],
+    "Tags": [
+      {
+        "Id": "bbf97ae9-6d3d-41b2-9cb8-cf8db4ccba08",
+        "Name": "Action"
+      },
+      {
+        "Id": "89025c62-0428-465b-b580-8f2b9c69a669",
+        "Name": "Action-Adventure"
+      },
+      {
+        "Id": "bf2ae6dc-1d0d-4314-a0e8-dbdf7378e733",
+        "Name": "Adventure"
+      },
+      {
+        "Id": "587c0d82-08fb-427b-993c-168d6f99273c",
+        "Name": "Atmospheric"
+      },
+      {
+        "Id": "4412d251-0c17-40ae-8132-12a6e2ca96f4",
+        "Name": "Exploration"
+      },
+      {
+        "Id": "152d9e50-9d12-43cf-b374-3964bb7fe27b",
+        "Name": "Female Protagonist"
+      },
+      {
+        "Id": "d8af8d77-3677-42ca-8d1a-ea95af43dbea",
+        "Name": "Great Soundtrack"
+      },
+      {
+        "Id": "280801a1-8777-409d-8a5c-9583d8e2b342",
+        "Name": "Multiplayer"
+      },
+      {
+        "Id": "e02f3753-1b07-4ea7-b9da-ecdc88c7ee15",
+        "Name": "Open World"
+      },
+      {
+        "Id": "a634d7f3-722a-46ea-ba49-e1e0b492c5cf",
+        "Name": "Parkour"
+      },
+      {
+        "Id": "3fcc88ff-93f0-450e-bebc-b8b04ffe5ef3",
+        "Name": "Puzzle"
+      },
+      {
+        "Id": "ad1c239c-005d-48c7-903a-39e5f6ae2e07",
+        "Name": "Quick-Time Events"
+      },
+      {
+        "Id": "6efa45a3-a4d6-4441-bf24-23fc242a0875",
+        "Name": "RPG"
+      },
+      {
+        "Id": "520bf9dd-7958-4b46-807f-3914e4d3f4cc",
+        "Name": "Shooter"
+      },
+      {
+        "Id": "9cebc57a-eff7-4d36-b8a5-9b26697c2036",
+        "Name": "Singleplayer"
+      },
+      {
+        "Id": "dde0d05e-cedd-4b3e-ab9c-4b5c058b1241",
+        "Name": "Stealth"
+      },
+      {
+        "Id": "276d8274-8c78-4631-9476-3d6b560e7ac5",
+        "Name": "Story Rich"
+      },
+      {
+        "Id": "f9a436f1-cdd1-4c85-ab0d-891bd46f6f96",
+        "Name": "Survival"
+      },
+      {
+        "Id": "e62ce59c-1484-49e7-9a10-ef68c6d258bb",
+        "Name": "Third Person"
+      },
+      {
+        "Id": "4d130117-3d76-468e-adb0-680dd989c996",
+        "Name": "Third-Person Shooter"
+      }
+    ],
+    "Features": [
+      {
+        "Id": "c2252751-551c-4ece-891e-9e70915017ee",
+        "Name": "Achievements"
+      },
+      {
+        "Id": "3f4eeb01-3f50-4f3f-8a3f-6acfde609108",
+        "Name": "Cloud Saves"
+      },
+      {
+        "Id": "ffa852c2-ae72-41de-8d5c-3ddb8ce4ad66",
+        "Name": "Full Controller Support"
+      },
+      {
+        "Id": "571378bd-9518-433d-a167-67af0e60c6ff",
+        "Name": "Leaderboards"
+      },
+      {
+        "Id": "b8e1eeca-4d13-4091-aa17-b55954308464",
+        "Name": "Remote Play On Phone"
+      },
+      {
+        "Id": "85802d59-8293-4644-b01a-4209f068409f",
+        "Name": "Remote Play On Tablet"
+      },
+      {
+        "Id": "eb1137e2-2a2e-4e7d-8728-221a77c601d0",
+        "Name": "Remote Play On TV"
+      },
+      {
+        "Id": "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+        "Name": "Single Player"
+      },
+      {
+        "Id": "eede4d79-cb5b-49b3-8bcd-b47ca33e0511",
+        "Name": "Tracked Controller Support"
+      },
+      {
+        "Id": "64ce1c68-f574-45a1-a164-a53b4893fcaf",
+        "Name": "Trading Cards"
+      },
+      {
+        "Id": "f35753be-1f25-4f5c-9956-db4028c605e4",
+        "Name": "VR"
+      },
+      {
+        "Id": "87b21c36-0db1-4e73-87df-624f6abd7769",
+        "Name": "VR Gamepad"
+      },
+      {
+        "Id": "1827fad2-fdb6-42bd-a294-90e5af2e360e",
+        "Name": "VR Motion Controllers"
+      },
+      {
+        "Id": "b626c358-8b73-47a1-8813-6600785da092",
+        "Name": "VR Room-Scale"
+      },
+      {
+        "Id": "8c18441a-1870-4321-bb9f-149a730d3bc3",
+        "Name": "VR Seated"
+      },
+      {
+        "Id": "c1d93aac-b501-4830-9f37-58b5820eb8b2",
+        "Name": "VR Standing"
+      },
+      {
+        "Id": "31e70b42-9d79-4f63-8d75-e19b41c2d65e",
+        "Name": "VR Supported"
+      }
+    ],
+    "Categories": null,
+    "Platforms": [
+      {
+        "SpecificationId": "pc_windows",
+        "Icon": null,
+        "Cover": null,
+        "Background": null,
+        "Id": "a7aae1e8-8a12-4282-9d4f-5ad2f70f6a37",
+        "Name": "PC (Windows)"
+      }
+    ],
+    "Series": [
+      {
+        "Id": "11d110a4-61dd-42e2-9971-c335ee664ef3",
+        "Name": "Tomb Raider"
+      }
+    ],
+    "AgeRatings": [
+      {
+        "Id": "92a98dd2-2767-4962-bb47-c723a49fa1e7",
+        "Name": "CERO Z"
+      },
+      {
+        "Id": "61e556ed-2c84-40ae-b931-87b83dc07768",
+        "Name": "ESRB M"
+      },
+      {
+        "Id": "eb826f5b-5883-41cd-9a74-6beea462e8f7",
+        "Name": "PEGI 18"
+      }
+    ],
+    "Regions": null,
+    "Source": {
+      "Id": "8d9af7da-0d14-4f75-b757-ad33a883ffd2",
+      "Name": "Steam"
+    },
+    "CompletionStatus": {
+      "Id": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+      "Name": "Not Played"
+    },
+    "ReleaseYear": 2016,
+    "RecentActivity": "2022-12-23T09:20:52.307-05:00",
+    "UserScoreRating": 0,
+    "CommunityScoreRating": 2,
+    "CriticScoreRating": 2,
+    "UserScoreGroup": 10,
+    "CommunityScoreGroup": 9,
+    "CriticScoreGroup": 8,
+    "LastActivitySegment": 6,
+    "RecentActivitySegment": 1,
+    "AddedSegment": 1,
+    "ModifiedSegment": 1,
+    "PlaytimeCategory": 0,
+    "InstallSizeGroup": 0,
+    "IsCustomGame": false,
+    "InstallationStatus": 1,
+    "Id": "67f6fc2f-6cd4-4273-8786-3585faf45c09",
+    "Name": "Rise of the Tomb Raider"
+  },
+  {
+    "BackgroundImage": "3d87f530-bee9-4f73-9d86-032819ff6ca9\\3442ae96-6ef8-475a-8bab-bddceb14905c.jpg",
+    "Description": "Hell’s armies have invaded Earth. Become the Slayer in an epic single-player campaign to conquer demons across dimensions and stop the final destruction of humanity. The only thing they fear... is you.",
+    "Notes": null,
+    "GenreIds": [
+      "0a567d14-7ad5-4bfb-a4a2-b7454e4464e5",
+      "5aa8473a-d485-434b-a708-dc119d50307a",
+      "4c0cd831-82f1-417e-a087-47b32d247936"
+    ],
+    "Hidden": false,
+    "Favorite": false,
+    "Icon": null,
+    "CoverImage": "3d87f530-bee9-4f73-9d86-032819ff6ca9\\9c9d62b6-ea63-4ff2-9cbe-e8b94fbf88ef.png",
+    "InstallDirectory": null,
+    "LastActivity": "2021-07-31T12:25:42.34-04:00",
+    "SortingName": null,
+    "GameId": "PPSA01981_00",
+    "PluginId": "e4ac81cb-1b1a-4ec9-8639-9a9633989a71",
+    "IncludeLibraryPluginAction": true,
+    "GameActions": null,
+    "PlatformIds": ["6ac977b9-f496-4c49-bb38-f9627a67affc"],
+    "PublisherIds": ["4c0cd831-82f1-417e-a087-47b32d247936"],
+    "DeveloperIds": ["5aa8473a-d485-434b-a708-dc119d50307a"],
+    "ReleaseDate": {
+      "ReleaseDate": "2020-3-19"
+    },
+    "CategoryIds": null,
+    "TagIds": null,
+    "FeatureIds": [
+      "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+      "0f866adf-2afc-4600-9d6a-bf32a0547902"
+    ],
+    "Links": [
+      {
+        "Name": "Facebook",
+        "Url": "https://www.facebook.com/doom"
+      },
+      {
+        "Name": "Twitter",
+        "Url": "https://twitter.com/DOOM"
+      },
+      {
+        "Name": "Instagram",
+        "Url": "https://www.instagram.com/doom"
+      },
+      {
+        "Name": "Reddit",
+        "Url": "https://www.reddit.com/r/Doom"
+      },
+      {
+        "Name": "Official Website",
+        "Url": "https://bethesda.net/en/game/doom"
+      },
+      {
+        "Name": "Wikia",
+        "Url": "https://doom.fandom.com/wiki/Doom_Eternal"
+      },
+      {
+        "Name": "Wikipedia",
+        "Url": "https://en.wikipedia.org/wiki/Doom_Eternal"
+      },
+      {
+        "Name": "Steam",
+        "Url": "https://store.steampowered.com/app/782330"
+      },
+      {
+        "Name": "Discord",
+        "Url": "https://discordapp.com/invite/DOOM"
+      },
+      {
+        "Name": "Twitch",
+        "Url": "https://www.twitch.tv/directory/game/DOOM%20Eternal"
+      },
+      {
+        "Name": "Twitch",
+        "Url": "https://www.twitch.tv/directory/game/Doom Eternal"
+      }
+    ],
+    "Roms": null,
+    "IsInstalling": false,
+    "IsUninstalling": false,
+    "IsLaunching": false,
+    "IsRunning": false,
+    "IsInstalled": false,
+    "OverrideInstallState": false,
+    "Playtime": 12071,
+    "Added": "2022-12-23T09:20:32.303-05:00",
+    "Modified": "2022-12-23T09:21:35.886-05:00",
+    "PlayCount": 3,
+    "InstallSize": null,
+    "LastSizeScanDate": null,
+    "SeriesIds": ["9836bd97-1349-4109-891f-1f0d83390eca"],
+    "Version": null,
+    "AgeRatingIds": [
+      "61e556ed-2c84-40ae-b931-87b83dc07768",
+      "eb826f5b-5883-41cd-9a74-6beea462e8f7",
+      "8d519216-d414-46cd-a78b-261fefe64819",
+      "6b12dddb-aaee-4abb-8d90-ddbe5e010df6",
+      "7241ad60-e9de-443e-a4e9-e76c8366954b",
+      "92a98dd2-2767-4962-bb47-c723a49fa1e7"
+    ],
+    "RegionIds": null,
+    "SourceId": "7323d2ad-07cf-4c04-a1db-aec3886be258",
+    "CompletionStatusId": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+    "UserScore": null,
+    "CriticScore": 86,
+    "CommunityScore": 85,
+    "PreScript": null,
+    "PostScript": null,
+    "GameStartedScript": null,
+    "UseGlobalPostScript": true,
+    "UseGlobalPreScript": true,
+    "UseGlobalGameStartedScript": true,
+    "Manual": null,
+    "Genres": [
+      {
+        "Id": "0a567d14-7ad5-4bfb-a4a2-b7454e4464e5",
+        "Name": "Shooter"
+      }
+    ],
+    "Developers": [
+      {
+        "Id": "5aa8473a-d485-434b-a708-dc119d50307a",
+        "Name": "id Software"
+      }
+    ],
+    "Publishers": [
+      {
+        "Id": "4c0cd831-82f1-417e-a087-47b32d247936",
+        "Name": "Bethesda Softworks"
+      }
+    ],
+    "Tags": null,
+    "Features": [
+      {
+        "Id": "0f866adf-2afc-4600-9d6a-bf32a0547902",
+        "Name": "Multiplayer"
+      },
+      {
+        "Id": "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+        "Name": "Single Player"
+      }
+    ],
+    "Categories": null,
+    "Platforms": [
+      {
+        "SpecificationId": "sony_playstation5",
+        "Icon": null,
+        "Cover": null,
+        "Background": null,
+        "Id": "6ac977b9-f496-4c49-bb38-f9627a67affc",
+        "Name": "Sony PlayStation 5"
+      }
+    ],
+    "Series": [
+      {
+        "Id": "9836bd97-1349-4109-891f-1f0d83390eca",
+        "Name": "Doom"
+      }
+    ],
+    "AgeRatings": [
+      {
+        "Id": "7241ad60-e9de-443e-a4e9-e76c8366954b",
+        "Name": "ACB RC"
+      },
+      {
+        "Id": "92a98dd2-2767-4962-bb47-c723a49fa1e7",
+        "Name": "CERO Z"
+      },
+      {
+        "Id": "6b12dddb-aaee-4abb-8d90-ddbe5e010df6",
+        "Name": "ClassInd G"
+      },
+      {
+        "Id": "61e556ed-2c84-40ae-b931-87b83dc07768",
+        "Name": "ESRB M"
+      },
+      {
+        "Id": "8d519216-d414-46cd-a78b-261fefe64819",
+        "Name": "GRAC TESTING"
+      },
+      {
+        "Id": "eb826f5b-5883-41cd-9a74-6beea462e8f7",
+        "Name": "PEGI 18"
+      }
+    ],
+    "Regions": null,
+    "Source": {
+      "Id": "7323d2ad-07cf-4c04-a1db-aec3886be258",
+      "Name": "PlayStation"
+    },
+    "CompletionStatus": {
+      "Id": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+      "Name": "Not Played"
+    },
+    "ReleaseYear": 2020,
+    "RecentActivity": "2022-12-23T09:20:32.303-05:00",
+    "UserScoreRating": 0,
+    "CommunityScoreRating": 2,
+    "CriticScoreRating": 2,
+    "UserScoreGroup": 10,
+    "CommunityScoreGroup": 8,
+    "CriticScoreGroup": 8,
+    "LastActivitySegment": 5,
+    "RecentActivitySegment": 1,
+    "AddedSegment": 1,
+    "ModifiedSegment": 1,
+    "PlaytimeCategory": 2,
+    "InstallSizeGroup": 0,
+    "IsCustomGame": false,
+    "InstallationStatus": 1,
+    "Id": "3d87f530-bee9-4f73-9d86-032819ff6ca9",
+    "Name": "DOOM Eternal"
+  },
+  {
+    "BackgroundImage": "cfd4b7b5-80dc-4677-ace2-efc4761c772b\\88e0d5e0-0e3f-4f62-8b1e-16d1c7bcd64b.jpg",
+    "Description": "<img src=\"https://cdn.akamai.steamstatic.com/steam/apps/414340/extras/BAFTA_Steam_MAIN.jpg?t=1661444431\" /><br><br>From the makers of Heavenly Sword, Enslaved: Odyssey to the West, and DmC: Devil May Cry, comes a warrior’s brutal journey into myth and madness.<br><br><strong>2021 Update:</strong> <br>Return to Helheim and experience Senua’s world through new eyes with enriched visuals and new features. Upgraded materials, particles and LOD, DirectX Raytracing and optimised performance with NVIDIA DLSS and AMD FSR support. We have also used this opportunity to include some key accessibility improvements, including full controller remapping and colour blindness settings.<br><br>Set in the Viking age, a broken Celtic warrior embarks on a haunting vision quest into Viking Hell to fight for the soul of her dead lover. <br><br>Created in collaboration with neuroscientists and people who experience psychosis, Hellblade: Senua’s Sacrifice will pull you deep into Senua’s mind.<br><br><img src=\"https://cdn.akamai.steamstatic.com/steam/apps/414340/extras/Steam_gameawards.jpg?t=1661444431\" /><br><br><img src=\"https://cdn.akamai.steamstatic.com/steam/apps/414340/extras/HBAccolades_steam.jpg?t=1661444431\" /><br><br><strong>Accessibility Features:</strong><br><br>GAMEPLAY<br>- Accessibility options available on launch within the first-boot options menu.<br>- Adjustable combat difficulty between dynamically-adjusted 'Auto' mode, or manually-selected 'Easy', 'Medium', or 'Hard' modes.<br>- Game can be paused both during gameplay and cinematics.<br><br>AUDIO<br>- Custom volume controls can be adjusted for Master, Music, SFX, Voices, and Menu audio.<br>- Audio output can be adjusted between Stereo and Mono sound modes.<br><br>VISUAL<br>- Color blind modes, and correction intensities can be adjusted for the included Deuteranopia, Protanopia, and Tritanopia filters.<br>- Subtitles for spoken content can be set to On or Off.<br>- Subtitle text size can be adjusted between 'Standard' or 'Large'.<br>- Subtitle text color can be adjusted between White, Orange, Green, or Blue.<br>- Subtitle backgrounds can be adjusted between Transparent or 'Solid' black.<br>- Text contrast for menu backgrounds can be adjusted between 'Half-Transparent' or 'Solid' black.<br><br>INPUT<br>- Adjustable input sensitivity for controller joystick and mouse axes, and ability to invert camera axis.<br>- Input remapping for keyboard keys and controller buttons (camera control and menu navigation keys excluded).<br>- Full keyboard support allowing the game to be entirely played with a keyboard (arrow keys replace mouse/right stick movement).<br>- Controller vibration can be set to On or Off.<br>- Running modifier can be set to be activated on key/button Toggle or Hold.<br><br><i>Note that the listed accessibility options apply to the Hellblade: Senua's Sacrifice Enhanced on PC version of the game.</i>",
+    "Notes": null,
+    "GenreIds": [
+      "372da25b-3930-4daf-97e2-691ad633a310",
+      "cb1cff6d-b7bf-48ce-92dc-ffba57328e3d",
+      "6397296c-49b1-40d0-8bc1-7c219494eb37"
+    ],
+    "Hidden": false,
+    "Favorite": false,
+    "Icon": "cfd4b7b5-80dc-4677-ace2-efc4761c772b\\e805f75d-81b0-4bd4-8290-6242239bfc4b.ico",
+    "CoverImage": "cfd4b7b5-80dc-4677-ace2-efc4761c772b\\023815cd-8cbb-4008-96d3-1db91f708003.jpg",
+    "InstallDirectory": null,
+    "LastActivity": "2021-12-26T15:06:36-05:00",
+    "SortingName": null,
+    "GameId": "414340",
+    "PluginId": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+    "IncludeLibraryPluginAction": true,
+    "GameActions": null,
+    "PlatformIds": ["a7aae1e8-8a12-4282-9d4f-5ad2f70f6a37"],
+    "PublisherIds": ["c087de0e-57f4-428c-9757-1de88d3cabdf"],
+    "DeveloperIds": ["c087de0e-57f4-428c-9757-1de88d3cabdf"],
+    "ReleaseDate": {
+      "ReleaseDate": "2017-8-7"
+    },
+    "CategoryIds": null,
+    "TagIds": [
+      "587c0d82-08fb-427b-993c-168d6f99273c",
+      "a7262320-54bd-4178-92b3-d3f14191cc38",
+      "276d8274-8c78-4631-9476-3d6b560e7ac5",
+      "152d9e50-9d12-43cf-b374-3964bb7fe27b",
+      "9f8df352-5a9a-4649-aa58-74dc95afbb9d",
+      "9cebc57a-eff7-4d36-b8a5-9b26697c2036",
+      "324df4ff-e755-4a4a-a100-c3523bd83d88",
+      "bf2ae6dc-1d0d-4314-a0e8-dbdf7378e733",
+      "e62ce59c-1484-49e7-9a10-ef68c6d258bb",
+      "abf97187-fac7-4e48-ad23-87640d292514",
+      "4369189f-63ce-4b55-80f1-ed2684987cbe",
+      "bbf97ae9-6d3d-41b2-9cb8-cf8db4ccba08",
+      "10719593-80f0-4ff2-ae88-81721d2028a1",
+      "0cf66c00-91b6-46f3-b31a-888afd956205",
+      "668dbc90-6799-4d44-8597-a504cd65e4d9",
+      "eefb7cda-3abe-481e-bf6c-b0ac61d1edc6",
+      "89025c62-0428-465b-b580-8f2b9c69a669",
+      "f1067f38-8c02-4383-875b-9a67ef7ca5dc",
+      "ef9d4362-1242-4378-874c-078e1405d59d",
+      "fdf95f88-b8b8-4784-98ad-ebe69226f610"
+    ],
+    "FeatureIds": [
+      "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+      "c2252751-551c-4ece-891e-9e70915017ee",
+      "ffa852c2-ae72-41de-8d5c-3ddb8ce4ad66",
+      "64ce1c68-f574-45a1-a164-a53b4893fcaf",
+      "3f4eeb01-3f50-4f3f-8a3f-6acfde609108",
+      "eb1137e2-2a2e-4e7d-8728-221a77c601d0"
+    ],
+    "Links": [
+      {
+        "Name": "Community Hub",
+        "Url": "https://steamcommunity.com/app/414340"
+      },
+      {
+        "Name": "Discussions",
+        "Url": "https://steamcommunity.com/app/414340/discussions/"
+      },
+      {
+        "Name": "Guides",
+        "Url": "https://steamcommunity.com/app/414340/guides/"
+      },
+      {
+        "Name": "News",
+        "Url": "https://store.steampowered.com/news/?appids=414340"
+      },
+      {
+        "Name": "Store Page",
+        "Url": "https://store.steampowered.com/app/414340"
+      },
+      {
+        "Name": "PCGamingWiki",
+        "Url": "https://pcgamingwiki.com/api/appid.php?appid=414340"
+      },
+      {
+        "Name": "Achievements",
+        "Url": "https://steamcommunity.com/stats/414340/achievements"
+      }
+    ],
+    "Roms": null,
+    "IsInstalling": false,
+    "IsUninstalling": false,
+    "IsLaunching": false,
+    "IsRunning": false,
+    "IsInstalled": false,
+    "OverrideInstallState": false,
+    "Playtime": 31440,
+    "Added": "2022-12-23T09:20:52.323-05:00",
+    "Modified": "2022-12-23T09:25:40.557-05:00",
+    "PlayCount": 0,
+    "InstallSize": null,
+    "LastSizeScanDate": null,
+    "SeriesIds": ["49cfaa00-3f12-4326-b28a-ad8b748e56d9"],
+    "Version": null,
+    "AgeRatingIds": [
+      "eb826f5b-5883-41cd-9a74-6beea462e8f7",
+      "61e556ed-2c84-40ae-b931-87b83dc07768",
+      "8d519216-d414-46cd-a78b-261fefe64819",
+      "132107aa-8c37-4ae9-9340-b0ccadcc3e28"
+    ],
+    "RegionIds": null,
+    "SourceId": "8d9af7da-0d14-4f75-b757-ad33a883ffd2",
+    "CompletionStatusId": "9547b5db-2475-4922-8994-f5b887db8514",
+    "UserScore": null,
+    "CriticScore": 83,
+    "CommunityScore": 90,
+    "PreScript": null,
+    "PostScript": null,
+    "GameStartedScript": null,
+    "UseGlobalPostScript": true,
+    "UseGlobalPreScript": true,
+    "UseGlobalGameStartedScript": true,
+    "Manual": null,
+    "Genres": [
+      {
+        "Id": "372da25b-3930-4daf-97e2-691ad633a310",
+        "Name": "Action"
+      },
+      {
+        "Id": "cb1cff6d-b7bf-48ce-92dc-ffba57328e3d",
+        "Name": "Adventure"
+      },
+      {
+        "Id": "6397296c-49b1-40d0-8bc1-7c219494eb37",
+        "Name": "Indie"
+      }
+    ],
+    "Developers": [
+      {
+        "Id": "c087de0e-57f4-428c-9757-1de88d3cabdf",
+        "Name": "Ninja Theory"
+      }
+    ],
+    "Publishers": [
+      {
+        "Id": "c087de0e-57f4-428c-9757-1de88d3cabdf",
+        "Name": "Ninja Theory"
+      }
+    ],
+    "Tags": [
+      {
+        "Id": "bbf97ae9-6d3d-41b2-9cb8-cf8db4ccba08",
+        "Name": "Action"
+      },
+      {
+        "Id": "89025c62-0428-465b-b580-8f2b9c69a669",
+        "Name": "Action-Adventure"
+      },
+      {
+        "Id": "bf2ae6dc-1d0d-4314-a0e8-dbdf7378e733",
+        "Name": "Adventure"
+      },
+      {
+        "Id": "587c0d82-08fb-427b-993c-168d6f99273c",
+        "Name": "Atmospheric"
+      },
+      {
+        "Id": "fdf95f88-b8b8-4784-98ad-ebe69226f610",
+        "Name": "Blood"
+      },
+      {
+        "Id": "324df4ff-e755-4a4a-a100-c3523bd83d88",
+        "Name": "Dark"
+      },
+      {
+        "Id": "4369189f-63ce-4b55-80f1-ed2684987cbe",
+        "Name": "Dark Fantasy"
+      },
+      {
+        "Id": "f1067f38-8c02-4383-875b-9a67ef7ca5dc",
+        "Name": "Fantasy"
+      },
+      {
+        "Id": "152d9e50-9d12-43cf-b374-3964bb7fe27b",
+        "Name": "Female Protagonist"
+      },
+      {
+        "Id": "eefb7cda-3abe-481e-bf6c-b0ac61d1edc6",
+        "Name": "Hack and Slash"
+      },
+      {
+        "Id": "abf97187-fac7-4e48-ad23-87640d292514",
+        "Name": "Horror"
+      },
+      {
+        "Id": "0cf66c00-91b6-46f3-b31a-888afd956205",
+        "Name": "Indie"
+      },
+      {
+        "Id": "9f8df352-5a9a-4649-aa58-74dc95afbb9d",
+        "Name": "Mythology"
+      },
+      {
+        "Id": "a7262320-54bd-4178-92b3-d3f14191cc38",
+        "Name": "Psychological"
+      },
+      {
+        "Id": "ef9d4362-1242-4378-874c-078e1405d59d",
+        "Name": "Realistic"
+      },
+      {
+        "Id": "9cebc57a-eff7-4d36-b8a5-9b26697c2036",
+        "Name": "Singleplayer"
+      },
+      {
+        "Id": "276d8274-8c78-4631-9476-3d6b560e7ac5",
+        "Name": "Story Rich"
+      },
+      {
+        "Id": "e62ce59c-1484-49e7-9a10-ef68c6d258bb",
+        "Name": "Third Person"
+      },
+      {
+        "Id": "10719593-80f0-4ff2-ae88-81721d2028a1",
+        "Name": "Violent"
+      },
+      {
+        "Id": "668dbc90-6799-4d44-8597-a504cd65e4d9",
+        "Name": "Walking Simulator"
+      }
+    ],
+    "Features": [
+      {
+        "Id": "c2252751-551c-4ece-891e-9e70915017ee",
+        "Name": "Achievements"
+      },
+      {
+        "Id": "3f4eeb01-3f50-4f3f-8a3f-6acfde609108",
+        "Name": "Cloud Saves"
+      },
+      {
+        "Id": "ffa852c2-ae72-41de-8d5c-3ddb8ce4ad66",
+        "Name": "Full Controller Support"
+      },
+      {
+        "Id": "eb1137e2-2a2e-4e7d-8728-221a77c601d0",
+        "Name": "Remote Play On TV"
+      },
+      {
+        "Id": "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+        "Name": "Single Player"
+      },
+      {
+        "Id": "64ce1c68-f574-45a1-a164-a53b4893fcaf",
+        "Name": "Trading Cards"
+      }
+    ],
+    "Categories": null,
+    "Platforms": [
+      {
+        "SpecificationId": "pc_windows",
+        "Icon": null,
+        "Cover": null,
+        "Background": null,
+        "Id": "a7aae1e8-8a12-4282-9d4f-5ad2f70f6a37",
+        "Name": "PC (Windows)"
+      }
+    ],
+    "Series": [
+      {
+        "Id": "49cfaa00-3f12-4326-b28a-ad8b748e56d9",
+        "Name": "Hellblade: Senua's Sacrifice"
+      }
+    ],
+    "AgeRatings": [
+      {
+        "Id": "132107aa-8c37-4ae9-9340-b0ccadcc3e28",
+        "Name": "ACB R18"
+      },
+      {
+        "Id": "61e556ed-2c84-40ae-b931-87b83dc07768",
+        "Name": "ESRB M"
+      },
+      {
+        "Id": "8d519216-d414-46cd-a78b-261fefe64819",
+        "Name": "GRAC TESTING"
+      },
+      {
+        "Id": "eb826f5b-5883-41cd-9a74-6beea462e8f7",
+        "Name": "PEGI 18"
+      }
+    ],
+    "Regions": null,
+    "Source": {
+      "Id": "8d9af7da-0d14-4f75-b757-ad33a883ffd2",
+      "Name": "Steam"
+    },
+    "CompletionStatus": {
+      "Id": "9547b5db-2475-4922-8994-f5b887db8514",
+      "Name": "Played"
+    },
+    "ReleaseYear": 2017,
+    "RecentActivity": "2022-12-23T09:20:52.323-05:00",
+    "UserScoreRating": 0,
+    "CommunityScoreRating": 2,
+    "CriticScoreRating": 2,
+    "UserScoreGroup": 10,
+    "CommunityScoreGroup": 9,
+    "CriticScoreGroup": 8,
+    "LastActivitySegment": 4,
+    "RecentActivitySegment": 1,
+    "AddedSegment": 1,
+    "ModifiedSegment": 1,
+    "PlaytimeCategory": 2,
+    "InstallSizeGroup": 0,
+    "IsCustomGame": false,
+    "InstallationStatus": 1,
+    "Id": "cfd4b7b5-80dc-4677-ace2-efc4761c772b",
+    "Name": "Hellblade: Senua's Sacrifice"
+  },
+  {
+    "BackgroundImage": "5bbfeafd-00a6-4c24-8ef1-60d87ccb5b6d\\7d34ca73-89e2-4f68-b0a2-512617aa9d53.jpg",
+    "Description": "Mighty No. 9 is focused on 2D platforming with a blend of 2D and 3D artwork and animation. The player is able to run, jump and shoot projectiles at enemies they encounter. Furthermore, the player will be able to acquire both weapons and abilities from enemies they defeat. The game will feature an intro level followed by the eight main stages, which are freely chosen in any order by the player. At the end of each stage, Beck, the protagonist, must face one of the other eight \"Mighty Number\" units in a boss battle. A final set of stages are unlocked at the end of the game, leading up to the final showdown. An additional level starring Call is also available at some point, provided through one of the completed stretch goals.",
+    "Notes": null,
+    "GenreIds": [
+      "0a567d14-7ad5-4bfb-a4a2-b7454e4464e5",
+      "803397f6-86a4-4eae-bf02-5df654395ccb",
+      "cb1cff6d-b7bf-48ce-92dc-ffba57328e3d",
+      "05afec79-79b4-4ebb-9b51-3f828e16eaa2"
+    ],
+    "Hidden": false,
+    "Favorite": false,
+    "Icon": null,
+    "CoverImage": "5bbfeafd-00a6-4c24-8ef1-60d87ccb5b6d\\86ae70b4-b061-4298-a995-f8b49748ad43.png",
+    "InstallDirectory": null,
+    "LastActivity": null,
+    "SortingName": "Mighty No. 09",
+    "GameId": "CUSA02495_00",
+    "PluginId": "e4ac81cb-1b1a-4ec9-8639-9a9633989a71",
+    "IncludeLibraryPluginAction": true,
+    "GameActions": null,
+    "PlatformIds": ["775b15e0-54e9-4768-9e38-bea248c50da3"],
+    "PublisherIds": ["67fdb9dd-c971-4726-8ddd-89b5350ad7f8"],
+    "DeveloperIds": [
+      "46be81b6-89a4-40e9-8fc3-5f3fdf5bf4f3",
+      "21a7f2b7-52e7-4883-bbed-0323cf952a77",
+      "30c370dd-2260-461e-84cb-1e5bf4a58235"
+    ],
+    "ReleaseDate": {
+      "ReleaseDate": "2016-6-21"
+    },
+    "CategoryIds": null,
+    "TagIds": null,
+    "FeatureIds": [
+      "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+      "0f866adf-2afc-4600-9d6a-bf32a0547902",
+      "50b01607-31f1-4a59-a753-5453e0224614",
+      "355a334f-5be2-4689-9d77-d3758839a622"
+    ],
+    "Links": [
+      {
+        "Name": "Twitter",
+        "Url": "https://twitter.com/MightyNo9"
+      },
+      {
+        "Name": "Official Website",
+        "Url": "http://www.mightyno9.com"
+      },
+      {
+        "Name": "Steam",
+        "Url": "https://store.steampowered.com/app/314710"
+      },
+      {
+        "Name": "Wikipedia",
+        "Url": "https://en.wikipedia.org/wiki/Mighty_No._9"
+      },
+      {
+        "Name": "Facebook",
+        "Url": "https://www.facebook.com/officialmightyno9"
+      },
+      {
+        "Name": "Twitch",
+        "Url": "https://www.twitch.tv/directory/game/Mighty%20No.%209"
+      },
+      {
+        "Name": "Reddit",
+        "Url": "https://reddit.com/wiki/Mighty_No._9_Wiki"
+      },
+      {
+        "Name": "Wikia",
+        "Url": "https://mightyno9.fandom.com/wiki/Mighty_No._9_Wiki"
+      },
+      {
+        "Name": "Twitch",
+        "Url": "https://www.twitch.tv/directory/game/Mighty No. 9"
+      }
+    ],
+    "Roms": null,
+    "IsInstalling": false,
+    "IsUninstalling": false,
+    "IsLaunching": false,
+    "IsRunning": false,
+    "IsInstalled": false,
+    "OverrideInstallState": false,
+    "Playtime": 0,
+    "Added": "2022-12-23T09:20:39.15-05:00",
+    "Modified": "2022-12-23T09:21:55.116-05:00",
+    "PlayCount": 0,
+    "InstallSize": null,
+    "LastSizeScanDate": null,
+    "SeriesIds": ["242e1e21-ed5e-45be-854c-33e2de8f0c70"],
+    "Version": null,
+    "AgeRatingIds": [
+      "1bdddc05-70bd-4423-9fbb-1d69be31626f",
+      "15dc7f86-ccd1-4555-a8c8-94e25758ef83",
+      "1cf1955f-d106-4a99-a460-bbd3a2681dbd",
+      "62b63110-2747-49be-85d2-2cc3cbad9a7d",
+      "b153a6ca-4d38-4e6b-9c9d-8d11e03da195",
+      "ba645c7e-430a-4b89-bbbe-fa8fe2d1f34c"
+    ],
+    "RegionIds": null,
+    "SourceId": "7323d2ad-07cf-4c04-a1db-aec3886be258",
+    "CompletionStatusId": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+    "UserScore": null,
+    "CriticScore": 52,
+    "CommunityScore": 57,
+    "PreScript": null,
+    "PostScript": null,
+    "GameStartedScript": null,
+    "UseGlobalPostScript": true,
+    "UseGlobalPreScript": true,
+    "UseGlobalGameStartedScript": true,
+    "Manual": null,
+    "Genres": [
+      {
+        "Id": "cb1cff6d-b7bf-48ce-92dc-ffba57328e3d",
+        "Name": "Adventure"
+      },
+      {
+        "Id": "05afec79-79b4-4ebb-9b51-3f828e16eaa2",
+        "Name": "Arcade"
+      },
+      {
+        "Id": "803397f6-86a4-4eae-bf02-5df654395ccb",
+        "Name": "Platform"
+      },
+      {
+        "Id": "0a567d14-7ad5-4bfb-a4a2-b7454e4464e5",
+        "Name": "Shooter"
+      }
+    ],
+    "Developers": [
+      {
+        "Id": "21a7f2b7-52e7-4883-bbed-0323cf952a77",
+        "Name": "Abstraction Games"
+      },
+      {
+        "Id": "30c370dd-2260-461e-84cb-1e5bf4a58235",
+        "Name": "Comcept"
+      },
+      {
+        "Id": "46be81b6-89a4-40e9-8fc3-5f3fdf5bf4f3",
+        "Name": "Inti Creates"
+      }
+    ],
+    "Publishers": [
+      {
+        "Id": "67fdb9dd-c971-4726-8ddd-89b5350ad7f8",
+        "Name": "Deep Silver"
+      }
+    ],
+    "Tags": null,
+    "Features": [
+      {
+        "Id": "50b01607-31f1-4a59-a753-5453e0224614",
+        "Name": "Co-Operative"
+      },
+      {
+        "Id": "0f866adf-2afc-4600-9d6a-bf32a0547902",
+        "Name": "Multiplayer"
+      },
+      {
+        "Id": "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+        "Name": "Single Player"
+      },
+      {
+        "Id": "355a334f-5be2-4689-9d77-d3758839a622",
+        "Name": "Split Screen"
+      }
+    ],
+    "Categories": null,
+    "Platforms": [
+      {
+        "SpecificationId": "sony_playstation4",
+        "Icon": null,
+        "Cover": null,
+        "Background": null,
+        "Id": "775b15e0-54e9-4768-9e38-bea248c50da3",
+        "Name": "Sony PlayStation 4"
+      }
+    ],
+    "Series": [
+      {
+        "Id": "242e1e21-ed5e-45be-854c-33e2de8f0c70",
+        "Name": "Mighty No. 9"
+      }
+    ],
+    "AgeRatings": [
+      {
+        "Id": "ba645c7e-430a-4b89-bbbe-fa8fe2d1f34c",
+        "Name": "ACB M"
+      },
+      {
+        "Id": "1cf1955f-d106-4a99-a460-bbd3a2681dbd",
+        "Name": "CERO A"
+      },
+      {
+        "Id": "1bdddc05-70bd-4423-9fbb-1d69be31626f",
+        "Name": "ESRB E10"
+      },
+      {
+        "Id": "b153a6ca-4d38-4e6b-9c9d-8d11e03da195",
+        "Name": "GRAC 15"
+      },
+      {
+        "Id": "15dc7f86-ccd1-4555-a8c8-94e25758ef83",
+        "Name": "PEGI 12"
+      },
+      {
+        "Id": "62b63110-2747-49be-85d2-2cc3cbad9a7d",
+        "Name": "USK 12"
+      }
+    ],
+    "Regions": null,
+    "Source": {
+      "Id": "7323d2ad-07cf-4c04-a1db-aec3886be258",
+      "Name": "PlayStation"
+    },
+    "CompletionStatus": {
+      "Id": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+      "Name": "Not Played"
+    },
+    "ReleaseYear": 2016,
+    "RecentActivity": "2022-12-23T09:20:39.15-05:00",
+    "UserScoreRating": 0,
+    "CommunityScoreRating": 3,
+    "CriticScoreRating": 3,
+    "UserScoreGroup": 10,
+    "CommunityScoreGroup": 5,
+    "CriticScoreGroup": 5,
+    "LastActivitySegment": 6,
+    "RecentActivitySegment": 1,
+    "AddedSegment": 1,
+    "ModifiedSegment": 1,
+    "PlaytimeCategory": 0,
+    "InstallSizeGroup": 0,
+    "IsCustomGame": false,
+    "InstallationStatus": 1,
+    "Id": "5bbfeafd-00a6-4c24-8ef1-60d87ccb5b6d",
+    "Name": "Mighty No. 9"
+  }
+]

@@ -1,3 +1,3 @@
 const configure = require("@ha/configure-jest")
 
-module.exports = configure({restMocks: true})
+module.exports = configure()

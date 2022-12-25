@@ -5,16 +5,20 @@ import {
   filter,
   flow,
   get,
+  groupBy,
   identity,
   map,
   mergeWith,
+  omit,
   pick,
   reduce,
   tap,
   uniqBy,
+  values,
   zipObject,
 } from "lodash/fp"
-import { last, merge } from "lodash"
+import { first, last, merge } from "lodash"
+import { v4 } from "uuid"
 import { createLogger } from "@ha/logger"
 import { formatKeys } from "@ha/string-utils"
 import { MessageHandler } from "./types"
@@ -36,18 +40,8 @@ const customizer = (objValue, srcValue) => {
   return obj.concat(src)
 }
 
-const toAssetId = (asset: string) => last(asset.split("\\"))
+const toAssetId = (asset: string) => (!!asset ? last(asset.split("\\")) : null)
 
-const toGames = flow(
-  map((game) =>
-    merge(game, {
-      _id: game.id,
-      backgroundImage: toAssetId(game.backgroundImage),
-      coverImage: toAssetId(game.coverImage),
-      icon: toAssetId(game.icon),
-    }),
-  ),
-)
 const foreignKeys = [
   "genres",
   "developers",
@@ -59,12 +53,6 @@ const foreignKeys = [
   "completionStatus",
   "platforms",
 ]
-const toNonForeignKeys = flow(
-  get(0),
-  entries,
-  map(get(0)),
-  filter((key) => !foreignKeys.includes(key)),
-)
 const toUniqueRelations = flow(
   map(pick(foreignKeys)),
   reduce(mergeWith(customizer), {}),
@@ -74,26 +62,102 @@ const toUniqueRelations = flow(
   map(uniqBy("id")),
 )
 
+const toGames = flow(
+  map(
+    pick([
+      "backgroundImage",
+      "coverImage",
+      "gameId",
+      "genreIds",
+      "icon",
+      "name",
+      "seriesIds",
+      "platformIds",
+    ]),
+  ),
+  map((game) =>
+    merge({}, game, {
+      backgroundImage: toAssetId(game.backgroundImage),
+      coverImage: toAssetId(game.coverImage),
+      icon: toAssetId(game.icon),
+    }),
+  ),
+  groupBy(get("name")),
+  values,
+  map((groupedGames) => {
+    const id = v4()
+    return merge({}, first(groupedGames), {
+      id,
+      platformReleaseIds: groupedGames.map(
+        (game) => `${first(game.platformIds)}_${id}`,
+      ),
+    })
+  }),
+  map(omit(["platformIds", "gameId"])),
+)
+
+const toGameReleases = (games) =>
+  flow(
+    map(
+      pick([
+        "id",
+        "added",
+        "communityScore",
+        "criticScore",
+        "gameId",
+        "description",
+        "isInstalled",
+        "isInstalling",
+        "isLaunching",
+        "isRunning",
+        "isUninstalling",
+        "platformIds",
+        "lastActivity",
+        "sourceId",
+        "name",
+        "releaseDate",
+        "releaseYear",
+        "playCount",
+        "playtime",
+      ]),
+    ),
+    map((game) => {
+      const gameId = games.find((g) => g.name === game.name).id
+      const platformId = first(game.platformIds)
+
+      return merge({}, game, {
+        id: `${platformId}_${gameId}`,
+        playniteId: game.id,
+        playId: game.gameId,
+        gameId,
+        platformId,
+        added: new Date(Date.parse(game.added)),
+        lastActivity: new Date(Date.parse(game.lastActivity)),
+        releaseDate: !!game?.releaseDate?.releaseDate
+          ? new Date(Date.parse(game?.releaseDate?.releaseDate))
+          : null,
+      })
+    }),
+    map(omit(["name", "platformIds"])),
+  )
+
 const messageHandler: MessageHandler = {
   shouldHandle: (topic) => /^playnite\/library\/games\/attributes$/.test(topic),
   handle: async (topic, payload) => {
     try {
       logger.info(`Game attributes handling topic: ${topic}`)
       const deserializedGames = flow(JSON.parse, formatKeys)(payload.toString())
-      logger.debug("Deserialized games", { games: deserializedGames })
+      // logger.debug("Deserialized games", { games: deserializedGames })
+
       const games = toGames(deserializedGames)
-
-      const nonForeignKeys = toNonForeignKeys(games)
-      const toGamesWithoutForeignKeys = flow(map(pick(nonForeignKeys)))
-
-      const gamesWithoutRelations = toGamesWithoutForeignKeys(games)
+      const gameReleases = toGameReleases(games)(deserializedGames)
       const prepareForDbInsert = flow(
         toUniqueRelations,
-        concat([gamesWithoutRelations]),
-        zipObject(["games"].concat(foreignKeys)),
+        concat([games, gameReleases]),
+        zipObject(["games", "gameReleases"].concat(foreignKeys)),
         entries,
         reduce((acc, [key, values]) => {
-          if (key === "games") {
+          if (key === "games" || key === "gameReleases") {
             return acc.concat([[key, values]])
           }
 
@@ -121,7 +185,7 @@ const messageHandler: MessageHandler = {
       const dbInserts = flow(
         prepareForDbInsert,
         tap((data) => {
-          logger.debug(JSON.stringify(data))
+          // logger.debug(JSON.stringify(data))
         }),
         map(([key, value]) =>
           map(async (item) => {

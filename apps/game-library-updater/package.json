@@ -10,10 +10,12 @@
     "@ha/string-utils": "^0.0.1",
     "async-mqtt": "^2.6.1",
     "lodash": "^4.17.21",
-    "mongodb": "^4.9.0"
+    "mongodb": "^4.9.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@ha/build-ts": "^1.0.0",
+    "@ha/jest-utils": "^0.0.1",
     "esbuild-register": "^3.4.2",
     "jest-when": "^3.2.1",
     "nodemon": "^2.0.6"

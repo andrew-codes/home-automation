@@ -1,0 +1,430 @@
+[
+  {
+    "BackgroundImage": "3d87f530-bee9-4f73-9d86-032819ff6ca9\\3442ae96-6ef8-475a-8bab-bddceb14905c.jpg",
+    "Description": "Hell’s armies have invaded Earth. Become the Slayer in an epic single-player campaign to conquer demons across dimensions and stop the final destruction of humanity. The only thing they fear... is you.",
+    "Notes": null,
+    "GenreIds": [
+      "0a567d14-7ad5-4bfb-a4a2-b7454e4464e5",
+      "5aa8473a-d485-434b-a708-dc119d50307a",
+      "4c0cd831-82f1-417e-a087-47b32d247936"
+    ],
+    "Hidden": false,
+    "Favorite": false,
+    "Icon": null,
+    "CoverImage": "3d87f530-bee9-4f73-9d86-032819ff6ca9\\9c9d62b6-ea63-4ff2-9cbe-e8b94fbf88ef.png",
+    "InstallDirectory": null,
+    "LastActivity": "2021-07-31T12:25:42.34-04:00",
+    "SortingName": null,
+    "GameId": "PPSA01981_00",
+    "PluginId": "e4ac81cb-1b1a-4ec9-8639-9a9633989a71",
+    "IncludeLibraryPluginAction": true,
+    "GameActions": null,
+    "PlatformIds": ["a7aae1e8-8a12-4282-9d4f-5ad2f70f6a37"],
+    "PublisherIds": ["4c0cd831-82f1-417e-a087-47b32d247936"],
+    "DeveloperIds": ["5aa8473a-d485-434b-a708-dc119d50307a"],
+    "ReleaseDate": {
+      "ReleaseDate": "2019-3-19"
+    },
+    "CategoryIds": null,
+    "TagIds": null,
+    "FeatureIds": [
+      "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+      "0f866adf-2afc-4600-9d6a-bf32a0547902"
+    ],
+    "Links": [
+      {
+        "Name": "Facebook",
+        "Url": "https://www.facebook.com/doom"
+      },
+      {
+        "Name": "Twitter",
+        "Url": "https://twitter.com/DOOM"
+      },
+      {
+        "Name": "Instagram",
+        "Url": "https://www.instagram.com/doom"
+      },
+      {
+        "Name": "Reddit",
+        "Url": "https://www.reddit.com/r/Doom"
+      },
+      {
+        "Name": "Official Website",
+        "Url": "https://bethesda.net/en/game/doom"
+      },
+      {
+        "Name": "Wikia",
+        "Url": "https://doom.fandom.com/wiki/Doom_Eternal"
+      },
+      {
+        "Name": "Wikipedia",
+        "Url": "https://en.wikipedia.org/wiki/Doom_Eternal"
+      },
+      {
+        "Name": "Steam",
+        "Url": "https://store.steampowered.com/app/782330"
+      },
+      {
+        "Name": "Discord",
+        "Url": "https://discordapp.com/invite/DOOM"
+      },
+      {
+        "Name": "Twitch",
+        "Url": "https://www.twitch.tv/directory/game/DOOM%20Eternal"
+      },
+      {
+        "Name": "Twitch",
+        "Url": "https://www.twitch.tv/directory/game/Doom Eternal"
+      }
+    ],
+    "Roms": null,
+    "IsInstalling": true,
+    "IsUninstalling": true,
+    "IsLaunching": true,
+    "IsRunning": true,
+    "IsInstalled": true,
+    "OverrideInstallState": false,
+    "Playtime": 12061,
+    "Added": "2021-12-23T09:20:32.303-05:00",
+    "Modified": "2022-12-23T09:21:35.886-05:00",
+    "PlayCount": 10,
+    "InstallSize": null,
+    "LastSizeScanDate": null,
+    "SeriesIds": ["9836bd97-1349-4109-891f-1f0d83390eca"],
+    "Version": null,
+    "AgeRatingIds": [
+      "61e556ed-2c84-40ae-b931-87b83dc07768",
+      "eb826f5b-5883-41cd-9a74-6beea462e8f7",
+      "8d519216-d414-46cd-a78b-261fefe64819",
+      "6b12dddb-aaee-4abb-8d90-ddbe5e010df6",
+      "7241ad60-e9de-443e-a4e9-e76c8366954b",
+      "92a98dd2-2767-4962-bb47-c723a49fa1e7"
+    ],
+    "RegionIds": null,
+    "SourceId": "7323d2ad-07cf-4c04-a1db-aec3886be258",
+    "CompletionStatusId": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+    "UserScore": null,
+    "CriticScore": 86,
+    "CommunityScore": 85,
+    "PreScript": null,
+    "PostScript": null,
+    "GameStartedScript": null,
+    "UseGlobalPostScript": true,
+    "UseGlobalPreScript": true,
+    "UseGlobalGameStartedScript": true,
+    "Manual": null,
+    "Genres": [
+      {
+        "Id": "0a567d14-7ad5-4bfb-a4a2-b7454e4464e5",
+        "Name": "Shooter"
+      }
+    ],
+    "Developers": [
+      {
+        "Id": "5aa8473a-d485-434b-a708-dc119d50307a",
+        "Name": "id Software"
+      }
+    ],
+    "Publishers": [
+      {
+        "Id": "4c0cd831-82f1-417e-a087-47b32d247936",
+        "Name": "Bethesda Softworks"
+      }
+    ],
+    "Tags": null,
+    "Features": [
+      {
+        "Id": "0f866adf-2afc-4600-9d6a-bf32a0547902",
+        "Name": "Multiplayer"
+      },
+      {
+        "Id": "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+        "Name": "Single Player"
+      }
+    ],
+    "Categories": null,
+    "Platforms": [
+      {
+        "SpecificationId": "pc_windows",
+        "Icon": null,
+        "Cover": null,
+        "Background": null,
+        "Id": "a7aae1e8-8a12-4282-9d4f-5ad2f70f6a37",
+        "Name": "PC (Windows)"
+      }
+    ],
+    "Series": [
+      {
+        "Id": "9836bd97-1349-4109-891f-1f0d83390eca",
+        "Name": "Doom"
+      }
+    ],
+    "AgeRatings": [
+      {
+        "Id": "7241ad60-e9de-443e-a4e9-e76c8366954b",
+        "Name": "ACB RC"
+      },
+      {
+        "Id": "92a98dd2-2767-4962-bb47-c723a49fa1e7",
+        "Name": "CERO Z"
+      },
+      {
+        "Id": "6b12dddb-aaee-4abb-8d90-ddbe5e010df6",
+        "Name": "ClassInd G"
+      },
+      {
+        "Id": "61e556ed-2c84-40ae-b931-87b83dc07768",
+        "Name": "ESRB M"
+      },
+      {
+        "Id": "8d519216-d414-46cd-a78b-261fefe64819",
+        "Name": "GRAC TESTING"
+      },
+      {
+        "Id": "eb826f5b-5883-41cd-9a74-6beea462e8f7",
+        "Name": "PEGI 18"
+      }
+    ],
+    "Regions": null,
+    "Source": {
+      "Id": "7323d2ad-07cf-4c04-a1db-aec3886be258",
+      "Name": "PlayStation"
+    },
+    "CompletionStatus": {
+      "Id": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+      "Name": "Not Played"
+    },
+    "ReleaseYear": 2019,
+    "RecentActivity": "2022-12-23T09:20:32.303-05:00",
+    "UserScoreRating": 0,
+    "CommunityScoreRating": 2,
+    "CriticScoreRating": 2,
+    "UserScoreGroup": 10,
+    "CommunityScoreGroup": 8,
+    "CriticScoreGroup": 8,
+    "LastActivitySegment": 5,
+    "RecentActivitySegment": 1,
+    "AddedSegment": 1,
+    "ModifiedSegment": 1,
+    "PlaytimeCategory": 2,
+    "InstallSizeGroup": 0,
+    "IsCustomGame": false,
+    "InstallationStatus": 0,
+    "Id": "3d87f530-bee9-4f73-9d86-032819ff6ca8",
+    "Name": "DOOM Eternal"
+  },
+  {
+    "BackgroundImage": "3d87f530-bee9-4f73-9d86-032819ff6ca9\\3442ae96-6ef8-475a-8bab-bddceb14905c.jpg",
+    "Description": "Hell’s armies have invaded Earth. Become the Slayer in an epic single-player campaign to conquer demons across dimensions and stop the final destruction of humanity. The only thing they fear... is you.",
+    "Notes": null,
+    "GenreIds": [
+      "0a567d14-7ad5-4bfb-a4a2-b7454e4464e5",
+      "5aa8473a-d485-434b-a708-dc119d50307a",
+      "4c0cd831-82f1-417e-a087-47b32d247936"
+    ],
+    "Hidden": false,
+    "Favorite": false,
+    "Icon": null,
+    "CoverImage": "3d87f530-bee9-4f73-9d86-032819ff6ca9\\9c9d62b6-ea63-4ff2-9cbe-e8b94fbf88ef.png",
+    "InstallDirectory": null,
+    "LastActivity": "2021-07-31T12:25:42.34-04:00",
+    "SortingName": null,
+    "GameId": "PPSA01981_01",
+    "PluginId": "e4ac81cb-1b1a-4ec9-8639-9a9633989a71",
+    "IncludeLibraryPluginAction": true,
+    "GameActions": null,
+    "PlatformIds": ["6ac977b9-f496-4c49-bb38-f9627a67affc"],
+    "PublisherIds": ["4c0cd831-82f1-417e-a087-47b32d247936"],
+    "DeveloperIds": ["5aa8473a-d485-434b-a708-dc119d50307a"],
+    "ReleaseDate": {
+      "ReleaseDate": "2020-3-19"
+    },
+    "CategoryIds": null,
+    "TagIds": null,
+    "FeatureIds": [
+      "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+      "0f866adf-2afc-4600-9d6a-bf32a0547902"
+    ],
+    "Links": [
+      {
+        "Name": "Facebook",
+        "Url": "https://www.facebook.com/doom"
+      },
+      {
+        "Name": "Twitter",
+        "Url": "https://twitter.com/DOOM"
+      },
+      {
+        "Name": "Instagram",
+        "Url": "https://www.instagram.com/doom"
+      },
+      {
+        "Name": "Reddit",
+        "Url": "https://www.reddit.com/r/Doom"
+      },
+      {
+        "Name": "Official Website",
+        "Url": "https://bethesda.net/en/game/doom"
+      },
+      {
+        "Name": "Wikia",
+        "Url": "https://doom.fandom.com/wiki/Doom_Eternal"
+      },
+      {
+        "Name": "Wikipedia",
+        "Url": "https://en.wikipedia.org/wiki/Doom_Eternal"
+      },
+      {
+        "Name": "Steam",
+        "Url": "https://store.steampowered.com/app/782330"
+      },
+      {
+        "Name": "Discord",
+        "Url": "https://discordapp.com/invite/DOOM"
+      },
+      {
+        "Name": "Twitch",
+        "Url": "https://www.twitch.tv/directory/game/DOOM%20Eternal"
+      },
+      {
+        "Name": "Twitch",
+        "Url": "https://www.twitch.tv/directory/game/Doom Eternal"
+      }
+    ],
+    "Roms": null,
+    "IsInstalling": false,
+    "IsUninstalling": false,
+    "IsLaunching": false,
+    "IsRunning": false,
+    "IsInstalled": false,
+    "OverrideInstallState": false,
+    "Playtime": 13071,
+    "Added": "2022-12-23T09:20:32.303-05:00",
+    "Modified": "2022-12-23T09:21:35.886-05:00",
+    "PlayCount": 3,
+    "InstallSize": null,
+    "LastSizeScanDate": null,
+    "SeriesIds": ["9836bd97-1349-4109-891f-1f0d83390eca"],
+    "Version": null,
+    "AgeRatingIds": [
+      "61e556ed-2c84-40ae-b931-87b83dc07768",
+      "eb826f5b-5883-41cd-9a74-6beea462e8f7",
+      "8d519216-d414-46cd-a78b-261fefe64819",
+      "6b12dddb-aaee-4abb-8d90-ddbe5e010df6",
+      "7241ad60-e9de-443e-a4e9-e76c8366954b",
+      "92a98dd2-2767-4962-bb47-c723a49fa1e7"
+    ],
+    "RegionIds": null,
+    "SourceId": "7323d2ad-07cf-4c04-a1db-aec3886be258",
+    "CompletionStatusId": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+    "UserScore": null,
+    "CriticScore": 96,
+    "CommunityScore": 95,
+    "PreScript": null,
+    "PostScript": null,
+    "GameStartedScript": null,
+    "UseGlobalPostScript": true,
+    "UseGlobalPreScript": true,
+    "UseGlobalGameStartedScript": true,
+    "Manual": null,
+    "Genres": [
+      {
+        "Id": "0a567d14-7ad5-4bfb-a4a2-b7454e4464e5",
+        "Name": "Shooter"
+      }
+    ],
+    "Developers": [
+      {
+        "Id": "5aa8473a-d485-434b-a708-dc119d50307a",
+        "Name": "id Software"
+      }
+    ],
+    "Publishers": [
+      {
+        "Id": "4c0cd831-82f1-417e-a087-47b32d247936",
+        "Name": "Bethesda Softworks"
+      }
+    ],
+    "Tags": null,
+    "Features": [
+      {
+        "Id": "0f866adf-2afc-4600-9d6a-bf32a0547902",
+        "Name": "Multiplayer"
+      },
+      {
+        "Id": "692f8df6-bf29-4a1f-b6bc-b3698aed4556",
+        "Name": "Single Player"
+      }
+    ],
+    "Categories": null,
+    "Platforms": [
+      {
+        "SpecificationId": "sony_playstation5",
+        "Icon": null,
+        "Cover": null,
+        "Background": null,
+        "Id": "6ac977b9-f496-4c49-bb38-f9627a67affc",
+        "Name": "Sony PlayStation 5"
+      }
+    ],
+    "Series": [
+      {
+        "Id": "9836bd97-1349-4109-891f-1f0d83390eca",
+        "Name": "Doom"
+      }
+    ],
+    "AgeRatings": [
+      {
+        "Id": "7241ad60-e9de-443e-a4e9-e76c8366954b",
+        "Name": "ACB RC"
+      },
+      {
+        "Id": "92a98dd2-2767-4962-bb47-c723a49fa1e7",
+        "Name": "CERO Z"
+      },
+      {
+        "Id": "6b12dddb-aaee-4abb-8d90-ddbe5e010df6",
+        "Name": "ClassInd G"
+      },
+      {
+        "Id": "61e556ed-2c84-40ae-b931-87b83dc07768",
+        "Name": "ESRB M"
+      },
+      {
+        "Id": "8d519216-d414-46cd-a78b-261fefe64819",
+        "Name": "GRAC TESTING"
+      },
+      {
+        "Id": "eb826f5b-5883-41cd-9a74-6beea462e8f7",
+        "Name": "PEGI 18"
+      }
+    ],
+    "Regions": null,
+    "Source": {
+      "Id": "7323d2ad-07cf-4c04-a1db-aec3886be258",
+      "Name": "PlayStation"
+    },
+    "CompletionStatus": {
+      "Id": "58d09bf1-b18c-4b04-bad1-64b11c23487a",
+      "Name": "Not Played"
+    },
+    "ReleaseYear": 2020,
+    "RecentActivity": "2022-12-23T09:20:32.303-05:00",
+    "UserScoreRating": 0,
+    "CommunityScoreRating": 2,
+    "CriticScoreRating": 2,
+    "UserScoreGroup": 10,
+    "CommunityScoreGroup": 8,
+    "CriticScoreGroup": 8,
+    "LastActivitySegment": 5,
+    "RecentActivitySegment": 1,
+    "AddedSegment": 1,
+    "ModifiedSegment": 1,
+    "PlaytimeCategory": 2,
+    "InstallSizeGroup": 0,
+    "IsCustomGame": false,
+    "InstallationStatus": 1,
+    "Id": "3d87f530-bee9-4f73-9d86-032819ff6ca9",
+    "Name": "DOOM Eternal"
+  }
+]
