@@ -40,7 +40,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
           .map(get("id"))
           .toArray()) as string[]) ?? ([] as string[])
 
-      return ctx.loaders.games.loadMany(ids)
+      return ctx.loaders.genres.loadMany(ids)
     },
     async platforms(parent, args, ctx) {
       const ids =
@@ -76,7 +76,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
       return ctx.loaders.games.load(ref.id)
     },
     async gameReleases(parent, args, ctx) {
-      return ctx.loaders.gameReleases.loadMany(parent.gameReleaseIds)
+      return ctx.loaders.gameReleases.loadMany(parent.platformReleaseIds)
     },
     genres(parent, args, ctx) {
       return ctx.loaders.genres.loadMany(parent.genreIds)
