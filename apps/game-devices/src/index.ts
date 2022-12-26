@@ -15,14 +15,12 @@ async function run() {
   try {
     mqtt.on("message", async (topic, payload) => {
       try {
-        if (/playnite\/library\/.*/.test(topic)) {
-          logger.info(`Topic: ${topic} received.`)
-          await Promise.all(
-            handlers
-              .filter((handler) => handler.shouldHandle(topic))
-              .map((handler) => handler.handle(topic, payload)),
-          )
-        }
+        logger.info(`Topic: ${topic} received.`)
+        await Promise.all(
+          handlers
+            .filter((handler) => handler.shouldHandle(topic))
+            .map((handler) => handler.handle(topic, payload)),
+        )
       } catch (error) {
         logger.error(error)
       }
