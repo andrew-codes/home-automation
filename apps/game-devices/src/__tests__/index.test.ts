@@ -20,8 +20,8 @@ describe("game library updater", () => {
     expect(createHeartbeat).toBeCalled()
   })
 
-  test("Subscribes to playnite library updates.", async () => {
+  test("Subscribes to HA game media player registrations.", async () => {
     await run()
-    expect(subscribe).toBeCalledWith("playnite/library/#")
+    expect(subscribe).toBeCalledWith("homeassistant/game_media_player/state")
   })
 })

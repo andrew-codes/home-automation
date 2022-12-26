@@ -1,5 +1,6 @@
 import { createLogger } from "@ha/logger"
 import { createMqtt } from "@ha/mqtt-client"
+import { identity } from "lodash"
 import { MessageHandler } from "./types"
 
 const logger = createLogger()
@@ -11,7 +12,9 @@ const messageHandler: MessageHandler = {
   handle: async (topic, payload) => {
     logger.info(`Handling topic ${topic}`)
     try {
-      const { areaName, areaId } = JSON.parse(payload.toString())
+      const { areaName, areaId, supportedPlatforms } = JSON.parse(
+        payload.toString(),
+      )
       const mqtt = await createMqtt()
       await mqtt.publish(
         `homeassistant/text/${areaId}_game_media_player_source/config`,
@@ -49,6 +52,45 @@ const messageHandler: MessageHandler = {
             },
           }),
         ),
+      )
+      await mqtt.publish(
+        `homeassistant/sensor/${areaId}_game_media_player_platforms/config`,
+        Buffer.from(
+          JSON.stringify({
+            name: `${areaName} Game Media Player Platforms`,
+            state_topic: `homeassistant/${areaId}/game_media_player/platforms/state`,
+            value_template: "{{ value_json }}",
+            optimistic: true,
+            entity_category: "diagnostic",
+            unique_id: `${areaId}_game_media_player_platforms`,
+            device: {
+              name: `${areaName} Game Media Player`,
+              identifiers: [`${areaId}_game_media_player`],
+              suggested_area: `${areaId}`,
+            },
+          }),
+        ),
+      )
+
+      const {
+        data: { platforms },
+      } = await fetch(process.env.GRAPH_HOST ?? "", {
+        method: "POST",
+        body: JSON.stringify({
+          query: "query Platforms{ platforms { id name } })",
+        }),
+        headers: {
+          "content-type": "application/json",
+        },
+      }).then((resp) => resp.json())
+
+      const supportedPlatformIds = supportedPlatforms
+        .map((name) => platforms.find((platform) => platform.name === name)?.id)
+        .filter(identity)
+
+      await mqtt.publish(
+        `homeassistant/${areaId}/game_media_player/platforms/state`,
+        Buffer.from(JSON.stringify(supportedPlatformIds)),
       )
     } catch (error) {
       logger.error(error)
