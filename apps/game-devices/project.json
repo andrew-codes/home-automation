@@ -1,0 +1,78 @@
+{
+  "root": "apps/game-devices",
+  "sourceRoot": "apps/game-devices/src",
+  "projectType": "application",
+  "targets": {
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["dist", ".test-runs"],
+      "options": {
+        "command": "rm -rf dist .test-runs",
+        "cwd": "apps/game-devices"
+      }
+    },
+    "compile": {
+      "executor": "@ha/nx-executors:invoke",
+      "outputs": ["apps/game-devices/dist"],
+      "options": {
+        "module": "scripts/compile.ts",
+        "cwd": "apps/game-devices"
+      }
+    },
+    "deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/game-devices",
+        "module": "scripts/deploy.ts"
+      },
+      "dependsOn": [
+        {
+          "target": "image/push",
+          "projects": "self"
+        },
+        {
+          "target": "deploy",
+          "projects": "dependencies"
+        }
+      ]
+    },
+    "image/push": {
+      "executor": "@ha/nx-executors:invoke",
+      "dependsOn": [
+        {
+          "target": "compile",
+          "projects": "self"
+        }
+      ],
+      "options": {
+        "module": "scripts/image-push.ts",
+        "cwd": "apps/game-devices"
+      }
+    },
+    "serve": {
+      "executor": "@ha/nx-executors:telepresence-local",
+      "options": {
+        "fromPort": 8084,
+        "toPort": 80,
+        "cwd": "apps/game-devices",
+        "command": "nodemon --inspect src/index.ts"
+      }
+    },
+    "test": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [".test-runs/unit"],
+      "options": {
+        "command": "jest",
+        "cwd": "apps/game-devices"
+      }
+    },
+    "code-coverage": {
+      "executor": "@ha/nx-executors:upload-codecov",
+      "options": {
+        "coverageFilePath": "apps/game-devices/.test-runs/unit/lcov.info"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["gaming-assets-shared-volume"]
+}
