@@ -1,4 +1,5 @@
 import fs from "fs/promises"
+import { exists, existsSync } from "fs"
 import path from "path"
 import { createLogger } from "@ha/logger"
 import { MessageHandler } from "./types"
@@ -18,15 +19,13 @@ const messageHandler: MessageHandler = {
 
         return
       }
-      const gameId = matches[1]
       const assetFileName = matches[2]
-      logger.info(`Game ID: ${gameId} and asset ${assetFileName}`)
-      await fs.mkdir(path.join("/assets", gameId), { recursive: true })
-      await fs.writeFile(
-        path.join("/assets", gameId, assetFileName),
-        payload,
-        "binary",
-      )
+      logger.info(`Asset ID: ${assetFileName}`)
+      const assetPath = path.join("/assets", assetFileName)
+      if (existsSync(assetPath)) {
+        throw new Error("File exists")
+      }
+      await fs.writeFile(assetPath, payload, "binary")
     } catch (error) {
       logger.error(error)
     }
