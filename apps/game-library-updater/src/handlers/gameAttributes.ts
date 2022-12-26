@@ -185,7 +185,7 @@ const messageHandler: MessageHandler = {
       const dbInserts = flow(
         prepareForDbInsert,
         tap((data) => {
-          // logger.debug(JSON.stringify(data))
+          logger.debug(JSON.stringify(data))
         }),
         map(([key, value]) =>
           map(async (item) => {
@@ -200,7 +200,7 @@ const messageHandler: MessageHandler = {
         flatten,
       )
 
-      await Promise.all(dbInserts(games))
+      await Promise.all(dbInserts(deserializedGames))
     } catch (error) {
       logger.error(`DB Game update Error`, error)
     }

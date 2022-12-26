@@ -11,6 +11,7 @@ const validTopic = "playnite/library/game/attributes"
 const collection = jest.fn()
 const updateOneGame = jest.fn()
 const updateGameRelease = jest.fn()
+const updatePlatform = jest.fn()
 const db = jest.fn()
 
 beforeEach(async () => {
@@ -22,6 +23,9 @@ beforeEach(async () => {
   when(collection)
     .calledWith("gameReleases")
     .mockReturnValue({ updateOne: updateGameRelease })
+  when(collection)
+    .calledWith("platforms")
+    .mockReturnValue({ updateOne: updatePlatform })
   const collections = [
     "genres",
     "developers",
@@ -31,7 +35,6 @@ beforeEach(async () => {
     "ageRatings",
     "source",
     "completionStatus",
-    "platforms",
   ].forEach((collectionKey) => {
     when(collection)
       .calledWith(collectionKey)
@@ -154,5 +157,18 @@ describe("Given a valid topic and payload containing multiple references to sing
       }),
       { upsert: true },
     )
+  })
+})
+
+describe("Updating platforms", () => {
+  test("Given a valid topic and a payload of many games with overlapping platforms, when handing the message, then each distinct platform in updated in the database.", async () => {
+    await handler.handle(
+      validTopic,
+      Buffer.from(
+        JSON.stringify(multipleReferencesToSingleGamePayload),
+        "utf8",
+      ),
+    )
+    expect(updatePlatform).toBeCalled()
   })
 })
