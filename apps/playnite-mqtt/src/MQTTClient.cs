@@ -287,7 +287,7 @@ namespace MQTTClient
         {
             logger.Debug($"{e.UpdatedItems.Count()} updated games to be published.");
             var games = e.UpdatedItems.Where(shouldPublishPropertyUpdate).Select(game => game.NewData);
-            Task.Run(async () => await PublishGames(games, true)).Wait(CancellationToken.None);
+            Task.Run(async () => await PublishGames(games)).Wait(CancellationToken.None);
         }
 
         private bool shouldPublishPropertyUpdate(ItemUpdateEvent<Game> arg)
@@ -298,7 +298,7 @@ namespace MQTTClient
         private void Games_ItemCollectionChanged(object sender, ItemCollectionChangedEventArgs<Game> e)
         {
             logger.Debug($"{e.AddedItems.Count()} added games to be published.");
-            Task.Run(async () => await PublishGames(e.AddedItems, true)).Wait(CancellationToken.None);
+            Task.Run(async () => await PublishGames(e.AddedItems)).Wait(CancellationToken.None);
         }
 
         #region Overrides of Plugin
@@ -307,6 +307,7 @@ namespace MQTTClient
 
         public override void OnLibraryUpdated(OnLibraryUpdatedEventArgs args)
         {
+            Task.Run(async () => await PublishGames(PlayniteApi.Database.Games)).Wait(CancellationToken.None);
         }
 
         public override void Dispose()
@@ -320,35 +321,35 @@ namespace MQTTClient
 
             var payload = new { Id = args.Game.Id, state = "installed" };
             Task.Run(
-                async () => await client.PublishStringAsync($"playnite/{Topics.LibrarySubTopic}/game/state", System.Text.Json.JsonSerializer.Serialize(payload, jsonOptions), retain: false, qualityOfServiceLevel: MqttQualityOfServiceLevel.AtLeastOnce));
+                async () => await client.PublishStringAsync($"playnite/{Topics.LibrarySubTopic}/game/state", System.Text.Json.JsonSerializer.Serialize(payload, jsonOptions), retain: false, qualityOfServiceLevel: MqttQualityOfServiceLevel.AtLeastOnce)).Wait(CancellationToken.None);
         }
 
         public override void OnGameStarted(OnGameStartedEventArgs args)
         {
             var payload = new { Id = args.Game.Id, state = "started" };
             Task.Run(
-                async () => await client.PublishStringAsync($"playnite/{Topics.LibrarySubTopic}/game/state", System.Text.Json.JsonSerializer.Serialize(payload, jsonOptions), retain: false, qualityOfServiceLevel: MqttQualityOfServiceLevel.AtLeastOnce));
+                async () => await client.PublishStringAsync($"playnite/{Topics.LibrarySubTopic}/game/state", System.Text.Json.JsonSerializer.Serialize(payload, jsonOptions), retain: false, qualityOfServiceLevel: MqttQualityOfServiceLevel.AtLeastOnce)).Wait(CancellationToken.None);
         }
 
         public override void OnGameStarting(OnGameStartingEventArgs args)
         {
             var payload = new { Id = args.Game.Id, state = "starting" };
             Task.Run(
-                async () => await client.PublishStringAsync($"playnite/{Topics.LibrarySubTopic}/game/state", System.Text.Json.JsonSerializer.Serialize(payload, jsonOptions), retain: false, qualityOfServiceLevel: MqttQualityOfServiceLevel.AtLeastOnce));
+                async () => await client.PublishStringAsync($"playnite/{Topics.LibrarySubTopic}/game/state", System.Text.Json.JsonSerializer.Serialize(payload, jsonOptions), retain: false, qualityOfServiceLevel: MqttQualityOfServiceLevel.AtLeastOnce)).Wait(CancellationToken.None);
         }
 
         public override void OnGameStopped(OnGameStoppedEventArgs args)
         {
             var payload = new { Id = args.Game.Id, state = "stopped" };
             Task.Run(
-                async () => await client.PublishStringAsync($"playnite/{Topics.LibrarySubTopic}/game/state", System.Text.Json.JsonSerializer.Serialize(payload, jsonOptions), retain: false, qualityOfServiceLevel: MqttQualityOfServiceLevel.AtLeastOnce));
+                async () => await client.PublishStringAsync($"playnite/{Topics.LibrarySubTopic}/game/state", System.Text.Json.JsonSerializer.Serialize(payload, jsonOptions), retain: false, qualityOfServiceLevel: MqttQualityOfServiceLevel.AtLeastOnce)).Wait(CancellationToken.None);
         }
 
         public override void OnGameUninstalled(OnGameUninstalledEventArgs args)
         {
             var payload = new { Id = args.Game.Id, state = "uninstalled" };
             Task.Run(
-                async () => await client.PublishStringAsync($"playnite/{Topics.LibrarySubTopic}/game/state", System.Text.Json.JsonSerializer.Serialize(payload, jsonOptions), retain: false, qualityOfServiceLevel: MqttQualityOfServiceLevel.AtLeastOnce));
+                async () => await client.PublishStringAsync($"playnite/{Topics.LibrarySubTopic}/game/state", System.Text.Json.JsonSerializer.Serialize(payload, jsonOptions), retain: false, qualityOfServiceLevel: MqttQualityOfServiceLevel.AtLeastOnce)).Wait(CancellationToken.None);
         }
 
         public override void OnApplicationStarted(OnApplicationStartedEventArgs args)
