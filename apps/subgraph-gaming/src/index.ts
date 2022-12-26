@@ -75,7 +75,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
     __resolveReference(ref, ctx: GraphContext) {
       return ctx.loaders.games.load(ref.id)
     },
-    async gameReleases(parent, args, ctx) {
+    async platformReleases(parent, args, ctx) {
       return ctx.loaders.gameReleases.loadMany(parent.platformReleaseIds)
     },
     genres(parent, args, ctx) {
