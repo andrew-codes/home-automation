@@ -1,6 +1,6 @@
 import { createLogger } from "@ha/logger"
 import { createMqtt } from "@ha/mqtt-client"
-import { identity } from "lodash"
+import { identity, isEmpty } from "lodash"
 import { MessageHandler } from "./types"
 
 const logger = createLogger()
@@ -15,22 +15,27 @@ const messageHandler: MessageHandler = {
       const { areaName, areaId, supportedPlatforms } = JSON.parse(
         payload.toString(),
       )
+
+      if (isEmpty(areaName) || isEmpty(areaId) || isEmpty(supportedPlatforms)) {
+        throw new Error("Invalid payload; missing properties")
+      }
+
       const mqtt = await createMqtt()
       await mqtt.publish(
-        `homeassistant/text/${areaId}_game_media_player_source/config`,
+        `homeassistant/sensor/${areaId}_game_media_player_source/config`,
         Buffer.from(
           JSON.stringify({
             name: `${areaName} Game Media Player Source`,
-            command_topic: `playnite/${areaId}/game_media_player/source/cmd`,
             state_topic: `playnite/${areaId}/game_media_player/state`,
             value_template: "{{ value_json.id }}",
             optimistic: true,
+            icon: "mdi:gamepad-sqaure",
             entity_category: "diagnostic",
             unique_id: `${areaId}_game_media_player_source`,
             device: {
               name: `${areaName} Game Media Player`,
               identifiers: [`${areaId}_game_media_player`],
-              suggested_area: `${areaId}`,
+              suggested_area: areaName,
             },
           }),
         ),
@@ -43,12 +48,13 @@ const messageHandler: MessageHandler = {
             state_topic: `playnite/${areaId}/game_media_player/state`,
             value_template: "{{ value_json.state }}",
             optimistic: true,
+            icon: "mdi:gamepad-sqaure",
             entity_category: "diagnostic",
             unique_id: `${areaId}_game_media_player_state`,
             device: {
               name: `${areaName} Game Media Player`,
               identifiers: [`${areaId}_game_media_player`],
-              suggested_area: `${areaId}`,
+              suggested_area: areaName,
             },
           }),
         ),
@@ -61,12 +67,13 @@ const messageHandler: MessageHandler = {
             state_topic: `homeassistant/${areaId}/game_media_player/platforms/state`,
             value_template: "{{ value_json }}",
             optimistic: true,
+            icon: "mdi:gamepad-sqaure",
             entity_category: "diagnostic",
             unique_id: `${areaId}_game_media_player_platforms`,
             device: {
               name: `${areaName} Game Media Player`,
               identifiers: [`${areaId}_game_media_player`],
-              suggested_area: `${areaId}`,
+              suggested_area: areaName,
             },
           }),
         ),

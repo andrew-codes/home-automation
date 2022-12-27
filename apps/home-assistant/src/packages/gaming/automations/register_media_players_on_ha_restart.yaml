@@ -22,8 +22,8 @@ automation:
         data:
           topic: "homeassistant/game_media_player/state"
           payload: >-
-            { "areaName": "Game Room",
-              "areaId": "game_room",
+            { "areaName": "Living Room",
+              "areaId": "living_room",
               "supportedPlatforms": [
                 "Sony PlayStation 4",
                 "Sony PlayStation 5"

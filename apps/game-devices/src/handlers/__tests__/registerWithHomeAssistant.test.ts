@@ -33,22 +33,21 @@ test("Given a valid topic, when handling the message, then HA is queried and eac
   )
 
   expect(publish.mock.calls[0][0]).toEqual(
-    `homeassistant/text/game_room_game_media_player_source/config`,
+    `homeassistant/sensor/game_room_game_media_player_source/config`,
   )
   expect(JSON.parse(publish.mock.calls[0][1].toString())).toEqual(
     expect.objectContaining({
       name: "Game Room Game Media Player Source",
-      command_topic: `playnite/game_room/game_media_player/source/cmd`,
       state_topic: `playnite/game_room/game_media_player/state`,
       value_template: "{{ value_json.id }}",
       optimistic: true,
       entity_category: "diagnostic",
-      // icon: "mdi:sony-playstation",
+      icon: "mdi:gamepad-sqaure",
       unique_id: `game_room_game_media_player_source`,
       device: {
         name: "Game Room Game Media Player",
         identifiers: ["game_room_game_media_player"],
-        suggested_area: "game_room",
+        suggested_area: "Game Room",
       },
     }),
   )
@@ -63,12 +62,12 @@ test("Given a valid topic, when handling the message, then HA is queried and eac
       value_template: "{{ value_json.state }}",
       optimistic: true,
       entity_category: "diagnostic",
-      // icon: "mdi:sony-playstation",
+      icon: "mdi:gamepad-sqaure",
       unique_id: `game_room_game_media_player_state`,
       device: {
         name: "Game Room Game Media Player",
         identifiers: ["game_room_game_media_player"],
-        suggested_area: "game_room",
+        suggested_area: "Game Room",
       },
     }),
   )
@@ -83,12 +82,12 @@ test("Given a valid topic, when handling the message, then HA is queried and eac
       value_template: "{{ value_json }}",
       optimistic: true,
       entity_category: "diagnostic",
-      // icon: "mdi:sony-playstation",
+      icon: "mdi:gamepad-sqaure",
       unique_id: `game_room_game_media_player_platforms`,
       device: {
         name: "Game Room Game Media Player",
         identifiers: ["game_room_game_media_player"],
-        suggested_area: "game_room",
+        suggested_area: "Game Room",
       },
     }),
   )
