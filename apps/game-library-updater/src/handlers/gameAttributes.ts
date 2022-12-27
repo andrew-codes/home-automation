@@ -66,7 +66,7 @@ const toUniqueRelations = flow(
 const toGameId = flow(map(get("id")), sortBy(identity), join("_"))
 
 const toGames = flow(
-  filter((game) => !lisEmpty(game.platformIds)),
+  filter((game) => !isEmpty(game.platformIds)),
   map(
     pick([
       "id",
