@@ -7,6 +7,7 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                      { name: 'MQTT_HOST', value: 'mqtt' },
                      { name: 'MQTT_PORT', value: '1883' },
                    ])
-                   + lib.deployment.withInitContainer('mqtt-is-ready', std.extVar('registryHostname') + '/mqtt-client:latest', { env: [secrets['mqtt/username'], secrets['mqtt/password']], command: ['sh'], args: ['-c', 'timeout 10 sub -h mqtt -t "\\$SYS/#" -C 1 -u $MQTT_USERNAME -P $MQTT_PASSWORD | grep -v Error || exit 1'] },);
+                   + lib.deployment.withInitContainer('mqtt-is-ready', std.extVar('registryHostname') + '/mqtt-client:latest', { env: [secrets['mqtt/username'], secrets['mqtt/password']], command: ['sh'], args: ['-c', 'timeout 10 sub -h mqtt -t "\\$SYS/#" -C 1 -u $MQTT_USERNAME -P $MQTT_PASSWORD | grep -v Error || exit 1'] },)
+                   + lib.deployment.withInitContainer('home-assistant-is-ready', 'curlimages/curl:latest', { command: ['sh'], args: ['-c', "timeout 10 curl --fail --insecure --silent --output /dev/null --write-out 'HTTP Code %{http_code}' 'https://ha.smith-simms.family' || exit 1"] });
 
 std.objectValues(deployment)
