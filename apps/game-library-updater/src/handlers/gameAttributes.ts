@@ -64,9 +64,10 @@ const toUniqueRelations = flow(
 )
 
 const toGameId = flow(map(get("id")), sortBy(identity), join("_"))
+const filterWithoutPlatform = filter((game) => !isEmpty(game.platformIds))
 
 const toGames = flow(
-  filter((game) => !isEmpty(game.platformIds)),
+  filterWithoutPlatform,
   map(
     pick([
       "id",
@@ -103,6 +104,7 @@ const toGames = flow(
 
 const toGameReleases = (games) =>
   flow(
+    filterWithoutPlatform,
     map(
       pick([
         "added",
@@ -149,66 +151,62 @@ const toGameReleases = (games) =>
 const messageHandler: MessageHandler = {
   shouldHandle: (topic) => /^playnite\/library\/games\/attributes$/.test(topic),
   handle: async (topic, payload) => {
-    try {
-      logger.info(`Game attributes handling topic: ${topic}`)
-      const deserializedGames = flow(JSON.parse, formatKeys)(payload.toString())
-      // logger.debug("Deserialized games", { games: deserializedGames })
+    logger.info(`Game attributes handling topic: ${topic}`)
+    const deserializedGames = flow(JSON.parse, formatKeys)(payload.toString())
+    // logger.debug("Deserialized games", { games: deserializedGames })
 
-      const games = toGames(deserializedGames)
-      const gameReleases = toGameReleases(games)(deserializedGames)
-      const prepareForDbInsert = flow(
-        toUniqueRelations,
-        concat([games, gameReleases]),
-        zipObject(["games", "gameReleases"].concat(foreignKeys)),
-        entries,
-        reduce((acc, [key, values]) => {
-          if (key === "games" || key === "gameReleases") {
-            return acc.concat([[key, values]])
-          }
+    const games = toGames(deserializedGames)
+    const gameReleases = toGameReleases(games)(deserializedGames)
+    const prepareForDbInsert = flow(
+      toUniqueRelations,
+      concat([games, gameReleases]),
+      zipObject(["games", "gameReleases"].concat(foreignKeys)),
+      entries,
+      reduce((acc, [key, values]) => {
+        if (key === "games" || key === "gameReleases") {
+          return acc.concat([[key, values]])
+        }
 
-          const valuesWithInverseGameRelation =
-            values?.map((value) =>
-              merge({}, value, {
-                gameIds: games
-                  .filter((game) => {
-                    if (Array.isArray(game[key])) {
-                      return game[key].find((k) => k.id === value.id)
-                    } else {
-                      return game[`${key}Id`] === value.id
-                    }
-                  })
-                  .map((game) => game.id),
-              }),
-            ) ?? []
+        const valuesWithInverseGameRelation =
+          values?.map((value) =>
+            merge({}, value, {
+              gameIds: games
+                .filter((game) => {
+                  if (Array.isArray(game[key])) {
+                    return game[key].find((k) => k.id === value.id)
+                  } else {
+                    return game[`${key}Id`] === value.id
+                  }
+                })
+                .map((game) => game.id),
+            }),
+          ) ?? []
 
-          return acc.concat([[key, valuesWithInverseGameRelation]])
-        }, []),
-      )
+        return acc.concat([[key, valuesWithInverseGameRelation]])
+      }, []),
+    )
 
-      const client = await getMongoDbClient()
-      const db = await client.db("gameLibrary")
-      const dbInserts = flow(
-        prepareForDbInsert,
-        tap((data) => {
-          logger.debug(JSON.stringify(data))
-        }),
-        map(([key, value]) =>
-          map(async (item) => {
-            logger.debug(`Collection ${key}; Updating item ${item.id}`, {
-              item,
-            })
-            return await db
-              .collection(key)
-              .updateOne({ _id: item.id }, { $set: item }, { upsert: true })
-          })(value),
-        ),
-        flatten,
-      )
+    const client = await getMongoDbClient()
+    const db = await client.db("gameLibrary")
+    const dbInserts = flow(
+      prepareForDbInsert,
+      tap((data) => {
+        logger.debug(JSON.stringify(data))
+      }),
+      map(([key, value]) =>
+        map(async (item) => {
+          logger.debug(`Collection ${key}; Updating item ${item.id}`, {
+            item,
+          })
+          return await db
+            .collection(key)
+            .updateOne({ _id: item.id }, { $set: item }, { upsert: true })
+        })(value),
+      ),
+      flatten,
+    )
 
-      await Promise.all(dbInserts(deserializedGames))
-    } catch (error) {
-      logger.error(`DB Game update Error`, error)
-    }
+    await Promise.all(dbInserts(deserializedGames))
   },
 }
 export default messageHandler

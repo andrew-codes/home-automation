@@ -20,7 +20,9 @@ test("Given a valid topic with an asset ID that already exists on disk, when han
     "9c9d62b6-ea63-4ff2-9cbe-e8b94fbf88ef.png",
   )
   when(existsSync).calledWith(assetPath).mockReturnValue(true)
-  await handler.handle(validTopic, payload)
+  await expect(() => handler.handle(validTopic, payload)).rejects.toThrow(
+    "File exists",
+  )
 
   expect(fs.writeFile).not.toBeCalledWith(assetPath, payload, "binary")
 })
