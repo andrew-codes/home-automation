@@ -1,24 +1,25 @@
 import {
   concat,
   entries,
-  flatten,
   filter,
+  flatten,
   flow,
   get,
   groupBy,
   identity,
+  join,
   map,
   mergeWith,
   omit,
   pick,
   reduce,
+  sortBy,
   tap,
   uniqBy,
   values,
   zipObject,
 } from "lodash/fp"
 import { first, last, merge } from "lodash"
-import { v4 } from "uuid"
 import { createLogger } from "@ha/logger"
 import { formatKeys } from "@ha/string-utils"
 import { MessageHandler } from "./types"
@@ -62,9 +63,12 @@ const toUniqueRelations = flow(
   map(uniqBy("id")),
 )
 
+const toGameId = flow(map(get("id")), sortBy(identity), join("_"))
+
 const toGames = flow(
   map(
     pick([
+      "id",
       "backgroundImage",
       "coverImage",
       "gameId",
@@ -85,7 +89,7 @@ const toGames = flow(
   groupBy(get("name")),
   values,
   map((groupedGames) => {
-    const id = v4()
+    const id = toGameId(groupedGames)
     return merge({}, first(groupedGames), {
       id,
       platformReleaseIds: groupedGames.map(
