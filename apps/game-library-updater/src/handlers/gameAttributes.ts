@@ -19,7 +19,7 @@ import {
   values,
   zipObject,
 } from "lodash/fp"
-import { first, last, merge } from "lodash"
+import { first, isEmpty, last, merge } from "lodash"
 import { createLogger } from "@ha/logger"
 import { formatKeys } from "@ha/string-utils"
 import { MessageHandler } from "./types"
@@ -66,6 +66,7 @@ const toUniqueRelations = flow(
 const toGameId = flow(map(get("id")), sortBy(identity), join("_"))
 
 const toGames = flow(
+  filter((game) => !lisEmpty(game.platformIds)),
   map(
     pick([
       "id",

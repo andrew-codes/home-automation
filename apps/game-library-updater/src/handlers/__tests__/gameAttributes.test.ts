@@ -4,6 +4,7 @@ import { partialMocked } from "@ha/jest-utils"
 import handler from "../gameAttributes"
 import getDbClient from "../../dbClient"
 import multipleReferencesToSingleGamePayload from "./fixtures/multiple-references-to-single-game-payload.json"
+import gamesWithoutPlatforms from "./fixtures/games-without-a-platform.json"
 
 const validTopic = "playnite/library/game/attributes"
 const collection = jest.fn()
@@ -157,6 +158,17 @@ describe("Given a valid topic and payload containing multiple references to sing
       { upsert: true },
     )
   })
+})
+
+test("Given a valid topic and payload with games that have no platform, when handling the message, then games without platforms are not processed and not stored collections.", async () => {
+  await handler.handle(
+    validTopic,
+    Buffer.from(JSON.stringify(gamesWithoutPlatforms), "utf8"),
+  )
+
+  expect(updateOneGame).not.toBeCalled()
+  expect(updateGameRelease).not.toBeCalled()
+  expect(updatePlatform).not.toBeCalled()
 })
 
 describe("Updating platforms", () => {

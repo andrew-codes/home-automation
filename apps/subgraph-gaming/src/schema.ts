@@ -58,7 +58,7 @@ const schema = `
     isLaunching: Boolean!
     isRunning: Boolean!
     isUninstalling: Boolean!
-    platform: GamePlatform
+    platform: GamePlatform!
     lastActivity: DateTime
     source: GameSource
     releaseDate: Date
