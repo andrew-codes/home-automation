@@ -1,6 +1,5 @@
 jest.mock("@ha/mqtt-client")
 import { partialMocked } from "@ha/jest-utils"
-import { when } from "jest-when"
 import { createMqtt } from "@ha/mqtt-client"
 import handler from "../registerWithHomeAssistant"
 
@@ -73,17 +72,17 @@ test("Given a valid topic, when handling the message, then HA is queried and eac
   )
 
   expect(publish.mock.calls[2][0]).toEqual(
-    `homeassistant/sensor/game_room_game_media_player_platforms/config`,
+    `homeassistant/sensor/game_room_game_media_player_platform/config`,
   )
   expect(JSON.parse(publish.mock.calls[2][1].toString())).toEqual(
     expect.objectContaining({
-      name: "Game Room Game Media Player Platforms",
-      state_topic: `homeassistant/game_room/game_media_player/platforms/state`,
-      value_template: "{{ value_json }}",
+      name: "Game Room Game Media Player Platform",
+      state_topic: `homeassistant/game_room/game_media_player/state`,
+      value_template: "{{ value_json.platformName }}",
       optimistic: true,
       entity_category: "diagnostic",
       icon: "mdi:gamepad-square",
-      unique_id: `game_room_game_media_player_platforms`,
+      unique_id: `game_room_game_media_player_platform`,
       device: {
         name: "Game Room Game Media Player",
         identifiers: ["game_room_game_media_player"],
@@ -91,76 +90,44 @@ test("Given a valid topic, when handling the message, then HA is queried and eac
       },
     }),
   )
-})
-
-test("Given a valid topic, when handling the message, then HA is updated with the list of supported platform Ids queried from the Graph", async () => {
-  process.env.GRAPH_HOST = "http://graphHost"
-  when(fetch)
-    .calledWith("http://graphHost", {
-      method: "POST",
-      body: JSON.stringify({
-        query: "query Platforms{ platforms { id name } })",
-      }),
-      headers: {
-        "content-type": "application/json",
-      },
-    })
-    .mockResolvedValue({
-      json: jest.fn().mockResolvedValue({
-        data: { platforms: [{ id: "1", name: "Windows (pc)" }] },
-      }),
-    })
-  await handler.handle(
-    "homeassistant/game_media_player/state",
-    Buffer.from(
-      JSON.stringify({
-        areaName: "Game Room",
-        areaId: "game_room",
-        supportedPlatforms: ["Windows (pc)"],
-      }),
-    ),
-  )
 
   expect(publish.mock.calls[3][0]).toEqual(
-    `homeassistant/game_room/game_media_player/platforms/state`,
+    `homeassistant/sensor/game_room_game_media_player_source_name/config`,
   )
   expect(JSON.parse(publish.mock.calls[3][1].toString())).toEqual(
-    expect.arrayContaining(["1"]),
-  )
-})
-
-test("Given a valid topic and a payload with some platforms that are not known to the Graph, when handling the message, then HA is updated with the known platforms and omit any unknown ones.", async () => {
-  process.env.GRAPH_HOST = "http://graphHost"
-  when(fetch)
-    .calledWith("http://graphHost", {
-      method: "POST",
-      body: JSON.stringify({
-        query: "query Platforms{ platforms { id name } })",
-      }),
-      headers: {
-        "content-type": "application/json",
+    expect.objectContaining({
+      name: "Game Room Game Media Player Source Name",
+      state_topic: `homeassistant/game_room/game_media_player/state`,
+      value_template: "{{ value_json.name }}",
+      optimistic: true,
+      entity_category: "diagnostic",
+      icon: "mdi:gamepad-square",
+      unique_id: `game_room_game_media_player_source_name`,
+      device: {
+        name: "Game Room Game Media Player",
+        identifiers: ["game_room_game_media_player"],
+        suggested_area: "Game Room",
       },
-    })
-    .mockResolvedValue({
-      json: jest.fn().mockResolvedValue({
-        data: { platforms: [{ id: "1", name: "Playstation 5" }] },
-      }),
-    })
-  await handler.handle(
-    "homeassistant/game_media_player/state",
-    Buffer.from(
-      JSON.stringify({
-        areaName: "Game Room",
-        areaId: "game_room",
-        supportedPlatforms: ["Windows (pc)"],
-      }),
-    ),
+    }),
   )
 
-  expect(publish.mock.calls[3][0]).toEqual(
-    `homeassistant/game_room/game_media_player/platforms/state`,
+  expect(publish.mock.calls[4][0]).toEqual(
+    `homeassistant/sensor/game_room_game_media_player_platform_id/config`,
   )
-  expect(JSON.parse(publish.mock.calls[3][1].toString())).toEqual(
-    expect.arrayContaining([]),
+  expect(JSON.parse(publish.mock.calls[4][1].toString())).toEqual(
+    expect.objectContaining({
+      name: "Game Room Game Media Player Platform ID",
+      state_topic: `homeassistant/game_room/game_media_player/state`,
+      value_template: "{{ value_json.platformId }}",
+      optimistic: true,
+      entity_category: "diagnostic",
+      icon: "mdi:gamepad-square",
+      unique_id: `game_room_game_media_player_platform_id`,
+      device: {
+        name: "Game Room Game Media Player",
+        identifiers: ["game_room_game_media_player"],
+        suggested_area: "Game Room",
+      },
+    }),
   )
 })

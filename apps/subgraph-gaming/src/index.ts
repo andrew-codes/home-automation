@@ -16,6 +16,7 @@ import { get } from "lodash/fp"
 import type { Loaders } from "./loaders"
 import createLoader from "./loaders"
 import schema from "./schema"
+import { GraphQLError } from "graphql"
 
 const logger = createLogger()
 
@@ -61,6 +62,17 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
           .toArray()) as string[]) ?? ([] as string[])
 
       return ctx.loaders.games.loadMany(ids)
+    },
+    async gameReleaseByPlayniteId(parent, args, ctx) {
+      const gameRelease = await ctx.db
+        .collection("gameReleases")
+        .findOne({ playniteId: args.id })
+
+      if (!gameRelease) {
+        throw new GraphQLError(`Game release not found for ID: ${args.id}`)
+      }
+
+      return ctx.loaders.gameReleases.load(gameRelease.id)
     },
   },
   GameRelease: {

@@ -8,6 +8,7 @@ const schema = `
     games: [Game!]!
     genres: [GameGenre!]!
     platforms: [GamePlatform!]!
+    gameReleaseByPlayniteId(id: String!): GameRelease!
   }
 
   type GamePlatform @key(fields: "id") {
@@ -57,7 +58,7 @@ const schema = `
     isLaunching: Boolean!
     isRunning: Boolean!
     isUninstalling: Boolean!
-    platform: GamePlatform!
+    platform: GamePlatform
     lastActivity: DateTime
     source: GameSource
     releaseDate: Date

@@ -1,6 +1,6 @@
 import { createLogger } from "@ha/logger"
 import { createMqtt } from "@ha/mqtt-client"
-import { identity, isEmpty } from "lodash"
+import { isEmpty } from "lodash"
 import { MessageHandler } from "./types"
 
 const logger = createLogger()
@@ -60,16 +60,16 @@ const messageHandler: MessageHandler = {
         ),
       )
       await mqtt.publish(
-        `homeassistant/sensor/${areaId}_game_media_player_platforms/config`,
+        `homeassistant/sensor/${areaId}_game_media_player_platform/config`,
         Buffer.from(
           JSON.stringify({
-            name: `${areaName} Game Media Player Platforms`,
-            state_topic: `homeassistant/${areaId}/game_media_player/platforms/state`,
-            value_template: "{{ value_json }}",
+            name: `${areaName} Game Media Player Platform`,
+            state_topic: `homeassistant/${areaId}/game_media_player/state`,
+            value_template: "{{ value_json.platformName }}",
             optimistic: true,
             icon: "mdi:gamepad-square",
             entity_category: "diagnostic",
-            unique_id: `${areaId}_game_media_player_platforms`,
+            unique_id: `${areaId}_game_media_player_platform`,
             device: {
               name: `${areaName} Game Media Player`,
               identifiers: [`${areaId}_game_media_player`],
@@ -78,26 +78,43 @@ const messageHandler: MessageHandler = {
           }),
         ),
       )
-
-      const {
-        data: { platforms },
-      } = await fetch(process.env.GRAPH_HOST ?? "", {
-        method: "POST",
-        body: JSON.stringify({
-          query: "query Platforms{ platforms { id name } })",
-        }),
-        headers: {
-          "content-type": "application/json",
-        },
-      }).then((resp) => resp.json())
-
-      const supportedPlatformIds = supportedPlatforms
-        .map((name) => platforms.find((platform) => platform.name === name)?.id)
-        .filter(identity)
-
       await mqtt.publish(
-        `homeassistant/${areaId}/game_media_player/platforms/state`,
-        Buffer.from(JSON.stringify(supportedPlatformIds)),
+        `homeassistant/sensor/${areaId}_game_media_player_source_name/config`,
+        Buffer.from(
+          JSON.stringify({
+            name: `${areaName} Game Media Player Source Name`,
+            state_topic: `homeassistant/${areaId}/game_media_player/state`,
+            value_template: "{{ value_json.name }}",
+            optimistic: true,
+            icon: "mdi:gamepad-square",
+            entity_category: "diagnostic",
+            unique_id: `${areaId}_game_media_player_source_name`,
+            device: {
+              name: `${areaName} Game Media Player`,
+              identifiers: [`${areaId}_game_media_player`],
+              suggested_area: areaName,
+            },
+          }),
+        ),
+      )
+      await mqtt.publish(
+        `homeassistant/sensor/${areaId}_game_media_player_platform_id/config`,
+        Buffer.from(
+          JSON.stringify({
+            name: `${areaName} Game Media Player Platform ID`,
+            state_topic: `homeassistant/${areaId}/game_media_player/state`,
+            value_template: "{{ value_json.platformId }}",
+            optimistic: true,
+            icon: "mdi:gamepad-square",
+            entity_category: "diagnostic",
+            unique_id: `${areaId}_game_media_player_platform_id`,
+            device: {
+              name: `${areaName} Game Media Player`,
+              identifiers: [`${areaId}_game_media_player`],
+              suggested_area: areaName,
+            },
+          }),
+        ),
       )
     } catch (error) {
       logger.error(error)
