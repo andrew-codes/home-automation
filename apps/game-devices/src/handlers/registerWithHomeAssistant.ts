@@ -29,7 +29,7 @@ const messageHandler: MessageHandler = {
             state_topic: `playnite/${areaId}/game_media_player/state`,
             value_template: "{{ value_json.id }}",
             optimistic: true,
-            icon: "mdi:gamepad-sqaure",
+            icon: "mdi:gamepad-square",
             entity_category: "diagnostic",
             unique_id: `${areaId}_game_media_player_source`,
             device: {
@@ -48,7 +48,7 @@ const messageHandler: MessageHandler = {
             state_topic: `playnite/${areaId}/game_media_player/state`,
             value_template: "{{ value_json.state }}",
             optimistic: true,
-            icon: "mdi:gamepad-sqaure",
+            icon: "mdi:gamepad-square",
             entity_category: "diagnostic",
             unique_id: `${areaId}_game_media_player_state`,
             device: {
@@ -67,7 +67,7 @@ const messageHandler: MessageHandler = {
             state_topic: `homeassistant/${areaId}/game_media_player/platforms/state`,
             value_template: "{{ value_json }}",
             optimistic: true,
-            icon: "mdi:gamepad-sqaure",
+            icon: "mdi:gamepad-square",
             entity_category: "diagnostic",
             unique_id: `${areaId}_game_media_player_platforms`,
             device: {

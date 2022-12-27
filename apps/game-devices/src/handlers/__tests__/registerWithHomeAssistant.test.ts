@@ -42,7 +42,7 @@ test("Given a valid topic, when handling the message, then HA is queried and eac
       value_template: "{{ value_json.id }}",
       optimistic: true,
       entity_category: "diagnostic",
-      icon: "mdi:gamepad-sqaure",
+      icon: "mdi:gamepad-square",
       unique_id: `game_room_game_media_player_source`,
       device: {
         name: "Game Room Game Media Player",
@@ -62,7 +62,7 @@ test("Given a valid topic, when handling the message, then HA is queried and eac
       value_template: "{{ value_json.state }}",
       optimistic: true,
       entity_category: "diagnostic",
-      icon: "mdi:gamepad-sqaure",
+      icon: "mdi:gamepad-square",
       unique_id: `game_room_game_media_player_state`,
       device: {
         name: "Game Room Game Media Player",
@@ -82,7 +82,7 @@ test("Given a valid topic, when handling the message, then HA is queried and eac
       value_template: "{{ value_json }}",
       optimistic: true,
       entity_category: "diagnostic",
-      icon: "mdi:gamepad-sqaure",
+      icon: "mdi:gamepad-square",
       unique_id: `game_room_game_media_player_platforms`,
       device: {
         name: "Game Room Game Media Player",
