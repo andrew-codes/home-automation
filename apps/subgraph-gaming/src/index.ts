@@ -70,6 +70,12 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
     game(parent, args, ctx) {
       return ctx.loaders.games.load(parent.gameId)
     },
+    platform(parent, args, ctx) {
+      return ctx.db.collection("platforms").findOne({ _id: parent.platformId })
+    },
+    source(parent, args, ctx) {
+      return ctx.db.collection("sources").findOne({ _id: parent.sourceId })
+    },
   },
   Game: {
     __resolveReference(ref, ctx: GraphContext) {
@@ -112,9 +118,6 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
   GameSource: {
     __resolveReference(ref, ctx: GraphContext) {
       return ctx.db.collection("sources").findOne({ _id: ref.id })
-    },
-    source(parent, args, ctx) {
-      return ctx.db.collection("sources").findOne({ _id: parent.sourceId })
     },
     games(parent, args, ctx) {
       return ctx.loaders.games.loadMany(parent.gameIds)
