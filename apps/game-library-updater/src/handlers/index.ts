@@ -1,7 +1,12 @@
+import type { MessageHandler } from "./types"
 import gameAttributes from "./gameAttributes"
 import gameAssets from "./gameAssets"
-import { MessageHandler } from "./types"
+import storePlayniteGames from "./storePlayniteGames"
 
-const handlers: MessageHandler[] = [gameAttributes, gameAssets]
+const handlers: MessageHandler[] = [
+  storePlayniteGames,
+  gameAttributes,
+  gameAssets,
+]
 
 export default handlers
