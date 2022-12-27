@@ -86,7 +86,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
       return ctx.db.collection("platforms").findOne({ _id: parent.platformId })
     },
     source(parent, args, ctx) {
-      return ctx.db.collection("sources").findOne({ _id: parent.sourceId })
+      return ctx.db.collection("source").findOne({ _id: parent.sourceId })
     },
   },
   Game: {
