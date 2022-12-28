@@ -20,6 +20,7 @@
     "@remix-run/serve": "^1.7.2",
     "async-mqtt": "^2.6.1",
     "graphql": "^16.6.0",
+    "graphql-tag": "^2.12.6",
     "patch-package": "^6.2.2",
     "postinstall-postinstall": "^2.1.0",
     "react": "^17.0.2",
