@@ -7,6 +7,7 @@
   "dependencies": {
     "@ha/logger": "^0.0.1",
     "express": "^4.18.2",
+    "sharp": "^0.31.3",
     "spdy": "^4.0.2"
   },
   "devDependencies": {
