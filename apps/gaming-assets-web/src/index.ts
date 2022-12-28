@@ -39,6 +39,7 @@ const run = async () => {
       resp.pipe(resizedImageStream)
     } catch (error) {
       logger.error(error)
+      resp.status(400)
     }
   })
 
