@@ -50,7 +50,9 @@ const run = async () => {
           fit: "inside",
         })
         .toFormat("png")
-      resp.set("Cache-control", `public, max-age=${cacheFor300Days}`)
+      resp
+        .set("Cache-control", `public, max-age=${cacheFor300Days}`)
+        .set("ETag", `"${id}@${width}x${height}"`)
       resizedImageStream.pipe(resp.type("png"))
     } catch (error) {
       logger.error(error)
