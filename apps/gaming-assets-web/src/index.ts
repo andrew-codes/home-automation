@@ -12,7 +12,7 @@ const run = async () => {
   const assetPath = path.join(mountRootPath, "assets")
 
   const app = express()
-
+  app.enable("etag")
   app.use(compression())
 
   app.use("/health", (req, resp) => {
@@ -26,7 +26,7 @@ const run = async () => {
       fallthrough: true,
       cacheControl: true,
       etag: true,
-      maxAge: "30d",
+      maxAge: "300d",
     }),
   )
 
@@ -35,7 +35,7 @@ const run = async () => {
     try {
       const { id } = req.params
       const { width, height } = req.query
-      if (!width || !height) {
+      if (!id || !width || !height) {
         throw new Error("Both width and height are required.")
       }
       logger.info(
@@ -71,7 +71,6 @@ const run = async () => {
   server.listen(process.env.PORT ?? "80", (error) => {
     if (error) {
       logger.error(error)
-      return process.exit(1)
     } else {
       logger.info(`🚀 Server ready on port 80`)
     }
