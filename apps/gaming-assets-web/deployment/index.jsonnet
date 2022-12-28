@@ -5,7 +5,6 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withEnvVars(0, [
                      { name: 'DEBUG', value: '' },
                      { name: 'NODE_TLS_REJECT_UNAUTHORIZED', value: '0' },
-                     { name: 'DB_HOST', value: 'game-library-db' },
                    ])
                    + lib.deployment.withPersistentVolume('game-assets')
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('game-assets', '/assets',));
