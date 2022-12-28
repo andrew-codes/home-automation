@@ -54,7 +54,7 @@
         "cwd": "apps/gaming-assets-web",
         "fromPort": 8085,
         "toPort": 80,
-        "command": "nodemon src/index.ts"
+        "command": "yarn nodemon src/index.ts"
       }
     },
     "test": {

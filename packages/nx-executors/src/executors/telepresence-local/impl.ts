@@ -23,7 +23,7 @@ async function executor(
     }
     sh.exec(`telepresence leave ${serviceName}`)
 
-    const command = `telepresence intercept "${context.projectName}" --service "${serviceName}" --port ${options.fromPort}:${options.toPort} --mount false -- ${options.command}`
+    const command = `telepresence intercept "${context.projectName}" --service "${serviceName}" --port ${options.fromPort}:${options.toPort} --mount true -- ${options.command}`
     await throwIfError(sh.exec(command, { cwd: options.cwd }))
   } catch (error) {
     console.log("Error occurred", error)

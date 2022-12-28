@@ -1,7 +1,6 @@
 import nodemon from "nodemon"
 import path from "path"
 import sh from "shelljs"
-import { throwIfError } from "@ha/shell-utils"
 
 const run = async () => {
   sh.exec("docker container rm intercept-graph-8081 || true")

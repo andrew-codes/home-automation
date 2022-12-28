@@ -23,7 +23,7 @@ server {
 
 server {
   server_name ${subDomain}.smith-simms.family;
-  listen 443 ssl;
+  listen 443 ssl http2;
 
   ssl_certificate /etc/letsencrypt/live/smith-simms.family-0001/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/smith-simms.family-0001/privkey.pem;

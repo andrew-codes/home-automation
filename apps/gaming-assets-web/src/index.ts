@@ -7,6 +7,9 @@ import spdy from "spdy"
 const logger = createLogger()
 
 const run = async () => {
+  const mountRootPath = path.join(process.env.TELEPRESENCE_ROOT ?? "/")
+  const assetPath = path.join(mountRootPath, "assets")
+
   const app = express()
 
   app.use("/health", (req, resp) => {
@@ -16,7 +19,7 @@ const run = async () => {
 
   app.use(
     "/assets",
-    express.static("/assets", {
+    express.static(assetPath, {
       fallthrough: true,
       cacheControl: true,
       etag: true,
@@ -34,14 +37,14 @@ const run = async () => {
       }
       logger.info(
         `Resize request received: ${id} ${width} ${height}: ${path.join(
-          "/assets",
+          assetPath,
           id,
         )} `,
       )
-      const resizedImageStream = sharp(path.join("/assets", id))
+      const resizedImageStream = sharp(path.join(assetPath, id))
         .resize({
           width: parseInt(width as string),
-          height: parseInt(height as string),
+          fit: "inside",
         })
         .toFormat("png")
       resp.set("Cache-control", `public, max-age=${cacheFor300Days}`)
@@ -54,13 +57,10 @@ const run = async () => {
 
   const server = spdy.createServer(
     {
-      ssl: false,
-      plain: true,
-      protocols: ["h2", "spdy/3.1", "http/1.1"],
       spdy: {
         ssl: false,
         plain: true,
-        protocols: ["h2", "spdy/3.1", "http/1.1"],
+        protocols: ["h2", "spdy/3.1"],
       },
     },
     app,
@@ -68,7 +68,7 @@ const run = async () => {
   server.listen(process.env.PORT ?? "80", (error) => {
     if (error) {
       logger.error(error)
-      return process.exit(1)
+      // return process.exit(1)
     } else {
       logger.info(`🚀 Server ready on port 80`)
     }
