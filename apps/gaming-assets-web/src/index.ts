@@ -4,6 +4,7 @@ import path from "path"
 import { createLogger } from "@ha/logger"
 import sharp from "sharp"
 import spdy from "spdy"
+import { ReadStream } from "fs"
 
 const logger = createLogger()
 
@@ -36,7 +37,7 @@ const run = async () => {
         height,
       })
       resp.set("Cache-control", `public, max-age=${cacheFor300Days}`)
-      resp.pipe(resizedImageStream)
+      new ReadStream().pipe(resizedImageStream).pipe(resp)
     } catch (error) {
       logger.error(error)
       resp.status(400)
