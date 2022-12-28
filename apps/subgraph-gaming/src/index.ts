@@ -224,10 +224,10 @@ const run = async () => {
       spdy: {
         plain: true,
         ssl: false,
-        protocols: ["h2", "spdy/3.1"],
+        protocols: ["h2", "spdy/3.1", "http/1.1"],
       },
     },
-    httpServer,
+    app,
   )
   spdyServer.listen(port, (error) => {
     if (error) {
