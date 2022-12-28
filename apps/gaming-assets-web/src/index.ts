@@ -1,8 +1,6 @@
 import express from "express"
-import cors from "cors"
 import { createLogger } from "@ha/logger"
-import { GridFSBucket, MongoClient, ObjectId } from "mongodb"
-import getContentType from "./contentType"
+import spdy from "spdy"
 
 const logger = createLogger()
 
@@ -22,7 +20,14 @@ const run = async () => {
     }),
   )
 
-  app.listen(80, () => logger.info(`🚀 Server ready on port 80`))
+  spdy.createServer({}, app).listen(80, (error) => {
+    if (error) {
+      logger.error(error)
+      return process.exit(1)
+    } else {
+      logger.info(`🚀 Server ready on port 80`)
+    }
+  })
 }
 
 if (require.main === module) {

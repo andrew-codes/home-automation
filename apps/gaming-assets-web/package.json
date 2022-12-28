@@ -6,10 +6,8 @@
   "license": "MIT",
   "dependencies": {
     "@ha/logger": "^0.0.1",
-    "cors": "^2.8.5",
     "express": "^4.18.2",
-    "lodash": "^4.17.21",
-    "mongodb": "^4.12.1"
+    "spdy": "^4.0.2"
   },
   "devDependencies": {
     "@ha/build-ts": "^1.0.0",
