@@ -1,27 +1,23 @@
 import { Main } from "@atlaskit/page-layout"
+import gql from "graphql-tag"
+import { print } from "graphql"
+import AutoSizer from "react-virtualized-auto-sizer"
 import { LoaderFunction, json } from "@remix-run/node"
-import { Outlet, useLoaderData, useSearchParams } from "@remix-run/react"
+import { Outlet, useLoaderData } from "@remix-run/react"
 import type { GraphQLError } from "graphql"
 import { sendGraphQLRequest } from "remix-graphql/index.server"
-import { AutoSizer } from "react-virtualized/dist/commonjs/AutoSizer"
-import { WindowScroller } from "react-virtualized/dist/commonjs/WindowScroller"
-import { isEmpty, merge } from "lodash"
+import { first, isEmpty, merge } from "lodash"
+import styled from "styled-components"
+import { FC, useCallback, useMemo, useState } from "react"
+import { Virtual, Mousewheel, Keyboard, EffectCreative } from "swiper"
+import { Swiper, SwiperSlide } from "swiper/react"
 import { flow, filter, map, identity } from "lodash/fp"
-import {
-  createCellPositioner,
-  Masonry,
-} from "react-virtualized/dist/commonjs/Masonry"
-import {
-  CellMeasurer,
-  CellMeasurerCache,
-} from "react-virtualized/dist/commonjs/CellMeasurer"
 import Filters from "../components/Filters"
 import Layout from "../components/Layout"
 import Navigation, { Section } from "../components/Navigation"
 import NavigationLink from "../components/NavigationLink"
 import Text from "../components/Text"
-import styled from "styled-components"
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import PrepareImage from "../components/PreloadImage"
 
 type GamesQueryData = {
   data?: {
@@ -29,6 +25,11 @@ type GamesQueryData = {
       id: string
       name: string
       coverImage: string
+      backgroundImage: string
+      platformReleases: {
+        lastActivity: string
+        description: string
+      }[]
     }[]
   }
   errors?: GraphQLError[]
@@ -41,30 +42,32 @@ type PlatformQueryData = {
     }
   }
 }
-const gamesQuery = /* GraphQL */ `
-  query Games {
-    platforms {
-      id
-      name
-    }
+
+const gamesQuery = print(gql`
+  query GameOverviews {
     games {
       id
       name
+      backgroundImage
       coverImage
+      platformReleases {
+        lastActivity
+        description
+      }
     }
   }
-`
+`)
 
-const platformsQuery = /* GraphQL */ `
-  query Platforms {
+const platformsQuery = print(gql`
+  query PlatformNames {
     platforms {
       id
       name
     }
   }
-`
+`)
 
-export const loader: LoaderFunction = async (args) => {
+export const loader = async (args) => {
   const gqlRequest = await Promise.all([
     sendGraphQLRequest({
       // Pass on the arguments that Remix passes to a loader function.
@@ -100,21 +103,32 @@ export const loader: LoaderFunction = async (args) => {
     }).then((res) => res.json()) as PlatformQueryData,
   ])
 
-  const mapGames = flow(
-    // platformFilter(removeNulls(platforms)),
-    map((game) =>
-      merge({}, game, {
-        coverImage: `http://${process.env.GAMING_ASSETS_WEB_HOST}/${game.id}/${
-          game.coverImage?.split("\\")?.[1]
-        }`,
-      }),
-    ),
-  )
+  const allGames = gqlRequest[0].data?.games ?? []
+  const lastMonth = new Date(new Date().setDate(-30))
+  const collections = [
+    {
+      name: "recently played",
+      filter: filter<typeof allGames[number]>((game) =>
+        game.platformReleases
+          .map((release) => new Date(Date.parse(release.lastActivity)))
+          .some((lastActivity) => lastActivity >= lastMonth),
+      ),
+    },
+    {
+      name: "all",
+      filter: (allGames) => allGames,
+    },
+  ]
 
   return json({
     data: {
-      games: mapGames(gqlRequest[0].data?.games ?? []),
+      cdnHost: `http://${process.env.GAMING_ASSETS_WEB_HOST}`,
+      games: allGames,
       platforms: gqlRequest[1].data?.platforms ?? [],
+      collections: collections.map((collection) => ({
+        name: collection.name,
+        games: collection.filter(allGames),
+      })),
     },
   })
 }
@@ -124,191 +138,98 @@ const CenterPane = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
-  margin-left: 0 16px;
+  margin: 0 24px;
 `
-const Card = styled.div`
-  width: 100%;
-  height: ${({ height }) => `${height}px`};
-  position: relative;
-  background: url("${({ backgroundImage }) => backgroundImage}");
-  background-size: ${({ width }) => `${width}px`}
-    ${({ height }) => `${height}px`};
-`
-const CardTitle = styled.span`
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 64px;
-  background: rgba(0, 0, 0, 0.8);
-  padding: 8px;
+const GameStrip = styled.div`
+  display: flex;
+
+  .swiper-slide:first-child {
+    margin-left: 72px !important;
+  }
 `
 
-const sortByName = (a, b) => (a.name < b.name ? -1 : a.name === b.name ? 0 : 1)
-
-function Games() {
-  const masonryRef = useRef()
-  const columnWidth = 300
-  const gutterSize = 24
-  const overscanRows = 12
-  const cardHeight = (columnWidth * 4) / 3
-  const overscanByPixels = (cardHeight + gutterSize) * overscanRows
-  const cache = useMemo(
-    () =>
-      new CellMeasurerCache({
-        defaultHeight: cardHeight,
-        defaultWidth: 300,
-        fixedWidth: true,
-      }),
-    [cardHeight],
-  )
-  const [columnCount, setColumnCount] = useState(0)
-  const cellPositioner = useMemo(
-    () =>
-      createCellPositioner({
-        cellMeasurerCache: cache,
-        columnCount,
-        columnWidth,
-        spacer: gutterSize,
-      }),
-    [cache, columnCount, columnWidth, gutterSize],
-  )
-  const handleResize = useCallback(
-    ({ width }) => {
-      setColumnCount(Math.floor(width / (columnWidth + gutterSize)))
-    },
-    [columnWidth, gutterSize, cellPositioner],
-  )
-
-  const [params] = useSearchParams()
-  const getParameter = (paramName) =>
-    flow((params) => params.getAll(paramName), filter(identity))
-  const [platforms, setPlatforms] = useState<string[]>(
-    getParameter("platform")(params),
-  )
-  const [collections, setCollections] = useState(
-    getParameter("collection")(params),
-  )
-  useEffect(() => {
-    setPlatforms(getParameter("platform")(params))
-    setCollections(getParameter("collection")(params))
-  }, [params])
-
-  const [sort, setSort] = useState(0)
-  const { data } = useLoaderData<typeof loader>()
-  const [games, setGames] = useState([])
-  useEffect(() => {
-    const collectionFilter = filter((game) => {
-      const last2Weeks = new Date()
-      last2Weeks.setDate(new Date().getDate() - 14)
-
-      return (
-        isEmpty(collections) ||
-        collections.includes("all") ||
-        (collections.includes("recent") &&
-          Date.parse(game.recentActivity) >= last2Weeks.valueOf())
-      )
-    })
-    const platformFilter = filter((game) => {
-      return (
-        isEmpty(platforms) ||
-        game.platforms.some(({ id }) => {
-          if (game.name === "Elden Ring") {
-            console.log("elden ring", id, game.name, game.platforms)
-          }
-          return platforms.includes(id)
-        })
-      )
-    })
-    const filterGames = flow(collectionFilter)
-
-    const filteredGames = filterGames(data?.games ?? [])
-    setGames(
-      sort % 2 === 0
-        ? filteredGames.sort(sortByName)
-        : filteredGames.sort().reverse(),
-    )
-  }, [sort, data?.games, platforms, collections])
-
-  const renderGame = useCallback(
-    ({ index, parent, key, style }) => {
-      return isEmpty(games) || isEmpty(games[index]) ? null : (
-        <CellMeasurer cache={cache} index={index} key={key} parent={parent}>
-          <div
-            style={{
-              ...style,
-              columnWidth,
-            }}
-          >
-            <Card
-              height={cardHeight}
-              backgroundImage={games[index].coverImage}
-              width={columnWidth}
-            >
-              <Text as={CardTitle}>{games[index].name}</Text>
-            </Card>
-          </div>
-        </CellMeasurer>
-      )
-    },
-    [games, cache],
-  )
-
-  useEffect(() => {
-    cellPositioner.reset({ columnCount, columnWidth, spacer: gutterSize })
-    masonryRef.current.recomputeCellPositions()
-  }, [games, columnWidth, columnCount, gutterSize])
-
-  console.log("platfoorms", data)
+const GameList: FC<{
+  cdnHost: string
+  width: number
+  games: { id: string; coverImage: string; name: string }[]
+}> = ({ cdnHost, games, width }) => {
+  const slidesPerView = 7
+  const spaceBetween = 64
+  const slideWidth = Math.floor(width / slidesPerView - spaceBetween)
+  const slideHeight = Math.floor((slideWidth * 4) / 3)
 
   return (
     <>
-      <Layout>
-        <Navigation>
-          <Section>
-            <NavigationLink href="/">home</NavigationLink>
-            <NavigationLink href="/games">browse</NavigationLink>
-          </Section>
-          <Section>
-            <Filters platforms={data?.platforms ?? []} />
-          </Section>
-        </Navigation>
-        <Main>
-          <CenterPane>
-            <Outlet />
-            <Text as="h1">Browse</Text>
-            <button onClick={() => setSort(sort + 1)}>Invert</button>
-            <div style={{ flex: "1 1 auto" }}>
-              <WindowScroller overscanByPixels={overscanByPixels}>
-                {({ height, scrollTop }) => (
-                  <AutoSizer
-                    height={height}
-                    scrollTop={scrollTop}
-                    onResize={handleResize}
-                    overscanByPixels={overscanByPixels}
-                  >
-                    {({ height, width }) => (
-                      <Masonry
-                        autoHeight={true}
-                        ref={masonryRef}
-                        cellCount={games.length}
-                        cellMeasurerCache={cache}
-                        cellPositioner={cellPositioner}
-                        cellRenderer={renderGame}
-                        height={height}
-                        overscanByPixels={overscanByPixels}
-                        scrollTop={scrollTop}
-                        width={width}
-                      />
-                    )}
-                  </AutoSizer>
-                )}
-              </WindowScroller>
-            </div>
-          </CenterPane>
-        </Main>
-      </Layout>
+      {games.slice(0, Math.ceil(slidesPerView)).map(({ id, coverImage }) => (
+        <PrepareImage
+          key={id}
+          rel="preload"
+          src={`${cdnHost}/resize/${coverImage}?width=${slideWidth}&height=${slideHeight}`}
+        />
+      ))}
+      <Swiper
+        style={{ height: `${slideHeight}px`, width: `${width}px` }}
+        virtual
+        loop
+        grabCursor
+        keyboard
+        mousewheel
+        spaceBetween={spaceBetween}
+        slidesPerGroup={5}
+        slidesPerView={slidesPerView}
+        creativeEffect={{
+          prev: {
+            translate: ["-20%", 0, -1],
+          },
+        }}
+        modules={[Virtual, Mousewheel, Keyboard, EffectCreative]}
+      >
+        {games.map(({ name, id, coverImage }, index) => (
+          <SwiperSlide key={id} virtualIndex={index}>
+            <img
+              src={`${cdnHost}/resize/${coverImage}?width=${slideWidth}&height=${slideHeight}`}
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </>
+  )
+}
+
+function Games() {
+  const {
+    data: { cdnHost, collections },
+  } = useLoaderData<typeof loader>()
+
+  return (
+    <Layout>
+      <Main>
+        <CenterPane>
+          <Outlet />
+          <Text as="h1">Browse</Text>
+          <GameStrip>
+            <AutoSizer disableHeight>
+              {({ width }) => {
+                return (
+                  <>
+                    {collections.map((collection) => (
+                      <div key={collection.name}>
+                        <Text as="h2">{collection.name}</Text>
+                        <GameList
+                          cdnHost={cdnHost}
+                          width={width}
+                          games={collection.games}
+                        />
+                      </div>
+                    ))}
+                  </>
+                )
+              }}
+            </AutoSizer>
+          </GameStrip>
+        </CenterPane>
+      </Main>
+    </Layout>
   )
 }
 
