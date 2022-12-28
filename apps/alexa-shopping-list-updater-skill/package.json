@@ -10,7 +10,7 @@
     "@ha/http-heartbeat": "^0.0.1",
     "apollo-fetch": "^0.7.0",
     "ask-sdk-core": "^2.10.2",
-    "ask-sdk-express-adapter": "^2.10.2",
+    "ask-sdk-express-adapter": "^2.12.1",
     "ask-sdk-model": "^1.35.1",
     "debug": "^4.3.1",
     "esbuild-register": "^3.4.2",
