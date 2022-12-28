@@ -3,6 +3,7 @@ import path from "path"
 import { createLogger } from "@ha/logger"
 import sharp from "sharp"
 import spdy from "spdy"
+import compression from "compression"
 
 const logger = createLogger()
 
@@ -11,6 +12,8 @@ const run = async () => {
   const assetPath = path.join(mountRootPath, "assets")
 
   const app = express()
+
+  app.use(compression())
 
   app.use("/health", (req, resp) => {
     logger.silly("Health endpoint hit")
@@ -68,7 +71,7 @@ const run = async () => {
   server.listen(process.env.PORT ?? "80", (error) => {
     if (error) {
       logger.error(error)
-      // return process.exit(1)
+      return process.exit(1)
     } else {
       logger.info(`🚀 Server ready on port 80`)
     }
