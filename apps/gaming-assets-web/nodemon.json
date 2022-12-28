@@ -5,5 +5,8 @@
     "js": "node -r esbuild-register",
     "ts": "node -r esbuild-register"
   },
+  "env": {
+    "PORT": "8085"
+  },
   "watch": ["src"]
 }

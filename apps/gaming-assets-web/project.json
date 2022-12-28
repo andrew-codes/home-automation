@@ -52,7 +52,7 @@
       "executor": "@ha/nx-executors:telepresence-local",
       "options": {
         "cwd": "apps/gaming-assets-web",
-        "fromPort": 8081,
+        "fromPort": 8085,
         "toPort": 80,
         "command": "nodemon src/index.ts"
       }

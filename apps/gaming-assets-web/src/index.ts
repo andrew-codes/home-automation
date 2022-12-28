@@ -1,10 +1,8 @@
 import express from "express"
-import fs from "fs/promises"
 import path from "path"
 import { createLogger } from "@ha/logger"
 import sharp from "sharp"
 import spdy from "spdy"
-import { ReadStream } from "fs"
 
 const logger = createLogger()
 
@@ -17,7 +15,9 @@ const run = async () => {
   })
 
   app.use(
+    "/assets",
     express.static("/assets", {
+      fallthrough: true,
       cacheControl: true,
       etag: true,
       maxAge: "30d",
@@ -32,19 +32,40 @@ const run = async () => {
       if (!width || !height) {
         throw new Error("Both width and height are required.")
       }
-      const resizedImageStream = sharp(path.join("/assets", id)).reszie({
-        width,
-        height,
-      })
+      logger.info(
+        `Resize request received: ${id} ${width} ${height}: ${path.join(
+          "/assets",
+          id,
+        )} `,
+      )
+      const resizedImageStream = sharp(path.join("/assets", id))
+        .resize({
+          width: parseInt(width as string),
+          height: parseInt(height as string),
+        })
+        .toFormat("png")
       resp.set("Cache-control", `public, max-age=${cacheFor300Days}`)
-      new ReadStream().pipe(resizedImageStream).pipe(resp)
+      resizedImageStream.pipe(resp.type("png"))
     } catch (error) {
       logger.error(error)
       resp.status(400)
     }
   })
 
-  spdy.createServer({}, app).listen(80, (error) => {
+  const server = spdy.createServer(
+    {
+      ssl: false,
+      plain: true,
+      protocols: ["h2", "spdy/3.1", "http/1.1"],
+      spdy: {
+        ssl: false,
+        plain: true,
+        protocols: ["h2", "spdy/3.1", "http/1.1"],
+      },
+    },
+    app,
+  )
+  server.listen(process.env.PORT ?? "80", (error) => {
     if (error) {
       logger.error(error)
       return process.exit(1)
