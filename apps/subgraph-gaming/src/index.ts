@@ -3,6 +3,7 @@ import { expressMiddleware } from "@apollo/server/express4"
 // import { unwrapResolverError } from "@apollo/server/errors"
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer"
 import express from "express"
+import spdy from "spdy"
 import http from "http"
 import cors from "cors"
 import bodyParser from "body-parser"
@@ -218,8 +219,24 @@ const run = async () => {
   })
 
   const port = process.env.PORT ?? "80"
-  await new Promise<void>((resolve) => httpServer.listen({ port }, resolve))
-  logger.info(`🚀 Server ready on port ${port}`)
+  const spdyServer = spdy.createServer(
+    {
+      spdy: {
+        plain: true,
+        ssl: false,
+        protocols: ["h2", "spdy/3.1"],
+      },
+    },
+    httpServer,
+  )
+  spdyServer.listen(port, (error) => {
+    if (error) {
+      logger.error(error)
+      return process.exit(1)
+    } else {
+      logger.info(`🚀 Server ready on port 80`)
+    }
+  })
 }
 
 if (require.main === module) {
