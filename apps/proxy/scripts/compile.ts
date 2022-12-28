@@ -9,10 +9,11 @@ const generateConfContents = (
     subDomain: string
     locations: { from: string; to: string }[]
     proxy: string
+    htt1p: boolean
   }[],
 ) => `
 ${subDomainConfigurations.map(
-  ({ subDomain, locations, proxy }) => `
+  ({ subDomain, locations, proxy, http1 }) => `
 server {
   server_name ${subDomain}.smith-simms.family;
   listen 80;
@@ -23,7 +24,7 @@ server {
 
 server {
   server_name ${subDomain}.smith-simms.family;
-  listen 443 ssl http2;
+  listen 443 ssl ${http1 ? "" : "http2"};
 
   ssl_certificate /etc/letsencrypt/live/smith-simms.family-0001/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/smith-simms.family-0001/privkey.pem;
