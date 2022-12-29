@@ -122,7 +122,7 @@ export const loader = async (args) => {
 
   return json({
     data: {
-      cdnHost: `http://${process.env.GAMING_ASSETS_WEB_HOST}`,
+      cdnHost: process.env.GAMING_ASSETS_WEB_HOST,
       games: allGames,
       platforms: gqlRequest[1].data?.platforms ?? [],
       collections: collections.map((collection) => ({
@@ -143,7 +143,8 @@ const CenterPane = styled.div`
 const GameStrip = styled.div`
   display: flex;
 
-  .swiper-slide:first-child {
+  .swiper-slide:first-child,
+  > div > h2 {
     margin-left: 72px !important;
   }
 `
