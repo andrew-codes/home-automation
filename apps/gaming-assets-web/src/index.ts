@@ -49,11 +49,12 @@ const run = async () => {
           width: parseInt(width as string),
           fit: "inside",
         })
-        .toFormat("png")
+        .webp()
+
       resp
         .set("Cache-control", `public, max-age=${cacheFor300Days}`)
-        .set("ETag", `"${id}@${width}x${height}"`)
-      resizedImageStream.pipe(resp.type("png"))
+        .set("ETag", `"${id}@${width}x${height}_webp"`)
+      resizedImageStream.pipe(resp.type("image/webp"))
     } catch (error) {
       logger.error(error)
       resp.status(400)
