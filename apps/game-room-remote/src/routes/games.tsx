@@ -2,141 +2,77 @@ import { Main } from "@atlaskit/page-layout"
 import gql from "graphql-tag"
 import { print } from "graphql"
 import AutoSizer from "react-virtualized-auto-sizer"
-import { LoaderFunction, json } from "@remix-run/node"
-import { Outlet, useLoaderData } from "@remix-run/react"
+import { ActionArgs, json, LoaderArgs } from "@remix-run/node"
+import { Outlet, useFetcher, useLoaderData } from "@remix-run/react"
 import type { GraphQLError } from "graphql"
 import { sendGraphQLRequest } from "remix-graphql/index.server"
-import { first, isEmpty, merge } from "lodash"
 import styled from "styled-components"
-import { FC, useCallback, useMemo, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import { Virtual, Mousewheel, Keyboard, EffectCreative } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { flow, filter, map, identity } from "lodash/fp"
-import Filters from "../components/Filters"
+import collections, { GameListGame } from "../collections.server"
 import Layout from "../components/Layout"
-import Navigation, { Section } from "../components/Navigation"
-import NavigationLink from "../components/NavigationLink"
 import Text from "../components/Text"
 import PrepareImage from "../components/PreloadImage"
 
 type GamesQueryData = {
   data?: {
-    games: {
-      id: string
-      name: string
-      coverImage: string
-      backgroundImage: string
-      platformReleases: {
-        lastActivity: string
-        description: string
-      }[]
-    }[]
+    games: GameListGame[]
   }
   errors?: GraphQLError[]
 }
-type PlatformQueryData = {
-  data?: {
-    platforms: {
-      id: string
-      name: string
-    }
-  }
-}
 
-const gamesQuery = print(gql`
-  query GameOverviews {
-    games {
-      id
-      name
-      backgroundImage
-      coverImage
-      platformReleases {
-        lastActivity
-        description
-      }
-    }
-  }
-`)
-
-const platformsQuery = print(gql`
-  query PlatformNames {
-    platforms {
-      id
-      name
-    }
-  }
-`)
-
-export const loader = async (args) => {
-  const gqlRequest = await Promise.all([
-    sendGraphQLRequest({
-      // Pass on the arguments that Remix passes to a loader function.
-      args,
-      // Provide the endpoint of the remote GraphQL API.
-      endpoint: `${process.env.GRAPH_HOST}/graphql`,
-      // Optionally add headers to the request.
-      // Provide the GraphQL operation to send to the remote API.
-      query: gamesQuery,
-      // Optionally provide variables that should be used for executing the
-      // operation. If this is not passed, `remix-graphql` will derive variables
-      // from...
-      // - ...the route params.
-      // - ...the submitted `formData` (if it exists).
-      // That means the following is the default and could also be ommited.
-      // variables: args.params,
-    }).then((res) => res.json()) as GamesQueryData,
-    sendGraphQLRequest({
-      // Pass on the arguments that Remix passes to a loader function.
-      args,
-      // Provide the endpoint of the remote GraphQL API.
-      endpoint: `${process.env.GRAPH_HOST}/graphql`,
-      // Optionally add headers to the request.
-      // Provide the GraphQL operation to send to the remote API.
-      query: platformsQuery,
-      // Optionally provide variables that should be used for executing the
-      // operation. If this is not passed, `remix-graphql` will derive variables
-      // from...
-      // - ...the route params.
-      // - ...the submitted `formData` (if it exists).
-      // That means the following is the default and could also be ommited.
-      // variables: args.params,
-    }).then((res) => res.json()) as PlatformQueryData,
-  ])
-
-  const allGames = gqlRequest[0].data?.games ?? []
-  const lastMonth = new Date(new Date().setDate(-30))
-  const collections = [
-    {
-      name: "recently played",
-      filter: filter<typeof allGames[number]>((game) =>
-        game.platformReleases
-          .map((release) => new Date(Date.parse(release.lastActivity)))
-          .some((lastActivity) => lastActivity >= lastMonth),
-      ),
-    },
-    {
-      name: "all",
-      filter: (allGames) => allGames,
-    },
-  ]
-
+export const loader = async (args: LoaderArgs) => {
   return json({
     data: {
-      cdnHost: process.env.GAMING_ASSETS_WEB_HOST,
-      games: allGames,
-      platforms: gqlRequest[1].data?.platforms ?? [],
-      collections: collections.map((collection) => ({
-        name: collection.name,
-        games: collection.filter(allGames),
+      cdnHost: process.env.GAMING_ASSETS_WEB_HOST ?? "",
+      collections: Object.entries(collections).map(([name]) => ({
+        name: name,
       })),
     },
   })
 }
 
+export const action = async (args: ActionArgs) => {
+  if (args.request.method === "POST") {
+    const formData = await args.request.formData()
+    const { collectionName, currentPage } = Object.fromEntries(formData)
+    if (!collectionName || !currentPage) {
+      return null
+    }
+    const collection = collections[collectionName.toString()]
+    const pageNumber = parseInt(currentPage.toString())
+
+    const gamesQuery = print(gql`
+      query GameOverviews {
+        games {
+          id
+          name
+          backgroundImage
+          coverImage
+          platformReleases {
+            lastActivity
+            description
+          }
+        }
+      }
+    `)
+    const { data } = (await sendGraphQLRequest({
+      args,
+      endpoint: `${process.env.GRAPH_HOST}/graphql`,
+      query: gamesQuery,
+      variables: {},
+    }).then((res) => res.json())) as GamesQueryData
+    const allGames = data?.games ?? []
+    const games = collection(allGames) ?? []
+    return json({ games: games.slice(0, pageNumber * 14) })
+  }
+
+  return null
+}
+
 const CenterPane = styled.div`
-  height: 100vh;
   display: flex;
-  width: 100%;
   flex-direction: column;
   margin: 0 24px;
 `
@@ -145,38 +81,56 @@ const GameStrip = styled.div`
 
   .swiper-slide:first-child,
   > div > h2 {
-    margin-left: 72px !important;
+    // margin-left: 72px !important;
   }
 `
 
 const GameList: FC<{
+  collectionName: string
   cdnHost: string
   width: number
-  games: { id: string; coverImage: string; name: string }[]
-}> = ({ cdnHost, games, width }) => {
+}> = ({ cdnHost, collectionName, width }) => {
   const slidesPerView = 7
-  const spaceBetween = 64
+  const spaceBetween = 0
   const slideWidth = Math.floor(width / slidesPerView - spaceBetween)
   const slideHeight = Math.floor((slideWidth * 4) / 3)
+  const slidesPerGroup = 5
+
+  const [currentPage, setCurrentPage] = useState(1)
+  const fetcher = useFetcher()
+  useEffect(() => {
+    fetcher.submit(
+      { collectionName, currentPage: currentPage.toString() },
+      {
+        method: "post",
+      },
+    )
+  }, [currentPage, collectionName])
+  const games = fetcher.data?.games ?? []
 
   return (
     <>
-      {games.slice(0, Math.ceil(slidesPerView)).map(({ id, coverImage }) => (
+      <fetcher.Form />
+      {games.map(({ id, coverImage }) => (
         <PrepareImage
           key={id}
           rel="preload"
           src={`${cdnHost}/resize/${coverImage}?width=${slideWidth}&height=${slideHeight}`}
         />
       ))}
+      <Text as="h2">{collectionName}</Text>
       <Swiper
         style={{ height: `${slideHeight}px`, width: `${width}px` }}
-        virtual
-        loop
         grabCursor
         keyboard
         mousewheel
+        onSlideChange={(swiper) => {
+          if (swiper.activeIndex + 1 > currentPage * slidesPerGroup) {
+            setCurrentPage(currentPage + 1)
+          }
+        }}
         spaceBetween={spaceBetween}
-        slidesPerGroup={5}
+        slidesPerGroup={slidesPerGroup}
         slidesPerView={slidesPerView}
         creativeEffect={{
           prev: {
@@ -186,8 +140,9 @@ const GameList: FC<{
         modules={[Virtual, Mousewheel, Keyboard, EffectCreative]}
       >
         {games.map(({ name, id, coverImage }, index) => (
-          <SwiperSlide key={id} virtualIndex={index}>
+          <SwiperSlide key={id}>
             <img
+              alt={name}
               src={`${cdnHost}/resize/${coverImage}?width=${slideWidth}&height=${slideHeight}`}
             />
           </SwiperSlide>
@@ -197,7 +152,7 @@ const GameList: FC<{
   )
 }
 
-function Games() {
+export default function Games() {
   const {
     data: { cdnHost, collections },
   } = useLoaderData<typeof loader>()
@@ -215,11 +170,10 @@ function Games() {
                   <>
                     {collections.map((collection) => (
                       <div key={collection.name}>
-                        <Text as="h2">{collection.name}</Text>
                         <GameList
+                          collectionName={collection.name}
                           cdnHost={cdnHost}
                           width={width}
-                          games={collection.games}
                         />
                       </div>
                     ))}
@@ -233,5 +187,3 @@ function Games() {
     </Layout>
   )
 }
-
-export default Games
