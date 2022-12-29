@@ -1,5 +1,6 @@
 import express from "express"
 import path from "path"
+import fs from "fs"
 import { createLogger } from "@ha/logger"
 import sharp from "sharp"
 import spdy from "spdy"
@@ -9,7 +10,7 @@ const logger = createLogger()
 
 const run = async () => {
   const mountRootPath = path.join(process.env.TELEPRESENCE_ROOT ?? "/")
-  const assetPath = path.join(mountRootPath, "assets")
+  const assetsPath = path.join(mountRootPath, "assets")
 
   const app = express()
   app.enable("etag")
@@ -22,7 +23,7 @@ const run = async () => {
 
   app.use(
     "/assets",
-    express.static(assetPath, {
+    express.static(assetsPath, {
       fallthrough: true,
       cacheControl: true,
       etag: true,
@@ -34,30 +35,30 @@ const run = async () => {
   app.use("/resize/:id", async (req, resp) => {
     try {
       const { id } = req.params
-      const { width, height } = req.query
-      if (!id || !width || !height) {
-        throw new Error("Both width and height are required.")
+      const { width } = req.query
+      if (!id || !width) {
+        throw new Error(`Not all parameters supplied: ${id}, ${width}`)
       }
-      logger.info(
-        `Resize request received: ${id} ${width} ${height}: ${path.join(
-          assetPath,
-          id,
-        )} `,
-      )
-      const resizedImageStream = sharp(path.join(assetPath, id))
+      const assetPath = path.join(assetsPath, id)
+      logger.info(`Resize request received: ${id} ${width}: ${assetPath}`)
+      if (!fs.existsSync(assetPath)) {
+        throw new Error(`Asset at ID ${id} does not exist`)
+      }
+
+      const resizedImageStream = sharp(assetPath)
         .resize({
           width: parseInt(width as string),
           fit: "inside",
         })
         .webp()
-
+      logger.debug(`Resized image ${id}`)
       resp
         .set("Cache-control", `public, max-age=${cacheFor300Days}`)
-        .set("ETag", `"${id}@${width}x${height}_webp"`)
+        .set("ETag", `"${id}@${width}_webp"`)
       resizedImageStream.pipe(resp.type("image/webp"))
     } catch (error) {
       logger.error(error)
-      resp.status(400)
+      resp.status(500)
     }
   })
 
