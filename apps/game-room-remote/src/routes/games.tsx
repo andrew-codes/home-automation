@@ -1,26 +1,15 @@
 import { Main } from "@atlaskit/page-layout"
-import gql from "graphql-tag"
-import { print } from "graphql"
 import AutoSizer from "react-virtualized-auto-sizer"
-import { ActionArgs, json, LoaderArgs } from "@remix-run/node"
-import { Outlet, useFetcher, useLoaderData } from "@remix-run/react"
-import type { GraphQLError } from "graphql"
-import { sendGraphQLRequest } from "remix-graphql/index.server"
+import { json, LoaderArgs } from "@remix-run/node"
+import { Outlet, useLoaderData } from "@remix-run/react"
 import styled from "styled-components"
-import { FC, useEffect, useState } from "react"
-import { Virtual, Mousewheel, Keyboard, EffectCreative } from "swiper"
+import { useCallback, useState } from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
 import collections, { GameListGame } from "../collections.server"
 import Layout from "../components/Layout"
 import Text from "../components/Text"
-import PrepareImage from "../components/PreloadImage"
-
-type GamesQueryData = {
-  data?: {
-    games: GameListGame[]
-  }
-  errors?: GraphQLError[]
-}
+import GameList from "../components/GameList"
+import { first } from "lodash"
 
 export const loader = async (args: LoaderArgs) => {
   return json({
@@ -33,155 +22,199 @@ export const loader = async (args: LoaderArgs) => {
   })
 }
 
-export const action = async (args: ActionArgs) => {
-  if (args.request.method === "POST") {
-    const formData = await args.request.formData()
-    const { collectionName, currentPage } = Object.fromEntries(formData)
-    if (!collectionName || !currentPage) {
-      return null
-    }
-    const collection = collections[collectionName.toString()]
-    const pageNumber = parseInt(currentPage.toString())
-
-    const gamesQuery = print(gql`
-      query GameOverviews {
-        games {
-          id
-          name
-          backgroundImage
-          coverImage
-          platformReleases {
-            lastActivity
-            description
-          }
-        }
-      }
-    `)
-    const { data } = (await sendGraphQLRequest({
-      args,
-      endpoint: `${process.env.GRAPH_HOST}/graphql`,
-      query: gamesQuery,
-      variables: {},
-    }).then((res) => res.json())) as GamesQueryData
-    const allGames = data?.games ?? []
-    const games = collection(allGames) ?? []
-    return json({ games: games.slice(0, pageNumber * 14) })
-  }
-
-  return null
-}
-
 const CenterPane = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 24px;
+  margin-right: 0;
+  height: 100vh;
+  background-image: url("${({ backgroundImage }) => backgroundImage}");
+  background-size: cover;
+`
+const SelectedGame = styled.div`
+  display: flex;
+  flex: 3;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+`
+const GameBackground = styled.div`
+  flex: 1;
+  // background-image: url("${({ backgroundImage }) => backgroundImage}");
+  background-size: cover;
+`
+const GameDetails = styled.div`
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 3;
+  background: radial-gradient(
+      ellipse farthest-side at 0% 90%,
+      rgba(13, 17, 23, 1) 20%,
+      rgba(13, 17, 23, 0.5),
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(
+      ellipse farthest-side at 40% 100%,
+      var(--dark-slate-gray) 10%,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(
+      ellipse farthest-side at 60% 95%,
+      var(--dark-slate-gray),
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0)
+    );
+  padding: 120px 600px 0 24px;
+  max-width: 1200px;
+`
+const GameName = styled.h2`
+  max-width: 1200px;
+`
+const GameDescription = styled.div`
+  max-height: 70px;
+  max-width: 1200px;
 `
 const GameStrip = styled.div`
-  display: flex;
+  overflow: hidden;
+  position: relative;
+  margin-top: -24px;
 
-  .swiper-slide:first-child,
-  > div > h2 {
-    // margin-left: 72px !important;
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: ${({ spaceBetween }) => spaceBetween}px;
+    z-index: 2;
+    background-color: var(--dark-slate-gray);
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 1) 0%,
+      transparent 100%
+    );
+  }
+
+  > div {
+    padding: 48px 0 0 24px;
+    display: flex;
+    width: 100%;
+    height: ${({ height }) => height}px;
+    overflow: visible;
+    position: relative;
+    background: var(--dark-slate-gray);
+
+    &:after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: ${({ spaceBetween }) => spaceBetween}px;
+      z-index: 2;
+      background-color: var(--dark-slate-gray);
+      mask-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 1) 0%,
+        transparent 100%
+      );
+    }
+
+    .swiper-vertical {
+      overflow: visible !important;
+    }
+
+    .swiper-vertical > .swiper-wrapper > .swiper-slide:first-child {
+      // margin-top: -28px;
+    }
   }
 `
-
-const GameList: FC<{
-  collectionName: string
-  cdnHost: string
-  width: number
-}> = ({ cdnHost, collectionName, width }) => {
-  const slidesPerView = 7
-  const spaceBetween = 0
-  const slideWidth = Math.floor(width / slidesPerView - spaceBetween)
-  const slideHeight = Math.floor((slideWidth * 4) / 3)
-  const slidesPerGroup = 5
-
-  const [currentPage, setCurrentPage] = useState(1)
-  const fetcher = useFetcher()
-  useEffect(() => {
-    fetcher.submit(
-      { collectionName, currentPage: currentPage.toString() },
-      {
-        method: "post",
-      },
-    )
-  }, [currentPage, collectionName])
-  const games = fetcher.data?.games ?? []
-
-  return (
-    <>
-      <fetcher.Form />
-      {games.map(({ id, coverImage }) => (
-        <PrepareImage
-          key={id}
-          rel="preload"
-          src={`${cdnHost}/resize/${coverImage}?width=${slideWidth}&height=${slideHeight}`}
-        />
-      ))}
-      <Text as="h2">{collectionName}</Text>
-      <Swiper
-        style={{ height: `${slideHeight}px`, width: `${width}px` }}
-        grabCursor
-        keyboard
-        mousewheel
-        onSlideChange={(swiper) => {
-          if (swiper.activeIndex + 1 > currentPage * slidesPerGroup) {
-            setCurrentPage(currentPage + 1)
-          }
-        }}
-        spaceBetween={spaceBetween}
-        slidesPerGroup={slidesPerGroup}
-        slidesPerView={slidesPerView}
-        creativeEffect={{
-          prev: {
-            translate: ["-20%", 0, -1],
-          },
-        }}
-        modules={[Virtual, Mousewheel, Keyboard, EffectCreative]}
-      >
-        {games.map(({ name, id, coverImage }, index) => (
-          <SwiperSlide key={id}>
-            <img
-              alt={name}
-              src={`${cdnHost}/resize/${coverImage}?width=${slideWidth}&height=${slideHeight}`}
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </>
-  )
-}
+const BottomSpacer = styled.div`
+  height: 18px;
+  background: var(--dark-slate-gray);
+`
 
 export default function Games() {
   const {
     data: { cdnHost, collections },
   } = useLoaderData<typeof loader>()
 
+  const [currentGame, setCurrentGame] = useState<GameListGame>()
+  const handleSelect = useCallback((evt, game) => {
+    setCurrentGame(game)
+  }, [])
+
+  const listHeight = 480
+  const spaceBetweenLists = 24
+  const listViewPortHeight = listHeight * 1.1 + 24 + 24
+
   return (
     <Layout>
       <Main>
-        <CenterPane>
+        <CenterPane
+          backgroundImage={`${cdnHost}/resize/${currentGame?.backgroundImage}?width=1400`}
+        >
           <Outlet />
-          <Text as="h1">Browse</Text>
-          <GameStrip>
-            <AutoSizer disableHeight>
-              {({ width }) => {
-                return (
-                  <>
-                    {collections.map((collection) => (
-                      <div key={collection.name}>
+          <SelectedGame>
+            <GameBackground
+              backgroundImage={`${cdnHost}/resize/${currentGame?.backgroundImage}?width=1400`}
+            />
+            <GameDetails>
+              <Text as={GameName}>{currentGame?.name}</Text>
+              <Text
+                as={GameDescription}
+                dangerouslySetInnerHTML={{
+                  __html:
+                    first(currentGame?.platformReleases)?.description ?? "",
+                }}
+              ></Text>
+            </GameDetails>
+          </SelectedGame>
+          <GameStrip
+            height={listViewPortHeight}
+            spaceBetween={spaceBetweenLists}
+          >
+            <div>
+              <AutoSizer>
+                {({ width, height }) => (
+                  <Swiper
+                    style={{
+                      height: `${listHeight}px`,
+                      width: `${width - 48}px`,
+                    }}
+                    grabCursor
+                    keyboard
+                    mousewheel
+                    direction="vertical"
+                    spaceBetween={spaceBetweenLists}
+                    slidesPerView={1}
+                    modules={[]}
+                  >
+                    {collections.map((collection, index) => (
+                      <SwiperSlide key={collection.name}>
                         <GameList
+                          defaultSelection={index === 0}
                           collectionName={collection.name}
                           cdnHost={cdnHost}
                           width={width}
+                          height={listHeight}
+                          onSelect={handleSelect}
                         />
-                      </div>
+                      </SwiperSlide>
                     ))}
-                  </>
-                )
-              }}
-            </AutoSizer>
+                  </Swiper>
+                )}
+              </AutoSizer>
+            </div>
           </GameStrip>
+          <BottomSpacer />
         </CenterPane>
       </Main>
     </Layout>

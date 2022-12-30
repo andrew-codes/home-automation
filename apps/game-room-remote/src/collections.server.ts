@@ -40,6 +40,26 @@ const collections = {
     ),
     sortBy((game) => game.name.toLowerCase()),
   ),
+  al2: flow(
+    map<GameListGame, GameListGame>((game) =>
+      merge({}, game, {
+        platformReleases: sortBy(game.platformReleases)(
+          (release) => release.lastActivity,
+        ),
+      }),
+    ),
+    sortBy((game) => game.name.toLowerCase()),
+  ),
+  al3: flow(
+    map<GameListGame, GameListGame>((game) =>
+      merge({}, game, {
+        platformReleases: sortBy(game.platformReleases)(
+          (release) => release.lastActivity,
+        ),
+      }),
+    ),
+    sortBy((game) => game.name.toLowerCase()),
+  ),
 }
 
 export type { GameListGame }
