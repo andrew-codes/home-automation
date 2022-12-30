@@ -34,7 +34,7 @@ const createConfigurationApi = async (
         [],
       )
 
-      return uniq(allConfiguration)
+      return uniq(allConfiguration) as (keyof Configuration)[]
     },
     set: async (name, value) => {
       await Promise.all(

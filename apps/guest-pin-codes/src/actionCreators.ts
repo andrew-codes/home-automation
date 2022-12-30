@@ -26,7 +26,7 @@ const addDoorLocks = (doorLocks: string[]): AddDoorLocksAction => ({
 
 const setGuestSlots = (
   numberOfGuestCodes: number,
-  guestCodeOffset: number
+  guestCodeOffset: number,
 ): SetGuestSlotsAction => ({
   type: "SET_GUEST_SLOTS",
   payload: { guestCodeOffset, numberOfGuestCodes },
@@ -42,13 +42,15 @@ const scheduleEvents = (start: Date): ScheduleEventsAction => ({
   payload: getMinuteAccurateDate(start),
 })
 
-const setEvents = (events: calendar_v3.Schema$Event[]): SetEventsAction => ({
+const setEvents = (
+  events: (calendar_v3.Schema$Event & { id: string })[],
+): SetEventsAction => ({
   type: "SET_EVENTS",
   payload: events,
 })
 
 const removeEvents = (
-  events: calendar_v3.Schema$Event[]
+  events: (calendar_v3.Schema$Event & { id: string })[],
 ): RemoveEventsAction => ({
   type: "REMOVE_EVENTS",
   payload: events,
@@ -61,14 +63,14 @@ const lastUsedCode = (code: string): LastUsedCodeAction => ({
 
 const assignedGuestSlot = (
   slotId: string,
-  eventId: string | null
+  eventId: string | null,
 ): AssignGuestSlotAction => ({
   type: "ASSIGNED_GUEST_SLOT",
   payload: { id: slotId, eventId },
 })
 
 const fetchGuestWifiNetworkInformation = (
-  error?: string | boolean
+  error?: string | boolean,
 ): FetchGuestWifiNetworkInformationAction => {
   if (!error) {
     return { type: "FETCH_GUEST_WIFI_NETWORK_INFORMATION" }
@@ -82,7 +84,7 @@ const fetchGuestWifiNetworkInformation = (
 
 const setGuestWifiNetworkInformation = (
   ssid: string,
-  password: string
+  password: string,
 ): SetGuestWifiNetworkInformationAction => {
   return {
     type: "SET_GUEST_WIFI_NETWORK_INFORMATION",

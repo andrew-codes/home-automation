@@ -16,7 +16,7 @@ const messageHandler: MessageHandler = {
     const client = await getMongoDbClient()
     const db = await client.db("gameLibrary")
     const dbInserts = flow(
-      map(async (item) => {
+      map<any, Promise<any>>(async (item) => {
         logger.debug(`Collection playniteGames; Updating item ${item.Id}`, {
           item,
         })

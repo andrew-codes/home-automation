@@ -8,7 +8,7 @@ import {
   setGuestWifiNetworkInformation,
 } from "../actionCreators"
 import getMinuteAccurateDate from "../getMinuteAccurateDate"
-import reducer, { defaultState } from "../reducer"
+import reducer, { defaultState, State } from "../reducer"
 
 const tomorrow = new Date()
 tomorrow.setDate(new Date().getDate() + 1)
@@ -58,11 +58,13 @@ describe("set events", () => {
         [event.id]: event,
       },
     })
-    event.end.date = nextWeek
-    const actual = reducer(state, setEvents([event]))
+    const newEvent = merge({}, event, {
+      end: { date: nextWeek.toDateString() },
+    })
+    const actual = reducer(state, setEvents([newEvent]))
 
     expect(actual.events).toEqual({
-      [event.id]: event,
+      [event.id]: expect.objectContaining(newEvent),
     })
   })
 
@@ -103,7 +105,7 @@ describe("set events", () => {
             date: yesterday.toDateString(),
           },
         }),
-      ])
+      ]),
     )
     expect(actualWithEndDate.events).toEqual({
       [event1.id]: event1,
@@ -117,7 +119,7 @@ describe("set events", () => {
             dateTime: yesterday.toDateString(),
           },
         }),
-      ])
+      ]),
     )
 
     expect(actualWithEndDateTime.events).toEqual({})
@@ -247,7 +249,7 @@ test("setting guest wifi network information", () => {
   const state = createState()
   const actual = reducer(
     state,
-    setGuestWifiNetworkInformation("test", "testing")
+    setGuestWifiNetworkInformation("test", "testing"),
   )
   expect(actual.guestNetwork).toEqual({
     ssid: "test",
@@ -255,7 +257,7 @@ test("setting guest wifi network information", () => {
   })
 })
 
-function createState(state = {}) {
+function createState(state = {}): State {
   return merge({}, defaultState, state)
 }
 

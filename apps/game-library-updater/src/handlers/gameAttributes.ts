@@ -64,7 +64,7 @@ const toUniqueRelations = flow(
 )
 
 const toGameId = flow(map(get("id")), sortBy(identity), join("_"))
-const filterWithoutPlatform = filter((game) => !isEmpty(game.platformIds))
+const filterWithoutPlatform = filter((game: any) => !isEmpty(game.platformIds))
 
 const toGames = flow(
   filterWithoutPlatform,
@@ -183,7 +183,7 @@ const messageHandler: MessageHandler = {
           ) ?? []
 
         return acc.concat([[key, valuesWithInverseGameRelation]])
-      }, []),
+      }, [] as [string, any[]][]),
     )
 
     const client = await getMongoDbClient()
@@ -194,7 +194,7 @@ const messageHandler: MessageHandler = {
         logger.debug(JSON.stringify(data))
       }),
       map(([key, value]) =>
-        map(async (item) => {
+        map(async (item: any) => {
           logger.debug(`Collection ${key}; Updating item ${item.id}`, {
             item,
           })

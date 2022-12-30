@@ -7,10 +7,10 @@ import getMinuteAccurateDate from "./getMinuteAccurateDate"
 type State = {
   codeIndex: number
   codes: string[]
-  deletedEvents: Record<string, calendar_v3.Schema$Event>
+  deletedEvents: Record<string, calendar_v3.Schema$Event & { id: string }>
   doorLocks: string[]
   eventOrder: string[]
-  events: Record<string, calendar_v3.Schema$Event>
+  events: Record<string, calendar_v3.Schema$Event & { id: string }>
   guestSlots: Record<string, string>
   lastScheduledTime: Date | null
   guestNetwork?: {
@@ -29,16 +29,34 @@ const defaultState: State = {
   lastScheduledTime: null,
 }
 
-const reducer = (state = defaultState, action: AnyAction) => {
+const reducer = (
+  state: State | undefined = defaultState,
+  action: AnyAction,
+): State => {
   switch (action.type) {
     case "SET_EVENTS":
+      if (
+        action.payload.some(
+          (event) =>
+            !event?.end?.dateTime &&
+            !event?.end?.date &&
+            !event?.start?.dateTime &&
+            !event?.start?.date,
+        )
+      ) {
+        throw new Error("Payload has events with no start or end date/times.")
+      }
       const events = action.payload.filter((event) => {
-        const end = defaultTo(event?.end?.dateTime, event?.end?.date)
+        const end = defaultTo(event?.end?.dateTime, event?.end?.date) as string
         return getMinuteAccurateDate(new Date(end)).getTime() > Date.now()
       })
       const orderedEvents = events.sort((a, b) => {
-        const startA = new Date(defaultTo(a?.start?.dateTime, a?.start?.date))
-        const startB = new Date(defaultTo(b?.start?.dateTime, b?.start?.date))
+        const startA = new Date(
+          defaultTo(a?.start?.dateTime, a?.start?.date) as string,
+        )
+        const startB = new Date(
+          defaultTo(b?.start?.dateTime, b?.start?.date) as string,
+        )
         if (startA.getTime() < startB.getTime()) {
           return -1
         }
@@ -54,7 +72,7 @@ const reducer = (state = defaultState, action: AnyAction) => {
       return {
         ...state,
         deletedEvents: keyBy(deletedEvents, "id"),
-        eventOrder: orderedEvents.map(get("id")),
+        eventOrder: orderedEvents.map(get<any, "id">("id")),
         events: keyBy(events, "id"),
       }
 
@@ -97,7 +115,6 @@ const reducer = (state = defaultState, action: AnyAction) => {
       const stateWithNewDoorLocks = merge({}, state)
       stateWithNewDoorLocks.doorLocks = uniq(
         state.doorLocks.concat(action.payload),
-        false,
       )
       return stateWithNewDoorLocks
 

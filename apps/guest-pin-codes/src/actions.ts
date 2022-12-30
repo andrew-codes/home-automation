@@ -35,7 +35,7 @@ type LastUsedCodeAction = {
 
 type SetEventsAction = {
   type: "SET_EVENTS"
-  payload: calendar_v3.Schema$Event[]
+  payload: (calendar_v3.Schema$Event & { id: string })[]
 }
 
 type AssignGuestSlotAction = {
@@ -48,7 +48,7 @@ type AssignGuestSlotAction = {
 
 type RemoveEventsAction = {
   type: "REMOVE_EVENTS"
-  payload: calendar_v3.Schema$Event[]
+  payload: (calendar_v3.Schema$Event & { id: string })[]
 }
 
 type FetchGuestWifiNetworkInformationAction = {
