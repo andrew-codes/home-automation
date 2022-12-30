@@ -39,8 +39,6 @@ const SelectedGame = styled.div`
 `
 const GameBackground = styled.div`
   flex: 1;
-  // background-image: url("${({ backgroundImage }) => backgroundImage}");
-  background-size: cover;
 `
 const GameDetails = styled.div`
   overflow: hidden;
@@ -71,20 +69,19 @@ const GameDetails = styled.div`
       rgba(255, 255, 255, 0),
       rgba(255, 255, 255, 0)
     );
-  padding: 120px 600px 0 24px;
+  padding: 120px 600px 48px 24px;
   max-width: 1200px;
 `
-const GameName = styled.h2`
+const GameName = styled.h3`
   max-width: 1200px;
 `
 const GameDescription = styled.div`
-  max-height: 70px;
+  max-height: 160px;
   max-width: 1200px;
 `
 const GameStrip = styled.div`
   overflow: hidden;
   position: relative;
-  margin-top: -24px;
 
   &:before {
     content: "";
@@ -129,10 +126,6 @@ const GameStrip = styled.div`
 
     .swiper-vertical {
       overflow: visible !important;
-    }
-
-    .swiper-vertical > .swiper-wrapper > .swiper-slide:first-child {
-      // margin-top: -28px;
     }
   }
 `
@@ -199,14 +192,25 @@ export default function Games() {
                   >
                     {collections.map((collection, index) => (
                       <SwiperSlide key={collection.name}>
-                        <GameList
-                          defaultSelection={index === 0}
-                          collectionName={collection.name}
-                          cdnHost={cdnHost}
-                          width={width}
-                          height={listHeight}
-                          onSelect={handleSelect}
-                        />
+                        <div
+                          style={{
+                            padding: "16px 24px 0 24px",
+                            borderRadius: index % 2 === 1 ? "20px" : "20px",
+                            backgroundColor:
+                              index % 2 === 1
+                                ? "rgba(255,255,255,0.10)"
+                                : "rgba(13, 17, 23, 1)",
+                          }}
+                        >
+                          <GameList
+                            defaultSelection={index === 0}
+                            collectionName={collection.name}
+                            cdnHost={cdnHost}
+                            width={width}
+                            height={listHeight}
+                            onSelect={handleSelect}
+                          />
+                        </div>
                       </SwiperSlide>
                     ))}
                   </Swiper>

@@ -1,17 +1,17 @@
 import { useFetcher } from "@remix-run/react"
 import { first, isEmpty, noop } from "lodash"
-import {
-  FC,
-  memo,
-  SyntheticEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react"
+import { FC, SyntheticEvent, useCallback, useEffect, useState } from "react"
 import { EffectCreative, Keyboard, Mousewheel } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
+import styled from "styled-components"
 import { GameListGame } from "../collections.server"
 import PrepareImage from "./PreloadImage"
+import Text from "../components/Text"
+
+const CollectionName = styled.h2`
+  height: 24px;
+  margin: 0 0 16px 0;
+`
 
 const GameList: FC<{
   collectionName: string
@@ -28,10 +28,11 @@ const GameList: FC<{
   height,
   width,
 }) => {
+  const marginBottom = 16
   const slidesPerView = 7
   const spaceBetween = 64
   const slideWidth = Math.floor(width / slidesPerView - spaceBetween)
-  const slideHeight = Math.floor((slideWidth * 4) / 3)
+  const slideHeight = Math.floor((slideWidth * 4) / 3) - 24 - 24 - marginBottom
   const slidesPerGroup = 5
 
   const [currentPage, setCurrentPage] = useState(1)
@@ -66,6 +67,7 @@ const GameList: FC<{
   return (
     <>
       <fetcher.Form />
+      <Text as={CollectionName}>{collectionName}</Text>
       {games.map(({ id, coverImage }) => (
         <PrepareImage
           key={id}
@@ -74,7 +76,7 @@ const GameList: FC<{
         />
       ))}
       <Swiper
-        style={{ height: `${height}px` }}
+        style={{ height: `${height - 32}px` }}
         grabCursor
         keyboard
         mousewheel
