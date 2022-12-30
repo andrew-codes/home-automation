@@ -8,7 +8,9 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import collections, { GameListGame } from "../collections.server"
 import Layout from "../components/Layout"
 import Text from "../components/Text"
-import GameList from "../components/GameList"
+import GameCollection, {
+  CollectionGameSelection,
+} from "../components/GameCollection"
 import { first } from "lodash"
 
 export const loader = async (args: LoaderArgs) => {
@@ -79,7 +81,7 @@ const GameDescription = styled.div`
   max-height: 160px;
   max-width: 1200px;
 `
-const GameStrip = styled.div`
+const GameCollections = styled.div`
   overflow: hidden;
   position: relative;
 
@@ -128,6 +130,15 @@ const GameStrip = styled.div`
       overflow: visible !important;
     }
   }
+
+  .swiper-horizontal {
+    overflow: visible;
+  }
+
+  [data-selected="false"] [data-component="GameCover"] {
+    box-shadow: none !important;
+    border: none !important;
+  }
 `
 const BottomSpacer = styled.div`
   height: 18px;
@@ -139,10 +150,15 @@ export default function Games() {
     data: { cdnHost, collections },
   } = useLoaderData<typeof loader>()
 
+  const [activeCollection, setActiveCollection] = useState(collections[0].name)
   const [currentGame, setCurrentGame] = useState<GameListGame>()
-  const handleSelect = useCallback((evt, game) => {
-    setCurrentGame(game)
-  }, [])
+  const handleSelect = useCallback(
+    (evt, collectionGameSelection: CollectionGameSelection) => {
+      setCurrentGame(collectionGameSelection.game)
+      setActiveCollection(collectionGameSelection.collectionName)
+    },
+    [],
+  )
 
   const listHeight = 480
   const spaceBetweenLists = 24
@@ -170,7 +186,12 @@ export default function Games() {
               ></Text>
             </GameDetails>
           </SelectedGame>
-          <GameStrip
+          <GameCollections
+            activeIndex={
+              collections.findIndex(
+                (collection) => collection.name === activeCollection,
+              ) ?? 0
+            }
             height={listViewPortHeight}
             spaceBetween={spaceBetweenLists}
           >
@@ -191,7 +212,10 @@ export default function Games() {
                     modules={[]}
                   >
                     {collections.map((collection, index) => (
-                      <SwiperSlide key={collection.name}>
+                      <SwiperSlide
+                        key={collection.name}
+                        data-selected={collection.name === activeCollection}
+                      >
                         <div
                           style={{
                             padding: "16px 24px 0 24px",
@@ -202,7 +226,7 @@ export default function Games() {
                                 : "rgba(13, 17, 23, 1)",
                           }}
                         >
-                          <GameList
+                          <GameCollection
                             defaultSelection={index === 0}
                             collectionName={collection.name}
                             cdnHost={cdnHost}
@@ -217,7 +241,7 @@ export default function Games() {
                 )}
               </AutoSizer>
             </div>
-          </GameStrip>
+          </GameCollections>
           <BottomSpacer />
         </CenterPane>
       </Main>
