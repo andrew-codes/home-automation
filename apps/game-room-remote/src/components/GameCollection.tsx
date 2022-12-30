@@ -15,7 +15,7 @@ type CollectionGameSelection = {
 
 const CollectionName = styled.h2`
   height: 24px;
-  margin: 0 0 16px 0;
+  margin: ${({ margin }) => margin};
 `
 
 const GameCover = styled.img`
@@ -72,7 +72,7 @@ const GameCollection: FC<{
   height,
   width,
 }) => {
-  const marginBottom = 16
+  const marginBottom = 48
   const slidesPerView = 7
   const spaceBetween = 64
   const slideWidth = Math.floor(width / slidesPerView - spaceBetween)
@@ -114,7 +114,9 @@ const GameCollection: FC<{
   return (
     <>
       <fetcher.Form />
-      <Text as={CollectionName}>{collectionName}</Text>
+      <Text as={CollectionName} margin={`0 0 ${marginBottom}px 0`}>
+        {collectionName}
+      </Text>
       {games.map(({ id, coverImage }) => (
         <PrepareImage
           key={id}
