@@ -1,5 +1,5 @@
 import { useFetcher } from "@remix-run/react"
-import { first, isEmpty, noop } from "lodash"
+import { isEmpty, noop } from "lodash"
 import { FC, SyntheticEvent, useCallback, useEffect, useState } from "react"
 import { EffectCreative, Keyboard, Mousewheel } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -21,7 +21,8 @@ const CollectionName = styled.h2`
 const GameCover = styled.img`
   box-shadow: ${({ active }) =>
     active ? "0 0 48px 8px white, 0 0 24px 24px #007BA7" : "none"};
-  border: ${({ active }) => (active ? "8px solid #1dacd6" : "none")};
+  border: ${({ active }) =>
+    active ? "8px solid #1dacd6" : "8px solid transparent;"};
 `
 
 const GameCollectionGame: FC<{
@@ -76,7 +77,7 @@ const GameCollection: FC<{
   const slidesPerView = 7
   const spaceBetween = 64
   const slideWidth = Math.floor(width / slidesPerView - spaceBetween)
-  const slideHeight = Math.floor((slideWidth * 4) / 3) - 24 - 24 - marginBottom
+  const slideHeight = height - 24 - 24 - marginBottom
   const slidesPerGroup = 5
 
   const [currentPage, setCurrentPage] = useState(1)
@@ -121,7 +122,14 @@ const GameCollection: FC<{
         <PrepareImage
           key={id}
           rel="preload"
-          src={`${cdnHost}/resize/${coverImage}?width=${slideWidth}&height=${slideHeight}`}
+          src={`${cdnHost}/resize/${coverImage}?width=1400`}
+        />
+      ))}
+      {games.map(({ id, backgroundImage }) => (
+        <PrepareImage
+          key={id}
+          rel="preload"
+          src={`${cdnHost}/resize/${backgroundImage}?width=${slideWidth}&height=${slideHeight}`}
         />
       ))}
       <Swiper

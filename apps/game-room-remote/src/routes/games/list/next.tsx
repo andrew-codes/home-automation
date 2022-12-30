@@ -19,7 +19,9 @@ export const action = async (args: ActionArgs) => {
     if (!collectionName || !currentPage) {
       return null
     }
-    const collection = collections[collectionName.toString()]
+    const collection = collections.find(
+      ({ name }) => name === collectionName.toString(),
+    )
     const pageNumber = parseInt(currentPage.toString())
 
     const gamesQuery = print(gql`
@@ -30,6 +32,8 @@ export const action = async (args: ActionArgs) => {
           backgroundImage
           coverImage
           platformReleases {
+            releaseYear
+            releaseDate
             lastActivity
             description
           }
@@ -43,7 +47,7 @@ export const action = async (args: ActionArgs) => {
       variables: {},
     }).then((res) => res.json())) as GamesListNextQueryData
     const allGames = data?.games ?? []
-    const games = collection(allGames) ?? []
+    const games = collection?.filter(allGames) ?? []
     return json({ games: games.slice(0, pageNumber * 14) })
   }
 

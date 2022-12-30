@@ -17,9 +17,7 @@ export const loader = async (args: LoaderArgs) => {
   return json({
     data: {
       cdnHost: process.env.GAMING_ASSETS_WEB_HOST ?? "",
-      collections: Object.entries(collections).map(([name]) => ({
-        name: name,
-      })),
+      collections,
     },
   })
 }
@@ -34,7 +32,7 @@ const CenterPane = styled.div`
 `
 const SelectedGame = styled.div`
   display: flex;
-  flex: 3;
+  flex: 1;
   flex-direction: column;
   justify-content: flex-end;
   position: relative;
@@ -42,7 +40,7 @@ const SelectedGame = styled.div`
 const GameBackground = styled.div`
   flex: 1;
 `
-const GameDetails = styled.div`
+const GameDetails = styled.section`
   overflow: hidden;
   display: flex;
   justify-content: flex-end;
@@ -65,21 +63,20 @@ const GameDetails = styled.div`
       rgba(255, 255, 255, 0)
     ),
     radial-gradient(
-      ellipse farthest-side at 60% 95%,
+      ellipse farthest-side at 70% 100%,
       var(--dark-slate-gray),
-      rgba(255, 255, 255, 0),
-      rgba(255, 255, 255, 0),
       rgba(255, 255, 255, 0)
     );
   padding: 120px 600px 48px 24px;
-  max-width: 1200px;
 `
 const GameName = styled.h3`
-  max-width: 1200px;
+  font-size: 32px;
 `
 const GameDescription = styled.div`
   max-height: 160px;
-  max-width: 1200px;
+  font-size: 24px;
+  line-height: 1.32;
+  overflow: hidden;
 `
 const GameCollections = styled.div`
   overflow: hidden;
@@ -137,7 +134,7 @@ const GameCollections = styled.div`
 
   [data-selected="false"] [data-component="GameCover"] {
     box-shadow: none !important;
-    border: none !important;
+    border: 8px solid transparent !important;
   }
 `
 const BottomSpacer = styled.div`
@@ -160,7 +157,7 @@ export default function Games() {
     [],
   )
 
-  const listHeight = 480
+  const listHeight = 560
   const spaceBetweenLists = 24
   const listViewPortHeight = listHeight * 1.1 + 24 + 24
 
@@ -211,10 +208,10 @@ export default function Games() {
                     slidesPerView={1}
                     modules={[]}
                   >
-                    {collections.map((collection, index) => (
+                    {collections.map(({ name }, index) => (
                       <SwiperSlide
-                        key={collection.name}
-                        data-selected={collection.name === activeCollection}
+                        key={name}
+                        data-selected={name === activeCollection}
                       >
                         <div
                           style={{
@@ -228,7 +225,7 @@ export default function Games() {
                         >
                           <GameCollection
                             defaultSelection={index === 0}
-                            collectionName={collection.name}
+                            collectionName={name}
                             cdnHost={cdnHost}
                             width={width}
                             height={listHeight}
