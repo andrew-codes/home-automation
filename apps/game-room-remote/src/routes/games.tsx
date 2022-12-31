@@ -5,16 +5,21 @@ import { Outlet, useLoaderData } from "@remix-run/react"
 import styled from "styled-components"
 import { useCallback, useState } from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
-import collections, { GameListGame } from "../collections.server"
+import collectionDefinitions from "../api/collections.server"
 import Layout from "../components/Layout"
-import Text from "../components/Text"
-import GameCollection, {
+import GameCollectionSwiper, {
   CollectionGameSelection,
-} from "../components/GameCollection"
-import { first } from "lodash"
+} from "../components/GameCollectionSwiper"
+import { Game } from "../Game"
+import GameOverview from "../components/GameOverview"
+import { GameCollection } from "../GameCollection"
+import fetchGameCollections from "../api/fetchGameCollection.server"
+import PrepareImage from "../components/PreloadImage"
 
 export const loader = async (args: LoaderArgs) => {
-  return json({
+  const collections = await fetchGameCollections(collectionDefinitions)
+
+  return json<{ data: { cdnHost: string; collections: GameCollection[] } }>({
     data: {
       cdnHost: process.env.GAMING_ASSETS_WEB_HOST ?? "",
       collections,
@@ -29,54 +34,6 @@ const CenterPane = styled.div`
   height: 100vh;
   background-image: url("${({ backgroundImage }) => backgroundImage}");
   background-size: cover;
-`
-const SelectedGame = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: flex-end;
-  position: relative;
-`
-const GameBackground = styled.div`
-  flex: 1;
-`
-const GameDetails = styled.section`
-  overflow: hidden;
-  display: flex;
-  justify-content: flex-end;
-  flex-direction: column;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  z-index: 3;
-  background: radial-gradient(
-      ellipse farthest-side at 0% 90%,
-      rgba(13, 17, 23, 1) 20%,
-      rgba(13, 17, 23, 0.5),
-      rgba(255, 255, 255, 0)
-    ),
-    radial-gradient(
-      ellipse farthest-side at 40% 100%,
-      var(--dark-slate-gray) 10%,
-      rgba(255, 255, 255, 0),
-      rgba(255, 255, 255, 0)
-    ),
-    radial-gradient(
-      ellipse farthest-side at 70% 100%,
-      var(--dark-slate-gray),
-      rgba(255, 255, 255, 0)
-    );
-  padding: 120px 600px 48px 24px;
-`
-const GameName = styled.h3`
-  font-size: 32px;
-`
-const GameDescription = styled.div`
-  max-height: 160px;
-  font-size: 24px;
-  line-height: 1.32;
-  overflow: hidden;
 `
 const GameCollections = styled.div`
   overflow: hidden;
@@ -148,7 +105,7 @@ export default function Games() {
   } = useLoaderData<typeof loader>()
 
   const [activeCollection, setActiveCollection] = useState(collections[0].name)
-  const [currentGame, setCurrentGame] = useState<GameListGame>()
+  const [currentGame, setCurrentGame] = useState<Game>(collections[0].games[0])
   const handleSelect = useCallback(
     (evt, collectionGameSelection: CollectionGameSelection) => {
       setCurrentGame(collectionGameSelection.game)
@@ -164,25 +121,15 @@ export default function Games() {
   return (
     <Layout>
       <Main>
+        <PrepareImage
+          rel="preload"
+          src={`${cdnHost}/resize/${currentGame?.backgroundImage}?width=1400`}
+        />
         <CenterPane
           backgroundImage={`${cdnHost}/resize/${currentGame?.backgroundImage}?width=1400`}
         >
           <Outlet />
-          <SelectedGame>
-            <GameBackground
-              backgroundImage={`${cdnHost}/resize/${currentGame?.backgroundImage}?width=1400`}
-            />
-            <GameDetails>
-              <Text as={GameName}>{currentGame?.name}</Text>
-              <Text
-                as={GameDescription}
-                dangerouslySetInnerHTML={{
-                  __html:
-                    first(currentGame?.platformReleases)?.description ?? "",
-                }}
-              ></Text>
-            </GameDetails>
-          </SelectedGame>
+          <GameOverview {...currentGame} cdnHost={cdnHost} />
           <GameCollections
             activeIndex={
               collections.findIndex(
@@ -193,8 +140,8 @@ export default function Games() {
             spaceBetween={spaceBetweenLists}
           >
             <div>
-              <AutoSizer>
-                {({ width, height }) => (
+              <AutoSizer disableHeight>
+                {({ width }) => (
                   <Swiper
                     style={{
                       height: `${listHeight}px`,
@@ -208,7 +155,7 @@ export default function Games() {
                     slidesPerView={1}
                     modules={[]}
                   >
-                    {collections.map(({ name }, index) => (
+                    {collections.map(({ name, games }, index) => (
                       <SwiperSlide
                         key={name}
                         data-selected={name === activeCollection}
@@ -223,9 +170,9 @@ export default function Games() {
                                 : "rgba(13, 17, 23, 1)",
                           }}
                         >
-                          <GameCollection
-                            defaultSelection={index === 0}
-                            collectionName={name}
+                          <GameCollectionSwiper
+                            games={games}
+                            name={name}
                             cdnHost={cdnHost}
                             width={width}
                             height={listHeight}

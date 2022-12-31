@@ -1,55 +1,23 @@
 import { ActionArgs, json } from "@remix-run/node"
-import { GraphQLError } from "graphql"
-import gql from "graphql-tag"
-import { sendGraphQLRequest } from "remix-graphql/index.server"
-import { print } from "graphql"
-import collections, { GameListGame } from "../../../collections.server"
-
-type GamesListNextQueryData = {
-  data?: {
-    games: GameListGame[]
-  }
-  errors?: GraphQLError[]
-}
+import collectionDefinitions from "../../../api/collections.server"
+import fetchGameCollections from "../../../api/fetchGameCollection.server"
+import type { GameCollectionDefinition } from "../../../GameCollection"
 
 export const action = async (args: ActionArgs) => {
   if (args.request.method === "POST") {
     const formData = await args.request.formData()
     const { collectionName, currentPage } = Object.fromEntries(formData)
-    if (!collectionName || !currentPage) {
-      return null
-    }
-    const collection = collections.find(
+    const collectionDefinition = collectionDefinitions.find(
       ({ name }) => name === collectionName.toString(),
-    )
+    ) as GameCollectionDefinition
     const pageNumber = parseInt(currentPage.toString())
+    collectionDefinition.currentViewIndex = pageNumber
+    collectionDefinition.countPerView = 7
 
-    const gamesQuery = print(gql`
-      query GameListNext {
-        games {
-          id
-          name
-          backgroundImage
-          coverImage
-          platformReleases {
-            releaseYear
-            releaseDate
-            lastActivity
-            description
-          }
-        }
-      }
-    `)
-    const { data } = (await sendGraphQLRequest({
-      args,
-      endpoint: `${process.env.GRAPH_HOST}/graphql`,
-      query: gamesQuery,
-      variables: {},
-    }).then((res) => res.json())) as GamesListNextQueryData
-    const allGames = data?.games ?? []
-    const games = collection?.filter(allGames) ?? []
-    return json({ games: games.slice(0, pageNumber * 14) })
+    const [collection] = await fetchGameCollections([collectionDefinition])
+
+    return json({ games: collection.games })
   }
 
-  return null
+  return json({ games: [] })
 }

@@ -4,13 +4,14 @@ import { FC, SyntheticEvent, useCallback, useEffect, useState } from "react"
 import { EffectCreative, Keyboard, Mousewheel } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import styled from "styled-components"
-import { GameListGame } from "../collections.server"
 import PrepareImage from "./PreloadImage"
 import Text from "./Text"
+import { Game } from "../Game"
+import type { GameCollection } from "../GameCollection"
 
 type CollectionGameSelection = {
   collectionName: string
-  game: GameListGame
+  game: Game
 }
 
 const CollectionName = styled.h2`
@@ -55,20 +56,22 @@ const GameCollectionGame: FC<{
   )
 }
 
-const GameCollection: FC<{
-  collectionName: string
-  cdnHost: string
-  height: number
-  width: number
-  defaultSelection?: boolean
-  onSelect?: (
-    evt: SyntheticEvent,
-    selectedCollectionGame: CollectionGameSelection,
-  ) => void
-}> = ({
+const GameCollectionSwiper: FC<
+  {
+    cdnHost: string
+    height: number
+    width: number
+    defaultSelection?: boolean
+    onSelect?: (
+      evt: SyntheticEvent,
+      selectedCollectionGame: CollectionGameSelection,
+    ) => void
+  } & GameCollection
+> = ({
   cdnHost,
-  collectionName,
+  name,
   defaultSelection,
+  games = [],
   onSelect = noop,
   height,
   width,
@@ -81,51 +84,52 @@ const GameCollection: FC<{
   const slidesPerGroup = 5
 
   const [currentPage, setCurrentPage] = useState(1)
-  const fetcher = useFetcher<{ games: GameListGame[] }>()
+  const fetcher = useFetcher<{ games: Game[] }>()
   useEffect(() => {
     fetcher.submit(
-      { collectionName, currentPage: currentPage.toString() },
+      { collectionName: name, currentPage: currentPage.toString() },
       {
         method: "post",
         action: "games/list/next",
       },
     )
-  }, [currentPage, collectionName])
-  const games = fetcher.data?.games ?? []
+  }, [currentPage, name])
+
+  const _games = fetcher.data?.games ?? games
 
   const [initialSelectionMade, setInitialSelectionMade] = useState(false)
   const [selectedGame, setSelectedGame] = useState(games[0] ?? null)
   const handleSelect = useCallback(
-    (game: GameListGame) => (evt: SyntheticEvent | null) => {
+    (game: Game) => (evt: SyntheticEvent | null) => {
       setSelectedGame(game)
-      onSelect(evt, { collectionName, game })
+      onSelect(evt, { collectionName: name, game })
     },
-    [onSelect, collectionName],
+    [onSelect, name],
   )
 
   useEffect(() => {
-    if (!defaultSelection || initialSelectionMade || isEmpty(games)) {
+    if (!defaultSelection || initialSelectionMade || isEmpty(_games)) {
       return
     }
-    const game = games[0]
+    const game = _games[0]
     handleSelect(game)(null)
     setInitialSelectionMade(true)
-  }, [games, initialSelectionMade, defaultSelection])
+  }, [_games, initialSelectionMade, defaultSelection])
 
   return (
     <>
       <fetcher.Form />
       <Text as={CollectionName} margin={`0 0 ${marginBottom}px 0`}>
-        {collectionName}
+        {name}
       </Text>
-      {games.map(({ id, coverImage }) => (
+      {_games.map(({ id, coverImage }) => (
         <PrepareImage
           key={id}
           rel="preload"
           src={`${cdnHost}/resize/${coverImage}?width=1400`}
         />
       ))}
-      {games.map(({ id, backgroundImage }) => (
+      {_games.map(({ id, backgroundImage }) => (
         <PrepareImage
           key={id}
           rel="preload"
@@ -152,7 +156,7 @@ const GameCollection: FC<{
         }}
         modules={[Mousewheel, Keyboard, EffectCreative]}
       >
-        {games.map((game) => (
+        {_games.map((game) => (
           <SwiperSlide key={game.id}>
             <GameCollectionGame
               active={selectedGame?.id === game.id}
@@ -170,5 +174,5 @@ const GameCollection: FC<{
   )
 }
 
-export default GameCollection
+export default GameCollectionSwiper
 export type { CollectionGameSelection }
