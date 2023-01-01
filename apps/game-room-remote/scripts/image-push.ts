@@ -1,6 +1,7 @@
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import createClient from "@ha/docker"
+import { existsSync } from "fs"
 import fs from "fs/promises"
 import { fromPairs } from "lodash"
 import path from "path"
@@ -21,11 +22,15 @@ const run = async (
     JSON.stringify(packageJson, null, 2),
   )
 
-  await fs.cp(
-    path.join(__dirname, "..", "..", "..", "patches"),
-    path.join(__dirname, "..", "dist", "patches"),
-    { recursive: true },
-  )
+  const patchesDirectory = path.join(__dirname, "..", "..", "..", "patches")
+
+  if (existsSync(patchesDirectory)) {
+    await fs.cp(
+      path.join(__dirname, "..", "..", "..", "patches"),
+      path.join(__dirname, "..", "dist", "patches"),
+      { recursive: true },
+    )
+  }
 
   const docker = await createClient(configurationApi)
   await docker.build(`${name}:latest`)
