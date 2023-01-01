@@ -9,6 +9,7 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   const ip = await configurationApi.get("pihole/ip")
+  const ip2 = await configurationApi.get("pihole2/ip")
 
   await fs.mkdir(".secrets", { recursive: true })
   await fs.writeFile(
@@ -18,7 +19,8 @@ const run = async (
       vars:
         ansible_user: root
       hosts:
-        ${ip.value}:`,
+        ${ip.value}:
+        ${ip2.value}:`,
     "utf8",
   )
 

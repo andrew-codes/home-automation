@@ -25,15 +25,16 @@ const run = async (
   const knownHosts = await configurationApi.get("known-hosts")
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "known_hosts"),
-    knownHosts.value,
+    knownHosts.value.replace(/\\n/g, "\n"),
     "utf8",
   )
   const sshPrivateKey = await configurationApi.get(
     "home-assistant/ssh-key/private",
   )
+
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "id_rsa"),
-    sshPrivateKey.value.replace("\\n", "\n"),
+    sshPrivateKey.value.replace(/\\n/g, "\n"),
     "utf8",
   )
 

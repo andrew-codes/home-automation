@@ -60,6 +60,12 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
           imagePullSecrets: [{
             name: 'regcred',
           }],
+          securityContext: {
+            runAsUser: 1000,
+            runAsGroup: 1000,
+            fsGroup: 1000,
+            fsGroupChangePolicy: 'Always',
+          },
           image: std.extVar('image'),
           resources: {
             requests: {

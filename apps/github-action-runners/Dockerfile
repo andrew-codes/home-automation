@@ -68,7 +68,6 @@ RUN ln -s $(go env GOPATH)/bin/jb /usr/local/bin
 RUN curl -Os https://uploader.codecov.io/latest/linux/codecov
 RUN chmod +x codecov
 RUN ln -s codecov /usr/local/bin
-COPY ./entrypoint.sh ./entrypoint.custom.sh
 RUN chown --recursive runner /home/runner/.ansible
 USER runner
 RUN mkdir -p /home/runner/.config/docker
