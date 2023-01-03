@@ -1,6 +1,4 @@
-import fs from "fs/promises"
 import path from "path"
-import sh from "shelljs"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { jsonnet } from "@ha/jsonnet"

@@ -1,18 +1,24 @@
-import { useFetcher } from "@remix-run/react"
-import { isEmpty, noop } from "lodash"
 import { FC, SyntheticEvent, useCallback, useEffect, useState } from "react"
 import { EffectCreative, Keyboard, Mousewheel } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import styled from "styled-components"
-import PrepareImage from "./PreloadImage"
+import type { Swiper as SwiperImpl } from "swiper"
 import Text from "./Text"
 import { Game } from "../Game"
 import type { GameCollection } from "../GameCollection"
 
-type CollectionGameSelection = {
-  collectionName: string
-  game: Game
+type PageChangeEventArgs = {
+  currentPageIndex: number
+  previousPageIndex: number
 }
+type PageChangeEventEventHandler = (
+  evt: SyntheticEvent | null,
+  args: PageChangeEventArgs,
+) => void
+type GameChangeEventHandler = (
+  evt: SyntheticEvent | null,
+  eventArgs: { id: string },
+) => void
 
 const CollectionName = styled.h2`
   height: 24px;
@@ -26,16 +32,23 @@ const GameCover = styled.img`
     active ? "8px solid #1dacd6" : "8px solid transparent;"};
 `
 
+const BlankGameCover = styled.div`
+  height: ${({ height }) => height}px;
+  width: ${({ width }) => width}px;
+`
+
 const GameCollectionGame: FC<{
+  id: string
   active?: boolean
   cdnHost: string
   name: string
   coverImage: string
   coverWidth: number
   coverHeight: number
-  onSelect: (evt: SyntheticEvent) => void
+  onSelect?: (evt: SyntheticEvent, id: string) => void
 }> = ({
   active,
+  id,
   cdnHost,
   name,
   coverImage,
@@ -43,7 +56,14 @@ const GameCollectionGame: FC<{
   coverHeight,
   onSelect,
 }) => {
-  return (
+  const handleSelect = useCallback(
+    (evt) => {
+      onSelect?.call(null, evt, id)
+    },
+    [id],
+  )
+
+  return !!coverImage ? (
     <GameCover
       active={active}
       data-component="GameCover"
@@ -51,103 +71,89 @@ const GameCollectionGame: FC<{
       src={`${cdnHost}/resize/${coverImage}?width=${coverWidth}&height=${coverHeight}`}
       width={coverWidth}
       height={coverHeight}
-      onClick={onSelect}
+      onClick={handleSelect}
+    />
+  ) : (
+    <BlankGameCover
+      height={coverHeight}
+      width={coverWidth}
+      onClick={handleSelect}
     />
   )
 }
 
 const GameCollectionSwiper: FC<
   {
+    coverImageHeight: number
+    coverImageWidth: number
+    games: Game[]
+    initialSelectedGameId?: string
     cdnHost: string
     height: number
-    width: number
-    defaultSelection?: boolean
-    onSelect?: (
-      evt: SyntheticEvent,
-      selectedCollectionGame: CollectionGameSelection,
-    ) => void
-  } & GameCollection
+    onPageChange?: PageChangeEventEventHandler
+    onSelect?: GameChangeEventHandler
+    slidesPerView: number
+    spaceBetween: number
+  } & Omit<GameCollection, "games">
 > = ({
+  id,
   cdnHost,
-  name,
-  defaultSelection,
+  initialSelectedGameId,
   games = [],
-  onSelect = noop,
+  name,
+  onSelect,
+  onPageChange,
   height,
-  width,
+  countPerPage,
+  currentPageIndex,
+  coverImageHeight,
+  coverImageWidth,
+  spaceBetween,
+  slidesPerView,
 }) => {
   const marginBottom = 48
-  const slidesPerView = 7
-  const spaceBetween = 64
-  const slideWidth = Math.floor(width / slidesPerView - spaceBetween)
-  const slideHeight = height - 24 - 24 - marginBottom
-  const slidesPerGroup = 5
 
-  const [currentPage, setCurrentPage] = useState(1)
-  const fetcher = useFetcher<{ games: Game[] }>()
-  useEffect(() => {
-    fetcher.submit(
-      { collectionName: name, currentPage: currentPage.toString() },
-      {
-        method: "post",
-        action: "games/list/next",
-      },
-    )
-  }, [currentPage, name])
+  const currentGame =
+    games.find(({ id }) => initialSelectedGameId === id) ?? games[0] ?? null
 
-  const _games = fetcher.data?.games ?? games
-
-  const [initialSelectionMade, setInitialSelectionMade] = useState(false)
-  const [selectedGame, setSelectedGame] = useState(games[0] ?? null)
   const handleSelect = useCallback(
-    (game: Game) => (evt: SyntheticEvent | null) => {
-      setSelectedGame(game)
-      onSelect(evt, { collectionName: name, game })
+    (evt: SyntheticEvent | null, id: string) => {
+      onSelect?.call(null, evt, { id })
     },
-    [onSelect, name],
+    [onSelect],
   )
 
-  useEffect(() => {
-    if (!defaultSelection || initialSelectionMade || isEmpty(_games)) {
-      return
-    }
-    const game = _games[0]
-    handleSelect(game)(null)
-    setInitialSelectionMade(true)
-  }, [_games, initialSelectionMade, defaultSelection])
+  const handlePageChange = useCallback(
+    (swiper: SwiperImpl) => {
+      if (swiper.$el.attr("id") !== id) {
+        return
+      }
+
+      const newPageIndex = Math.ceil(swiper.activeIndex / countPerPage)
+      let previousPageIndex = currentPageIndex
+      onPageChange?.call(null, null, {
+        currentPageIndex: newPageIndex,
+        previousPageIndex: previousPageIndex,
+      })
+    },
+    [countPerPage, currentPageIndex, id],
+  )
 
   return (
     <>
-      <fetcher.Form />
       <Text as={CollectionName} margin={`0 0 ${marginBottom}px 0`}>
         {name}
       </Text>
-      {_games.map(({ id, coverImage }) => (
-        <PrepareImage
-          key={id}
-          rel="preload"
-          src={`${cdnHost}/resize/${coverImage}?width=1400`}
-        />
-      ))}
-      {_games.map(({ id, backgroundImage }) => (
-        <PrepareImage
-          key={id}
-          rel="preload"
-          src={`${cdnHost}/resize/${backgroundImage}?width=${slideWidth}&height=${slideHeight}`}
-        />
-      ))}
       <Swiper
+        id={id}
         style={{ height: `${height}px` }}
+        initialSlide={currentPageIndex * countPerPage}
         grabCursor
         keyboard
         mousewheel
-        onSlideChange={(swiper) => {
-          if (swiper.activeIndex + 1 > currentPage * slidesPerGroup) {
-            setCurrentPage(currentPage + 1)
-          }
-        }}
+        onSlideChange={handlePageChange}
         spaceBetween={spaceBetween}
-        slidesPerGroup={slidesPerGroup}
+        slidesPerGroup={countPerPage}
         slidesPerView={slidesPerView}
         creativeEffect={{
           prev: {
@@ -156,16 +162,17 @@ const GameCollectionSwiper: FC<
         }}
         modules={[Mousewheel, Keyboard, EffectCreative]}
       >
-        {_games.map((game) => (
+        {games.map((game) => (
           <SwiperSlide key={game.id}>
             <GameCollectionGame
-              active={selectedGame?.id === game.id}
+              id={game.id}
+              active={currentGame.id === game.id}
               cdnHost={cdnHost}
               name={game.name}
               coverImage={game.coverImage}
-              coverHeight={slideHeight}
-              coverWidth={slideWidth}
-              onSelect={handleSelect(game)}
+              coverHeight={coverImageHeight}
+              coverWidth={coverImageWidth}
+              onSelect={handleSelect}
             />
           </SwiperSlide>
         ))}
@@ -175,4 +182,4 @@ const GameCollectionSwiper: FC<
 }
 
 export default GameCollectionSwiper
-export type { CollectionGameSelection }
+export type { GameChangeEventHandler, PageChangeEventEventHandler }

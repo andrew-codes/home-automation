@@ -3,6 +3,7 @@ import { FC } from "react"
 import styled from "styled-components"
 import Text from "../components/Text"
 import { Game } from "../Game"
+import PrepareImage from "./PreloadImage"
 
 const Overview = styled.div`
   display: flex;
@@ -13,6 +14,8 @@ const Overview = styled.div`
 `
 const Background = styled.div`
   flex: 1;
+  background-image: url("${({ backgroundImage }) => backgroundImage}");
+  background-size: cover;
 `
 const Details = styled.section`
   overflow: hidden;
@@ -63,11 +66,12 @@ const GameOverview: FC<GameOverviewProps> = ({
   name,
   platformReleases,
 }) => {
+  const background = !!backgroundImage
+    ? `${cdnHost}/resize/${backgroundImage}?width=1400`
+    : "none"
   return (
     <Overview>
-      <Background
-        backgroundImage={`${cdnHost}/resize/${backgroundImage}?width=1400`}
-      />
+      <Background backgroundImage={background} />
       <Details>
         <Text as={GameName}>{name}</Text>
         <Text

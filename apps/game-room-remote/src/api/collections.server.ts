@@ -1,6 +1,7 @@
 import { first, merge } from "lodash"
 import { flow, filter, map, orderBy, get } from "lodash/fp"
 import { Game, GameRelease } from "../Game"
+import { GameCollectionDefinition } from "../GameCollection"
 
 const lastMonth = new Date(new Date().setDate(-30))
 const mapGames = map<Game, Game>((game) =>
@@ -14,6 +15,7 @@ const mapGames = map<Game, Game>((game) =>
 
 const yearlyCollection = (releaseYear: number) => {
   return {
+    id: `yearly-collection-${releaseYear}`,
     name: releaseYear.toString(),
     filter: flow(
       filter<Game>((game) =>
@@ -31,8 +33,12 @@ const yearlyCollection = (releaseYear: number) => {
   }
 }
 
-const collectionDefinitions = [
+const collectionDefinitions: Omit<
+  GameCollectionDefinition,
+  "currentPageIndex" | "countPerPage"
+>[] = [
   {
+    id: "continue-playing",
     name: "continue playing",
     filter: flow(
       filter<Game>((game) =>
@@ -49,11 +55,10 @@ const collectionDefinitions = [
   },
   yearlyCollection(2022),
   {
+    id: "all",
     name: "all",
     filter: flow(mapGames, orderBy([get("name")], ["asc"])),
   },
-].map((collectionDefintion) =>
-  merge({}, collectionDefintion, { currentViewIndex: 0, countPerView: 7 }),
-)
+]
 
 export default collectionDefinitions

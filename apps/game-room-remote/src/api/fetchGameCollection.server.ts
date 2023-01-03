@@ -1,4 +1,5 @@
 import { gql } from "graphql-request"
+import { merge, omit } from "lodash"
 import { Game } from "../Game"
 import type {
   GameCollection,
@@ -14,13 +15,12 @@ const fetchGameCollections = async (
       games {
         id
         name
-        backgroundImage
         coverImage
+        backgroundImage
         platformReleases {
           releaseYear
           releaseDate
           lastActivity
-          description
         }
       }
     }
@@ -30,14 +30,20 @@ const fetchGameCollections = async (
     games: Game[]
   }>(gamesQuery)
 
-  return collectionDefinitions.map((collection) => {
-    return {
-      name: collection.name,
-      games: collection
+  const collections = collectionDefinitions.map((collectionDefinition) =>
+    merge({}, omit(collectionDefinition, ["filter"]), {
+      games: collectionDefinition
         .filter(games)
-        .slice(0, collection.currentViewIndex * collection.countPerView * 2),
-    }
-  })
+        .slice(
+          0,
+          (collectionDefinition.currentPageIndex + 1) *
+            collectionDefinition.countPerPage *
+            4,
+        ),
+    }),
+  )
+
+  return collections
 }
 
 export default fetchGameCollections

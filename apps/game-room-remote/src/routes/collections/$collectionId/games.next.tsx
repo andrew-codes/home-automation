@@ -6,13 +6,15 @@ import type { GameCollectionDefinition } from "../../../GameCollection"
 export const action = async (args: ActionArgs) => {
   if (args.request.method === "POST") {
     const formData = await args.request.formData()
-    const { collectionName, currentPage } = Object.fromEntries(formData)
+    const { currentPage } = Object.fromEntries(formData)
+    const { collectionId } = args.params
+
     const collectionDefinition = collectionDefinitions.find(
-      ({ name }) => name === collectionName.toString(),
+      ({ id }) => id === collectionId,
     ) as GameCollectionDefinition
     const pageNumber = parseInt(currentPage.toString())
-    collectionDefinition.currentViewIndex = pageNumber
-    collectionDefinition.countPerView = 7
+    collectionDefinition.currentPageIndex = pageNumber
+    collectionDefinition.countPerPage = 7
 
     const [collection] = await fetchGameCollections([collectionDefinition])
 
