@@ -64,7 +64,7 @@ const messageHandler: MessageHandler = {
         Buffer.from(
           JSON.stringify({
             name: `${areaName} Game Media Player Platform`,
-            state_topic: `homeassistant/${areaId}/game_media_player/state`,
+            state_topic: `playnite/${areaId}/game_media_player/state`,
             value_template: "{{ value_json.platformName }}",
             optimistic: true,
             icon: "mdi:gamepad-square",
@@ -83,7 +83,7 @@ const messageHandler: MessageHandler = {
         Buffer.from(
           JSON.stringify({
             name: `${areaName} Game Media Player Source Name`,
-            state_topic: `homeassistant/${areaId}/game_media_player/state`,
+            state_topic: `playnite/${areaId}/game_media_player/state`,
             value_template: "{{ value_json.name }}",
             optimistic: true,
             icon: "mdi:gamepad-square",
@@ -102,7 +102,7 @@ const messageHandler: MessageHandler = {
         Buffer.from(
           JSON.stringify({
             name: `${areaName} Game Media Player Platform ID`,
-            state_topic: `homeassistant/${areaId}/game_media_player/state`,
+            state_topic: `playnite/${areaId}/game_media_player/state`,
             value_template: "{{ value_json.platformId }}",
             optimistic: true,
             icon: "mdi:gamepad-square",

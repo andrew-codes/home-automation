@@ -18,6 +18,8 @@ import type { Loaders } from "./loaders"
 import createLoader from "./loaders"
 import schema from "./schema"
 import { GraphQLError } from "graphql"
+import type { AsyncMqttClient } from "async-mqtt"
+import { createMqtt } from "packages/mqtt-client/src"
 
 const logger = createLogger()
 
@@ -25,6 +27,7 @@ type GraphContext = {
   // token: string
   db: Db
   loaders: Loaders
+  mqtt: AsyncMqttClient
 } & BaseContext
 
 const typeDefs = gql`
@@ -64,16 +67,57 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
 
       return ctx.loaders.games.loadMany(ids)
     },
-    async gameReleaseByPlayniteId(parent, args, ctx) {
+    async gameReleaseById(parent, args, ctx) {
       const gameRelease = await ctx.db
         .collection("gameReleases")
-        .findOne({ playniteId: args.id })
-
+        .findOne({ _id: args.id })
       if (!gameRelease) {
         throw new GraphQLError(`Game release not found for ID: ${args.id}`)
       }
 
       return ctx.loaders.gameReleases.load(gameRelease.id)
+    },
+  },
+  Mutation: {
+    async startGame(parent, args, ctx) {
+      const gameReleaseResult = await ctx.db
+        .collection("gameReleases")
+        .findOne({ _id: args.id })
+
+      if (!gameReleaseResult) {
+        throw new GraphQLError(`Game release not found for ID: ${args.id}`)
+      }
+
+      await ctx.mqtt.publish(
+        `playnite/library/game/state`,
+        JSON.stringify({
+          state: "start",
+          id: args.id,
+          areaId: args.areaId,
+        }),
+      )
+
+      return ctx.loaders.gameReleases.load(gameReleaseResult.id)
+    },
+    async stopGame(parent, args, ctx) {
+      const gameReleaseResult = await ctx.db
+        .collection("gameReleases")
+        .findOne({ _id: args.id })
+
+      if (!gameReleaseResult) {
+        throw new GraphQLError(`Game release not found for ID: ${args.id}`)
+      }
+
+      await ctx.mqtt.publish(
+        `playnite/library/game/state`,
+        JSON.stringify({
+          state: "stop",
+          id: args.id,
+          areaId: args.areaId,
+        }),
+      )
+
+      return ctx.loaders.gameReleases.load(gameReleaseResult.id)
     },
   },
   GameRelease: {
@@ -94,7 +138,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
     __resolveReference(ref, ctx: GraphContext) {
       return ctx.loaders.games.load(ref.id)
     },
-    async platformReleases(parent, args, ctx) {
+    async releases(parent, args, ctx) {
       return ctx.loaders.gameReleases.loadMany(parent.platformReleaseIds)
     },
     genres(parent, args, ctx) {
@@ -167,23 +211,30 @@ const run = async () => {
     bodyParser.json({ limit: "50mb" }),
     expressMiddleware(server, {
       context: async ({ req }) => {
-        // const token = first(req.headers.authorization)
-        // if (!token) {
-        //   throw new GraphQLError("User is not authenticated", {
-        //     extensions: {
-        //       code: "UNAUTHENTICATED",
-        //       http: { status: 401 },
-        //     },
-        //   })
-        // }
-        const host = process.env.DB_HOST
-        const connectionUrl = `mongodb://${host}`
-        const client = new MongoClient(connectionUrl)
-        await client.connect()
-        const db = client.db("gameLibrary")
-        const loaders = await createLoader(db)
+        try {
+          // const token = first(req.headers.authorization)
+          // if (!token) {
+          //   throw new GraphQLError("User is not authenticated", {
+          //     extensions: {
+          //       code: "UNAUTHENTICATED",
+          //       http: { status: 401 },
+          //     },
+          //   })
+          // }
 
-        return { db, loaders }
+          const host = process.env.DB_HOST
+          const connectionUrl = `mongodb://${host}`
+          const client = new MongoClient(connectionUrl)
+          await client.connect()
+          const db = client.db("gameLibrary")
+          const loaders = await createLoader(db)
+
+          const mqtt = await createMqtt()
+
+          return { db, loaders, mqtt }
+        } catch (error) {
+          throw new GraphQLError(error?.toString() ?? "Unknown")
+        }
       },
     }),
   )

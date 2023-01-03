@@ -27,7 +27,7 @@ test("Given a valid topic and a payload with an area ID, playnite ID and state, 
       method: "POST",
       body: JSON.stringify({
         query:
-          "query Game($id: String!) { gameReleaseByPlayniteId(id: $id) { name platform { id name } } }",
+          "query GameReleaseById($id: String!) { gameReleaseById(id: $id) { game { name } playniteId platform { id name } } }",
         variables: { id: "123" },
       }),
       headers: {
@@ -37,8 +37,9 @@ test("Given a valid topic and a payload with an area ID, playnite ID and state, 
     .mockResolvedValue({
       json: jest.fn().mockResolvedValue({
         data: {
-          gameReleaseByPlayniteId: {
-            name: "Doom Eternal",
+          gameReleaseById: {
+            playniteId: "1234",
+            game: { name: "Doom Eternal" },
             platform: { id: "321", name: "Windows (PC)" },
           },
         },
@@ -53,11 +54,11 @@ test("Given a valid topic and a payload with an area ID, playnite ID and state, 
   )
 
   expect(publish).toBeCalledWith(
-    `homeassistant/game_room/game_media_player/state`,
+    `playnite/game_room/game_media_player/state`,
     Buffer.from(
       JSON.stringify({
         state: "starting",
-        id: "123",
+        id: "1234",
         platformName: "Windows (PC)",
         platformId: "321",
         name: "Doom Eternal",

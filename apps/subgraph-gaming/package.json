@@ -7,7 +7,9 @@
   "dependencies": {
     "@apollo/server": "^4.3.0",
     "@apollo/subgraph": "^2.2.2",
+    "@ha/mqtt-client": "^0.0.1",
     "@ha/logger": "^0.0.1",
+    "async-mqtt": "^2.6.1",
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
     "dataloader": "^2.1.0",

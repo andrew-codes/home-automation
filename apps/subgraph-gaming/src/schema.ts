@@ -4,67 +4,74 @@ const schema = `
   ${scalarTypeDefs.join(`
 
   `)}
+
   type Query {
+    gameReleaseById(id: String!): GameRelease!
     games: [Game!]!
     genres: [GameGenre!]!
     platforms: [GamePlatform!]!
-    gameReleaseByPlayniteId(id: String!): GameRelease!
+  }
+
+  type Mutation {
+    startGame(id: String!, areaId: String!): GameRelease
+    stopGame(id: String!, areaId: String!): GameRelease
   }
 
   type GamePlatform @key(fields: "id") {
+    games: [Game!]!
     id: ID!
     name: String!
-    games: [Game!]!
   }
 
   type GameGenre @key(fields: "id") {
+    games: [Game!]!
     id: ID!
     name: String!
-    games: [Game!]!
   }
 
   type GameSeries @key(fields: "id") {
+    games: [Game!]!
     id: ID!
     name: String!
-    games: [Game!]!
   }
 
   type GameSource @key(fields: "id") {
+    games: [Game!]!
     id: ID!
     name: String!
-    games: [Game!]!
   }
 
   type Game @key(fields: "id") {
-    id: ID!
     backgroundImage: String
     coverImage: String
     genres: [GameGenre!]!
+    id: ID!
     name: String!
-    platformReleases: [GameRelease!]!
+    releases: [GameRelease!]!
     series: [GameSeries!]!
   }
 
   type GameRelease @key(fields: "id") {
-    id: ID!
-    playId: String!
     added: DateTime!
     communityScore: Int
     criticScore: Int
-    gameId: Game!
     description: String
+    game: Game!
+    id: ID!
     isInstalled: Boolean!
     isInstalling: Boolean!
     isLaunching: Boolean!
     isRunning: Boolean!
     isUninstalling: Boolean!
-    platform: GamePlatform!
     lastActivity: DateTime
-    source: GameSource
+    platform: GamePlatform!
+    playCount: Int!
+    playId: String!
+    playniteId: String!
+    playTime: Time
     releaseDate: Date
     releaseYear: Int
-    playCount: Int!
-    playTime: Time
+    source: GameSource
   }
 `
 

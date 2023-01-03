@@ -77,7 +77,7 @@ test("Given a valid topic, when handling the message, then HA is queried and eac
   expect(JSON.parse(publish.mock.calls[2][1].toString())).toEqual(
     expect.objectContaining({
       name: "Game Room Game Media Player Platform",
-      state_topic: `homeassistant/game_room/game_media_player/state`,
+      state_topic: `playnite/game_room/game_media_player/state`,
       value_template: "{{ value_json.platformName }}",
       optimistic: true,
       entity_category: "diagnostic",
@@ -97,7 +97,7 @@ test("Given a valid topic, when handling the message, then HA is queried and eac
   expect(JSON.parse(publish.mock.calls[3][1].toString())).toEqual(
     expect.objectContaining({
       name: "Game Room Game Media Player Source Name",
-      state_topic: `homeassistant/game_room/game_media_player/state`,
+      state_topic: `playnite/game_room/game_media_player/state`,
       value_template: "{{ value_json.name }}",
       optimistic: true,
       entity_category: "diagnostic",
@@ -117,7 +117,7 @@ test("Given a valid topic, when handling the message, then HA is queried and eac
   expect(JSON.parse(publish.mock.calls[4][1].toString())).toEqual(
     expect.objectContaining({
       name: "Game Room Game Media Player Platform ID",
-      state_topic: `homeassistant/game_room/game_media_player/state`,
+      state_topic: `playnite/game_room/game_media_player/state`,
       value_template: "{{ value_json.platformId }}",
       optimistic: true,
       entity_category: "diagnostic",

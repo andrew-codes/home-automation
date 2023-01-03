@@ -6,7 +6,7 @@ import { MessageHandler } from "./types"
 const logger = createLogger()
 
 const expr = /^playnite\/library\/game\/state$/
-const supportedStates = ["started", "starting", "stopped"]
+const supportedStates = ["start", "started", "starting", "stop", "stopped"]
 
 const messageHandler: MessageHandler = {
   shouldHandle: (topic) => expr.test(topic),
@@ -14,7 +14,6 @@ const messageHandler: MessageHandler = {
     logger.info(`Handling topic ${topic}`)
     try {
       const { id, state, areaId } = JSON.parse(payload.toString())
-
       if (isEmpty(id) || isEmpty(areaId) || isEmpty(state)) {
         throw new Error("Invalid payload; missing properties")
       }
@@ -24,31 +23,30 @@ const messageHandler: MessageHandler = {
           `Cannot handle an unsupported state. Only accepts states: started, starting, stopped.`,
         )
       }
-
       const {
-        data: { gameReleaseByPlayniteId },
-      } = await fetch(process.env.GRAPH_HOST ?? "", {
+        data: { gameReleaseById },
+      } = await fetch(process.env.GRAPH_HOST ?? "http://localhost:8082", {
         method: "POST",
         body: JSON.stringify({
           query:
-            "query Game($id: String!) { gameReleaseByPlayniteId(id: $id) { name platform { id name } } }",
+            "query GameReleaseById($id: String!) { gameReleaseById(id: $id) { game { name } playniteId platform { id name } } }",
           variables: { id },
         }),
         headers: {
           "content-type": "application/json",
         },
       }).then((resp) => resp.json())
-
+      console.log(gameReleaseById)
       const mqtt = await createMqtt()
       await mqtt.publish(
-        `homeassistant/${areaId}/game_media_player/state`,
+        `playnite/${areaId}/game_media_player/state`,
         Buffer.from(
           JSON.stringify({
             state,
-            id,
-            platformName: gameReleaseByPlayniteId.platform.name,
-            platformId: gameReleaseByPlayniteId.platform.id,
-            name: gameReleaseByPlayniteId.name,
+            id: gameReleaseById.playniteId,
+            platformName: gameReleaseById.platform.name,
+            platformId: gameReleaseById.platform.id,
+            name: gameReleaseById.game.name,
           }),
         ),
       )
