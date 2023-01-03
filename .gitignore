@@ -21,3 +21,4 @@ id_rsa
 /logs
 obj
 .vs
+apps/**/generated

@@ -3,4 +3,4 @@ subgraphs:
   gaming:
     routing_url: http://subgraph-gaming
     schema:
-      subgraph_url: http://subgraph-gaming
+      file: ../dist/build/gaming.graphql

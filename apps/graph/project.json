@@ -52,8 +52,8 @@
       },
       "dependsOn": [
         {
-          "target": "deploy",
-          "projets": "dependencies"
+          "target": "generate",
+          "projects": "dependencies"
         }
       ]
     },

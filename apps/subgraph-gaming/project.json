@@ -31,6 +31,14 @@
         }
       ]
     },
+    "generate": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/subgraph-gaming",
+        "module": "scripts/generate.ts"
+      },
+      "outputs": ["apps/subgraph-gaming/generated"]
+    },
     "image/push": {
       "executor": "@ha/nx-executors:invoke",
       "dependsOn": [
