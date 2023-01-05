@@ -11,13 +11,13 @@ const fetchGameCollections = async (
   collectionDefinitions: GameCollectionDefinition[],
 ): Promise<GameCollection[]> => {
   const gamesQuery = gql`
-    query Games {
+    query GameColectionGames {
       games {
         id
         name
         coverImage
         backgroundImage
-        platformReleases {
+        releases {
           releaseYear
           releaseDate
           lastActivity
