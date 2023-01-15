@@ -2,6 +2,6 @@
   "name": "@ha/openvpn",
   "version": "0.0.1",
   "dependencies": {
-    "@ha/github-secrets": "^0.0.1"
+    "@ha/github-secrets": "workspace:^0.0.1"
   }
 }

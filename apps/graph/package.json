@@ -3,9 +3,8 @@
   "name": "@ha/graph",
   "version": "0.0.1",
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
-    "@ha/shell-utils": "^1.0.0",
+    "@ha/shell-utils": "workspace:^1.0.0",
     "shelljs": "^0.8.4"
   }
 }

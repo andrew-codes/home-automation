@@ -8,7 +8,7 @@
     "shelljs": "^0.8.4"
   },
   "devDependencies": {
-    "@ha/cli-utils": "^0.0.1",
-    "@ha/shell-utils": "^1.0.0"
+    "@ha/cli-utils": "workspace:^0.0.1",
+    "@ha/shell-utils": "workspace:^1.0.0"
   }
 }

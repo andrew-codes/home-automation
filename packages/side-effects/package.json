@@ -3,6 +3,5 @@
   "name": "@ha/side-effects",
   "version": "0.0.1",
   "license": "MIT",
-  "main": "src/index.ts",
-  "dependencies": {}
+  "main": "src/index.ts"
 }

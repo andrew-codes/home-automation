@@ -2,6 +2,6 @@
   "name": "@ha/docker-creds",
   "version": "0.0.1",
   "devDependencies": {
-    "@ha/shell-utils": "^1.0.0"
+    "@ha/shell-utils": "workspace:^1.0.0"
   }
 }

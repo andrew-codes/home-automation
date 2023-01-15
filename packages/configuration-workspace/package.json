@@ -4,11 +4,10 @@
   "version": "0.0.1",
   "license": "MIT",
   "main": "src/index.ts",
-  "dependencies": {},
   "devDependencies": {
-    "@ha/configuration-api": "^0.0.1",
-    "@ha/configuration-1password": "^0.0.1",
-    "@ha/configuration-env-secrets": "^0.0.1",
+    "@ha/configuration-1password": "workspace:^0.0.1",
+    "@ha/configuration-api": "workspace:^0.0.1",
+    "@ha/configuration-env-secrets": "workspace:^0.0.1",
     "lodash": "^4.17.21"
   }
 }

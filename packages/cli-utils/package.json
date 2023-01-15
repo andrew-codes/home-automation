@@ -4,7 +4,6 @@
   "version": "0.0.1",
   "license": "MIT",
   "main": "src/index.ts",
-  "dependencies": {},
   "devDependencies": {
     "lodash": "^4.17.21"
   }

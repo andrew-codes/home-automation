@@ -5,7 +5,7 @@
   "license": "MIT",
   "main": "src/index.ts",
   "dependencies": {
-    "@ha/env-utils": "^0.0.1",
+    "@ha/env-utils": "workspace:^0.0.1",
     "lodash": "^4.17.21"
   }
 }

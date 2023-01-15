@@ -4,11 +4,10 @@
   "version": "0.0.1",
   "license": "MIT",
   "main": "src/index.ts",
-  "dependencies": {},
   "devDependencies": {
-    "@ha/configuration-api": "^0.0.1",
-    "@ha/configuration-env-secrets": "^0.0.1",
-    "@ha/secret-utils": "^0.0.1",
+    "@ha/configuration-api": "workspace:^0.0.1",
+    "@ha/configuration-env-secrets": "workspace:^0.0.1",
+    "@ha/secret-utils": "workspace:^0.0.1",
     "dotenv": "^16.0.3"
   }
 }
