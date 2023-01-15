@@ -3,7 +3,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 USER root
 RUN apt update -y
-RUN apt-get install apt-transport-https
+RUN apt-get install \
+  apt-transport-https wget
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 RUN echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
@@ -65,9 +66,9 @@ RUN curl -Os https://uploader.codecov.io/latest/linux/codecov
 RUN chmod +x codecov
 RUN ln -s codecov /usr/local/bin
 RUN chown --recursive runner /home/runner/.ansible
+RUN corepack enable
+RUN corepack prepare yarn@stable --activate
 USER runner
 RUN mkdir -p /home/runner/.config/docker
 RUN echo '{ "features": { "buildkit": true }, "exec-opts": [], "insecure-registries": ["docker-registry:5000"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' | tee /home/runner/.config/docker/daemon.json
 RUN curl -sSL https://rover.apollo.dev/nix/latest | sh
-RUN corepack enable
-RUN corepack prepare yarn@stable --activate
