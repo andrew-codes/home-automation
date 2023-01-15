@@ -6,8 +6,13 @@
   "license": "MIT",
   "devDependencies": {
     "@ha/build-ts": "workspace:^1.0.0",
+    "@ha/configuration-api": "workspace:^0.0.1",
+    "@ha/configuration-workspace": "workspace:^0.0.1",
     "@ha/configure-jest": "workspace:^0.0.1",
+    "@ha/docker": "workspace:^0.0.1",
     "@ha/http-heartbeat": "workspace:^0.0.1",
+    "@ha/jsonnet": "workspace:^0.0.1",
+    "@ha/kubectl": "workspace:^1.0.0",
     "@ha/logger": "workspace:^0.0.1",
     "@ha/mqtt-client": "workspace:^0.0.1",
     "@ha/unifi-client": "workspace:^0.1.0",

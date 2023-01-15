@@ -28,6 +28,13 @@
     "styled-components": "^5.3.6"
   },
   "devDependencies": {
+    "@ha/configuration-api": "workspace:^0.0.1",
+    "@ha/configuration-workspace": "workspace:^0.0.1",
+    "@ha/configure-jest": "workspace:^0.0.1",
+    "@ha/docker": "workspace:^0.0.1",
+    "@ha/jsonnet": "workspace:^0.0.1",
+    "@ha/kubectl": "workspace:^1.0.0",
+    "@ha/shell-utils": "workspace:^1.0.0",
     "@remix-run/dev": "^1.10.1",
     "@remix-run/eslint-config": "^1.10.1",
     "@types/jest": "^29.2.5",
@@ -37,6 +44,7 @@
     "eslint": "^8.32.0",
     "jest": "^29.3.1",
     "jest-when": "^3.5.2",
+    "lodash": "^4.17.21",
     "shelljs": "^0.8.5",
     "ts-jest": "^29.0.5",
     "tsc": "^2.0.4",

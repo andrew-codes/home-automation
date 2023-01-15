@@ -3,5 +3,11 @@
   "version": "0.0.1",
   "dependencies": {
     "@ha/github-secrets": "workspace:^0.0.1"
+  },
+  "devDependencies": {
+    "@ha/configuration-api": "workspace:^0.0.1",
+    "@ha/configuration-workspace": "workspace:^0.0.1",
+    "@ha/shell-utils": "workspace:^1.0.0",
+    "shelljs": "^0.8.5"
   }
 }

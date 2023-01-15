@@ -1,0 +1,9 @@
+{
+  "name": "@ha/infrastructure-docker-registry",
+  "devDependencies": {
+    "shelljs": "^0.8.5",
+    "@ha/shell-utils": "workspace:^1.0.0",
+    "@ha/configuration-api": "workspace:^0.0.1",
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+  }
+}

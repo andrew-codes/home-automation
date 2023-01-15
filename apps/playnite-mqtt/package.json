@@ -1,0 +1,13 @@
+{
+  "name": "@ha/playnite-mqtt",
+  "devDependencies": {
+    "@ha/configuration-api": "workspace:^0.0.1",
+    "@ha/configuration-workspace": "workspace:^0.0.1",
+    "@ha/delay": "workspace:^0.0.1",
+    "@ha/jsonnet": "workspace:^0.0.1",
+    "@ha/kubectl": "workspace:^1.0.0",
+    "@ha/shell-utils": "workspace:^1.0.0",
+    "shelljs": "^0.8.5",
+    "wakeonlan": "^0.1.0"
+  }
+}

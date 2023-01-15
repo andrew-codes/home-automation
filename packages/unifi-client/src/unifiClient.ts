@@ -1,6 +1,5 @@
 import { readFile } from "fs/promises"
 import { Controller } from "node-unifi"
-import { throwIfError } from "@ha/shell-utils"
 import path from "path"
 import cp from "child_process"
 

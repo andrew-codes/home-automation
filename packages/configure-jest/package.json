@@ -6,7 +6,8 @@
   "main": "src/index.js",
   "dependencies": {
     "jest-config": "^29.3.1",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "uuid": "^9.0.0"
   },
   "peerDependencies": {
     "@types/jest": "^29.2.5",

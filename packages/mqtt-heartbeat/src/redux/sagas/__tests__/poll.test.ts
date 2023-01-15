@@ -1,5 +1,5 @@
 import { expectSaga } from "redux-saga-test-plan"
-import { delay } from "@ha/side-effects"
+import { delay } from "@ha/delay"
 import { createMqtt } from "@ha/mqtt-client"
 import saga from ".."
 import { poll, updateHomeAssistant } from "../../actionCreators"

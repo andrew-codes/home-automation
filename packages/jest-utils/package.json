@@ -3,5 +3,8 @@
   "name": "@ha/jest-utils",
   "version": "0.0.1",
   "license": "MIT",
-  "main": "src/index.ts"
+  "main": "src/index.ts",
+  "devDependencies": {
+    "@types/node": "^18.11.18"
+  }
 }

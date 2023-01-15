@@ -32,11 +32,18 @@ __metadata:
   resolution: "@andrew-codes/home-automation@workspace:."
   dependencies:
     "@apollo/rover": ^0.10.0
+    "@ha/configure-jest": "workspace:^0.0.1"
     "@nrwl/workspace": ^15.5.1
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
     istanbul: ^0.4.5
     istanbul-merge: ^1.1.1
+    jest: ^29.3.1
+    jest-when: ^3.5.2
     nx: 15.5.1
     prettier: ^2.8.3
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
   languageName: unknown
   linkType: soft
 
@@ -4166,7 +4173,16 @@ __metadata:
   resolution: "@ha/alexa-shopping-list-updater-skill@workspace:apps/alexa-shopping-list-updater-skill"
   dependencies:
     "@ha/build-ts": "workspace:^1.0.0"
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
     "@ha/http-heartbeat": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/mqtt-heartbeat": "workspace:^0.0.1"
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
     apollo-fetch: ^0.7.0
     ask-sdk-core: ^2.12.1
     ask-sdk-express-adapter: ^2.12.1
@@ -4175,9 +4191,13 @@ __metadata:
     esbuild: ^0.17.0
     esbuild-register: ^3.4.2
     express: ^4.18.2
+    jest: ^29.3.1
+    jest-when: ^3.5.2
     lodash: ^4.17.21
     nodemon: ^2.0.20
     shelljs: ^0.8.5
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
   languageName: unknown
   linkType: soft
 
@@ -4185,8 +4205,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ha/build-ts@workspace:packages/build-ts"
   dependencies:
+    "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/env-utils": "workspace:^0.0.1"
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
+    esbuild: ^0.17.0
+    jest: ^29.3.1
     lodash: ^4.17.21
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
   languageName: unknown
   linkType: soft
 
@@ -4201,8 +4228,15 @@ __metadata:
     "@atlaskit/side-navigation": ^1.5.0
     "@atlaskit/textfield": ^5.3.4
     "@atlaskit/toggle": ^12.5.6
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
     "@ha/logger": "workspace:^0.0.1"
     "@ha/mqtt-client": "workspace:^0.0.1"
+    "@ha/shell-utils": "workspace:^1.0.0"
     "@ha/themes-slate": "workspace:^0.0.1"
     "@ha/unifi-client": "workspace:^0.1.0"
     "@remix-run/dev": ^1.10.1
@@ -4235,7 +4269,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ha/cli-utils@workspace:packages/cli-utils"
   dependencies:
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
+    jest: ^29.3.1
     lodash: ^4.17.21
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
   languageName: unknown
   linkType: soft
 
@@ -4246,6 +4286,7 @@ __metadata:
     "@1password/connect": ^1.3.0
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-env-secrets": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/secret-utils": "workspace:^0.0.1"
     "@types/jest": ^29.2.5
     "@types/node": ^18.11.18
@@ -4269,8 +4310,15 @@ __metadata:
   dependencies:
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-env-secrets": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/secret-utils": "workspace:^0.0.1"
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
     dotenv: ^16.0.3
+    jest: ^29.3.1
+    jest-when: ^3.5.2
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
   languageName: unknown
   linkType: soft
 
@@ -4281,7 +4329,15 @@ __metadata:
     "@ha/configuration-1password": "workspace:^0.0.1"
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-env-secrets": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
+    debug: ^4.3.4
+    jest: ^29.3.1
+    jest-when: ^3.5.2
     lodash: ^4.17.21
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
   languageName: unknown
   linkType: soft
 
@@ -4291,6 +4347,7 @@ __metadata:
   dependencies:
     jest-config: ^29.3.1
     lodash: ^4.17.21
+    uuid: ^9.0.0
   peerDependencies:
     "@types/jest": ^29.2.5
     "@types/node": ^18.11.18
@@ -4300,9 +4357,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/delay@workspace:packages/delay":
+"@ha/delay@workspace:^0.0.1, @ha/delay@workspace:packages/delay":
   version: 0.0.0-use.local
   resolution: "@ha/delay@workspace:packages/delay"
+  dependencies:
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
+    jest: ^29.3.1
+    jest-when: ^3.5.2
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
   languageName: unknown
   linkType: soft
 
@@ -4310,16 +4375,31 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ha/docker-creds@workspace:apps/docker-creds"
   dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/shell-utils": "workspace:^1.0.0"
+    shelljs: ^0.8.5
   languageName: unknown
   linkType: soft
 
-"@ha/docker@workspace:packages/docker":
+"@ha/docker-registry@workspace:apps/docker-registry":
+  version: 0.0.0-use.local
+  resolution: "@ha/docker-registry@workspace:apps/docker-registry"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    shelljs: ^0.8.5
+  languageName: unknown
+  linkType: soft
+
+"@ha/docker@workspace:^0.0.1, @ha/docker@workspace:packages/docker":
   version: 0.0.0-use.local
   resolution: "@ha/docker@workspace:packages/docker"
   dependencies:
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/shell-utils": "workspace:^1.0.0"
     "@types/jest": ^29.2.5
     "@types/node": ^18.11.18
@@ -4331,11 +4411,31 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ha/elk-stack@workspace:apps/elk-stack":
+  version: 0.0.0-use.local
+  resolution: "@ha/elk-stack@workspace:apps/elk-stack"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+    shelljs: ^0.8.5
+  languageName: unknown
+  linkType: soft
+
 "@ha/env-utils@workspace:^0.0.1, @ha/env-utils@workspace:packages/env-utils":
   version: 0.0.0-use.local
   resolution: "@ha/env-utils@workspace:packages/env-utils"
   dependencies:
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
     detect-node: ^2.1.0
+    jest: ^29.3.1
+    jest-when: ^3.5.2
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
   languageName: unknown
   linkType: soft
 
@@ -4344,7 +4444,13 @@ __metadata:
   resolution: "@ha/external-services-dns-updater@workspace:apps/external-service-dns-updater"
   dependencies:
     "@ha/build-ts": "workspace:^1.0.0"
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
     "@ha/http-heartbeat": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
     "@ha/mqtt-client": "workspace:^0.0.1"
     "@types/jest": ^29.2.5
     "@types/node": ^18.11.18
@@ -4352,6 +4458,7 @@ __metadata:
     debug: ^4.3.4
     esbuild: ^0.17.0
     esbuild-register: ^3.4.2
+    google-auth-library: ^7.14.1
     googleapis: ^92.0.0
     jest: ^29.3.1
     jest-when: ^3.5.2
@@ -4361,13 +4468,31 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ha/frigate@workspace:apps/frigate":
+  version: 0.0.0-use.local
+  resolution: "@ha/frigate@workspace:apps/frigate"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+  languageName: unknown
+  linkType: soft
+
 "@ha/game-devices@workspace:apps/game-devices":
   version: 0.0.0-use.local
   resolution: "@ha/game-devices@workspace:apps/game-devices"
   dependencies:
     "@ha/build-ts": "workspace:^1.0.0"
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
     "@ha/http-heartbeat": "workspace:^0.0.1"
     "@ha/jest-utils": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
     "@ha/logger": "workspace:^0.0.1"
     "@ha/mqtt-client": "workspace:^0.0.1"
     "@types/jest": ^29.2.5
@@ -4384,13 +4509,31 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ha/game-library-db@workspace:apps/game-library-db":
+  version: 0.0.0-use.local
+  resolution: "@ha/game-library-db@workspace:apps/game-library-db"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+  languageName: unknown
+  linkType: soft
+
 "@ha/game-library-updater@workspace:apps/game-library-updater":
   version: 0.0.0-use.local
   resolution: "@ha/game-library-updater@workspace:apps/game-library-updater"
   dependencies:
     "@ha/build-ts": "workspace:^1.0.0"
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
     "@ha/http-heartbeat": "workspace:^0.0.1"
     "@ha/jest-utils": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
     "@ha/logger": "workspace:^0.0.1"
     "@ha/mqtt-client": "workspace:^0.0.1"
     "@ha/string-utils": "workspace:^0.0.1"
@@ -4420,6 +4563,12 @@ __metadata:
     "@atlaskit/side-navigation": ^1.5.0
     "@atlaskit/textfield": ^5.3.4
     "@atlaskit/toggle": ^12.5.6
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
     "@ha/themes-slate": "workspace:^0.0.1"
     "@remix-run/dev": ^1.10.1
     "@remix-run/eslint-config": ^1.10.1
@@ -4438,6 +4587,7 @@ __metadata:
     graphql-tag: ^2.12.6
     jest: ^29.3.1
     jest-when: ^3.5.2
+    lodash: ^4.17.21
     patch-package: ^6.5.1
     react: ^18.2.0
     react-dom: ^18.2.0
@@ -4445,6 +4595,7 @@ __metadata:
     react-virtualized-auto-sizer: ^1.0.7
     react-window: ^1.8.8
     remix: ^1.10.1
+    shelljs: ^0.8.5
     styled-components: ^5.3.6
     swiper: ^8.4.5
     ts-jest: ^29.0.5
@@ -4471,6 +4622,8 @@ __metadata:
     "@ha/build-ts": "workspace:^1.0.0"
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
     "@ha/jsonnet": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/logger": "workspace:^0.0.1"
@@ -4482,6 +4635,7 @@ __metadata:
     express: ^4.18.2
     jest: ^29.3.1
     jest-when: ^3.5.2
+    lodash: ^4.17.21
     nodemon: ^2.0.20
     sharp: ^0.31.3
     spdy: ^4.0.2
@@ -4490,16 +4644,70 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ha/gaming-pc@workspace:apps/gaming-pc":
+  version: 0.0.0-use.local
+  resolution: "@ha/gaming-pc@workspace:apps/gaming-pc"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    shelljs: ^0.8.5
+  languageName: unknown
+  linkType: soft
+
+"@ha/github-action-runners@workspace:apps/github-action-runners":
+  version: 0.0.0-use.local
+  resolution: "@ha/github-action-runners@workspace:apps/github-action-runners"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/github-secrets": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    shelljs: ^0.8.5
+  languageName: unknown
+  linkType: soft
+
 "@ha/github-secrets@workspace:^0.0.1, @ha/github-secrets@workspace:packages/github-secrets":
   version: 0.0.0-use.local
   resolution: "@ha/github-secrets@workspace:packages/github-secrets"
   dependencies:
     "@ha/build-ts": "workspace:^1.0.0"
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/shell-utils": "workspace:^1.0.0"
     "@octokit/core": ^4.1.0
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
+    jest: ^29.3.1
+    jest-when: ^3.5.2
     libsodium-wrappers: ^0.7.10
     lodash: ^4.17.21
+    shelljs: ^0.8.5
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
   bin:
     seal-github-secret: dist/seal.js
+  languageName: unknown
+  linkType: soft
+
+"@ha/grafana@workspace:apps/grafana":
+  version: 0.0.0-use.local
+  resolution: "@ha/grafana@workspace:apps/grafana"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
+    jest: ^29.3.1
+    jest-when: ^3.5.2
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
   languageName: unknown
   linkType: soft
 
@@ -4507,8 +4715,26 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ha/graph@workspace:apps/graph"
   dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
     "@ha/shell-utils": "workspace:^1.0.0"
+    nodemon: ^2.0.20
     shelljs: ^0.8.5
+  languageName: unknown
+  linkType: soft
+
+"@ha/guest-db@workspace:apps/guest-db":
+  version: 0.0.0-use.local
+  resolution: "@ha/guest-db@workspace:apps/guest-db"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
   languageName: unknown
   linkType: soft
 
@@ -4517,8 +4743,13 @@ __metadata:
   resolution: "@ha/guest-pin-codes@workspace:apps/guest-pin-codes"
   dependencies:
     "@ha/build-ts": "workspace:^1.0.0"
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/configure-jest": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
     "@ha/http-heartbeat": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
     "@ha/mqtt-client": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.0.1"
     "@ha/unifi-client": "workspace:^0.1.0"
@@ -4552,12 +4783,22 @@ __metadata:
   resolution: "@ha/guest-registrar@workspace:apps/guest-registrar"
   dependencies:
     "@ha/build-ts": "workspace:^1.0.0"
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
     "@ha/ha-entity-utils": "workspace:^0.0.1"
     "@ha/http-heartbeat": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
     "@ha/logger": "workspace:^0.0.1"
     "@ha/mqtt-client": "workspace:^0.0.1"
     "@ha/unifi-client": "workspace:^0.1.0"
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
     async-mqtt: ^2.6.3
+    jest: ^29.3.1
+    jest-when: ^3.5.2
     lodash: ^4.17.21
     mongodb: ^4.13.0
     node-unifi: ^2.2.2
@@ -4565,6 +4806,8 @@ __metadata:
     redux: ^4.2.0
     redux-saga: ^1.2.2
     reselect: ^4.1.7
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
   languageName: unknown
   linkType: soft
 
@@ -4573,20 +4816,32 @@ __metadata:
   resolution: "@ha/guest-wifi-registrar@workspace:apps/guest-wifi-registrar"
   dependencies:
     "@ha/build-ts": "workspace:^1.0.0"
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
     "@ha/ha-entity-utils": "workspace:^0.0.1"
     "@ha/http-heartbeat": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
     "@ha/logger": "workspace:^0.0.1"
     "@ha/mqtt-client": "workspace:^0.0.1"
     "@ha/unifi-client": "workspace:^0.1.0"
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
     async-mqtt: ^2.6.3
     esbuild: ^0.17.0
     esbuild-register: ^3.4.2
+    jest: ^29.3.1
+    jest-when: ^3.5.2
     lodash: ^4.17.21
     node-unifi: ^2.2.2
     nodemon: ^2.0.20
     redux: ^4.2.0
     redux-saga: ^1.2.2
     reselect: ^4.1.7
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
   languageName: unknown
   linkType: soft
 
@@ -4595,8 +4850,13 @@ __metadata:
   resolution: "@ha/guest-wifi-renewal@workspace:apps/guest-wifi-renewal"
   dependencies:
     "@ha/build-ts": "workspace:^1.0.0"
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/configure-jest": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
     "@ha/http-heartbeat": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
     "@ha/logger": "workspace:^0.0.1"
     "@ha/mqtt-client": "workspace:^0.0.1"
     "@ha/unifi-client": "workspace:^0.1.0"
@@ -4618,7 +4878,36 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ha/ha-entity-utils@workspace:packages/ha-entity-utils"
   dependencies:
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
+    jest: ^29.3.1
+    jest-when: ^3.5.2
     lodash: ^4.17.21
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
+  languageName: unknown
+  linkType: soft
+
+"@ha/home-assistant-config-applicator@workspace:apps/home-assistant-config-applicator":
+  version: 0.0.0-use.local
+  resolution: "@ha/home-assistant-config-applicator@workspace:apps/home-assistant-config-applicator"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+  languageName: unknown
+  linkType: soft
+
+"@ha/home-assistant@workspace:apps/home-assistant":
+  version: 0.0.0-use.local
+  resolution: "@ha/home-assistant@workspace:apps/home-assistant"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
   languageName: unknown
   linkType: soft
 
@@ -4626,6 +4915,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ha/http-heartbeat@workspace:packages/http-heartbeat"
   dependencies:
+    "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/logger": "workspace:^0.0.1"
     "@types/jest": ^29.2.5
     "@types/node": ^18.11.18
@@ -4637,20 +4927,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/image@workspace:packages/image":
+"@ha/influxdb@workspace:apps/influxdb":
   version: 0.0.0-use.local
-  resolution: "@ha/image@workspace:packages/image"
+  resolution: "@ha/influxdb@workspace:apps/influxdb"
   dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
     shelljs: ^0.8.5
-  bin:
-    burn-image: src/bin/burn-image.js
-    clean: rm -rf .test-runs
   languageName: unknown
   linkType: soft
 
 "@ha/jest-utils@workspace:^0.0.1, @ha/jest-utils@workspace:packages/jest-utils":
   version: 0.0.0-use.local
   resolution: "@ha/jest-utils@workspace:packages/jest-utils"
+  dependencies:
+    "@types/node": ^18.11.18
   languageName: unknown
   linkType: soft
 
@@ -4659,6 +4952,7 @@ __metadata:
   resolution: "@ha/jsonnet@workspace:packages/jsonnet"
   dependencies:
     "@ha/cli-utils": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/logger": "workspace:^0.0.1"
     "@types/jest": ^29.2.5
     "@types/node": ^18.11.18
@@ -4670,13 +4964,32 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ha/k8s@workspace:apps/k8s":
+  version: 0.0.0-use.local
+  resolution: "@ha/k8s@workspace:apps/k8s"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/github-secrets": "workspace:^0.0.1"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    shelljs: ^0.8.5
+  languageName: unknown
+  linkType: soft
+
 "@ha/kubectl@workspace:^1.0.0, @ha/kubectl@workspace:packages/kubectl":
   version: 0.0.0-use.local
   resolution: "@ha/kubectl@workspace:packages/kubectl"
   dependencies:
     "@ha/cli-utils": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/shell-utils": "workspace:^1.0.0"
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
+    jest: ^29.3.1
+    jest-when: ^3.5.2
     shelljs: ^0.8.5
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
   languageName: unknown
   linkType: soft
 
@@ -4685,6 +4998,13 @@ __metadata:
   resolution: "@ha/logger@workspace:packages/logger"
   dependencies:
     "@elastic/ecs-winston-format": ^1.3.1
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
+    jest: ^29.3.1
+    jest-when: ^3.5.2
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
     winston: ^3.8.2
   languageName: unknown
   linkType: soft
@@ -4693,32 +5013,62 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ha/manual-deployment@workspace:apps/manual-deployment"
   dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
     "@octokit/core": ^4.1.0
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
+    jest: ^29.3.1
+    jest-when: ^3.5.2
     lodash: ^4.17.21
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
+  languageName: unknown
+  linkType: soft
+
+"@ha/metrics@workspace:apps/metrics":
+  version: 0.0.0-use.local
+  resolution: "@ha/metrics@workspace:apps/metrics"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    shelljs: ^0.8.5
   languageName: unknown
   linkType: soft
 
 "@ha/mqtt-client@workspace:^0.0.1, @ha/mqtt-client@workspace:packages/mqtt-client":
   version: 0.0.0-use.local
   resolution: "@ha/mqtt-client@workspace:packages/mqtt-client"
+  dependencies:
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
+    jest: ^29.3.1
+    jest-when: ^3.5.2
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
   peerDependencies:
     async-mqtt: ^2.6.3
   languageName: unknown
   linkType: soft
 
-"@ha/mqtt-heartbeat@workspace:packages/mqtt-heartbeat":
+"@ha/mqtt-heartbeat@workspace:^0.0.1, @ha/mqtt-heartbeat@workspace:packages/mqtt-heartbeat":
   version: 0.0.0-use.local
   resolution: "@ha/mqtt-heartbeat@workspace:packages/mqtt-heartbeat"
   dependencies:
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@ha/delay": "workspace:^0.0.1"
     "@ha/ha-entity-utils": "workspace:^0.0.1"
     "@ha/logger": "workspace:^0.0.1"
     "@ha/mqtt-client": "workspace:^0.0.1"
-    "@ha/side-effects": "workspace:^0.0.1"
+    "@redux-saga/core": ^1.2.2
     "@redux-saga/is": ^1.1.3
     "@redux-saga/symbols": ^1.1.3
     "@types/jest": ^29.2.5
     "@types/node": ^18.11.18
     async-mqtt: ^2.6.3
+    debug: ^4.3.4
     jest: ^29.3.1
     jest-when: ^3.5.2
     redux: ^4.2.0
@@ -4729,20 +5079,40 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ha/mqtt@workspace:apps/mqtt":
+  version: 0.0.0-use.local
+  resolution: "@ha/mqtt@workspace:apps/mqtt"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+  languageName: unknown
+  linkType: soft
+
 "@ha/nx-executors@workspace:^0.0.1, @ha/nx-executors@workspace:packages/nx-executors":
   version: 0.0.0-use.local
   resolution: "@ha/nx-executors@workspace:packages/nx-executors"
   dependencies:
+    "@ha/build-ts": "workspace:^1.0.0"
+    "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/env-utils": "workspace:^0.0.1"
     "@ha/shell-utils": "workspace:^1.0.0"
     "@nrwl/devkit": ^15.5.1
+    "@types/jest": ^29.2.5
     "@types/node": ^18.11.18
     esbuild: ^0.17.0
     esbuild-register: ^3.4.2
+    jest: ^29.3.1
+    jest-when: ^3.5.2
     lodash: 4.17.21
     nx: ^15.5.1
     shelljs: ^0.8.5
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
   languageName: unknown
   linkType: soft
 
@@ -4750,7 +5120,50 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ha/openvpn@workspace:apps/openvpn"
   dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/github-secrets": "workspace:^0.0.1"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    shelljs: ^0.8.5
+  languageName: unknown
+  linkType: soft
+
+"@ha/pihole@workspace:apps/pihole":
+  version: 0.0.0-use.local
+  resolution: "@ha/pihole@workspace:apps/pihole"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    shelljs: ^0.8.5
+  languageName: unknown
+  linkType: soft
+
+"@ha/playnite-mqtt@workspace:apps/playnite-mqtt":
+  version: 0.0.0-use.local
+  resolution: "@ha/playnite-mqtt@workspace:apps/playnite-mqtt"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/delay": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    shelljs: ^0.8.5
+    wakeonlan: ^0.1.0
+  languageName: unknown
+  linkType: soft
+
+"@ha/proxy@workspace:apps/proxy":
+  version: 0.0.0-use.local
+  resolution: "@ha/proxy@workspace:apps/proxy"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    shelljs: ^0.8.5
   languageName: unknown
   linkType: soft
 
@@ -4759,13 +5172,23 @@ __metadata:
   resolution: "@ha/ps5@workspace:apps/ps5"
   dependencies:
     "@ha/build-ts": "workspace:^1.0.0"
-    "@ha/http-heartbeat": "workspace:^0.0.1"
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
     "@ha/logger": "workspace:^0.0.1"
     "@ha/mqtt-client": "workspace:^0.0.1"
+    "@ha/mqtt-heartbeat": "workspace:^0.0.1"
     "@ha/shell-utils": "workspace:^1.0.0"
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
     async-mqtt: ^2.6.3
     esbuild: ^0.17.0
     esbuild-register: ^3.4.2
+    jest: ^29.3.1
+    jest-when: ^3.5.2
     lodash: ^4.17.21
     nodemon: ^2.0.20
     playactor: ^0.4.1
@@ -4773,12 +5196,33 @@ __metadata:
     redux-saga: ^1.2.2
     reselect: ^4.1.7
     shelljs: ^0.8.5
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
+  languageName: unknown
+  linkType: soft
+
+"@ha/remote-codespaces@workspace:apps/remote-codespaces":
+  version: 0.0.0-use.local
+  resolution: "@ha/remote-codespaces@workspace:apps/remote-codespaces"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    shelljs: ^0.8.5
   languageName: unknown
   linkType: soft
 
 "@ha/secret-utils@workspace:^0.0.1, @ha/secret-utils@workspace:packages/secret-utils":
   version: 0.0.0-use.local
   resolution: "@ha/secret-utils@workspace:packages/secret-utils"
+  dependencies:
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
+    jest: ^29.3.1
+    jest-when: ^3.5.2
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
   languageName: unknown
   linkType: soft
 
@@ -4788,7 +5232,18 @@ __metadata:
   dependencies:
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
     "@ha/secret-utils": "workspace:^0.0.1"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
+    jest: ^29.3.1
+    jest-when: ^3.5.2
+    shelljs: ^0.8.5
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
   languageName: unknown
   linkType: soft
 
@@ -4796,15 +5251,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ha/shell-utils@workspace:packages/shell-utils"
   dependencies:
+    "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/env-utils": "workspace:^0.0.1"
     "@ha/logger": "workspace:^0.0.1"
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
     debug: ^4.3.4
-  languageName: unknown
-  linkType: soft
-
-"@ha/side-effects@workspace:^0.0.1, @ha/side-effects@workspace:packages/side-effects":
-  version: 0.0.0-use.local
-  resolution: "@ha/side-effects@workspace:packages/side-effects"
+    jest: ^29.3.1
+    jest-when: ^3.5.2
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
   languageName: unknown
   linkType: soft
 
@@ -4812,7 +5268,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ha/string-utils@workspace:packages/string-utils"
   dependencies:
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
+    jest: ^29.3.1
+    jest-when: ^3.5.2
     lodash: ^4.17.21
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
   languageName: unknown
   linkType: soft
 
@@ -4824,6 +5287,13 @@ __metadata:
     "@apollo/subgraph": ^2.2.3
     "@graphql-codegen/core": ^2.6.8
     "@graphql-codegen/schema-ast": ^2.6.1
+    "@ha/build-ts": "workspace:^1.0.0"
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
     "@ha/logger": "workspace:^0.0.1"
     "@ha/mqtt-client": "workspace:^0.0.1"
     "@types/jest": ^29.2.5
@@ -4868,8 +5338,27 @@ __metadata:
 "@ha/unifi-client@workspace:^0.1.0, @ha/unifi-client@workspace:packages/unifi-client":
   version: 0.0.0-use.local
   resolution: "@ha/unifi-client@workspace:packages/unifi-client"
+  dependencies:
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
+    jest: ^29.3.1
+    jest-when: ^3.5.2
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
   peerDependencies:
     node-unifi: ^2.2.2
+  languageName: unknown
+  linkType: soft
+
+"@ha/uptime-kuma@workspace:apps/uptime-kuma":
+  version: 0.0.0-use.local
+  resolution: "@ha/uptime-kuma@workspace:apps/uptime-kuma"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
   languageName: unknown
   linkType: soft
 
@@ -4878,16 +5367,39 @@ __metadata:
   resolution: "@ha/wake-on-lan@workspace:apps/wake-on-lan"
   dependencies:
     "@ha/build-ts": "workspace:^1.0.0"
-    "@ha/http-heartbeat": "workspace:^0.0.1"
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
     "@ha/logger": "workspace:^0.0.1"
     "@ha/mqtt-client": "workspace:^0.0.1"
+    "@ha/mqtt-heartbeat": "workspace:^0.0.1"
     "@ha/shell-utils": "workspace:^1.0.0"
+    "@types/jest": ^29.2.5
+    "@types/node": ^18.11.18
     async-mqtt: ^2.6.3
     esbuild: ^0.17.0
     esbuild-register: ^3.4.2
+    jest: ^29.3.1
     lodash: ^4.17.21
     nodemon: ^2.0.20
+    shelljs: ^0.8.5
+    ts-jest: ^29.0.5
+    typescript: ^4.9.4
     wakeonlan: ^0.1.0
+  languageName: unknown
+  linkType: soft
+
+"@ha/zwavejs@workspace:apps/zwavejs":
+  version: 0.0.0-use.local
+  resolution: "@ha/zwavejs@workspace:apps/zwavejs"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
   languageName: unknown
   linkType: soft
 
