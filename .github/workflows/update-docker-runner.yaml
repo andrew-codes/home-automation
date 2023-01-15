@@ -13,10 +13,8 @@ jobs:
         run: docker system prune -f
       - name: Install deps
         run: yarn
-        env:
-          YARN_CACHE_FOLDER: ".yarn-cache"
       - name: Build/push docker image
-        run: yarn image/push github-action-runners
+        run: yarn run image/push github-action-runners
         env:
           ONEPASSWORD_TOKEN: ${{ secrets.ONEPASSWORD_TOKEN }}
           ONEPASSWORD_SERVER_URL: ${{ secrets.ONEPASSWORD_SERVER_URL }}

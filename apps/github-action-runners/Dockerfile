@@ -1,4 +1,4 @@
-FROM summerwind/actions-runner-dind-rootless:ubuntu-20.04
+FROM summerwind/actions-runner-dind-rootless:ubuntu-22.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 USER root
@@ -9,7 +9,7 @@ RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add 
 RUN echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
 RUN apt-add-repository -y --update ppa:ansible/ansible
 RUN add-apt-repository ppa:deadsnakes/ppa
-RUN wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+RUN wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 RUN dpkg -i packages-microsoft-prod.deb
 RUN rm packages-microsoft-prod.deb
 RUN apt update -y
@@ -55,7 +55,6 @@ RUN mv linux-amd64/helm /usr/local/bin/helm
 RUN chmod +x /usr/local/bin/helm
 ADD ./wrapdocker.sh /usr/local/bin/wrapdocker.sh
 RUN chmod +x /usr/local/bin/wrapdocker.sh
-# RUN curl -sL https://aka.ms/InstallAzureCLIDeb |  bash
 RUN wget -c https://dl.google.com/go/go1.18.1.linux-amd64.tar.gz -O - | tar -xz -C /usr/local
 RUN ln -s /usr/local/go/bin/go /usr/local/bin
 RUN go install github.com/google/go-jsonnet/cmd/jsonnet@latest

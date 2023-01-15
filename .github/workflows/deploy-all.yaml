@@ -16,31 +16,19 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "${{ steps.nvm.outputs.NVMRC }}"
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - uses: actions/cache@v3
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-v3
-          restore-keys: |
-            ${{ runner.os }}-yarn-
       - name: Install deps
         run: yarn
-        env:
-          YARN_CACHE_FOLDER: ".yarn-cache"
       - name: Install jsonnet plugins
         run: jb install
       - name: Run all tests
-        run: yarn test/all
+        run: yarn run test/all
       - name: Coverage
-        run: yarn test/coverage/all
+        run: yarn run test/coverage/all
         if: always()
         env:
           CODECOV_TOKEN: ${{ secrets.CODE_COV_TOKEN }}
       - name: Deploy all apps
-        run: yarn deploy/all --exclude docker-registry --exclude k8s --exclude openvpn --exclude pihole --exclude azure-key-vault --exclude manual-deployment --verbose
+        run: yarn run deploy/all --exclude docker-registry --exclude k8s --exclude openvpn --exclude pihole --exclude azure-key-vault --exclude manual-deployment --verbose
         env:
           CODECOV_TOKEN: ${{ secrets.CODE_COV_TOKEN }}
           ONEPASSWORD_TOKEN: ${{ secrets.ONEPASSWORD_TOKEN }}
