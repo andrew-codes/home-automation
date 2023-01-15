@@ -65,10 +65,13 @@ RUN ln -s $(go env GOPATH)/bin/jb /usr/local/bin
 RUN curl -Os https://uploader.codecov.io/latest/linux/codecov
 RUN chmod +x codecov
 RUN ln -s codecov /usr/local/bin
-RUN chown --recursive runner /home/runner/.ansible
+RUN mkdir -p /home/runner
+RUN chown --recursive runner /home/runner
 RUN corepack enable
 RUN corepack prepare yarn@stable --activate
-USER runner
+RUN mkdir -p /home/runner/.cache/node/corepack
 RUN mkdir -p /home/runner/.config/docker
 RUN echo '{ "features": { "buildkit": true }, "exec-opts": [], "insecure-registries": ["docker-registry:5000"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' | tee /home/runner/.config/docker/daemon.json
 RUN curl -sSL https://rover.apollo.dev/nix/latest | sh
+
+USER runner
