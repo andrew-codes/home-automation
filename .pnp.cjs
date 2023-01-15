@@ -11354,7 +11354,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],\
       ["binary-install", [\
         ["npm:1.0.6", {\
-          "packageLocation": "./.yarn/cache/binary-install-npm-1.0.6-6abbe7742f-d972be7366.zip/node_modules/binary-install/",\
+          "packageLocation": "./.yarn/unplugged/binary-install-npm-1.0.6-6abbe7742f/node_modules/binary-install/",\
           "packageDependencies": [\
             ["binary-install", "npm:1.0.6"],\
             ["axios", "npm:0.26.1"],\
