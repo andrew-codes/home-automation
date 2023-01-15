@@ -5890,11 +5890,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@elastic/ecs-winston-format", [\
-        ["npm:1.3.1", {\
-          "packageLocation": "./.yarn/cache/@elastic-ecs-winston-format-npm-1.3.1-8fc543f859-49a7767c64.zip/node_modules/@elastic/ecs-winston-format/",\
+        ["patch:@elastic/ecs-winston-format@npm%3A1.3.1#./.yarn/patches/@elastic-ecs-winston-format-npm-1.3.1-8fc543f859.patch::version=1.3.1&hash=8e9f8a&locator=%40andrew-codes%2Fhome-automation%40workspace%3A.", {\
+          "packageLocation": "./.yarn/cache/@elastic-ecs-winston-format-patch-40183272f7-fb09335b11.zip/node_modules/@elastic/ecs-winston-format/",\
           "packageDependencies": [\
-            ["@elastic/ecs-winston-format", "npm:1.3.1"],\
-            ["@elastic/ecs-helpers", "npm:1.1.0"]\
+            ["@elastic/ecs-winston-format", "patch:@elastic/ecs-winston-format@npm%3A1.3.1#./.yarn/patches/@elastic-ecs-winston-format-npm-1.3.1-8fc543f859.patch::version=1.3.1&hash=8e9f8a&locator=%40andrew-codes%2Fhome-automation%40workspace%3A."],\
+            ["@elastic/ecs-helpers", "npm:1.1.0"],\
+            ["triple-beam", "npm:1.3.0"],\
+            ["winston", "npm:3.8.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -6988,8 +6990,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/configure-jest/",\
           "packageDependencies": [\
             ["@ha/configure-jest", "workspace:packages/configure-jest"],\
-            ["jest-config", "virtual:b3691e840eb668e6352ad231e1664a9f7727ad8a764d3a29e14ea7d7c1583d83fdc1289ad33b49622bb664d62459f37be6f21660af67ab25f1935e02b5ff1ce3#npm:29.3.1"],\
+            ["@types/jest", "npm:29.2.5"],\
+            ["@types/node", "npm:18.11.18"],\
+            ["jest", "virtual:3e99b0cb9f272ea6cd8a2d15d908e4735ad3aad53585937da64b0d398f9941959f0f1356d9cbb3650cd8f9a472c03ebeaba0933d8f573a89088b7f0fbdf4fe9f#npm:29.3.1"],\
+            ["jest-config", "virtual:e524186b19d23e392da7dfa701bf38121d45bde0f9b6ded6e61ffa2d99ae37898e936f459a363bb2345f917266e90c9e3e019a62bdb09112f3881e091a375288#npm:29.3.1"],\
             ["lodash", "npm:4.17.21"],\
+            ["ts-jest", "virtual:3e99b0cb9f272ea6cd8a2d15d908e4735ad3aad53585937da64b0d398f9941959f0f1356d9cbb3650cd8f9a472c03ebeaba0933d8f573a89088b7f0fbdf4fe9f#npm:29.0.5"],\
+            ["typescript", "patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=ad5954"],\
             ["uuid", "npm:9.0.0"]\
           ],\
           "linkType": "SOFT"\
@@ -7817,7 +7824,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/logger/",\
           "packageDependencies": [\
             ["@ha/logger", "workspace:packages/logger"],\
-            ["@elastic/ecs-winston-format", "npm:1.3.1"],\
+            ["@elastic/ecs-winston-format", "patch:@elastic/ecs-winston-format@npm%3A1.3.1#./.yarn/patches/@elastic-ecs-winston-format-npm-1.3.1-8fc543f859.patch::version=1.3.1&hash=8e9f8a&locator=%40andrew-codes%2Fhome-automation%40workspace%3A."],\
             ["@ha/configure-jest", "virtual:3e99b0cb9f272ea6cd8a2d15d908e4735ad3aad53585937da64b0d398f9941959f0f1356d9cbb3650cd8f9a472c03ebeaba0933d8f573a89088b7f0fbdf4fe9f#workspace:packages/configure-jest"],\
             ["@types/jest", "npm:29.2.5"],\
             ["@types/node", "npm:18.11.18"],\
