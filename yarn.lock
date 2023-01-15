@@ -3545,21 +3545,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@elastic/ecs-winston-format@npm:1.3.1":
+"@elastic/ecs-winston-format@npm:*":
   version: 1.3.1
   resolution: "@elastic/ecs-winston-format@npm:1.3.1"
   dependencies:
     "@elastic/ecs-helpers": ^1.1.0
   checksum: 49a7767c64258fee8ad73ccc27ae5ab32b331b57de915c361520ca8a9717e76137182f242d2d14ce6204ba1cbf371c0fa4cb2e58f6d3e7413c61e61be5f4a61d
-  languageName: node
-  linkType: hard
-
-"@elastic/ecs-winston-format@patch:@elastic/ecs-winston-format@npm%3A1.3.1#./.yarn/patches/@elastic-ecs-winston-format-npm-1.3.1-8fc543f859.patch::locator=%40andrew-codes%2Fhome-automation%40workspace%3A.":
-  version: 1.3.1
-  resolution: "@elastic/ecs-winston-format@patch:@elastic/ecs-winston-format@npm%3A1.3.1#./.yarn/patches/@elastic-ecs-winston-format-npm-1.3.1-8fc543f859.patch::version=1.3.1&hash=8e9f8a&locator=%40andrew-codes%2Fhome-automation%40workspace%3A."
-  dependencies:
-    "@elastic/ecs-helpers": ^1.1.0
-  checksum: fb09335b111b7eb35af7445e7ce621d29312ae14674979a9e4c84957a74b54dff78aba7d34bd3b45b4f06b989f946dec7900f4a8287538c91f3ed7ae8a101d36
   languageName: node
   linkType: hard
 
@@ -4364,7 +4355,6 @@ __metadata:
     lodash: ^4.17.21
     ts-jest: ^29.0.5
     typescript: ^4.9.4
-    uuid: ^9.0.0
   peerDependencies:
     "@types/jest": ^29.2.5
     "@types/node": ^18.11.18
