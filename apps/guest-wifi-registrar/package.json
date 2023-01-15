@@ -15,9 +15,9 @@
     "esbuild-register": "^3.4.2",
     "lodash": "^4.17.21",
     "node-unifi": "^2.2.2",
-    "nodemon": "^2.0.6",
-    "redux": "^4.0.5",
+    "nodemon": "^2.0.20",
+    "redux": "^4.2.0",
     "redux-saga": "^1.2.2",
-    "reselect": "^4.1.5"
+    "reselect": "^4.1.7"
   }
 }

@@ -8,15 +8,15 @@
     "@ha/build-ts": "workspace:^1.0.0",
     "@ha/http-heartbeat": "workspace:^0.0.1",
     "apollo-fetch": "^0.7.0",
-    "ask-sdk-core": "^2.10.2",
-    "ask-sdk-express-adapter": "^2.10.2",
-    "ask-sdk-model": "^1.35.1",
-    "debug": "^4.3.1",
+    "ask-sdk-core": "^2.12.1",
+    "ask-sdk-express-adapter": "^2.12.1",
+    "ask-sdk-model": "^1.42.0",
+    "debug": "^4.3.4",
     "esbuild": "^0.17.0",
     "esbuild-register": "^3.4.2",
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "lodash": "^4.17.21",
-    "nodemon": "^2.0.6",
+    "nodemon": "^2.0.20",
     "shelljs": "^0.8.5"
   }
 }

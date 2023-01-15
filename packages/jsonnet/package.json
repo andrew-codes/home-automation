@@ -6,10 +6,12 @@
   "main": "src/index.ts",
   "dependencies": {
     "@ha/logger": "workspace:^0.0.1",
-    "shelljs": "^0.8.4"
+    "shelljs": "^0.8.5"
   },
   "devDependencies": {
     "@ha/cli-utils": "workspace:^0.0.1",
+    "@types/jest": "^29.2.5",
+    "@types/node": "^18.11.18",
     "jest": "^29.3.1",
     "jest-when": "^3.5.2",
     "ts-jest": "^29.0.5",

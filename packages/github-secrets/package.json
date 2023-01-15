@@ -8,9 +8,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@octokit/core": "^3.6.0",
+    "@octokit/core": "^4.1.0",
     "lodash": "^4.17.21",
-    "tweetsodium": "^0.0.5"
+    "tweetsodium": "^0.0.6"
   },
   "devDependencies": {
     "@ha/build-ts": "workspace:^1.0.0"

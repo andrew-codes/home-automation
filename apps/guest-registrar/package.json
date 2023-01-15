@@ -6,11 +6,11 @@
   "dependencies": {
     "async-mqtt": "^2.6.3",
     "lodash": "^4.17.21",
-    "mongodb": "^4.9.0",
+    "mongodb": "^4.13.0",
     "node-unifi": "^2.2.2",
-    "redux": "^4.0.5",
+    "redux": "^4.2.0",
     "redux-saga": "^1.2.2",
-    "reselect": "^4.1.5"
+    "reselect": "^4.1.7"
   },
   "devDependencies": {
     "@ha/build-ts": "workspace:^1.0.0",
@@ -19,6 +19,6 @@
     "@ha/logger": "workspace:^0.0.1",
     "@ha/mqtt-client": "workspace:^0.0.1",
     "@ha/unifi-client": "workspace:^0.1.0",
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.20"
   }
 }

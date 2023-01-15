@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "license": "MIT",
   "dependencies": {
-    "shelljs": "^0.8.4"
+    "shelljs": "^0.8.5"
   },
   "devDependencies": {
     "@ha/build-ts": "workspace:^1.0.0",
@@ -16,10 +16,10 @@
     "esbuild": "^0.17.0",
     "esbuild-register": "^3.4.2",
     "lodash": "^4.17.21",
-    "nodemon": "^2.0.6",
+    "nodemon": "^2.0.20",
     "playactor": "^0.4.1",
-    "redux": "^4.0.5",
+    "redux": "^4.2.0",
     "redux-saga": "^1.2.2",
-    "reselect": "^4.1.5"
+    "reselect": "^4.1.7"
   }
 }

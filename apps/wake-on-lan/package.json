@@ -13,7 +13,7 @@
     "esbuild": "^0.17.0",
     "esbuild-register": "^3.4.2",
     "lodash": "^4.17.21",
-    "nodemon": "^2.0.6",
+    "nodemon": "^2.0.20",
     "wakeonlan": "^0.1.0"
   }
 }
