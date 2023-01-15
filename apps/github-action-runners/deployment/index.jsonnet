@@ -56,7 +56,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
           repository: std.extVar('repository_name'),
           labels: ['amd64-runner', 'github-action-runner'],
           dockerEnabled: true,
-          dockerdWithinRunnerContainer: true,
+          dockerdWithinRunnerContainer: false,
           imagePullSecrets: [{
             name: 'regcred',
           }],

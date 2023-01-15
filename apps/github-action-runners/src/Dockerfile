@@ -1,4 +1,4 @@
-FROM summerwind/actions-runner-dind-rootless:ubuntu-22.04
+FROM summerwind/actions-runner:ubuntu-22.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 USER root
@@ -39,7 +39,6 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 RUN pip3 install "pywinrm>=0.3.0"
 RUN export KUBECONFIG=/home/runner/.kube/config
-RUN mkdir -p /home/runner/.docker
 RUN mkdir -p /etc/docker
 RUN echo '{ "features": { "buildkit": true }, "exec-opts": [], "insecure-registries": ["docker-registry:5000"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' | tee /etc/docker/daemon.json
 RUN ansible-galaxy collection install ansible.windows
@@ -54,8 +53,6 @@ RUN curl -fsSL -o helm.tar.gz https://get.helm.sh/helm-v3.6.1-linux-amd64.tar.gz
 RUN tar -zxvf helm.tar.gz
 RUN mv linux-amd64/helm /usr/local/bin/helm
 RUN chmod +x /usr/local/bin/helm
-ADD ./wrapdocker.sh /usr/local/bin/wrapdocker.sh
-RUN chmod +x /usr/local/bin/wrapdocker.sh
 RUN wget -c https://dl.google.com/go/go1.18.1.linux-amd64.tar.gz -O - | tar -xz -C /usr/local
 RUN ln -s /usr/local/go/bin/go /usr/local/bin
 RUN go install github.com/google/go-jsonnet/cmd/jsonnet@latest
@@ -65,13 +62,13 @@ RUN ln -s $(go env GOPATH)/bin/jb /usr/local/bin
 RUN curl -Os https://uploader.codecov.io/latest/linux/codecov
 RUN chmod +x codecov
 RUN ln -s codecov /usr/local/bin
-RUN mkdir -p /home/runner
+RUN curl -sSL https://rover.apollo.dev/nix/latest | sh
+RUN mkdir -p /home/runner/.docker
+RUN mkdir -p /home/runner/.config/docker
+RUN mkdir -p /home/runner/.cache/node/corepack
 RUN chown --recursive runner /home/runner
 RUN corepack enable
 RUN corepack prepare yarn@stable --activate
-RUN mkdir -p /home/runner/.cache/node/corepack
-RUN mkdir -p /home/runner/.config/docker
-RUN echo '{ "features": { "buildkit": true }, "exec-opts": [], "insecure-registries": ["docker-registry:5000"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' | tee /home/runner/.config/docker/daemon.json
-RUN curl -sSL https://rover.apollo.dev/nix/latest | sh
 
 USER runner
+RUN echo '{ "features": { "buildkit": true }, "exec-opts": [], "insecure-registries": ["docker-registry:5000"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' | tee /home/runner/.config/docker/daemon.json

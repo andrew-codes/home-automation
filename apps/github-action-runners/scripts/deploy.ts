@@ -11,18 +11,6 @@ import { name } from "./config"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const registry = await configurationApi.get("docker-registry/hostname")
-  const repo_owner = await configurationApi.get("repository/owner")
-  const repo_name = await configurationApi.get("repository/name")
-  const resources = await jsonnet.eval(
-    path.join(__dirname, "..", "deployment", "index.jsonnet"),
-    {
-      image: `${registry.value}/${name}:latest`,
-      secrets: JSON.stringify([]),
-      repository_name: `${repo_owner.value}/${repo_name.value}`,
-    },
-  )
-
   const githubToken = await configurationApi.get("github/token")
   sh.exec(`kubectl create namespace actions-runner-system;`, { silent: true })
   sh.exec(
@@ -42,7 +30,7 @@ const run = async (
   )
 
   sh.exec(
-    `kubectl create -f https://github.com/actions-runner-controller/actions-runner-controller/releases/download/v0.24.1/actions-runner-controller.yaml;`,
+    `kubectl create -f https://github.com/actions-runner-controller/actions-runner-controller/releases/download/v0.26.0/actions-runner-controller.yaml;`,
     { silent: true },
   )
   const seal = createSeal(githubToken.value)
@@ -59,6 +47,10 @@ const run = async (
     "ONEPASSWORD_VAULT_ID",
     "CODE_COV_TOKEN",
   ]
+
+  const registry = await configurationApi.get("docker-registry/hostname")
+  const repo_owner = await configurationApi.get("repository/owner")
+  const repo_name = await configurationApi.get("repository/name")
 
   await Promise.all(
     secrets.map(async (secretName, index) => {
@@ -80,6 +72,14 @@ const run = async (
     githubToken.value,
   )
 
+  const resources = await jsonnet.eval(
+    path.join(__dirname, "..", "deployment", "index.jsonnet"),
+    {
+      image: `${registry.value}/${name}:latest`,
+      secrets: JSON.stringify([]),
+      repository_name: `${repo_owner.value}/${repo_name.value}`,
+    },
+  )
   const resourceJson = JSON.parse(resources)
   await Promise.all(
     resourceJson.map((resource) =>
