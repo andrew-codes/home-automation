@@ -4942,6 +4942,105 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ha/infrastructure-debian-cloudinit@workspace:apps/infrastructure-debian-cloudinit":
+  version: 0.0.0-use.local
+  resolution: "@ha/infrastructure-debian-cloudinit@workspace:apps/infrastructure-debian-cloudinit"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    shelljs: ^0.8.5
+  languageName: unknown
+  linkType: soft
+
+"@ha/infrastructure-docker-registry@workspace:apps/infrastructure-docker-registry":
+  version: 0.0.0-use.local
+  resolution: "@ha/infrastructure-docker-registry@workspace:apps/infrastructure-docker-registry"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    shelljs: ^0.8.5
+  languageName: unknown
+  linkType: soft
+
+"@ha/infrastructure-elk-fleet-server@workspace:apps/infrastructure-elk-fleet-server":
+  version: 0.0.0-use.local
+  resolution: "@ha/infrastructure-elk-fleet-server@workspace:apps/infrastructure-elk-fleet-server"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    shelljs: ^0.8.5
+  languageName: unknown
+  linkType: soft
+
+"@ha/infrastructure-k8s@workspace:apps/infrastructure-k8s":
+  version: 0.0.0-use.local
+  resolution: "@ha/infrastructure-k8s@workspace:apps/infrastructure-k8s"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    shelljs: ^0.8.5
+  languageName: unknown
+  linkType: soft
+
+"@ha/infrastructure-openvpn@workspace:apps/infrastructure-openvpn":
+  version: 0.0.0-use.local
+  resolution: "@ha/infrastructure-openvpn@workspace:apps/infrastructure-openvpn"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    shelljs: ^0.8.5
+  languageName: unknown
+  linkType: soft
+
+"@ha/infrastructure-pihole@workspace:apps/infrastructure-pihole":
+  version: 0.0.0-use.local
+  resolution: "@ha/infrastructure-pihole@workspace:apps/infrastructure-pihole"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    shelljs: ^0.8.5
+  languageName: unknown
+  linkType: soft
+
+"@ha/infrastructure-proxmox@workspace:apps/infrastructure-proxmox":
+  version: 0.0.0-use.local
+  resolution: "@ha/infrastructure-proxmox@workspace:apps/infrastructure-proxmox"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    shelljs: ^0.8.5
+  languageName: unknown
+  linkType: soft
+
+"@ha/infrastructure-proxy@workspace:apps/infrastructure-proxy":
+  version: 0.0.0-use.local
+  resolution: "@ha/infrastructure-proxy@workspace:apps/infrastructure-proxy"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    shelljs: ^0.8.5
+  languageName: unknown
+  linkType: soft
+
+"@ha/infrastructure-remote-codespaces@workspace:apps/infrastructure-remote-codespaces":
+  version: 0.0.0-use.local
+  resolution: "@ha/infrastructure-remote-codespaces@workspace:apps/infrastructure-remote-codespaces"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    shelljs: ^0.8.5
+  languageName: unknown
+  linkType: soft
+
 "@ha/jest-utils@workspace:^0.0.1, @ha/jest-utils@workspace:packages/jest-utils":
   version: 0.0.0-use.local
   resolution: "@ha/jest-utils@workspace:packages/jest-utils"

@@ -116,6 +116,42 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:apps/influxdb"\
       },\
       {\
+        "name": "@ha/infrastructure-debian-cloudinit",\
+        "reference": "workspace:apps/infrastructure-debian-cloudinit"\
+      },\
+      {\
+        "name": "@ha/infrastructure-docker-registry",\
+        "reference": "workspace:apps/infrastructure-docker-registry"\
+      },\
+      {\
+        "name": "@ha/infrastructure-elk-fleet-server",\
+        "reference": "workspace:apps/infrastructure-elk-fleet-server"\
+      },\
+      {\
+        "name": "@ha/infrastructure-k8s",\
+        "reference": "workspace:apps/infrastructure-k8s"\
+      },\
+      {\
+        "name": "@ha/infrastructure-openvpn",\
+        "reference": "workspace:apps/infrastructure-openvpn"\
+      },\
+      {\
+        "name": "@ha/infrastructure-pihole",\
+        "reference": "workspace:apps/infrastructure-pihole"\
+      },\
+      {\
+        "name": "@ha/infrastructure-proxmox",\
+        "reference": "workspace:apps/infrastructure-proxmox"\
+      },\
+      {\
+        "name": "@ha/infrastructure-proxy",\
+        "reference": "workspace:apps/infrastructure-proxy"\
+      },\
+      {\
+        "name": "@ha/infrastructure-remote-codespaces",\
+        "reference": "workspace:apps/infrastructure-remote-codespaces"\
+      },\
+      {\
         "name": "@ha/k8s",\
         "reference": "workspace:apps/k8s"\
       },\
@@ -322,6 +358,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@ha/home-assistant-config-applicator", ["workspace:apps/home-assistant-config-applicator"]],\
       ["@ha/http-heartbeat", ["workspace:packages/http-heartbeat"]],\
       ["@ha/influxdb", ["workspace:apps/influxdb"]],\
+      ["@ha/infrastructure-debian-cloudinit", ["workspace:apps/infrastructure-debian-cloudinit"]],\
+      ["@ha/infrastructure-docker-registry", ["workspace:apps/infrastructure-docker-registry"]],\
+      ["@ha/infrastructure-elk-fleet-server", ["workspace:apps/infrastructure-elk-fleet-server"]],\
+      ["@ha/infrastructure-k8s", ["workspace:apps/infrastructure-k8s"]],\
+      ["@ha/infrastructure-openvpn", ["workspace:apps/infrastructure-openvpn"]],\
+      ["@ha/infrastructure-pihole", ["workspace:apps/infrastructure-pihole"]],\
+      ["@ha/infrastructure-proxmox", ["workspace:apps/infrastructure-proxmox"]],\
+      ["@ha/infrastructure-proxy", ["workspace:apps/infrastructure-proxy"]],\
+      ["@ha/infrastructure-remote-codespaces", ["workspace:apps/infrastructure-remote-codespaces"]],\
       ["@ha/jest-utils", ["workspace:packages/jest-utils"]],\
       ["@ha/jsonnet", ["workspace:packages/jsonnet"]],\
       ["@ha/k8s", ["workspace:apps/k8s"]],\
@@ -7583,6 +7628,123 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
             ["@ha/jsonnet", "workspace:packages/jsonnet"],\
             ["@ha/kubectl", "workspace:packages/kubectl"],\
+            ["shelljs", "npm:0.8.5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@ha/infrastructure-debian-cloudinit", [\
+        ["workspace:apps/infrastructure-debian-cloudinit", {\
+          "packageLocation": "./apps/infrastructure-debian-cloudinit/",\
+          "packageDependencies": [\
+            ["@ha/infrastructure-debian-cloudinit", "workspace:apps/infrastructure-debian-cloudinit"],\
+            ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+            ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+            ["@ha/shell-utils", "workspace:packages/shell-utils"],\
+            ["shelljs", "npm:0.8.5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@ha/infrastructure-docker-registry", [\
+        ["workspace:apps/infrastructure-docker-registry", {\
+          "packageLocation": "./apps/infrastructure-docker-registry/",\
+          "packageDependencies": [\
+            ["@ha/infrastructure-docker-registry", "workspace:apps/infrastructure-docker-registry"],\
+            ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+            ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+            ["@ha/shell-utils", "workspace:packages/shell-utils"],\
+            ["shelljs", "npm:0.8.5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@ha/infrastructure-elk-fleet-server", [\
+        ["workspace:apps/infrastructure-elk-fleet-server", {\
+          "packageLocation": "./apps/infrastructure-elk-fleet-server/",\
+          "packageDependencies": [\
+            ["@ha/infrastructure-elk-fleet-server", "workspace:apps/infrastructure-elk-fleet-server"],\
+            ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+            ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+            ["@ha/shell-utils", "workspace:packages/shell-utils"],\
+            ["shelljs", "npm:0.8.5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@ha/infrastructure-k8s", [\
+        ["workspace:apps/infrastructure-k8s", {\
+          "packageLocation": "./apps/infrastructure-k8s/",\
+          "packageDependencies": [\
+            ["@ha/infrastructure-k8s", "workspace:apps/infrastructure-k8s"],\
+            ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+            ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+            ["@ha/shell-utils", "workspace:packages/shell-utils"],\
+            ["shelljs", "npm:0.8.5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@ha/infrastructure-openvpn", [\
+        ["workspace:apps/infrastructure-openvpn", {\
+          "packageLocation": "./apps/infrastructure-openvpn/",\
+          "packageDependencies": [\
+            ["@ha/infrastructure-openvpn", "workspace:apps/infrastructure-openvpn"],\
+            ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+            ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+            ["@ha/shell-utils", "workspace:packages/shell-utils"],\
+            ["shelljs", "npm:0.8.5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@ha/infrastructure-pihole", [\
+        ["workspace:apps/infrastructure-pihole", {\
+          "packageLocation": "./apps/infrastructure-pihole/",\
+          "packageDependencies": [\
+            ["@ha/infrastructure-pihole", "workspace:apps/infrastructure-pihole"],\
+            ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+            ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+            ["@ha/shell-utils", "workspace:packages/shell-utils"],\
+            ["shelljs", "npm:0.8.5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@ha/infrastructure-proxmox", [\
+        ["workspace:apps/infrastructure-proxmox", {\
+          "packageLocation": "./apps/infrastructure-proxmox/",\
+          "packageDependencies": [\
+            ["@ha/infrastructure-proxmox", "workspace:apps/infrastructure-proxmox"],\
+            ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+            ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+            ["@ha/shell-utils", "workspace:packages/shell-utils"],\
+            ["shelljs", "npm:0.8.5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@ha/infrastructure-proxy", [\
+        ["workspace:apps/infrastructure-proxy", {\
+          "packageLocation": "./apps/infrastructure-proxy/",\
+          "packageDependencies": [\
+            ["@ha/infrastructure-proxy", "workspace:apps/infrastructure-proxy"],\
+            ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+            ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+            ["@ha/shell-utils", "workspace:packages/shell-utils"],\
+            ["shelljs", "npm:0.8.5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@ha/infrastructure-remote-codespaces", [\
+        ["workspace:apps/infrastructure-remote-codespaces", {\
+          "packageLocation": "./apps/infrastructure-remote-codespaces/",\
+          "packageDependencies": [\
+            ["@ha/infrastructure-remote-codespaces", "workspace:apps/infrastructure-remote-codespaces"],\
+            ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+            ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+            ["@ha/shell-utils", "workspace:packages/shell-utils"],\
             ["shelljs", "npm:0.8.5"]\
           ],\
           "linkType": "SOFT"\
