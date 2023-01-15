@@ -2,10 +2,8 @@ const { defaults } = require("jest-config")
 const { merge } = require("lodash")
 
 const defaultConfig = {
-  globals: {
-    "ts-jest": {
-      tsconfig: "<rootDir>/tsconfig.test.json",
-    },
+  transform: {
+'.*\\.[jt]s$/': ['ts-jest', {tsconfig: "<rootDir>/tsconfig.test.json",}]
   },
   resetMocks: true,
   passWithNoTests: true,
