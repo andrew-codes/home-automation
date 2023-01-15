@@ -1,10 +1,11 @@
-import type { AsyncMqttClient, IPublishPacket } from "@ha/mqtt-client"
+import type { AsyncMqttClient } from "@ha/mqtt-client"
 import { createLogger } from "@ha/logger"
 import { call, put } from "redux-saga/effects"
 import { merge } from "lodash"
 import { createMqtt } from "@ha/mqtt-client"
 import type { RegisterDeviceWithHomeAssistantAction } from "../types"
 import { updateHomeAssistant } from "../actionCreators"
+import { QoS } from "async-mqtt"
 
 const logger = createLogger()
 
@@ -18,8 +19,8 @@ function* registerWithHomeAssistant(
     (
       topic: string,
       message: string | Buffer,
-      { qos }: { qos: number },
-    ) => Promise<IPublishPacket>
+      { qos }: { qos: QoS },
+    ) => Promise<void>
   >(
     mqtt.publish.bind(mqtt),
     `homeassistant/switch/${action.payload.id}/power/config`,

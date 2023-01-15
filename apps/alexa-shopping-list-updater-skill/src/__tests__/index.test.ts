@@ -7,7 +7,7 @@ import express from "express"
 
 describe("alexa shopping list updater skill", () => {
   beforeEach(() => {
-    jest.mocked(express, true).mockReturnValue({
+    jest.mocked(express, { shallow: true }).mockReturnValue({
       get: jest.fn(),
       listen: jest.fn(),
       post: jest.fn(),
