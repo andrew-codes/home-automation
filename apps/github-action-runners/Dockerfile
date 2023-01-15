@@ -7,8 +7,6 @@ RUN apt-get install apt-transport-https
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 RUN echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 RUN apt-add-repository -y --update ppa:ansible/ansible
 RUN add-apt-repository ppa:deadsnakes/ppa
 RUN wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
@@ -32,8 +30,7 @@ bash \
   python3-pip \
   python3.8 \
   sshpass \
-  software-properties-common \ 
-yarn
+  software-properties-common
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen
 RUN locale-gen
 ENV LANG en_US.UTF-8
@@ -73,3 +70,5 @@ USER runner
 RUN mkdir -p /home/runner/.config/docker
 RUN echo '{ "features": { "buildkit": true }, "exec-opts": [], "insecure-registries": ["docker-registry:5000"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' | tee /home/runner/.config/docker/daemon.json
 RUN curl -sSL https://rover.apollo.dev/nix/latest | sh
+RUN corepack enable
+RUN corepack prepare yarn@stable --activate
