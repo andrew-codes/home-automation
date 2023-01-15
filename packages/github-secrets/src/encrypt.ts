@@ -1,9 +1,10 @@
-import { seal } from "tweetsodium"
+import libsodium from "libsodium-wrappers"
 
-const encrypt = (key: string, value: string): string => {
+const encrypt = async (key: string, value: string): Promise<string> => {
+  await libsodium.ready
   const messageBytes = Buffer.from(value)
   const keyBytes = Buffer.from(key, "base64")
-  const encryptedBytes = seal(messageBytes, keyBytes)
+  const encryptedBytes = libsodium.crypto_box_seal(messageBytes, keyBytes)
   return Buffer.from(encryptedBytes).toString("base64")
 }
 

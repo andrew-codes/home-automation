@@ -1,4 +1,4 @@
-import { seal } from "tweetsodium"
+import libsodium from "libsodium-wrappers"
 import { Octokit } from "@octokit/core"
 
 const createSeal = (githubToken) => {
@@ -23,9 +23,10 @@ const createSeal = (githubToken) => {
         repo,
       },
     )
+    await libsodium.ready
     const messageBytes = Buffer.from(value)
     const keyBytes = Buffer.from(key, "base64")
-    const encryptedBytes = seal(messageBytes, keyBytes)
+    const encryptedBytes = libsodium.crypto_box_seal(messageBytes, keyBytes)
     const encrypted = Buffer.from(encryptedBytes).toString("base64")
 
     await octokit.request(

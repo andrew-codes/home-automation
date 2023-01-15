@@ -22,9 +22,10 @@ const createClient = async (
 
   return {
     set: async (name: string, secretValue: string): Promise<void> => {
+      const encryptedValue = await encrypt(key, secretValue)
       await octokit.request(`PUT /user/codespaces/secrets/{secret_name}`, {
         secret_name: name,
-        encrypted_value: encrypt(key, secretValue),
+        encrypted_value: encryptedValue,
         key_id,
         selected_repository_ids: repositoryIds,
       })
