@@ -1,6 +1,6 @@
 {
-  "root": "packages/cli-utils",
-  "sourceRoot": "packages/cli-utils/src",
+  "root": "packages/delay",
+  "sourceRoot": "packages/delay/src",
   "projectType": "library",
   "targets": {
     "clean": {
@@ -8,7 +8,7 @@
       "outputs": [".test-runs/unit"],
       "options": {
         "command": "rm -rf dist .test-runs",
-        "cwd": "packages/cli-utils"
+        "cwd": "packages/delay"
       }
     },
     "test": {
@@ -16,13 +16,13 @@
       "outputs": [".test-runs/unit"],
       "options": {
         "command": "jest",
-        "cwd": "packages/cli-utils"
+        "cwd": "packages/delay"
       }
     },
     "code-coverage": {
       "executor": "@ha/nx-executors:upload-codecov",
       "options": {
-        "coverageFilePath": "packages/cli-utils/.test-runs/unit/lcov.info"
+        "coverageFilePath": "packages/delay/.test-runs/unit/lcov.info"
       }
     }
   },
