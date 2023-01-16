@@ -5204,6 +5204,7 @@ __metadata:
     "@ha/nx-executors": "workspace:^0.0.1"
     "@types/jest": ^29.2.5
     "@types/node": ^18.11.18
+    async-mqtt: ^2.6.3
     jest: ^29.3.1
     jest-when: ^3.5.2
     ts-jest: ^29.0.5

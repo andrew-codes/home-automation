@@ -7967,6 +7967,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/nx-executors", "workspace:packages/nx-executors"],\
             ["@types/jest", "npm:29.2.5"],\
             ["@types/node", "npm:18.11.18"],\
+            ["async-mqtt", "npm:2.6.3"],\
             ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
             ["jest-when", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:3.5.2"],\
             ["ts-jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.0.5"],\
