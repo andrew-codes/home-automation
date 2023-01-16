@@ -14,6 +14,7 @@ async function executor(
   context: ExecutorContext,
 ): Promise<{ success: boolean }> {
   try {
+    delete process.env.NODE_OPTIONS
     const codeCovPath = path.join(context.root, "codecov")
     const codeCovFileExists = fs.existsSync(codeCovPath)
     if (!codeCovFileExists) {
