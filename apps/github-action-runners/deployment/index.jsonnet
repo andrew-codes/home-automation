@@ -61,8 +61,6 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
             name: 'regcred',
           }],
           securityContext: {
-            runAsUser: 1001,
-            runAsGroup: 1001,
             fsGroup: 1001,
             fsGroupChangePolicy: 'Always',
           },
