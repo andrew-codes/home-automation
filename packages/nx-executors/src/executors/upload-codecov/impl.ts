@@ -34,7 +34,10 @@ async function executor(
     })
   } catch (error) {
     console.log(error)
+
+    return { success: false }
   }
+
   return { success: true }
 }
 
