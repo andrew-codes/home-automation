@@ -11,6 +11,7 @@
     "@ha/configuration-api": "workspace:^0.0.1",
     "@ha/configuration-workspace": "workspace:^0.0.1",
     "@ha/configure-jest": "workspace:^0.0.1",
+    "@ha/nx-executors": "workspace:^0.0.1",
     "@ha/shell-utils": "workspace:^1.0.0",
     "@types/jest": "^29.2.5",
     "@types/node": "^18.11.18",

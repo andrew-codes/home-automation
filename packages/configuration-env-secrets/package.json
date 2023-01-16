@@ -8,6 +8,7 @@
     "@ha/configuration-api": "workspace:^0.0.1",
     "@ha/configuration-env-secrets": "workspace:^0.0.1",
     "@ha/configure-jest": "workspace:^0.0.1",
+    "@ha/nx-executors": "workspace:^0.0.1",
     "@ha/secret-utils": "workspace:^0.0.1",
     "@types/jest": "^29.2.5",
     "@types/node": "^18.11.18",
