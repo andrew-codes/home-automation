@@ -16,7 +16,7 @@ const defaultConfig = {
   coverageDirectory: "<rootDir>/.test-runs/unit",
   collectCoverage: true,
   moduleFileExtensions: [...defaults.moduleFileExtensions, "ts"],
-  collectCoverageFrom: ["**/src/**/*.{js,ts}", "**/scripts/**/*.{js,ts}"],
+  collectCoverageFrom: ["**/src/**", "**/scripts/**"],
   coveragePathIgnorePatterns: ["/__tests__/", "/__mocks__/"],
 }
 
