@@ -6,7 +6,7 @@
   "dependencies": {
     "async-mqtt": "^2.6.3",
     "lodash": "^4.17.21",
-    "mongodb": "^4.13.0",
+    "mongodb": "~4.6.0",
     "node-unifi": "^2.2.2",
     "redux": "^4.2.0",
     "redux-saga": "^1.2.2",
