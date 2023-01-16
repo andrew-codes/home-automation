@@ -6,9 +6,37 @@ on:
       - main
 
 jobs:
+  test:
+    name: Test Affected Apps
+    runs-on: amd64-runner
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: main
+      - name: Read .nvmrc
+        run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
+      - name: Use Node.js (.nvmrc)
+        uses: actions/setup-node@v3
+        with:
+          node-version: "${{ steps.nvm.outputs.NVMRC }}"
+      - name: Install deps
+        run: yarn
+      - name: Prepare
+        run: yarn nx run-many --target=prepare --parallel --all
+      - name: Run all tests
+        run: yarn run test/all
+      - name: Coverage
+        if: always()
+        run: yarn run test/coverage/all
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODE_COV_TOKEN }}
+
   deploy:
     name: Test and Deploy Affected Apps
     runs-on: amd64-runner
+    needs:
+      - test
     steps:
       - uses: actions/checkout@v3
         with:
@@ -26,13 +54,6 @@ jobs:
         run: yarn nx run-many --target=prepare --parallel --all
       - name: Install jsonnet plugins
         run: jb install
-      - name: Run all tests
-        run: yarn run test/all
-      - name: Coverage
-        if: always()
-        run: yarn run test/coverage/all
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODE_COV_TOKEN }}
       - name: Deploy affected apps
         run: yarn run deploy/affected --base HEAD~ --head HEAD --verbose --exclude manual-deployment --exclude pihole
         env:

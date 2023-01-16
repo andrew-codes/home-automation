@@ -7,7 +7,7 @@ on:
 
 jobs:
   run_tests:
-    name: Verify PR
+    name: Verify PR - Tests
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
@@ -33,6 +33,27 @@ jobs:
         run: yarn run test/coverage/all
         env:
           CODECOV_TOKEN: ${{ secrets.CODE_COV_TOKEN }}
+
+  build:
+    name: Verify PR - Build
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Read .nvmrc
+        run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
+        id: nvm
+      - name: Save version
+        run: echo "latest" > version
+      - name: Use Node.js (.nvmrc)
+        uses: actions/setup-node@v3
+        with:
+          node-version: "${{ steps.nvm.outputs.NVMRC }}"
+      - name: Install deps
+        run: yarn
+      - name: Prepare
+        run: yarn nx run-many --target=prepare --parallel --all
       - name: Compile affected apps
         run: yarn run compile/affected --base HEAD~ --head HEAD --verbose --exclude manual-deployment --exclude pihole
         env:
