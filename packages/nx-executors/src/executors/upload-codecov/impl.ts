@@ -34,9 +34,6 @@ async function executor(
     })
   } catch (error) {
     console.log(error)
-    console.log("Retrying...")
-
-    return executor(options, context)
   }
   return { success: true }
 }
