@@ -1,5 +1,5 @@
 import { call, put } from "redux-saga/effects"
-import { delay } from "@ha/side-effects"
+import { delay } from "@ha/delay"
 import { updateHomeAssistant } from "../actionCreators"
 import { PollHeartbeatAction } from "../actions.types"
 

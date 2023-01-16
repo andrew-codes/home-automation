@@ -5,13 +5,13 @@ import getClient from "./graphqlClient"
 
 const fetchGameCollections = async (gameIds: string[]): Promise<Game[]> => {
   const gamesQuery = gql`
-    query Games {
+    query GamesByIds {
       games {
         id
         name
         backgroundImage
         coverImage
-        platformReleases {
+        releases {
           releaseYear
           releaseDate
           lastActivity

@@ -3,6 +3,6 @@
   "version": "0.0.1",
   "main": "src/index.ts",
   "dependencies": {
-    "@ha/themes-definition": "^0.0.1"
+    "@ha/themes-definition": "workspace:^0.0.1"
   }
 }

@@ -9,7 +9,6 @@
     "node": ">=18.12.1"
   },
   "scripts": {
-    "burn-image": "./scripts/bin/burn-image.sh",
     "clean": "nx run-many --target clean --parallel --projects",
     "clean/all": "nx run-many --target clean --parallel --all",
     "clean/cache": "nx clear-cache",
@@ -22,8 +21,6 @@
     "deploy/affected": "nx affected --target deploy --parallel",
     "deploy/all": "nx run-many --target deploy --parallel --all",
     "initialize-secrets": "nx run-many --target initialize-secrets --parallel --all",
-    "patch": "patch-package",
-    "postinstall": "yarn patch && nx run nx-executors:compile --skip-nx-cache",
     "predeploy/affected": "nx run-many --target compile --projects secrets",
     "predeploy": "nx run-many --target compile --projects secrets",
     "provision": "nx run-many --target provision --projects",
@@ -44,9 +41,6 @@
     "test/coverage/all": "nx run-many --target code-coverage --all --parallel 1"
   },
   "workspaces": {
-    "nohoist": [
-      "**/qr-scanner"
-    ],
     "packages": [
       "apps/*",
       "deployments/*",
@@ -56,25 +50,25 @@
   },
   "devDependencies": {
     "@apollo/rover": "^0.10.0",
-    "@babel/core": "^7.12.10",
-    "@babel/preset-env": "^7.12.10",
-    "@babel/preset-typescript": "^7.12.7",
-    "@jest/types": "^28.1.0",
-    "@nrwl/workspace": "^14.1.7",
-    "@types/jest": "^27.5.1",
-    "@types/node": "^17.0.2",
-    "esbuild": "^0.14.39",
-    "glob": "^7.1.6",
+    "@ha/configure-jest": "workspace:^0.0.1",
+    "@ha/nx-executors": "workspace:^0.0.1",
+    "@nrwl/workspace": "^15.5.1",
+    "@nx-dotnet/core": "^1.17.0",
+    "@types/jest": "^29.2.5",
+    "@types/node": "^18.11.18",
     "istanbul": "^0.4.5",
     "istanbul-merge": "^1.1.1",
-    "jest": "^28.1.0",
-    "jest-when": "^3.2.1",
-    "lodash": "^4.17.21",
-    "nx": "14.1.7",
-    "patch-package": "^6.2.2",
-    "postinstall-postinstall": "^2.1.0",
-    "prettier": "^2.4.1",
-    "ts-jest": "^28.0.2",
-    "typescript": "^4.3.4"
+    "jest": "^29.3.1",
+    "jest-when": "^3.5.2",
+    "nx": "15.5.1",
+    "prettier": "^2.8.3",
+    "ts-jest": "^29.0.5",
+    "typescript": "^4.9.4"
+  },
+  "packageManager": "yarn@3.3.1",
+  "dependenciesMeta": {
+    "binary-install@1.0.6": {
+      "unplugged": true
+    }
   }
 }

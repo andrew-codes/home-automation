@@ -1,8 +1,9 @@
 import { createLogger } from "@ha/logger"
-import type { AsyncMqttClient, IPublishPacket } from "@ha/mqtt-client"
+import type { AsyncMqttClient } from "@ha/mqtt-client"
 import { call } from "redux-saga/effects"
 import { createMqtt } from "@ha/mqtt-client"
 import type { UpdateHomeAssistantAction } from "../types"
+import { QoS } from "async-mqtt"
 
 const logger = createLogger()
 
@@ -14,8 +15,8 @@ function* updateHomeAssistant(action: UpdateHomeAssistantAction) {
     (
       topic: string,
       message: string | Buffer,
-      { qos }: { qos: number },
-    ) => Promise<IPublishPacket>
+      { qos }: { qos: QoS },
+    ) => Promise<void>
   >(
     mqtt.publish.bind(mqtt),
     `playstation/${action.payload.device.id}/available`,
@@ -26,8 +27,8 @@ function* updateHomeAssistant(action: UpdateHomeAssistantAction) {
     (
       topic: string,
       message: string | Buffer,
-      { qos }: { qos: number },
-    ) => Promise<IPublishPacket>
+      { qos }: { qos: QoS },
+    ) => Promise<void>
   >(
     mqtt.publish.bind(mqtt),
     `playstation/${action.payload.device.id}/state`,

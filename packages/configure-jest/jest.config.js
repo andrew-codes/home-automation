@@ -1,3 +1,3 @@
-const configure = require("@ha/configure-jest")
+const configure = require("./src/index")
 
 module.exports = configure()

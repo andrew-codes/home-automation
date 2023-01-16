@@ -20,7 +20,7 @@ describe("external services dns updater", () => {
       .mockResolvedValue({ subscribe, on })
 
     auth = jest.mocked(GoogleAuth)
-    jest.mocked(google, true)
+    jest.mocked(google, { shallow: true })
     jest.mocked(google.auth.GoogleAuth).mockImplementation(() => auth)
   })
 

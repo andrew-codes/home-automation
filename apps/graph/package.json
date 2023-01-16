@@ -3,9 +3,15 @@
   "name": "@ha/graph",
   "version": "0.0.1",
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
-    "@ha/shell-utils": "^1.0.0",
-    "shelljs": "^0.8.4"
+    "@ha/configuration-api": "workspace:^0.0.1",
+    "@ha/configuration-workspace": "workspace:^0.0.1",
+    "@ha/docker": "workspace:^0.0.1",
+    "@ha/jsonnet": "workspace:^0.0.1",
+    "@ha/kubectl": "workspace:^1.0.0",
+    "@ha/nx-executors": "workspace:^0.0.1",
+    "@ha/shell-utils": "workspace:^1.0.0",
+    "nodemon": "^2.0.20",
+    "shelljs": "^0.8.5"
   }
 }

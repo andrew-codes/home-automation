@@ -1,6 +1,6 @@
 {
   "root": "apps/github-action-runners",
-  "sourceRoot": "apps/github-action-runners",
+  "sourceRoot": "apps/github-action-runners/src",
   "projectType": "application",
   "targets": {
     "deploy": {

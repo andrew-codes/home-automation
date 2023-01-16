@@ -12,4 +12,4 @@ RUN yarn patch
 
 EXPOSE 80
 
-ENTRYPOINT [ "/app/entrypoint.sh" ]
+ENTRYPOINT [ "yarn", "remix-serve", "dist" ]

@@ -5,8 +5,18 @@
   "license": "MIT",
   "main": "src/index.ts",
   "dependencies": {
-    "@ha/env-utils": "^0.0.1",
-    "@ha/logger": "^0.0.1",
+    "@ha/env-utils": "workspace:^0.0.1",
+    "@ha/logger": "workspace:^0.0.1",
     "debug": "^4.3.4"
+  },
+  "devDependencies": {
+    "@ha/configure-jest": "workspace:^0.0.1",
+    "@ha/nx-executors": "workspace:^0.0.1",
+    "@types/jest": "^29.2.5",
+    "@types/node": "^18.11.18",
+    "jest": "^29.3.1",
+    "jest-when": "^3.5.2",
+    "ts-jest": "^29.0.5",
+    "typescript": "^4.9.4"
   }
 }

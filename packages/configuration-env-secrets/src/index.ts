@@ -15,6 +15,7 @@ type Configuration = Record<ConfigurationKeys[number], string>
 
 const configurationApi: ConfigurationApi<Configuration> = {
   get: async (name) => {
+    console.log(path)
     const { parsed } = config({
       path: path.join(__dirname, "..", "..", "..", ".secrets.env"),
     })

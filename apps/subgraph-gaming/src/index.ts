@@ -19,7 +19,7 @@ import createLoader from "./loaders"
 import schema from "./schema"
 import { GraphQLError } from "graphql"
 import type { AsyncMqttClient } from "async-mqtt"
-import { createMqtt } from "packages/mqtt-client/src"
+import { createMqtt } from "@ha/mqtt-client"
 
 const logger = createLogger()
 

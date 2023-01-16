@@ -3,6 +3,6 @@
   "extends": "./tsconfig.json",
   "include": ["src/**/*.ts"],
   "compilerOptions": {
-    "types": ["jest", "node"]
+    "types": ["@types/jest", "@types/node"]
   }
 }
