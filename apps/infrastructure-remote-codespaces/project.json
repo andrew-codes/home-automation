@@ -1,6 +1,6 @@
 {
-  "root": "apps/infrastructure/remote-codespaces",
-  "sourceRoot": "apps/infrastructure/remote-codespaces",
+  "root": "apps/infrastructure-remote-codespaces",
+  "sourceRoot": "apps/infrastructure-remote-codespaces",
   "projectType": "application",
   "targets": {
     "clean": {
@@ -13,14 +13,14 @@
       ],
       "options": {
         "command": "rm -rf .terraform .terraform.lock.hcl .terraform.tfstate.lock.info terraform.tfstate",
-        "cwd": "apps/infrastructure/remote-codespaces"
+        "cwd": "apps/infrastructure-remote-codespaces"
       }
     },
     "provision": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
         "module": "scripts/provision.ts",
-        "cwd": "apps/infrastructure/remote-codespaces"
+        "cwd": "apps/infrastructure-remote-codespaces"
       }
     }
   },

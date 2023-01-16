@@ -1,6 +1,6 @@
 {
-  "root": "apps/infrastructure/proxy",
-  "sourceRoot": "apps/infrastructure/proxy",
+  "root": "apps/infrastructure-proxy",
+  "sourceRoot": "apps/infrastructure-proxy",
   "projectType": "application",
   "targets": {
     "clean": {
@@ -13,14 +13,14 @@
       ],
       "options": {
         "command": "rm -rf .terraform .terraform.lock.hcl .terraform.tfstate.lock.info terraform.tfstate",
-        "cwd": "apps/infrastructure/proxy"
+        "cwd": "apps/infrastructure-proxy"
       }
     },
     "provision": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
         "module": "scripts/provision.ts",
-        "cwd": "apps/infrastructure/proxy"
+        "cwd": "apps/infrastructure-proxy"
       }
     }
   },

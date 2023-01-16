@@ -1,13 +1,13 @@
 {
-  "root": "apps/infrastructure/debian-cloudinit",
-  "sourceRoot": "apps/infrastructure/debian-cloudinit",
+  "root": "apps/infrastructure-debian-cloudinit",
+  "sourceRoot": "apps/infrastructure-debian-cloudinit",
   "projectType": "application",
   "targets": {
     "provision": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
         "module": "scripts/provision.ts",
-        "cwd": "apps/infrastructure/debian-cloudinit"
+        "cwd": "apps/infrastructure-debian-cloudinit"
       }
     }
   },

@@ -1,6 +1,6 @@
 {
-  "root": "apps/infrastructure/elk-fleet-server",
-  "sourceRoot": "apps/infrastructure/elk-fleet-server",
+  "root": "apps/infrastructure-elk-fleet-server",
+  "sourceRoot": "apps/infrastructure-elk-fleet-server",
   "projectType": "application",
   "targets": {
     "clean": {
@@ -13,14 +13,14 @@
       ],
       "options": {
         "command": "rm -rf .terraform .terraform.lock.hcl .terraform.tfstate.lock.info terraform.tfstate",
-        "cwd": "apps/infrastructure/elk-fleet-server"
+        "cwd": "apps/infrastructure-elk-fleet-server"
       }
     },
     "provision": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
         "module": "scripts/provision.ts",
-        "cwd": "apps/infrastructure/elk-fleet-server"
+        "cwd": "apps/infrastructure-elk-fleet-server"
       }
     }
   },

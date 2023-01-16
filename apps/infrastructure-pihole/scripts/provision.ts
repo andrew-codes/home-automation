@@ -6,9 +6,9 @@ import { throwIfError } from "@ha/shell-utils"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const TF_VAR_ip = await configurationApi.get("pihole/ip")
+  let TF_VAR_ip = await configurationApi.get("pihole/ip")
   const TF_VAR_gateway = await configurationApi.get("unifi/ip")
-  const pveHost = await configurationApi.get("proxmox/host/pve-nuc")
+  let pveHost = await configurationApi.get("proxmox/host/pve")
   const TF_VAR_pm_username = await configurationApi.get("proxmox/username")
   const TF_VAR_pm_password = await configurationApi.get("proxmox/password")
   const TF_VAR_hostname = await configurationApi.get("pihole/hostname")
@@ -18,8 +18,8 @@ const run = async (
   sh.env["TF_VAR_ip"] = `${TF_VAR_ip.value}/8`
   sh.env["TF_VAR_gateway"] = TF_VAR_gateway.value
   sh.env["TF_VAR_pm_api_url"] = `https://${pveHost.value}/api2/json`
-  sh.env["TF_VAR_pm_password"] = TF_VAR_pm_password.value
-  sh.env["TF_VAR_pm_username"] = TF_VAR_pm_username.value
+  sh.env["TF_VAR_pm_api_token_secret"] = TF_VAR_pm_password.value
+  sh.env["TF_VAR_pm_api_token_id"] = TF_VAR_pm_username.value
   sh.env["TF_VAR_hostname"] = TF_VAR_hostname.value
   sh.env["TF_VAR_ssh_key"] = TF_VAR_ssh_key.value
   sh.env["TF_VAR_nameserver"] = TF_VAR_nameserver.value
@@ -29,6 +29,18 @@ const run = async (
     { silent: true },
   )
   await throwIfError(terraformProcess)
+
+  TF_VAR_ip = await configurationApi.get("pihole2/ip")
+  pveHost = await configurationApi.get("proxmox/host/pve-nuc")
+
+  sh.env["TF_VAR_ip"] = `${TF_VAR_ip.value}/8`
+  sh.env["TF_VAR_pm_api_url"] = `https://${pveHost.value}/api2/json`
+
+  const terraformProcess2 = sh.exec(
+    `terraform init && terraform plan && terraform apply --auto-approve;`,
+    { silent: true },
+  )
+  await throwIfError(terraformProcess2)
 }
 
 export default run

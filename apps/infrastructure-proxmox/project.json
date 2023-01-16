@@ -1,6 +1,6 @@
 {
-  "root": "apps/infrastructure/proxmox",
-  "sourceRoot": "apps/infrastructure/proxmox/src",
+  "root": "apps/infrastructure-proxmox",
+  "sourceRoot": "apps/infrastructure-proxmox/src",
   "projectType": "application",
   "targets": {},
   "tags": [],

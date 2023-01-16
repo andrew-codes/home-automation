@@ -1,13 +1,13 @@
 {
-  "root": "apps/infrastructure/docker-registry",
-  "sourceRoot": "apps/infrastructure/docker-registry",
+  "root": "apps/infrastructure-docker-registry",
+  "sourceRoot": "apps/infrastructure-docker-registry",
   "projectType": "application",
   "targets": {
     "provision": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
         "module": "scripts/provision.ts",
-        "cwd": "apps/infrastructure/docker-registry"
+        "cwd": "apps/infrastructure-docker-registry"
       }
     }
   },
