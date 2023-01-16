@@ -24,6 +24,8 @@ jobs:
           node-version: "${{ steps.nvm.outputs.NVMRC }}"
       - name: Install deps
         run: yarn
+      - name: Prepare
+        run: yarn nx run-many --target=prepare --parallel --all
       - name: Run all tests
         run: yarn run test/all
       - name: Coverage

@@ -18,6 +18,8 @@ jobs:
           node-version: "${{ steps.nvm.outputs.NVMRC }}"
       - name: Install deps
         run: yarn
+      - name: Prepare
+        run: yarn nx run-many --target=prepare --parallel --all
       - name: Install jsonnet plugins
         run: jb install
       - name: Run all tests

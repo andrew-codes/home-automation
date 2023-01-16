@@ -13,6 +13,8 @@ jobs:
         run: docker system prune -f
       - name: Install deps
         run: yarn
+      - name: Prepare
+        run: yarn nx run-many --target=prepare --parallel --all
       - name: Build/push docker image
         run: yarn run image/push github-action-runners
         env:

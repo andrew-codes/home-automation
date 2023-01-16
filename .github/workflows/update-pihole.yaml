@@ -17,6 +17,8 @@ jobs:
           node-version: "${{ steps.nvm.outputs.NVMRC }}"
       - name: Install deps
         run: yarn
+      - name: Prepare
+        run: yarn nx run-many --target=prepare --parallel --all
       - name: Update PiHole
         run: yarn nx run pihole:update
         env:
