@@ -2,22 +2,7 @@
   "root": "packages/configuration-api",
   "sourceRoot": "packages/configuration-api/src",
   "projectType": "library",
-  "targets": {
-    "clean": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": [".test-runs/unit"],
-      "options": {
-        "command": "rm -rf dist .test-runs",
-        "cwd": "packages/configuration-api"
-      }
-    },
-    "code-coverage": {
-      "executor": "@ha/nx-executors:upload-codecov",
-      "options": {
-        "coverageFilePath": "packages/configuration-api/.test-runs/unit/lcov.info"
-      }
-    }
-  },
+  "targets": {},
   "tags": [],
   "implicitDependencies": []
 }
