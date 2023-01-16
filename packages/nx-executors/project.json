@@ -32,6 +32,14 @@
       "options": {
         "coverageFilePath": "packages/nx-executors/.test-runs/unit/lcov.info"
       }
+    },
+    "prepare": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["packages/nx-executors/dist"],
+      "options": {
+        "command": "node -r esbuild-register scripts/compile.ts",
+        "cwd": "packages/nx-executors"
+      }
     }
   },
   "tags": [],
