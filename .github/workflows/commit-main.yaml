@@ -55,7 +55,7 @@ jobs:
       - name: Install jsonnet plugins
         run: jb install
       - name: Deploy affected apps
-        run: yarn nx affected --target=deploy --parallel --base HEAD~ --head HEAD --verbose --exclude manual-deployment --exclude pihole
+        run: yarn nx affected --target=deploy --parallel --base=HEAD~ --head=HEAD --verbose --exclude=manual-deployment --exclude=pihole
         env:
           CODECOV_TOKEN: ${{ secrets.CODE_COV_TOKEN }}
           ONEPASSWORD_TOKEN: ${{ secrets.ONEPASSWORD_TOKEN }}
