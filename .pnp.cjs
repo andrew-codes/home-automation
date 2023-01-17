@@ -14860,28 +14860,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["got", [\
-        ["npm:11.8.3", {\
-          "packageLocation": "./.yarn/cache/got-npm-11.8.3-caf98d599b-3b6db107d9.zip/node_modules/got/",\
+        ["npm:11.8.6", {\
+          "packageLocation": "./.yarn/cache/got-npm-11.8.6-89e7cd5d67-bbc783578a.zip/node_modules/got/",\
           "packageDependencies": [\
-            ["got", "npm:11.8.3"],\
-            ["@sindresorhus/is", "npm:4.6.0"],\
-            ["@szmarczak/http-timer", "npm:4.0.6"],\
-            ["@types/cacheable-request", "npm:6.0.2"],\
-            ["@types/responselike", "npm:1.0.0"],\
-            ["cacheable-lookup", "npm:5.0.4"],\
-            ["cacheable-request", "npm:7.0.2"],\
-            ["decompress-response", "npm:6.0.0"],\
-            ["http2-wrapper", "npm:1.0.3"],\
-            ["lowercase-keys", "npm:2.0.0"],\
-            ["p-cancelable", "npm:2.1.1"],\
-            ["responselike", "npm:2.0.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:11.8.5", {\
-          "packageLocation": "./.yarn/cache/got-npm-11.8.5-787b5e3116-2de8a1bbda.zip/node_modules/got/",\
-          "packageDependencies": [\
-            ["got", "npm:11.8.5"],\
+            ["got", "npm:11.8.6"],\
             ["@sindresorhus/is", "npm:4.6.0"],\
             ["@szmarczak/http-timer", "npm:4.0.6"],\
             ["@types/cacheable-request", "npm:6.0.2"],\
@@ -19999,7 +19981,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["clime", "npm:0.5.14"],\
             ["debug", "virtual:311f00d850caa9627b6ac11974e53f96ee9fc030a73da3d1abe5cce7e72b8ee2e1f115ef7f47e2e6108ff8071f1a98050f7a4c5c3fe7df743e1d5a4130e33289#npm:4.3.4"],\
             ["fs-extra", "npm:9.1.0"],\
-            ["got", "npm:11.8.3"],\
+            ["got", "npm:11.8.6"],\
             ["ix", "npm:4.5.2"],\
             ["node-rsa", "npm:1.1.1"],\
             ["open", "npm:8.4.0"]\
@@ -24140,7 +24122,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["estree-util-build-jsx", "npm:2.2.0"],\
             ["estree-util-is-identifier-name", "npm:2.0.1"],\
             ["estree-walker", "npm:3.0.1"],\
-            ["got", "npm:11.8.5"],\
+            ["got", "npm:11.8.6"],\
             ["hast-util-to-estree", "npm:2.1.0"],\
             ["loader-utils", "npm:2.0.0"],\
             ["markdown-extensions", "npm:1.1.1"],\
