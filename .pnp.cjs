@@ -18665,10 +18665,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["moment", [\
-        ["npm:2.29.1", {\
-          "packageLocation": "./.yarn/cache/moment-npm-2.29.1-787d9fdafd-1e14d5f422.zip/node_modules/moment/",\
+        ["npm:2.29.4", {\
+          "packageLocation": "./.yarn/cache/moment-npm-2.29.4-902943305d-0ec3f9c2bc.zip/node_modules/moment/",\
           "packageDependencies": [\
-            ["moment", "npm:2.29.1"]\
+            ["moment", "npm:2.29.4"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -18678,7 +18678,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/moment-timezone-npm-0.5.33-f2b784cd1b-dea6043b4a.zip/node_modules/moment-timezone/",\
           "packageDependencies": [\
             ["moment-timezone", "npm:0.5.33"],\
-            ["moment", "npm:2.29.1"]\
+            ["moment", "npm:2.29.4"]\
           ],\
           "linkType": "HARD"\
         }]\
