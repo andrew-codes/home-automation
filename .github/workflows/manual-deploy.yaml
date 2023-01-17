@@ -22,7 +22,7 @@ jobs:
       - name: Install jsonnet plugins
         run: jb install
       - name: Deploy apps
-        run: yarn run deploy ${{ github.event.client_payload.projects }} --exclude=docker-registry --exclude=k8s --exclude=openvpn --exclude=pihole --verbose
+        run: yarn nx run-many --target=deploy --parallel --projects=${{ github.event.client_payload.projects }} --exclude=docker-registry --exclude=k8s --exclude=openvpn --exclude=pihole --verbose
         env:
           CODECOV_TOKEN: ${{ secrets.CODE_COV_TOKEN }}
           ONEPASSWORD_TOKEN: ${{ secrets.ONEPASSWORD_TOKEN }}
