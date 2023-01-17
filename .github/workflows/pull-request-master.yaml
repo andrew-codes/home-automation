@@ -55,7 +55,7 @@ jobs:
       - name: Prepare
         run: yarn nx run-many --target=prepare --parallel --all
       - name: Compile affected apps
-        run: yarn nx affected --target=compile --parallel --base=HEAD~ --head=HEAD --verbose --exclude=manual-deployment --exclude=pihole
+        run: yarn nx affected --target=compile --parallel --base=HEAD~ --head=HEAD --verbose --exclude=manual-deployment,pihole
         env:
           ONEPASSWORD_TOKEN: ${{ secrets.ONEPASSWORD_TOKEN }}
           ONEPASSWORD_SERVER_URL: ${{ secrets.ONEPASSWORD_SERVER_URL }}
