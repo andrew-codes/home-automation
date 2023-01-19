@@ -72,7 +72,7 @@
         enabled: yes
 
     - name: Setup docker daemon config.
-      shell: 'echo ''{ "features": { "buildkit": true }, "exec-opts": ["native.cgroupdriver=systemd"], "insecure-registries": ["docker-registry:5000"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }'' > /etc/docker/daemon.json'
+      shell: 'echo ''{ "features": { "buildkit": true }, "exec-opts": ["native.cgroupdriver=systemd"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }'' > /etc/docker/daemon.json'
 
     - name: Copy auth file
       ansible.builtin.copy:

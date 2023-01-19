@@ -9,7 +9,7 @@ const generateConfContents = (
     subDomain: string
     locations: { from: string; to: string }[]
     proxy: string
-    htt1p: boolean
+    http1: boolean
   }[],
 ) => `
 ${subDomainConfigurations.map(

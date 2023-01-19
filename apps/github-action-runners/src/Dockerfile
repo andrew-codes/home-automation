@@ -40,7 +40,7 @@ ENV LC_ALL en_US.UTF-8
 RUN pip3 install "pywinrm>=0.3.0"
 RUN export KUBECONFIG=/home/runner/.kube/config
 RUN mkdir -p /etc/docker
-RUN echo '{ "features": { "buildkit": true }, "exec-opts": [], "insecure-registries": ["docker-registry:5000"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' | tee /etc/docker/daemon.json
+RUN echo '{ "features": { "buildkit": true }, "exec-opts": [], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' | tee /etc/docker/daemon.json
 RUN ansible-galaxy collection install ansible.windows
 RUN ansible-galaxy collection install community.windows
 RUN wget https://github.com/containerd/containerd/releases/download/v1.5.15/containerd-1.5.15-linux-amd64.tar.gz
@@ -71,4 +71,4 @@ RUN corepack enable
 RUN corepack prepare yarn@stable --activate
 
 USER runner
-RUN echo '{ "features": { "buildkit": true }, "exec-opts": [], "insecure-registries": ["docker-registry:5000"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' | tee /home/runner/.config/docker/daemon.json
+RUN echo '{ "features": { "buildkit": true }, "exec-opts": [], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' | tee /home/runner/.config/docker/daemon.json
