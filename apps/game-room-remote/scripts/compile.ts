@@ -5,8 +5,8 @@ import sh from "shelljs"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  sh.exec("tsc -b")
-  sh.exec("remix build")
+  sh.exec("yarn tsc -b")
+  sh.exec("yarn remix build")
 }
 
 export default run

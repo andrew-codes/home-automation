@@ -16,6 +16,11 @@ const run = async (
       ([key]) => !key.startsWith("@ha/"),
     ),
   )
+  packageJson.devDependencies = fromPairs(
+    Object.entries(packageJson.devDependencies).filter(
+      ([key]) => !key.startsWith("@ha/"),
+    ),
+  )
 
   await fs.writeFile(
     path.join(__dirname, "..", "dist", "package.json"),

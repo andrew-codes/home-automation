@@ -4,7 +4,6 @@ WORKDIR /app
 ENV NODE_ENV production
 ENV PORT 80
 
-COPY entrypoint.sh entrypoint.sh
 COPY dist dist
 RUN mv dist/package.json package.json
 RUN yarn --no-lockfile --production
