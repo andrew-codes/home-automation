@@ -9,7 +9,7 @@ RUN yarn set version berry
 
 COPY dist dist
 RUN mv dist/package.json package.json
-RUN yarn --ignore-scripts
+RUN yarn
 
 EXPOSE 80
 

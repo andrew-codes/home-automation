@@ -23,7 +23,7 @@
     "async-mqtt": "^2.6.3",
     "cron": "^1.8.2",
     "debug": "^4.3.4",
-    "esbuild": "^0.17.0",
+    "esbuild": "^0.17.3",
     "esbuild-register": "^3.4.2",
     "google-auth-library": "^7.14.1",
     "googleapis": "^92.0.0",
