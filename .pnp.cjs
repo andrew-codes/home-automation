@@ -7271,7 +7271,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/mqtt-client", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/mqtt-client"],\
             ["@ha/mqtt-heartbeat", "workspace:packages/mqtt-heartbeat"],\
             ["@ha/nx-executors", "workspace:packages/nx-executors"],\
-            ["@ha/shell-utils", "workspace:packages/shell-utils"],\
             ["@types/jest", "npm:29.2.5"],\
             ["@types/node", "npm:18.11.18"],\
             ["async-mqtt", "npm:2.6.3"],\
@@ -8732,6 +8731,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["cacache", "npm:15.3.0"],\
             ["chalk", "npm:4.1.2"],\
             ["chokidar", "npm:3.5.3"],\
+            ["dom7", "npm:4.0.6"],\
             ["dotenv", "npm:16.0.3"],\
             ["esbuild", "npm:0.16.3"],\
             ["execa", "npm:5.1.1"],\
@@ -12696,6 +12696,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/dom7-npm-4.0.4-637bc4420a-b38604f74e.zip/node_modules/dom7/",\
           "packageDependencies": [\
             ["dom7", "npm:4.0.4"],\
+            ["ssr-window", "npm:4.0.2"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:4.0.6", {\
+          "packageLocation": "./.yarn/cache/dom7-npm-4.0.6-3656a6d3f2-616a68cbae.zip/node_modules/dom7/",\
+          "packageDependencies": [\
+            ["dom7", "npm:4.0.6"],\
             ["ssr-window", "npm:4.0.2"]\
           ],\
           "linkType": "HARD"\

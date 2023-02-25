@@ -4573,7 +4573,6 @@ __metadata:
     "@ha/mqtt-client": "workspace:^0.0.1"
     "@ha/mqtt-heartbeat": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.0.1"
-    "@ha/shell-utils": "workspace:^1.0.0"
     "@types/jest": ^29.2.5
     "@types/node": ^18.11.18
     async-mqtt: ^2.6.3
@@ -8958,6 +8957,15 @@ __metadata:
   version: 0.5.14
   resolution: "dom-accessibility-api@npm:0.5.14"
   checksum: 782c813f75a09ba6735ef03b5e1624406a3829444ae49d5bdedd272a49d437ae3354f53e02ffc8c9fd9165880250f41546538f27461f839dd4ea1234e77e8d5e
+  languageName: node
+  linkType: hard
+
+"dom7@npm:*":
+  version: 4.0.6
+  resolution: "dom7@npm:4.0.6"
+  dependencies:
+    ssr-window: ^4.0.0
+  checksum: 616a68cbae59eaea2e717ada5855346f0ffa4ac10ab96713bb42b90efabce367213c3c491c4bf5502d177b0865c63d8abd298cc8e12bdda171340c853d6b515a
   languageName: node
   linkType: hard
 

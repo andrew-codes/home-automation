@@ -26,6 +26,10 @@ jobs:
         run: yarn
       - name: Prepare
         run: yarn nx run-many --target=prepare --parallel --all
+        env:
+          ONEPASSWORD_TOKEN: ${{ secrets.ONEPASSWORD_TOKEN }}
+          ONEPASSWORD_SERVER_URL: ${{ secrets.ONEPASSWORD_SERVER_URL }}
+          ONEPASSWORD_VAULT_ID: ${{ secrets.ONEPASSWORD_VAULT_ID }}
       - name: Run all tests
         run: yarn run test/all
       - name: Coverage
@@ -54,6 +58,10 @@ jobs:
         run: yarn
       - name: Prepare
         run: yarn nx run-many --target=prepare --parallel --all
+        env:
+          ONEPASSWORD_TOKEN: ${{ secrets.ONEPASSWORD_TOKEN }}
+          ONEPASSWORD_SERVER_URL: ${{ secrets.ONEPASSWORD_SERVER_URL }}
+          ONEPASSWORD_VAULT_ID: ${{ secrets.ONEPASSWORD_VAULT_ID }}
       - name: Compile affected apps
         run: yarn nx affected --target=compile --parallel --base=HEAD~ --head=HEAD --verbose --exclude=manual-deployment,pihole
         env:
