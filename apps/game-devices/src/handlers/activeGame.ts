@@ -25,17 +25,20 @@ const messageHandler: MessageHandler = {
       }
       const {
         data: { gameReleaseById },
-      } = await fetch(process.env.GRAPH_HOST ?? "http://localhost:8082", {
-        method: "POST",
-        body: JSON.stringify({
-          query:
-            "query GameReleaseById($id: String!) { gameReleaseById(id: $id) { game { name } playniteId platform { id name } } }",
-          variables: { id },
-        }),
-        headers: {
-          "content-type": "application/json",
+      } = await fetch(
+        `${process.env.GRAPH_HOST}/graphql` ?? "http://localhost:8082",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            query:
+              "query GameReleaseById($id: String!) { gameReleaseById(id: $id) { game { name } playniteId platform { id name } } }",
+            variables: { id },
+          }),
+          headers: {
+            "content-type": "application/json",
+          },
         },
-      }).then((resp) => resp.json())
+      ).then((resp) => resp.json())
       console.log(gameReleaseById)
       const mqtt = await createMqtt()
       await mqtt.publish(
