@@ -1,4 +1,4 @@
-import { SerializeFrom, TypedResponse } from "@remix-run/node"
+import { TypedResponse } from "@remix-run/node"
 import { useLoaderData as remixUseLoaderData } from "@remix-run/react"
 import parse from "./api/jsonParser"
 

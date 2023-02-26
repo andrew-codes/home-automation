@@ -1,4 +1,4 @@
-import { FC, SyntheticEvent, useCallback, useEffect, useState } from "react"
+import { FC, SyntheticEvent, useCallback } from "react"
 import { EffectCreative, Keyboard, Mousewheel } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import styled from "styled-components"

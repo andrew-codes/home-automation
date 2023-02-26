@@ -7,7 +7,6 @@ ENV PORT 80
 COPY dist dist
 RUN mv dist/package.json package.json
 RUN yarn --no-lockfile --production
-RUN yarn patch
 
 EXPOSE 80
 

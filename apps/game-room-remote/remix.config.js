@@ -1,5 +1,3 @@
-const { getDependenciesToBundle } = require("@remix-run/dev")
-
 /** @type {import('@remix-run/dev').AppConfig} */
 const config = {
   appDirectory: "src",
@@ -8,11 +6,7 @@ const config = {
   publicPath: "/build/",
   serverBuildPath: "dist/index.js",
   serverBuildTarget: "node-cjs",
-  serverDependenciesToBundle: [
-    /^@ha\/.*/,
-    ...getDependenciesToBundle("swiper"),
-    // ...getDependenciesToBundle("swiper/react"),
-  ],
+  serverDependenciesToBundle: [/^@ha\/.*/],
 }
 
 module.exports = config
