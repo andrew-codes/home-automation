@@ -23,7 +23,7 @@ test("activeGame handler reacts to topics relating to tracking active game state
 test("Given a valid topic and a payload with an area ID, playnite ID and state, when handling the message, then the game ID, platform name are retrieved from the graph and sent via mqtt message to update Home Assistant.", async () => {
   process.env.GRAPH_HOST = "http://graphHost"
   when(fetch)
-    .calledWith("http://graphHost", {
+    .calledWith("http://graphHost/graphql", {
       method: "POST",
       body: JSON.stringify({
         query:
