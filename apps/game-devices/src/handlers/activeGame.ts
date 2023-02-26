@@ -14,6 +14,7 @@ const messageHandler: MessageHandler = {
     logger.info(`Handling topic ${topic}`)
     try {
       const { id, state, areaId } = JSON.parse(payload.toString())
+      logger.info(`${id}, ${state}, ${areaId}`)
       if (isEmpty(id) || isEmpty(areaId) || isEmpty(state)) {
         throw new Error("Invalid payload; missing properties")
       }
