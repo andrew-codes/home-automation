@@ -18,6 +18,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Text.RegularExpressions;
 
 namespace MQTTClient
 {
@@ -132,6 +133,43 @@ namespace MQTTClient
 
                     var options = optionsUnBuilt.Build();
 
+                    client.ApplicationMessageReceivedAsync += e =>
+                    {
+                        try {
+                            Console.WriteLine("Received application message.");
+                            var topic = e.ApplicationMessage.Topic;
+                            
+                            var areaIdExpression = @"^playnite/(.*)/game_media_player/.*";
+                            var startExpression = @"^playnite/.*/game_media_player/start/(.*)";
+                            var installExpression = @"^playnite/.*/game_media_player/install/(.*)";
+                            var uninstallExpression = @"^playnite/.*/game_media_player/uninstall/(.*)";
+
+                            var areaIdMatch = Regex.Match(topic, areaIdExpression);
+                            if (!areaIdMatch.Success) {
+                                return Task.CompletedTask;
+                            }
+
+                            var startMatch = Regex.Match(topic, startExpression);
+                            var installMatch = Regex.Match(topic, installExpression);
+                            var uninstallMatch = Regex.Match(topic, uninstallExpression);
+
+                            if (startMatch.Success) {
+                                var gameId = startMatch.Groups[0].Value;
+                                PlayniteApi.StartGame(Guid.Parse(gameId));
+                            } else if (installMatch.Success) {
+                                var gameId = installMatch.Groups[0].Value;
+                                PlayniteApi.InstallGame(Guid.Parse(gameId));
+                            } else if (uninstallMatch.Success) {
+                                var gameId = uninstallMatch.Groups[0].Value;
+                                PlayniteApi.UninstallGame(Guid.Parse(gameId));
+                            }
+
+                            return Task.CompletedTask;
+                        } catch(Exception e) {
+                            return Task.FromException(e);
+                        }
+                    };
+
                     client.ConnectAsync(options, args.CancelToken)
                         .ContinueWith(
                             t =>
@@ -191,6 +229,26 @@ namespace MQTTClient
             await PublishGames(PlayniteApi.Database.Games);
             PlayniteApi.Database.Games.ItemCollectionChanged += Games_ItemCollectionChanged;
             PlayniteApi.Database.Games.ItemUpdated += Games_ItemUpdated;
+
+
+            var mqttSubscribeOptions = mqttFactory.CreateSubscribeOptionsBuilder()
+                .WithTopicFilter(
+                    f =>
+                    {
+                        f.WithTopic("playnite/+/game_media_player/start/+");
+                    })
+                .WithTopicFilter(
+                    f =>
+                    {
+                        f.WithTopic("playnite/+/game_media_player/install/+");
+                    })
+                .WithTopicFilter(
+                    f =>
+                    {
+                        f.WithTopic("playnite/+/game_media_player/uninstall/+");
+                    })
+                .Build();
+            await client.SubscribeAsync(mqttSubscribeOptions, CancellationToken.None);
         }
 
         private void DisconnectMenuAction(MainMenuItemActionArgs obj)
