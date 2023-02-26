@@ -29,7 +29,7 @@ async function run() {
     const mqtt = await createMqtt()
 
     const topicRegEx = /^playstation\/([^/]*)\/set\/(.*)$/
-    const discoverTopic = "platation/discover"
+    const discoverTopic = "playstation/discover"
     mqtt.on("message", (topic, payload) => {
       if (topic === discoverTopic) {
         store.dispatch({ type: "CLEAR_ALL_DEVICES" })
