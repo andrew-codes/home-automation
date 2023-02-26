@@ -132,12 +132,12 @@ namespace MQTTClient
                     }
 
                     var options = optionsUnBuilt.Build();
-
                     client.ApplicationMessageReceivedAsync += e =>
                     {
                         try {
-                            Console.WriteLine("Received application message.");
+                            logger.Debug("Received application message.");
                             var topic = e.ApplicationMessage.Topic;
+                            logger.Debug(topic);
                             
                             var areaIdExpression = @"^playnite/(.*)/game_media_player/.*";
                             var startExpression = @"^playnite/.*/game_media_player/start/(.*)";
@@ -154,18 +154,20 @@ namespace MQTTClient
                             var uninstallMatch = Regex.Match(topic, uninstallExpression);
 
                             if (startMatch.Success) {
-                                var gameId = startMatch.Groups[0].Value;
+                                var gameId = startMatch.Groups[1].Value;
                                 PlayniteApi.StartGame(Guid.Parse(gameId));
                             } else if (installMatch.Success) {
-                                var gameId = installMatch.Groups[0].Value;
+                                var gameId = installMatch.Groups[1].Value;
                                 PlayniteApi.InstallGame(Guid.Parse(gameId));
                             } else if (uninstallMatch.Success) {
-                                var gameId = uninstallMatch.Groups[0].Value;
+                                var gameId = uninstallMatch.Groups[1].Value;
                                 PlayniteApi.UninstallGame(Guid.Parse(gameId));
                             }
 
                             return Task.CompletedTask;
                         } catch(Exception error) {
+                            logger.Error(error.Message);
+
                             return Task.FromException(error);
                         }
                     };
