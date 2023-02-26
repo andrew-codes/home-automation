@@ -379,35 +379,35 @@ namespace MQTTClient
         public override void OnGameInstalled(OnGameInstalledEventArgs args)
         {
 
-            var payload = new { id = $"{args.Game.Id}_{args.Game.Platforms.First(platform => platform.Name == "PC (Windows)").Id}", state = "installed", areaId = settings.Settings.DeviceId };
+            var payload = new { id = $"{args.Game.Platforms.First(platform => platform.Name == "PC (Windows)").Id}_{args.Game.Id}", state = "installed", areaId = settings.Settings.DeviceId };
             Task.Run(
                 async () => await client.PublishStringAsync($"playnite/{Topics.LibrarySubTopic}/game/state", System.Text.Json.JsonSerializer.Serialize(payload, jsonOptions), retain: false, qualityOfServiceLevel: MqttQualityOfServiceLevel.AtLeastOnce)).Wait(CancellationToken.None);
         }
 
         public override void OnGameStarted(OnGameStartedEventArgs args)
         {
-            var payload = new { id = $"{args.Game.Id}_{args.Game.Platforms.First(platform => platform.Name == "PC (Windows)").Id}", state = "started", areaId = settings.Settings.DeviceId };
+            var payload = new { id = $"{args.Game.Platforms.First(platform => platform.Name == "PC (Windows)").Id}_{args.Game.Id}", state = "started", areaId = settings.Settings.DeviceId };
             Task.Run(
                 async () => await client.PublishStringAsync($"playnite/{Topics.LibrarySubTopic}/game/state", System.Text.Json.JsonSerializer.Serialize(payload, jsonOptions), retain: false, qualityOfServiceLevel: MqttQualityOfServiceLevel.AtLeastOnce)).Wait(CancellationToken.None);
         }
 
         public override void OnGameStarting(OnGameStartingEventArgs args)
         {
-            var payload = new { id = $"{args.Game.Id}_{args.Game.Platforms.First(platform => platform.Name == "PC (Windows)").Id}", state = "starting", areaId = settings.Settings.DeviceId };
+            var payload = new { id = $"{args.Game.Platforms.First(platform => platform.Name == "PC (Windows)").Id}_{args.Game.Id}", state = "starting", areaId = settings.Settings.DeviceId };
             Task.Run(
                 async () => await client.PublishStringAsync($"playnite/{Topics.LibrarySubTopic}/game/state", System.Text.Json.JsonSerializer.Serialize(payload, jsonOptions), retain: false, qualityOfServiceLevel: MqttQualityOfServiceLevel.AtLeastOnce)).Wait(CancellationToken.None);
         }
 
         public override void OnGameStopped(OnGameStoppedEventArgs args)
         {
-            var payload = new { id = $"{args.Game.Id}_{args.Game.Platforms.First(platform => platform.Name == "PC (Windows)").Id}", state = "stopped", areaId = settings.Settings.DeviceId };
+            var payload = new { id = $"{args.Game.Platforms.First(platform => platform.Name == "PC (Windows)").Id}_{args.Game.Id}", state = "stopped", areaId = settings.Settings.DeviceId };
             Task.Run(
                 async () => await client.PublishStringAsync($"playnite/{Topics.LibrarySubTopic}/game/state", System.Text.Json.JsonSerializer.Serialize(payload, jsonOptions), retain: false, qualityOfServiceLevel: MqttQualityOfServiceLevel.AtLeastOnce)).Wait(CancellationToken.None);
         }
 
         public override void OnGameUninstalled(OnGameUninstalledEventArgs args)
         {
-            var payload = new { id = $"{args.Game.Id}_{args.Game.Platforms.First(platform => platform.Name == "PC (Windows)").Id}", state = "uninstalled", areaId = settings.Settings.DeviceId };
+            var payload = new { id = $"{args.Game.Platforms.First(platform => platform.Name == "PC (Windows)").Id}_{args.Game.Id}", state = "uninstalled", areaId = settings.Settings.DeviceId };
             Task.Run(
                 async () => await client.PublishStringAsync($"playnite/{Topics.LibrarySubTopic}/game/state", System.Text.Json.JsonSerializer.Serialize(payload, jsonOptions), retain: false, qualityOfServiceLevel: MqttQualityOfServiceLevel.AtLeastOnce)).Wait(CancellationToken.None);
         }
