@@ -165,8 +165,8 @@ namespace MQTTClient
                             }
 
                             return Task.CompletedTask;
-                        } catch(Exception e) {
-                            return Task.FromException(e);
+                        } catch(Exception error) {
+                            return Task.FromException(error);
                         }
                     };
 
@@ -231,7 +231,7 @@ namespace MQTTClient
             PlayniteApi.Database.Games.ItemUpdated += Games_ItemUpdated;
 
 
-            var mqttSubscribeOptions = mqttFactory.CreateSubscribeOptionsBuilder()
+            var mqttSubscribeOptions = new MqttFactory().CreateSubscribeOptionsBuilder()
                 .WithTopicFilter(
                     f =>
                     {
