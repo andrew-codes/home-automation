@@ -1,6 +1,6 @@
 automation:
-  - alias: Guest group entities set on restart
-    id: guest_group_entities_set_on_restart
+  - alias: Register playstations on resetart
+    id: register_playstations_on_restart
     trigger:
       - platform: homeassistant
         event: start

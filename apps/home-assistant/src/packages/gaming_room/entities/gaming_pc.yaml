@@ -49,12 +49,6 @@ media_player:
         entity_id: media_player.gaming_room_avr
         data_template:
           is_volume_muted: "{{ is_volume_muted }}"
-      select_source:
-        service: mqtt.publish
-        data_template:
-          topic: "home/games/pc/play"
-          qos: 2
-          payload: "{{ source }}"
     attributes:
       is_volume_muted: media_player.gaming_room_avr|is_volume_muted
       volume_level: media_player.gaming_room_avr|volume_level

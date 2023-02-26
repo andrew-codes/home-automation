@@ -23,7 +23,7 @@ automation:
         data:
           topic: "homeassistant/button/GAMING-PC/GAMING-PC_start-playnite/action"
           payload: "''"
-      - delay: 40
+      - delay: 120
       - service: mqtt.publish
         data:
           topic: "homeassistant/button/GAMING-PC/GAMING-PC_powershell/action"
