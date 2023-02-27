@@ -82,42 +82,54 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
     async startGame(parent, args, ctx) {
       const gameReleaseResult = await ctx.db
         .collection("gameReleases")
-        .findOne({ _id: args.id })
+        .findOne({ _id: args.gameReleaseId })
 
       if (!gameReleaseResult) {
-        throw new GraphQLError(`Game release not found for ID: ${args.id}`)
+        throw new GraphQLError(
+          `Game release not found for ID: ${args.gameReleaseId}`,
+        )
       }
 
+      const gameRelease = await ctx.loaders.gameReleases.load(
+        gameReleaseResult.id,
+      )
+      const platform = await ctx.loaders.platforms.load(gameRelease.platformId)
+
       await ctx.mqtt.publish(
-        `playnite/library/game/state`,
+        `homeassistant/${args.areaId}/game_media_player/start`,
         JSON.stringify({
-          state: "start",
-          id: args.id,
-          areaId: args.areaId,
+          id: gameRelease.gameId,
+          platformName: platform.name,
         }),
       )
 
-      return ctx.loaders.gameReleases.load(gameReleaseResult.id)
+      return gameRelease
     },
     async stopGame(parent, args, ctx) {
       const gameReleaseResult = await ctx.db
         .collection("gameReleases")
-        .findOne({ _id: args.id })
+        .findOne({ _id: args.gameReleaseId })
 
       if (!gameReleaseResult) {
-        throw new GraphQLError(`Game release not found for ID: ${args.id}`)
+        throw new GraphQLError(
+          `Game release not found for ID: ${args.gameReleaseId}`,
+        )
       }
 
+      const gameRelease = await ctx.loaders.gameReleases.load(
+        gameReleaseResult.id,
+      )
+      const platform = await ctx.loaders.platforms.load(gameRelease.platformId)
+
       await ctx.mqtt.publish(
-        `playnite/library/game/state`,
+        `homeassistant/${args.areaId}/game_media_player/stop`,
         JSON.stringify({
-          state: "stop",
-          id: args.id,
-          areaId: args.areaId,
+          id: gameRelease.gameId,
+          platformName: platform.name,
         }),
       )
 
-      return ctx.loaders.gameReleases.load(gameReleaseResult.id)
+      return gameRelease
     },
   },
   GameRelease: {

@@ -6,15 +6,15 @@ const schema = `
   `)}
 
   type Query {
-    gameReleaseById(id: String!): GameRelease!
+    gameReleaseById(id: ID!): GameRelease!
     games: [Game!]!
     genres: [GameGenre!]!
     platforms: [GamePlatform!]!
   }
 
   type Mutation {
-    startGame(id: String!, areaId: String!): GameRelease
-    stopGame(id: String!, areaId: String!): GameRelease
+    startGame(gameReleaseId: ID!, areaId: String!): GameRelease
+    stopGame(gameReleaseId: ID!, areaId: String!): GameRelease
   }
 
   type GamePlatform @key(fields: "id") {
