@@ -16,7 +16,6 @@ terraform.tfstate*
 id_rsa
 /vendor
 .test-runs
-.vscode/settings.json
 /logs
 obj
 .vs

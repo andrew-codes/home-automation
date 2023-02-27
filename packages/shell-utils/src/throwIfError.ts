@@ -30,20 +30,22 @@ const throwIfError = async (
         })
         child.on("close", (exitCode) => {
           doIf(() => exitCode !== 0)(() => {
-            throw new Error(error)
+            logger.info(error)
+            reject(new Error(error))
           })
           logger.info(output)
           resolve(output)
         })
       } else {
         doIf(() => child.code !== 0)(() => {
-          throw new Error(child.stderr.toString())
+          logger.info(child.stderr.toString())
+          reject(new Error(child.stderr.toString()))
         })
 
         resolve(child.stdout)
       }
     } catch (error) {
-      logger.error(error)
+      logger.info(error)
       reject(error)
     }
   })

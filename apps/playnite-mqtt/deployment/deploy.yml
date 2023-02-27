@@ -83,12 +83,20 @@
         ansible_become_user: "{{ user }}"
         ansible_become_password: "{{ ansible_password }}"
 
+    - name: Stop Playnite
+      win_shell: |
+        Get-WmiObject -Filter \"Name LIKE 'Playnite%'\" -Class Win32_Process | Select-Object -ExpandProperty ProcessId | ForEach { stop-process $_ }
+
     - name: Compile playnite-mqtt app
       win_shell: |
         cd "C:\Users\{{ user }}\developer\repos\home-automation\apps\playnite-mqtt\src"
         rm -rf bin
         nuget restore MQTTClient.csproj --SolutionDirectory .
-        "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" MQTTClient.csproj -p:Configuration=Release
+        & "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" MQTTClient.csproj -p:Configuration=Release
       vars:
         ansible_become_user: "{{ user }}"
         ansible_become_password: "{{ ansible_password }}"
+    
+    # - name: Restart Playnite
+    #   win_shell: |
+    #     Start-Process -FilePath ""

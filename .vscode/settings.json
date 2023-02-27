@@ -1,0 +1,6 @@
+{
+  "jest.jestCommandLine": "yarn jest",
+  "jest.autoRun": {
+    "onStart": []
+  }
+}
