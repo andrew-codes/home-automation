@@ -1,5 +1,4 @@
-bin/*/**/*.*
-bin/Release/*.*
+bin
 obj
 .vs
 packages

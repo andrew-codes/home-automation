@@ -97,6 +97,6 @@
         ansible_become_user: "{{ user }}"
         ansible_become_password: "{{ ansible_password }}"
     
-    # - name: Restart Playnite
-    #   win_shell: |
-    #     Start-Process -FilePath ""
+    - name: Restart Playnite
+      win_shell: |
+        Start-Process -WorkingDirectory "C:\Users\Andrew\AppData\Local\Playnite" -FilePath "C:\Users\Andrew\AppData\Local\Playnite\Playnite.DesktopApp.exe"
