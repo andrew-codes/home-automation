@@ -90,8 +90,7 @@
     - name: Compile playnite-mqtt app
       win_shell: |
         cd "C:\Users\{{ user }}\developer\repos\home-automation\apps\playnite-mqtt\src"
-        Remove-Item -Force -Recurse ../bin
-        Remove-Item -Force -Recurse ../obj
+        Remove-Item -Force -Recurse ../dist -ErrorAction SilentlyContinue
         nuget restore MQTTClient.csproj -SolutionDirectory ../
         & "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" MQTTClient.csproj -p:Configuration=Release
       vars:
