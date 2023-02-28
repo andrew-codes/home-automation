@@ -85,7 +85,7 @@
 
     - name: Stop Playnite
       win_shell: |
-        Get-WmiObject -Filter \"Name LIKE 'Playnite%'\" -Class Win32_Process | Select-Object -ExpandProperty ProcessId | ForEach { stop-process $_ }
+        Get-WmiObject -Filter "Name LIKE 'Playnite%'" -Class Win32_Process | Select-Object -ExpandProperty ProcessId | ForEach { stop-process $_ }
 
     - name: Compile playnite-mqtt app
       win_shell: |
