@@ -86,6 +86,9 @@
     - name: Stop Playnite
       win_shell: |
         Get-WmiObject -Filter "Name LIKE 'Playnite%'" -Class Win32_Process | Select-Object -ExpandProperty ProcessId | ForEach { stop-process $_ }
+      vars:
+        ansible_become_user: "{{ user }}"
+        ansible_become_password: "{{ ansible_password }}"
 
     - name: Compile playnite-mqtt app
       win_shell: |
@@ -100,3 +103,6 @@
     - name: Restart Playnite
       win_shell: |
         Start-Process -WorkingDirectory "C:\Users\Andrew\AppData\Local\Playnite" -FilePath "C:\Users\Andrew\AppData\Local\Playnite\Playnite.DesktopApp.exe"
+      vars:
+        ansible_become_user: "{{ user }}"
+        ansible_become_password: "{{ ansible_password }}"
