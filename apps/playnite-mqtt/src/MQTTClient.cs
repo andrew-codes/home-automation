@@ -2,7 +2,6 @@
 using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Protocol;
-using Newtonsoft.Json;
 using Playnite.SDK;
 using Playnite.SDK.Events;
 using Playnite.SDK.Models;
@@ -163,12 +162,13 @@ namespace MQTTClient
                                 var gameId = uninstallMatch.Groups[1].Value;
                                 PlayniteApi.UninstallGame(Guid.Parse(gameId));
                             }
-
+                            logger.Debug("Completed handling application messages.");
+                            
                             return Task.CompletedTask;
                         } catch(Exception error) {
                             logger.Error(error.Message);
 
-                            return Task.FromException(error);
+                            return Task.CompletedTask;
                         }
                     };
 
