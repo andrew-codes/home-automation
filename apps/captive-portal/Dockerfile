@@ -1,5 +1,7 @@
 FROM node:18.12.1-alpine AS runner
 
+RUN apk add curl
+
 WORKDIR /app
 
 ENV NODE_ENV production
