@@ -6,7 +6,7 @@ const config = {
   publicPath: "/build/",
   serverBuildPath: "dist/index.js",
   serverBuildTarget: "node-cjs",
-  serverDependenciesToBundle: [/^@ha\/.*/],
+  serverDependenciesToBundle: [/.*/],
 }
 
 module.exports = config
