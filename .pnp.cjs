@@ -6708,6 +6708,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/jsonnet", "workspace:packages/jsonnet"],\
             ["@ha/kubectl", "workspace:packages/kubectl"],\
             ["@ha/nx-executors", "workspace:packages/nx-executors"],\
+            ["@ha/shell-utils", "workspace:packages/shell-utils"],\
             ["@ha/themes-slate", "workspace:packages/themes/slate"],\
             ["@remix-run/dev", "virtual:a309c14a89479752e370696580b9b5876d8305ca18883c44c26f5ebec6f59422c025d084c9d21311c16f2f31962c2ff5d34f0ec2be1cdb92c949d8f6ce85ae86#npm:1.13.0"],\
             ["@remix-run/eslint-config", "virtual:a309c14a89479752e370696580b9b5876d8305ca18883c44c26f5ebec6f59422c025d084c9d21311c16f2f31962c2ff5d34f0ec2be1cdb92c949d8f6ce85ae86#npm:1.13.0"],\
