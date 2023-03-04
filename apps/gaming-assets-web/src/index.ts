@@ -35,22 +35,31 @@ const run = async () => {
   app.use("/resize/:id", async (req, resp) => {
     try {
       const { id } = req.params
-      const { width } = req.query
-      if (!id || !width) {
-        throw new Error(`Not all parameters supplied: ${id}, ${width}`)
+      const { height, width } = req.query
+      if (!id && (!width || !height)) {
+        throw new Error(
+          `Not all parameters supplied: ${id}, width: ${width}, height: ${height}`,
+        )
       }
       const assetPath = path.join(assetsPath, id)
-      logger.info(`Resize request received: ${id} ${width}: ${assetPath}`)
+      logger.info(
+        `Resize request received: ${id} ${width}, ${height}: ${assetPath}`,
+      )
       if (!fs.existsSync(assetPath)) {
         throw new Error(`Asset at ID ${id} does not exist`)
       }
 
-      const resizedImageStream = sharp(assetPath)
-        .resize({
-          width: parseInt(width as string),
-          fit: "inside",
-        })
-        .webp()
+      let resizeOptions: any = {
+        fit: "inside",
+      }
+      if (width) {
+        resizeOptions.width = parseInt(width as string)
+      }
+      if (height) {
+        resizeOptions.height = parseInt(height as string)
+      }
+
+      const resizedImageStream = sharp(assetPath).resize(resizeOptions).webp()
       logger.debug(`Resized image ${id}`)
       resp
         .set("Cache-control", `public, max-age=${cacheFor300Days}`)
