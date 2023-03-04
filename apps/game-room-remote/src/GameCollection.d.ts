@@ -11,6 +11,7 @@ type GameCollection = {
   games: Game[]
   currentPageIndex: number
   countPerPage: number
+  total: number
 }
 
 export type { GameCollection, GameCollectionDefinition }

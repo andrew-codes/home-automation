@@ -6,10 +6,10 @@ import { GameCollectionDefinition } from "../GameCollection"
 const lastMonth = new Date(new Date().setDate(-30))
 const mapGames = map<Game, Game>((game) =>
   merge({}, game, {
-    platformReleases: orderBy<GameRelease>(
+    releases: orderBy<GameRelease>(
       [get("lastActivity"), get("releaseDate")],
       ["desc", "desc"],
-    )(game.platformReleases),
+    )(game.releases),
   }),
 )
 
@@ -19,16 +19,11 @@ const yearlyCollection = (releaseYear: number) => {
     name: releaseYear.toString(),
     filter: flow(
       filter<Game>((game) =>
-        game.platformReleases.some(
-          (release) => release.releaseYear === releaseYear,
-        ),
+        game.releases.some((release) => release.releaseYear === releaseYear),
       ),
 
       mapGames,
-      orderBy<Game>(
-        [(game) => first(game.platformReleases)?.lastActivity],
-        ["desc"],
-      ),
+      orderBy<Game>([(game) => first(game.releases)?.lastActivity], ["desc"]),
     ),
   }
 }
@@ -42,15 +37,12 @@ const collectionDefinitions: Omit<
     name: "continue playing",
     filter: flow(
       filter<Game>((game) =>
-        game.platformReleases.some(
+        game.releases.some(
           ({ lastActivity }) => !!lastActivity && lastActivity >= lastMonth,
         ),
       ),
       mapGames,
-      orderBy<Game>(
-        [(game) => first(game.platformReleases)?.lastActivity],
-        ["desc"],
-      ),
+      orderBy<Game>([(game) => first(game.releases)?.lastActivity], ["desc"]),
     ),
   },
   yearlyCollection(2022),

@@ -9,7 +9,9 @@ export default function IndexRoute() {
       <Navigation>
         <Section>
           <NavigationLink href="/">home</NavigationLink>
-          <NavigationLink href="/games">browse</NavigationLink>
+          <NavigationLink href="/collections/continue-playing">
+            browse
+          </NavigationLink>
         </Section>
       </Navigation>
       <Text as="h1">Welcome</Text>

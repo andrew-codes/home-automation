@@ -6730,6 +6730,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lodash", "npm:4.17.21"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#npm:18.2.0"],\
+            ["react-helmet", "virtual:a309c14a89479752e370696580b9b5876d8305ca18883c44c26f5ebec6f59422c025d084c9d21311c16f2f31962c2ff5d34f0ec2be1cdb92c949d8f6ce85ae86#npm:6.1.0"],\
             ["react-is", "npm:18.2.0"],\
             ["react-virtualized-auto-sizer", "virtual:a309c14a89479752e370696580b9b5876d8305ca18883c44c26f5ebec6f59422c025d084c9d21311c16f2f31962c2ff5d34f0ec2be1cdb92c949d8f6ce85ae86#npm:1.0.7"],\
             ["react-window", "virtual:a309c14a89479752e370696580b9b5876d8305ca18883c44c26f5ebec6f59422c025d084c9d21311c16f2f31962c2ff5d34f0ec2be1cdb92c949d8f6ce85ae86#npm:1.8.8"],\
@@ -21637,6 +21638,41 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["react-fast-compare", [\
+        ["npm:3.2.0", {\
+          "packageLocation": "./.yarn/cache/react-fast-compare-npm-3.2.0-fbfa6627d9-8ef272c825.zip/node_modules/react-fast-compare/",\
+          "packageDependencies": [\
+            ["react-fast-compare", "npm:3.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["react-helmet", [\
+        ["npm:6.1.0", {\
+          "packageLocation": "./.yarn/cache/react-helmet-npm-6.1.0-20fd5447ff-a4998479da.zip/node_modules/react-helmet/",\
+          "packageDependencies": [\
+            ["react-helmet", "npm:6.1.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:a309c14a89479752e370696580b9b5876d8305ca18883c44c26f5ebec6f59422c025d084c9d21311c16f2f31962c2ff5d34f0ec2be1cdb92c949d8f6ce85ae86#npm:6.1.0", {\
+          "packageLocation": "./.yarn/__virtual__/react-helmet-virtual-6f10949ef9/0/cache/react-helmet-npm-6.1.0-20fd5447ff-a4998479da.zip/node_modules/react-helmet/",\
+          "packageDependencies": [\
+            ["react-helmet", "virtual:a309c14a89479752e370696580b9b5876d8305ca18883c44c26f5ebec6f59422c025d084c9d21311c16f2f31962c2ff5d34f0ec2be1cdb92c949d8f6ce85ae86#npm:6.1.0"],\
+            ["@types/react", "npm:18.0.26"],\
+            ["object-assign", "npm:4.1.1"],\
+            ["prop-types", "npm:15.8.1"],\
+            ["react", "npm:18.2.0"],\
+            ["react-fast-compare", "npm:3.2.0"],\
+            ["react-side-effect", "virtual:6f10949ef99fb0d71203015d7151c87422d809bab27d5e1c19918b815a7eb00cb1b2b242fc3c3228c0ac34ff7b5352d33f6986fa1d9e1a3e613281a586eb98dd#npm:2.1.2"]\
+          ],\
+          "packagePeers": [\
+            "@types/react",\
+            "react"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["react-is", [\
         ["npm:16.13.1", {\
           "packageLocation": "./.yarn/cache/react-is-npm-16.13.1-a9b9382b4f-f7a19ac349.zip/node_modules/react-is/",\
@@ -21760,6 +21796,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             "@types/react-dom",\
             "@types/react",\
             "react-dom",\
+            "react"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["react-side-effect", [\
+        ["npm:2.1.2", {\
+          "packageLocation": "./.yarn/cache/react-side-effect-npm-2.1.2-c18e5fd8bd-c5eb1f42b4.zip/node_modules/react-side-effect/",\
+          "packageDependencies": [\
+            ["react-side-effect", "npm:2.1.2"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:6f10949ef99fb0d71203015d7151c87422d809bab27d5e1c19918b815a7eb00cb1b2b242fc3c3228c0ac34ff7b5352d33f6986fa1d9e1a3e613281a586eb98dd#npm:2.1.2", {\
+          "packageLocation": "./.yarn/__virtual__/react-side-effect-virtual-8d89751203/0/cache/react-side-effect-npm-2.1.2-c18e5fd8bd-c5eb1f42b4.zip/node_modules/react-side-effect/",\
+          "packageDependencies": [\
+            ["react-side-effect", "virtual:6f10949ef99fb0d71203015d7151c87422d809bab27d5e1c19918b815a7eb00cb1b2b242fc3c3228c0ac34ff7b5352d33f6986fa1d9e1a3e613281a586eb98dd#npm:2.1.2"],\
+            ["@types/react", "npm:18.0.26"],\
+            ["react", "npm:18.2.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/react",\
             "react"\
           ],\
           "linkType": "HARD"\

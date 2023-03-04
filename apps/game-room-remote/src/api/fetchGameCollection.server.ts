@@ -9,7 +9,7 @@ import getClient from "./graphqlClient"
 
 const fetchGameCollections = async (
   collectionDefinitions: GameCollectionDefinition[],
-): Promise<GameCollection[]> => {
+): Promise<[GameCollection[], Game[]]> => {
   const gamesQuery = gql`
     query GameColectionGames {
       games {
@@ -30,20 +30,21 @@ const fetchGameCollections = async (
     games: Game[]
   }>(gamesQuery)
 
-  const collections = collectionDefinitions.map((collectionDefinition) =>
-    merge({}, omit(collectionDefinition, ["filter"]), {
-      games: collectionDefinition
-        .filter(games)
-        .slice(
-          0,
-          (collectionDefinition.currentPageIndex + 1) *
-            collectionDefinition.countPerPage *
-            4,
-        ),
-    }),
-  )
+  const collections = collectionDefinitions.map((collectionDefinition) => {
+    const collectionGames = collectionDefinition.filter(games)
 
-  return collections
+    return merge({}, omit(collectionDefinition, ["filter"]), {
+      games: collectionGames.slice(
+        0,
+        (collectionDefinition.currentPageIndex + 1) *
+          collectionDefinition.countPerPage *
+          4,
+      ),
+      total: collectionGames.length,
+    })
+  })
+
+  return [collections, games]
 }
 
 export default fetchGameCollections

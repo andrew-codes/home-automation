@@ -49,7 +49,7 @@
       "executor": "@ha/nx-executors:telepresence-local",
       "options": {
         "cwd": "apps/game-room-remote",
-        "command": "remix dev --debug --port 8080",
+        "command": "yarn remix dev --debug --port 8080",
         "fromPort": 8080,
         "toPort": 80
       }

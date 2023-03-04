@@ -9,7 +9,7 @@ type Game = {
   name: string
   coverImage: string
   backgroundImage: string
-  platformReleases: GameRelease[]
+  releases: GameRelease[]
 }
 
 export type { GameRelease, Game }

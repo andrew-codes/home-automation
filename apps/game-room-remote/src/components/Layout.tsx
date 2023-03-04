@@ -1,10 +1,11 @@
-import { createGlobalStyle } from "styled-components"
-import { Content, PageLayout } from "@atlaskit/page-layout"
+import styled, { createGlobalStyle } from "styled-components"
 
 const GlobalStyle = createGlobalStyle`
+* {
+  box-sizing: border-box;
+}
+
 body {
-  margin: 0;
-  padding: 0;
   --dark-gray: rgb(39,40,38);
   --dark-slate-gray: #0d1117;
   --side-bar-color: #161b22;
@@ -16,25 +17,30 @@ body {
   --text-color: #c9d1d9;
   --text-subtle-color: var(--dark-slate-gray);
   --text-muted-color: #8b949e;
-  background: var(--dark-slate-gray);
-  color: var(--text-color);
   --ds-text: var(--text-color);
   --ds-text-subtlest: var(--text-muted-color);
   --ds-text-subtle: var(--text-color);
   --ds-background-neutral-subtle-hovered: var(--dark-gray);
-}
 
-[data-resize-button] {
-  color: var(--dark-slate-gray) !important;
+  margin: 0;
+  padding: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: var(--dark-slate-gray);
+  color: var(--text-color);
 }
+`
+
+const PageLayout = styled.div`
+  display: flex;
+  height: 100vh;
+  width: 100vw;
 `
 
 const Layout = ({ children }) => (
   <>
     <GlobalStyle />
-    <PageLayout>
-      <Content>{children}</Content>
-    </PageLayout>
+    <PageLayout>{children}</PageLayout>
   </>
 )
 

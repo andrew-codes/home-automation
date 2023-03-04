@@ -1,11 +1,12 @@
 import { FC, SyntheticEvent, useCallback } from "react"
 import { EffectCreative, Keyboard, Mousewheel } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
-import styled from "styled-components"
+import styled, { createGlobalStyle } from "styled-components"
 import type { Swiper as SwiperImpl } from "swiper"
 import Text from "./Text"
-import { Game } from "../Game"
+import type { Game } from "../Game"
 import type { GameCollection } from "../GameCollection"
+import { ceil } from "lodash"
 
 type PageChangeEventArgs = {
   currentPageIndex: number
@@ -20,22 +21,113 @@ type GameChangeEventHandler = (
   eventArgs: { id: string },
 ) => void
 
-const CollectionName = styled.h2`
-  height: 24px;
-  margin: ${({ margin }) => margin};
+const GlobalStyle = createGlobalStyle`
+@keyframes selectGame {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.2);
+  }
+}
+@keyframes deselectGame {
+  from {
+    transform: scale(1.20);
+  }
+  to {
+    transform: scale(1);
+  }
+}
 `
 
-const GameCover = styled.img`
-  box-shadow: ${({ active }) =>
-    active ? "0 0 48px 8px white, 0 0 24px 24px #007BA7" : "none"};
-  border: ${({ active }) =>
-    active ? "8px solid #1dacd6" : "8px solid transparent;"};
+const CollectionRoot = styled.div`
+  padding: 24px;
+  margin: 24px;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+`
+
+const CollectionName = styled.h2`
+  position: absolute;
+  background: var(--dark-gray);
+  border-radius: 16px;
+  z-index: 25;
+  top: 0;
+  left: 0;
+  padding: 16px;
+  width: calc(100% - ${({ margin }) => margin * 2}px);
+`
+
+const GameList = styled.div`
+  width: 100%;
+
+  > div {
+    margin: 12px;
+  }
+`
+
+const GameCoverImage = styled.img`
+  height: 100%;
+  width: 100%;
+  border-radius: 24px;
+  border: 1px solid
+    ${({ active }) => (active ? "var(--dark-gray)" : "transparent")};
+  box-shadow: 4px 8px 24px 8px rgba(39, 40, 48, 0.75);
 `
 
 const BlankGameCover = styled.div`
+  display: inline-block;
   height: ${({ height }) => height}px;
   width: ${({ width }) => width}px;
 `
+
+const GameCoverRoot = styled.div`
+  background: var(--dark-gray);
+  border-radius: 24px;
+  ${({ active }) => {
+    const timing = 0.6
+
+    return !!active
+      ? `
+  animation: selectGame ${timing}s;
+  transform: scale(1.2);
+`
+      : `
+  animation: deselectGame ${timing * 0.25}s;
+`
+  }}
+  display: inline-block;
+  width: ${({ width }) => width}px;
+  height: ${({ height }) => height}px;
+`
+
+const GameCover = ({
+  active,
+  name,
+  cdnHost,
+  coverImage,
+  coverWidth,
+  coverHeight,
+  onClick,
+  scaleFactor,
+}) => {
+  return (
+    <GameCoverRoot width={coverWidth} height={coverHeight} active={active}>
+      <GameCoverImage
+        active={active}
+        data-component="GameCover"
+        alt={`Cover art for ${name}`}
+        src={`${cdnHost}/resize/${coverImage}?width=${ceil(
+          coverWidth * scaleFactor,
+        )}&height=${ceil(coverHeight * scaleFactor)}`}
+        coverWidth={coverWidth}
+        coverHeight={coverHeight}
+        onClick={onClick}
+      />
+    </GameCoverRoot>
+  )
+}
 
 const GameCollectionGame: FC<{
   id: string
@@ -46,6 +138,7 @@ const GameCollectionGame: FC<{
   coverWidth: number
   coverHeight: number
   onSelect?: (evt: SyntheticEvent, id: string) => void
+  scaleFactor?: number
 }> = ({
   active,
   id,
@@ -55,6 +148,7 @@ const GameCollectionGame: FC<{
   coverWidth,
   coverHeight,
   onSelect,
+  scaleFactor,
 }) => {
   const handleSelect = useCallback(
     (evt) => {
@@ -66,12 +160,14 @@ const GameCollectionGame: FC<{
   return !!coverImage ? (
     <GameCover
       active={active}
+      cdnHost={cdnHost}
+      coverImage={coverImage}
+      coverWidth={coverWidth}
+      coverHeight={coverHeight}
       data-component="GameCover"
-      alt={`Cover art for ${name}`}
-      src={`${cdnHost}/resize/${coverImage}?width=${coverWidth}&height=${coverHeight}`}
-      width={coverWidth}
-      height={coverHeight}
+      name={`Cover art for ${name}`}
       onClick={handleSelect}
+      scaleFactor={scaleFactor}
     />
   ) : (
     <BlankGameCover
@@ -89,11 +185,13 @@ const GameCollectionSwiper: FC<
     games: Game[]
     initialSelectedGameId?: string
     cdnHost: string
-    height: number
     onPageChange?: PageChangeEventEventHandler
     onSelect?: GameChangeEventHandler
     slidesPerView: number
     spaceBetween: number
+    total: number
+    width: number
+    scaleFactor?: number
   } & Omit<GameCollection, "games">
 > = ({
   id,
@@ -103,18 +201,25 @@ const GameCollectionSwiper: FC<
   name,
   onSelect,
   onPageChange,
-  height,
   countPerPage,
   currentPageIndex,
   coverImageHeight,
   coverImageWidth,
-  spaceBetween,
-  slidesPerView,
+  scaleFactor,
+  total,
+  width,
 }) => {
   const marginBottom = 48
 
   const currentGame =
     games.find(({ id }) => initialSelectedGameId === id) ?? games[0] ?? null
+
+  const totalPages = ceil(total / countPerPage)
+  const pages = new Array(totalPages)
+    .fill(1)
+    .map((_, index) =>
+      games.slice(index * countPerPage, index * countPerPage + countPerPage),
+    )
 
   const handleSelect = useCallback(
     (evt: SyntheticEvent | null, id: string) => {
@@ -141,42 +246,44 @@ const GameCollectionSwiper: FC<
 
   return (
     <>
-      <Text as={CollectionName} margin={`0 0 ${marginBottom}px 0`}>
-        {name}
-      </Text>
-      <Swiper
-        id={id}
-        style={{ height: `${height}px` }}
-        initialSlide={currentPageIndex * countPerPage}
-        grabCursor
-        keyboard
-        mousewheel
-        onSlideChange={handlePageChange}
-        spaceBetween={spaceBetween}
-        slidesPerGroup={countPerPage}
-        slidesPerView={slidesPerView}
-        creativeEffect={{
-          prev: {
-            translate: ["-20%", 0, -1],
-          },
-        }}
-        modules={[Mousewheel, Keyboard, EffectCreative]}
-      >
-        {games.map((game) => (
-          <SwiperSlide key={game.id}>
-            <GameCollectionGame
-              id={game.id}
-              active={currentGame.id === game.id}
-              cdnHost={cdnHost}
-              name={game.name}
-              coverImage={game.coverImage}
-              coverHeight={coverImageHeight}
-              coverWidth={coverImageWidth}
-              onSelect={handleSelect}
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      <GlobalStyle />
+      <CollectionRoot>
+        <Text as={CollectionName} margin={marginBottom}>
+          {name}
+        </Text>
+        <Swiper
+          style={{ width: `${width}px`, height: "100%", marginTop: "72px" }}
+          id={id}
+          initialSlide={currentPageIndex}
+          grabCursor
+          keyboard
+          mousewheel
+          direction="vertical"
+          onSlideChange={handlePageChange}
+          modules={[Mousewheel, Keyboard, EffectCreative]}
+        >
+          {pages.map((games, index) => (
+            <SwiperSlide key={index}>
+              <GameList>
+                {games.map((game) => (
+                  <GameCollectionGame
+                    id={game.id}
+                    key={game.id}
+                    active={currentGame.id === game.id}
+                    cdnHost={cdnHost}
+                    name={game.name}
+                    coverImage={game.coverImage}
+                    coverHeight={coverImageHeight}
+                    coverWidth={coverImageWidth}
+                    onSelect={handleSelect}
+                    scaleFactor={scaleFactor}
+                  />
+                ))}
+              </GameList>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </CollectionRoot>
     </>
   )
 }

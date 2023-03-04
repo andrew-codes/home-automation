@@ -1,4 +1,3 @@
-import { Main } from "@atlaskit/page-layout"
 import AutoSizer from "react-virtualized-auto-sizer"
 import { json, LoaderArgs } from "@remix-run/node"
 import { useNavigate } from "@remix-run/react"
@@ -6,6 +5,7 @@ import styled from "styled-components"
 import { useCallback, useEffect, useReducer } from "react"
 import type { Swiper as SwiperImpl } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
+import { Helmet } from "react-helmet"
 import collectionDefinitions from "../../api/collections.server"
 import Layout from "../../components/Layout"
 import GameCollectionSwiper, {
@@ -14,11 +14,14 @@ import GameCollectionSwiper, {
 } from "../../components/GameCollectionSwiper"
 import { GameCollection, GameCollectionDefinition } from "../../GameCollection"
 import fetchGameCollections from "../../api/fetchGameCollection.server"
-import { isEmpty, merge } from "lodash"
+import { ceil, isEmpty, merge } from "lodash"
 import useLoaderData from "../../useLoaderData"
-import PrepareImage from "../../components/PreloadImage"
 import GameOverview from "../../components/GameOverview"
 import { Game } from "../../Game"
+
+const gamesPerRow = 4
+const rows = 3
+const gamesPerPage = gamesPerRow * rows
 
 export const loader = async (args: LoaderArgs) => {
   const activeCollectionIndex = collectionDefinitions.findIndex(
@@ -35,10 +38,15 @@ export const loader = async (args: LoaderArgs) => {
     collectionDefinitions
       .slice(0, Math.max(3, activeCollectionIndex + 1))
       .map((collection) =>
-        merge({}, collection, { currentPageIndex: pageIndex, countPerPage: 5 }),
+        merge({}, collection, {
+          currentPageIndex: pageIndex,
+          countPerPage: gamesPerPage,
+        }),
       )
 
-  const collections = await fetchGameCollections(viewableCollectionDefinitions)
+  const [collections, games] = await fetchGameCollections(
+    viewableCollectionDefinitions,
+  )
   const onlyCollectionsWithGames = collections.filter(
     ({ games }) => !isEmpty(games),
   )
@@ -53,9 +61,16 @@ export const loader = async (args: LoaderArgs) => {
       currentGame: Game
       currentCollection: GameCollection
       collections: GameCollection[]
+      allMediaPreLoadLinks: string[]
     }
   }>({
     data: {
+      allMediaPreLoadLinks: games
+        .filter(({ coverImage }) => !!coverImage)
+        .map(
+          ({ id, coverImage }) =>
+            `${process.env.GAMING_ASSETS_WEB_HOST}/resize/${coverImage}`,
+        ),
       cdnHost: process.env.GAMING_ASSETS_WEB_HOST ?? "",
       collections: onlyCollectionsWithGames,
       currentCollection: currentCollection,
@@ -76,57 +91,33 @@ export const loader = async (args: LoaderArgs) => {
   })
 }
 
+const BodyBackground = styled.img`
+  position: absolute;
+  top: 0;
+  height: 1920px
+  width: 2880px;
+  left: 0;
+  z-index: -1;
+`
 const CenterPane = styled.div`
   display: flex;
-  flex-direction: column;
-  margin-right: 0;
-  height: 100vh;
+  flex: 1;
+  flex-direction: row;
+  width: 100%;
   background-size: cover;
+  margin: 24px;
 `
 const GameCollections = styled.div`
   overflow: hidden;
   position: relative;
-
-  &:before {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    height: ${({ spaceBetween }) => spaceBetween}px;
-    z-index: 2;
-    background-color: var(--dark-slate-gray);
-    mask-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 1) 0%,
-      transparent 100%
-    );
-  }
+  flex-direction: column;
 
   > div {
-    padding: 48px 0 0 24px;
+    padding: 0;
     display: flex;
-    width: 100%;
-    height: ${({ height }) => height}px;
+    height: 100%;
     overflow: visible;
     position: relative;
-    background: var(--dark-slate-gray);
-
-    &:after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: ${({ spaceBetween }) => spaceBetween}px;
-      z-index: 2;
-      background-color: var(--dark-slate-gray);
-      mask-image: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 1) 0%,
-        transparent 100%
-      );
-    }
 
     .swiper-vertical {
       overflow: visible !important;
@@ -142,9 +133,12 @@ const GameCollections = styled.div`
     border: 8px solid transparent !important;
   }
 `
-const BottomSpacer = styled.div`
-  height: 18px;
-  background: var(--dark-slate-gray);
+
+const Overview = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  flex: 1;
 `
 
 type State = {
@@ -227,7 +221,13 @@ const collectionReducer = (state: State, action: AnyAction): State => {
 
 export default function Collection() {
   const {
-    data: { cdnHost, collections, currentGame, currentCollection },
+    data: {
+      allMediaPreLoadLinks,
+      cdnHost,
+      collections,
+      currentGame,
+      currentCollection,
+    },
   } = useLoaderData<typeof loader>()
 
   const [state, dispatch] = useReducer(collectionReducer, {
@@ -275,120 +275,81 @@ export default function Collection() {
     currentCollectionIndex + 1,
     state.collections.length - 1,
   )
-  const listHeight = 560
   const spaceBetweenLists = 24
-  const listViewPortHeight = listHeight * 1.1 + 24 + 24
-  const slidesPerView = 7
+  const slidesPerView = 1
   const spaceBetween = 64
-  const marginBottom = 48
-  const slidesPerPage = 5
+
+  const backgroundImageHeight = 1920
+  const backgroundImage = !!state.currentGame.backgroundImage
+    ? `${cdnHost}/resize/${state.currentGame.backgroundImage}?height=${backgroundImageHeight}`
+    : "none"
+
+  const scaleFactor = 1.2
 
   return (
     <Layout>
-      <Main>
-        <CenterPane>
+      <BodyBackground
+        src={backgroundImage}
+        alt={`${currentGame.name} background image.`}
+      />
+      <CenterPane>
+        <Overview>
           <GameOverview {...state.currentGame} cdnHost={cdnHost} />
+        </Overview>
+        <GameCollections>
+          <div>
+            <AutoSizer disableWidth>
+              {({ height }) => {
+                const coverHeight = ceil(height / rows) - spaceBetweenLists - 24
+                const coverWidth = ceil((coverHeight * 3) / 4)
+                const width =
+                  coverWidth * gamesPerRow + 48 + 24 * gamesPerRow + 48 + 48
 
-          <GameCollections
-            height={listViewPortHeight}
-            spaceBetween={spaceBetweenLists}
-          >
-            <div>
-              <AutoSizer disableHeight>
-                {({ width }) => (
-                  <Swiper
-                    style={{
-                      height: `${listHeight}px`,
-                      width: `${width - 48}px`,
-                    }}
-                    initialSlide={currentCollectionIndex}
-                    grabCursor
-                    keyboard
-                    mousewheel
-                    onSlideChange={handleCollectionChange}
-                    direction="vertical"
-                    spaceBetween={spaceBetweenLists}
-                    slidesPerView={1}
-                    modules={[]}
-                  >
-                    {state.collections.map((collection, index) => {
-                      const coverImageWidth = Math.floor(
-                        width / slidesPerView - spaceBetween,
-                      )
-                      const coverImageHeight =
-                        listHeight - 24 - 24 - marginBottom
-
-                      return (
-                        <>
-                          {collection.id === currentCollection.id &&
-                            collection.games.map(
-                              ({ id, backgroundImage, coverImage }) => (
-                                <>
-                                  <PrepareImage
-                                    rel="preload"
-                                    key={`${id}-${coverImage}`}
-                                    src={`${cdnHost}/resize/${coverImage}?width=${coverImageWidth}&height=${coverImageHeight}`}
-                                  />
-                                  {state.currentGame.id === id && (
-                                    <PrepareImage
-                                      rel="preload"
-                                      src={`${cdnHost}/resize/${backgroundImage}?width=1400`}
-                                    />
-                                  )}
-                                  {index ===
-                                    collection.currentPageIndex *
-                                      slidesPerPage && (
-                                    <PrepareImage
-                                      rel="preload"
-                                      src={`${cdnHost}/resize/${backgroundImage}?width=1400`}
-                                    />
-                                  )}
-                                </>
-                              ),
-                            )}
-                          {(collection.id !== currentCollection.id ||
-                            (index === previousCollectionIndex &&
-                              currentCollectionIndex !==
-                                previousCollectionIndex) ||
-                            (index === nextCollectionIndex &&
-                              nextCollectionIndex !==
-                                currentCollectionIndex)) &&
-                            collection.games.map(
-                              ({ id, backgroundImage, coverImage }, index) => (
-                                <>
-                                  {(index ===
-                                    collection.currentPageIndex *
-                                      slidesPerPage ||
-                                    index ===
-                                      collection.currentPageIndex *
-                                        slidesPerPage) && (
-                                    <PrepareImage
-                                      rel="preload"
-                                      key={`${id}-${backgroundImage}`}
-                                      src={`${cdnHost}/resize/${backgroundImage}?width=1400`}
-                                    />
-                                  )}
-                                  <PrepareImage
-                                    rel="preload"
-                                    key={`${id}-${coverImage}`}
-                                    src={`${cdnHost}/resize/${coverImage}?width=${coverImageWidth}&height=${coverImageHeight}`}
-                                  />
-                                </>
-                              ),
-                            )}
-                          <SwiperSlide
-                            key={collection.id}
-                            data-selected={index === currentCollectionIndex}
-                          >
-                            <div
-                              style={{
-                                padding: "16px 24px 0 24px",
-                                borderRadius: index % 2 === 1 ? "20px" : "20px",
-                                backgroundColor:
-                                  index % 2 === 1
-                                    ? "rgba(255,255,255,0.10)"
-                                    : "rgba(13, 17, 23, 1)",
-                              }}
+                return (
+                  <>
+                    <Helmet>
+                      {allMediaPreLoadLinks.map((imageBaseLink, index) => (
+                        <link
+                          rel="preload"
+                          as="image"
+                          type="image/webp"
+                          key={`${imageBaseLink}-cover=${index}}`}
+                          href={`${imageBaseLink}?width=${ceil(
+                            coverWidth * scaleFactor,
+                          )}&height=${ceil(coverHeight * scaleFactor)}`}
+                        />
+                      ))}
+                      {allMediaPreLoadLinks.map((imageBaseLink, index) => (
+                        <link
+                          as="image"
+                          type="image/webp"
+                          rel="preload"
+                          key={`${imageBaseLink}-background-${index}}`}
+                          href={`${imageBaseLink}?height=${backgroundImageHeight}`}
+                        />
+                      ))}
+                    </Helmet>
+                    <Swiper
+                      style={{
+                        height: `${height}px`,
+                        width: `${width}px`,
+                      }}
+                      initialSlide={currentCollectionIndex}
+                      grabCursor
+                      keyboard
+                      mousewheel
+                      onSlideChange={handleCollectionChange}
+                      direction="horizontal"
+                      slidesPerView={slidesPerView}
+                      modules={[]}
+                    >
+                      {state.collections.map((collection, index) => {
+                        return (
+                          <>
+                            <SwiperSlide
+                              key={collection.id}
+                              data-selected={index === currentCollectionIndex}
+                              style={{ margin: `24px`, padding: `24px` }}
                             >
                               <GameCollectionSwiper
                                 {...collection}
@@ -397,28 +358,31 @@ export default function Collection() {
                                     ? state.currentGame.id
                                     : undefined
                                 }
-                                slidesPerView={slidesPerView}
+                                id={collection.id}
+                                countPerPage={collection.countPerPage}
+                                total={collection.total}
+                                slidesPerView={1}
                                 spaceBetween={spaceBetween}
                                 cdnHost={cdnHost}
-                                coverImageWidth={coverImageWidth}
-                                height={listHeight}
-                                coverImageHeight={coverImageHeight}
+                                coverImageWidth={coverWidth}
+                                width={width}
+                                coverImageHeight={coverHeight}
                                 onPageChange={handlePageChange}
                                 onSelect={handleSelectGame}
+                                scaleFactor={scaleFactor}
                               />
-                            </div>
-                          </SwiperSlide>
-                        </>
-                      )
-                    })}
-                  </Swiper>
-                )}
-              </AutoSizer>
-            </div>
-          </GameCollections>
-          <BottomSpacer />
-        </CenterPane>
-      </Main>
+                            </SwiperSlide>
+                          </>
+                        )
+                      })}
+                    </Swiper>
+                  </>
+                )
+              }}
+            </AutoSizer>
+          </div>
+        </GameCollections>
+      </CenterPane>
     </Layout>
   )
 }
