@@ -2,7 +2,7 @@ import AutoSizer from "react-virtualized-auto-sizer"
 import { json, LoaderArgs } from "@remix-run/node"
 import { useNavigate } from "@remix-run/react"
 import styled from "styled-components"
-import { useCallback, useEffect, useReducer } from "react"
+import { useCallback, useEffect, useReducer, useState } from "react"
 import type { Swiper as SwiperImpl } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Helmet } from "react-helmet"
@@ -18,6 +18,8 @@ import { ceil, isEmpty, merge } from "lodash"
 import useLoaderData from "../../useLoaderData"
 import GameOverview from "../../components/GameOverview"
 import { Game } from "../../Game"
+import GameActions from "../../components/GameActions"
+import { start } from "repl"
 
 const gamesPerRow = 4
 const rows = 3
@@ -94,7 +96,7 @@ export const loader = async (args: LoaderArgs) => {
 const BodyBackground = styled.img`
   position: absolute;
   top: 0;
-  height: 1920px
+  height: 1920px;
   width: 2880px;
   left: 0;
   z-index: -1;
@@ -106,11 +108,20 @@ const CenterPane = styled.div`
   width: 100%;
   background-size: cover;
   margin: 24px;
+
+  .swiper-slide {
+    transition: opacity 1s ease-in-out;
+    opacity: 1;
+  }
+  .swiper-slide-prev {
+    opacity: 0 !important;
+  }
 `
 const GameCollections = styled.div`
   overflow: hidden;
   position: relative;
   flex-direction: column;
+  z-index: 1;
 
   > div {
     padding: 0;
@@ -139,6 +150,7 @@ const Overview = styled.div`
   flex-direction: column;
   position: relative;
   flex: 1;
+  max-width: 864px;
 `
 
 type State = {
@@ -286,6 +298,17 @@ export default function Collection() {
 
   const scaleFactor = 1.2
 
+  const [systemState, setSystemState] = useState("")
+  const startGame = useCallback(
+    (evt) => {
+      setSystemState(state.currentGame.id)
+    },
+    [state.currentGame.id],
+  )
+  const stopGame = useCallback((evt) => {
+    setSystemState("")
+  }, [])
+
   return (
     <Layout>
       <BodyBackground
@@ -295,6 +318,12 @@ export default function Collection() {
       <CenterPane>
         <Overview>
           <GameOverview {...state.currentGame} cdnHost={cdnHost} />
+          <GameActions
+            {...state.currentGame}
+            systemState={systemState}
+            onStart={startGame}
+            onStop={stopGame}
+          />
         </Overview>
         <GameCollections>
           <div>
@@ -310,7 +339,7 @@ export default function Collection() {
                     <Helmet>
                       {allMediaPreLoadLinks.map((imageBaseLink, index) => (
                         <link
-                          rel="preload"
+                          rel="prefetch"
                           as="image"
                           type="image/webp"
                           key={`${imageBaseLink}-cover=${index}}`}
@@ -323,7 +352,7 @@ export default function Collection() {
                         <link
                           as="image"
                           type="image/webp"
-                          rel="preload"
+                          rel="prefetch"
                           key={`${imageBaseLink}-background-${index}}`}
                           href={`${imageBaseLink}?height=${backgroundImageHeight}`}
                         />
@@ -349,7 +378,7 @@ export default function Collection() {
                             <SwiperSlide
                               key={collection.id}
                               data-selected={index === currentCollectionIndex}
-                              style={{ margin: `24px`, padding: `24px` }}
+                              style={{}}
                             >
                               <GameCollectionSwiper
                                 {...collection}

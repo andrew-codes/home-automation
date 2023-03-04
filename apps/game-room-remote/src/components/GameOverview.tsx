@@ -8,29 +8,17 @@ const Details = styled.section`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  // background: radial-gradient(
-  //     ellipse farthest-side at 0% 90%,
-  //     rgba(13, 17, 23, 1) 20%,
-  //     rgba(13, 17, 23, 0.5),
-  //     rgba(255, 255, 255, 0)
-  //   ),
-  //   radial-gradient(
-  //     ellipse farthest-side at 40% 100%,
-  //     var(--dark-slate-gray) 10%,
-  //     rgba(255, 255, 255, 0),
-  //     rgba(255, 255, 255, 0)
-  //   ),
-  //   radial-gradient(
-  //     ellipse farthest-side at 70% 100%,
-  //     var(--dark-slate-gray),
-  //     rgba(255, 255, 255, 0)
-  //   );
+  border-radius: 16px;
+  padding: 24px;
+  background: rgba(39, 40, 38, 1);
+  height: 650px;
+  margin-bottom: 24px;
+  overflow: hidden;
 `
 const GameName = styled.h3`
   font-size: 32px;
 `
 const GameDescription = styled.div`
-  max-height: 160px;
   font-size: 24px;
   line-height: 1.32;
   overflow: hidden;
@@ -40,12 +28,7 @@ type GameOverviewProps = {
   cdnHost: string
 } & Game
 
-const GameOverview: FC<GameOverviewProps> = ({
-  cdnHost,
-  backgroundImage,
-  name,
-  releases,
-}) => {
+const GameOverview: FC<GameOverviewProps> = ({ name, releases }) => {
   return (
     <>
       <Details>

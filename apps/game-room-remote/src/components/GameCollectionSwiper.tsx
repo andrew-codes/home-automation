@@ -52,7 +52,8 @@ const CollectionName = styled.h2`
   position: absolute;
   background: var(--dark-gray);
   border-radius: 16px;
-  z-index: 25;
+  z-index: 5;
+  margin: 0 24px 24px;
   top: 0;
   left: 0;
   padding: 16px;
@@ -85,6 +86,7 @@ const BlankGameCover = styled.div`
 const GameCoverRoot = styled.div`
   background: var(--dark-gray);
   border-radius: 24px;
+  z-index: 10;
   ${({ active }) => {
     const timing = 0.6
 

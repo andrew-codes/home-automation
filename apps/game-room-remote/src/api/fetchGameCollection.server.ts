@@ -18,6 +18,7 @@ const fetchGameCollections = async (
         coverImage
         backgroundImage
         releases {
+          description
           releaseYear
           releaseDate
           lastActivity
