@@ -103,14 +103,6 @@ const loader = async (args: LoaderArgs) => {
   })
 }
 
-const BodyBackground = styled.img`
-  position: absolute;
-  top: 0;
-  height: 1920px;
-  width: 2880px;
-  left: 0;
-  z-index: -1;
-`
 const CenterPane = styled.div`
   display: flex;
   flex: 1;

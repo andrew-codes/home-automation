@@ -15,15 +15,17 @@ const BodyBackground = styled.div`
 `
 
 const Details = styled.section`
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   border-radius: 16px;
-  padding: 24px;
   background: rgba(39, 40, 38, 1);
-  height: 650px;
+  min-height: 650px;
   margin-bottom: 24px;
   overflow: hidden;
+
+  > * {
+    padding: 24px;
+  }
 `
 const GameName = styled.h3`
   font-size: 32px;
@@ -31,7 +33,11 @@ const GameName = styled.h3`
 const GameDescription = styled.div`
   font-size: 24px;
   line-height: 1.32;
-  overflow: hidden;
+  overflow-y: auto;
+
+  img {
+    width: 100%;
+  }
 `
 
 type GameOverviewProps = {
