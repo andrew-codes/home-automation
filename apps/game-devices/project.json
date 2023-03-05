@@ -55,7 +55,7 @@
         "fromPort": 8084,
         "toPort": 80,
         "cwd": "apps/game-devices",
-        "command": "nodemon --inspect src/index.ts"
+        "command": "yarn nodemon --inspect src/index.ts"
       }
     },
     "test": {

@@ -55,7 +55,7 @@
         "fromPort": 8083,
         "toPort": 80,
         "cwd": "apps/game-library-updater",
-        "command": "nodemon --inspect src/index.ts"
+        "command": "yarn nodemon --inspect src/index.ts"
       }
     },
     "test": {

@@ -10,7 +10,7 @@
     "@ha/string-utils": "workspace:^0.0.1",
     "async-mqtt": "^2.6.3",
     "lodash": "^4.17.21",
-    "mongodb": "~4.6.0"
+    "mongodb": "^5.1.0"
   },
   "devDependencies": {
     "@ha/build-ts": "workspace:^1.0.0",

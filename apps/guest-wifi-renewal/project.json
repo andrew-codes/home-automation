@@ -51,7 +51,7 @@
     "start/dev": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "nodemon src/index.ts --inspect=0.0.0.0:9233",
+        "command": "yarn nodemon src/index.ts --inspect=0.0.0.0:9233",
         "cwd": "apps/guest-wifi-renewal"
       }
     },

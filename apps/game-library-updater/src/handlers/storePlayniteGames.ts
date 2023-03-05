@@ -20,6 +20,7 @@ const messageHandler: MessageHandler = {
         logger.debug(`Collection playniteGames; Updating item ${item.Id}`, {
           item,
         })
+
         return await db
           .collection("playniteGames")
           .updateOne({ _id: item.Id }, { $set: item }, { upsert: true })

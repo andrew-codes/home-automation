@@ -1,8 +1,8 @@
 import AutoSizer from "react-virtualized-auto-sizer"
-import { json, LoaderArgs } from "@remix-run/node"
+import { HeadersFunction, json, LoaderArgs } from "@remix-run/node"
 import { useNavigate } from "@remix-run/react"
 import styled from "styled-components"
-import { useCallback, useEffect, useReducer, useState } from "react"
+import { FC, useCallback, useEffect, useReducer, useState } from "react"
 import type { Swiper as SwiperImpl } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Helmet } from "react-helmet"
@@ -19,13 +19,23 @@ import useLoaderData from "../../useLoaderData"
 import GameOverview from "../../components/GameOverview"
 import { Game } from "../../Game"
 import GameActions from "../../components/GameActions"
-import { start } from "repl"
 
 const gamesPerRow = 4
 const rows = 3
 const gamesPerPage = gamesPerRow * rows
 
-export const loader = async (args: LoaderArgs) => {
+const headers: HeadersFunction = () => {
+  let cacheControlHeader = "public, s-maxage=60"
+  if (process.env.NODE_ENV === "development") {
+    cacheControlHeader = "no-cache"
+  }
+
+  return {
+    "Cache-Control": cacheControlHeader,
+  }
+}
+
+const loader = async (args: LoaderArgs) => {
   const activeCollectionIndex = collectionDefinitions.findIndex(
     ({ id }) => id === args.params.collectionId,
   )
@@ -110,11 +120,12 @@ const CenterPane = styled.div`
   margin: 24px;
 
   .swiper-slide {
-    transition: opacity 1s ease-in-out;
     opacity: 1;
   }
   .swiper-slide-prev {
-    opacity: 0 !important;
+    transition: opacity 0.5s ease-in;
+  }
+  .swiper-slide-prev {
   }
 `
 const GameCollections = styled.div`
@@ -231,7 +242,7 @@ const collectionReducer = (state: State, action: AnyAction): State => {
   return state
 }
 
-export default function Collection() {
+const Collection: FC<{}> = () => {
   const {
     data: {
       allMediaPreLoadLinks,
@@ -415,3 +426,6 @@ export default function Collection() {
     </Layout>
   )
 }
+
+export default Collection
+export { headers, loader }

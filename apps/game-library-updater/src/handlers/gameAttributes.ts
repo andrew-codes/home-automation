@@ -198,6 +198,7 @@ const messageHandler: MessageHandler = {
           logger.debug(`Collection ${key}; Updating item ${item.id}`, {
             item,
           })
+
           return await db
             .collection(key)
             .updateOne({ _id: item.id }, { $set: item }, { upsert: true })
