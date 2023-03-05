@@ -137,33 +137,46 @@ namespace MQTTClient
                             logger.Debug("Received application message.");
                             var topic = e.ApplicationMessage.Topic;
                             logger.Debug(topic);
-                            
-                            var areaIdExpression = @"^playnite/(.*)/game_media_player/.*";
-                            var startExpression = @"^playnite/.*/game_media_player/start/(.*)";
-                            var installExpression = @"^playnite/.*/game_media_player/install/(.*)";
-                            var uninstallExpression = @"^playnite/.*/game_media_player/uninstall/(.*)";
 
-                            var areaIdMatch = Regex.Match(topic, areaIdExpression);
-                            if (!areaIdMatch.Success) {
-                                return Task.CompletedTask;
+                            if (topic == "playnite/library/refresh")
+                            {
+                                PublishGames(PlayniteApi.Database.Games).Wait();
+                            }
+                            else
+                            {
+                                var areaIdExpression = @"^playnite/(.*)/game_media_player/.*";
+                                var startExpression = @"^playnite/.*/game_media_player/start/(.*)";
+                                var installExpression = @"^playnite/.*/game_media_player/install/(.*)";
+                                var uninstallExpression = @"^playnite/.*/game_media_player/uninstall/(.*)";
+
+                                var areaIdMatch = Regex.Match(topic, areaIdExpression);
+                                if (!areaIdMatch.Success)
+                                {
+                                    return Task.CompletedTask;
+                                }
+
+                                var startMatch = Regex.Match(topic, startExpression);
+                                var installMatch = Regex.Match(topic, installExpression);
+                                var uninstallMatch = Regex.Match(topic, uninstallExpression);
+
+                                if (startMatch.Success)
+                                {
+                                    var gameId = startMatch.Groups[1].Value;
+                                    PlayniteApi.StartGame(Guid.Parse(gameId));
+                                }
+                                else if (installMatch.Success)
+                                {
+                                    var gameId = installMatch.Groups[1].Value;
+                                    PlayniteApi.InstallGame(Guid.Parse(gameId));
+                                }
+                                else if (uninstallMatch.Success)
+                                {
+                                    var gameId = uninstallMatch.Groups[1].Value;
+                                    PlayniteApi.UninstallGame(Guid.Parse(gameId));
+                                }
+                                logger.Debug("Completed handling application messages.");
                             }
 
-                            var startMatch = Regex.Match(topic, startExpression);
-                            var installMatch = Regex.Match(topic, installExpression);
-                            var uninstallMatch = Regex.Match(topic, uninstallExpression);
-
-                            if (startMatch.Success) {
-                                var gameId = startMatch.Groups[1].Value;
-                                PlayniteApi.StartGame(Guid.Parse(gameId));
-                            } else if (installMatch.Success) {
-                                var gameId = installMatch.Groups[1].Value;
-                                PlayniteApi.InstallGame(Guid.Parse(gameId));
-                            } else if (uninstallMatch.Success) {
-                                var gameId = uninstallMatch.Groups[1].Value;
-                                PlayniteApi.UninstallGame(Guid.Parse(gameId));
-                            }
-                            logger.Debug("Completed handling application messages.");
-                            
                             return Task.CompletedTask;
                         } catch(Exception error) {
                             logger.Error(error.Message);
@@ -248,6 +261,11 @@ namespace MQTTClient
                     f =>
                     {
                         f.WithTopic("playnite/+/game_media_player/uninstall/+");
+                    })
+                 .WithTopicFilter(
+                    f =>
+                    {
+                        f.WithTopic("playnite/library/refresh");
                     })
                 .Build();
             await client.SubscribeAsync(mqttSubscribeOptions, CancellationToken.None);
