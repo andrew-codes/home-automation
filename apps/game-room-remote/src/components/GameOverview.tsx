@@ -4,6 +4,16 @@ import styled from "styled-components"
 import Text from "../components/Text"
 import { Game } from "../Game"
 
+const BodyBackground = styled.div`
+  position: absolute;
+  top: 0;
+  height: 1920px;
+  width: 2880px;
+  left: 0;
+  z-index: -1;
+  overflow: hidden;
+`
+
 const Details = styled.section`
   overflow: hidden;
   display: flex;
@@ -26,11 +36,25 @@ const GameDescription = styled.div`
 
 type GameOverviewProps = {
   cdnHost: string
+  backgroundImageHeight: number
 } & Game
 
-const GameOverview: FC<GameOverviewProps> = ({ name, releases }) => {
+const GameOverview: FC<GameOverviewProps> = ({
+  cdnHost,
+  backgroundImage,
+  backgroundImageHeight,
+  name,
+  releases,
+}) => {
+  const backgroundImageSrc = !!backgroundImage
+    ? `${cdnHost}/resize/${backgroundImage}?height=${backgroundImageHeight}`
+    : "none"
+
   return (
     <>
+      <BodyBackground>
+        <img src={backgroundImageSrc} alt={`${name} game background.`} />
+      </BodyBackground>
       <Details>
         <Text as={GameName}>{name}</Text>
         <Text

@@ -116,8 +116,6 @@ const CenterPane = styled.div`
   flex: 1;
   flex-direction: row;
   width: 100%;
-  background-size: cover;
-  margin: 24px;
 
   .swiper-slide {
     opacity: 1;
@@ -140,6 +138,7 @@ const GameCollections = styled.div`
     height: 100%;
     overflow: visible;
     position: relative;
+    margin: 24px 0;
 
     .swiper-vertical {
       overflow: visible !important;
@@ -162,6 +161,10 @@ const Overview = styled.div`
   position: relative;
   flex: 1;
   max-width: 864px;
+
+  > section {
+    margin: 24px;
+  }
 `
 
 type State = {
@@ -303,10 +306,6 @@ const Collection: FC<{}> = () => {
   const spaceBetween = 64
 
   const backgroundImageHeight = 1920
-  const backgroundImage = !!state.currentGame.backgroundImage
-    ? `${cdnHost}/resize/${state.currentGame.backgroundImage}?height=${backgroundImageHeight}`
-    : "none"
-
   const scaleFactor = 1.2
 
   const [systemState, setSystemState] = useState("")
@@ -322,13 +321,13 @@ const Collection: FC<{}> = () => {
 
   return (
     <Layout>
-      <BodyBackground
-        src={backgroundImage}
-        alt={`${currentGame.name} background image.`}
-      />
       <CenterPane>
         <Overview>
-          <GameOverview {...state.currentGame} cdnHost={cdnHost} />
+          <GameOverview
+            {...state.currentGame}
+            cdnHost={cdnHost}
+            backgroundImageHeight={backgroundImageHeight}
+          />
           <GameActions
             {...state.currentGame}
             systemState={systemState}
