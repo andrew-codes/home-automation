@@ -36,18 +36,7 @@ test("Given a valid topic for a game state change, when checking if the handler 
   expect(shouldHandle).toBe(true)
 })
 
-test("Given a valid topic for game state change, when handling the message, then the database collection for game area is updated with the game area.", async () => {
-  await handler.handle(validTopic, payload)
-
-  expect(updateOneGameArea).toBeCalledTimes(1)
-  expect(updateOneGameArea).toHaveBeenCalledWith(
-    { _id: "game_room" },
-    { $set: { name: "Game Room" } },
-    { upsert: true },
-  )
-})
-
-test("Given a valid topic for game state change of installing, when handling the message, then the database collection for game activity is updated with the game activity information.", async () => {
+test("Given a valid topic for a game state change of installing, when handling the message, then the database collection for game activity is updated with the game activity information.", async () => {
   await handler.handle(
     validTopic,
     Buffer.from(
@@ -65,6 +54,7 @@ test("Given a valid topic for game state change of installing, when handling the
     { _id: "game_room" },
     {
       $set: {
+        id: "game_room",
         releaseId: "123",
         isInstalling: true,
         isInstalled: false,
@@ -77,7 +67,7 @@ test("Given a valid topic for game state change of installing, when handling the
   )
 })
 
-test("Given a valid topic for game state change of installed, when handling the message, then the database collection for game activity is updated with the game activity information.", async () => {
+test("Given a valid topic for a game state change of installed, when handling the message, then the database collection for game activity is updated with the game activity information.", async () => {
   await handler.handle(
     validTopic,
     Buffer.from(
@@ -95,6 +85,7 @@ test("Given a valid topic for game state change of installed, when handling the 
     { _id: "game_room" },
     {
       $set: {
+        id: "game_room",
         releaseId: "123",
         isInstalling: false,
         isInstalled: true,
@@ -107,7 +98,7 @@ test("Given a valid topic for game state change of installed, when handling the 
   )
 })
 
-test("Given a valid topic for game state change of starting, when handling the message, then the database collection for game activity is updated with the game activity information.", async () => {
+test("Given a valid topic for a game state change of starting, when handling the message, then the database collection for game activity is updated with the game activity information.", async () => {
   await handler.handle(
     validTopic,
     Buffer.from(
@@ -125,6 +116,7 @@ test("Given a valid topic for game state change of starting, when handling the m
     { _id: "game_room" },
     {
       $set: {
+        id: "game_room",
         releaseId: "123",
         isInstalling: false,
         isInstalled: true,
@@ -137,7 +129,7 @@ test("Given a valid topic for game state change of starting, when handling the m
   )
 })
 
-test("Given a valid topic for game state change of started, when handling the message, then the database collection for game activity is updated with the game activity information.", async () => {
+test("Given a valid topic for a game state change of started, when handling the message, then the database collection for game activity is updated with the game activity information.", async () => {
   await handler.handle(
     validTopic,
     Buffer.from(
@@ -155,6 +147,7 @@ test("Given a valid topic for game state change of started, when handling the me
     { _id: "game_room" },
     {
       $set: {
+        id: "game_room",
         releaseId: "123",
         isInstalling: false,
         isInstalled: true,
@@ -167,7 +160,7 @@ test("Given a valid topic for game state change of started, when handling the me
   )
 })
 
-test("Given a valid topic for game state change of stopped, when handling the message, then the database collection for game activity is updated with the game activity information.", async () => {
+test("Given a valid topic for a game state change of stopped, when handling the message, then the database collection for game activity is updated with the game activity information.", async () => {
   await handler.handle(
     validTopic,
     Buffer.from(
@@ -185,6 +178,7 @@ test("Given a valid topic for game state change of stopped, when handling the me
     { _id: "game_room" },
     {
       $set: {
+        id: "game_room",
         releaseId: "123",
         isInstalling: false,
         isInstalled: true,
@@ -197,7 +191,7 @@ test("Given a valid topic for game state change of stopped, when handling the me
   )
 })
 
-test("Given a valid topic for game state change of uninstalling, when handling the message, then the database collection for game activity is updated with the game activity information.", async () => {
+test("Given a valid topic for a game state change of uninstalling, when handling the message, then the database collection for game activity is updated with the game activity information.", async () => {
   await handler.handle(
     validTopic,
     Buffer.from(
@@ -215,6 +209,7 @@ test("Given a valid topic for game state change of uninstalling, when handling t
     { _id: "game_room" },
     {
       $set: {
+        id: "game_room",
         releaseId: "123",
         isInstalling: false,
         isInstalled: true,
@@ -227,7 +222,7 @@ test("Given a valid topic for game state change of uninstalling, when handling t
   )
 })
 
-test("Given a valid topic for game state change of uninstalled, when handling the message, then the database collection for game activity is updated with the game activity information.", async () => {
+test("Given a valid topic for a game state change of uninstalled, when handling the message, then the database collection for game activity is updated with the game activity information.", async () => {
   await handler.handle(
     validTopic,
     Buffer.from(
@@ -245,6 +240,7 @@ test("Given a valid topic for game state change of uninstalled, when handling th
     { _id: "game_room" },
     {
       $set: {
+        id: "game_room",
         releaseId: "123",
         isInstalling: false,
         isInstalled: false,

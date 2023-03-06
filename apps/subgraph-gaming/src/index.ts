@@ -37,6 +37,16 @@ const typeDefs = gql`
 const resolvers: GraphQLResolverMap<GraphContext> = {
   ...scalarResolvers,
   Query: {
+    async areas(parent, args, ctx) {
+      const ids =
+        ((await ctx.db
+          .collection("gameAreas")
+          .find({})
+          .map(get("id"))
+          .toArray()) as string[]) ?? ([] as string[])
+
+      return ctx.loaders.gameAreas.loadMany(ids)
+    },
     async genres(parent, args, ctx) {
       const ids =
         ((await ctx.db
@@ -191,6 +201,15 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
 
       return ctx.loaders.gameReleases.loadMany(releaseIds)
     },
+    async areas(parent, args, ctx) {
+      const areaIds = await ctx.db
+        .collection("gameAreas")
+        .find({})
+        .map((area) => areaIds._id)
+        .toArray()
+
+      return ctx.loaders.gameAreas.loadMany(areaIds)
+    },
   },
   GameSeries: {
     __resolveReference(ref, ctx: GraphContext) {
@@ -213,22 +232,12 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
       return ctx.db.collection("gameAreas").findOne({ _id: ref.id })
     },
     async activity(parent, args, ctx) {
-      const activity = ctx.loaders.gameActivities.load(parent.id)
+      const activity = await ctx.loaders.gameActivities.load(parent.id)
       if (activity instanceof Error) {
         return null
       }
 
       return activity
-    },
-    games: async (parent, args, ctx) => {
-      const ids =
-        ((await ctx.db
-          .collection("games")
-          .find({})
-          .map(get("id"))
-          .toArray()) as string[]) ?? ([] as string[])
-
-      return ctx.loaders.games.loadMany(ids)
     },
     platforms: async (parent, args, ctx) => {
       const ids =
@@ -245,7 +254,10 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
     __resolveReference(ref, ctx: GraphContext) {
       return ctx.db.collection("gameActivities").findOne({ _id: ref.id })
     },
-    gameRelease: (parent, args, ctx) => {
+    area: async (parent, args, ctx) => {
+      return ctx.loaders.gameAreas.load(parent.id)
+    },
+    release: (parent, args, ctx) => {
       return ctx.loaders.gameReleases.load(parent.releaseId)
     },
   },

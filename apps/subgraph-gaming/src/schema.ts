@@ -6,6 +6,7 @@ const schema = `
   `)}
 
   type Query {
+    areas: [GameArea!]!
     gameReleaseById(id: ID!): GameRelease!
     games: [Game!]!
     genres: [GameGenre!]!
@@ -21,6 +22,7 @@ const schema = `
     releases: [GameRelease!]!
     id: ID!
     name: String!
+    areas: [GameArea!]!
   }
 
   type GameGenre @key(fields: "id") {
@@ -55,13 +57,13 @@ const schema = `
     id: ID!
     name: String!
     activity: GameActivity
-    games: [Game!]!
     platforms: [GamePlatform!]!
   }
 
   type GameActivity {
-    areaId: ID!
-    gameRelease: GameRelease!
+    id: ID!
+    area: GameArea
+    release: GameRelease!
     isInstalled: Boolean!
     isInstalling: Boolean!
     isLaunching: Boolean!

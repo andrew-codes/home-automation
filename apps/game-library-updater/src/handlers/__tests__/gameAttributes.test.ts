@@ -107,11 +107,6 @@ describe("Given a valid topic and payload containing multiple references to sing
             "3d87f530-bee9-4f73-9d86-032819ff6ca8_3d87f530-bee9-4f73-9d86-032819ff6ca9",
           description:
             "Hell’s armies have invaded Earth. Become the Slayer in an epic single-player campaign to conquer demons across dimensions and stop the final destruction of humanity. The only thing they fear... is you.",
-          isInstalled: true,
-          isInstalling: true,
-          isLaunching: true,
-          isRunning: true,
-          isUninstalling: true,
           platformId: "a7aae1e8-8a12-4282-9d4f-5ad2f70f6a37",
           lastActivity: new Date(Date.parse("2021-07-31T12:25:42.34-04:00")),
           sourceId: "7323d2ad-07cf-4c04-a1db-aec3886be258",
@@ -140,11 +135,6 @@ describe("Given a valid topic and payload containing multiple references to sing
             "3d87f530-bee9-4f73-9d86-032819ff6ca8_3d87f530-bee9-4f73-9d86-032819ff6ca9",
           description:
             "Hell’s armies have invaded Earth. Become the Slayer in an epic single-player campaign to conquer demons across dimensions and stop the final destruction of humanity. The only thing they fear... is you.",
-          isInstalled: false,
-          isInstalling: false,
-          isLaunching: false,
-          isRunning: false,
-          isUninstalling: false,
           platformId: "6ac977b9-f496-4c49-bb38-f9627a67affc",
           lastActivity: new Date(Date.parse("2021-07-31T12:25:42.34-04:00")),
           sourceId: "7323d2ad-07cf-4c04-a1db-aec3886be258",
