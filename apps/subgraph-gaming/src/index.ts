@@ -172,8 +172,15 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
     __resolveReference(ref, ctx: GraphContext) {
       return ctx.db.collection("platforms").findOne({ _id: ref.id })
     },
-    games(parent, args, ctx) {
-      return ctx.loaders.games.loadMany(parent.gameIds)
+    async releases(parent, args, ctx) {
+      const games = await ctx.loaders.games.loadMany(parent.gameIds)
+      const releaseIds = games.map(
+        (game) =>
+          game.platformReleaseIds.find((releaseId) => parent.id === releaseId)
+            .id,
+      )
+
+      return ctx.loaders.gameReleases.loadMany(releaseIds)
     },
   },
   GameSeries: {
@@ -190,6 +197,27 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
     },
     games(parent, args, ctx) {
       return ctx.loaders.games.loadMany(parent.gameIds)
+    },
+  },
+  GameArea: {
+    __resolveReference(ref, ctx: GraphContext) {
+      return ctx.db.collection("gameAreas").findOne({ _id: ref.id })
+    },
+    async activity(parent, args, ctx) {
+      const activity = ctx.loaders.gameActivities.load(parent.id)
+      if (activity instanceof Error) {
+        return null
+      }
+
+      return activity
+    },
+  },
+  GameActivity: {
+    __resolveReference(ref, ctx: GraphContext) {
+      return ctx.db.collection("gameActivities").findOne({ _id: ref.id })
+    },
+    gameRelease: (parent, args, ctx) => {
+      return ctx.loaders.gameReleases.load(parent.releaseId)
     },
   },
 }

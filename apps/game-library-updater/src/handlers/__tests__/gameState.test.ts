@@ -15,12 +15,18 @@ const payload = Buffer.from(
 )
 const db = jest.fn()
 const collection = jest.fn()
-const updateOne = jest.fn()
+const updateOneGameArea = jest.fn()
+const updateOneGameActivity = jest.fn()
 
 beforeEach(async () => {
   jest.resetAllMocks()
 
-  when(collection).calledWith("gameArea").mockReturnValue({ updateOne })
+  when(collection)
+    .calledWith("gameAreas")
+    .mockReturnValue({ updateOne: updateOneGameArea })
+  when(collection)
+    .calledWith("gameActivities")
+    .mockReturnValue({ updateOne: updateOneGameActivity })
   db.mockReturnValue({ collection })
   partialMocked(getDbClient).mockResolvedValue({ db })
 })
@@ -30,13 +36,223 @@ test("Given a valid topic for a game state change, when checking if the handler 
   expect(shouldHandle).toBe(true)
 })
 
-test("Given a valid topic for game state change, when handling the message, then the database collection for game area is updated with the game state in the payload.", async () => {
+test("Given a valid topic for game state change, when handling the message, then the database collection for game area is updated with the game area.", async () => {
   await handler.handle(validTopic, payload)
 
-  expect(updateOne).toBeCalledTimes(1)
-  expect(updateOne).toHaveBeenCalledWith(
+  expect(updateOneGameArea).toBeCalledTimes(1)
+  expect(updateOneGameArea).toHaveBeenCalledWith(
     { _id: "game_room" },
-    { $set: { gameId: "123", gameState: "started" } },
+    { $set: { name: "Game Room" } },
+    { upsert: true },
+  )
+})
+
+test("Given a valid topic for game state change of installing, when handling the message, then the database collection for game activity is updated with the game activity information.", async () => {
+  await handler.handle(
+    validTopic,
+    Buffer.from(
+      JSON.stringify({
+        id: "123",
+        state: "installing",
+        areaId: "game_room",
+      }),
+      "utf8",
+    ),
+  )
+
+  expect(updateOneGameActivity).toBeCalledTimes(1)
+  expect(updateOneGameActivity).toHaveBeenCalledWith(
+    { _id: "game_room" },
+    {
+      $set: {
+        releaseId: "123",
+        isInstalling: true,
+        isInstalled: false,
+        isLaunching: false,
+        isRunning: false,
+        isUninstalling: false,
+      },
+    },
+    { upsert: true },
+  )
+})
+
+test("Given a valid topic for game state change of installed, when handling the message, then the database collection for game activity is updated with the game activity information.", async () => {
+  await handler.handle(
+    validTopic,
+    Buffer.from(
+      JSON.stringify({
+        id: "123",
+        state: "installed",
+        areaId: "game_room",
+      }),
+      "utf8",
+    ),
+  )
+
+  expect(updateOneGameActivity).toBeCalledTimes(1)
+  expect(updateOneGameActivity).toHaveBeenCalledWith(
+    { _id: "game_room" },
+    {
+      $set: {
+        releaseId: "123",
+        isInstalling: false,
+        isInstalled: true,
+        isLaunching: false,
+        isRunning: false,
+        isUninstalling: false,
+      },
+    },
+    { upsert: true },
+  )
+})
+
+test("Given a valid topic for game state change of starting, when handling the message, then the database collection for game activity is updated with the game activity information.", async () => {
+  await handler.handle(
+    validTopic,
+    Buffer.from(
+      JSON.stringify({
+        id: "123",
+        state: "starting",
+        areaId: "game_room",
+      }),
+      "utf8",
+    ),
+  )
+
+  expect(updateOneGameActivity).toBeCalledTimes(1)
+  expect(updateOneGameActivity).toHaveBeenCalledWith(
+    { _id: "game_room" },
+    {
+      $set: {
+        releaseId: "123",
+        isInstalling: false,
+        isInstalled: true,
+        isLaunching: true,
+        isRunning: false,
+        isUninstalling: false,
+      },
+    },
+    { upsert: true },
+  )
+})
+
+test("Given a valid topic for game state change of started, when handling the message, then the database collection for game activity is updated with the game activity information.", async () => {
+  await handler.handle(
+    validTopic,
+    Buffer.from(
+      JSON.stringify({
+        id: "123",
+        state: "started",
+        areaId: "game_room",
+      }),
+      "utf8",
+    ),
+  )
+
+  expect(updateOneGameActivity).toBeCalledTimes(1)
+  expect(updateOneGameActivity).toHaveBeenCalledWith(
+    { _id: "game_room" },
+    {
+      $set: {
+        releaseId: "123",
+        isInstalling: false,
+        isInstalled: true,
+        isLaunching: false,
+        isRunning: true,
+        isUninstalling: false,
+      },
+    },
+    { upsert: true },
+  )
+})
+
+test("Given a valid topic for game state change of stopped, when handling the message, then the database collection for game activity is updated with the game activity information.", async () => {
+  await handler.handle(
+    validTopic,
+    Buffer.from(
+      JSON.stringify({
+        id: "123",
+        state: "stopped",
+        areaId: "game_room",
+      }),
+      "utf8",
+    ),
+  )
+
+  expect(updateOneGameActivity).toBeCalledTimes(1)
+  expect(updateOneGameActivity).toHaveBeenCalledWith(
+    { _id: "game_room" },
+    {
+      $set: {
+        releaseId: "123",
+        isInstalling: false,
+        isInstalled: true,
+        isLaunching: false,
+        isRunning: false,
+        isUninstalling: false,
+      },
+    },
+    { upsert: true },
+  )
+})
+
+test("Given a valid topic for game state change of uninstalling, when handling the message, then the database collection for game activity is updated with the game activity information.", async () => {
+  await handler.handle(
+    validTopic,
+    Buffer.from(
+      JSON.stringify({
+        id: "123",
+        state: "uninstalling",
+        areaId: "game_room",
+      }),
+      "utf8",
+    ),
+  )
+
+  expect(updateOneGameActivity).toBeCalledTimes(1)
+  expect(updateOneGameActivity).toHaveBeenCalledWith(
+    { _id: "game_room" },
+    {
+      $set: {
+        releaseId: "123",
+        isInstalling: false,
+        isInstalled: true,
+        isLaunching: false,
+        isRunning: false,
+        isUninstalling: true,
+      },
+    },
+    { upsert: true },
+  )
+})
+
+test("Given a valid topic for game state change of uninstalled, when handling the message, then the database collection for game activity is updated with the game activity information.", async () => {
+  await handler.handle(
+    validTopic,
+    Buffer.from(
+      JSON.stringify({
+        id: "123",
+        state: "uninstalled",
+        areaId: "game_room",
+      }),
+      "utf8",
+    ),
+  )
+
+  expect(updateOneGameActivity).toBeCalledTimes(1)
+  expect(updateOneGameActivity).toHaveBeenCalledWith(
+    { _id: "game_room" },
+    {
+      $set: {
+        releaseId: "123",
+        isInstalling: false,
+        isInstalled: false,
+        isLaunching: false,
+        isRunning: false,
+        isUninstalling: false,
+      },
+    },
     { upsert: true },
   )
 })

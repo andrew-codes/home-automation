@@ -18,7 +18,7 @@ const schema = `
   }
 
   type GamePlatform @key(fields: "id") {
-    games: [Game!]!
+    releases: [GameRelease!]!
     id: ID!
     name: String!
   }
@@ -51,18 +51,30 @@ const schema = `
     series: [GameSeries!]!
   }
 
+  type GameArea @key(fields: "id") {
+    id: ID!
+    name: String!
+    activity: GameActivity
+  }
+
+  type GameActivity {
+    areaId: ID!
+    gameRelease: GameRelease!
+    isInstalled: Boolean!
+    isInstalling: Boolean!
+    isLaunching: Boolean!
+    isRunning: Boolean!
+    isUninstalling: Boolean!
+  }
+
   type GameRelease @key(fields: "id") {
     added: DateTime!
     communityScore: Int
     criticScore: Int
     description: String
     game: Game!
+    activities: [GameActivity!]!
     id: ID!
-    isInstalled: Boolean!
-    isInstalling: Boolean!
-    isLaunching: Boolean!
-    isRunning: Boolean!
-    isUninstalling: Boolean!
     lastActivity: DateTime
     platform: GamePlatform!
     playCount: Int!
