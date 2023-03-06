@@ -220,6 +220,26 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
 
       return activity
     },
+    games: async (parent, args, ctx) => {
+      const ids =
+        ((await ctx.db
+          .collection("games")
+          .find({})
+          .map(get("id"))
+          .toArray()) as string[]) ?? ([] as string[])
+
+      return ctx.loaders.games.loadMany(ids)
+    },
+    platforms: async (parent, args, ctx) => {
+      const ids =
+        ((await ctx.db
+          .collection("platforms")
+          .find({})
+          .map(get("id"))
+          .toArray()) as string[]) ?? ([] as string[])
+
+      return ctx.loaders.platforms.loadMany(ids)
+    },
   },
   GameActivity: {
     __resolveReference(ref, ctx: GraphContext) {

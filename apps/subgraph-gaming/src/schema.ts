@@ -55,6 +55,8 @@ const schema = `
     id: ID!
     name: String!
     activity: GameActivity
+    games: [Game!]!
+    platforms: [GamePlatform!]!
   }
 
   type GameActivity {
