@@ -2,7 +2,7 @@ import { ApolloServer, BaseContext } from "@apollo/server"
 import { expressMiddleware } from "@apollo/server/express4"
 // import { unwrapResolverError } from "@apollo/server/errors"
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer"
-import { first, uniq } from "lodash"
+import { first, isEmpty, uniq } from "lodash"
 import express from "express"
 import spdy from "spdy"
 import http from "http"
@@ -157,7 +157,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
       return ctx.loaders.completionStatus.load(ref.id)
     },
     releases: async (parent, args, ctx) => {
-      return ctx.loaders.games.load(parent.gameIds)
+      return ctx.loaders.gameReleases.loadMany(parent.releaseIds)
     },
   },
   GameRelease: {
@@ -182,7 +182,23 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
     source(parent, args, ctx) {
       return ctx.db.collection("source").findOne({ _id: parent.sourceId })
     },
-    completionState(parent, args, ctx) {
+    async completionState(parent, args, ctx) {
+      const completionStateId = await ctx.db
+        .collection("completionStatus")
+        .find({ id: parent.completionStatusId })
+        .map(get("id"))
+        .toArray()
+
+      if (isEmpty(completionStateId)) {
+        const notPlayed = await ctx.db
+          .collection("completionStatus")
+          .find({ name: "Not Played" })
+          .map(get("id"))
+          .toArray()
+
+        return ctx.loaders.completionStatus.load(notPlayed[0] as string)
+      }
+
       return ctx.loaders.completionStatus.load(parent.completionStatusId)
     },
   },
