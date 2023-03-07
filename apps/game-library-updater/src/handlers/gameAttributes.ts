@@ -51,7 +51,7 @@ const foreignKeys = {
   series: "seriesIds",
   ageRatings: "ageRatingIds",
   source: "sourceId",
-  completionStatus: "completetionStatusId",
+  completionStatus: "completionStatusId",
   platforms: "platformReleaseIds",
 }
 const toUniqueRelations = flow(
@@ -115,6 +115,7 @@ const toGameReleases = (games) =>
       pick([
         "added",
         "communityScore",
+        "completionStatusId",
         "criticScore",
         "description",
         "gameId",
@@ -171,6 +172,27 @@ const messageHandler: MessageHandler = {
         const valuesWithInverseGameRelation =
           values?.map((value) => {
             const isPlatformExpression = new RegExp(`^${value.id}`)
+
+            if (key === "completionStatus") {
+              return merge({}, value, {
+                releaseIds: gameReleases
+                  .filter((release) => {
+                    if (key === "platforms") {
+                      return release[foreignKeys[key]].find((k) =>
+                        isPlatformExpression.test(k),
+                      )
+                    } else if (Array.isArray(release[foreignKeys[key]])) {
+                      return release[foreignKeys[key]].find(
+                        (k) => k === value.id,
+                      )
+                    } else {
+                      return release[foreignKeys[key]] === value.id
+                    }
+                  })
+                  .map((game) => game.id),
+              })
+            }
+
             return merge({}, value, {
               gameIds: games
                 .filter((game) => {

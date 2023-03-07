@@ -11,6 +11,7 @@ const schema = `
     games: [Game!]!
     genres: [GameGenre!]!
     platforms: [GamePlatform!]!
+    completionStates: [GameCompletionState!]!
   }
 
   type Mutation {
@@ -71,8 +72,15 @@ const schema = `
     isUninstalling: Boolean!
   }
 
+  type GameCompletionState @key(fields: "id") {
+    id: ID!
+    name: String!
+    releases: [GameRelease!]!
+  }
+
   type GameRelease @key(fields: "id") {
     added: DateTime!
+    completionState: GameCompletionState!
     communityScore: Int
     criticScore: Int
     description: String

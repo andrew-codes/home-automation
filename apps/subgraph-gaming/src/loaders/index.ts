@@ -7,8 +7,10 @@ import createPlatformsLoader from "./platforms"
 import createSeriesLoader from "./series"
 import createGameActivitiesLoader from "./activities"
 import createGameAreasLoader from "./areas"
+import createCompletionStatusLoader from "./completionStatus"
 
 type Loaders = {
+  completionStatus: DataLoader<string, any>
   gameAreas: DataLoader<string, any>
   gameActivities: DataLoader<string, any>
   games: DataLoader<string, any>
@@ -19,6 +21,7 @@ type Loaders = {
 }
 
 const createLoader = async (db: Db): Promise<Loaders> => ({
+  completionStatus: createCompletionStatusLoader(db),
   gameAreas: createGameAreasLoader(db),
   gameActivities: createGameActivitiesLoader(db),
   games: createGamesLoader(db),

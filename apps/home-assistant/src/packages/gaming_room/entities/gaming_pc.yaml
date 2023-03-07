@@ -7,9 +7,6 @@ binary_sensor:
     scan_interval: 5
     count: 1
 
-shell_command:
-  turn_off_gaming_room_gaming_pc: !secret TURN_OFF_GAMING_ROOM_GAMING_PC_COMMAND
-
 media_player:
   - name: Gaming Room Universal Gaming PC
     id: gaming_room_universal_gaming_pc

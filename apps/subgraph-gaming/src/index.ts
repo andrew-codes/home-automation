@@ -18,7 +18,7 @@ import { get } from "lodash/fp"
 import type { Loaders } from "./loaders"
 import createLoader from "./loaders"
 import schema from "./schema"
-import { GraphQLError } from "graphql"
+import { graphql, GraphQLError } from "graphql"
 import type { AsyncMqttClient } from "async-mqtt"
 import { createMqtt } from "@ha/mqtt-client"
 
@@ -47,6 +47,15 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
           .toArray()) as string[]) ?? ([] as string[])
 
       return ctx.loaders.gameAreas.loadMany(ids)
+    },
+    async completionStates(parent, args, ctx) {
+      const ids = await ctx.db
+        .collection("completionStatus")
+        .find({})
+        .map(get("id"))
+        .toArray()
+
+      return ctx.loaders.completionStatus.loadMany((ids ?? []) as string[])
     },
     async genres(parent, args, ctx) {
       const ids =
@@ -143,6 +152,14 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
       return gameRelease
     },
   },
+  GameCompletionState: {
+    __resolveReference(ref, ctx: GraphContext) {
+      return ctx.loaders.completionStatus.load(ref.id)
+    },
+    releases: async (parent, args, ctx) => {
+      return ctx.loaders.games.load(parent.gameIds)
+    },
+  },
   GameRelease: {
     __resolveReference(ref, ctx: GraphContext) {
       return ctx.loaders.gameReleases.load(ref.id)
@@ -164,6 +181,9 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
     },
     source(parent, args, ctx) {
       return ctx.db.collection("source").findOne({ _id: parent.sourceId })
+    },
+    completionState(parent, args, ctx) {
+      return ctx.loaders.completionStatus.load(parent.completionStatusId)
     },
   },
   Game: {
