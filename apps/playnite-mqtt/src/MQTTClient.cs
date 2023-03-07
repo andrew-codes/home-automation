@@ -140,6 +140,7 @@ namespace MQTTClient
 
                             if (topic == "playnite/library/refresh")
                             {
+                                logger.Debug($"Count: {PlayniteApi.Database.Games.Count()}");
                                 return PublishGames(PlayniteApi.Database.Games);
                             }
 
@@ -239,11 +240,6 @@ namespace MQTTClient
                 await client.PublishStringAsync(connectionTopic, "online", retain: true);
             }
 
-            await PublishGames(PlayniteApi.Database.Games);
-            PlayniteApi.Database.Games.ItemCollectionChanged += Games_ItemCollectionChanged;
-            PlayniteApi.Database.Games.ItemUpdated += Games_ItemUpdated;
-
-
             var mqttSubscribeOptions = new MqttFactory().CreateSubscribeOptionsBuilder()
                 .WithTopicFilter(
                     f =>
@@ -281,8 +277,6 @@ namespace MQTTClient
 
         private Task ClientOnDisconnectedAsync(EventArgs eventArgs)
         {
-            PlayniteApi.Database.Games.ItemCollectionChanged -= Games_ItemCollectionChanged;
-            PlayniteApi.Database.Games.ItemUpdated -= Games_ItemUpdated;
             progressSidebar.ProgressValue = -1;
             return Task.CompletedTask;
         }
@@ -359,30 +353,13 @@ namespace MQTTClient
             await client.PublishStringAsync($"playnite/library/refreshed", "", retain: false, qualityOfServiceLevel: MqttQualityOfServiceLevel.AtLeastOnce);
         }
 
-        private void Games_ItemUpdated(object sender, ItemUpdatedEventArgs<Game> e)
-        {
-            logger.Debug($"{e.UpdatedItems.Count()} updated games to be published.");
-            var games = e.UpdatedItems.Where(shouldPublishPropertyUpdate).Select(game => game.NewData);
-            Task.Run(async () => await PublishGames(games)).Wait(CancellationToken.None);
-        }
-
-        private bool shouldPublishPropertyUpdate(ItemUpdateEvent<Game> arg)
-        {
-            return true;
-        }
-
-        private void Games_ItemCollectionChanged(object sender, ItemCollectionChangedEventArgs<Game> e)
-        {
-            logger.Debug($"{e.AddedItems.Count()} added games to be published.");
-            Task.Run(async () => await PublishGames(e.AddedItems)).Wait(CancellationToken.None);
-        }
-
         #region Overrides of Plugin
 
         public override Guid Id { get; } = Guid.Parse("6d116e57-cebb-4ef0-a1ed-030a8aa6a7e7");
 
         public override void OnLibraryUpdated(OnLibraryUpdatedEventArgs args)
         {
+            logger.Debug("onLibraryUpdated event handler.");
             Task.Run(async () => await PublishGames(PlayniteApi.Database.Games)).Wait(CancellationToken.None);
         }
 
