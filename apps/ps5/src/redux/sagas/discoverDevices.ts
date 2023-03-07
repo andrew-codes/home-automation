@@ -45,7 +45,7 @@ function* discoverDevices(action: DiscoverDevicesAction) {
     if (!!knownDevices.find((knownDevice) => knownDevice.id === device.id)) {
       logger.info(`Device already known to HA: ${device.name}`)
 
-      return
+      continue
     }
 
     logger.info(`Registering device, ${device.name} with HA`)

@@ -27,12 +27,10 @@ async function run() {
           logger.info("Stopping a library refresh")
         }
       } catch (error) {
-        logger.info(error)
         logger.error(error)
       }
     })
   } catch (e) {
-    logger.info(e)
     logger.error(e)
   }
 }
