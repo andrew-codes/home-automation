@@ -2,6 +2,7 @@ import { ApolloServer, BaseContext } from "@apollo/server"
 import { expressMiddleware } from "@apollo/server/express4"
 // import { unwrapResolverError } from "@apollo/server/errors"
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer"
+import { first, uniq } from "lodash"
 import express from "express"
 import spdy from "spdy"
 import http from "http"
@@ -192,14 +193,25 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
       return ctx.db.collection("platforms").findOne({ _id: ref.id })
     },
     async releases(parent, args, ctx) {
-      const games = await ctx.loaders.games.loadMany(parent.gameIds)
-      const releaseIds = games.map(
-        (game) =>
-          game.platformReleaseIds.find((releaseId) => parent.id === releaseId)
-            .id,
-      )
+      const platforms = await ctx.db
+        .collection("platforms")
+        .find({ id: parent.id })
+        .toArray()
+      const platform = first(platforms)
 
-      return ctx.loaders.gameReleases.loadMany(releaseIds)
+      const releaseIds = (await ctx.db
+        .collection("gameReleases")
+        .find({
+          id: {
+            $regex: `${parent.id}_${platform.gameIds
+              .map((id) => `(${id})`)
+              .join("|")}`,
+          },
+        })
+        .map(get("id"))
+        .toArray()) as string[]
+
+      return ctx.loaders.gameReleases.loadMany(uniq(releaseIds))
     },
     async areas(parent, args, ctx) {
       const ids = await ctx.db
