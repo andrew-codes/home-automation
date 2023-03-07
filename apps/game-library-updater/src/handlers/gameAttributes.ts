@@ -43,19 +43,19 @@ const customizer = (objValue, srcValue) => {
 
 const toAssetId = (asset: string) => (!!asset ? last(asset.split("\\")) : null)
 
-const foreignKeys = [
-  "genres",
-  "developers",
-  "publishers",
-  "features",
-  "series",
-  "ageRatings",
-  "source",
-  "completionStatus",
-  "platforms",
-]
+const foreignKeys = {
+  genres: "genreIds",
+  developers: "developerIds",
+  publishers: "publisherIds",
+  features: "featureIds",
+  series: "seriesIds",
+  ageRatings: "ageRatingIds",
+  source: "sourceId",
+  completionStatus: "completetionStatusId",
+  platforms: "platformReleaseIds",
+}
 const toUniqueRelations = flow(
-  map(pick(foreignKeys)),
+  map(pick(Object.keys(foreignKeys))),
   reduce(mergeWith(customizer), {}),
   entries,
   map(get(1)),
@@ -71,14 +71,20 @@ const toGames = flow(
   map(
     pick([
       "id",
+      "ageRatingIds",
       "backgroundImage",
+      "completionStatusId",
       "coverImage",
+      "developerIds",
+      "featureIds",
       "gameId",
       "genreIds",
       "icon",
       "name",
       "platformIds",
       "seriesIds",
+      "sourceId",
+      "publisherIds",
     ]),
   ),
   map((game) =>
@@ -155,7 +161,7 @@ const messageHandler: MessageHandler = {
     const prepareForDbInsert = flow(
       toUniqueRelations,
       concat([games, gameReleases]),
-      zipObject(["games", "gameReleases"].concat(foreignKeys)),
+      zipObject(["games", "gameReleases"].concat(Object.keys(foreignKeys))),
       entries,
       reduce((acc, [key, values]) => {
         if (key === "games" || key === "gameReleases") {
@@ -163,19 +169,24 @@ const messageHandler: MessageHandler = {
         }
 
         const valuesWithInverseGameRelation =
-          values?.map((value) =>
-            merge({}, value, {
+          values?.map((value) => {
+            const isPlatformExpression = new RegExp(`^${value.id}`)
+            return merge({}, value, {
               gameIds: games
                 .filter((game) => {
-                  if (Array.isArray(game[key])) {
-                    return game[key].find((k) => k.id === value.id)
+                  if (key === "platforms") {
+                    return game[foreignKeys[key]].find((k) =>
+                      isPlatformExpression.test(k),
+                    )
+                  } else if (Array.isArray(game[foreignKeys[key]])) {
+                    return game[foreignKeys[key]].find((k) => k === value.id)
                   } else {
-                    return game[`${key}Id`] === value.id
+                    return game[foreignKeys[key]] === value.id
                   }
                 })
                 .map((game) => game.id),
-            }),
-          ) ?? []
+            })
+          }) ?? []
 
         return acc.concat([[key, valuesWithInverseGameRelation]])
       }, [] as [string, any[]][]),
@@ -185,19 +196,13 @@ const messageHandler: MessageHandler = {
     const db = await client.db("gameLibrary")
     const dbInserts = flow(
       prepareForDbInsert,
-      tap((data) => {
-        logger.debug(JSON.stringify(data))
-      }),
       map(([key, value]) =>
-        map(async (item: any) => {
-          logger.debug(`Collection ${key}; Updating item ${item.id}`, {
-            item,
-          })
-
-          return await db
-            .collection(key)
-            .updateOne({ _id: item.id }, { $set: item }, { upsert: true })
-        })(value),
+        map(
+          async (item: any) =>
+            await db
+              .collection(key)
+              .updateOne({ _id: item.id }, { $set: item }, { upsert: true }),
+        )(value),
       ),
       flatten,
     )
