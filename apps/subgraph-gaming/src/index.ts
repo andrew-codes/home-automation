@@ -202,13 +202,13 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
       return ctx.loaders.gameReleases.loadMany(releaseIds)
     },
     async areas(parent, args, ctx) {
-      const areaIds = await ctx.db
-        .collection("gameAreas")
-        .find({})
-        .map((area) => areaIds._id)
+      const ids = await ctx.db
+        .collection("gameAreasPlatforms")
+        .find({ platformId: parent.id })
+        .map((area) => area.areaId)
         .toArray()
 
-      return ctx.loaders.gameAreas.loadMany(areaIds)
+      return ctx.loaders.gameAreas.loadMany(ids)
     },
   },
   GameSeries: {
@@ -240,12 +240,11 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
       return activity
     },
     platforms: async (parent, args, ctx) => {
-      const ids =
-        ((await ctx.db
-          .collection("platforms")
-          .find({})
-          .map(get("id"))
-          .toArray()) as string[]) ?? ([] as string[])
+      const ids = await ctx.db
+        .collection("gameAreasPlatforms")
+        .find({ areaId: parent.id })
+        .map((area) => area.platformId)
+        .toArray()
 
       return ctx.loaders.platforms.loadMany(ids)
     },
