@@ -7,14 +7,6 @@ binary_sensor:
     scan_interval: 5
     count: 1
 
-script:
-  gaming_room_turn_on_gaming_pc:
-    sequence:
-      - service: mqtt.publish
-        data:
-          topic: homeassistant/wake-on-lan
-          payload: !secret GAMING_ROOM_GAMING_PC_MAC
-
 shell_command:
   turn_off_gaming_room_gaming_pc: !secret TURN_OFF_GAMING_ROOM_GAMING_PC_COMMAND
 
