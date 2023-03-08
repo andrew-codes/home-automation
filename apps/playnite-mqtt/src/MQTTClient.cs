@@ -168,7 +168,7 @@ namespace MQTTClient
 
                                 PlayniteApi.Database.Games.Update(game);
 
-                                return Task.CompletedTask;
+                                return PublishGames(new List<Game> { game });
                             }
 
                             var areaIdExpression = @"^playnite/(.+)/game_media_player/.+";
