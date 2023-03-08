@@ -15,7 +15,7 @@ const run = async (
   )
   await wol(mac.value)
 
-  await delay(6000)
+  await delay(10000)
 
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
   const ip = await configurationApi.get("gaming-pc/ip")
