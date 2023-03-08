@@ -133,7 +133,8 @@ namespace MQTTClient
                     var options = optionsUnBuilt.Build();
                     client.ApplicationMessageReceivedAsync += e =>
                     {
-                        try {
+                        try
+                        {
                             logger.Debug("Received application message.");
                             var topic = e.ApplicationMessage.Topic;
                             logger.Debug(topic);
@@ -144,10 +145,36 @@ namespace MQTTClient
                                 return PublishGames(PlayniteApi.Database.Games);
                             }
 
-                            var areaIdExpression = @"^playnite/(.*)/game_media_player/.*";
-                            var startExpression = @"^playnite/.*/game_media_player/start/(.*)";
-                            var installExpression = @"^playnite/.*/game_media_player/install/(.*)";
-                            var uninstallExpression = @"^playnite/.*/game_media_player/uninstall/(.*)";
+                            var setAttributeTopicExpression = @"^playnite/library/game/(.+)/attributes/set";
+                            var setAttributeMatch = Regex.Match(topic, setAttributeTopicExpression);
+                            if (setAttributeMatch.Success)
+                            {
+                                var gameId = setAttributeMatch.Groups[1].Value;
+                                var game = PlayniteApi.Database.Games.First(g => g.Id == Guid.Parse(gameId));
+                                if (game == null)
+                                {
+                                    logger.Debug($"No game found with ID {gameId}");
+                                    return Task.CompletedTask;
+                                }
+
+                                var newGameAttributes = Newtonsoft.Json.JsonConvert.DeserializeObject<Game>(e.ApplicationMessage.ConvertPayloadToString());
+                                newGameAttributes.GetType().GetProperties()
+                                    .Where(p => p.CanWrite && p.CanRead)
+                                    .ForEach(p =>
+                                        {
+                                            game.GetType().GetProperty(p.Name).SetValue(game, p.GetValue(newGameAttributes));
+                                        }
+                                    );
+
+                                PlayniteApi.Database.Games.Update(game);
+
+                                return Task.CompletedTask;
+                            }
+
+                            var areaIdExpression = @"^playnite/(.+)/game_media_player/.+";
+                            var startExpression = @"^playnite/.+/game_media_player/start/(.+)";
+                            var installExpression = @"^playnite/.+/game_media_player/install/(.+)";
+                            var uninstallExpression = @"^playnite/.+/game_media_player/uninstall/(.+)";
 
                             var areaIdMatch = Regex.Match(topic, areaIdExpression);
                             if (!areaIdMatch.Success)
@@ -175,9 +202,11 @@ namespace MQTTClient
                                 PlayniteApi.UninstallGame(Guid.Parse(gameId));
                             }
                             logger.Debug("Completed handling application messages.");
-                        
+
                             return Task.CompletedTask;
-                        } catch(Exception error) {
+                        }
+                        catch (Exception error)
+                        {
                             logger.Error(error.Message);
 
                             return Task.CompletedTask;
@@ -260,6 +289,11 @@ namespace MQTTClient
                     f =>
                     {
                         f.WithTopic("playnite/library/refresh");
+                    })
+                 .WithTopicFilter(
+                    f =>
+                    {
+                        f.WithTopic("playnite/library/game/attributes/set");
                     })
                 .Build();
             await client.SubscribeAsync(mqttSubscribeOptions, CancellationToken.None);
