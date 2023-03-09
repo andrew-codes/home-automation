@@ -16,7 +16,7 @@ run()
 async function run() {
   try {
     for (const entryPoint of entryPoints) {
-      const entryPointParts = entryPoint.split("/")
+      const entryPointParts = entryPoint.split(path.sep)
       const outFile = `${entryPointParts[entryPointParts.length - 2]}.js`
       await build({
         entryPoints: [entryPoint],
