@@ -1,0 +1,140 @@
+import { ApolloServer, BaseContext } from "@apollo/server"
+import { expressMiddleware } from "@apollo/server/express4"
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer"
+import { makeExecutableSchema } from "@graphql-tools/schema"
+import { PubSub } from "graphql-subscriptions"
+import { IResolvers } from "@graphql-tools/utils"
+import { WebSocketServer } from "ws"
+import { useServer } from "graphql-ws/lib/use/ws"
+import express from "express"
+import http from "http"
+import cors from "cors"
+import bodyParser from "body-parser"
+import gql from "graphql-tag"
+import { createLogger } from "@ha/logger"
+import schema from "./schema"
+import { GraphQLError } from "graphql"
+import type { AsyncMqttClient } from "async-mqtt"
+import { createMqtt } from "@ha/mqtt-client"
+
+const logger = createLogger()
+
+type GraphContext = {
+  // token: string
+  mqtt: AsyncMqttClient
+} & BaseContext
+
+const typeDefs = gql`
+  ${schema}
+`
+
+const run = async () => {
+  const pubsub = new PubSub()
+  const mqtt = await createMqtt()
+
+  const resolvers: IResolvers<any, GraphContext> = {
+    Query: {
+      health: async () => "up",
+    },
+    Subscription: {
+      activityChanged: {
+        subscribe: async () => pubsub.asyncIterator(["activityChanged"]),
+      },
+    },
+  }
+
+  const app = express()
+  const httpServer = http.createServer(app)
+
+  const wsServer = new WebSocketServer({
+    server: httpServer,
+    path: "/",
+  })
+
+  const schema = makeExecutableSchema({
+    typeDefs,
+    resolvers,
+  })
+
+  const serverCleanup = useServer({ schema }, wsServer)
+
+  const server = new ApolloServer<GraphContext>({
+    schema,
+    plugins: [
+      ApolloServerPluginDrainHttpServer({ httpServer }),
+      {
+        async serverWillStart() {
+          return {
+            async drainServer() {
+              await serverCleanup.dispose()
+            },
+          }
+        },
+      },
+    ],
+    formatError: (formattedError, error) => {
+      logger.error(formattedError.message, formattedError)
+
+      return formattedError
+    },
+  })
+
+  await server.start()
+
+  app.use("/health", (req, resp) => {
+    logger.silly("Health endpoint hit")
+    resp.status(200).send("up")
+  })
+
+  app.use(
+    "/",
+    cors<cors.CorsRequest>(),
+    bodyParser.json({ limit: "50mb" }),
+    expressMiddleware(server, {
+      context: async ({ req }) => {
+        try {
+          // const token = first(req.headers.authorization)
+          // if (!token) {
+          //   throw new GraphQLError("User is not authenticated", {
+          //     extensions: {
+          //       code: "UNAUTHENTICATED",
+          //       http: { status: 401 },
+          //     },
+          //   })
+          // }
+
+          return { mqtt }
+        } catch (error) {
+          throw new GraphQLError(error?.toString() ?? "Unknown")
+        }
+      },
+    }),
+  )
+
+  const port = process.env.PORT ?? "80"
+  httpServer.listen(port, () => {
+    logger.info(`🚀 Server ready on port 80`)
+  })
+
+  const gameStateExpression = /^playnite\/(.+)\/game_media_player\/state$/
+  mqtt.subscribe("playnite/+/game_media_player/state")
+  mqtt.on("message", async (topic, payload) => {
+    try {
+      const parsedPayload = JSON.parse(payload.toString())
+      const matches = gameStateExpression.exec(topic)
+      if (matches !== null && matches.length > 0) {
+        const areaId = matches[0]
+        pubsub.publish("activityChanged", {
+          id: areaId,
+          releaseId: parsedPayload.releaseId,
+        })
+      }
+    } catch (e) {
+      logger.error(e)
+    }
+  })
+}
+
+if (require.main === module) {
+  run()
+}

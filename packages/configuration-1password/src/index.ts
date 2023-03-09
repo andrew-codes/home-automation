@@ -34,6 +34,8 @@ const configurationNames = [
   "grafana/username",
   "graph/port/external",
   "graph/host",
+  "graph-subscriptions/host",
+  "graph-subscriptions/port/external",
   "guest-db/port",
   "guest-db/password",
   "guest-db/username",

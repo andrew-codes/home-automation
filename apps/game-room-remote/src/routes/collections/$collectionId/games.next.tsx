@@ -16,7 +16,7 @@ export const action = async (args: ActionArgs) => {
     collectionDefinition.currentPageIndex = pageNumber
     collectionDefinition.countPerPage = 7
 
-    const [collection] = await fetchGameCollections([collectionDefinition])
+    const [[collection]] = await fetchGameCollections([collectionDefinition])
 
     return json({ games: collection.games })
   }
