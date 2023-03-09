@@ -9,7 +9,7 @@ const run = async () => {
   nodemon({
     verbose: true,
     // ignore: ["**/apps/graph/dist/*.graphql"],
-    watch: ["dist/build/*"],
+    watch: ["dist/*", "../../**/generated/*.graphql"],
     script: path.join(__dirname, "..", "scripts", "compile-dev.ts"),
     execMap: {
       js: "node --require esbuild-register",

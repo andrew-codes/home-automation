@@ -5,7 +5,7 @@
   "targets": {
     "clean": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": [".test-runs/unit"],
+      "outputs": [".test-runs"],
       "options": {
         "command": "rm -rf dist .test-runs",
         "cwd": "packages/nx-executors"

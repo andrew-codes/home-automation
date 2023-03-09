@@ -16,12 +16,13 @@ RUN rm packages-microsoft-prod.deb
 RUN apt update -y
 RUN apt-get install -y \
   ansible \ 
-bash \
+  bash \
   dbus-user-session \
   dotnet-runtime-7.0 \
   dotnet-sdk-7.0 \
   etherwake \
   gettext-base \
+  libssl1.0.0 libssl-dev \
   gnupg2 \
   jq \
   kubectl \

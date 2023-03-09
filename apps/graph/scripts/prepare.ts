@@ -4,6 +4,7 @@ import sh from "shelljs"
 const run = async (): Promise<void> => {
   await throwIfError(
     sh.exec("curl -sSL https://router.apollo.dev/download/nix/latest | sh", {
+      shell: "/bin/bash",
       silent: true,
       async: true,
     }),

@@ -1,0 +1,23 @@
+{
+  "root": "packages/graph-schema",
+  "sourceRoot": "packages/graph-schema/src",
+  "projectType": "library",
+  "targets": {
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "rm -rf generated .test-runs",
+        "cwd": "packages/graph-schema"
+      }
+    },
+    "generate": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "module": "scripts/generate.ts",
+        "cwd": "packages/graph-schema"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["subgraph-gaming", "graph-subscriptions"]
+}

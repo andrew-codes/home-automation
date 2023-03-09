@@ -1,23 +1,12 @@
-import { throwIfError } from "@ha/shell-utils"
 import path from "path"
+import fs from "fs/promises"
 import sh from "shelljs"
+import schema from "@ha/graph-schema"
 
 const run = async (): Promise<void> => {
-  const buildDir = path.join(__dirname, "..", "dist", "build")
-  sh.mkdir("-p", buildDir)
-  sh.cp(
-    "-R",
-    path.join(__dirname, "..", "..", "**", "generated", "*.graphql"),
-    buildDir,
-  )
-
-  sh.env["APOLLO_ELV2_LICENSE"] = "accept"
-  await throwIfError(
-    sh.exec(
-      `~/.rover/bin/rover supergraph compose --config src/supergraph.yaml > dist/schema.graphql`,
-      { shell: "/bin/bash" },
-    ),
-  )
+  const distDir = path.join(__dirname, "..", "dist")
+  sh.mkdir("-p", distDir)
+  await fs.writeFile(path.join(distDir, "schema.graphql"), schema, "utf8")
 }
 
 export default run

@@ -113,6 +113,6 @@ test("Modules default exported function will be invoked with the configuration A
       "__mocks__",
     ),
   )
-  expect(deploy).toBeCalledWith({ configuration: true })
+  expect(deploy).toBeCalledWith({ configuration: true }, ctx)
   expect(success).toEqual(true)
 })

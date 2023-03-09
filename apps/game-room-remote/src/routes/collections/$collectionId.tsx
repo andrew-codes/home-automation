@@ -1,5 +1,5 @@
 import AutoSizer from "react-virtualized-auto-sizer"
-import { HeadersFunction, json, LoaderArgs } from "@remix-run/node"
+import { json, LoaderArgs } from "@remix-run/node"
 import { useNavigate } from "@remix-run/react"
 import styled from "styled-components"
 import { FC, useCallback, useEffect, useReducer, useState } from "react"
@@ -13,6 +13,7 @@ import GameCollectionSwiper, {
   PageChangeEventEventHandler,
 } from "../../components/GameCollectionSwiper"
 import { GameCollection, GameCollectionDefinition } from "../../GameCollection"
+import { gql } from "@ha/graph-types"
 import fetchGameCollections from "../../api/fetchGameCollection.server"
 import { ceil, isEmpty, merge } from "lodash"
 import useLoaderData from "../../useLoaderData"
@@ -24,16 +25,22 @@ const gamesPerRow = 4
 const rows = 3
 const gamesPerPage = gamesPerRow * rows
 
-const headers: HeadersFunction = () => {
-  let cacheControlHeader = "public, s-maxage=60"
-  if (process.env.NODE_ENV === "development") {
-    cacheControlHeader = "no-cache"
+const query = gql(/* GraphQL */ `
+  query GameCollectionGames {
+    games {
+      id
+      name
+      coverImage
+      backgroundImage
+      releases {
+        description
+        releaseYear
+        releaseDate
+        lastActivity
+      }
+    }
   }
-
-  return {
-    "Cache-Control": cacheControlHeader,
-  }
-}
+`)
 
 const loader = async (args: LoaderArgs) => {
   const activeCollectionIndex = collectionDefinitions.findIndex(
@@ -419,4 +426,4 @@ const Collection: FC<{}> = () => {
 }
 
 export default Collection
-export { headers, loader }
+export { loader }

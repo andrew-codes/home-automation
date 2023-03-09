@@ -2,7 +2,7 @@
   "private": true,
   "name": "@ha/nx-executors",
   "description": "Nx executors for projects.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "license": "MIT",
   "executors": "./executors.json",
   "dependencies": {
@@ -19,7 +19,7 @@
     "@ha/configuration-workspace": "workspace:^0.0.1",
     "@ha/configure-jest": "workspace:^0.0.1",
     "@ha/env-utils": "workspace:^0.0.1",
-    "@ha/nx-executors": "workspace:^0.0.1",
+    "@ha/nx-executors": "workspace:^0.1.0",
     "@ha/shell-utils": "workspace:^1.0.0",
     "@types/jest": "^29.2.5",
     "@types/node": "^18.11.18",
