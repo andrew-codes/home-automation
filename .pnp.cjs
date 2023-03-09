@@ -417,7 +417,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/configure-jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#workspace:packages/configure-jest"],\
             ["@ha/nx-executors", "workspace:packages/nx-executors"],\
             ["@nrwl/workspace", "virtual:3e99b0cb9f272ea6cd8a2d15d908e4735ad3aad53585937da64b0d398f9941959f0f1356d9cbb3650cd8f9a472c03ebeaba0933d8f573a89088b7f0fbdf4fe9f#npm:15.5.2"],\
-            ["@nx-dotnet/core", "virtual:3e99b0cb9f272ea6cd8a2d15d908e4735ad3aad53585937da64b0d398f9941959f0f1356d9cbb3650cd8f9a472c03ebeaba0933d8f573a89088b7f0fbdf4fe9f#npm:1.18.0"],\
+            ["@nx-dotnet/core", "virtual:3e99b0cb9f272ea6cd8a2d15d908e4735ad3aad53585937da64b0d398f9941959f0f1356d9cbb3650cd8f9a472c03ebeaba0933d8f573a89088b7f0fbdf4fe9f#npm:1.19.1"],\
             ["@types/jest", "npm:29.2.5"],\
             ["@types/node", "npm:18.11.18"],\
             ["istanbul", "npm:0.4.5"],\
@@ -474,7 +474,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/configure-jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#workspace:packages/configure-jest"],\
             ["@ha/nx-executors", "workspace:packages/nx-executors"],\
             ["@nrwl/workspace", "virtual:3e99b0cb9f272ea6cd8a2d15d908e4735ad3aad53585937da64b0d398f9941959f0f1356d9cbb3650cd8f9a472c03ebeaba0933d8f573a89088b7f0fbdf4fe9f#npm:15.5.2"],\
-            ["@nx-dotnet/core", "virtual:3e99b0cb9f272ea6cd8a2d15d908e4735ad3aad53585937da64b0d398f9941959f0f1356d9cbb3650cd8f9a472c03ebeaba0933d8f573a89088b7f0fbdf4fe9f#npm:1.18.0"],\
+            ["@nx-dotnet/core", "virtual:3e99b0cb9f272ea6cd8a2d15d908e4735ad3aad53585937da64b0d398f9941959f0f1356d9cbb3650cd8f9a472c03ebeaba0933d8f573a89088b7f0fbdf4fe9f#npm:1.19.1"],\
             ["@types/jest", "npm:29.2.5"],\
             ["@types/node", "npm:18.11.18"],\
             ["istanbul", "npm:0.4.5"],\
@@ -9459,7 +9459,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/nx-executors", "workspace:packages/nx-executors"],\
             ["@ha/shell-utils", "workspace:packages/shell-utils"],\
             ["@nrwl/workspace", "virtual:da1c19034050c3bee7887a6368ebe35462650b50d412fc0cb13bb4238bb80578de3e67f65b7e4c4263f357add447450e00709b549344edf56b3a30cecf4e3a35#npm:15.5.2"],\
-            ["@nx-dotnet/core", "virtual:da1c19034050c3bee7887a6368ebe35462650b50d412fc0cb13bb4238bb80578de3e67f65b7e4c4263f357add447450e00709b549344edf56b3a30cecf4e3a35#npm:1.18.0"],\
+            ["@nx-dotnet/core", "virtual:da1c19034050c3bee7887a6368ebe35462650b50d412fc0cb13bb4238bb80578de3e67f65b7e4c4263f357add447450e00709b549344edf56b3a30cecf4e3a35#npm:1.19.1"],\
             ["nx", "virtual:67c2aad2b1bd47fe7a2a41d331ce53a09742994e6e4cf897b697836ad2af8b3577c1b4c3128f4d1437800d10106137809a85386ab3553d979a125a47045c5628#npm:15.5.2"],\
             ["shelljs", "npm:0.8.5"],\
             ["wakeonlan", "npm:0.1.0"]\
@@ -9776,16 +9776,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@humanwhocodes/config-array", [\
-        ["npm:0.10.7", {\
-          "packageLocation": "./.yarn/cache/@humanwhocodes-config-array-npm-0.10.7-81c0f4b5e6-009d64be8d.zip/node_modules/@humanwhocodes/config-array/",\
-          "packageDependencies": [\
-            ["@humanwhocodes/config-array", "npm:0.10.7"],\
-            ["@humanwhocodes/object-schema", "npm:1.2.1"],\
-            ["debug", "virtual:311f00d850caa9627b6ac11974e53f96ee9fc030a73da3d1abe5cce7e72b8ee2e1f115ef7f47e2e6108ff8071f1a98050f7a4c5c3fe7df743e1d5a4130e33289#npm:4.3.4"],\
-            ["minimatch", "npm:3.1.2"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:0.11.8", {\
           "packageLocation": "./.yarn/cache/@humanwhocodes-config-array-npm-0.11.8-7955bfecc2-0fd6b3c54f.zip/node_modules/@humanwhocodes/config-array/",\
           "packageDependencies": [\
@@ -9793,15 +9783,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@humanwhocodes/object-schema", "npm:1.2.1"],\
             ["debug", "virtual:311f00d850caa9627b6ac11974e53f96ee9fc030a73da3d1abe5cce7e72b8ee2e1f115ef7f47e2e6108ff8071f1a98050f7a4c5c3fe7df743e1d5a4130e33289#npm:4.3.4"],\
             ["minimatch", "npm:3.1.2"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@humanwhocodes/gitignore-to-minimatch", [\
-        ["npm:1.0.2", {\
-          "packageLocation": "./.yarn/cache/@humanwhocodes-gitignore-to-minimatch-npm-1.0.2-247ae8a408-aba5c40c9e.zip/node_modules/@humanwhocodes/gitignore-to-minimatch/",\
-          "packageDependencies": [\
-            ["@humanwhocodes/gitignore-to-minimatch", "npm:1.0.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -10349,10 +10330,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:25d06c5d44a774fa58ea7cadcf62db53a4c53920a9a1e965861612404478ca7d8f65f45ac3db9526dae5139ae22e74c940ab30fdeb8be31e57a7f1568edddfa9#npm:15.5.1", {\
-          "packageLocation": "./.yarn/__virtual__/@nrwl-devkit-virtual-21852cd2a2/0/cache/@nrwl-devkit-npm-15.5.1-9d67383e55-b556fe5079.zip/node_modules/@nrwl/devkit/",\
+        ["virtual:082750ab0b31987d8694e0deb9b6316eaa1dc9e1e0c1ccac9f6282cbe7e94e575cab04ad8caef5c8b31083f00b7a813f23a0f4e563e739ba1fefd44f8c03f634#npm:15.5.1", {\
+          "packageLocation": "./.yarn/__virtual__/@nrwl-devkit-virtual-fdd9734c4c/0/cache/@nrwl-devkit-npm-15.5.1-9d67383e55-b556fe5079.zip/node_modules/@nrwl/devkit/",\
           "packageDependencies": [\
-            ["@nrwl/devkit", "virtual:25d06c5d44a774fa58ea7cadcf62db53a4c53920a9a1e965861612404478ca7d8f65f45ac3db9526dae5139ae22e74c940ab30fdeb8be31e57a7f1568edddfa9#npm:15.5.1"],\
+            ["@nrwl/devkit", "virtual:082750ab0b31987d8694e0deb9b6316eaa1dc9e1e0c1ccac9f6282cbe7e94e575cab04ad8caef5c8b31083f00b7a813f23a0f4e563e739ba1fefd44f8c03f634#npm:15.5.1"],\
             ["@phenomnomnominal/tsquery", "virtual:08b8de59771897545bbaef6802f56801e777a710e44f34b6c62145525bd7911e780d32b8fac202677a1c5e18b0302dffa6846e1d45ea04e016f9b78a63479186#npm:4.1.1"],\
             ["@types/nx", null],\
             ["ejs", "npm:3.1.8"],\
@@ -10385,10 +10366,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:e1c2c6fa28f8d22a4c5284b9111f37359e8333aa17ba74a7c0e0ead8c8e1d9b2c8c315187f8fa17089ecb742b651ae56374baba2228437b194baa060dafb333b#npm:15.5.1", {\
-          "packageLocation": "./.yarn/__virtual__/@nrwl-devkit-virtual-81b285e1d9/0/cache/@nrwl-devkit-npm-15.5.1-9d67383e55-b556fe5079.zip/node_modules/@nrwl/devkit/",\
+        ["virtual:cb3688e4b83fc2ed31ea0b64b407aee893c8ec44dce26b14759e6a948f454034cf36d92d5d8a0f1b1b65726c417c51242297dc9ba792596c86eb444c994c84b4#npm:15.5.1", {\
+          "packageLocation": "./.yarn/__virtual__/@nrwl-devkit-virtual-1fd1da11fe/0/cache/@nrwl-devkit-npm-15.5.1-9d67383e55-b556fe5079.zip/node_modules/@nrwl/devkit/",\
           "packageDependencies": [\
-            ["@nrwl/devkit", "virtual:e1c2c6fa28f8d22a4c5284b9111f37359e8333aa17ba74a7c0e0ead8c8e1d9b2c8c315187f8fa17089ecb742b651ae56374baba2228437b194baa060dafb333b#npm:15.5.1"],\
+            ["@nrwl/devkit", "virtual:cb3688e4b83fc2ed31ea0b64b407aee893c8ec44dce26b14759e6a948f454034cf36d92d5d8a0f1b1b65726c417c51242297dc9ba792596c86eb444c994c84b4#npm:15.5.1"],\
             ["@phenomnomnominal/tsquery", "virtual:08b8de59771897545bbaef6802f56801e777a710e44f34b6c62145525bd7911e780d32b8fac202677a1c5e18b0302dffa6846e1d45ea04e016f9b78a63479186#npm:4.1.1"],\
             ["@types/nx", null],\
             ["ejs", "npm:3.1.8"],\
@@ -10544,27 +10525,29 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@nx-dotnet/core", [\
-        ["npm:1.18.0", {\
-          "packageLocation": "./.yarn/unplugged/@nx-dotnet-core-virtual-c14ac52a36/node_modules/@nx-dotnet/core/",\
+        ["npm:1.19.1", {\
+          "packageLocation": "./.yarn/unplugged/@nx-dotnet-core-virtual-a9a0e4f288/node_modules/@nx-dotnet/core/",\
           "packageDependencies": [\
-            ["@nx-dotnet/core", "npm:1.18.0"]\
+            ["@nx-dotnet/core", "npm:1.19.1"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:3e99b0cb9f272ea6cd8a2d15d908e4735ad3aad53585937da64b0d398f9941959f0f1356d9cbb3650cd8f9a472c03ebeaba0933d8f573a89088b7f0fbdf4fe9f#npm:1.18.0", {\
-          "packageLocation": "./.yarn/unplugged/@nx-dotnet-core-virtual-25d06c5d44/node_modules/@nx-dotnet/core/",\
+        ["virtual:3e99b0cb9f272ea6cd8a2d15d908e4735ad3aad53585937da64b0d398f9941959f0f1356d9cbb3650cd8f9a472c03ebeaba0933d8f573a89088b7f0fbdf4fe9f#npm:1.19.1", {\
+          "packageLocation": "./.yarn/unplugged/@nx-dotnet-core-virtual-082750ab0b/node_modules/@nx-dotnet/core/",\
           "packageDependencies": [\
-            ["@nx-dotnet/core", "virtual:3e99b0cb9f272ea6cd8a2d15d908e4735ad3aad53585937da64b0d398f9941959f0f1356d9cbb3650cd8f9a472c03ebeaba0933d8f573a89088b7f0fbdf4fe9f#npm:1.18.0"],\
-            ["@nrwl/devkit", "virtual:25d06c5d44a774fa58ea7cadcf62db53a4c53920a9a1e965861612404478ca7d8f65f45ac3db9526dae5139ae22e74c940ab30fdeb8be31e57a7f1568edddfa9#npm:15.5.1"],\
+            ["@nx-dotnet/core", "virtual:3e99b0cb9f272ea6cd8a2d15d908e4735ad3aad53585937da64b0d398f9941959f0f1356d9cbb3650cd8f9a472c03ebeaba0933d8f573a89088b7f0fbdf4fe9f#npm:1.19.1"],\
+            ["@nrwl/devkit", "virtual:082750ab0b31987d8694e0deb9b6316eaa1dc9e1e0c1ccac9f6282cbe7e94e575cab04ad8caef5c8b31083f00b7a813f23a0f4e563e739ba1fefd44f8c03f634#npm:15.5.1"],\
             ["@nrwl/workspace", "virtual:3e99b0cb9f272ea6cd8a2d15d908e4735ad3aad53585937da64b0d398f9941959f0f1356d9cbb3650cd8f9a472c03ebeaba0933d8f573a89088b7f0fbdf4fe9f#npm:15.5.2"],\
-            ["@nx-dotnet/dotnet", "virtual:25d06c5d44a774fa58ea7cadcf62db53a4c53920a9a1e965861612404478ca7d8f65f45ac3db9526dae5139ae22e74c940ab30fdeb8be31e57a7f1568edddfa9#npm:1.18.0"],\
-            ["@nx-dotnet/utils", "virtual:25d06c5d44a774fa58ea7cadcf62db53a4c53920a9a1e965861612404478ca7d8f65f45ac3db9526dae5139ae22e74c940ab30fdeb8be31e57a7f1568edddfa9#npm:1.18.0"],\
+            ["@nx-dotnet/dotnet", "virtual:082750ab0b31987d8694e0deb9b6316eaa1dc9e1e0c1ccac9f6282cbe7e94e575cab04ad8caef5c8b31083f00b7a813f23a0f4e563e739ba1fefd44f8c03f634#npm:1.19.1"],\
+            ["@nx-dotnet/utils", "virtual:082750ab0b31987d8694e0deb9b6316eaa1dc9e1e0c1ccac9f6282cbe7e94e575cab04ad8caef5c8b31083f00b7a813f23a0f4e563e739ba1fefd44f8c03f634#npm:1.19.1"],\
+            ["@types/eslint", null],\
             ["@types/nrwl__devkit", null],\
             ["@types/nrwl__workspace", null],\
             ["@types/nx", null],\
-            ["eslint", "npm:8.23.0"],\
+            ["eslint", null],\
             ["fast-glob", "npm:3.2.11"],\
             ["inquirer", "npm:8.2.2"],\
+            ["memfs", "npm:3.4.1"],\
             ["nx", "virtual:67c2aad2b1bd47fe7a2a41d331ce53a09742994e6e4cf897b697836ad2af8b3577c1b4c3128f4d1437800d10106137809a85386ab3553d979a125a47045c5628#npm:15.5.2"],\
             ["rimraf", "npm:3.0.2"],\
             ["semver", "npm:7.3.7"],\
@@ -10573,27 +10556,31 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "packagePeers": [\
             "@nrwl/workspace",\
+            "@types/eslint",\
             "@types/nrwl__devkit",\
             "@types/nrwl__workspace",\
             "@types/nx",\
+            "eslint",\
             "nx"\
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:da1c19034050c3bee7887a6368ebe35462650b50d412fc0cb13bb4238bb80578de3e67f65b7e4c4263f357add447450e00709b549344edf56b3a30cecf4e3a35#npm:1.18.0", {\
-          "packageLocation": "./.yarn/unplugged/@nx-dotnet-core-virtual-c14ac52a36/node_modules/@nx-dotnet/core/",\
+        ["virtual:da1c19034050c3bee7887a6368ebe35462650b50d412fc0cb13bb4238bb80578de3e67f65b7e4c4263f357add447450e00709b549344edf56b3a30cecf4e3a35#npm:1.19.1", {\
+          "packageLocation": "./.yarn/unplugged/@nx-dotnet-core-virtual-a9a0e4f288/node_modules/@nx-dotnet/core/",\
           "packageDependencies": [\
-            ["@nx-dotnet/core", "virtual:da1c19034050c3bee7887a6368ebe35462650b50d412fc0cb13bb4238bb80578de3e67f65b7e4c4263f357add447450e00709b549344edf56b3a30cecf4e3a35#npm:1.18.0"],\
-            ["@nrwl/devkit", "virtual:25d06c5d44a774fa58ea7cadcf62db53a4c53920a9a1e965861612404478ca7d8f65f45ac3db9526dae5139ae22e74c940ab30fdeb8be31e57a7f1568edddfa9#npm:15.5.1"],\
+            ["@nx-dotnet/core", "virtual:da1c19034050c3bee7887a6368ebe35462650b50d412fc0cb13bb4238bb80578de3e67f65b7e4c4263f357add447450e00709b549344edf56b3a30cecf4e3a35#npm:1.19.1"],\
+            ["@nrwl/devkit", "virtual:082750ab0b31987d8694e0deb9b6316eaa1dc9e1e0c1ccac9f6282cbe7e94e575cab04ad8caef5c8b31083f00b7a813f23a0f4e563e739ba1fefd44f8c03f634#npm:15.5.1"],\
             ["@nrwl/workspace", "virtual:da1c19034050c3bee7887a6368ebe35462650b50d412fc0cb13bb4238bb80578de3e67f65b7e4c4263f357add447450e00709b549344edf56b3a30cecf4e3a35#npm:15.5.2"],\
-            ["@nx-dotnet/dotnet", "virtual:25d06c5d44a774fa58ea7cadcf62db53a4c53920a9a1e965861612404478ca7d8f65f45ac3db9526dae5139ae22e74c940ab30fdeb8be31e57a7f1568edddfa9#npm:1.18.0"],\
-            ["@nx-dotnet/utils", "virtual:25d06c5d44a774fa58ea7cadcf62db53a4c53920a9a1e965861612404478ca7d8f65f45ac3db9526dae5139ae22e74c940ab30fdeb8be31e57a7f1568edddfa9#npm:1.18.0"],\
+            ["@nx-dotnet/dotnet", "virtual:082750ab0b31987d8694e0deb9b6316eaa1dc9e1e0c1ccac9f6282cbe7e94e575cab04ad8caef5c8b31083f00b7a813f23a0f4e563e739ba1fefd44f8c03f634#npm:1.19.1"],\
+            ["@nx-dotnet/utils", "virtual:082750ab0b31987d8694e0deb9b6316eaa1dc9e1e0c1ccac9f6282cbe7e94e575cab04ad8caef5c8b31083f00b7a813f23a0f4e563e739ba1fefd44f8c03f634#npm:1.19.1"],\
+            ["@types/eslint", null],\
             ["@types/nrwl__devkit", null],\
             ["@types/nrwl__workspace", null],\
             ["@types/nx", null],\
-            ["eslint", "npm:8.23.0"],\
+            ["eslint", null],\
             ["fast-glob", "npm:3.2.11"],\
             ["inquirer", "npm:8.2.2"],\
+            ["memfs", "npm:3.4.1"],\
             ["nx", "virtual:67c2aad2b1bd47fe7a2a41d331ce53a09742994e6e4cf897b697836ad2af8b3577c1b4c3128f4d1437800d10106137809a85386ab3553d979a125a47045c5628#npm:15.5.2"],\
             ["rimraf", "npm:3.0.2"],\
             ["semver", "npm:7.3.7"],\
@@ -10602,27 +10589,29 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "packagePeers": [\
             "@nrwl/workspace",\
+            "@types/eslint",\
             "@types/nrwl__devkit",\
             "@types/nrwl__workspace",\
             "@types/nx",\
+            "eslint",\
             "nx"\
           ],\
           "linkType": "HARD"\
         }]\
       ]],\
       ["@nx-dotnet/dotnet", [\
-        ["npm:1.18.0", {\
-          "packageLocation": "./.yarn/cache/@nx-dotnet-dotnet-npm-1.18.0-4cf68e7c4c-859052dadc.zip/node_modules/@nx-dotnet/dotnet/",\
+        ["npm:1.19.1", {\
+          "packageLocation": "./.yarn/cache/@nx-dotnet-dotnet-npm-1.19.1-ae74f1a0bd-0d5653c43d.zip/node_modules/@nx-dotnet/dotnet/",\
           "packageDependencies": [\
-            ["@nx-dotnet/dotnet", "npm:1.18.0"]\
+            ["@nx-dotnet/dotnet", "npm:1.19.1"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:25d06c5d44a774fa58ea7cadcf62db53a4c53920a9a1e965861612404478ca7d8f65f45ac3db9526dae5139ae22e74c940ab30fdeb8be31e57a7f1568edddfa9#npm:1.18.0", {\
-          "packageLocation": "./.yarn/__virtual__/@nx-dotnet-dotnet-virtual-75125045c5/0/cache/@nx-dotnet-dotnet-npm-1.18.0-4cf68e7c4c-859052dadc.zip/node_modules/@nx-dotnet/dotnet/",\
+        ["virtual:082750ab0b31987d8694e0deb9b6316eaa1dc9e1e0c1ccac9f6282cbe7e94e575cab04ad8caef5c8b31083f00b7a813f23a0f4e563e739ba1fefd44f8c03f634#npm:1.19.1", {\
+          "packageLocation": "./.yarn/__virtual__/@nx-dotnet-dotnet-virtual-6a792a0fdc/0/cache/@nx-dotnet-dotnet-npm-1.19.1-ae74f1a0bd-0d5653c43d.zip/node_modules/@nx-dotnet/dotnet/",\
           "packageDependencies": [\
-            ["@nx-dotnet/dotnet", "virtual:25d06c5d44a774fa58ea7cadcf62db53a4c53920a9a1e965861612404478ca7d8f65f45ac3db9526dae5139ae22e74c940ab30fdeb8be31e57a7f1568edddfa9#npm:1.18.0"],\
-            ["@nx-dotnet/utils", "virtual:25d06c5d44a774fa58ea7cadcf62db53a4c53920a9a1e965861612404478ca7d8f65f45ac3db9526dae5139ae22e74c940ab30fdeb8be31e57a7f1568edddfa9#npm:1.18.0"],\
+            ["@nx-dotnet/dotnet", "virtual:082750ab0b31987d8694e0deb9b6316eaa1dc9e1e0c1ccac9f6282cbe7e94e575cab04ad8caef5c8b31083f00b7a813f23a0f4e563e739ba1fefd44f8c03f634#npm:1.19.1"],\
+            ["@nx-dotnet/utils", "virtual:082750ab0b31987d8694e0deb9b6316eaa1dc9e1e0c1ccac9f6282cbe7e94e575cab04ad8caef5c8b31083f00b7a813f23a0f4e563e739ba1fefd44f8c03f634#npm:1.19.1"],\
             ["@types/fast-glob", null],\
             ["@types/nx-dotnet__utils", null],\
             ["@types/rimraf", null],\
@@ -10650,18 +10639,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@nx-dotnet/utils", [\
-        ["npm:1.18.0", {\
-          "packageLocation": "./.yarn/cache/@nx-dotnet-utils-npm-1.18.0-ef37e11a39-accd1c2bc0.zip/node_modules/@nx-dotnet/utils/",\
+        ["npm:1.19.1", {\
+          "packageLocation": "./.yarn/cache/@nx-dotnet-utils-npm-1.19.1-0fc023f42f-790f855961.zip/node_modules/@nx-dotnet/utils/",\
           "packageDependencies": [\
-            ["@nx-dotnet/utils", "npm:1.18.0"]\
+            ["@nx-dotnet/utils", "npm:1.19.1"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:25d06c5d44a774fa58ea7cadcf62db53a4c53920a9a1e965861612404478ca7d8f65f45ac3db9526dae5139ae22e74c940ab30fdeb8be31e57a7f1568edddfa9#npm:1.18.0", {\
-          "packageLocation": "./.yarn/__virtual__/@nx-dotnet-utils-virtual-e1c2c6fa28/0/cache/@nx-dotnet-utils-npm-1.18.0-ef37e11a39-accd1c2bc0.zip/node_modules/@nx-dotnet/utils/",\
+        ["virtual:082750ab0b31987d8694e0deb9b6316eaa1dc9e1e0c1ccac9f6282cbe7e94e575cab04ad8caef5c8b31083f00b7a813f23a0f4e563e739ba1fefd44f8c03f634#npm:1.19.1", {\
+          "packageLocation": "./.yarn/__virtual__/@nx-dotnet-utils-virtual-cb3688e4b8/0/cache/@nx-dotnet-utils-npm-1.19.1-0fc023f42f-790f855961.zip/node_modules/@nx-dotnet/utils/",\
           "packageDependencies": [\
-            ["@nx-dotnet/utils", "virtual:25d06c5d44a774fa58ea7cadcf62db53a4c53920a9a1e965861612404478ca7d8f65f45ac3db9526dae5139ae22e74c940ab30fdeb8be31e57a7f1568edddfa9#npm:1.18.0"],\
-            ["@nrwl/devkit", "virtual:e1c2c6fa28f8d22a4c5284b9111f37359e8333aa17ba74a7c0e0ead8c8e1d9b2c8c315187f8fa17089ecb742b651ae56374baba2228437b194baa060dafb333b#npm:15.5.1"],\
+            ["@nx-dotnet/utils", "virtual:082750ab0b31987d8694e0deb9b6316eaa1dc9e1e0c1ccac9f6282cbe7e94e575cab04ad8caef5c8b31083f00b7a813f23a0f4e563e739ba1fefd44f8c03f634#npm:1.19.1"],\
+            ["@nrwl/devkit", "virtual:cb3688e4b83fc2ed31ea0b64b407aee893c8ec44dce26b14759e6a948f454034cf36d92d5d8a0f1b1b65726c417c51242297dc9ba792596c86eb444c994c84b4#npm:15.5.1"],\
             ["@types/fast-glob", null],\
             ["@types/rimraf", null],\
             ["@types/xmldoc", null],\
@@ -16232,52 +16221,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["eslint", [\
-        ["npm:8.23.0", {\
-          "packageLocation": "./.yarn/cache/eslint-npm-8.23.0-4ce1a8504a-ff6075daa2.zip/node_modules/eslint/",\
-          "packageDependencies": [\
-            ["eslint", "npm:8.23.0"],\
-            ["@eslint/eslintrc", "npm:1.4.1"],\
-            ["@humanwhocodes/config-array", "npm:0.10.7"],\
-            ["@humanwhocodes/gitignore-to-minimatch", "npm:1.0.2"],\
-            ["@humanwhocodes/module-importer", "npm:1.0.1"],\
-            ["ajv", "npm:6.12.6"],\
-            ["chalk", "npm:4.1.2"],\
-            ["cross-spawn", "npm:7.0.3"],\
-            ["debug", "virtual:311f00d850caa9627b6ac11974e53f96ee9fc030a73da3d1abe5cce7e72b8ee2e1f115ef7f47e2e6108ff8071f1a98050f7a4c5c3fe7df743e1d5a4130e33289#npm:4.3.4"],\
-            ["doctrine", "npm:3.0.0"],\
-            ["escape-string-regexp", "npm:4.0.0"],\
-            ["eslint-scope", "npm:7.1.1"],\
-            ["eslint-utils", "virtual:4ce1a8504abbef475a07bd77b2f33ca024b044ac2c2313238806e468cfc919e5b56d220f7037cae852750a0611def1618a4dcf884e6a3971f5446ffa4429df13#npm:3.0.0"],\
-            ["eslint-visitor-keys", "npm:3.3.0"],\
-            ["espree", "npm:9.4.1"],\
-            ["esquery", "npm:1.4.0"],\
-            ["esutils", "npm:2.0.3"],\
-            ["fast-deep-equal", "npm:3.1.3"],\
-            ["file-entry-cache", "npm:6.0.1"],\
-            ["find-up", "npm:5.0.0"],\
-            ["functional-red-black-tree", "npm:1.0.1"],\
-            ["glob-parent", "npm:6.0.2"],\
-            ["globals", "npm:13.19.0"],\
-            ["globby", "npm:11.1.0"],\
-            ["grapheme-splitter", "npm:1.0.4"],\
-            ["ignore", "npm:5.2.0"],\
-            ["import-fresh", "npm:3.3.0"],\
-            ["imurmurhash", "npm:0.1.4"],\
-            ["is-glob", "npm:4.0.3"],\
-            ["js-yaml", "npm:4.1.0"],\
-            ["json-stable-stringify-without-jsonify", "npm:1.0.1"],\
-            ["levn", "npm:0.4.1"],\
-            ["lodash.merge", "npm:4.6.2"],\
-            ["minimatch", "npm:3.1.2"],\
-            ["natural-compare", "npm:1.4.0"],\
-            ["optionator", "npm:0.9.1"],\
-            ["regexpp", "npm:3.2.0"],\
-            ["strip-ansi", "npm:6.0.1"],\
-            ["strip-json-comments", "npm:3.1.1"],\
-            ["text-table", "npm:0.2.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:8.32.0", {\
           "packageLocation": "./.yarn/cache/eslint-npm-8.32.0-ce390f6a3f-23c8fb3c57.zip/node_modules/eslint/",\
           "packageDependencies": [\
@@ -16706,20 +16649,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-utils", "npm:3.0.0"]\
           ],\
           "linkType": "SOFT"\
-        }],\
-        ["virtual:4ce1a8504abbef475a07bd77b2f33ca024b044ac2c2313238806e468cfc919e5b56d220f7037cae852750a0611def1618a4dcf884e6a3971f5446ffa4429df13#npm:3.0.0", {\
-          "packageLocation": "./.yarn/__virtual__/eslint-utils-virtual-85c2626ff7/0/cache/eslint-utils-npm-3.0.0-630b3a4013-0668fe02f5.zip/node_modules/eslint-utils/",\
-          "packageDependencies": [\
-            ["eslint-utils", "virtual:4ce1a8504abbef475a07bd77b2f33ca024b044ac2c2313238806e468cfc919e5b56d220f7037cae852750a0611def1618a4dcf884e6a3971f5446ffa4429df13#npm:3.0.0"],\
-            ["@types/eslint", null],\
-            ["eslint", "npm:8.23.0"],\
-            ["eslint-visitor-keys", "npm:2.1.0"]\
-          ],\
-          "packagePeers": [\
-            "@types/eslint",\
-            "eslint"\
-          ],\
-          "linkType": "HARD"\
         }],\
         ["virtual:ce390f6a3f485d617e3b348339c56730c4c095a916405f20c5e9ffb3d90e981e5a3936fe6ffe116d1ab20e8802d84b6e7025bc0b2b95bffc5b1af4e2cfeccf25#npm:3.0.0", {\
           "packageLocation": "./.yarn/__virtual__/eslint-utils-virtual-c1905d128f/0/cache/eslint-utils-npm-3.0.0-630b3a4013-0668fe02f5.zip/node_modules/eslint-utils/",\
@@ -17797,6 +17726,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["fs-monkey", [\
+        ["npm:1.0.3", {\
+          "packageLocation": "./.yarn/cache/fs-monkey-npm-1.0.3-c1ea1ab781-cf50804833.zip/node_modules/fs-monkey/",\
+          "packageDependencies": [\
+            ["fs-monkey", "npm:1.0.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["fs.realpath", [\
         ["npm:1.0.0", {\
           "packageLocation": "./.yarn/cache/fs.realpath-npm-1.0.0-c8f05d8126-99ddea01a7.zip/node_modules/fs.realpath/",\
@@ -17854,15 +17792,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["define-properties", "npm:1.1.3"],\
             ["es-abstract", "npm:1.20.4"],\
             ["functions-have-names", "npm:1.2.3"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["functional-red-black-tree", [\
-        ["npm:1.0.1", {\
-          "packageLocation": "./.yarn/cache/functional-red-black-tree-npm-1.0.1-ccfe924dcd-ca6c170f37.zip/node_modules/functional-red-black-tree/",\
-          "packageDependencies": [\
-            ["functional-red-black-tree", "npm:1.0.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -21766,6 +21695,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/media-typer-npm-0.3.0-8674f8f0f5-af1b38516c.zip/node_modules/media-typer/",\
           "packageDependencies": [\
             ["media-typer", "npm:0.3.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["memfs", [\
+        ["npm:3.4.1", {\
+          "packageLocation": "./.yarn/cache/memfs-npm-3.4.1-45d97fd825-6d2f49d447.zip/node_modules/memfs/",\
+          "packageDependencies": [\
+            ["memfs", "npm:3.4.1"],\
+            ["fs-monkey", "npm:1.0.3"]\
           ],\
           "linkType": "HARD"\
         }]\
