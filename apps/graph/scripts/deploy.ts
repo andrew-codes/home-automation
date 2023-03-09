@@ -1,4 +1,3 @@
-import fs from "fs/promises"
 import path from "path"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"

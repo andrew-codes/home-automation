@@ -10,11 +10,11 @@
         "cwd": "apps/graph"
       }
     },
-    "download-router": {
+    "prepare": {
       "executor": "@ha/nx-executors:invoke",
       "outputs": ["apps/graph/router"],
       "options": {
-        "module": "scripts/download-router.ts",
+        "module": "scripts/prepare.ts",
         "cwd": "apps/graph"
       }
     },
@@ -49,13 +49,7 @@
       "options": {
         "module": "scripts/compile.ts",
         "cwd": "apps/graph"
-      },
-      "dependsOn": [
-        {
-          "target": "generate",
-          "projects": "dependencies"
-        }
-      ]
+      }
     },
     "serve": {
       "executor": "@nrwl/workspace:run-commands",

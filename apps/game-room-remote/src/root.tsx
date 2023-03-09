@@ -1,8 +1,42 @@
+import {
+  ApolloClient,
+  ApolloProvider,
+  createHttpLink,
+  InMemoryCache,
+} from "@apollo/client"
 import themeFunction, { light, dark } from "@ha/themes-slate"
-import { LiveReload, Outlet, Scripts } from "@remix-run/react"
+import { HeadersFunction, json, LoaderArgs } from "@remix-run/node"
+import { LiveReload, Outlet, Scripts, useLoaderData } from "@remix-run/react"
 import { ThemeProvider } from "styled-components"
 
-export default function App() {
+const headers: HeadersFunction = () => {
+  let cacheControlHeader = "public, s-maxage=60"
+  if (process.env.NODE_ENV === "development") {
+    cacheControlHeader = "no-cache"
+  }
+
+  return {
+    "Cache-Control": cacheControlHeader,
+  }
+}
+const loader = async (args: LoaderArgs) => {
+  return json({ graphqlUri: `${process.env.GRAPH_HOST}/graphql` })
+}
+
+const App = () => {
+  const { graphqlUri } = useLoaderData()
+  const link = createHttpLink({ uri: graphqlUri })
+
+  const client = new ApolloClient({
+    cache: new InMemoryCache().restore(
+      typeof document !== "undefined"
+        ? (window as unknown as any).__APOLLO_STATE__
+        : {},
+    ),
+    link,
+    ssrForceFetchDelay: 100,
+  })
+
   return (
     <html lang="en">
       <head>
@@ -10,14 +44,20 @@ export default function App() {
         <title>Gaming Remote</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         {typeof document === "undefined" ? "__STYLES__" : null}
+        {typeof document === "undefined" ? "__INITIAL_DATA__" : null}
       </head>
       <body>
-        <ThemeProvider theme={themeFunction(light, dark)}>
-          <Outlet />
-        </ThemeProvider>
+        <ApolloProvider client={client}>
+          <ThemeProvider theme={themeFunction(light, dark)}>
+            <Outlet />
+          </ThemeProvider>
+        </ApolloProvider>
         <Scripts />
         <LiveReload />
       </body>
     </html>
   )
 }
+
+export default App
+export { headers, loader }

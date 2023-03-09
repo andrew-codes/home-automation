@@ -1,6 +1,5 @@
-import { gql } from "graphql-request"
+import { gql } from "@ha/graph-types"
 import { merge, omit } from "lodash"
-import { Game } from "../Game"
 import type {
   GameCollection,
   GameCollectionDefinition,
@@ -9,9 +8,9 @@ import getClient from "./graphqlClient"
 
 const fetchGameCollections = async (
   collectionDefinitions: GameCollectionDefinition[],
-): Promise<[GameCollection[], Game[]]> => {
-  const gamesQuery = gql`
-    query GameColectionGames {
+): Promise<[GameCollection[], any]> => {
+  const gamesQuery = gql(/* GraphQL */ `
+    query GameCollectionGames {
       games {
         id
         name
@@ -25,12 +24,12 @@ const fetchGameCollections = async (
         }
       }
     }
-  `
-  const client = getClient()
-  const { games } = await client.request<{
-    games: Game[]
-  }>(gamesQuery)
+  `)
 
+  console.log(gamesQuery)
+
+  const client = getClient()
+  const { games } = await client.request(gamesQuery)
   const collections = collectionDefinitions.map((collectionDefinition) => {
     const collectionGames = collectionDefinition.filter(games)
 

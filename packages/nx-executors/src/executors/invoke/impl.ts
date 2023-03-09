@@ -22,7 +22,7 @@ async function executor(
     process.chdir(currentDir)
     const loadedModule = require(path.resolve(currentDir, module))
     const configApi = await createConfigurationApi()
-    await loadedModule.default(configApi)
+    await loadedModule.default(configApi, context)
   } catch (error) {
     console.log(error)
     return { success: false }

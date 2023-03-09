@@ -10,7 +10,7 @@
     "ts-jest": "^29.0.5"
   },
   "devDependencies": {
-    "@ha/nx-executors": "workspace:^0.0.1",
+    "@ha/nx-executors": "workspace:^0.1.0",
     "@types/jest": "^29.2.5",
     "@types/node": "^18.11.18",
     "jest": "^29.3.1",

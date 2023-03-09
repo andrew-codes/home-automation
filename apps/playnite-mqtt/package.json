@@ -6,7 +6,7 @@
     "@ha/delay": "workspace:^0.0.1",
     "@ha/jsonnet": "workspace:^0.0.1",
     "@ha/kubectl": "workspace:^1.0.0",
-    "@ha/nx-executors": "workspace:^0.0.1",
+    "@ha/nx-executors": "workspace:^0.1.0",
     "@ha/shell-utils": "workspace:^1.0.0",
     "@nrwl/workspace": "^15.5.2",
     "@nx-dotnet/core": "^1.18.0",

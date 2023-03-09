@@ -8,3 +8,6 @@ sandbox:
   enabled: true
 include_subgraph_errors:
   all: true
+router.yaml
+cors:
+  allow_any_origin: true

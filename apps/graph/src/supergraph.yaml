@@ -1,6 +1,0 @@
-federation_version: 2
-subgraphs:
-  gaming:
-    routing_url: http://subgraph-gaming
-    schema:
-      file: ../dist/build/gaming.graphql

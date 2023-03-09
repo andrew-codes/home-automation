@@ -5,18 +5,77 @@
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["compile", "test", "lint", "package", "prepare"]
+        "cacheableOperations": [
+          "compile",
+          "test",
+          "generate",
+          "lint",
+          "package",
+          "prepare"
+        ]
       }
     }
   },
   "targetDependencies": {
+    "generate": [
+      {
+        "target": "prepare",
+        "projects": "dependencies"
+      },
+      {
+        "target": "prepare",
+        "projects": "self"
+      },
+      {
+        "target": "generate",
+        "projects": "dependencies"
+      },
+      {
+        "target": "generate",
+        "projects": "self"
+      }
+    ],
+    "compile": [
+      {
+        "target": "prepare",
+        "projects": "dependencies"
+      },
+      {
+        "target": "prepare",
+        "projects": "self"
+      },
+      {
+        "target": "generate",
+        "projects": "dependencies"
+      },
+      {
+        "target": "generate",
+        "projects": "self"
+      },
+      {
+        "target": "compile",
+        "projects": "dependencies"
+      },
+      {
+        "target": "compile",
+        "projects": "self"
+      }
+    ],
     "prepare": [
       {
         "target": "prepare",
         "projects": "dependencies"
+      },
+      {
+        "target": "prepare",
+        "projects": "self"
       }
     ],
     "package": [
+      {
+        "target": "compile",
+        "projects": "self"
+      },
       {
         "target": "package",
         "projects": "dependencies"

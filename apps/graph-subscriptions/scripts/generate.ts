@@ -12,7 +12,7 @@ const buildSchema = async () => {
   const schemaFile = path.join(__dirname, "..", "src", "schema.ts")
   delete require.cache[schemaFile]
   const schemaContent = require(schemaFile)
-  const outputFile = path.join(buildDir, "gaming.graphql")
+  const outputFile = path.join(buildDir, "graph-subscriptions.graphql")
 
   const schema: GraphQLSchema = buildSubgraphSchema({
     typeDefs: gql`

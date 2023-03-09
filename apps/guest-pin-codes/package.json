@@ -14,7 +14,7 @@
     "@ha/jsonnet": "workspace:^0.0.1",
     "@ha/kubectl": "workspace:^1.0.0",
     "@ha/mqtt-client": "workspace:^0.0.1",
-    "@ha/nx-executors": "workspace:^0.0.1",
+    "@ha/nx-executors": "workspace:^0.1.0",
     "@ha/unifi-client": "workspace:^0.1.0",
     "@redux-saga/is": "^1.1.3",
     "@redux-saga/symbols": "^1.1.3",

@@ -7,7 +7,7 @@
     "@ha/github-secrets": "workspace:^0.0.1",
     "@ha/jsonnet": "workspace:^0.0.1",
     "@ha/kubectl": "workspace:^1.0.0",
-    "@ha/nx-executors": "workspace:^0.0.1",
+    "@ha/nx-executors": "workspace:^0.1.0",
     "@ha/shell-utils": "workspace:^1.0.0",
     "shelljs": "^0.8.5"
   }

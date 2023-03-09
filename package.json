@@ -46,7 +46,7 @@
   "devDependencies": {
     "@apollo/rover": "^0.10.0",
     "@ha/configure-jest": "workspace:^0.0.1",
-    "@ha/nx-executors": "workspace:^0.0.1",
+    "@ha/nx-executors": "workspace:^0.1.0",
     "@nrwl/workspace": "^15.5.2",
     "@nx-dotnet/core": "^1.18.0",
     "@types/jest": "^29.2.5",

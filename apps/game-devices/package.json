@@ -19,7 +19,7 @@
     "@ha/jest-utils": "workspace:^0.0.1",
     "@ha/jsonnet": "workspace:^0.0.1",
     "@ha/kubectl": "workspace:^1.0.0",
-    "@ha/nx-executors": "workspace:^0.0.1",
+    "@ha/nx-executors": "workspace:^0.1.0",
     "@types/jest": "^29.2.5",
     "@types/node": "^18.11.18",
     "esbuild": "^0.17.3",

@@ -19,7 +19,7 @@ id_rsa
 /logs
 obj
 .vs
-apps/**/generated
+generated
 
 node_modules
 .yarn/*

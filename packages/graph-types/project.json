@@ -1,0 +1,26 @@
+{
+  "root": "packages/graph-types",
+  "sourceRoot": "packages/graph-types/src",
+  "projectType": "library",
+  "targets": {
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["src/index.d.ts"],
+      "options": {
+        "command": "rm -rf src/index.d.ts .test-runs",
+        "cwd": "packages/graph-types"
+      }
+    },
+
+    "generate": {
+      "executor": "@ha/nx-executors:invoke",
+      "outputs": ["src/index.d.ts"],
+      "options": {
+        "module": "scripts/generate.ts",
+        "cwd": "packages/graph-types"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["subgraph-gaming", "graph-subscriptions"]
+}
