@@ -32,7 +32,7 @@ const messageHandler: MessageHandler = {
           method: "POST",
           body: JSON.stringify({
             query:
-              "query GameReleaseById($id: String!) { gameReleaseById(id: $id) { game { name } playniteId platform { id name } } }",
+              "query GameReleaseById($id: ID!) { gameReleaseById(id: $id) { game { name } playniteId platform { id name } } }",
             variables: { id },
           }),
           headers: {
