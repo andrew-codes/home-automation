@@ -280,12 +280,7 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
       return ctx.db.collection("gameAreas").findOne({ _id: ref.id })
     },
     async activity(parent, args, ctx) {
-      const activity = await ctx.loaders.gameActivities.load(parent.id)
-      if (activity instanceof Error) {
-        return null
-      }
-
-      return activity
+      return ctx.loaders.gameActivities.load(parent.id)
     },
     platforms: async (parent, args, ctx) => {
       const ids = await ctx.db

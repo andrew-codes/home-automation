@@ -27,7 +27,7 @@ test("Given a valid topic and a payload with an area ID, playnite ID and state, 
       method: "POST",
       body: JSON.stringify({
         query:
-          "query GameReleaseById($id: ID!) { gameReleaseById(id: $id) { game { name } playniteId platform { id name } } }",
+          "query GameReleaseById($id: ID!) { gameReleaseById(id: $id) { game { name } platform { id name } } }",
         variables: { id: "123" },
       }),
       headers: {
@@ -38,7 +38,6 @@ test("Given a valid topic and a payload with an area ID, playnite ID and state, 
       json: jest.fn().mockResolvedValue({
         data: {
           gameReleaseById: {
-            playniteId: "1234",
             game: { name: "Doom Eternal" },
             platform: { id: "321", name: "Windows (PC)" },
           },
@@ -58,7 +57,7 @@ test("Given a valid topic and a payload with an area ID, playnite ID and state, 
     Buffer.from(
       JSON.stringify({
         state: "starting",
-        id: "1234",
+        id: "123",
         platformName: "Windows (PC)",
         platformId: "321",
         name: "Doom Eternal",

@@ -63,7 +63,7 @@ const schema = `
 
   type GameActivity {
     id: ID!
-    area: GameArea
+    area: GameArea!
     release: GameRelease!
     isInstalled: Boolean!
     isInstalling: Boolean!
