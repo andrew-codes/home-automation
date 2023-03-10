@@ -8934,7 +8934,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:29.2.5"],\
             ["@types/node", "npm:18.11.18"],\
             ["async-mqtt", "npm:2.6.3"],\
-            ["cron", "npm:1.8.2"],\
+            ["cron", "npm:2.2.0"],\
             ["debug", "virtual:311f00d850caa9627b6ac11974e53f96ee9fc030a73da3d1abe5cce7e72b8ee2e1f115ef7f47e2e6108ff8071f1a98050f7a4c5c3fe7df743e1d5a4130e33289#npm:4.3.4"],\
             ["esbuild", "npm:0.17.3"],\
             ["esbuild-register", "virtual:67c2aad2b1bd47fe7a2a41d331ce53a09742994e6e4cf897b697836ad2af8b3577c1b4c3128f4d1437800d10106137809a85386ab3553d979a125a47045c5628#npm:3.4.2"],\
@@ -15196,11 +15196,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["cron", [\
-        ["npm:1.8.2", {\
-          "packageLocation": "./.yarn/cache/cron-npm-1.8.2-e208a565b6-9df2d2e246.zip/node_modules/cron/",\
+        ["npm:2.2.0", {\
+          "packageLocation": "./.yarn/cache/cron-npm-2.2.0-0d679f1901-53905d0f55.zip/node_modules/cron/",\
           "packageDependencies": [\
-            ["cron", "npm:1.8.2"],\
-            ["moment-timezone", "npm:0.5.33"]\
+            ["cron", "npm:2.2.0"],\
+            ["luxon", "npm:3.3.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -21606,6 +21606,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["luxon", [\
+        ["npm:3.3.0", {\
+          "packageLocation": "./.yarn/cache/luxon-npm-3.3.0-bdbae9bfd5-50cf17a0dc.zip/node_modules/luxon/",\
+          "packageDependencies": [\
+            ["luxon", "npm:3.3.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["lz-string", [\
         ["npm:1.4.4", {\
           "packageLocation": "./.yarn/cache/lz-string-npm-1.4.4-59a2091d3f-54e31238a6.zip/node_modules/lz-string/",\
@@ -22640,25 +22649,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pathe", "npm:1.1.0"],\
             ["pkg-types", "npm:1.0.2"],\
             ["ufo", "npm:1.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["moment", [\
-        ["npm:2.29.1", {\
-          "packageLocation": "./.yarn/cache/moment-npm-2.29.1-787d9fdafd-1e14d5f422.zip/node_modules/moment/",\
-          "packageDependencies": [\
-            ["moment", "npm:2.29.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["moment-timezone", [\
-        ["npm:0.5.33", {\
-          "packageLocation": "./.yarn/cache/moment-timezone-npm-0.5.33-f2b784cd1b-dea6043b4a.zip/node_modules/moment-timezone/",\
-          "packageDependencies": [\
-            ["moment-timezone", "npm:0.5.33"],\
-            ["moment", "npm:2.29.1"]\
           ],\
           "linkType": "HARD"\
         }]\
