@@ -28,32 +28,13 @@ const Button = styled.button`
 
 const GameActions: FC<
   Game & {
-    systemState: string
-    onStart: (evt: SyntheticEvent) => void
-    onStop: (evt: SyntheticEvent) => void
+    onStart?: (evt: SyntheticEvent) => void
   }
 > = ({ id, onStart, onStop, systemState }) => {
-  const handleClick = useCallback(
-    (evt) => {
-      if (systemState === "") {
-        onStart(evt)
-      } else if (systemState === id) {
-        onStop(evt)
-      }
-    },
-    [systemState, id],
-  )
-
   return (
     <Root>
-      <Button
-        type="button"
-        disabled={systemState !== "" && systemState !== id}
-        onClick={handleClick}
-      >
-        <ButtonText as="span">
-          {systemState === id ? "Stop" : "Play"}
-        </ButtonText>
+      <Button type="button" disabled={true} onClick={onStart}>
+        <ButtonText as="span">Play</ButtonText>
       </Button>
     </Root>
   )

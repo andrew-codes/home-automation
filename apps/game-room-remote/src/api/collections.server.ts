@@ -1,7 +1,5 @@
 import { first, merge } from "lodash"
 import { flow, filter, map, orderBy, get } from "lodash/fp"
-import { Game, GameRelease } from "../Game"
-import { GameCollectionDefinition } from "../GameCollection"
 
 const lastMonth = new Date(new Date().setDate(-30))
 const mapGames = map<Game, Game>((game) =>

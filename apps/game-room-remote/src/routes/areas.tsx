@@ -19,7 +19,8 @@ const query = gql(/* GraphQL */ `
 `)
 
 const Main = styled.div`
-  margin: 24px;
+  margin: 0;
+  display: flex;
 `
 
 const loader = async (args: LoaderArgs) => {

@@ -1,5 +1,5 @@
 import styled, { createGlobalStyle } from "styled-components"
-import { Content, PageLayout } from "@atlaskit/page-layout"
+import { PageLayout } from "@atlaskit/page-layout"
 
 const GlobalStyle = createGlobalStyle`
 * {

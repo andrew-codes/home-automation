@@ -21,25 +21,6 @@ type GameChangeEventHandler = (
   eventArgs: { id: string },
 ) => void
 
-const GlobalStyle = createGlobalStyle`
-@keyframes selectGame {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.2);
-  }
-}
-@keyframes deselectGame {
-  from {
-    transform: scale(1.20);
-  }
-  to {
-    transform: scale(1);
-  }
-}
-`
-
 const CollectionRoot = styled.div`
   padding: 24px;
   margin: 24px;

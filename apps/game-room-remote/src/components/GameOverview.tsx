@@ -2,7 +2,6 @@ import { first } from "lodash"
 import { FC } from "react"
 import styled from "styled-components"
 import Text from "../components/Text"
-import { Game } from "../Game"
 
 const BodyBackground = styled.div`
   position: absolute;
@@ -41,37 +40,40 @@ const GameDescription = styled.div`
 `
 
 type GameOverviewProps = {
-  cdnHost: string
-  backgroundImageHeight: number
-} & Game
+  backgroundImage?: string | null | undefined
+  name?: string | undefined
+  height: number
+  releases?: {
+    id: string
+    description?: string | undefined | null
+  }[]
+}
 
 const GameOverview: FC<GameOverviewProps> = ({
-  cdnHost,
   backgroundImage,
-  backgroundImageHeight,
+  height,
   name,
-  releases,
-}) => {
-  const backgroundImageSrc = !!backgroundImage
-    ? `${cdnHost}/resize/${backgroundImage}?height=${backgroundImageHeight}`
-    : "none"
-
-  return (
-    <>
-      <BodyBackground>
-        <img src={backgroundImageSrc} alt={`${name} game background.`} />
-      </BodyBackground>
-      <Details>
-        <Text as={GameName}>{name}</Text>
-        <Text
-          as={GameDescription}
-          dangerouslySetInnerHTML={{
-            __html: first(releases)?.description ?? "",
-          }}
-        ></Text>
-      </Details>
-    </>
-  )
-}
+  releases = [],
+}) => (
+  <>
+    <BodyBackground>
+      {!!backgroundImage && !/null$/.test(backgroundImage) && (
+        <img
+          src={`${backgroundImage}?height=${height}`}
+          alt={`${name} game background.`}
+        />
+      )}
+    </BodyBackground>
+    <Details>
+      <Text as={GameName}>{name}</Text>
+      <Text
+        as={GameDescription}
+        dangerouslySetInnerHTML={{
+          __html: first(releases)?.description ?? "",
+        }}
+      ></Text>
+    </Details>
+  </>
+)
 
 export default GameOverview

@@ -46,7 +46,7 @@ const run = async () => {
         `Resize request received: ${id} ${width}, ${height}: ${assetPath}`,
       )
       if (!fs.existsSync(assetPath)) {
-        throw new Error(`Asset at ID ${id} does not exist`)
+        resp.status(404).send("Not found")
       }
 
       let resizeOptions: any = {

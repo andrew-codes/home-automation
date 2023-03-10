@@ -18,31 +18,24 @@ const loader = async () => {
   return json({ graphqlUri: `${process.env.GRAPH_HOST}/graphql` })
 }
 
-const App = () => {
-  console.log(
-    typeof document !== "undefined"
-      ? (window as unknown as any).__APOLLO_STATE__
-      : {},
-  )
-  return (
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <title>Gaming Remote</title>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-        {typeof document === "undefined" ? "__STYLES__" : null}
-        {typeof document === "undefined" ? "__INITIAL_DATA__" : null}
-      </head>
-      <body>
-        <ThemeProvider theme={themeFunction(light, dark)}>
-          <Outlet />
-        </ThemeProvider>
-        <Scripts />
-        <LiveReload />
-      </body>
-    </html>
-  )
-}
+const App = () => (
+  <html lang="en">
+    <head>
+      <meta charSet="utf-8" />
+      <title>Gaming Remote</title>
+      <meta name="viewport" content="initial-scale=1, width=device-width" />
+      {typeof document === "undefined" ? "__STYLES__" : null}
+      {typeof document === "undefined" ? "__INITIAL_DATA__" : null}
+    </head>
+    <body>
+      <ThemeProvider theme={themeFunction(light, dark)}>
+        <Outlet />
+      </ThemeProvider>
+      <Scripts />
+      <LiveReload />
+    </body>
+  </html>
+)
 
 export default App
 export { headers, loader }
