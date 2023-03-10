@@ -1,4 +1,5 @@
 import styled, { createGlobalStyle } from "styled-components"
+import { Content, PageLayout } from "@atlaskit/page-layout"
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -31,7 +32,7 @@ body {
 }
 `
 
-const PageLayout = styled.div`
+const Main = styled.div`
   display: flex;
   height: 100vh;
   width: 100vw;
@@ -40,7 +41,9 @@ const PageLayout = styled.div`
 const Layout = ({ children }) => (
   <>
     <GlobalStyle />
-    <PageLayout>{children}</PageLayout>
+    <PageLayout>
+      <Main>{children}</Main>
+    </PageLayout>
   </>
 )
 

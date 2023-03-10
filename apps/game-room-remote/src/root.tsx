@@ -1,9 +1,7 @@
 import themeFunction, { light, dark } from "@ha/themes-slate"
-import { HeadersFunction, json, LoaderArgs } from "@remix-run/node"
+import { HeadersFunction, json } from "@remix-run/node"
 import { LiveReload, Outlet, Scripts, useLoaderData } from "@remix-run/react"
-import { graphql } from "graphql"
 import { ThemeProvider } from "styled-components"
-import GraphqlProvider from "./components/GraphqlProvider"
 
 const headers: HeadersFunction = () => {
   let cacheControlHeader = "public, s-maxage=60"
@@ -21,7 +19,6 @@ const loader = async () => {
 }
 
 const App = () => {
-  const { graphqlUri } = useLoaderData()
   console.log(
     typeof document !== "undefined"
       ? (window as unknown as any).__APOLLO_STATE__

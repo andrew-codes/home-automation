@@ -34,7 +34,6 @@ export default async function handleRequest(
 
   let markup = await getDataFromTree(App)
   const initialState = client.extract()
-  console.log(initialState)
 
   const swiperCss = await fs.readFile(require.resolve("swiper/css"), "utf8")
   const swiperCssVirtual = await fs.readFile(

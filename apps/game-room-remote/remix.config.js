@@ -1,5 +1,8 @@
 /** @type {import('@remix-run/dev').AppConfig} */
 const config = {
+  future: {
+    v2_routeConvention: true,
+  },
   appDirectory: "src",
   assetsBuildDirectory: "dist/public/build",
   ignoredRouteFiles: ["**/.*"],

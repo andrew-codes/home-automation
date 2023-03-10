@@ -7,6 +7,26 @@ import {
   SideNavigation,
 } from "@atlaskit/side-navigation"
 import Text from "./Text"
+import { gql } from "../generated"
+import { useQuery } from "@apollo/client"
+
+const query = gql(/* GraphQL */ `
+  query Navigation {
+    areas {
+      id
+      activity {
+        release {
+          game {
+            name
+            coverImage
+          }
+        }
+        isRunning
+        isLaunching
+      }
+    }
+  }
+`)
 
 const Sidebar = styled.div`
   height: 100%;
@@ -52,7 +72,7 @@ const NowPlayingSummary = styled.div`
   }
 `
 
-const Navigation = ({ children }) => {
+const Navigation = ({ children, cdnHost }) => {
   useEffect(() => {
     if (window.innerWidth < 600) {
       const dsPageLayoutState: any =
@@ -68,6 +88,10 @@ const Navigation = ({ children }) => {
     }
   }, [])
 
+  const areaId = "game_room"
+  const { data } = useQuery(query)
+  const area = data?.areas.find(({ id }) => id === areaId)
+
   return (
     <NavBorder>
       <LeftSidebar width={350}>
@@ -75,10 +99,15 @@ const Navigation = ({ children }) => {
           <NavLayout>
             <NavigationContent>
               <Section>
-                <NowPlayingSummary>
-                  <img />
-                  <Text as="span">Nothing playing</Text>
-                </NowPlayingSummary>
+                {!!area && (
+                  <NowPlayingSummary>
+                    <img
+                      src={`${cdnHost}/${area.activity?.release.game.coverImage}`}
+                      alt={`Cover are of active game`}
+                    />
+                    <Text as="span">{area.activity?.release.game.name}</Text>
+                  </NowPlayingSummary>
+                )}
               </Section>
               {children}
             </NavigationContent>

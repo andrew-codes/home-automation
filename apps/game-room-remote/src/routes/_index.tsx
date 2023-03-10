@@ -14,7 +14,6 @@ export default function IndexRoute() {
           </NavigationLink>
         </Section>
       </Navigation>
-      <Text as="h1">Welcome</Text>
     </Layout>
   )
 }
