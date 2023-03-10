@@ -16,7 +16,7 @@
         "cwd": "apps/gaming-assets-web",
         "module": "scripts/compile.ts"
       },
-      "outputs": ["apps/gaming-assets-web/dist"]
+      "outputs": ["{projectRoot}/dist"]
     },
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
@@ -59,7 +59,7 @@
     },
     "test": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": [".test-runs/unit"],
+      "outputs": ["{projectRoot}/.test-runs/unit"],
       "options": {
         "command": "jest",
         "cwd": "apps/gaming-assets-web"

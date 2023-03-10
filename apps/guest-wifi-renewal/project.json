@@ -5,7 +5,7 @@
   "targets": {
     "clean": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["dist"],
+      "outputs": ["{projectRoot}/dist", "{projectRoot}/.test-runs"],
       "options": {
         "command": "rm -rf dist .test-runs",
         "cwd": "apps/guest-wifi-renewal"
@@ -57,7 +57,7 @@
     },
     "test": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": [".test-runs/unit"],
+      "outputs": ["{projectRoot}/.test-runs/unit"],
       "options": {
         "command": "jest",
         "cwd": "apps/guest-wifi-renewal"

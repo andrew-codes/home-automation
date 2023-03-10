@@ -1,6 +1,6 @@
 import { typeDefs as scalarTypeDefs } from "graphql-scalars"
 
-const schema = `
+const gamingSchema = `
   ${scalarTypeDefs.join(`
 
   `)}
@@ -99,4 +99,4 @@ const schema = `
   }
 `
 
-export default schema
+export default gamingSchema

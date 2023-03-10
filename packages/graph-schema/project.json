@@ -5,19 +5,22 @@
   "targets": {
     "clean": {
       "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["{projectRoot}/src/generated"],
       "options": {
-        "command": "rm -rf generated .test-runs",
+        "command": "rm -rf src/generated .test-runs",
         "cwd": "packages/graph-schema"
       }
     },
     "generate": {
       "executor": "@ha/nx-executors:invoke",
+      "outputs": ["{projectRoot}/src/generated"],
       "options": {
         "module": "scripts/generate.ts",
         "cwd": "packages/graph-schema"
-      }
+      },
+      "dependsOn": ["clean"]
     }
   },
   "tags": [],
-  "implicitDependencies": ["subgraph-gaming", "graph-subscriptions"]
+  "implicitDependencies": []
 }

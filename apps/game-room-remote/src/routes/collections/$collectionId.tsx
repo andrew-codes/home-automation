@@ -13,7 +13,7 @@ import GameCollectionSwiper, {
   PageChangeEventEventHandler,
 } from "../../components/GameCollectionSwiper"
 import { GameCollection, GameCollectionDefinition } from "../../GameCollection"
-import { gql } from "@ha/graph-types"
+import { gql } from "../../generated"
 import fetchGameCollections from "../../api/fetchGameCollection.server"
 import { ceil, isEmpty, merge } from "lodash"
 import useLoaderData from "../../useLoaderData"

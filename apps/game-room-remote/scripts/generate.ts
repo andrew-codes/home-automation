@@ -1,4 +1,4 @@
-import schemaString from "@ha/graph-schema"
+import { schema } from "@ha/graph-schema"
 import fs from "fs/promises"
 import path from "path"
 import { generate } from "@graphql-codegen/cli"
@@ -8,7 +8,7 @@ const run = async (): Promise<void> => {
   await fs.mkdir(path.join(__dirname, "..", "generated"), { recursive: true })
   await fs.writeFile(
     path.join(__dirname, "..", "generated", "schema.graphql"),
-    schemaString,
+    schema,
     "utf8",
   )
 
@@ -16,9 +16,10 @@ const run = async (): Promise<void> => {
   await generate({
     schema: path.join(__dirname, "..", "generated", "schema.graphql"),
     documents: [
-      path.join(__dirname, "..", "..", "..", "**", "*.tsx"),
-      path.join(__dirname, "..", "..", "..", "**", "*.ts"),
+      path.join(__dirname, "..", "src", "**", "*.tsx"),
+      path.join(__dirname, "..", "src", "**", "*.ts"),
     ],
+    config: { federation: true },
     generates: {
       [`${srcGenerated}/`]: {
         plugins: ["typescript"],

@@ -12,7 +12,7 @@
     },
     "test": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": [".test-runs/unit"],
+      "outputs": ["{projectRoot}/.test-runs/unit"],
       "options": {
         "command": "jest",
         "cwd": "apps/manual-deployment"

@@ -12,7 +12,7 @@
     },
     "prepare": {
       "executor": "@ha/nx-executors:invoke",
-      "outputs": ["apps/graph/router"],
+      "outputs": ["{projectRoot}/router"],
       "options": {
         "module": "scripts/prepare.ts",
         "cwd": "apps/graph"

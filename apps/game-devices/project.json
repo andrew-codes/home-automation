@@ -5,7 +5,7 @@
   "targets": {
     "clean": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["dist", ".test-runs"],
+      "outputs": ["{projectRoot}/dist", "{projectRoot}/.test-runs"],
       "options": {
         "command": "rm -rf dist .test-runs",
         "cwd": "apps/game-devices"
@@ -13,7 +13,7 @@
     },
     "compile": {
       "executor": "@ha/nx-executors:invoke",
-      "outputs": ["apps/game-devices/dist"],
+      "outputs": ["{projectRoot}/dist"],
       "options": {
         "module": "scripts/compile.ts",
         "cwd": "apps/game-devices"
@@ -60,7 +60,7 @@
     },
     "test": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": [".test-runs/unit"],
+      "outputs": ["{projectRoot}/.test-runs/unit"],
       "options": {
         "command": "jest",
         "cwd": "apps/game-devices"

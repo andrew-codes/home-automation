@@ -1,7 +1,7 @@
 import path from "path"
 import fs from "fs/promises"
 import sh from "shelljs"
-import schema from "@ha/graph-schema"
+import { schema } from "@ha/graph-schema"
 
 const run = async (): Promise<void> => {
   const distDir = path.join(__dirname, "..", "dist")

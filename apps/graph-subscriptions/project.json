@@ -5,6 +5,11 @@
   "targets": {
     "clean": {
       "executor": "@nrwl/workspace:run-commands",
+      "outputs": [
+        "{projectRoot}/dist",
+        "{projectRoot}/.test-runs",
+        "{projectRoot}/.cache"
+      ],
       "options": {
         "command": "rm -rf dist .test-runs .cache",
         "cwd": "apps/graph-subscriptions"
@@ -16,7 +21,7 @@
         "cwd": "apps/graph-subscriptions",
         "module": "scripts/compile.ts"
       },
-      "outputs": ["apps/graph-subscriptions/dist"]
+      "outputs": ["{projectRoot}/dist"]
     },
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
@@ -37,7 +42,7 @@
         "cwd": "apps/graph-subscriptions",
         "module": "scripts/generate.ts"
       },
-      "outputs": ["apps/graph-subscriptions/generated"]
+      "outputs": ["{projectRoot}/generated"]
     },
     "image/push": {
       "executor": "@ha/nx-executors:invoke",
@@ -63,7 +68,7 @@
     },
     "test": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": [".test-runs/unit"],
+      "outputs": ["{projectRoot}/.test-runs/unit"],
       "options": {
         "command": "jest",
         "cwd": "apps/graph-subscriptions"

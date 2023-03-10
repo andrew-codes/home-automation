@@ -5,13 +5,18 @@
   "targets": {
     "clean": {
       "executor": "@nrwl/workspace:run-commands",
+      "outputs": [
+        "{projectRoot}/bin",
+        "{projectRoot}/obj",
+        "{projectRoot}/.vs"
+      ],
       "options": {
         "command": "rm -rf bin obj .vs",
         "cwd": "apps/playnite-mqtt"
       }
     },
     "compile": {
-      "outputs": ["apps/playnite-mqtt/bin/Release"],
+      "outputs": ["{projectRoot}/bin/Release"],
       "executor": "@nx-dotnet/core:build",
       "options": {
         "configuration": "Release"

@@ -5,7 +5,7 @@
   "targets": {
     "clean": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["dist", ".test-runs"],
+      "outputs": ["{projectRoot}/dist", "{projectRoot}/.test-runs"],
       "options": {
         "command": "rm -rf dist .test-runs",
         "cwd": "apps/external-service-dns-updater"
@@ -13,7 +13,7 @@
     },
     "compile": {
       "executor": "@ha/nx-executors:invoke",
-      "outputs": ["apps/external-service-dns-updater/dist"],
+      "outputs": ["{projectRoot}/dist"],
       "options": {
         "module": "scripts/compile.ts",
         "cwd": "apps/external-service-dns-updater"
@@ -57,7 +57,7 @@
     },
     "test": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": [".test-runs/unit"],
+      "outputs": ["{projectRoot}/.test-runs/unit"],
       "options": {
         "command": "jest",
         "cwd": "apps/external-service-dns-updater"

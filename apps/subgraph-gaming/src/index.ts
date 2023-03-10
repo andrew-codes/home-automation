@@ -12,13 +12,12 @@ import gql from "graphql-tag"
 import { buildSubgraphSchema } from "@apollo/subgraph"
 import { createLogger } from "@ha/logger"
 import type { GraphQLResolverMap } from "@apollo/subgraph/dist/schema-helper"
-import { resolvers as scalarResolvers } from "graphql-scalars"
 import { Db, GridFSBucket, MongoClient, ObjectId } from "mongodb"
 import { get } from "lodash/fp"
+import { gaming, scalarResolvers } from "@ha/graph-schema"
 import type { Loaders } from "./loaders"
 import createLoader from "./loaders"
-import schema from "./schema"
-import { graphql, GraphQLError } from "graphql"
+import { GraphQLError } from "graphql"
 import type { AsyncMqttClient } from "async-mqtt"
 import { createMqtt } from "@ha/mqtt-client"
 
@@ -32,7 +31,7 @@ type GraphContext = {
 } & BaseContext
 
 const typeDefs = gql`
-  ${schema}
+  ${gaming}
 `
 
 const resolvers: GraphQLResolverMap<GraphContext> = {

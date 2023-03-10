@@ -5,7 +5,11 @@
   "targets": {
     "clean": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["dist", ".test-runs", ".cache"],
+      "outputs": [
+        "{projectRoot}/dist",
+        "{projectRoot}/.test-runs",
+        "{projectRoot}/.cache"
+      ],
       "options": {
         "command": "rm -rf dist .test-runs .cache",
         "cwd": "apps/captive-portal"
@@ -17,7 +21,7 @@
         "cwd": "apps/captive-portal",
         "module": "scripts/compile.ts"
       },
-      "outputs": ["apps/captive-portal/dist"]
+      "outputs": ["{projectRoot}/dist"]
     },
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
@@ -54,7 +58,7 @@
     },
     "test": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": [".test-runs/unit"],
+      "outputs": ["{projectRoot}/.test-runs/unit"],
       "options": {
         "command": "jest",
         "cwd": "apps/captive-portal"

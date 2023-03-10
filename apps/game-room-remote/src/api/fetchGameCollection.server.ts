@@ -1,4 +1,4 @@
-import { gql } from "@ha/graph-types"
+import { gql } from "../generated"
 import { merge, omit } from "lodash"
 import type {
   GameCollection,
