@@ -55,7 +55,7 @@
         "cwd": "apps/subgraph-gaming",
         "fromPort": 8082,
         "toPort": 80,
-        "command": "node --inspect --require esbuild-register scripts/nodemon.ts"
+        "command": "yarn node --inspect --require esbuild-register scripts/nodemon.ts"
       }
     },
     "test": {

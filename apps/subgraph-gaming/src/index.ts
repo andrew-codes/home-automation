@@ -2,7 +2,8 @@ import { ApolloServer, BaseContext } from "@apollo/server"
 import { expressMiddleware } from "@apollo/server/express4"
 // import { unwrapResolverError } from "@apollo/server/errors"
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer"
-import { first, isEmpty, uniq } from "lodash"
+import { first, cloneDeep, isEmpty, uniq } from "lodash"
+import { flow } from "lodash/fp"
 import express from "express"
 import spdy from "spdy"
 import http from "http"
@@ -55,6 +56,37 @@ const resolvers: GraphQLResolverMap<GraphContext> = {
         .toArray()
 
       return ctx.loaders.completionStatus.loadMany((ids ?? []) as string[])
+    },
+    async gamesInArea(parent, args, ctx) {
+      const platformIdsInArea = await ctx.db
+        .collection("gameAreasPlatforms")
+        .find({ areaId: args.id })
+        .map(get("platformId"))
+        .toArray()
+
+      const releaseIdsInArea = await ctx.db
+        .collection("gameReleases")
+        .find({ platformId: { $in: platformIdsInArea } })
+        .map(get("id"))
+        .toArray()
+
+      const gameIdsInArea = await ctx.db
+        .collection("games")
+        .find({ platformReleaseIds: { $in: releaseIdsInArea } })
+        .map(get("id"))
+        .toArray()
+
+      const games = await ctx.loaders.games.loadMany(gameIdsInArea as string[])
+
+      const output = games.map((game) => {
+        const gameWithFilteredReleases = cloneDeep(game)
+        gameWithFilteredReleases.platformReleaseIds =
+          game.platformReleaseIds.filter((id) => releaseIdsInArea.includes(id))
+
+        return gameWithFilteredReleases
+      })
+
+      return output
     },
     async genres(parent, args, ctx) {
       const ids =

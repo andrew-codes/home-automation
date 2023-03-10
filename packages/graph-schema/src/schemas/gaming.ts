@@ -9,6 +9,7 @@ const gamingSchema = `
     areas: [GameArea!]!
     gameReleaseById(id: ID!): GameRelease!
     games: [Game!]!
+    gamesInArea(id: ID!): [Game!]!
     genres: [GameGenre!]!
     platforms: [GamePlatform!]!
     completionStates: [GameCompletionState!]!
