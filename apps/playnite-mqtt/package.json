@@ -9,7 +9,7 @@
     "@ha/nx-executors": "workspace:^0.1.0",
     "@ha/shell-utils": "workspace:^1.0.0",
     "@nrwl/workspace": "^15.5.2",
-    "@nx-dotnet/core": "^1.18.0",
+    "@nx-dotnet/core": "^1.20.0",
     "nx": "^15.5.2",
     "shelljs": "^0.8.5",
     "wakeonlan": "^0.1.0"
