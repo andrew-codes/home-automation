@@ -4,56 +4,9 @@ import Layout from "../components/Layout"
 import Text from "../components/Text"
 
 const query = gql(/* GraphQL */ `
-  query areas {
-    completionStates {
-      id
-      name
-    }
-
+  query AreasPageQuery {
     areas {
-      id
       name
-
-      activity {
-        id
-        isLaunching
-        isRunning
-        release {
-          game {
-            id
-            name
-            coverImage
-          }
-        }
-      }
-
-      platforms {
-        releases {
-          game {
-            id
-            name
-            coverImage
-            backgroundImage
-          }
-          description
-          id
-          lastActivity
-          platform {
-            name
-            id
-          }
-          playTime
-          releaseDate
-          releaseYear
-          playCount
-          criticScore
-          communityScore
-          completionState {
-            name
-            id
-          }
-        }
-      }
     }
   }
 `)
@@ -63,7 +16,7 @@ const Areas = () => {
 
   console.log(loading, data)
 
-  return <h1>Hello</h1>
+  return <h1>Hello {data?.areas.map((area) => area.name).join(",")}</h1>
 }
 
 export default Areas

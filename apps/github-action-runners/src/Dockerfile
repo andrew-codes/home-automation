@@ -13,10 +13,12 @@ RUN add-apt-repository ppa:deadsnakes/ppa
 RUN wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 RUN dpkg -i packages-microsoft-prod.deb
 RUN rm packages-microsoft-prod.deb
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 9D6D8F6BC857C906 AA8E81B4331F7F50 7638D0442B90D010
+RUN echo "deb http://security.debian.org/debian-security jessie/updates main" >>/etc/apt/sources.list
 RUN apt update -y
 RUN apt-get install -y \
   ansible \ 
-  bash \
+bash \
   dbus-user-session \
   dotnet-runtime-7.0 \
   dotnet-sdk-7.0 \

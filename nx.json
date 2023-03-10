@@ -5,14 +5,7 @@
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": [
-          "compile",
-          "test",
-          "generate",
-          "lint",
-          "package",
-          "prepare"
-        ]
+        "cacheableOperations": ["compile", "test", "lint", "package", "prepare"]
       }
     }
   },
@@ -58,6 +51,24 @@
       },
       {
         "target": "compile",
+        "projects": "self"
+      }
+    ],
+    "serve": [
+      {
+        "target": "prepare",
+        "projects": "dependencies"
+      },
+      {
+        "target": "prepare",
+        "projects": "self"
+      },
+      {
+        "target": "generate",
+        "projects": "dependencies"
+      },
+      {
+        "target": "generate",
         "projects": "self"
       }
     ],

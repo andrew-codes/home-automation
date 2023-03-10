@@ -22,7 +22,11 @@ const loader = async () => {
 
 const App = () => {
   const { graphqlUri } = useLoaderData()
-
+  console.log(
+    typeof document !== "undefined"
+      ? (window as unknown as any).__APOLLO_STATE__
+      : {},
+  )
   return (
     <html lang="en">
       <head>
@@ -33,18 +37,9 @@ const App = () => {
         {typeof document === "undefined" ? "__INITIAL_DATA__" : null}
       </head>
       <body>
-        <GraphqlProvider
-          uri={graphqlUri}
-          initialState={
-            typeof document !== "undefined"
-              ? (window as unknown as any).__APOLLO_STATE__
-              : {}
-          }
-        >
-          <ThemeProvider theme={themeFunction(light, dark)}>
-            <Outlet />
-          </ThemeProvider>
-        </GraphqlProvider>
+        <ThemeProvider theme={themeFunction(light, dark)}>
+          <Outlet />
+        </ThemeProvider>
         <Scripts />
         <LiveReload />
       </body>

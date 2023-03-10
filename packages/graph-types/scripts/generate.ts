@@ -30,13 +30,6 @@ const run = async (): Promise<void> => {
     },
     ignoreNoDocuments: true,
   })
-
-  await fs.appendFile(
-    path.join(srcGenerated, "index.ts"),
-    `
-export * from './graphql';`,
-    "utf8",
-  )
 }
 
 export default run

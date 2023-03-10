@@ -4,8 +4,12 @@ import { RemixServer } from "@remix-run/react"
 import { ServerStyleSheet } from "styled-components"
 import fs from "fs/promises"
 import { getDataFromTree } from "@apollo/client/react/ssr"
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client"
-import { initial } from "lodash"
+import {
+  ApolloClient,
+  createHttpLink,
+  InMemoryCache,
+  ApolloProvider,
+} from "@apollo/client"
 
 export default async function handleRequest(
   request: Request,
@@ -23,16 +27,14 @@ export default async function handleRequest(
 
   const sheet = new ServerStyleSheet()
   const App = sheet.collectStyles(
-    <RemixServer context={remixContext} url={request.url} />,
+    <ApolloProvider client={client}>
+      <RemixServer context={remixContext} url={request.url} />
+    </ApolloProvider>,
   )
 
-  const markup = await getDataFromTree(App)
+  let markup = await getDataFromTree(App)
   const initialState = client.extract()
-  // const markup = renderToString(
-  //   sheet.collectStyles(
-  //     <RemixServer context={remixContext} url={request.url} />,
-  //   ),
-  // )
+  console.log(initialState)
 
   const swiperCss = await fs.readFile(require.resolve("swiper/css"), "utf8")
   const swiperCssVirtual = await fs.readFile(

@@ -5,9 +5,9 @@
   "targets": {
     "clean": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["src/index.d.ts"],
+      "outputs": ["src/generated"],
       "options": {
-        "command": "rm -rf src/index.d.ts .test-runs",
+        "command": "rm -rf src/generated .test-runs",
         "cwd": "packages/graph-types"
       }
     },
@@ -18,7 +18,8 @@
       "options": {
         "module": "scripts/generate.ts",
         "cwd": "packages/graph-types"
-      }
+      },
+      "dependsOn": ["clean"]
     }
   },
   "tags": [],
