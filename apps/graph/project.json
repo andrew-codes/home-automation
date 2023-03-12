@@ -10,11 +10,11 @@
         "cwd": "apps/graph"
       }
     },
-    "prepare": {
+    "prestart": {
       "executor": "@ha/nx-executors:invoke",
       "outputs": ["{projectRoot}/router"],
       "options": {
-        "module": "scripts/prepare.ts",
+        "module": "scripts/prestart.ts",
         "cwd": "apps/graph"
       }
     },
