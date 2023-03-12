@@ -13,8 +13,8 @@ RUN add-apt-repository ppa:deadsnakes/ppa
 RUN wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 RUN dpkg -i packages-microsoft-prod.deb
 RUN rm packages-microsoft-prod.deb
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 9D6D8F6BC857C906 AA8E81B4331F7F50 7638D0442B90D010
-RUN echo "deb http://security.debian.org/debian-security jessie/updates main" >>/etc/apt/sources.list
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 40976EAF437D05B5 3B4FE6ACC0B21F32
+RUN echo "deb http://security.ubuntu.com/ubuntu xenial-security main" >>/etc/apt/sources.list
 RUN apt update -y
 RUN apt-get install -y \
   ansible \ 
@@ -72,6 +72,7 @@ RUN mkdir -p /home/runner/.cache/node/corepack
 RUN chown --recursive runner /home/runner
 RUN corepack enable
 RUN corepack prepare yarn@stable --activate
+RUN chown --recursive runner /home/runner
 
 USER runner
 RUN echo '{ "features": { "buildkit": true }, "exec-opts": [], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' | tee /home/runner/.config/docker/daemon.json
