@@ -66,18 +66,18 @@ const GameCollections = styled.div`
   z-index: 1;
   flex: 1;
 
-  // > div {
-  //   padding: 0;
-  //   display: flex;
-  //   height: 100%;
-  //   overflow: visible;
-  //   position: relative;
-  //   margin: 24px 0;
+  > div {
+    padding: 0;
+    display: flex;
+    height: 100%;
+    overflow: visible;
+    position: relative;
+    margin: 24px 0;
 
-  //   .swiper-vertical {
-  //     overflow: visible !important;
-  //   }
-  // }
+    .swiper-vertical {
+      overflow: visible !important;
+    }
+  }
 
   .swiper-horizontal {
     overflow: visible;
@@ -255,10 +255,17 @@ const Area = () => {
     () => collections[state.currentCollectionIndex],
     [collections, state.currentCollectionIndex],
   )
-  const selectedGame = useMemo(() => {
-    const collection = collections[state.currentCollectionIndex]
-    return collection.items[state.collections[collection.id]?.gameIndex ?? 0]
-  }, [collections, state.currentCollectionIndex, state.collections])
+  const selectedGame = useMemo(
+    () =>
+      selectedCollection.items[
+        state.collections[selectedCollection.id]?.gameIndex ?? 0
+      ],
+    [
+      selectedCollection.items,
+      selectedCollection.id,
+      state.collections[selectedCollection.id]?.gameIndex,
+    ],
+  )
 
   const handleChangeCollection = useCallback((index) => {
     dispatch(changeCollection(index))
@@ -267,68 +274,68 @@ const Area = () => {
     dispatch(changeGamePage(index, indexRange[0]))
   }, [])
   const handleSelectGame = useCallback(
-    (id) => {
-      const gameIndex = collections[
-        state.currentCollectionIndex
-      ].items.findIndex((game) => game.id === id)
-      console.log(selectedCollection)
+    (evt, id) => {
+      const gameIndex = selectedCollection.items.findIndex(
+        (game) => game.id === id,
+      )
       dispatch(changeGame(gameIndex))
     },
-    [collections, state.currentCollectionIndex],
+    [selectedCollection.items],
   )
 
   return (
     <>
       <GameSelectionAnimationStyles />
       <CenterPane>
-        <PrefetchGameBackgrounds games={games} height={1920} />
         <Overview>
           <GameOverview {...selectedGame} height={1920} />
           <GameActions {...selectedGame} />
         </Overview>
         <GameCollections>
-          <MultiItemSwipeablePage<GameCollecion>
-            defaultPageIndex={defaultCollectionIndex}
-            direction="horizontal"
-            items={collections}
-            onChangePage={handleChangeCollection}
-            itemsPerRow={1}
-            rows={1}
-            spaceBetween={24}
-          >
-            {([collection], _, collectionDimensions) => {
-              return (
-                <GameCollection height={collectionDimensions.height}>
-                  <Text as={GameCollectionName}>{collection.name}</Text>
-                  <MultiItemSwipeablePage<Game>
-                    direction="vertical"
-                    items={collection.items}
-                    itemsPerRow={4}
-                    onChangePage={handleChangeGamesPage}
-                    rows={3}
-                    spaceBetween={24}
-                  >
-                    {(games, gamePageIndex, gameDimensions) => {
-                      return (
-                        <Games>
-                          {games.map((game) => (
-                            <SelecteableGame
-                              {...game}
-                              key={game.id}
-                              height={gameDimensions.height}
-                              width={gameDimensions.width}
-                              onSelect={handleSelectGame}
-                              active={game.id === selectedGame?.id}
-                            />
-                          ))}
-                        </Games>
-                      )
-                    }}
-                  </MultiItemSwipeablePage>
-                </GameCollection>
-              )
-            }}
-          </MultiItemSwipeablePage>
+          <div>
+            <MultiItemSwipeablePage<GameCollecion>
+              defaultPageIndex={defaultCollectionIndex}
+              direction="horizontal"
+              items={collections}
+              onChangePage={handleChangeCollection}
+              itemsPerRow={1}
+              rows={1}
+              spaceBetween={24}
+            >
+              {([collection], _, collectionDimensions) => {
+                return (
+                  <GameCollection height={collectionDimensions.height}>
+                    <Text as={GameCollectionName}>{collection.name}</Text>
+                    <MultiItemSwipeablePage<Game>
+                      direction="vertical"
+                      items={collection.items}
+                      itemsPerRow={4}
+                      onChangePage={handleChangeGamesPage}
+                      rows={3}
+                      spaceBetween={24}
+                    >
+                      {(games, gamePageIndex, gameDimensions) => {
+                        return (
+                          <Games>
+                            {games.map((game) => (
+                              <SelecteableGame
+                                {...game}
+                                key={game.id}
+                                height={gameDimensions.height}
+                                width={gameDimensions.width}
+                                onSelect={handleSelectGame}
+                                active={game.id === selectedGame?.id}
+                              />
+                            ))}
+                          </Games>
+                        )
+                      }}
+                    </MultiItemSwipeablePage>
+                  </GameCollection>
+                )
+              }}
+            </MultiItemSwipeablePage>
+          </div>
         </GameCollections>
       </CenterPane>
     </>

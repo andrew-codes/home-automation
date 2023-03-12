@@ -6,7 +6,9 @@ const collectionDefinition: GameCollectionDefinition = {
   name: "Continue",
   filter: filter<any>((game) =>
     game.releases.some((release) =>
-      ["Plan to Play", "Playing", "On Hold"].includes(release.completionState),
+      ["Plan to Play", "Playing", "On Hold"].includes(
+        release.completionState.name,
+      ),
     ),
   ),
 }

@@ -94,7 +94,7 @@ const Navigation = ({ children, cdnHost }) => {
 
   return (
     <NavBorder>
-      <LeftSidebar width={350}>
+      <LeftSidebar width={350} collapsedState="collapsed">
         <SideNavigation label="Game Room Navigation">
           <NavLayout>
             <NavigationContent>

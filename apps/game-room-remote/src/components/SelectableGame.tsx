@@ -2,6 +2,11 @@ import styled from "styled-components"
 import { FC, SyntheticEvent, useCallback, useContext } from "react"
 import { ceil } from "lodash"
 
+const Button = styled.button`
+  background: transparent;
+  border: none;
+  outline: none;
+`
 const GameCoverImage = styled.img`
   height: 100%;
   width: 100%;
@@ -75,13 +80,13 @@ const SelecteableGame: FC<{
     (evt) => {
       onSelect?.call(null, evt, id)
     },
-    [id],
+    [id, onSelect],
   )
 
   const selectedCoverScaleFactor = 1.2
 
   return (
-    <button onClick={handleSelect}>
+    <Button onClick={handleSelect}>
       {!!coverImage && !/null$/.test(coverImage) ? (
         <GameCover
           active={active}
@@ -95,7 +100,7 @@ const SelecteableGame: FC<{
       ) : (
         <BlankGameCover height={height} width={width} />
       )}
-    </button>
+    </Button>
   )
 }
 
