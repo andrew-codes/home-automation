@@ -21,6 +21,8 @@ const query = gql(/* GraphQL */ `
 const Main = styled.div`
   margin: 0;
   display: flex;
+  width: 100%;
+  height: 100%;
 `
 
 const loader = async (args: LoaderArgs) => {

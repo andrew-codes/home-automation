@@ -1,7 +1,6 @@
 import styled from "styled-components"
 import { FC, SyntheticEvent, useCallback, useContext } from "react"
 import { ceil } from "lodash"
-import { GameCollectionsContext } from "./GameCollections"
 
 const GameCoverImage = styled.img`
   height: 100%;
@@ -45,7 +44,6 @@ const GameCover = ({
   coverImage,
   coverWidth,
   coverHeight,
-  onClick,
   scaleFactor,
 }) => {
   return (
@@ -59,20 +57,20 @@ const GameCover = ({
         )}&height=${ceil(coverHeight * scaleFactor)}`}
         coverWidth={coverWidth}
         coverHeight={coverHeight}
-        onClick={onClick}
       />
     </GameCoverRoot>
   )
 }
 
-const GameCollectionGame: FC<{
+const SelecteableGame: FC<{
+  active: boolean
   id: string
   name: string
-  coverImage: string
+  coverImage?: string | undefined | null
+  height: number
+  width: number
   onSelect?: (evt: SyntheticEvent, id: string) => void
-}> = ({ id, name, coverImage, onSelect }) => {
-  const ctx = useContext(GameCollectionsContext)
-
+}> = ({ active, id, name, width, height, coverImage, onSelect }) => {
   const handleSelect = useCallback(
     (evt) => {
       onSelect?.call(null, evt, id)
@@ -80,24 +78,25 @@ const GameCollectionGame: FC<{
     [id],
   )
 
-  return !!coverImage && !/null$/.test(coverImage) ? (
-    <GameCover
-      active={false}
-      coverImage={coverImage}
-      coverWidth={ctx.coverWidth}
-      coverHeight={ctx.coverHeight}
-      data-component="GameCover"
-      name={`Cover art for ${name}`}
-      onClick={handleSelect}
-      scaleFactor={ctx.selectedCoverScaleFactor}
-    />
-  ) : (
-    <BlankGameCover
-      height={ctx.coverHeight}
-      width={ctx.coverWidth}
-      onClick={handleSelect}
-    />
+  const selectedCoverScaleFactor = 1.2
+
+  return (
+    <button onClick={handleSelect}>
+      {!!coverImage && !/null$/.test(coverImage) ? (
+        <GameCover
+          active={active}
+          coverImage={coverImage}
+          coverWidth={width}
+          coverHeight={height}
+          data-component="GameCover"
+          name={`Cover art for ${name}`}
+          scaleFactor={selectedCoverScaleFactor}
+        />
+      ) : (
+        <BlankGameCover height={height} width={width} />
+      )}
+    </button>
   )
 }
 
-export default GameCollectionGame
+export default SelecteableGame

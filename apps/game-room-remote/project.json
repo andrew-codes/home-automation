@@ -5,9 +5,13 @@
   "targets": {
     "clean": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["{projectRoot}/dist", "{projectRoot}/.test-runs"],
+      "outputs": [
+        "{projectRoot}/dist",
+        "{projectRoot}/.test-runs",
+        "{projectRoot}/src/generated"
+      ],
       "options": {
-        "command": "rm -rf dist .test-runs",
+        "command": "rm -rf dist .test-runs src/generated",
         "cwd": "apps/game-room-remote"
       }
     },
