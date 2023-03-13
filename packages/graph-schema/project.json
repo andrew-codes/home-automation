@@ -1,5 +1,6 @@
 {
-  "root": "packages/graph-schema",
+  "name": "graph-schema",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/graph-schema/src",
   "projectType": "library",
   "targets": {
@@ -17,8 +18,7 @@
       "options": {
         "module": "scripts/generate.ts",
         "cwd": "packages/graph-schema"
-      },
-      "dependsOn": ["clean"]
+      }
     }
   },
   "tags": [],

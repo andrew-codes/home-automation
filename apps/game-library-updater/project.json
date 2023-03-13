@@ -1,5 +1,6 @@
 {
-  "root": "apps/game-library-updater",
+  "name": "game-library-updater",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/game-library-updater/src",
   "projectType": "application",
   "targets": {
@@ -24,17 +25,7 @@
       "options": {
         "cwd": "apps/game-library-updater",
         "module": "scripts/deploy.ts"
-      },
-      "dependsOn": [
-        {
-          "target": "image/push",
-          "projects": "self"
-        },
-        {
-          "target": "deploy",
-          "projects": "dependencies"
-        }
-      ]
+      }
     },
     "image/push": {
       "executor": "@ha/nx-executors:invoke",

@@ -1,5 +1,6 @@
 {
-  "root": "apps/playnite-mqtt",
+  "name": "playnite-mqtt",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/playnite-mqtt/src",
   "projectType": "application",
   "targets": {
@@ -21,7 +22,11 @@
       "options": {
         "configuration": "Release"
       },
-      "configurations": { "production": { "configuration": "Release" } }
+      "configurations": {
+        "production": {
+          "configuration": "Release"
+        }
+      }
     },
     "deploy": {
       "executor": "@ha/nx-executors:invoke",

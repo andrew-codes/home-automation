@@ -1,5 +1,6 @@
 {
-  "root": "apps/captive-portal",
+  "name": "captive-portal",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/captive-portal/src",
   "projectType": "application",
   "targets": {
@@ -28,22 +29,10 @@
       "options": {
         "cwd": "apps/captive-portal",
         "module": "scripts/deploy.ts"
-      },
-      "dependsOn": [
-        {
-          "target": "image/push",
-          "projects": "self"
-        }
-      ]
+      }
     },
     "image/push": {
       "executor": "@ha/nx-executors:invoke",
-      "dependsOn": [
-        {
-          "target": "compile",
-          "projects": "self"
-        }
-      ],
       "options": {
         "cwd": "apps/captive-portal",
         "module": "scripts/image-push.ts"

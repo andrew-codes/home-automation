@@ -1,5 +1,6 @@
 {
-  "root": "apps/graph",
+  "name": "graph",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/graph/src",
   "projectType": "application",
   "targets": {
@@ -23,13 +24,7 @@
       "options": {
         "cwd": "apps/graph",
         "module": "scripts/deploy.ts"
-      },
-      "dependsOn": [
-        {
-          "target": "image/push",
-          "projects": "self"
-        }
-      ]
+      }
     },
     "image/push": {
       "executor": "@ha/nx-executors:invoke",

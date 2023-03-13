@@ -1,5 +1,6 @@
 {
-  "root": "apps/gaming-pc",
+  "name": "gaming-pc",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/gaming-pc",
   "projectType": "application",
   "targets": {

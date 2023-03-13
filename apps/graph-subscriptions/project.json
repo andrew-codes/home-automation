@@ -1,5 +1,6 @@
 {
-  "root": "apps/graph-subscriptions",
+  "name": "graph-subscriptions",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/graph-subscriptions/src",
   "projectType": "application",
   "targets": {
@@ -28,13 +29,7 @@
       "options": {
         "cwd": "apps/graph-subscriptions",
         "module": "scripts/deploy.ts"
-      },
-      "dependsOn": [
-        {
-          "target": "image/push",
-          "projects": "self"
-        }
-      ]
+      }
     },
     "generate": {
       "executor": "@ha/nx-executors:invoke",

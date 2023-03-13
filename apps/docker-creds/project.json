@@ -1,5 +1,6 @@
 {
-  "root": "apps/docker-creds",
+  "name": "docker-creds",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/docker-creds",
   "projectType": "application",
   "targets": {

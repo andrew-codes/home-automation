@@ -92,12 +92,12 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
                 defaultMode: 384,
                 items: [
                   {
-                    key: 'known_hosts',
-                    path: 'known_hosts',
-                  },
-                  {
                     key: 'id_rsa',
                     path: 'id_rsa',
+                  },
+                  {
+                    key: 'config',
+                    path: 'config',
                   },
                 ],
               },

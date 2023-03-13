@@ -1,5 +1,6 @@
 {
-  "root": "packages/jest-utils",
+  "name": "jest-utils",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/jest-utils/src",
   "projectType": "library",
   "targets": {

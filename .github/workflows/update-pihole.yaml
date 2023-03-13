@@ -18,7 +18,7 @@ jobs:
       - name: Install deps
         run: yarn
       - name: Prepare
-        run: yarn nx run-many --target=prepare --parallel --all
+        run: yarn nx run-many --target=prepare --all
         env:
           ONEPASSWORD_TOKEN: ${{ secrets.ONEPASSWORD_TOKEN }}
           ONEPASSWORD_SERVER_URL: ${{ secrets.ONEPASSWORD_SERVER_URL }}

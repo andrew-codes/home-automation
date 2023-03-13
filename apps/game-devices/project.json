@@ -1,5 +1,6 @@
 {
-  "root": "apps/game-devices",
+  "name": "game-devices",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/game-devices/src",
   "projectType": "application",
   "targets": {
@@ -24,17 +25,7 @@
       "options": {
         "cwd": "apps/game-devices",
         "module": "scripts/deploy.ts"
-      },
-      "dependsOn": [
-        {
-          "target": "image/push",
-          "projects": "self"
-        },
-        {
-          "target": "deploy",
-          "projects": "dependencies"
-        }
-      ]
+      }
     },
     "image/push": {
       "executor": "@ha/nx-executors:invoke",

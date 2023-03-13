@@ -1,5 +1,6 @@
 {
-  "root": "apps/guest-wifi-renewal",
+  "name": "guest-wifi-renewal",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/guest-wifi-renewal/src",
   "projectType": "application",
   "targets": {
@@ -13,7 +14,7 @@
     },
     "compile": {
       "executor": "@ha/nx-executors:invoke",
-      "outputs": ["apps/guest-wifi-renewal/dist"],
+      "outputs": ["{projectRoot}/dist"],
       "options": {
         "module": "scripts/compile.ts",
         "cwd": "apps/guest-wifi-renewal"
@@ -24,13 +25,7 @@
       "options": {
         "cwd": "apps/guest-wifi-renewal",
         "module": "scripts/deploy.ts"
-      },
-      "dependsOn": [
-        {
-          "target": "image/push",
-          "projects": "self"
-        }
-      ]
+      }
     },
     "image/push": {
       "executor": "@ha/nx-executors:invoke",

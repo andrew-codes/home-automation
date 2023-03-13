@@ -1,5 +1,6 @@
 {
-  "root": "apps/pihole",
+  "name": "pihole",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/pihole",
   "projectType": "application",
   "targets": {

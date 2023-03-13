@@ -1,5 +1,6 @@
 {
-  "root": "packages/configuration-1password",
+  "name": "configuration-1password",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/configuration-1password/src",
   "projectType": "library",
   "targets": {

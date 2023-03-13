@@ -1,5 +1,6 @@
 {
-  "root": "apps/proxy",
+  "name": "proxy",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/proxy",
   "projectType": "application",
   "targets": {
@@ -16,7 +17,12 @@
         "cwd": "apps/proxy",
         "module": "scripts/compile.ts"
       },
-      "dependsOn": [{ "target": "clean", "projects": "self" }]
+      "dependsOn": [
+        {
+          "target": "clean",
+          "projects": "self"
+        }
+      ]
     },
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
@@ -24,7 +30,12 @@
         "cwd": "apps/proxy",
         "module": "scripts/deploy.ts"
       },
-      "dependsOn": [{ "target": "compile", "projects": "self" }]
+      "dependsOn": [
+        {
+          "target": "compile",
+          "projects": "self"
+        }
+      ]
     }
   },
   "tags": [],

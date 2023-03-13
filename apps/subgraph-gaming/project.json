@@ -1,5 +1,6 @@
 {
-  "root": "apps/subgraph-gaming",
+  "name": "subgraph-gaming",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/subgraph-gaming/src",
   "projectType": "application",
   "targets": {
@@ -21,20 +22,14 @@
         "cwd": "apps/subgraph-gaming",
         "module": "scripts/compile.ts"
       },
-      "outputs": ["apps/subgraph-gaming/dist"]
+      "outputs": ["{projectRoot}/dist"]
     },
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/subgraph-gaming",
         "module": "scripts/deploy.ts"
-      },
-      "dependsOn": [
-        {
-          "target": "image/push",
-          "projects": "self"
-        }
-      ]
+      }
     },
     "image/push": {
       "executor": "@ha/nx-executors:invoke",

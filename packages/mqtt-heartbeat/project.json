@@ -1,5 +1,6 @@
 {
-  "root": "packages/mqtt-heartbeat",
+  "name": "mqtt-heartbeat",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/mqtt-heartbeat/src",
   "projectType": "library",
   "targets": {

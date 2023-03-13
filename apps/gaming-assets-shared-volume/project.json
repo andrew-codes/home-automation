@@ -1,5 +1,6 @@
 {
-  "root": "apps/gaming-assets-shared-volume",
+  "name": "gaming-assets-shared-volume",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/gaming-assets-shared-volume/src",
   "projectType": "application",
   "targets": {

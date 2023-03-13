@@ -8,6 +8,7 @@ import { throwIfError } from "@ha/shell-utils"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
+  sh.env["ANSIBLE_HOST_KEY_CHECKING"] = "False"
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
   const ip = await configurationApi.get("gaming-pc/ip")
   const user = await configurationApi.get("gaming-pc/user")

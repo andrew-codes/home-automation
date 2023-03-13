@@ -1,5 +1,6 @@
 {
-  "root": "packages/mqtt-client",
+  "name": "mqtt-client",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/mqtt-client/src",
   "projectType": "library",
   "targets": {

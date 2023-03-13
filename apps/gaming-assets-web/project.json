@@ -1,5 +1,6 @@
 {
-  "root": "apps/gaming-assets-web",
+  "name": "gaming-assets-web",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/gaming-assets-web/src",
   "projectType": "application",
   "targets": {
@@ -23,17 +24,7 @@
       "options": {
         "cwd": "apps/gaming-assets-web",
         "module": "scripts/deploy.ts"
-      },
-      "dependsOn": [
-        {
-          "target": "image/push",
-          "projects": "self"
-        },
-        {
-          "target": "deploy",
-          "projects": "dependencies"
-        }
-      ]
+      }
     },
     "image/push": {
       "executor": "@ha/nx-executors:invoke",

@@ -1,107 +1,24 @@
 {
-  "npmScope": "@ha",
-  "extends": "nx/presets/npm.json",
   "tasksRunnerOptions": {
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
         "cacheableOperations": [
+          "clean",
           "compile",
+          "deploy",
           "generate",
-          "test",
+          "image/push",
           "lint",
-          "package",
           "prepare",
-          "prestart"
+          "prestart",
+          "test"
         ]
       }
     }
   },
-  "targetDependencies": {
-    "generate": [
-      {
-        "target": "prepare",
-        "projects": "dependencies"
-      },
-      {
-        "target": "prepare",
-        "projects": "self"
-      },
-      {
-        "target": "generate",
-        "projects": "dependencies"
-      },
-      {
-        "target": "generate",
-        "projects": "self"
-      }
-    ],
-    "compile": [
-      {
-        "target": "prepare",
-        "projects": "dependencies"
-      },
-      {
-        "target": "prepare",
-        "projects": "self"
-      },
-      {
-        "target": "generate",
-        "projects": "dependencies"
-      },
-      {
-        "target": "generate",
-        "projects": "self"
-      },
-      {
-        "target": "compile",
-        "projects": "dependencies"
-      },
-      {
-        "target": "compile",
-        "projects": "self"
-      }
-    ],
-    "serve": [
-      {
-        "target": "prepare",
-        "projects": "dependencies"
-      },
-      {
-        "target": "prepare",
-        "projects": "self"
-      },
-      {
-        "target": "generate",
-        "projects": "dependencies"
-      },
-      {
-        "target": "generate",
-        "projects": "self"
-      },
-      { "target": "prestart", "projects": "self" }
-    ],
-    "prepare": [
-      {
-        "target": "prepare",
-        "projects": "dependencies"
-      },
-      {
-        "target": "prepare",
-        "projects": "self"
-      }
-    ],
-    "package": [
-      {
-        "target": "compile",
-        "projects": "self"
-      },
-      {
-        "target": "package",
-        "projects": "dependencies"
-      }
-    ]
-  },
+  "npmScope": "@ha",
+  "extends": "nx/presets/npm.json",
   "affected": {
     "defaultBase": "main"
   },
@@ -109,9 +26,31 @@
     "appsDir": "apps",
     "libsDir": "packages"
   },
-  "pluginsConfig": {
-    "@nrwl/js": {
-      "analyzeSourceFiles": false
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "targetDefaults": {
+    "compile": {
+      "dependsOn": ["^prepare", "prepare", "^generate", "generate", "^compile"]
+    },
+    "deploy": {
+      "dependsOn": ["^prepare", "prepare", "compile", "image/push"]
+    },
+    "generate": {
+      "dependsOn": ["^prepare", "prepare", "^generate"]
+    },
+    "image/push": {
+      "dependsOn": ["^prepare", "prepare", "compile"]
+    },
+    "lint": {
+      "dependsOn": ["^prepare", "prepare"]
+    },
+    "prepare": {
+      "dependsOn": ["^prepare"]
+    },
+    "serve": {
+      "dependsOn": ["^prepare", "prepare", "^generate", "generate", "prestart"]
+    },
+    "test": {
+      "dependsOn": ["^prepare", "prepare"]
     }
   }
 }

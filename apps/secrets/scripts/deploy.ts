@@ -22,12 +22,6 @@ const run = async (
 
   await fs.mkdir(path.join(__dirname, "..", ".secrets"), { recursive: true })
 
-  const knownHosts = await configurationApi.get("known-hosts")
-  await fs.writeFile(
-    path.join(__dirname, "..", ".secrets", "known_hosts"),
-    knownHosts.value.replace(/\\n/g, "\n"),
-    "utf8",
-  )
   const sshPrivateKey = await configurationApi.get(
     "home-assistant/ssh-key/private",
   )
@@ -38,6 +32,14 @@ const run = async (
     "utf8",
   )
 
+  await fs.writeFile(
+    path.join(__dirname, "..", ".secrets", "config"),
+    `Host * \
+  StrictHostKeyChecking no
+  UserKnownHostsFile=/dev/null`,
+    "utf8",
+  )
+
   sh.exec(`kubectl delete secret ssh;`, { silent: true })
   await throwIfError(
     sh.exec(
@@ -45,8 +47,8 @@ const run = async (
         __dirname,
         "..",
         ".secrets",
-        "known_hosts",
-      )} --from-file=${path.join(__dirname, "..", ".secrets", "id_rsa")};`,
+        "id_rsa",
+      )} --from-file=${path.join(__dirname, "..", ".secrets", "config")};`,
       { silent: true },
     ),
   )

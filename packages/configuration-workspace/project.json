@@ -1,5 +1,6 @@
 {
-  "root": "packages/configuration-workspace",
+  "name": "configuration-workspace",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/configuration-workspace/src",
   "projectType": "library",
   "targets": {

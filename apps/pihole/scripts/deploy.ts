@@ -26,11 +26,11 @@ pihole_password: "${password.value}"`,
   await fs.writeFile(
     hostsPath,
     `
-    all:
-      vars:
-        ansible_user: root
-      hosts:
-        ${ip.value}:`,
+all:
+  vars:
+    ansible_user: root
+  hosts:
+    ${ip.value}:`,
     "utf8",
   )
   await fs.writeFile(
@@ -38,6 +38,7 @@ pihole_password: "${password.value}"`,
     `${sshPublicKey.value}`,
     "utf8",
   )
+  sh.env["ANSIBLE_HOST_KEY_CHECKING"] = "False"
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
   await throwIfError(
     sh.exec(

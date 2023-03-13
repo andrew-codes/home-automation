@@ -1,5 +1,6 @@
 {
-  "root": "apps/wake-on-lan",
+  "name": "wake-on-lan",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/wake-on-lan/src",
   "projectType": "application",
   "targets": {
@@ -13,7 +14,7 @@
     },
     "compile": {
       "executor": "@ha/nx-executors:invoke",
-      "outputs": ["apps/wake-on-lan/dist"],
+      "outputs": ["{projectRoot}/dist"],
       "options": {
         "module": "scripts/compile.ts",
         "cwd": "apps/wake-on-lan"
@@ -24,13 +25,7 @@
       "options": {
         "cwd": "apps/wake-on-lan",
         "module": "scripts/deploy.ts"
-      },
-      "dependsOn": [
-        {
-          "target": "image/push",
-          "projects": "self"
-        }
-      ]
+      }
     },
     "image/push": {
       "executor": "@ha/nx-executors:invoke",

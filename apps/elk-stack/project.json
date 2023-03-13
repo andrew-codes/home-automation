@@ -1,5 +1,6 @@
 {
-  "root": "apps/elk-stack",
+  "name": "elk-stack",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/elk-stack",
   "projectType": "application",
   "targets": {

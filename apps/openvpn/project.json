@@ -1,5 +1,6 @@
 {
-  "root": "apps/openvpn",
+  "name": "openvpn",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/openvpn",
   "projectType": "application",
   "targets": {
@@ -16,14 +17,7 @@
         "cwd": "apps/openvpn",
         "module": "scripts/deploy.ts"
       }
-    },
-    "dependsOn": [
-      { "target": "clean", "projects": "self" },
-      {
-        "target": "deploy",
-        "projects": "dependencies"
-      }
-    ]
+    }
   },
   "tags": [],
   "implicitDependencies": ["secrets"]

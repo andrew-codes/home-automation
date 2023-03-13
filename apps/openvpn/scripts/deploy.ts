@@ -35,6 +35,7 @@ all:
     "utf8",
   )
 
+  sh.env["ANSIBLE_HOST_KEY_CHECKING"] = "False"
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
 
   await throwIfError(

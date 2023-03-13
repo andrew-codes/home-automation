@@ -1,5 +1,6 @@
 {
-  "root": "apps/guest-pin-codes",
+  "name": "guest-pin-codes",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/guest-pin-codes/src",
   "projectType": "application",
   "targets": {
@@ -13,7 +14,7 @@
     },
     "compile": {
       "executor": "@ha/nx-executors:invoke",
-      "outputs": ["apps/guest-pin-codes/dist"],
+      "outputs": ["{projectRoot}/dist"],
       "options": {
         "module": "scripts/compile.ts",
         "cwd": "apps/guest-pin-codes"
@@ -24,13 +25,7 @@
       "options": {
         "cwd": "apps/guest-pin-codes",
         "module": "scripts/deploy.ts"
-      },
-      "dependsOn": [
-        {
-          "target": "image/push",
-          "projects": "self"
-        }
-      ]
+      }
     },
     "image/push": {
       "executor": "@ha/nx-executors:invoke",

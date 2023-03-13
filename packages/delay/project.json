@@ -1,5 +1,6 @@
 {
-  "root": "packages/delay",
+  "name": "delay",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/delay/src",
   "projectType": "library",
   "targets": {

@@ -1,33 +1,23 @@
 {
-  "root": "apps/home-assistant",
+  "name": "home-assistant",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/home-assistant/src",
   "projectType": "application",
   "targets": {
     "image/push": {
       "executor": "@ha/nx-executors:invoke",
-      "dependsOn": [
-        {
-          "target": "image/push/pre",
-          "projects": "self"
-        }
-      ],
       "options": {
         "module": "scripts/image-push.ts",
         "cwd": "apps/home-assistant"
-      }
+      },
+      "dependsOn": [{ "target": "image/push/pre", "projects": "self" }]
     },
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/home-assistant",
         "module": "scripts/deploy.ts"
-      },
-      "dependsOn": [
-        {
-          "target": "image/push",
-          "projects": "self"
-        }
-      ]
+      }
     },
     "image/push/pre": {
       "executor": "@nrwl/workspace:run-commands",

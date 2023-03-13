@@ -1,5 +1,6 @@
 {
-  "root": "packages/github-secrets",
+  "name": "github-secrets",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/github-secrets/src",
   "projectType": "library",
   "targets": {
@@ -13,7 +14,7 @@
     },
     "compile": {
       "executor": "@ha/nx-executors:invoke",
-      "outputs": ["packages/github-secrets/dist"],
+      "outputs": ["{projectRoot}/dist"],
       "options": {
         "module": "scripts/compile.ts",
         "cwd": "packages/github-secrets"

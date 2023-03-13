@@ -1,5 +1,6 @@
 {
-  "root": "apps/ps5",
+  "name": "ps5",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/ps5/src",
   "projectType": "application",
   "targets": {
@@ -13,7 +14,7 @@
     },
     "compile": {
       "executor": "@ha/nx-executors:invoke",
-      "outputs": ["apps/ps5/dist"],
+      "outputs": ["{projectRoot}/dist"],
       "options": {
         "module": "scripts/compile.ts",
         "cwd": "apps/ps5"
@@ -24,13 +25,7 @@
       "options": {
         "cwd": "apps/ps5",
         "module": "scripts/deploy.ts"
-      },
-      "dependsOn": [
-        {
-          "target": "image/push",
-          "projects": "self"
-        }
-      ]
+      }
     },
     "image/push": {
       "executor": "@ha/nx-executors:invoke",

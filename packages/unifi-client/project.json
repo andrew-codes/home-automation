@@ -1,5 +1,6 @@
 {
-  "root": "packages/unifi-client",
+  "name": "unifi-client",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/unifi-client/src",
   "projectType": "library",
   "targets": {

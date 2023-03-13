@@ -1,5 +1,6 @@
 {
-  "root": "packages/configuration-api",
+  "name": "configuration-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/configuration-api/src",
   "projectType": "library",
   "targets": {},

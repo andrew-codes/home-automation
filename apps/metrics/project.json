@@ -1,5 +1,6 @@
 {
-  "root": "apps/metrics",
+  "name": "metrics",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/metrics",
   "projectType": "application",
   "targets": {

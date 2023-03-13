@@ -1,5 +1,6 @@
 {
-  "root": "apps/home-assistant-config-applicator",
+  "name": "home-assistant-config-applicator",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/home-assistant-config-applicator",
   "projectType": "application",
   "targets": {

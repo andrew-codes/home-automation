@@ -1,5 +1,6 @@
 {
-  "root": "apps/external-service-dns-updater",
+  "name": "external-service-dns-updater",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/external-service-dns-updater/src",
   "projectType": "application",
   "targets": {
@@ -24,13 +25,7 @@
       "options": {
         "cwd": "apps/external-service-dns-updater",
         "module": "scripts/deploy.ts"
-      },
-      "dependsOn": [
-        {
-          "target": "image/push",
-          "projects": "self"
-        }
-      ]
+      }
     },
     "image/push": {
       "executor": "@ha/nx-executors:invoke",

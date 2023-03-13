@@ -1,5 +1,6 @@
 {
-  "root": "packages/build-ts",
+  "name": "build-ts",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/build-ts/src",
   "projectType": "library",
   "targets": {

@@ -529,7 +529,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@wry/trie", "npm:0.3.2"],\
             ["graphql", "npm:16.6.0"],\
             ["graphql-tag", "virtual:b0d0bf40fac5c790a0bcc74bd85044c1b42efb2fd53c14e10c940cb24e9b95d0af83ec6d1e78a0174d08f9ad2412f2dd5d9269865df0f8af9a4f1626885a8b5f#npm:2.12.6"],\
-            ["graphql-ws", null],\
+            ["graphql-ws", "virtual:a309c14a89479752e370696580b9b5876d8305ca18883c44c26f5ebec6f59422c025d084c9d21311c16f2f31962c2ff5d34f0ec2be1cdb92c949d8f6ce85ae86#npm:5.12.0"],\
             ["hoist-non-react-statics", "npm:3.3.2"],\
             ["optimism", "npm:0.16.2"],\
             ["prop-types", "npm:15.8.1"],\
@@ -7500,7 +7500,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/graphql", null],\
             ["@types/ws", "npm:8.5.4"],\
             ["graphql", "npm:16.6.0"],\
-            ["graphql-ws", "virtual:9b9af9417e8480872771083386c2e3ab19b039b93bcc556cb19b00e95036fe1fc58e3ba55156cdf68f210513486e685c3559136f633c0c8110818577468f6192#npm:5.12.0"],\
+            ["graphql-ws", "virtual:a309c14a89479752e370696580b9b5876d8305ca18883c44c26f5ebec6f59422c025d084c9d21311c16f2f31962c2ff5d34f0ec2be1cdb92c949d8f6ce85ae86#npm:5.12.0"],\
             ["isomorphic-ws", "virtual:9a074450990d3854fa1f9ca1d389503c48d41a189c1a939161e457f342582f20937fd9d60856a2c7479af9f1912247395602590cff411235d956af67b6481865#npm:5.0.0"],\
             ["tslib", "npm:2.4.0"],\
             ["ws", "virtual:9a074450990d3854fa1f9ca1d389503c48d41a189c1a939161e457f342582f20937fd9d60856a2c7479af9f1912247395602590cff411235d956af67b6481865#npm:8.12.1"]\
@@ -8659,6 +8659,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:8.32.0"],\
             ["graphql", "npm:16.6.0"],\
             ["graphql-request", "virtual:a309c14a89479752e370696580b9b5876d8305ca18883c44c26f5ebec6f59422c025d084c9d21311c16f2f31962c2ff5d34f0ec2be1cdb92c949d8f6ce85ae86#npm:5.1.0"],\
+            ["graphql-tag", "virtual:b0d0bf40fac5c790a0bcc74bd85044c1b42efb2fd53c14e10c940cb24e9b95d0af83ec6d1e78a0174d08f9ad2412f2dd5d9269865df0f8af9a4f1626885a8b5f#npm:2.12.6"],\
+            ["graphql-ws", "virtual:a309c14a89479752e370696580b9b5876d8305ca18883c44c26f5ebec6f59422c025d084c9d21311c16f2f31962c2ff5d34f0ec2be1cdb92c949d8f6ce85ae86#npm:5.12.0"],\
             ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
             ["jest-when", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:3.5.2"],\
             ["lodash", "npm:4.17.21"],\
@@ -8675,7 +8677,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["swiper", "npm:8.4.6"],\
             ["ts-jest", "virtual:a309c14a89479752e370696580b9b5876d8305ca18883c44c26f5ebec6f59422c025d084c9d21311c16f2f31962c2ff5d34f0ec2be1cdb92c949d8f6ce85ae86#npm:29.0.5"],\
             ["tsc", "npm:2.0.4"],\
-            ["typescript", "patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=ad5954"]\
+            ["typescript", "patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=ad5954"],\
+            ["ws", "virtual:a309c14a89479752e370696580b9b5876d8305ca18883c44c26f5ebec6f59422c025d084c9d21311c16f2f31962c2ff5d34f0ec2be1cdb92c949d8f6ce85ae86#npm:8.13.0"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -8885,7 +8888,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["graphql", "npm:16.6.0"],\
             ["graphql-subscriptions", "virtual:401577ef94e67e7f6009b8580ee1b98dbeca6c85d69efe7d2a3be2d86e812e0af67504cfb11ed9b0af7dbc017a8a0bac14b34593f066f8324437c5c10bef0dd8#npm:2.0.0"],\
             ["graphql-tag", "virtual:b0d0bf40fac5c790a0bcc74bd85044c1b42efb2fd53c14e10c940cb24e9b95d0af83ec6d1e78a0174d08f9ad2412f2dd5d9269865df0f8af9a4f1626885a8b5f#npm:2.12.6"],\
-            ["graphql-ws", "virtual:9b9af9417e8480872771083386c2e3ab19b039b93bcc556cb19b00e95036fe1fc58e3ba55156cdf68f210513486e685c3559136f633c0c8110818577468f6192#npm:5.12.0"],\
+            ["graphql-ws", "virtual:a309c14a89479752e370696580b9b5876d8305ca18883c44c26f5ebec6f59422c025d084c9d21311c16f2f31962c2ff5d34f0ec2be1cdb92c949d8f6ce85ae86#npm:5.12.0"],\
             ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
             ["jest-when", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:3.5.2"],\
             ["lodash", "npm:4.17.21"],\
@@ -18662,10 +18665,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:9b9af9417e8480872771083386c2e3ab19b039b93bcc556cb19b00e95036fe1fc58e3ba55156cdf68f210513486e685c3559136f633c0c8110818577468f6192#npm:5.12.0", {\
-          "packageLocation": "./.yarn/__virtual__/graphql-ws-virtual-923e188906/0/cache/graphql-ws-npm-5.12.0-d4758f6050-5c683e2d5b.zip/node_modules/graphql-ws/",\
+        ["virtual:a309c14a89479752e370696580b9b5876d8305ca18883c44c26f5ebec6f59422c025d084c9d21311c16f2f31962c2ff5d34f0ec2be1cdb92c949d8f6ce85ae86#npm:5.12.0", {\
+          "packageLocation": "./.yarn/__virtual__/graphql-ws-virtual-4e8bb1aaa5/0/cache/graphql-ws-npm-5.12.0-d4758f6050-5c683e2d5b.zip/node_modules/graphql-ws/",\
           "packageDependencies": [\
-            ["graphql-ws", "virtual:9b9af9417e8480872771083386c2e3ab19b039b93bcc556cb19b00e95036fe1fc58e3ba55156cdf68f210513486e685c3559136f633c0c8110818577468f6192#npm:5.12.0"],\
+            ["graphql-ws", "virtual:a309c14a89479752e370696580b9b5876d8305ca18883c44c26f5ebec6f59422c025d084c9d21311c16f2f31962c2ff5d34f0ec2be1cdb92c949d8f6ce85ae86#npm:5.12.0"],\
             ["@types/graphql", null],\
             ["graphql", "npm:16.6.0"]\
           ],\
@@ -28900,6 +28903,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
+        ["npm:8.13.0", {\
+          "packageLocation": "./.yarn/cache/ws-npm-8.13.0-26ffa3016a-53e991bbf9.zip/node_modules/ws/",\
+          "packageDependencies": [\
+            ["ws", "npm:8.13.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
         ["virtual:42cab96512ed7ade0282c0ce85318374af5ec18080c07341dbe50218789571c6d90f6c30824e407b25016843f318eca61a98fa57e3cd6b0a8163227c59101106#npm:7.5.9", {\
           "packageLocation": "./.yarn/__virtual__/ws-virtual-74beb45f85/0/cache/ws-npm-7.5.9-26f12a5ed6-c3c100a181.zip/node_modules/ws/",\
           "packageDependencies": [\
@@ -28938,6 +28948,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/ws-virtual-d473b911df/0/cache/ws-npm-8.12.1-d385ae1b1d-97301c1c4d.zip/node_modules/ws/",\
           "packageDependencies": [\
             ["ws", "virtual:9a074450990d3854fa1f9ca1d389503c48d41a189c1a939161e457f342582f20937fd9d60856a2c7479af9f1912247395602590cff411235d956af67b6481865#npm:8.12.1"],\
+            ["@types/bufferutil", null],\
+            ["@types/utf-8-validate", null],\
+            ["bufferutil", null],\
+            ["utf-8-validate", null]\
+          ],\
+          "packagePeers": [\
+            "@types/bufferutil",\
+            "@types/utf-8-validate",\
+            "bufferutil",\
+            "utf-8-validate"\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["virtual:a309c14a89479752e370696580b9b5876d8305ca18883c44c26f5ebec6f59422c025d084c9d21311c16f2f31962c2ff5d34f0ec2be1cdb92c949d8f6ce85ae86#npm:8.13.0", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-5691650818/0/cache/ws-npm-8.13.0-26ffa3016a-53e991bbf9.zip/node_modules/ws/",\
+          "packageDependencies": [\
+            ["ws", "virtual:a309c14a89479752e370696580b9b5876d8305ca18883c44c26f5ebec6f59422c025d084c9d21311c16f2f31962c2ff5d34f0ec2be1cdb92c949d8f6ce85ae86#npm:8.13.0"],\
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\

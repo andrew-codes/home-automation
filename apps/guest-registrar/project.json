@@ -1,5 +1,6 @@
 {
-  "root": "apps/guest-registrar",
+  "name": "guest-registrar",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/guest-registrar/src",
   "projectType": "application",
   "targets": {
@@ -24,13 +25,7 @@
       "options": {
         "cwd": "apps/guest-registrar",
         "module": "scripts/deploy.ts"
-      },
-      "dependsOn": [
-        {
-          "target": "image/push",
-          "projects": "self"
-        }
-      ]
+      }
     },
     "image/push": {
       "executor": "@ha/nx-executors:invoke",

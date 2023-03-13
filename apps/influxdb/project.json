@@ -1,5 +1,6 @@
 {
-  "root": "apps/influxdb",
+  "name": "influxdb",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/influxdb",
   "projectType": "application",
   "targets": {

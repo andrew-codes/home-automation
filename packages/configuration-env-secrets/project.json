@@ -1,5 +1,6 @@
 {
-  "root": "packages/configuration-env-secrets",
+  "name": "configuration-env-secrets",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/configuration-env-secrets/src",
   "projectType": "library",
   "targets": {

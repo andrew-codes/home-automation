@@ -33,21 +33,21 @@ cert_email: "${certEmail.value}"`,
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "hosts.yml"),
     `
-    all:
-      vars:
-        ansible_user: root
-      hosts:
-        ${ip.value}:`,
+all:
+  vars:
+    ansible_user: root
+  hosts:
+    ${ip.value}:`,
     "utf8",
   )
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "hosts-internal.yml"),
     `
-    all:
-      vars:
-        ansible_user: root
-      hosts:
-        ${ipInternal.value}:`,
+all:
+  vars:
+    ansible_user: root
+  hosts:
+    ${ipInternal.value}:`,
     "utf8",
   )
   await fs.writeFile(
@@ -60,6 +60,8 @@ cert_email: "${certEmail.value}"`,
     `${sshPublicKey.value}`,
     "utf8",
   )
+
+  sh.env["ANSIBLE_HOST_KEY_CHECKING"] = "False"
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
 
   sh.exec(

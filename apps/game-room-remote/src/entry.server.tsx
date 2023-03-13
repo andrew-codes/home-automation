@@ -4,11 +4,16 @@ import { RemixServer } from "@remix-run/react"
 import { ServerStyleSheet } from "styled-components"
 import fs from "fs/promises"
 import { getDataFromTree } from "@apollo/client/react/ssr"
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions"
+import { getMainDefinition } from "@apollo/client/utilities"
+import { createClient } from "graphql-ws"
+import { WebSocket } from "ws"
 import {
   ApolloClient,
   createHttpLink,
   InMemoryCache,
   ApolloProvider,
+  split,
 } from "@apollo/client"
 
 export default async function handleRequest(
@@ -19,9 +24,24 @@ export default async function handleRequest(
 ) {
   const client = new ApolloClient({
     ssrMode: true,
-    link: createHttpLink({
-      uri: `${process.env.GRAPH_HOST}/graphql`,
-    }),
+    link: split(
+      ({ query }) => {
+        const definition = getMainDefinition(query)
+        return (
+          definition.kind === "OperationDefinition" &&
+          definition.operation === "subscription"
+        )
+      },
+      new GraphQLWsLink(
+        createClient({
+          url: `wss://graph-sub.smith-simms.family/graphql`,
+          webSocketImpl: WebSocket,
+        }),
+      ),
+      createHttpLink({
+        uri: `${process.env.GRAPH_HOST}/graphql`,
+      }),
+    ),
     cache: new InMemoryCache(),
   })
 

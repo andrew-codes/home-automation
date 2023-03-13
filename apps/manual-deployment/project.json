@@ -1,5 +1,6 @@
 {
-  "root": "apps/manual-deployment",
+  "name": "manual-deployment",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/manual-deployment/src",
   "projectType": "application",
   "targets": {

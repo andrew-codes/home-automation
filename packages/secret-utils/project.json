@@ -1,5 +1,6 @@
 {
-  "root": "packages/secret-utils",
+  "name": "secret-utils",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/secret-utils/src",
   "projectType": "library",
   "targets": {

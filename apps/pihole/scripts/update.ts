@@ -15,15 +15,16 @@ const run = async (
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "hosts.yml"),
     `
-    all:
-      vars:
-        ansible_user: root
-      hosts:
-        ${ip.value}:
-        ${ip2.value}:`,
+all:
+  vars:
+    ansible_user: root
+  hosts:
+    ${ip.value}:
+    ${ip2.value}:`,
     "utf8",
   )
 
+  sh.env["ANSIBLE_HOST_KEY_CHECKING"] = "False"
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
   await throwIfError(
     sh.exec(`ansible-playbook deployment/update.yml -i .secrets/hosts.yml;`),

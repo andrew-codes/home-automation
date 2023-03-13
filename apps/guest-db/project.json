@@ -1,5 +1,6 @@
 {
-  "root": "apps/guest-db",
+  "name": "guest-db",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/guest-db/src",
   "projectType": "application",
   "targets": {
@@ -8,13 +9,7 @@
       "options": {
         "cwd": "apps/guest-db",
         "module": "scripts/deploy.ts"
-      },
-      "dependsOn": [
-        {
-          "target": "image/push",
-          "projects": "self"
-        }
-      ]
+      }
     },
     "image/push": {
       "executor": "@ha/nx-executors:invoke",

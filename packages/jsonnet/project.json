@@ -1,5 +1,6 @@
 {
-  "root": "packages/jsonnet",
+  "name": "jsonnet",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/jsonnet/src",
   "projectType": "library",
   "targets": {

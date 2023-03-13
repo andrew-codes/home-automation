@@ -59,6 +59,7 @@ const run = async () => {
   const serverCleanup = useServer({ schema }, wsServer)
 
   const server = new ApolloServer<GraphContext>({
+    introspection: true,
     schema,
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),

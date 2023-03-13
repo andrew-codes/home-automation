@@ -1,5 +1,6 @@
 {
-  "root": "apps/uptime-kuma",
+  "name": "uptime-kuma",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/uptime-kuma",
   "projectType": "application",
   "targets": {

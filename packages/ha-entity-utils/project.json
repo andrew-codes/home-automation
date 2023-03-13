@@ -1,5 +1,6 @@
 {
-  "root": "packages/ha-entity-utils",
+  "name": "ha-entity-utils",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/ha-entity-utils/src",
   "projectType": "library",
   "targets": {

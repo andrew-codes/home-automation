@@ -1,5 +1,6 @@
 {
-  "root": "apps/game-room-remote",
+  "name": "game-room-remote",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/game-room-remote/src",
   "projectType": "application",
   "targets": {
@@ -15,15 +16,6 @@
         "cwd": "apps/game-room-remote"
       }
     },
-    "generate": {
-      "executor": "@ha/nx-executors:invoke",
-      "outputs": ["{projectRoot}/src/generated"],
-      "options": {
-        "cwd": "apps/game-room-remote",
-        "module": "scripts/generate.ts"
-      },
-      "dependsOn": ["clean"]
-    },
     "compile": {
       "executor": "@ha/nx-executors:invoke",
       "outputs": ["{projectRoot}/dist"],
@@ -37,13 +29,15 @@
       "options": {
         "cwd": "apps/game-room-remote",
         "module": "scripts/deploy.ts"
-      },
-      "dependsOn": [
-        {
-          "target": "image/push",
-          "projects": "self"
-        }
-      ]
+      }
+    },
+    "generate": {
+      "executor": "@ha/nx-executors:invoke",
+      "outputs": ["{projectRoot}/src/generated"],
+      "options": {
+        "cwd": "apps/game-room-remote",
+        "module": "scripts/generate.ts"
+      }
     },
     "image/push": {
       "executor": "@ha/nx-executors:invoke",

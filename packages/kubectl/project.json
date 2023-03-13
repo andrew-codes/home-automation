@@ -1,5 +1,6 @@
 {
-  "root": "packages/kubectl",
+  "name": "kubectl",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/kubectl/src",
   "projectType": "library",
   "targets": {

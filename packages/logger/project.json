@@ -1,5 +1,6 @@
 {
-  "root": "packages/logger",
+  "name": "logger",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/logger/src",
   "projectType": "library",
   "targets": {

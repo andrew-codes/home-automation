@@ -1,5 +1,6 @@
 {
-  "root": "apps/github-action-runners",
+  "name": "github-action-runners",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/github-action-runners/src",
   "projectType": "application",
   "targets": {
@@ -8,17 +9,7 @@
       "options": {
         "cwd": "apps/github-action-runners",
         "module": "scripts/deploy.ts"
-      },
-      "dependsOn": [
-        {
-          "target": "compile",
-          "projects": "dependencies"
-        },
-        {
-          "target": "image/push",
-          "projects": "self"
-        }
-      ]
+      }
     },
     "image/push": {
       "executor": "@ha/nx-executors:invoke",

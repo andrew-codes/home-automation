@@ -1,5 +1,6 @@
 {
-  "root": "apps/mqtt",
+  "name": "mqtt",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/mqtt",
   "projectType": "application",
   "targets": {
@@ -9,7 +10,12 @@
         "cwd": "apps/mqtt",
         "module": "scripts/deploy.ts"
       },
-      "dependsOn": [{ "target": "image/push", "projects": "self" }]
+      "dependsOn": [
+        {
+          "target": "image/push",
+          "projects": "self"
+        }
+      ]
     },
     "image/push": {
       "executor": "@ha/nx-executors:invoke",

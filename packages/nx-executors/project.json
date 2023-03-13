@@ -1,11 +1,12 @@
 {
-  "root": "packages/nx-executors",
+  "name": "nx-executors",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/nx-executors/src",
   "projectType": "library",
   "targets": {
     "clean": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": [".test-runs"],
+      "outputs": ["{workspaceRoot}/.test-runs"],
       "options": {
         "command": "rm -rf dist .test-runs",
         "cwd": "packages/nx-executors"
@@ -13,7 +14,7 @@
     },
     "compile": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["packages/nx-executors/dist"],
+      "outputs": ["{projectRoot}/dist"],
       "options": {
         "command": "node -r esbuild-register scripts/compile.ts",
         "cwd": "packages/nx-executors"
@@ -35,7 +36,7 @@
     },
     "prepare": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["packages/nx-executors/dist"],
+      "outputs": ["{projectRoot}/dist"],
       "options": {
         "command": "node -r esbuild-register scripts/compile.ts",
         "cwd": "packages/nx-executors"
