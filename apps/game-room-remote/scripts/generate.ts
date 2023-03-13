@@ -6,11 +6,11 @@ import * as client from "@graphql-codegen/client-preset"
 
 const run = async (): Promise<void> => {
   await fs.mkdir(path.join(__dirname, "..", "generated"), { recursive: true })
-  await fs.writeFile(
-    path.join(__dirname, "..", "generated", "schema.graphql"),
-    schema,
-    "utf8",
-  )
+  // await fs.writeFile(
+  //   path.join(__dirname, "..", "generated", "schema.graphql"),
+  //   schema,
+  //   "utf8",
+  // )
 
   const srcGenerated = path.join(__dirname, "..", "src", "generated")
   await generate({
@@ -22,7 +22,7 @@ const run = async (): Promise<void> => {
     config: { federation: true },
     generates: {
       [`${srcGenerated}/`]: {
-        plugins: ["typescript"],
+        plugins: [],
         preset: client.preset,
         presetConfig: {
           gqlTagName: "gql",

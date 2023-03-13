@@ -69,7 +69,8 @@ const GameCollections = styled.div`
   > div {
     padding: 0;
     display: flex;
-    height: 100%;
+    height: 1920px;
+    width: 1995px;
     overflow: visible;
     position: relative;
     margin: 24px 0;
@@ -289,6 +290,9 @@ const Area = () => {
     [selectedCollection.items],
   )
 
+  const height = 1920
+  const width = 1995
+
   return (
     <>
       <GameSelectionAnimationStyles />
@@ -302,11 +306,13 @@ const Area = () => {
             <MultiItemSwipeablePage<GameCollecion>
               defaultPageIndex={defaultCollectionIndex}
               direction="horizontal"
+              height={height}
               items={collections}
               onChangePage={handleChangeCollection}
               itemsPerRow={1}
               rows={1}
               spaceBetween={24}
+              width={width}
             >
               {([collection], collectionIndex, collectionDimensions) => {
                 return (
@@ -314,11 +320,13 @@ const Area = () => {
                     <Text as={GameCollectionName}>{collection.name}</Text>
                     <MultiItemSwipeablePage<Game>
                       direction="vertical"
+                      height={height - 96}
                       items={collection.items}
                       itemsPerRow={4}
                       onChangePage={handleChangeGamesPage}
                       rows={3}
                       spaceBetween={24}
+                      width={width - 96}
                     >
                       {(games, gamePageIndex, gameDimensions) => {
                         return (

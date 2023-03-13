@@ -260,6 +260,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/graph-schema"\
       },\
       {\
+        "name": "@ha/graph-subscriptions-schema",\
+        "reference": "workspace:packages/graph-subscriptions-schema"\
+      },\
+      {\
         "name": "@ha/ha-entity-utils",\
         "reference": "workspace:packages/ha-entity-utils"\
       },\
@@ -353,6 +357,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@ha/graph", ["workspace:apps/graph"]],\
       ["@ha/graph-schema", ["workspace:packages/graph-schema"]],\
       ["@ha/graph-subscriptions", ["workspace:apps/graph-subscriptions"]],\
+      ["@ha/graph-subscriptions-schema", ["workspace:packages/graph-subscriptions-schema"]],\
       ["@ha/guest-db", ["workspace:apps/guest-db"]],\
       ["@ha/guest-pin-codes", ["workspace:apps/guest-pin-codes"]],\
       ["@ha/guest-registrar", ["workspace:apps/guest-registrar"]],\
@@ -8897,6 +8902,33 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#npm:29.0.5"],\
             ["typescript", "patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=ad5954"],\
             ["ws", "virtual:9a074450990d3854fa1f9ca1d389503c48d41a189c1a939161e457f342582f20937fd9d60856a2c7479af9f1912247395602590cff411235d956af67b6481865#npm:8.12.1"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@ha/graph-subscriptions-schema", [\
+        ["workspace:packages/graph-subscriptions-schema", {\
+          "packageLocation": "./packages/graph-subscriptions-schema/",\
+          "packageDependencies": [\
+            ["@ha/graph-subscriptions-schema", "workspace:packages/graph-subscriptions-schema"],\
+            ["@graphql-codegen/core", "virtual:051176d20eb2b3ab50455bdf680b5dc457ab6b927a115b0932f521e4561c1073268f3915b415c88b8d5239518dee55fdfcdc6668418ae8ec8420deb807682da4#npm:2.6.8"],\
+            ["@graphql-codegen/schema-ast", "virtual:051176d20eb2b3ab50455bdf680b5dc457ab6b927a115b0932f521e4561c1073268f3915b415c88b8d5239518dee55fdfcdc6668418ae8ec8420deb807682da4#npm:2.6.1"],\
+            ["@ha/configure-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#workspace:packages/configure-jest"],\
+            ["@ha/env-utils", "workspace:packages/env-utils"],\
+            ["@ha/graph-subscriptions", "workspace:apps/graph-subscriptions"],\
+            ["@ha/nx-executors", "workspace:packages/nx-executors"],\
+            ["@ha/shell-utils", "workspace:packages/shell-utils"],\
+            ["@types/jest", "npm:29.2.5"],\
+            ["@types/node", "npm:18.11.18"],\
+            ["esbuild", "npm:0.17.3"],\
+            ["glob", "npm:9.2.1"],\
+            ["graphql", "npm:16.6.0"],\
+            ["graphql-tag", "virtual:b0d0bf40fac5c790a0bcc74bd85044c1b42efb2fd53c14e10c940cb24e9b95d0af83ec6d1e78a0174d08f9ad2412f2dd5d9269865df0f8af9a4f1626885a8b5f#npm:2.12.6"],\
+            ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
+            ["lodash", "npm:4.17.21"],\
+            ["shelljs", "npm:0.8.5"],\
+            ["ts-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#npm:29.0.5"],\
+            ["typescript", "patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=ad5954"]\
           ],\
           "linkType": "SOFT"\
         }]\

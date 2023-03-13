@@ -1,11 +1,9 @@
 import { ceil } from "lodash"
 import { ReactElement, ReactNode, useCallback, useMemo } from "react"
-import AutoSizer from "react-virtualized-auto-sizer"
 import { EffectCreative, Keyboard, Mousewheel } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Swiper as SwiperClass } from "swiper"
 import { Item } from "./types"
-import { on } from "events"
 
 type MultiItemSwipeablePageProps<TItem extends Item> = {
   children: (
@@ -19,6 +17,8 @@ type MultiItemSwipeablePageProps<TItem extends Item> = {
   spaceBetween: number
   itemsPerRow: number
   items: TItem[]
+  height: number
+  width: number
   direction: "vertical" | "horizontal"
 }
 const MultiItemSwipeablePage: <TItem extends Item>(
@@ -26,12 +26,14 @@ const MultiItemSwipeablePage: <TItem extends Item>(
 ) => ReactElement = ({
   children,
   defaultPageIndex = 0,
+  height,
   onChangePage,
   rows = 1,
   spaceBetween,
   itemsPerRow = 1,
   direction = "vertical",
   items,
+  width,
 }) => {
   const countPerPage = itemsPerRow * rows
 
@@ -64,41 +66,34 @@ const MultiItemSwipeablePage: <TItem extends Item>(
     [onChangePage, countPerPage, items.length],
   )
 
+  const itemHeight = ceil(height / rows) - spaceBetween - 24
+  const itemWidth = ceil((itemHeight * 3) / 4)
   return (
-    <AutoSizer>
-      {({ height, width }) => {
-        const itemHeight = ceil(height / rows) - spaceBetween - 24
-        const itemWidth = ceil((itemHeight * 3) / 4)
-
-        return (
-          <Swiper
-            style={{
-              width: `${width}px`,
-              height: `${height}px`,
-            }}
-            initialSlide={defaultPageIndex}
-            grabCursor
-            keyboard
-            mousewheel
-            spaceBetween={spaceBetween}
-            direction={direction}
-            onSlideChange={handlePageChange}
-            modules={[Mousewheel, Keyboard, EffectCreative]}
-          >
-            {pages.map((page, index) => {
-              return (
-                <SwiperSlide key={index}>
-                  {children(page, index, {
-                    height: itemHeight,
-                    width: itemWidth,
-                  })}
-                </SwiperSlide>
-              )
-            })}
-          </Swiper>
-        )
+    <Swiper
+      style={{
+        width: `${width}px`,
+        height: `${height}px`,
       }}
-    </AutoSizer>
+      initialSlide={defaultPageIndex}
+      grabCursor
+      keyboard
+      mousewheel
+      spaceBetween={spaceBetween}
+      direction={direction}
+      onSlideChange={handlePageChange}
+      modules={[Mousewheel, Keyboard, EffectCreative]}
+    >
+      {pages.map((page, index) => {
+        return (
+          <SwiperSlide key={index}>
+            {children(page, index, {
+              height: itemHeight,
+              width: itemWidth,
+            })}
+          </SwiperSlide>
+        )
+      })}
+    </Swiper>
   )
 }
 

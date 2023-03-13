@@ -40,6 +40,7 @@ const GameActions: FC<{
     <Root>
       {releases?.map(({ id, platform: { name } }) => (
         <Button
+          key={id}
           type="button"
           disabled={!enabled}
           onClick={(evt) => {

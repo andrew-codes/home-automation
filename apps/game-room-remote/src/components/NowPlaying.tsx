@@ -23,7 +23,7 @@ const query = gql(/* GraphQL */ `
   }
 `)
 
-const subscriptionQuery = gqlSub(/* GraphQL */ `
+const subscriptionQuery = gqlSub(`
   subscription NowPlaying {
     activityChanged {
       areaId

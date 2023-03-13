@@ -1,4 +1,4 @@
-import { FC, SyntheticEvent, useCallback } from "react"
+import { FC, SyntheticEvent, useCallback, useEffect, useState } from "react"
 import styled from "styled-components"
 
 const Button = styled.button`
@@ -23,17 +23,21 @@ const GameCoverRoot = styled.div`
   width: ${({ coverWidth }) => coverWidth}px;
   z-index: 10;
 
-  ${({ active, scaleFactor }) => {
+  ${({ active, animate, deselected, scaleFactor }) => {
     const timing = 0.6
 
-    return !!active
-      ? `
+    if (!animate) return ""
+    if (!!active) {
+      return `
   animation: selectGame ${timing}s;
   transform: scale(${scaleFactor});
 `
-      : `
-  animation: deselectGame ${timing * 0.25}s;
-`
+    }
+    if (deselected) {
+      return `
+      animation: deselectGame ${timing * 0.25}s;
+    `
+    }
   }}
 `
 
@@ -45,6 +49,8 @@ const BlankGameCover = styled.div`
 
 const GameCover = ({
   active,
+  animate,
+  deselected,
   name,
   coverImage,
   coverWidth,
@@ -54,6 +60,8 @@ const GameCover = ({
   return (
     <GameCoverRoot
       active={active}
+      animate={animate}
+      deselected={deselected}
       scaleFactor={scaleFactor}
       coverHeight={coverHeight}
       coverWidth={coverWidth}
@@ -84,6 +92,16 @@ const SelecteableGame: FC<{
     [id, onSelect],
   )
 
+  const [shouldAnimate, setShouldAnimate] = useState(false)
+  useEffect(() => {
+    setShouldAnimate(true)
+  }, [])
+
+  const [previousActive, setPreviousActive] = useState(active)
+  useEffect(() => {
+    setPreviousActive(active)
+  }, [active])
+
   const selectedCoverScaleFactor = 1.2
 
   return (
@@ -91,6 +109,8 @@ const SelecteableGame: FC<{
       {!!coverImage && !/null$/.test(coverImage) ? (
         <GameCover
           active={active}
+          deselected={!!previousActive && !active}
+          animate={shouldAnimate}
           coverImage={coverImage}
           coverWidth={width}
           coverHeight={height}
