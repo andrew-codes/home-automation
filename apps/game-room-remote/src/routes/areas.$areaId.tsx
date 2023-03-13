@@ -10,7 +10,7 @@ import GameOverview from "../components/GameOverview"
 import GameActions from "../components/GameActions"
 import collectionDefinitions from "../lib/gameCollections"
 import MultiItemSwipeablePage from "../components/Swipeable/MultiItemSwipeablePage"
-import PrefetchGameBackgrounds from "../components/PrefetchGameBackgrounds"
+import PrepareGameMedia from "../components/PrefetchGameBackgrounds"
 import SelecteableGame from "../components/SelectableGame"
 import Text from "../components/Text"
 
@@ -120,6 +120,12 @@ type Game = {
   name: string
   coverImage: string
   backgroundImage: string
+  releases: {
+    id: string
+    platform: {
+      name: string
+    }
+  }[]
 }
 type GameCollecion = {
   id: string
@@ -288,8 +294,8 @@ const Area = () => {
       <GameSelectionAnimationStyles />
       <CenterPane>
         <Overview>
-          <GameOverview {...selectedGame} height={1920} />
           <GameActions {...selectedGame} />
+          <GameOverview {...selectedGame} height={1920} />
         </Overview>
         <GameCollections>
           <div>
@@ -302,7 +308,7 @@ const Area = () => {
               rows={1}
               spaceBetween={24}
             >
-              {([collection], _, collectionDimensions) => {
+              {([collection], collectionIndex, collectionDimensions) => {
                 return (
                   <GameCollection height={collectionDimensions.height}>
                     <Text as={GameCollectionName}>{collection.name}</Text>
@@ -317,6 +323,45 @@ const Area = () => {
                       {(games, gamePageIndex, gameDimensions) => {
                         return (
                           <Games>
+                            {collection.id === selectedCollection.id &&
+                              gamePageIndex ===
+                                state.collections[selectedCollection.id]
+                                  ?.gamePageIndex && (
+                                <PrepareGameMedia
+                                  mode="preload"
+                                  games={games}
+                                  backgroundDimensions={{ height: 1920 }}
+                                  coverDimensions={gameDimensions}
+                                />
+                              )}
+                            {((collectionIndex ===
+                              state.currentCollectionIndex + 1 &&
+                              gamePageIndex ===
+                                state.collections[
+                                  state.currentCollectionIndex + 1
+                                ]?.gamePageIndex) ??
+                              0) && (
+                              <PrepareGameMedia
+                                mode="prefetch"
+                                games={games}
+                                backgroundDimensions={{ height: 1920 }}
+                                coverDimensions={gameDimensions}
+                              />
+                            )}
+                            {(collectionIndex ===
+                              state.currentCollectionIndex - 1 &&
+                              gamePageIndex ===
+                                state.collections[
+                                  state.currentCollectionIndex + 1
+                                ]?.gamePageIndex) ??
+                              (0 && (
+                                <PrepareGameMedia
+                                  mode="prefetch"
+                                  games={games}
+                                  backgroundDimensions={{ height: 1920 }}
+                                  coverDimensions={gameDimensions}
+                                />
+                              ))}
                             {games.map((game) => (
                               <SelecteableGame
                                 {...game}

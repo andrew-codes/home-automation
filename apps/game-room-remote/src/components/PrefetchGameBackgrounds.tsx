@@ -1,25 +1,46 @@
 import { Helmet } from "react-helmet"
 import { FC } from "react"
+import { get } from "lodash/fp"
 
-type PrefetchGameBackgroundsProps = {
-  games: { backgroundImage?: string | null | undefined }[]
+type Dimensions = {
   height: number
+  width: number
 }
-const PrefetchGameBackgrounds: FC<PrefetchGameBackgroundsProps> = ({
+type PrefetchGameBackgroundsProps = {
+  games: {
+    coverImage?: string | null | undefined
+    backgroundImage?: string | null | undefined
+  }[]
+  backgroundDimensions: Omit<Dimensions, "width">
+  coverDimensions: Dimensions
+  mode: "prefetch" | "preload"
+}
+const PrepareGameMedia: FC<PrefetchGameBackgroundsProps> = ({
   games,
-  height,
+  backgroundDimensions,
+  coverDimensions,
+  mode,
 }) => (
   <Helmet>
-    {games.map(({ backgroundImage }, index) => (
+    {games.filter(get("backgroundImage")).map(({ backgroundImage }, index) => (
       <link
-        rel="prefetch"
+        rel={mode}
         as="image"
         type="image/webp"
         key={`${backgroundImage}-${index}}`}
-        href={`${backgroundImage}?&height=${height}`}
+        href={`${backgroundImage}?&height=${backgroundDimensions.height}`}
+      />
+    ))}
+    {games.filter(get("coverImage")).map(({ coverImage }, index) => (
+      <link
+        rel={mode}
+        as="image"
+        type="image/webp"
+        key={`${coverImage}-${index}}`}
+        href={`${coverImage}?&height=${coverDimensions.height}&width=${coverDimensions.width}`}
       />
     ))}
   </Helmet>
 )
 
-export default PrefetchGameBackgrounds
+export default PrepareGameMedia

@@ -1,6 +1,5 @@
+import { FC, SyntheticEvent, useCallback } from "react"
 import styled from "styled-components"
-import { FC, SyntheticEvent, useCallback, useContext } from "react"
-import { ceil } from "lodash"
 
 const Button = styled.button`
   background: transparent;
@@ -8,9 +7,9 @@ const Button = styled.button`
   outline: none;
 `
 const GameCoverImage = styled.img`
-  height: 100%;
-  width: 100%;
   border-radius: 24px;
+  width: 100%;
+  height: 100%;
   border: 1px solid
     ${({ active }) => (active ? "var(--dark-gray)" : "transparent")};
   box-shadow: 4px 8px 24px 8px rgba(39, 40, 48, 0.75);
@@ -18,23 +17,24 @@ const GameCoverImage = styled.img`
 
 const GameCoverRoot = styled.div`
   background: var(--dark-gray);
+  display: inline-block;
   border-radius: 24px;
+  height: ${({ coverHeight }) => coverHeight}px;
+  width: ${({ coverWidth }) => coverWidth}px;
   z-index: 10;
-  ${({ active }) => {
+
+  ${({ active, scaleFactor }) => {
     const timing = 0.6
 
     return !!active
       ? `
   animation: selectGame ${timing}s;
-  transform: scale(1.2);
+  transform: scale(${scaleFactor});
 `
       : `
   animation: deselectGame ${timing * 0.25}s;
 `
   }}
-  display: inline-block;
-  width: ${({ width }) => width}px;
-  height: ${({ height }) => height}px;
 `
 
 const BlankGameCover = styled.div`
@@ -52,16 +52,17 @@ const GameCover = ({
   scaleFactor,
 }) => {
   return (
-    <GameCoverRoot width={coverWidth} height={coverHeight} active={active}>
+    <GameCoverRoot
+      active={active}
+      scaleFactor={scaleFactor}
+      coverHeight={coverHeight}
+      coverWidth={coverWidth}
+    >
       <GameCoverImage
         active={active}
         data-component="GameCover"
         alt={`Cover art for ${name}`}
-        src={`${coverImage}?width=${ceil(
-          coverWidth * scaleFactor,
-        )}&height=${ceil(coverHeight * scaleFactor)}`}
-        coverWidth={coverWidth}
-        coverHeight={coverHeight}
+        src={`${coverImage}?height=${coverHeight}&width=${coverWidth}`}
       />
     </GameCoverRoot>
   )

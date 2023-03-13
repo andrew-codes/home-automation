@@ -1,10 +1,14 @@
 import { FC, SyntheticEvent, useCallback } from "react"
 import styled from "styled-components"
-import { Game } from "../Game"
 import Text from "./Text"
 
 const Root = styled.section`
   text-align: center;
+  margin: 0 8px;
+  display: flex;
+  > button {
+    margin: 16px;
+  }
 `
 
 const ButtonText = styled(Text)`
@@ -12,7 +16,7 @@ const ButtonText = styled(Text)`
 `
 
 const Button = styled.button`
-  width: 320px;
+  flex: 1;
   padding: 24px;
   background: #238636;
   color: white;
@@ -26,16 +30,25 @@ const Button = styled.button`
   }
 `
 
-const GameActions: FC<
-  Game & {
-    onStart?: (evt: SyntheticEvent) => void
-  }
-> = ({ id, onStart, onStop, systemState }) => {
+const GameActions: FC<{
+  enabled?: boolean
+  id: string
+  releases: { id: string; platform: { name: string } }[]
+  onStart?: (evt: SyntheticEvent, releaseId: string) => void
+}> = ({ enabled, releases, onStart }) => {
   return (
     <Root>
-      <Button type="button" disabled={true} onClick={onStart}>
-        <ButtonText as="span">Play</ButtonText>
-      </Button>
+      {releases?.map(({ id, platform: { name } }) => (
+        <Button
+          type="button"
+          disabled={!enabled}
+          onClick={(evt) => {
+            onStart?.(evt, id)
+          }}
+        >
+          <ButtonText as="span">{name.replace(/4$/, "")}</ButtonText>
+        </Button>
+      ))}
     </Root>
   )
 }
