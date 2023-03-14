@@ -6,11 +6,11 @@ RUN apt update -y
 RUN apt-get install \
   apt-transport-https wget
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+RUN curl -sS https://packages.cloud.google.com/apt/doc/apt-key.gpg | (OUT=$(apt-key add - 2>&1) || echo $OUT)
 RUN echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
 RUN apt-add-repository -y --update ppa:ansible/ansible
 RUN add-apt-repository ppa:deadsnakes/ppa
-RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+RUN curl -sS https://packages.microsoft.com/keys/microsoft.asc | (OUT=$(apt-key add - 2>&1) || echo $OUT)
 RUN curl https://packages.microsoft.com/config/ubuntu/22.04/prod.list | tee /etc/apt/sources.list.d/msprod.list
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 40976EAF437D05B5 3B4FE6ACC0B21F32
 RUN echo "deb http://security.ubuntu.com/ubuntu xenial-security main" >>/etc/apt/sources.list
