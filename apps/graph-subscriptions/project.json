@@ -31,14 +31,6 @@
         "module": "scripts/deploy.ts"
       }
     },
-    "generate": {
-      "executor": "@ha/nx-executors:invoke",
-      "options": {
-        "cwd": "apps/graph-subscriptions",
-        "module": "scripts/generate.ts"
-      },
-      "outputs": ["{projectRoot}/generated"]
-    },
     "image/push": {
       "executor": "@ha/nx-executors:invoke",
       "dependsOn": [
