@@ -5156,6 +5156,7 @@ __metadata:
     "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/docker": "workspace:^0.0.1"
     "@ha/graph-schema": "workspace:^1.0.0"
+    "@ha/graph-subscriptions-schema": "workspace:^1.0.0"
     "@ha/jsonnet": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/nx-executors": "workspace:^0.1.0"
@@ -5342,12 +5343,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/graph-subscriptions-schema@workspace:packages/graph-subscriptions-schema":
+"@ha/graph-subscriptions-schema@workspace:^1.0.0, @ha/graph-subscriptions-schema@workspace:packages/graph-subscriptions-schema":
   version: 0.0.0-use.local
   resolution: "@ha/graph-subscriptions-schema@workspace:packages/graph-subscriptions-schema"
   dependencies:
     "@graphql-codegen/core": ^2.6.8
     "@graphql-codegen/schema-ast": ^2.6.1
+    "@graphql-tools/schema": ^9.0.17
     "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/env-utils": "workspace:^0.0.1"
     "@ha/graph-subscriptions": "workspace:^1.0.0"
@@ -5356,7 +5358,6 @@ __metadata:
     "@types/jest": ^29.2.5
     "@types/node": ^18.11.18
     esbuild: ^0.17.3
-    glob: ^9.2.1
     graphql: ^16.6.0
     graphql-tag: ^2.12.6
     jest: ^29.3.1
@@ -5382,6 +5383,7 @@ __metadata:
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/docker": "workspace:^0.0.1"
+    "@ha/graph-subscriptions-schema": "workspace:^1.0.0"
     "@ha/jsonnet": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/logger": "workspace:^0.0.1"

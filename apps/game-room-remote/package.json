@@ -43,6 +43,7 @@
     "@ha/configure-jest": "workspace:^0.0.1",
     "@ha/docker": "workspace:^0.0.1",
     "@ha/graph-schema": "workspace:^1.0.0",
+    "@ha/graph-subscriptions-schema": "workspace:^1.0.0",
     "@ha/jsonnet": "workspace:^0.0.1",
     "@ha/kubectl": "workspace:^1.0.0",
     "@ha/nx-executors": "workspace:^0.1.0",

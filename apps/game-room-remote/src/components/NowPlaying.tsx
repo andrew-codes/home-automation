@@ -1,6 +1,5 @@
 import styled from "styled-components"
 import Text from "./Text"
-import gqlSub from "graphql-tag"
 import { gql } from "../generated"
 import { useQuery, useSubscription } from "@apollo/client"
 import { FC, useEffect } from "react"
@@ -23,7 +22,7 @@ const query = gql(/* GraphQL */ `
   }
 `)
 
-const subscriptionQuery = gqlSub(`
+const subscriptionQuery = gql(/*GraphQL */ `
   subscription NowPlaying {
     activityChanged {
       areaId
