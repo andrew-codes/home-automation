@@ -2,6 +2,7 @@ wake_on_lan:
 
 binary_sensor:
   - name: Game room gaming-pc power
+    id: game_room_gaming_pc_power
     platform: ping
     host: !secret GAMING_ROOM_GAMING_PC_IP
     scan_interval: 5
@@ -14,7 +15,7 @@ media_player:
     children:
       - media_player.game_room_avr
     state_template: >
-      {{ states('binary_sensor.gaming_room_gaming_pc_power_state') }}
+      {{ is_state('binary_sensor.gaming_room_gaming_pc_power_state', 'Connected') }}
     commands:
       turn_on:
         service: mqtt.publish
