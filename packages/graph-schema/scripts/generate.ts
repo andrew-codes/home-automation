@@ -9,8 +9,9 @@ import gql from "graphql-tag"
 import { glob } from "glob"
 
 const buildSchema = async (schemaFilePath, outPath) => {
-  delete require.cache[schemaFilePath]
-  const schemaContent = require(schemaFilePath)
+  const requirePath = path.resolve(schemaFilePath)
+  delete require.cache[requirePath]
+  const schemaContent = require(requirePath)
 
   const schema: GraphQLSchema = buildSubgraphSchema({
     typeDefs: gql`
@@ -38,14 +39,14 @@ const buildSchema = async (schemaFilePath, outPath) => {
     pluginMap: { "schema-ast": schemaAstPlugin },
   }
 
-  return await codegen(config)
+  return codegen(config)
 }
 
-const run = async (configApi, ctx): Promise<void> => {
+const run = async (): Promise<void> => {
   const srcDir = path.join(__dirname, "..", "src")
   const outDir = path.join(srcDir, "generated")
   await fs.mkdir(outDir, { recursive: true })
-  const schemaFiles = await glob(path.join(srcDir, "schemas", "*.ts"))
+  const schemaFiles = await glob(`src/schemas/*.ts`)
 
   await Promise.all(
     schemaFiles.map(async (filePath) => {

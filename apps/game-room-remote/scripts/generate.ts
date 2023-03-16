@@ -22,14 +22,13 @@ ${subscriptionSchema.replace(
 
   const srcGenerated = path.join(__dirname, "..", "src", "generated")
   await generate({
-    schema: path.join(__dirname, "..", "generated", "schema.graphql"),
-    documents: [
-      path.join(__dirname, "..", "src", "**", "*.tsx"),
-      path.join(__dirname, "..", "src", "**", "*.ts"),
-    ],
+    schema: path
+      .join(__dirname, "..", "generated", "schema.graphql")
+      .replace(path.sep, "/"),
+    documents: ["src/**/*.ts", "src/**/*.tsx"],
     config: { federation: true },
     generates: {
-      [`${srcGenerated}/`]: {
+      [`${srcGenerated}/`.replace(path.sep, "/")]: {
         plugins: [],
         preset: client.preset,
         presetConfig: {

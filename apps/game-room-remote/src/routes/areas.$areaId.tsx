@@ -10,7 +10,7 @@ import GameOverview from "../components/GameOverview"
 import GameActions from "../components/GameActions"
 import collectionDefinitions from "../lib/gameCollections"
 import MultiItemSwipeablePage from "../components/Swipeable/MultiItemSwipeablePage"
-import PrepareGameMedia from "../components/PrefetchGameBackgrounds"
+// import PrepareGameMedia from "../components/PrefetchGameBackgrounds"
 import SelecteableGame from "../components/SelectableGame"
 import Text from "../components/Text"
 
@@ -331,7 +331,7 @@ const Area = () => {
                       {(games, gamePageIndex, gameDimensions) => {
                         return (
                           <Games>
-                            {collection.id === selectedCollection.id &&
+                            {/* {collection.id === selectedCollection.id &&
                               gamePageIndex ===
                                 state.collections[selectedCollection.id]
                                   ?.gamePageIndex && (
@@ -369,7 +369,7 @@ const Area = () => {
                                   backgroundDimensions={{ height: 1920 }}
                                   coverDimensions={gameDimensions}
                                 />
-                              ))}
+                              ))} */}
                             {games.map((game) => (
                               <SelecteableGame
                                 {...game}

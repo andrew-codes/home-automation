@@ -6,9 +6,13 @@
   "targets": {
     "clean": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["{projectRoot}/src/generated"],
+      "outputs": [
+        "{projectRoot}/src/generated",
+        "{projectRoot}/.test-runs",
+        "{projectRoot}/generated"
+      ],
       "options": {
-        "command": "rm -rf src/generated .test-runs",
+        "command": "rm -rf src/generated .test-runs generated",
         "cwd": "packages/graph-schema"
       }
     },
