@@ -17,9 +17,9 @@ const pngContentType: ContentTypeRule = async () => "image/png"
 const noContentType: ContentTypeRule = async () => null
 
 const conditionalRule =
-  (specfication: IsAMatch<string>, rule: ContentTypeRule): ContentTypeRule =>
+  (specification: IsAMatch<string>, rule: ContentTypeRule): ContentTypeRule =>
   async (id) =>
-    specfication(id) ? rule(id) : noContentType(id)
+    specification(id) ? rule(id) : noContentType(id)
 
 const firstValid =
   (supportedContentTypeRules: ContentTypeRule[]): ContentTypeRule =>

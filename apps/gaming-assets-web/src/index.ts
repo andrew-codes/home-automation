@@ -31,11 +31,13 @@ const run = async () => {
     }),
   )
 
+  const perfTimerPrecision = 3
   const cacheFor300Days = 60 * 60 * 24 * 300
   app.use("/resize/:id", async (req, resp) => {
+    const start = process.hrtime()
+    const { id } = req.params
+    const { height, width } = req.query
     try {
-      const { id } = req.params
-      const { height, width } = req.query
       if (!id && (!width || !height)) {
         throw new Error(
           `Not all parameters supplied: ${id}, width: ${width}, height: ${height}`,
@@ -66,9 +68,14 @@ const run = async () => {
         .set("ETag", `"${id}@${width}_webp"`)
       resizedImageStream.pipe(resp.type("image/webp"))
     } catch (error) {
+      logger.debug(`Failure for ${id} @ ${width}x${height}`)
       logger.error(error)
       resp.status(500)
     }
+    const elapsed = process.hrtime(start)[1] / 1000000
+    logger.info(
+      `${id} time to resize: ${elapsed.toFixed(perfTimerPrecision)}ms`,
+    )
   })
 
   const server = spdy.createServer(
