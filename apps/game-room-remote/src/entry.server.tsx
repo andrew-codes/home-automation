@@ -3,18 +3,15 @@ import type { EntryContext } from "@remix-run/node"
 import { RemixServer } from "@remix-run/react"
 import { ServerStyleSheet } from "styled-components"
 import fs from "fs/promises"
+import { Helmet } from "react-helmet"
 import { getDataFromTree } from "@apollo/client/react/ssr"
-import { GraphQLWsLink } from "@apollo/client/link/subscriptions"
-import { getMainDefinition } from "@apollo/client/utilities"
-import { createClient } from "graphql-ws"
-import { WebSocket } from "ws"
 import {
   ApolloClient,
   createHttpLink,
   InMemoryCache,
   ApolloProvider,
-  split,
 } from "@apollo/client"
+import { getMediaToPrepare } from "./lib/gameCollections/prepareMedia"
 
 export default async function handleRequest(
   request: Request,
@@ -24,24 +21,9 @@ export default async function handleRequest(
 ) {
   const client = new ApolloClient({
     ssrMode: true,
-    link: split(
-      ({ query }) => {
-        const definition = getMainDefinition(query)
-        return (
-          definition.kind === "OperationDefinition" &&
-          definition.operation === "subscription"
-        )
-      },
-      new GraphQLWsLink(
-        createClient({
-          url: `wss://graph-sub.smith-simms.family/graphql`,
-          webSocketImpl: WebSocket,
-        }),
-      ),
-      createHttpLink({
-        uri: `${process.env.GRAPH_HOST}/graphql`,
-      }),
-    ),
+    link: createHttpLink({
+      uri: `${process.env.GRAPH_HOST}/graphql`,
+    }),
     cache: new InMemoryCache(),
   })
 
@@ -54,6 +36,7 @@ export default async function handleRequest(
 
   let markup = await getDataFromTree(App)
   const initialState = client.extract()
+  const helmet = Helmet.renderStatic()
 
   const swiperCss = await fs.readFile(require.resolve("swiper/css"), "utf8")
   const swiperCssVirtual = await fs.readFile(
@@ -80,6 +63,11 @@ export default async function handleRequest(
         `<script>window.__APOLLO_STATE__ = ${JSON.stringify(
           initialState,
         ).replace(/</g, "\\u003c")};</script>`,
+      ),
+    (markup) =>
+      markup.replace(
+        "__HELMET__",
+        `${helmet.title.toString()}${helmet.meta.toString()}${helmet.link.toString()}${helmet.style.toString()}${helmet.script.toString()}`,
       ),
   )
 

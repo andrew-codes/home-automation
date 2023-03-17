@@ -1,6 +1,6 @@
 import themeFunction, { light, dark } from "@ha/themes-slate"
 import { HeadersFunction, json } from "@remix-run/node"
-import { LiveReload, Outlet, Scripts, useLoaderData } from "@remix-run/react"
+import { LiveReload, Outlet, Scripts } from "@remix-run/react"
 import { ThemeProvider } from "styled-components"
 
 const headers: HeadersFunction = () => {
@@ -22,7 +22,7 @@ const App = () => (
   <html lang="en">
     <head>
       <meta charSet="utf-8" />
-      <title>Gaming Remote</title>
+      {typeof document === "undefined" ? "__HELMET__" : null}
       <meta name="viewport" content="initial-scale=1, width=device-width" />
       {typeof document === "undefined" ? "__STYLES__" : null}
       {typeof document === "undefined" ? "__INITIAL_DATA__" : null}

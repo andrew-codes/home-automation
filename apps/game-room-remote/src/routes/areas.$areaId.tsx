@@ -1,18 +1,21 @@
 import { useCallback, useMemo, useReducer } from "react"
 import { useQuery } from "@apollo/client"
 import { json, LoaderArgs } from "@remix-run/node"
+import { Helmet } from "react-helmet"
 import styled, { createGlobalStyle } from "styled-components"
 import { merge } from "lodash"
-import { get } from "lodash/fp"
+import { flow, get, take } from "lodash/fp"
 import { gql } from "../generated"
 import useLoaderData from "../useLoaderData"
 import GameOverview from "../components/GameOverview"
 import GameActions from "../components/GameActions"
 import collectionDefinitions from "../lib/gameCollections"
 import MultiItemSwipeablePage from "../components/Swipeable/MultiItemSwipeablePage"
-// import PrepareGameMedia from "../components/PrefetchGameBackgrounds"
 import SelecteableGame from "../components/SelectableGame"
 import Text from "../components/Text"
+import concatPreparedMedia from "../components/PreparedMedia/concatPreparedMedia"
+import { PreparedMedia } from "../components/PreparedMedia/types"
+import { getMediaToPrepare } from "../lib/gameCollections/prepareMedia"
 
 const GameSelectionAnimationStyles = createGlobalStyle`
 @keyframes selectGame {
@@ -179,7 +182,10 @@ const changeGame = (index: number) => ({
 type State = {
   currentCollectionIndex: number
   collectionIds: string[]
-  collections: Record<string, { gamePageIndex: number; gameIndex: number }>
+  collections: Record<
+    string,
+    { gamePageIndex: number; gameIndex: number; numberOfGamesToLoad: number }
+  >
 }
 type AnyAction =
   | ReturnType<typeof changeCollection>
@@ -192,13 +198,23 @@ const reducer = (state: State, action: AnyAction): State => {
         currentCollectionIndex: action.payload,
       })
     case "changeGamePage":
+      const collectionId = state.collectionIds[state.currentCollectionIndex]
+      const collection = state.collections[collectionId]
+      const oldPageIndex = collection.gamePageIndex
+      const didPageForward =
+        oldPageIndex <
+        (action as ReturnType<typeof changeGamePage>).payload.pageIndex
+
       return merge({}, state, {
         collections: {
-          [state.collectionIds[state.currentCollectionIndex]]: {
+          [collectionId]: {
             gamePageIndex: (action as ReturnType<typeof changeGamePage>).payload
               .pageIndex,
             gameIndex: (action as ReturnType<typeof changeGamePage>).payload
               .gameIndex,
+            numberOfGamesToLoad: didPageForward
+              ? collection.numberOfGamesToLoad + countPerPage
+              : collection.numberOfGamesToLoad,
           },
         },
       })
@@ -215,10 +231,15 @@ const reducer = (state: State, action: AnyAction): State => {
   }
 }
 
+const rows = 3
+const itemsPerRow = 4
+const countPerPage = rows * itemsPerRow
+const pagesToPreload = 4
+
 const Area = () => {
   const { areaId, cdnHost } = useLoaderData<typeof loader>()
 
-  const { loading, data, error } = useQuery(query, {
+  const { data } = useQuery(query, {
     variables: { areaId: areaId ?? "game_room" },
   })
 
@@ -232,36 +253,56 @@ const Area = () => {
       ) ?? [],
     [data?.gamesInArea],
   )
-  const collections = useMemo(
-    () =>
-      collectionDefinitions.map((collectionDefinition) => ({
-        id: collectionDefinition.id,
-        name: collectionDefinition.name,
-        items: collectionDefinition.filter(games) as Game[],
-      })),
-    [games, collectionDefinitions],
-  )
-  const collectionIds = useMemo(
-    () => collections.map(get("id")),
-    [collections],
-  ) as string[]
 
+  const collectionIds = useMemo(
+    () => collectionDefinitions.map(get("id")),
+    [collectionDefinitions],
+  ) as string[]
   const defaultCollectionIndex = 0
   const [state, dispatch] = useReducer(reducer, {
     currentCollectionIndex: defaultCollectionIndex,
     collectionIds: collectionIds,
-    collections: {
-      [collectionIds[defaultCollectionIndex]]: {
-        gamePageIndex: 0,
-        gameIndex: 0,
-      },
-    },
+    collections: collectionIds.reduce(
+      (acc, id) =>
+        merge({}, acc, {
+          [id]: {
+            gamePageIndex: 0,
+            gameIndex: 0,
+            numberOfGamesToLoad: countPerPage * pagesToPreload,
+          },
+        }),
+      {},
+    ),
   })
+  const collections = useMemo(
+    () =>
+      collectionDefinitions.map((collectionDefinition) => {
+        const collectionFilter = flow(
+          collectionDefinition.filter,
+          take(state.collections[collectionDefinition.id].numberOfGamesToLoad),
+        )
+
+        return {
+          id: collectionDefinition.id,
+          name: collectionDefinition.name,
+          items: collectionFilter(games) as Game[],
+        }
+      }),
+    [games, collectionDefinitions],
+  )
 
   const selectedCollection = useMemo(
     () => collections[state.currentCollectionIndex],
     [collections, state.currentCollectionIndex],
   )
+  const handleChangeCollection = useCallback((index) => {
+    dispatch(changeCollection(index))
+  }, [])
+
+  const handleChangeGamesPage = useCallback((index, indexRange) => {
+    dispatch(changeGamePage(index, indexRange[0]))
+  }, [])
+
   const selectedGame = useMemo(
     () =>
       selectedCollection.items[
@@ -273,13 +314,6 @@ const Area = () => {
       state.collections[selectedCollection.id]?.gameIndex,
     ],
   )
-
-  const handleChangeCollection = useCallback((index) => {
-    dispatch(changeCollection(index))
-  }, [])
-  const handleChangeGamesPage = useCallback((index, indexRange) => {
-    dispatch(changeGamePage(index, indexRange[0]))
-  }, [])
   const handleSelectGame = useCallback(
     (evt, id) => {
       const gameIndex = selectedCollection.items.findIndex(
@@ -290,6 +324,8 @@ const Area = () => {
     [selectedCollection.items],
   )
 
+  let preparedMedia: PreparedMedia[] = []
+
   const height = 1920
   const width = 1995
 
@@ -299,7 +335,7 @@ const Area = () => {
       <CenterPane>
         <Overview>
           <GameActions {...selectedGame} />
-          <GameOverview {...selectedGame} height={1920} />
+          <GameOverview {...selectedGame} height={height} />
         </Overview>
         <GameCollections>
           <div>
@@ -314,79 +350,71 @@ const Area = () => {
               spaceBetween={24}
               width={width}
             >
-              {([collection], collectionIndex, collectionDimensions) => {
-                return (
-                  <GameCollection height={collectionDimensions.height}>
-                    <Text as={GameCollectionName}>{collection.name}</Text>
-                    <MultiItemSwipeablePage<Game>
-                      direction="vertical"
-                      height={height - 96}
-                      items={collection.items}
-                      itemsPerRow={4}
-                      onChangePage={handleChangeGamesPage}
-                      rows={3}
-                      spaceBetween={24}
-                      width={width - 96}
-                    >
-                      {(games, gamePageIndex, gameDimensions) => {
-                        return (
-                          <Games>
-                            {/* {collection.id === selectedCollection.id &&
-                              gamePageIndex ===
-                                state.collections[selectedCollection.id]
-                                  ?.gamePageIndex && (
-                                <PrepareGameMedia
-                                  mode="preload"
-                                  games={games}
-                                  backgroundDimensions={{ height: 1920 }}
-                                  coverDimensions={gameDimensions}
-                                />
-                              )}
-                            {((collectionIndex ===
-                              state.currentCollectionIndex + 1 &&
-                              gamePageIndex ===
-                                state.collections[
-                                  state.currentCollectionIndex + 1
-                                ]?.gamePageIndex) ??
-                              0) && (
-                              <PrepareGameMedia
-                                mode="prefetch"
-                                games={games}
-                                backgroundDimensions={{ height: 1920 }}
-                                coverDimensions={gameDimensions}
-                              />
-                            )}
-                            {(collectionIndex ===
-                              state.currentCollectionIndex - 1 &&
-                              gamePageIndex ===
-                                state.collections[
-                                  state.currentCollectionIndex + 1
-                                ]?.gamePageIndex) ??
-                              (0 && (
-                                <PrepareGameMedia
-                                  mode="prefetch"
-                                  games={games}
-                                  backgroundDimensions={{ height: 1920 }}
-                                  coverDimensions={gameDimensions}
-                                />
-                              ))} */}
-                            {games.map((game) => (
-                              <SelecteableGame
-                                {...game}
-                                key={game.id}
-                                height={gameDimensions.height}
-                                width={gameDimensions.width}
-                                onSelect={handleSelectGame}
-                                active={game.id === selectedGame?.id}
+              {([collection], collectionIndex, collectionDimensions) => (
+                <GameCollection height={collectionDimensions.height}>
+                  <Text as={GameCollectionName}>{collection.name}</Text>
+                  <MultiItemSwipeablePage<Game>
+                    direction="vertical"
+                    height={height - 96}
+                    items={collection.items}
+                    itemsPerRow={itemsPerRow}
+                    onChangePage={handleChangeGamesPage}
+                    rows={rows}
+                    spaceBetween={24}
+                    width={width - 96}
+                  >
+                    {(games, gamePageIndex, gameDimensions) => {
+                      const target =
+                        collectionIndex === state.currentCollectionIndex
+                          ? "primary"
+                          : collectionIndex ===
+                              state.currentCollectionIndex - 1 ||
+                            collectionIndex === state.currentCollectionIndex + 1
+                          ? "secondary"
+                          : false
+                      const mediaToPrepare = getMediaToPrepare(
+                        target,
+                        state.collections[state.currentCollectionIndex]
+                          ?.gameIndex ?? 0,
+                        countPerPage,
+                        gamePageIndex,
+                        games as any[],
+                        gameDimensions,
+                        { height },
+                      )
+                      const [newMedia, allPreparedMedia] =
+                        concatPreparedMedia(mediaToPrepare)(preparedMedia)
+                      preparedMedia = allPreparedMedia
+
+                      return (
+                        <Games>
+                          <Helmet>
+                            {newMedia.map((media) => (
+                              <link
+                                rel={media.mode}
+                                as="image"
+                                type="image/webp"
+                                key={`${media.url}`}
+                                href={media.url}
                               />
                             ))}
-                          </Games>
-                        )
-                      }}
-                    </MultiItemSwipeablePage>
-                  </GameCollection>
-                )
-              }}
+                          </Helmet>
+                          {games.map((game) => (
+                            <SelecteableGame
+                              {...game}
+                              key={game.id}
+                              height={gameDimensions.height}
+                              width={gameDimensions.width}
+                              onSelect={handleSelectGame}
+                              active={game.id === selectedGame?.id}
+                            />
+                          ))}
+                        </Games>
+                      )
+                    }}
+                  </MultiItemSwipeablePage>
+                </GameCollection>
+              )}
             </MultiItemSwipeablePage>
           </div>
         </GameCollections>

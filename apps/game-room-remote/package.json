@@ -20,7 +20,6 @@
     "graphql": "^16.6.0",
     "graphql-request": "^5.1.0",
     "graphql-tag": "^2.12.6",
-    "graphql-ws": "^5.12.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
@@ -29,8 +28,7 @@
     "react-window": "^1.8.8",
     "remix": "^1.13.0",
     "styled-components": "^5.3.6",
-    "swiper": "^8.4.6",
-    "ws": "^8.13.0"
+    "swiper": "^8.4.6"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.3.2",
