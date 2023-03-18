@@ -17,14 +17,11 @@ class GuestTracker(hass.Hass):
         self.log(g)
 
         # Find registered entity with provided MAC address
-        entity_of_mac = None
-        for key, value in all_entities.items():
-            if value['attributes'] and 'mac' in value['attributes']:
-                if str(value['attributes']['mac']) == data["payload"]:
-                    entity_of_mac = value
+        entity_of_mac = get_entity_of_mac_until_found_or_max_tries(data["payload"], 10)
 
         # Only process if there is an entity registered with provided MAC.
         if entity_of_mac is None:
+            self.log("Entity not found, aborting")
             return
 
         entity_id = entity_of_mac['entity_id']
@@ -37,3 +34,21 @@ class GuestTracker(hass.Hass):
         self.call_service('group/set', object_id=groupName,
                           name=g['attributes']['friendly_name'], entities=new_group_members)
         self.log('Group members updated')
+
+    def get_entity_of_mac(self, mac):
+        all_entities = self.get_state()
+        for key, value in all_entities.items():
+            if value['attributes'] and 'mac' in value['attributes']:
+                if str(value['attributes']['mac']) == mac:
+                    return value
+        return None
+    
+    def get_entity_of_mac_until_found_or_max_tries(self, mac, max_tries):
+        entity = self.get_entity_of_mac(mac)
+        tries = 0
+        while entity is None and tries < max_tries:
+            self.log("Entity not found, waiting 5 second")
+            self.sleep(5)
+            entity = self.get_entity_of_mac(mac)
+            tries += 1
+        return entity
