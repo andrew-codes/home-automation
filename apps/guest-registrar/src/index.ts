@@ -26,7 +26,7 @@ async function run() {
     const debugStateTopic = "guest-registrar/debug/state"
     mqtt.on("message", async (topic, payload) => {
       try {
-        logger.info(`MQTT message recieved: ${topic}`)
+        logger.info(`MQTT message received: ${topic}`)
         switch (topic) {
           case restartTopic:
             store.dispatch(updateHomeAssistantWithGuests())

@@ -18,8 +18,8 @@ function* addGuest(action: AddGuestAction) {
     const response: UpdateResult = yield (
       call as unknown as (...args: any) => void
     )(
-      [collection, collection.insertOne],
-      { mac: action.payload.mac },
+      [collection, collection.updateOne],
+      { id: action.payload.mac, mac: action.payload.mac },
       { upsert: true },
     )
     logger.debug(`DB Response: ${JSON.stringify(response, null, 2)}`)

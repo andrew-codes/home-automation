@@ -32,7 +32,7 @@ describe("docker", () => {
     } as unknown as ConfigurationApi<Configuration>)
 
     expect(sh.exec).toHaveBeenCalledWith(
-      `docker login registry.com --username username --password password;`,
+      `docker login registry.com --username username --password password`,
       { silent: true },
     )
   })
