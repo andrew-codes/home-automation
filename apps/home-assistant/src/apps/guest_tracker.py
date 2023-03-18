@@ -17,7 +17,7 @@ class GuestTracker(hass.Hass):
         self.log(g)
 
         # Find registered entity with provided MAC address
-        entity_of_mac = get_entity_of_mac_until_found_or_max_tries(data["payload"], 10)
+        entity_of_mac = self.get_entity_of_mac_until_found_or_max_tries(data["payload"], 10)
 
         # Only process if there is an entity registered with provided MAC.
         if entity_of_mac is None:
