@@ -19,7 +19,8 @@ function* addGuest(action: AddGuestAction) {
       call as unknown as (...args: any) => void
     )(
       [collection, collection.updateOne],
-      { id: action.payload.mac, mac: action.payload.mac },
+      { id: action.payload.mac },
+      { $set: { id: action.payload.mac, mac: action.payload.mac } },
       { upsert: true },
     )
     logger.debug(`DB Response: ${JSON.stringify(response, null, 2)}`)
