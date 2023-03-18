@@ -1,5 +1,11 @@
-import { ActionFunction, json, redirect } from "@remix-run/node"
-import { useActionData, useParams, useTransition, Form } from "@remix-run/react"
+import { ActionFunction, json, LoaderArgs, redirect } from "@remix-run/node"
+import {
+  useActionData,
+  useParams,
+  useTransition,
+  Form,
+  useLoaderData,
+} from "@remix-run/react"
 import createUnifi from "./../../unifi-client.server"
 
 export const action: ActionFunction = async ({ request }) => {
@@ -39,8 +45,21 @@ export const action: ActionFunction = async ({ request }) => {
   }
 }
 
+export const loader = async (args: LoaderArgs) => {
+  const userAgent = args.request.headers.get("user-agent")
+
+  const mobileExpressions = [/iPhone/i, /BlackBerry/i, /Windows Phone/i]
+
+  const isMobile =
+    userAgent &&
+    mobileExpressions.some((toMatchItem) => userAgent.match(toMatchItem))
+
+  return json({ knownMobile: isMobile })
+}
+
 export default function RegisterMacRoute() {
   const transition = useTransition()
+  const { knownMobile } = useLoaderData()
   const actionData = useActionData()
   const params = useParams()
 
@@ -53,20 +72,23 @@ export default function RegisterMacRoute() {
         <p style={{ color: "red" }}>{actionData.errors["500"]}</p>
       ) : null}
       <input name="mac" type="hidden" value={params.mac} />
+      {knownMobile && <input name="primaryDevice" type="hidden" value="on" />}
       <fieldset disabled={transition.state === "submitting"}>
-        <p>
-          <label>
-            Please mark if this device is your phone:{" "}
-            <input
-              name="primaryDevice"
-              type="checkbox"
-              defaultChecked={actionData?.values?.primaryDevice === "on"}
-            />
-          </label>
-        </p>
+        {!!knownMobile && (
+          <p>
+            <label>
+              Please mark if this device is your phone:{" "}
+              <input
+                name="primaryDevice"
+                type="checkbox"
+                defaultChecked={actionData?.values?.primaryDevice === "on"}
+              />
+            </label>
+          </p>
+        )}
         <p>
           <button type="submit">
-            {transition.state === "submitting" ? "Submitting..." : "Submit"}
+            {transition.state === "submitting" ? "Joining..." : "Join Wi-Fi"}
           </button>
         </p>
       </fieldset>
