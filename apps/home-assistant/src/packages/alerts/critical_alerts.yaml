@@ -1,17 +1,3 @@
-template:
-  - binary_sensor:
-      - name: Water temperature alert
-        device_class: problem
-        unique_id: water_temperature_alert
-        state: >
-          {{ (states('sensor.water_temperature') | int(33)) < 32 or (state_attr('weather.main_floor', 'temperature') | int(33)) < 32 }}
-
-  - sensor:
-      - name: Under Sink Leak Detections
-        unique_id: under_sink_leak_detections
-        state: >
-          {% for entity_id in states.group.under_sink_leak_detectors.attributes.entity_id %}{% set parts = entity_id.split('.') %}{% if states(entity_id) == 'on' %}{% if loop.first %}{% elif loop.last %} and {% else %}, {% endif %}{{ state_attr(entity_id, 'friendly_name') }}{% endif %}{% endfor %}
-
 group:
   under_sink_leak_detectors:
     name: Under Sink Leak Detectors
@@ -26,7 +12,8 @@ binary_sensor:
     device_class: problem
     entities:
       - binary_sensor.pending_system_alerts
-      - binary_sensor.water_temperature_alert
+      - binary_sensor.water_freeze_warning
+      - binary_sensor.replace_batteries
       - binary_sensor.guest_bathroom_sink_1_ias_zone
       - binary_sensor.guest_bathroom_sink_2_ias_zone
       - binary_sensor.office_bathroom_sink_ias_zone

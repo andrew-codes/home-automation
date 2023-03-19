@@ -3,28 +3,7 @@ group:
     name: Low Batteries
     entities:
       - binary_sensor.front_door_deadbolt
-      - binary_sensor.guest_bathroom_sink_1
-      - binary_sensor.guest_bathroom_sink_2
-      - binary_sensor.office_bathroom_sink
-
-template:
-  - binary_sensor:
-      - name: Guest bathroom sink 1
-        device_class: battery
-        state: >
-          {{ (states("sensor.guest_bathroom_sink_1_power") | int(100)) <= 20 }}
-
-      - name: Front door deadbolt
-        device_class: battery
-        state: >
-          {{ (states("sensor.front_door_deadbolt_battery_level") | int(100)) <= 20 }}
-
-      - name: Guest bathroom sink 2
-        device_class: battery
-        state: >
-          {{ (states("sensor.guest_bathroom_sink_2_power") | int(100)) <= 20 }}
-
-      - name: Office bathroom sink
-        device_class: battery
-        state: >
-          {{ (states("sensor.office_bathroom_sink_power") | int(100)) <= 20 }}
+      - binary_sensor.cat_bathroom_sink_low_battery
+      - binary_sensor.guest_bathroom_left_sink_low_battery
+      - binary_sensor.guest_bathroom_right_sink_low_battery
+      - binary_sensor.kitchen_sink_low_battery
