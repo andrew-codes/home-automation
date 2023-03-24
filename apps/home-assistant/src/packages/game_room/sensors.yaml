@@ -1,0 +1,11 @@
+template:
+  - binary_sensor:
+      - name: Is playing game room gaming-pc
+        device_class: running
+        state: >-
+          {{ is_state("media_player.game_room_gaming_pc", "on") and states("sensor.gaming_pc_activewindow") | string is search(find="^Steam Big Picture.*") }}
+
+      - name: Is playing game room playstation
+        device_class: running
+        state: >-
+          {{ is_state("media_player.game_room_playstation", 'on') }}
