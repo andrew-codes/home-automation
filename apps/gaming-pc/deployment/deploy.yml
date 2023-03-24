@@ -12,76 +12,89 @@
     #     update_password: on_create
     #     password_never_expires: yes
 
-    - name: Ensure Steam is installed
-      win_chocolatey:
-        name: steam
-        state: present
+    # - name: Ensure Steam is installed
+    #   win_chocolatey:
+    #     name: steam
+    #     state: present
 
-    - name: Ensure Epic is installed
-      win_chocolatey:
-        name: epicgameslauncher
-        state: present
+    # - name: Ensure Epic is installed
+    #   win_chocolatey:
+    #     name: epicgameslauncher
+    #     state: present
 
-    - name: Remove GOG
-      win_chocolatey:
-        name: goggalaxy
-        state: absent
+    # - name: Remove GOG
+    #   win_chocolatey:
+    #     name: goggalaxy
+    #     state: absent
 
-    - name: Ensure Playnite is installed
-      win_chocolatey:
-        name: playnite
-        state: present
+    # - name: Ensure Playnite is installed
+    #   win_chocolatey:
+    #     name: playnite
+    #     state: present
 
-    - name: Ensure Uplay is installed
-      win_chocolatey:
-        name: uplay
-        state: present
+    # - name: Ensure Uplay is installed
+    #   win_chocolatey:
+    #     name: uplay
+    #     state: present
 
-    - name: Ensure nuget is installed
-      win_chocolatey:
-        name: nuget.commandline
-        state: present
+    # - name: Ensure nuget is installed
+    #   win_chocolatey:
+    #     name: nuget.commandline
+    #     state: present
 
-    - name: Ensure node is installed
-      win_chocolatey:
-        name: nodejs
-        state: present
+    # - name: Ensure node is installed
+    #   win_chocolatey:
+    #     name: nodejs
+    #     state: present
 
-    - name: Ensure yarn is installed
-      win_chocolatey:
-        name: yarn
-        state: present
+    # - name: Ensure yarn is installed
+    #   win_chocolatey:
+    #     name: yarn
+    #     state: present
 
-    - name: Ensure 1password is installed
-      win_chocolatey:
-        name: 1password
-        state: present
+    # - name: Ensure 1password is installed
+    #   win_chocolatey:
+    #     name: 1password
+    #     state: present
 
-    - name: Ensure Git is installed
-      win_chocolatey:
-        name: git
-        package_params: /GitAndUnixToolsOnPath /NoShellIntegration
-        state: present
+    # - name: Ensure Git is installed
+    #   win_chocolatey:
+    #     name: git
+    #     package_params: /GitAndUnixToolsOnPath /NoShellIntegration
+    #     state: present
 
-    - name: Playnite supported dotnet version is installed
-      win_chocolatey:
-        name: netfx-4.6.2-devpack
-        state: present
+    # - name: Playnite supported dotnet version is installed
+    #   win_chocolatey:
+    #     name: netfx-4.6.2-devpack
+    #     state: present
 
-    - name: Ensure vscode
-      win_chocolatey:
-        name: vscode
-        state: present
+    # - name: Ensure vscode
+    #   win_chocolatey:
+    #     name: vscode
+    #     state: present
 
-    - name: Ensure Visual Studio is installed
-      win_chocolatey:
-        name: visualstudio2022community
-        state: present
+    # - name: Ensure Visual Studio is installed
+    #   win_chocolatey:
+    #     name: visualstudio2022community
+    #     state: present
 
-    - name: Install the Win32-OpenSSH service
-      win_chocolatey:
-        name: openssh
-        package_params: /SSHServerFeature /AlsoLogToFile
+    # - name: Install the Win32-OpenSSH service
+    #   win_chocolatey:
+    #     name: openssh
+    #     package_params: /SSHServerFeature /AlsoLogToFile
+    #     state: present
+
+    - name: Enable HA Ping through firewall
+      win_firewall_rule:
+        name: "HA Ping"
+        description: "Allow ping from Home Assistant"
+        direction: In
+        protocol: icmpv4
+        icmp_type_code:
+          - "8:*"
+        profiles: private
+        action: Allow
+        enabled: yes
         state: present
 
     - name: Remove old .ssh directory
@@ -109,7 +122,7 @@
 
     - name: Copy sshd_config
       ansible.windows.win_copy:
-        src: ../sshd_config
+        src: ../src/sshd_config
         dest: C:\ProgramData\ssh\sshd_config
       vars:
         ansible_become_user: BUILTIN\Administrators
@@ -163,7 +176,10 @@
         ansible_become_user: "{{ user }}"
         ansible_become_password: "{{ ansible_password }}"
 
-    - name: Ensure Nvidia GeForce Experience/drivers are installed
-      win_chocolatey:
-        name: geforce-game-ready-driver
-        state: present
+    - name: Clone Nvidia driver updater PS script
+      win_shell: |
+        cd "C:\Users\{{ user }}\developer\repos"
+        try {
+          git clone https://github.com/lord-carlos/nvidia-update.git
+        }
+        catch { }
