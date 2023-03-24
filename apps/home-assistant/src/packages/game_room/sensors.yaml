@@ -3,7 +3,7 @@ template:
       - name: Is playing game room gaming-pc
         device_class: running
         state: >-
-          {{ is_state("media_player.game_room_gaming_pc", "on") and states("sensor.gaming_pc_activewindow") | string is search(find="^Steam Big Picture.*") }}
+          {{ is_state("media_player.game_room_gaming_pc", "on") and states("sensor.gaming_pc_activewindow") is match("^Steam Big Picture.*", ignorecase=True) }}
 
       - name: Is playing game room playstation
         device_class: running
