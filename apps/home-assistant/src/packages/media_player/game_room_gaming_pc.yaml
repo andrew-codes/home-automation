@@ -17,12 +17,7 @@ media_player:
       {{ is_state('binary_sensor.gaming_room_gaming_pc_power_state', 'Connected') }}
     commands:
       turn_on:
-        service: mqtt.publish
-        data:
-          topic: homeassistant/wake-on-lan
-          payload: !secret GAMING_ROOM_GAMING_PC_MAC
-          qos: "1"
-          retain: false
+        service: script.turn_on_game_room_gaming_pc
       turn_off:
         service: button.press
         entity_id: button.gaming_pc_sleep
