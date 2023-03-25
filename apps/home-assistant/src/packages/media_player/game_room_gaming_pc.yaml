@@ -14,7 +14,7 @@ media_player:
     children:
       - media_player.game_room_avr
     state_template: >
-      {{ is_state('binary_sensor.gaming_room_gaming_pc_power_state', 'Connected') }}
+      {{ 'on' if is_state('binary_sensor.gaming_room_gaming_pc_power_state', 'Connected') else 'off' }}
     commands:
       turn_on:
         service: script.turn_on_game_room_gaming_pc
