@@ -16,7 +16,6 @@ function* setWifiGuestPassPhrase(action: SetGuestWifiPassPhraseAction) {
       action.payload.passPhrase,
     )
     logger.info(result)
-    logger.info(result)
   } catch (e) {
     logger.error(e)
   }

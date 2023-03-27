@@ -28,7 +28,8 @@ async function run() {
     sagaMiddleware.run(saga)
     const mqtt = await createMqtt()
     mqtt.subscribe("homeassistant/restarted")
-    const topicRegEx = /^homeassistant\/sensor\/guest_wifi_(.*)\/set$/
+    mqtt.subscribe("homeassistant/sensor/wifi/+/set")
+    const topicRegEx = /^homeassistant\/sensor\/wifi\/guest_wifi_(.*)\/set$/
     mqtt.on("message", async (topic, payload) => {
       try {
         logger.info(`MQTT message recieved: ${topic}`)

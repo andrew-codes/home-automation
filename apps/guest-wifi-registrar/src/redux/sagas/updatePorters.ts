@@ -7,7 +7,6 @@ const logger = createLogger()
 function* updatePorters(action: UpdatePortersAction) {
   try {
     logger.info(action.payload)
-    logger.info(action.payload)
     const response: Response = yield call(
       fetch,
       `https://portersetup.com/api/locations/${process.env.WIFI_PORTER_LOCATION_ID}`,

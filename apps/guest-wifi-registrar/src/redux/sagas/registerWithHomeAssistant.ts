@@ -23,8 +23,8 @@ function* registerWithHomeAssistant(action: RegisterWithHomeAssistantAction) {
     `homeassistant/sensor/${action.payload.homeAssistantId}/config`,
     JSON.stringify({
       name: `Guest Wifi ${action.payload.name}`,
-      command_topic: `homeassistant/sensor/${action.payload.homeAssistantId}/set`,
-      state_topic: `homeassistant/sensor/${action.payload.homeAssistantId}/state`,
+      command_topic: `homeassistant/sensor/wifi/${action.payload.homeAssistantId}/set`,
+      state_topic: `homeassistant/sensor/wifi/${action.payload.homeAssistantId}/state`,
       optimistic: true,
       object_id: action.payload.homeAssistantId,
       unique_id: action.payload.homeAssistantId,
@@ -35,8 +35,7 @@ function* registerWithHomeAssistant(action: RegisterWithHomeAssistantAction) {
   const networks = yield select(getNetworkDictionary)
   if (!!networks[action.payload.id]) {
     logger.info("Network already found for ID")
-    logger.info(networks)
-    logger.info(action.payload.id)
+
     return
   }
 
@@ -47,13 +46,6 @@ function* registerWithHomeAssistant(action: RegisterWithHomeAssistantAction) {
       action.payload.homeAssistantId,
       action.payload.passPhrase,
     ),
-  )
-  logger.info(
-    `Subscribing to HA MQTT topic homeassistant/sensor/${action.payload.homeAssistantId}/set`,
-  )
-  yield call<(topic: string) => Promise<ISubscriptionGrant[]>>(
-    mqtt.subscribe.bind(mqtt),
-    `homeassistant/sensor/${action.payload.homeAssistantId}/set`,
   )
 }
 

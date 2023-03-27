@@ -9,7 +9,6 @@ const logger = createLogger()
 
 function* updateHomeAssistant(action: UpdateHomeAssistantAction) {
   logger.info(action.payload)
-  logger.info(action.payload)
   const mqtt: AsyncMqttClient = yield call(createMqtt)
   yield call<
     (
@@ -19,7 +18,7 @@ function* updateHomeAssistant(action: UpdateHomeAssistantAction) {
     ) => Promise<void>
   >(
     mqtt.publish.bind(mqtt),
-    `homeassistant/sensor/${action.payload.homeAssistantId}/state`,
+    `homeassistant/sensor/wifi/${action.payload.homeAssistantId}/state`,
     action.payload.passPhrase,
     { qos: 1 },
   )
