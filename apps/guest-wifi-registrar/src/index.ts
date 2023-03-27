@@ -3,7 +3,12 @@ import { createMqtt } from "@ha/mqtt-client"
 import { createHeartbeat } from "@ha/http-heartbeat"
 import createSagaMiddleware from "redux-saga"
 import { createStore, applyMiddleware } from "redux"
-import reducer, { pollDiscovery, saga, updatePorters } from "./redux"
+import reducer, {
+  pollDiscovery,
+  saga,
+  setGuestWifiPassPhrase,
+  updatePorters,
+} from "./redux"
 import { getNetworks } from "./redux/selectors"
 
 const logger = createLogger()
@@ -42,9 +47,9 @@ async function run() {
         logger.debug(JSON.stringify(network))
         const passPhrase = payload.toString()
         store.dispatch(updatePorters(network.name, passPhrase))
-        // store.dispatch(
-        //   setGuestWifiPassPhrase(network, homeAssistantId, passPhrase),
-        // )
+        store.dispatch(
+          setGuestWifiPassPhrase(network, homeAssistantId, passPhrase),
+        )
       } catch (error) {
         logger.error(error)
       }

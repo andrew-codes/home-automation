@@ -11,7 +11,6 @@ const logger = createLogger()
 
 function* registerWithHomeAssistant(action: RegisterWithHomeAssistantAction) {
   logger.info(action.payload)
-  logger.info(action.payload)
   const mqtt: AsyncMqttClient = yield call(createMqtt)
   yield call<
     (
