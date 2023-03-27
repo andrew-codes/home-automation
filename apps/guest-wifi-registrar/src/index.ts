@@ -5,8 +5,10 @@ import createSagaMiddleware from "redux-saga"
 import { createStore, applyMiddleware } from "redux"
 import reducer, {
   pollDiscovery,
+  registerWithHomeAssistant,
   saga,
   setGuestWifiPassPhrase,
+  updateHomeAssistant,
   updatePorters,
 } from "./redux"
 import { getNetworks } from "./redux/selectors"
@@ -25,10 +27,26 @@ async function run() {
     })
     sagaMiddleware.run(saga)
     const mqtt = await createMqtt()
+    mqtt.subscribe("homeassistant/restarted")
     const topicRegEx = /^homeassistant\/sensor\/guest_wifi_(.*)\/set$/
     mqtt.on("message", async (topic, payload) => {
       try {
         logger.info(`MQTT message recieved: ${topic}`)
+        if (topic === "homeassistant/restarted") {
+          const registeredNetworks = getNetworks(store.getState())
+          registeredNetworks.forEach((network) => {
+            store.dispatch(
+              registerWithHomeAssistant(
+                network.homeAssistantId,
+                network.name,
+                network.passPhrase,
+              ),
+            )
+          })
+
+          return
+        }
+
         const matches = topicRegEx.exec(topic)
         if (!matches) {
           return
