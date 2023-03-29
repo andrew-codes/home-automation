@@ -1,3 +1,3 @@
 shell_command:
-  update_pihole_1: ssh root@10.1.0.130 pihole -up
-  update_pihole_2: ssh root@10.1.0.131 pihole -up
+  update_pihole_1: ssh -o UserKnownHostsFile=/dev/null root@10.1.0.130 pihole -up
+  update_pihole_2: ssh -o UserKnownHostsFile=/dev/null root@10.1.0.131 pihole -up
