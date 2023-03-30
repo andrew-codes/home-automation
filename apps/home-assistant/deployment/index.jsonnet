@@ -36,6 +36,7 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withSecurityContext(0, { privileged: true, allowPrivilegeEscalation: true },)
                    + lib.deployment.withEnvVars(0, [secrets['home-assistant/token'], secrets['home-assistant/server']],)
                    + lib.deployment.withPort(1, std.extVar('name'), 'appdaemon', 5050)
+                   + lib.deployment.withPort(1, std.extVar('name'), 'ssh', 22, 9122)
                    + lib.deployment.withVolumeMount(1, k.core.v1.volumeMount.new('home-assistant', '/home-assistant',));
 
 local postgresContainer = k.core.v1.container.new(name='home-assistant-postgres', image=std.extVar('postgresImage'))
