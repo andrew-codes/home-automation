@@ -25,11 +25,11 @@ sensor:
         unit_of_measurement: "%"
         value_template: "{{ state_attr('climate.main_floor', 'current_humidity') }}"
 
-    outside_temperature:
-      friendly_name: Outside temperature
-      unit_of_measurement: °F
-      value_template: >
-        {{ state_attr('weather.main_floor', 'temperature') }}
+      outside_temperature:
+        friendly_name: Outside temperature
+        unit_of_measurement: °F
+        value_template: >
+          {{ state_attr('weather.main_floor', 'temperature') }}
 
   - platform: influxdb
     api_version: 2
