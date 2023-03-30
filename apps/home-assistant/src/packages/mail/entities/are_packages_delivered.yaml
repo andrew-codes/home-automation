@@ -1,7 +1,0 @@
-binary_sensor:
-  - platform: template
-    sensors:
-      are_packages_delivered:
-        friendly_name: Package Delivery
-        value_template: >
-          {{ (states("sensor.mail_packages_delivered") | int(0)) > 0 }}
