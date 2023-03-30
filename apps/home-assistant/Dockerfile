@@ -7,7 +7,6 @@ RUN apk --no-cache add \
     sudo \
     rsync \
     yarn
-RUN rc-update add sshd
 COPY ./entrypoint.sh /entrypoint.sh
 COPY ./dist/sync.sh /sync.sh
 COPY ./reload.sh /reload.sh
