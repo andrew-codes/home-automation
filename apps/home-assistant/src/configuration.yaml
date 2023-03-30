@@ -47,7 +47,7 @@ notify:
 
 recorder:
   db_url: !secret DB_URL
-  purge_keep_days: 14
+  purge_keep_days: 60
 
 sensor:
   - platform: unifigateway
