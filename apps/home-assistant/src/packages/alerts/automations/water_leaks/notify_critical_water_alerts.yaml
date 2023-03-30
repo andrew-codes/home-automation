@@ -31,7 +31,7 @@ automation:
                 volume: 1.0
 
   - alias: Resolved water leak
-    id: resovled_water_leak
+    id: resolved_water_leak
     trigger:
       platform: event
       event_type: mobile_app_notification_action
