@@ -7,11 +7,6 @@ local configApplicatorInitContainerProperies = {
   volumeMounts: [k.core.v1.volumeMount.new('home-assistant', '/config')],
 };
 
-local sshNodePort = { name: 'home-assistant-ssh', port: 2222, targetPort: 'ssh' } +
-                    k.core.v1.servicePort.withNodePort(30922);
-local sshService = k.core.v1.service.new('home-assistant-ssh', { name: 'ssh-server' }, [sshNodePort]) +
-                   k.core.v1.service.spec.withType('NodePort',);
-
 local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), std.extVar('secrets'), std.extVar('port'), '8123')
                    + lib.deployment.withEnvVars(0, [
                      { name: 'DEBUG', value: '' },
@@ -34,27 +29,6 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withPersistentVolume('home-assistant-new-config')
                    + lib.deployment.withConfigMapVolume('ha-secrets')
                    + lib.deployment.withContainer('app-daemon', 'acockburn/appdaemon:dev', { command: ['sh'], args: ['-c', 'ln -s /home-assistant/appdaemon.yaml /conf/appdaemon.yaml && ln -s /home-assistant/apps /conf/apps && ln -s /home-assistant/dashboards /conf/dashboards && ln -s /home-assistant/secrets.yaml /conf/secrets.yaml && ./dockerStart.sh'] },)
-                   + lib.deployment.withContainer(
-                     'ssh-server', 'linuxserver/openssh-server', {}
-                                                                 + k.core.v1.container.withPorts({
-                                                                   name: 'ssh',
-                                                                   containerPort: 2222,
-                                                                   protocol: 'TCP',
-                                                                 },)
-                                                                 + { volumeMounts: [k.core.v1.volumeMount.new('home-assistant', '/config')] }
-                                                                 + k.core.v1.container.withEnvVars([{
-                                                                   name: 'PUBLIC_KEY',
-                                                                   valueFrom: {
-                                                                     secretKeyRef: {
-                                                                       name: 'home-assistant-ssh-key-public',
-                                                                       key: 'secret-value',
-                                                                     },
-                                                                   },
-                                                                 }, {
-                                                                   name: 'USERNAME',
-                                                                   value: 'hl',
-                                                                 }])
-                   )
                    + lib.deployment.withProbe(0, '/')
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('home-assistant', '/config',))
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('ha-secrets', '/root/set_ssh_keys.sh') + k.core.v1.volumeMount.withSubPath('set_ssh_keys.sh'))
@@ -62,7 +36,6 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withSecurityContext(0, { privileged: true, allowPrivilegeEscalation: true },)
                    + lib.deployment.withEnvVars(0, [secrets['home-assistant/token'], secrets['home-assistant/server']],)
                    + lib.deployment.withPort(1, std.extVar('name'), 'appdaemon', 5050)
-                   + lib.deployment.withPort(1, std.extVar('name'), 'ssh', 2222, '30922')
                    + lib.deployment.withVolumeMount(1, k.core.v1.volumeMount.new('home-assistant', '/home-assistant',));
 
 local postgresContainer = k.core.v1.container.new(name='home-assistant-postgres', image=std.extVar('postgresImage'))
@@ -88,4 +61,4 @@ local postgresVolume = lib.volume.persistentVolume.new('home-assistant-postgres-
 local haVolume = lib.volume.persistentVolume.new('home-assistant', '10Gi', '/mnt/data/home-assistant');
 local haVolumeNewConfig = lib.volume.persistentVolume.new('home-assistant-new-config', '7Gi', '/mnt/data/home-assistant-new-config');
 
-[sshService] + haVolume + haVolumeNewConfig + postgresVolume + [postgresDeployment, postgresService] + std.objectValues(deployment)
+haVolume + haVolumeNewConfig + postgresVolume + [postgresDeployment, postgresService] + std.objectValues(deployment)
