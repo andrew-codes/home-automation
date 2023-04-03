@@ -115,3 +115,8 @@ spotcast:
     secondary:
       sp_dc: !secret SPOTCAST_DC_2
       sp_key: !secret SPOTCAST_KEY_2
+
+stream:
+  ll_hls: true
+  segment_duration: 2
+  part_duration: 0.2
