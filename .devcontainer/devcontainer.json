@@ -1,59 +1,63 @@
 {
   "name": "Home Automation",
   "dockerFile": "Dockerfile",
-  "settings": {
-    "terminal.integrated.profiles.linux": {
-      "bash": {
-        "path": "bash",
-        "icon": "terminal-bash"
-      }
-    },
-    "workbench.colorTheme": "Default Dark+"
-  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "bash",
+            "icon": "terminal-bash"
+          }
+        },
+        "workbench.colorTheme": "Default Dark+"
+      },
 
-  "extensions": [
-    "andrew-codes.jest-snippets",
-    "GitHub.vscode-pull-request-github",
-    "bierner.github-markdown-preview",
-    "bierner.markdown-yaml-preamble",
-    "capaj.vscode-exports-autocomplete",
-    "cmstead.js-codeformer",
-    "dbaeumer.vscode-eslint",
-    "dracula-theme-pro.theme-dracula-pro",
-    "drKnoxy.eslint-disable-snippets",
-    "eamodio.gitlens",
-    "esbenp.prettier-vscode",
-    "foxundermoon.shell-format",
-    "fredwangwang.vscode-hcl-format",
-    "Grafana.vscode-jsonnet",
-    "hashicorp.terraform",
-    "heptio.jsonnet",
-    "GitHub.copilot",
-    "humao.rest-client",
-    "influxdata.flux",
-    "keesschollaart.vscode-home-assistant",
-    "kisstkondoros.vscode-codemetrics",
-    "mikestead.dotenv",
-    "Orta.vscode-jest",
-    "paulmolluzzo.convert-css-in-js",
-    "pflannery.vscode-versionlens",
-    "redhat.vscode-yaml",
-    "rpdswtk.vsmqtt",
-    "streetsidesoftware.code-spell-checker",
-    "unifiedjs.vscode-mdx"
-  ],
-  "initializeCommand": "bash -c '.devcontainer/save-config.sh'",
-  "postCreateCommand": "bash -c .devcontainer/postCreate.sh",
-  "postAttachCommand": "bash -c '.devcontainer/start.sh'",
-  "remoteUser": "root",
-  "runArgs": [
-    "--cap-add=NET_ADMIN",
-    "--cap-add=NET_RAW",
-    "--device=/dev/net/tun",
-    "--security-opt",
-    "seccomp=unconfined",
-    "--privileged",
-    "-v",
-    "${env:HOME}/.gnupg:/root/.gnupg"
-  ]
+      "extensions": [
+        "andrew-codes.jest-snippets",
+        "GitHub.vscode-pull-request-github",
+        "bierner.github-markdown-preview",
+        "bierner.markdown-yaml-preamble",
+        "capaj.vscode-exports-autocomplete",
+        "cmstead.js-codeformer",
+        "dbaeumer.vscode-eslint",
+        "dracula-theme-pro.theme-dracula-pro",
+        "drKnoxy.eslint-disable-snippets",
+        "eamodio.gitlens",
+        "esbenp.prettier-vscode",
+        "foxundermoon.shell-format",
+        "fredwangwang.vscode-hcl-format",
+        "Grafana.vscode-jsonnet",
+        "hashicorp.terraform",
+        "heptio.jsonnet",
+        "GitHub.copilot",
+        "humao.rest-client",
+        "influxdata.flux",
+        "keesschollaart.vscode-home-assistant",
+        "kisstkondoros.vscode-codemetrics",
+        "mikestead.dotenv",
+        "Orta.vscode-jest",
+        "paulmolluzzo.convert-css-in-js",
+        "pflannery.vscode-versionlens",
+        "redhat.vscode-yaml",
+        "rpdswtk.vsmqtt",
+        "streetsidesoftware.code-spell-checker",
+        "unifiedjs.vscode-mdx"
+      ],
+      "initializeCommand": "bash -c '.devcontainer/save-config.sh'",
+      "postCreateCommand": "bash -c .devcontainer/postCreate.sh",
+      "postAttachCommand": "bash -c '.devcontainer/start.sh'",
+      "remoteUser": "root",
+      "runArgs": [
+        "--cap-add=NET_ADMIN",
+        "--cap-add=NET_RAW",
+        "--device=/dev/net/tun",
+        "--security-opt",
+        "seccomp=unconfined",
+        "--privileged",
+        "-v",
+        "${env:HOME}/.gnupg:/root/.gnupg"
+      ]
+    }
+  }
 }
