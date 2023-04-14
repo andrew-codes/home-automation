@@ -45,7 +45,7 @@ __metadata:
     "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
     "@nrwl/workspace": ^15.5.2
-    "@nx-dotnet/core": ^1.18.0
+    "@nx-dotnet/core": ^1.22.0
     "@types/jest": ^29.2.5
     "@types/node": ^18.11.18
     istanbul: ^0.4.5
@@ -4023,7 +4023,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/eslintrc@npm:^1.3.1, @eslint/eslintrc@npm:^1.4.1":
+"@eslint/eslintrc@npm:^1.4.1":
   version: 1.4.1
   resolution: "@eslint/eslintrc@npm:1.4.1"
   dependencies:
@@ -5990,7 +5990,7 @@ __metadata:
     "@ha/nx-executors": "workspace:^0.1.0"
     "@ha/shell-utils": "workspace:^1.0.0"
     "@nrwl/workspace": ^15.5.2
-    "@nx-dotnet/core": ^1.18.0
+    "@nx-dotnet/core": ^1.22.0
     nx: ^15.5.2
     shelljs: ^0.8.5
     wakeonlan: ^0.1.0
@@ -6255,17 +6255,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@humanwhocodes/config-array@npm:^0.10.4":
-  version: 0.10.7
-  resolution: "@humanwhocodes/config-array@npm:0.10.7"
-  dependencies:
-    "@humanwhocodes/object-schema": ^1.2.1
-    debug: ^4.1.1
-    minimatch: ^3.0.4
-  checksum: 009d64be8d5bd098ff04e10af79e34f5633245250581fca032fac12a8667b2df8e7d169e69c05bff4d83ea3dd3c7d2d0e05ea9b94d89a7d092e26530caf6f8a3
-  languageName: node
-  linkType: hard
-
 "@humanwhocodes/config-array@npm:^0.11.8":
   version: 0.11.8
   resolution: "@humanwhocodes/config-array@npm:0.11.8"
@@ -6274,13 +6263,6 @@ __metadata:
     debug: ^4.1.1
     minimatch: ^3.0.5
   checksum: 0fd6b3c54f1674ce0a224df09b9c2f9846d20b9e54fabae1281ecfc04f2e6ad69bf19e1d6af6a28f88e8aa3990168b6cb9e1ef755868c3256a630605ec2cb1d3
-  languageName: node
-  linkType: hard
-
-"@humanwhocodes/gitignore-to-minimatch@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "@humanwhocodes/gitignore-to-minimatch@npm:1.0.2"
-  checksum: aba5c40c9e3770ed73a558b0bfb53323842abfc2ce58c91d7e8b1073995598e6374456d38767be24ab6176915f0a8d8b23eaae5c85e2b488c0dccca6d795e2ad
   languageName: node
   linkType: hard
 
@@ -6763,21 +6745,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/devkit@npm:*":
-  version: 15.5.1
-  resolution: "@nrwl/devkit@npm:15.5.1"
-  dependencies:
-    "@phenomnomnominal/tsquery": 4.1.1
-    ejs: ^3.1.7
-    ignore: ^5.0.4
-    semver: 7.3.4
-    tslib: ^2.3.0
-  peerDependencies:
-    nx: ">= 14 <= 16"
-  checksum: b556fe5079ad7c5b7e768b392454f9182004c2744d63c5c49bc534a59db4408f779fca59c1928e468b7fd9e804d3c0bd43f62538489eb7cfe3aa02802763a6c9
-  languageName: node
-  linkType: hard
-
 "@nrwl/devkit@npm:15.5.2, @nrwl/devkit@npm:^15.5.2":
   version: 15.5.2
   resolution: "@nrwl/devkit@npm:15.5.2"
@@ -6790,6 +6757,22 @@ __metadata:
   peerDependencies:
     nx: ">= 14 <= 16"
   checksum: 56daaaae7384ede0b1b04d32aa27acbe5ee74ad8f343ede8131c95bb9551470b0a208cb8da2125b2ae9d52656cc9907492ea31defad8a9ccfd3a87f6057d9241
+  languageName: node
+  linkType: hard
+
+"@nrwl/devkit@npm:15.8.5":
+  version: 15.8.5
+  resolution: "@nrwl/devkit@npm:15.8.5"
+  dependencies:
+    "@phenomnomnominal/tsquery": 4.1.1
+    ejs: ^3.1.7
+    ignore: ^5.0.4
+    semver: 7.3.4
+    tmp: ~0.2.1
+    tslib: ^2.3.0
+  peerDependencies:
+    nx: ">= 14.1 <= 16"
+  checksum: 130d493a7fd77d65e979a8ba6e7d1af7d28b6ef452a318668089af02514ee1e19ac6ffb045da07c8adcf55235122516629940bad17614a17b510e482730fa1e1
   languageName: node
   linkType: hard
 
@@ -6859,47 +6842,56 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nx-dotnet/core@npm:^1.18.0":
-  version: 1.18.0
-  resolution: "@nx-dotnet/core@npm:1.18.0"
+"@nx-dotnet/core@npm:^1.22.0":
+  version: 1.22.0
+  resolution: "@nx-dotnet/core@npm:1.22.0"
   dependencies:
-    "@nx-dotnet/dotnet": 1.18.0
-    "@nx-dotnet/utils": 1.18.0
-    eslint: 8.23.0
+    "@nrwl/devkit": 15.8.5
+    "@nx-dotnet/dotnet": 1.22.0
+    "@nx-dotnet/utils": 1.22.0
     fast-glob: 3.2.11
     inquirer: 8.2.2
     rimraf: 3.0.2
     semver: 7.3.7
     xmldoc: 1.1.2
   peerDependencies:
-    "@nrwl/devkit": ">14.0.0-beta.1"
     "@nrwl/workspace": ">14.0.0-beta.1"
+    "@trumbitta/nx-plugin-openapi": ^1.12.1
+    eslint: ">8.0.0"
     nx: ">14.0.0-beta.1"
-  checksum: d19f5d5fac2261f1a30e9f9f40ac92581d28ccc57df0c266720660cdeedad31c247917a4c6fa927fe03a7351eff20de7c2639c7b33918b08281afe2daaeb4a4d
+  peerDependenciesMeta:
+    "@trumbitta/nx-plugin-openapi":
+      optional: true
+    eslint:
+      optional: true
+  checksum: 8cd7616b8ce97c82f95c40acbbcaef0a215354ac8b911a870a59b296c1a8134886f2e06038ecd7802b84098697f667002acd240e7fc1df81bcaaed659b3bde4b
   languageName: node
   linkType: hard
 
-"@nx-dotnet/dotnet@npm:1.18.0":
-  version: 1.18.0
-  resolution: "@nx-dotnet/dotnet@npm:1.18.0"
-  peerDependencies:
-    "@nx-dotnet/utils": 1.18.0
+"@nx-dotnet/dotnet@npm:1.22.0":
+  version: 1.22.0
+  resolution: "@nx-dotnet/dotnet@npm:1.22.0"
+  dependencies:
+    "@nrwl/devkit": 15.8.5
     fast-glob: 3.2.11
     rimraf: 3.0.2
     semver: 7.3.7
     xmldoc: 1.1.2
-  checksum: 859052dadc48148d8ecc8f5d1f5d8167585da61a32438761f254d7eafb4155442c53c1f2b575e6c9fc64a7315baceca871a9dea327978a7dee0c09eacb7646cc
+  peerDependencies:
+    "@nx-dotnet/utils": 1.22.0
+  checksum: ccf04290f25f63d94e90aaf34d76a70a5145556d1b623777286bee0a29384376842ba525ef66c5c3ce59613f1b1da6af2e721e13dc1d948f69290d9c1b6a5b2d
   languageName: node
   linkType: hard
 
-"@nx-dotnet/utils@npm:1.18.0":
-  version: 1.18.0
-  resolution: "@nx-dotnet/utils@npm:1.18.0"
-  peerDependencies:
+"@nx-dotnet/utils@npm:1.22.0":
+  version: 1.22.0
+  resolution: "@nx-dotnet/utils@npm:1.22.0"
+  dependencies:
+    "@nrwl/devkit": 15.8.5
     fast-glob: 3.2.11
     rimraf: 3.0.2
     xmldoc: 1.1.2
-  checksum: accd1c2bc07029a59d8a69de75b79aeb862ed47a6e378b5df0a1320ca4de26f9ce645bc47e244705278ca8cfe2dc2b1a593234b52f0e74d4ba09e095c8bf2332
+  checksum: 30117da16588e616056edfa00b5d3a73888bed0caaade3904a0d923a75e93102f39294bd9c8f1efc010c1250ec93312695def7a462c52a5ee8d8c82528bd8e0d
   languageName: node
   linkType: hard
 
@@ -11984,55 +11976,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:8.23.0":
-  version: 8.23.0
-  resolution: "eslint@npm:8.23.0"
-  dependencies:
-    "@eslint/eslintrc": ^1.3.1
-    "@humanwhocodes/config-array": ^0.10.4
-    "@humanwhocodes/gitignore-to-minimatch": ^1.0.2
-    "@humanwhocodes/module-importer": ^1.0.1
-    ajv: ^6.10.0
-    chalk: ^4.0.0
-    cross-spawn: ^7.0.2
-    debug: ^4.3.2
-    doctrine: ^3.0.0
-    escape-string-regexp: ^4.0.0
-    eslint-scope: ^7.1.1
-    eslint-utils: ^3.0.0
-    eslint-visitor-keys: ^3.3.0
-    espree: ^9.4.0
-    esquery: ^1.4.0
-    esutils: ^2.0.2
-    fast-deep-equal: ^3.1.3
-    file-entry-cache: ^6.0.1
-    find-up: ^5.0.0
-    functional-red-black-tree: ^1.0.1
-    glob-parent: ^6.0.1
-    globals: ^13.15.0
-    globby: ^11.1.0
-    grapheme-splitter: ^1.0.4
-    ignore: ^5.2.0
-    import-fresh: ^3.0.0
-    imurmurhash: ^0.1.4
-    is-glob: ^4.0.0
-    js-yaml: ^4.1.0
-    json-stable-stringify-without-jsonify: ^1.0.1
-    levn: ^0.4.1
-    lodash.merge: ^4.6.2
-    minimatch: ^3.1.2
-    natural-compare: ^1.4.0
-    optionator: ^0.9.1
-    regexpp: ^3.2.0
-    strip-ansi: ^6.0.1
-    strip-json-comments: ^3.1.0
-    text-table: ^0.2.0
-  bin:
-    eslint: bin/eslint.js
-  checksum: ff6075daa28d817a7ac4508f31bc108a04d9ab5056608c8651b5bf9cfea5d708ca16dea6cdab2c3c0ae99b0bf0e726af8504eaa8e17c8e12e242cb68237ead64
-  languageName: node
-  linkType: hard
-
 "eslint@npm:^8.32.0":
   version: 8.32.0
   resolution: "eslint@npm:8.32.0"
@@ -13065,13 +13008,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"functional-red-black-tree@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "functional-red-black-tree@npm:1.0.1"
-  checksum: ca6c170f37640e2d94297da8bb4bf27a1d12bea3e00e6a3e007fd7aa32e37e000f5772acf941b4e4f3cf1c95c3752033d0c509af157ad8f526e7f00723b9eb9f
-  languageName: node
-  linkType: hard
-
 "functions-have-names@npm:^1.2.2":
   version: 1.2.3
   resolution: "functions-have-names@npm:1.2.3"
@@ -13261,7 +13197,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob-parent@npm:^6.0.1, glob-parent@npm:^6.0.2":
+"glob-parent@npm:^6.0.2":
   version: 6.0.2
   resolution: "glob-parent@npm:6.0.2"
   dependencies:
@@ -13357,7 +13293,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globals@npm:^13.15.0, globals@npm:^13.19.0":
+"globals@npm:^13.19.0":
   version: 13.19.0
   resolution: "globals@npm:13.19.0"
   dependencies:
