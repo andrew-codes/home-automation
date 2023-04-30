@@ -172,6 +172,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:apps/openvpn"\
       },\
       {\
+        "name": "@ha/photoprism",\
+        "reference": "workspace:apps/photoprism"\
+      },\
+      {\
         "name": "@ha/pihole",\
         "reference": "workspace:apps/pihole"\
       },\
@@ -389,6 +393,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@ha/mqtt-heartbeat", ["workspace:packages/mqtt-heartbeat"]],\
       ["@ha/nx-executors", ["workspace:packages/nx-executors"]],\
       ["@ha/openvpn", ["workspace:apps/openvpn"]],\
+      ["@ha/photoprism", ["workspace:apps/photoprism"]],\
       ["@ha/pihole", ["workspace:apps/pihole"]],\
       ["@ha/playnite-mqtt", ["workspace:apps/playnite-mqtt"]],\
       ["@ha/proxy", ["workspace:apps/proxy"]],\
@@ -9547,6 +9552,32 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/nx-executors", "workspace:packages/nx-executors"],\
             ["@ha/shell-utils", "workspace:packages/shell-utils"],\
             ["shelljs", "npm:0.8.5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@ha/photoprism", [\
+        ["workspace:apps/photoprism", {\
+          "packageLocation": "./apps/photoprism/",\
+          "packageDependencies": [\
+            ["@ha/photoprism", "workspace:apps/photoprism"],\
+            ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+            ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+            ["@ha/configure-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#workspace:packages/configure-jest"],\
+            ["@ha/jsonnet", "workspace:packages/jsonnet"],\
+            ["@ha/kubectl", "workspace:packages/kubectl"],\
+            ["@ha/logger", "workspace:packages/logger"],\
+            ["@ha/nx-executors", "workspace:packages/nx-executors"],\
+            ["@types/jest", "npm:29.2.5"],\
+            ["@types/node", "npm:18.11.18"],\
+            ["esbuild", "npm:0.17.3"],\
+            ["esbuild-register", "virtual:67c2aad2b1bd47fe7a2a41d331ce53a09742994e6e4cf897b697836ad2af8b3577c1b4c3128f4d1437800d10106137809a85386ab3553d979a125a47045c5628#npm:3.4.2"],\
+            ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
+            ["jest-when", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:3.5.2"],\
+            ["lodash", "npm:4.17.21"],\
+            ["shelljs", "npm:0.8.5"],\
+            ["ts-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#npm:29.0.5"],\
+            ["typescript", "patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=ad5954"]\
           ],\
           "linkType": "SOFT"\
         }]\
