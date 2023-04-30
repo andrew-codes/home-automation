@@ -17,7 +17,7 @@ const run = async (
       image: "photoprism/photoprism:latest",
       name,
       secrets,
-      port: externalPort.value,
+      port: parseInt(externalPort.value),
       dbImage: "mariadb:10.11",
     },
   )

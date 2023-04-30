@@ -110,7 +110,7 @@ const configurationNames = [
   "photoprism/port/external",
   "photoprism/db/root/password",
   "photoprism/db/password",
-  "photoprism/db/uername",
+  "photoprism/db/username",
   "proxmox/host/pve",
   "proxmox/host/pve-nuc",
   "proxmox/ip",

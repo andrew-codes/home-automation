@@ -5,6 +5,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
 local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), std.extVar('secrets'), std.extVar('port'), '2342')
                    + lib.deployment.withEnvVars(0, [
                      { name: 'PHOTOPRISM_HTTP_HOST', value: '0.0.0.0' },
+                     { name: 'PHOTOPRISM_SPONSOR', value: 'true' },
                      { name: 'PHOTOPRISM_SITE_URL', value: 'https://photos.smith-simms.family/' },
                      { name: 'PHOTOPRISM_EXPERIMENTAL', value: 'true' },
                      { name: 'PHOTOPRISM_DISABLE_CHOWN', value: 'false' },
@@ -24,25 +25,24 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                      k.core.v1.envVar.fromSecretRef('PHOTOPRISM_ADMIN_USER', 'photoprism-admin-username', 'secret-value'),
                      { name: 'PHOTOPRISM_AUTH_MODE', value: 'password' },
                      { name: 'PHOTOPRISM_HTTP_COMPRESSION', value: 'gzip' },
-                     { name: 'PHOTOPRISM_JPEG_QUALITY', value: 100 },
+                     { name: 'PHOTOPRISM_JPEG_QUALITY', value: '100' },
                      { name: 'PHOTOPRISM_DATABASE_DRIVER', value: 'mysql' },
-                     { name: 'PHOTOPRISM_DATABASE_SERVER', value: 'photoprismdb:3306' },
+                     { name: 'PHOTOPRISM_DATABASE_SERVER', value: 'photoprism-db:3306' },
                      { name: 'PHOTOPRISM_DATABASE_NAME', value: 'photoprism' },
                      k.core.v1.envVar.fromSecretRef('PHOTOPRISM_DATABASE_USER', 'photoprism-db-username', 'secret-value'),
                      k.core.v1.envVar.fromSecretRef('PHOTOPRISM_DATABASE_PASSWORD', 'photoprism-db-password', 'secret-value'),
                    ])
                    + lib.deployment.withPersistentVolume('originals')
                    + lib.deployment.withPersistentVolume('photoprism')
-                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('originals', '/assets/photos/originals',) + { subPath: 'media/photos' })
-                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('photoprism', '/assets/cache',) + { subPath: 'cache' })
-                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('photoprism', '/assets/photos/import',) + { subPath: 'import' })
-                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('photoprism', '/assets/photos/export',) + { subPath: 'export' })
-                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('photoprism', '/photoprism/storage',) + { subPath: 'storage' })
+                   + lib.deployment.withPersistentVolume('photoprism-storage')
+                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('originals', '/assets/photos/originals',))
+                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('photoprism', '/assets',))
+                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('photoprism-storage', '/photoprism/storage',))
 ;
 
 local originalsVolume = lib.volume.persistentVolume.new('originals', '400Gi', '/mnt/data/photoprism-originals');
 local photoprismVolume = lib.volume.persistentVolume.new('photoprism', '100Gi', '/mnt/data/photoprism');
-
+local photoprismStorageVolume = lib.volume.persistentVolume.new('photoprism-storage', '100Gi', '/mnt/data/storage');
 
 local dbContainer = k.core.v1.container.new(name='photoprismdb', image=std.extVar('dbImage'))
                     + k.core.v1.container.withImagePullPolicy('Always')
@@ -74,4 +74,4 @@ local dbService = k.core.v1.service.new('photoprism-db', { name: 'photoprism-db'
 local dbVolume = lib.volume.persistentVolume.new('photoprism-db', '150Gi', '/mnt/data/photoprism-db');
 
 
-originalsVolume + photoprismVolume + dbVolume + [dbDeployment, dbService] + std.objectValues(deployment)
+originalsVolume + photoprismVolume + photoprismStorageVolume + dbVolume + [dbDeployment, dbService] + std.objectValues(deployment)
