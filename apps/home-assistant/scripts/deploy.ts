@@ -22,6 +22,7 @@ const run = async (
     "home-assistant/game-room/gaming-pc/ip",
     "home-assistant/game-room/gaming-pc/mac",
     "home-assistant/game-room/gaming-pc/machine-username",
+    "home-assistant/game-room/nintendo-switch/ip",
     "home-assistant/game-room/nvidia-shield/ip",
     "home-assistant/game-room/playstation-5/ip",
     "home-assistant/game-room/tv/ip",

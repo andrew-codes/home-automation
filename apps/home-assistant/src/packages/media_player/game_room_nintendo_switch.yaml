@@ -1,0 +1,8 @@
+wake_on_lan:
+
+binary_sensor:
+  - name: Game room Nintendo Switch power
+    platform: ping
+    host: !secret GAMING_ROOM_NINTENDO_SWITCH_IP
+    scan_interval: 5
+    count: 1
