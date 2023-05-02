@@ -6,7 +6,6 @@
         "cacheableOperations": [
           "clean",
           "compile",
-          "deploy",
           "generate",
           "image/push",
           "lint",
