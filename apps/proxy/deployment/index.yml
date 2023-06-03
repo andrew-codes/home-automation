@@ -64,7 +64,15 @@
       shell: sudo -H pip3 install certbot
 
     - name: DNS certbot plugin
-      shell: sudo -H pip3 install certbot-dns-google
+      shell: sudo -H pip3 install certbot-dns-digitalocean
+
+    - name: Reset secrets directory via deletion
+      become_user: root
+      become_method: sudo
+      become: yes
+      file:
+        path: ~/.secrets/certbot
+        state: absent
 
     - name: Secrets directory for certbot
       become_user: root
@@ -76,8 +84,8 @@
 
     - name: Copy DNS service account creds
       copy:
-        src: ../.secrets/google.json
-        dest: ~/.secrets/certbot/google.json
+        src: ../.secrets/creds.ini
+        dest: ~/.secrets/certbot/creds.ini
         owner: root
         group: root
         mode: "0600"
@@ -101,7 +109,7 @@
         mode: "0644"
 
     - name: Certs
-      shell: 'certbot certonly --non-interactive --agree-tos -d *.smith-simms.family --server https://acme-v02.api.letsencrypt.org/directory --email "{{ cert_email }}" --preferred-challenges=dns --dns-google --dns-google-credentials ~/.secrets/certbot/google.json'
+      shell: 'certbot certonly --non-interactive --agree-tos -d *.smith-simms.family --server https://acme-v02.api.letsencrypt.org/directory --email "{{ cert_email }}" --preferred-challenges=dns --dns-digitalocean --dns-digitalocean-credentials ~/.secrets/certbot/creds.ini'
       become_user: root
       become_method: sudo
       become: yes

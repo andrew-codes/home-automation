@@ -51,7 +51,7 @@ all:
     "utf8",
   )
   await fs.writeFile(
-    path.join(__dirname, "..", ".secrets", "google.json"),
+    path.join(__dirname, "..", ".secrets", "creds.ini"),
     `${dnsCredentials.value}`,
     "utf8",
   )
