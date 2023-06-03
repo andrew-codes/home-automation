@@ -26,8 +26,8 @@ server {
   server_name ${subDomain}.smith-simms.family;
   listen 443 ssl ${http1 ? "" : "http2"};
 
-  ssl_certificate /etc/letsencrypt/live/smith-simms.family-0001/fullchain.pem;
-  ssl_certificate_key /etc/letsencrypt/live/smith-simms.family-0001/privkey.pem;
+  ssl_certificate /etc/letsencrypt/live/smith-simms.family/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/smith-simms.family/privkey.pem;
   ${locations.map(
     ({ from, to }) => `
   location ${from} {
@@ -57,8 +57,8 @@ server {
   listen 80 default_server;
   listen 443 default_server;
 
-  ssl_certificate /etc/letsencrypt/live/smith-simms.family-0001/fullchain.pem;
-  ssl_certificate_key /etc/letsencrypt/live/smith-simms.family-0001/privkey.pem;
+  ssl_certificate /etc/letsencrypt/live/smith-simms.family/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/smith-simms.family/privkey.pem;
 
   return 444;
 }`
