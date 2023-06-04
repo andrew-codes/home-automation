@@ -1,0 +1,630 @@
+title: Home
+views:
+  - theme: Mushroom Shadow
+    title: Home
+    path: default_view
+    icon: fas:home
+    type: custom:grid-layout
+    layout:
+      grid-template-columns: auto 30%
+      grid-template-rows: auto
+      grid-auto-flow: row dense;
+      grid-template-areas: |
+        "header header"
+        "main sidebarHeader"
+        "main sidebar"
+        "footer footer"
+      mediaquery:
+        "(max-width: 600px)":
+          grid-auto-flow: row dense;
+          grid-template-columns: 100%
+          grid-template-areas: |
+            "header"
+            "sidebarHeader"
+            "main"
+            "sidebar"
+            "footer"
+    badges: []
+    cards:
+      - type: custom:layout-card
+        view_layout:
+          grid-area: header
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: 100%
+          grid-template-rows: auto
+        cards:
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.any_alerts
+                state: "off"
+            card:
+              type: custom:mod-card
+              style: |-
+                # ha-card {
+                #   border: 1px solid red;
+                #   padding: 8px;
+                # }
+              card:
+                type: vertical-stack
+                cards:
+                  - type: vertical-stack
+                    cards:
+                      - type: custom:mushroom-chips-card
+                        card_mod:
+                          style: |-
+                            ha-card {
+                              justify-content: center;
+                            }
+                        alignment: center
+                        chips:
+                          - type: conditional
+                            conditions:
+                              - entity: binary_sensor.pending_system_alerts
+                                state: "off"
+                            chip:
+                              type: entity
+                              entity: binary_sensor.pending_system_alerts
+                              content_info: name
+                              name: Water Leak
+                              icon: mdi:water-alert
+                              icon_color: red
+                              tap_action:
+                                action: fire-dom-event
+                              hold_action:
+                                action: none
+                              double_tap_action:
+                                action: none
+                          - type: conditional
+                            conditions:
+                              - entity: binary_sensor.water_freeze_warning
+                                state: "off"
+                            chip:
+                              type: entity
+                              entity: binary_sensor.water_freeze_warning
+                              name: Freeze Alert
+                              content_info: name
+                              icon: mdi:snowflake-alert
+                              tap_action:
+                                action: fire-dom-event
+                              layout: vertical
+                          - type: conditional
+                            conditions:
+                              - entity: binary_sensor.replace_batteries
+                                state: "off"
+                            chip:
+                              type: entity
+                              entity: binary_sensor.replace_batteries
+                              name: Replace batteries
+                              content_info: name
+                              icon: mdi:battery-low
+                              tap_action:
+                                action: fire-dom-event
+                              layout: vertical
+                          - type: conditional
+                            conditions:
+                              - entity: binary_sensor.are_there_packages
+                                state: "off"
+                            chip:
+                              type: entity
+                              entity: sensor.mail_packages_delivered
+                              content_info: state
+                              tap_action:
+                                action: none
+                              hold_action:
+                                action: none
+                              double_tap_action:
+                                action: none
+                          - type: conditional
+                            conditions:
+                              - entity: group.guests
+                                state: Away
+                            chip:
+                              type: entity
+                              entity: group.guests
+                              name: Guests
+                              content_info: name
+                              icon: mdi:account-group
+                              tap_action:
+                                action: none
+                              hold_action:
+                                action: none
+                              double_tap_action:
+                                action: none
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-areas: sidebar-inner
+          grid-template-columns: 100%
+          grid-template-rows: auto
+        cards:
+          - type: custom:stack-in-card
+            mode: vertical
+            view_layout:
+              grid-area: 1/1
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Hello, {{user}}
+                secondary: Having issues, ideas, or requests? Report them here.
+                icon: fas:clipboard-list
+                layout: horizontal
+                tap_action:
+                  action: fire-dom-event
+                  local_conditional_card:
+                    action: toggle
+                    ids:
+                      - report_issue
+                icon_color: blue
+                multiline_secondary: true
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: custom:local-conditional-card
+                default: hide
+                id: report_issue
+                card:
+                  type: custom:lovelace-multiline-text-input-card
+                  entity: input_text.defect_summary
+                  title: false
+                  placeholder_text: Describe what didn't work and then press the save icon.
+                  show_success_messages: false
+                  buttons:
+                    save: 3
+                    paste: false
+                    clear: 1
+          - type: vertical-stack
+            cards:
+              - type: custom:mushroom-chips-card
+                alignment: center
+                chips:
+                  - type: entity
+                    entity: sensor.current_temp
+                    tap_action:
+                      action: fire-dom-event
+                      local_conditional_card:
+                        action: toggle
+                        ids:
+                          - climate
+                    name: Current temperature
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: none
+                  - type: entity
+                    entity: sensor.unifi_gateway_wlan
+                    tap_action:
+                      action: fire-dom-event
+                      local_conditional_card:
+                        action: toggle
+                        ids:
+                          - network
+                    name: Network
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: none
+                  - type: action
+                    icon: mdi:cart
+                    tap_action:
+                      action: navigate
+                      navigation_path: /lovelace/shopping-list
+                  - type: action
+                    icon: mdi:server
+                    tap_action:
+                      action: navigate
+                      navigation_path: /lovelace/system-health
+              - type: custom:layout-card
+                layout_type: custom:grid-layout
+                layout:
+                  grid-template-columns: 50% 50%
+                  grid-template-rows: auto
+                cards:
+                  - type: custom:mod-card
+                    style: |
+                      @media(max-width: 600px) {
+                        ha-card {
+                        }
+                      }
+                    view_layout:
+                      grid-area: 1
+                    card:
+                      type: vertical-stack
+                      cards:
+                        - type: custom:mushroom-template-card
+                          primary: Front Door
+                          secondary: >-
+                            {% set seconds_difference = (as_timestamp(now()) -
+                            as_timestamp(states.binary_sensor.guests_detected_at_front_door.last_changed))
+                            %} {% set minutes_difference = (seconds_difference)
+                            / 60 %} {% set time_ago = iif(seconds_difference <
+                            60, 'now', iif(seconds_difference < 3600,
+                            iif(seconds_difference / 60 | round > 1,
+                            ((seconds_difference / 60) | round(0)) | string + '
+                            minutes ago', ((seconds_difference / 60) | round(0))
+                            | string + ' minute ago' ), ((seconds_difference /
+                            3600) | round(0))| string + ' hours ago')) %}
+
+                            Guests seen {{ time_ago }}
+
+                            Door is {{ "locked" if
+                            is_state('lock.front_door_deadbolt', 'locked') else
+                                "unlocked" }}
+                          badge_icon: ""
+                          multiline_secondary: true
+                          layout: horizontal
+                          fill_container: true
+                          tap_action:
+                            action: navigate
+                            navigation_path: /lovelace/security
+                  - type: custom:mod-card
+                    style: |
+                      @media(max-width: 600px) {
+                        ha-card {
+                        }
+                      }
+                    view_layout:
+                      grid-area: 1
+                    card:
+                      type: vertical-stack
+                      cards:
+                        - type: custom:mushroom-template-card
+                          primary: Carport Door
+                          secondary: >-
+                            {% set seconds_difference = (as_timestamp(now()) -
+                            as_timestamp(states.binary_sensor.guests_detected_at_carport_door.last_changed))
+                            %} {% set minutes_difference = (seconds_difference)
+                            / 60 %} {% set time_ago = iif(seconds_difference <
+                            60, 'now', iif(seconds_difference < 3600,
+                            iif(seconds_difference / 60 | round > 1,
+                            ((seconds_difference / 60) | round(0)) | string + '
+                            minutes ago', ((seconds_difference / 60) | round(0))
+                            | string + ' minute ago' ), ((seconds_difference /
+                            3600) | round(0))| string + ' hours ago')) %}
+
+                            Guests seen {{ time_ago }}
+
+                            Door is {{ "locked" if
+                            is_state('lock.carport_door_deadbolt', 'locked')
+                            else
+                                "unlocked" }}
+                          badge_icon: ""
+                          multiline_secondary: true
+                          fill_container: true
+                          layout: horizontal
+                          tap_action:
+                            action: navigate
+                            navigation_path: /lovelace/security
+            view_layout:
+              grid-area: 2/1
+        view_layout:
+          grid-area: sidebarHeader
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: 100%
+          grid-template-rows: auto
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: custom:local-conditional-card
+                default: hide
+                id: climate
+                card:
+                  type: thermostat
+                  entity: climate.main_floor
+              - type: custom:local-conditional-card
+                default: hide
+                id: network
+                card:
+                  type: custom:mod-card
+                  style: |
+                    ha-card {
+                      --banner-card-heading-size: 1.5em;
+                      --banner-card-entity-value-size: 1.25em;
+                    }
+                  card:
+                    type: custom:banner-card
+                    background: rgb(16,30,36)
+                    heading:
+                      - mdi:web
+                      - Network
+                    entities:
+                      - entity: sensor.unifi_gateway_wlan
+                        name: Internet
+                        map_state:
+                          OK:
+                            value: Connected
+                      - entity: switch.pi_hole
+                      - entity: sensor.current_monthly_bandwidth_usage
+                        name: Bandwidth Used
+                        unit: GB
+                      - entity: sensor.download_speed
+                      - entity: sensor.upload_speed
+              - type: custom:mod-card
+                style: |
+                  ha-card {
+                    --banner-card-heading-size: 1.5em;
+                    --banner-card-entity-value-size: 1.25em;
+                  }
+                card:
+                  type: custom:banner-card
+                  background: rgb(16,30,36)
+                  heading:
+                    - mdi:washing-machine
+                    - Laundry
+                  entities:
+                    - entity: sensor.washer_remaining_time
+                      name: Washer Time
+                    - entity: sensor.dryer_remaining_time
+                      name: Dryer Time
+        view_layout:
+          grid-area: main
+  - theme: Mushroom Shadow
+    title: Shopping List
+    path: shopping-list
+    icon: mdi:cart
+    type: custom:grid-layout
+    subview: true
+    layout:
+      back_path: /lovelace/default
+      grid-template-columns: auto 30%
+      grid-template-rows: 100%
+      grid-auto-flow: row dense;
+      grid-template-areas: |
+        "header header"
+        "main sidebarHeader"
+        "main sidebar"
+        "footer footer"
+      mediaquery:
+        "(max-width: 600px)":
+          grid-auto-flow: row dense;
+          grid-template-columns: 100%
+          grid-template-areas: |
+            "header"
+            "sidebarHeader"
+            "main"
+            "sidebar"
+            "footer"
+    badges: []
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: shopping-list
+            title: Groceries
+            card_mod:
+              style: |
+                :host {
+                  margin: 8px 16px 0 !important;
+                }
+  - theme: Mushroom Shadow
+    title: Security
+    path: security
+    icon: mdi:cctv
+    type: custom:grid-layout
+    subview: false
+    layout:
+      back_path: /lovelace/default
+      grid-template-columns: auto 30%
+      grid-template-rows: auto
+      grid-auto-flow: row dense
+      grid-template-areas: |
+        "header header"
+        "main sidebarHeader"
+        "main sidebar"
+        "footer footer"
+      mediaquery:
+        "(max-width: 600px)":
+          grid-auto-flow: row dense
+          grid-template-columns: 100%
+          grid-template-areas: |
+            "header"
+            "sidebarHeader"
+            "main"
+            "sidebar"
+            "footer"
+    badges: []
+    cards:
+      - type: vertical-stack
+        view_layout:
+          grid-area: sidebarHeader
+        cards:
+          - type: custom:mushroom-alarm-control-panel-card
+            entity: alarm_control_panel.alarmo
+            states:
+              - armed_home
+              - armed_away
+            layout: horizontal
+            fill_container: true
+            show_keypad: false
+            name: Alarm System
+      - type: vertical-stack
+        view_layout:
+          grid-area: main
+        cards:
+          - type: custom:mod-card
+            style: |-
+              @media(min-width: 600px) {
+                ha-card {
+                  
+                }
+              }
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:expander-card
+                  title-card:
+                    type: custom:mushroom-template-card
+                    primary: Front Door
+                    secondary: >-
+                      {% set seconds_difference = (as_timestamp(now()) -
+                      as_timestamp(states.binary_sensor.guests_detected_at_front_door.last_changed))
+                      %} {% set minutes_difference = (seconds_difference) / 60
+                      %} {% set time_ago = iif(seconds_difference < 60, 'now',
+                      iif(seconds_difference < 3600, iif(seconds_difference / 60
+                      | round > 1, ((seconds_difference / 60) | round(0)) |
+                      string + ' minutes ago', ((seconds_difference / 60) |
+                      round(0)) | string + ' minute ago' ), ((seconds_difference
+                      / 3600) | round(0))| string + ' hours ago')) %}
+
+                      Guests seen {{ time_ago }}
+
+                      Door is {{ "locked" if
+                            is_state('lock.front_door_deadbolt', 'locked')
+                            else
+                                "unlocked" }}
+                    badge_icon: ""
+                    multiline_secondary: true
+                    fill_container: true
+                    layout: horizontal
+                    show_state: false
+                    show_name: false
+                    tap_action:
+                      action: none
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: none
+                  cards:
+                    - type: custom:mushroom-lock-card
+                      entity: lock.front_door_deadbolt
+                      layout: horizontal
+                      primary_info: none
+                    - type: custom:webrtc-camera
+                      url: rtspx://10.0.0.1:7441/pIoemwMeuLmPImpU
+                - type: custom:expander-card
+                  title-card:
+                    type: custom:mushroom-template-card
+                    primary: Carport Door
+                    secondary: >-
+                      {% set seconds_difference = (as_timestamp(now()) -
+                      as_timestamp(states.binary_sensor.guests_detected_at_carport_door.last_changed))
+                      %} {% set minutes_difference = (seconds_difference) / 60
+                      %} {% set time_ago = iif(seconds_difference < 60, 'now',
+                      iif(seconds_difference < 3600, iif(seconds_difference / 60
+                      | round > 1, ((seconds_difference / 60) | round(0)) |
+                      string + ' minutes ago', ((seconds_difference / 60) |
+                      round(0)) | string + ' minute ago' ), ((seconds_difference
+                      / 3600) | round(0))| string + ' hours ago')) %}
+
+                      Guests seen {{ time_ago }}
+
+                      Door is {{ "locked" if
+                            is_state('lock.carport_door_deadbolt', 'locked')
+                            else
+                                "unlocked" }}
+                    badge_icon: ""
+                    multiline_secondary: true
+                    fill_container: true
+                    layout: horizontal
+                    show_state: false
+                    show_name: false
+                    tap_action:
+                      action: none
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: none
+                  cards:
+                    - type: custom:mushroom-lock-card
+                      entity: lock.carport_door_deadbolt
+                      layout: horizontal
+                      primary_info: none
+                    - type: custom:webrtc-camera
+                      url: rtspx://10.0.0.1:7441/VlhW91FIidpA2uht
+  - theme: Mushroom Shadow
+    title: Alerts
+    path: alerts
+    icon: fas:exclamation-circle
+    type: custom:grid-layout
+    subview: false
+    layout:
+      back_path: /lovelace/default
+      grid-template-columns: auto 30%
+      grid-template-rows: auto
+      grid-template-areas: |
+        "header header"
+        "main sidebarHeader"
+        "main sidebar"
+        "footer footer"
+      mediaquery:
+        "(max-width: 600px)":
+          grid-auto-flow: row dense
+          grid-template-columns: 100%
+          grid-template-areas: |
+            "header"
+            "sidebarHeader"
+            "main"
+            "sidebar"
+            "footer"
+    badges: []
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:auto-entities
+            show_empty: false
+            card:
+              type: entities
+              title: Replace batteries
+            filter:
+              include:
+                - entity_id: "*battery*"
+                  state: <= 15
+                - entity_id: "*power*"
+                  state: <= 15
+              exclude:
+                - name: .*[pP]hone.*
+            sort:
+              method: state
+              numeric: true
+            view_layout:
+              grid-area: sidebarHeader
+          - type: custom:mushroom-template-card
+            primary: Packages Delivered
+            secondary: >-
+              {{ states('sensor.total_delivered_packages') }} packages
+
+              Last checked {{
+              as_timestamp(states.sensor.total_delivered_packages.last_changed)
+              | timestamp_custom('%D') }} at {{
+              as_timestamp(states.sensor.total_delivered_packages.last_updated)
+              | timestamp_custom('%-I:%M %p') }}
+            icon: mdi:package-check
+            entity: sensor.total_delivered_packages
+            multiline_secondary: true
+            badge_color: ""
+            icon_color: green
+            layout: horizontal
+            fill_container: false
+        view_layout:
+          grid-area: sidebarHeader
+      - type: vertical-stack
+        cards:
+          - type: custom:stack-in-card
+            mode: vertical
+            cards:
+              - type: custom:mushroom-title-card
+                title: Laundry
+              - type: entities
+                entities:
+                  - entity: sensor.washer_run_state
+                  - entity: sensor.washer_remaining_time
+              - type: entities
+                entities:
+                  - entity: sensor.dryer_run_state
+                  - entity: sensor.dryer_remaining_time
+                state_color: false
+        view_layout:
+          grid-area: main
+  - theme: Backend-selected
+    title: System Health
+    path: system-health
+    subview: true
+    type: panel
+    layout:
+      back_path: lovelace/alerts
+    badges: []
+    cards:
+      - type: iframe
+        url: https://status.smith-simms.family/status/default
+        aspect_ratio: 100%

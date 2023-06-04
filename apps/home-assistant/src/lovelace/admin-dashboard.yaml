@@ -1,0 +1,820 @@
+views:
+  - title: Servers
+    path: servers
+    icon: mdi:server-network
+    visible:
+      - user: f7fecbf2dc554ad2b1b38139edbd2d08
+    badges: []
+    cards:
+      - type: custom:search-card
+      - type: custom:banner-card
+        heading: Updates
+        entities:
+          - entity: binary_sensor.updater
+            name: Home Assistant
+            map_state:
+              "off": None
+              "on": Update
+          - entity: update.pi_hole_core_update_available
+            name: PiHole Core
+            map_state:
+              "off": None
+              "on": Update
+          - entity: update.pi_hole_ftl_update_available
+            name: PiHole FTL
+            map_state:
+              "off": None
+              "on": Update
+          - entity: update.pi_hole_web_update_available
+            name: PiHole Web
+            map_state:
+              "off": None
+              "on": Update
+          - entity: sensor.hacs
+            name: HACS
+            unit: ""
+            map_state:
+              "0": None
+  - visible:
+      - user: f7fecbf2dc554ad2b1b38139edbd2d08
+    title: Climate
+    path: climate
+    icon: mdi:thermostat
+    badges: []
+    cards:
+      - type: custom:stack-in-card
+        mode: vertical
+        cards:
+          - type: custom:numberbox-card
+            entity: input_number.user_temperature_timeout
+          - type: custom:numberbox-card
+            entity: input_number.system_target_daytime_temperature
+          - type: custom:numberbox-card
+            entity: input_number.system_target_nighttime_temperature
+          - type: custom:numberbox-card
+            entity: input_number.system_target_away_temperature_hot_season
+          - type: custom:numberbox-card
+            entity: input_number.system_target_away_temperature_cold_season
+      - type: thermostat
+        entity: climate.main_floor
+      - type: custom:apexcharts-card
+        graph_span: 14d
+        span:
+          start: day
+          offset: "-14d"
+        header:
+          show: true
+          title: Season
+          show_states: true
+          colorize_states: true
+        series:
+          - entity: sensor.outside_temperature_qauntile
+            yaxis_id: temp
+          - entity: sensor.current_temp
+            yaxis_id: temp
+          - entity: input_select.what_is_the_season
+            yaxis_id: season
+            transform: 'return x === "Hot" ? 0.8 : 0.2;'
+        yaxis:
+          - id: temp
+            opposite: false
+          - id: season
+            opposite: true
+            min: 0
+            max: 1
+  - title: Front door codes and configuration
+    path: keypad-front_door_deadbolt
+    icon: mdi:lock-smart
+    panel: false
+    badges:
+      - input_text.front_door_deadbolt_lockname
+      - input_boolean.front_door_deadbolt_lock_notifications
+      - input_boolean.front_door_deadbolt_dooraccess_notifications
+      - input_boolean.front_door_deadbolt_garageacess_notifications
+      - entity: lock.front_door_deadbolt
+      - entity: binary_sensor.front_door
+      - entity: input_text.keymaster_front_door_deadbolt_autolock_door_time_day
+      - entity: input_text.keymaster_front_door_deadbolt_autolock_door_time_night
+      - entity: input_boolean.keymaster_front_door_deadbolt_autolock
+      - entity: timer.keymaster_front_door_deadbolt_autolock
+    cards:
+      - type: vertical-stack
+        cards:
+          - content: |
+              ## Code 1
+            type: markdown
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: input_text.front_door_deadbolt_name_1
+              - entity: input_text.front_door_deadbolt_pin_1
+              - entity: input_boolean.enabled_front_door_deadbolt_1
+              - entity: input_boolean.notify_front_door_deadbolt_1
+              - type: divider
+              - entity: sensor.connected_front_door_deadbolt_1
+                state_color: true
+              - entity: binary_sensor.active_front_door_deadbolt_1
+                state_color: true
+              - type: custom:fold-entity-row
+                head:
+                  type: section
+                  label: Advanced Options
+                entities:
+                  - entity: input_boolean.reset_codeslot_front_door_deadbolt_1
+                  - type: divider
+                  - entity: input_boolean.accesslimit_front_door_deadbolt_1
+                  - entity: input_number.accesscount_front_door_deadbolt_1
+                    type: custom:numberbox-card
+                    icon: mdi:key-variant
+                    speed: 250
+                  - type: divider
+                  - entity: input_boolean.daterange_front_door_deadbolt_1
+                  - entity: input_datetime.start_date_front_door_deadbolt_1
+                  - entity: input_datetime.end_date_front_door_deadbolt_1
+                  - type: custom:fold-entity-row
+                    head:
+                      type: section
+                      label: Custom Weekdays
+                    entities:
+                      - input_boolean.sun_front_door_deadbolt_1
+                      - input_boolean.sun_inc_front_door_deadbolt_1
+                      - input_datetime.sun_start_date_front_door_deadbolt_1
+                      - input_datetime.sun_end_date_front_door_deadbolt_1
+                      - type: divider
+                      - input_boolean.mon_front_door_deadbolt_1
+                      - input_boolean.mon_inc_front_door_deadbolt_1
+                      - input_datetime.mon_start_date_front_door_deadbolt_1
+                      - input_datetime.mon_end_date_front_door_deadbolt_1
+                      - type: divider
+                      - input_boolean.tue_front_door_deadbolt_1
+                      - input_boolean.tue_inc_front_door_deadbolt_1
+                      - input_datetime.tue_start_date_front_door_deadbolt_1
+                      - input_datetime.tue_end_date_front_door_deadbolt_1
+                      - type: divider
+                      - input_boolean.wed_front_door_deadbolt_1
+                      - input_boolean.wed_inc_front_door_deadbolt_1
+                      - input_datetime.wed_start_date_front_door_deadbolt_1
+                      - input_datetime.wed_end_date_front_door_deadbolt_1
+                      - type: divider
+                      - input_boolean.thu_front_door_deadbolt_1
+                      - input_boolean.thu_inc_front_door_deadbolt_1
+                      - input_datetime.thu_start_date_front_door_deadbolt_1
+                      - input_datetime.thu_end_date_front_door_deadbolt_1
+                      - type: divider
+                      - input_boolean.fri_front_door_deadbolt_1
+                      - input_boolean.fri_inc_front_door_deadbolt_1
+                      - input_datetime.fri_start_date_front_door_deadbolt_1
+                      - input_datetime.fri_end_date_front_door_deadbolt_1
+                      - type: divider
+                      - input_boolean.sat_front_door_deadbolt_1
+                      - input_boolean.sat_inc_front_door_deadbolt_1
+                      - input_datetime.sat_start_date_front_door_deadbolt_1
+                      - input_datetime.sat_end_date_front_door_deadbolt_1
+      - type: vertical-stack
+        cards:
+          - content: |
+              ## Code 2
+            type: markdown
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: input_text.front_door_deadbolt_name_2
+              - entity: input_text.front_door_deadbolt_pin_2
+              - entity: input_boolean.enabled_front_door_deadbolt_2
+              - entity: input_boolean.notify_front_door_deadbolt_2
+              - type: divider
+              - entity: sensor.connected_front_door_deadbolt_2
+                state_color: true
+              - entity: binary_sensor.active_front_door_deadbolt_2
+                state_color: true
+              - type: custom:fold-entity-row
+                head:
+                  type: section
+                  label: Advanced Options
+                entities:
+                  - entity: input_boolean.reset_codeslot_front_door_deadbolt_2
+                  - type: divider
+                  - entity: input_boolean.accesslimit_front_door_deadbolt_2
+                  - entity: input_number.accesscount_front_door_deadbolt_2
+                    type: custom:numberbox-card
+                    icon: mdi:key-variant
+                    speed: 250
+                  - type: divider
+                  - entity: input_boolean.daterange_front_door_deadbolt_2
+                  - entity: input_datetime.start_date_front_door_deadbolt_2
+                  - entity: input_datetime.end_date_front_door_deadbolt_2
+                  - type: custom:fold-entity-row
+                    head:
+                      type: section
+                      label: Custom Weekdays
+                    entities:
+                      - input_boolean.sun_front_door_deadbolt_2
+                      - input_boolean.sun_inc_front_door_deadbolt_2
+                      - input_datetime.sun_start_date_front_door_deadbolt_2
+                      - input_datetime.sun_end_date_front_door_deadbolt_2
+                      - type: divider
+                      - input_boolean.mon_front_door_deadbolt_2
+                      - input_boolean.mon_inc_front_door_deadbolt_2
+                      - input_datetime.mon_start_date_front_door_deadbolt_2
+                      - input_datetime.mon_end_date_front_door_deadbolt_2
+                      - type: divider
+                      - input_boolean.tue_front_door_deadbolt_2
+                      - input_boolean.tue_inc_front_door_deadbolt_2
+                      - input_datetime.tue_start_date_front_door_deadbolt_2
+                      - input_datetime.tue_end_date_front_door_deadbolt_2
+                      - type: divider
+                      - input_boolean.wed_front_door_deadbolt_2
+                      - input_boolean.wed_inc_front_door_deadbolt_2
+                      - input_datetime.wed_start_date_front_door_deadbolt_2
+                      - input_datetime.wed_end_date_front_door_deadbolt_2
+                      - type: divider
+                      - input_boolean.thu_front_door_deadbolt_2
+                      - input_boolean.thu_inc_front_door_deadbolt_2
+                      - input_datetime.thu_start_date_front_door_deadbolt_2
+                      - input_datetime.thu_end_date_front_door_deadbolt_2
+                      - type: divider
+                      - input_boolean.fri_front_door_deadbolt_2
+                      - input_boolean.fri_inc_front_door_deadbolt_2
+                      - input_datetime.fri_start_date_front_door_deadbolt_2
+                      - input_datetime.fri_end_date_front_door_deadbolt_2
+                      - type: divider
+                      - input_boolean.sat_front_door_deadbolt_2
+                      - input_boolean.sat_inc_front_door_deadbolt_2
+                      - input_datetime.sat_start_date_front_door_deadbolt_2
+                      - input_datetime.sat_end_date_front_door_deadbolt_2
+      - type: vertical-stack
+        cards:
+          - content: |
+              ## Code 3
+            type: markdown
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: input_text.front_door_deadbolt_name_3
+              - entity: input_text.front_door_deadbolt_pin_3
+              - entity: input_boolean.enabled_front_door_deadbolt_3
+              - entity: input_boolean.notify_front_door_deadbolt_3
+              - type: divider
+              - entity: sensor.connected_front_door_deadbolt_3
+                state_color: true
+              - entity: binary_sensor.active_front_door_deadbolt_3
+                state_color: true
+              - type: custom:fold-entity-row
+                head:
+                  type: section
+                  label: Advanced Options
+                entities:
+                  - entity: input_boolean.reset_codeslot_front_door_deadbolt_3
+                  - type: divider
+                  - entity: input_boolean.accesslimit_front_door_deadbolt_3
+                  - entity: input_number.accesscount_front_door_deadbolt_3
+                    type: custom:numberbox-card
+                    icon: mdi:key-variant
+                    speed: 250
+                  - type: divider
+                  - entity: input_boolean.daterange_front_door_deadbolt_3
+                  - entity: input_datetime.start_date_front_door_deadbolt_3
+                  - entity: input_datetime.end_date_front_door_deadbolt_3
+                  - type: custom:fold-entity-row
+                    head:
+                      type: section
+                      label: Custom Weekdays
+                    entities:
+                      - input_boolean.sun_front_door_deadbolt_3
+                      - input_boolean.sun_inc_front_door_deadbolt_3
+                      - input_datetime.sun_start_date_front_door_deadbolt_3
+                      - input_datetime.sun_end_date_front_door_deadbolt_3
+                      - type: divider
+                      - input_boolean.mon_front_door_deadbolt_3
+                      - input_boolean.mon_inc_front_door_deadbolt_3
+                      - input_datetime.mon_start_date_front_door_deadbolt_3
+                      - input_datetime.mon_end_date_front_door_deadbolt_3
+                      - type: divider
+                      - input_boolean.tue_front_door_deadbolt_3
+                      - input_boolean.tue_inc_front_door_deadbolt_3
+                      - input_datetime.tue_start_date_front_door_deadbolt_3
+                      - input_datetime.tue_end_date_front_door_deadbolt_3
+                      - type: divider
+                      - input_boolean.wed_front_door_deadbolt_3
+                      - input_boolean.wed_inc_front_door_deadbolt_3
+                      - input_datetime.wed_start_date_front_door_deadbolt_3
+                      - input_datetime.wed_end_date_front_door_deadbolt_3
+                      - type: divider
+                      - input_boolean.thu_front_door_deadbolt_3
+                      - input_boolean.thu_inc_front_door_deadbolt_3
+                      - input_datetime.thu_start_date_front_door_deadbolt_3
+                      - input_datetime.thu_end_date_front_door_deadbolt_3
+                      - type: divider
+                      - input_boolean.fri_front_door_deadbolt_3
+                      - input_boolean.fri_inc_front_door_deadbolt_3
+                      - input_datetime.fri_start_date_front_door_deadbolt_3
+                      - input_datetime.fri_end_date_front_door_deadbolt_3
+                      - type: divider
+                      - input_boolean.sat_front_door_deadbolt_3
+                      - input_boolean.sat_inc_front_door_deadbolt_3
+                      - input_datetime.sat_start_date_front_door_deadbolt_3
+                      - input_datetime.sat_end_date_front_door_deadbolt_3
+      - type: vertical-stack
+        cards:
+          - content: |
+              ## Code 4
+            type: markdown
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: input_text.front_door_deadbolt_name_4
+              - entity: input_text.front_door_deadbolt_pin_4
+              - entity: input_boolean.enabled_front_door_deadbolt_4
+              - entity: input_boolean.notify_front_door_deadbolt_4
+              - type: divider
+              - entity: sensor.connected_front_door_deadbolt_4
+                state_color: true
+              - entity: binary_sensor.active_front_door_deadbolt_4
+                state_color: true
+              - type: custom:fold-entity-row
+                head:
+                  type: section
+                  label: Advanced Options
+                entities:
+                  - entity: input_boolean.reset_codeslot_front_door_deadbolt_4
+                  - type: divider
+                  - entity: input_boolean.accesslimit_front_door_deadbolt_4
+                  - entity: input_number.accesscount_front_door_deadbolt_4
+                    type: custom:numberbox-card
+                    icon: mdi:key-variant
+                    speed: 250
+                  - type: divider
+                  - entity: input_boolean.daterange_front_door_deadbolt_4
+                  - entity: input_datetime.start_date_front_door_deadbolt_4
+                  - entity: input_datetime.end_date_front_door_deadbolt_4
+                  - type: custom:fold-entity-row
+                    head:
+                      type: section
+                      label: Custom Weekdays
+                    entities:
+                      - input_boolean.sun_front_door_deadbolt_4
+                      - input_boolean.sun_inc_front_door_deadbolt_4
+                      - input_datetime.sun_start_date_front_door_deadbolt_4
+                      - input_datetime.sun_end_date_front_door_deadbolt_4
+                      - type: divider
+                      - input_boolean.mon_front_door_deadbolt_4
+                      - input_boolean.mon_inc_front_door_deadbolt_4
+                      - input_datetime.mon_start_date_front_door_deadbolt_4
+                      - input_datetime.mon_end_date_front_door_deadbolt_4
+                      - type: divider
+                      - input_boolean.tue_front_door_deadbolt_4
+                      - input_boolean.tue_inc_front_door_deadbolt_4
+                      - input_datetime.tue_start_date_front_door_deadbolt_4
+                      - input_datetime.tue_end_date_front_door_deadbolt_4
+                      - type: divider
+                      - input_boolean.wed_front_door_deadbolt_4
+                      - input_boolean.wed_inc_front_door_deadbolt_4
+                      - input_datetime.wed_start_date_front_door_deadbolt_4
+                      - input_datetime.wed_end_date_front_door_deadbolt_4
+                      - type: divider
+                      - input_boolean.thu_front_door_deadbolt_4
+                      - input_boolean.thu_inc_front_door_deadbolt_4
+                      - input_datetime.thu_start_date_front_door_deadbolt_4
+                      - input_datetime.thu_end_date_front_door_deadbolt_4
+                      - type: divider
+                      - input_boolean.fri_front_door_deadbolt_4
+                      - input_boolean.fri_inc_front_door_deadbolt_4
+                      - input_datetime.fri_start_date_front_door_deadbolt_4
+                      - input_datetime.fri_end_date_front_door_deadbolt_4
+                      - type: divider
+                      - input_boolean.sat_front_door_deadbolt_4
+                      - input_boolean.sat_inc_front_door_deadbolt_4
+                      - input_datetime.sat_start_date_front_door_deadbolt_4
+                      - input_datetime.sat_end_date_front_door_deadbolt_4
+      - type: vertical-stack
+        cards:
+          - content: |
+              ## Code 5
+            type: markdown
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: input_text.front_door_deadbolt_name_5
+              - entity: input_text.front_door_deadbolt_pin_5
+              - entity: input_boolean.enabled_front_door_deadbolt_5
+              - entity: input_boolean.notify_front_door_deadbolt_5
+              - type: divider
+              - entity: sensor.connected_front_door_deadbolt_5
+                state_color: true
+              - entity: binary_sensor.active_front_door_deadbolt_5
+                state_color: true
+              - type: custom:fold-entity-row
+                head:
+                  type: section
+                  label: Advanced Options
+                entities:
+                  - entity: input_boolean.reset_codeslot_front_door_deadbolt_5
+                  - type: divider
+                  - entity: input_boolean.accesslimit_front_door_deadbolt_5
+                  - entity: input_number.accesscount_front_door_deadbolt_5
+                    type: custom:numberbox-card
+                    icon: mdi:key-variant
+                    speed: 250
+                  - type: divider
+                  - entity: input_boolean.daterange_front_door_deadbolt_5
+                  - entity: input_datetime.start_date_front_door_deadbolt_5
+                  - entity: input_datetime.end_date_front_door_deadbolt_5
+                  - type: custom:fold-entity-row
+                    head:
+                      type: section
+                      label: Custom Weekdays
+                    entities:
+                      - input_boolean.sun_front_door_deadbolt_5
+                      - input_boolean.sun_inc_front_door_deadbolt_5
+                      - input_datetime.sun_start_date_front_door_deadbolt_5
+                      - input_datetime.sun_end_date_front_door_deadbolt_5
+                      - type: divider
+                      - input_boolean.mon_front_door_deadbolt_5
+                      - input_boolean.mon_inc_front_door_deadbolt_5
+                      - input_datetime.mon_start_date_front_door_deadbolt_5
+                      - input_datetime.mon_end_date_front_door_deadbolt_5
+                      - type: divider
+                      - input_boolean.tue_front_door_deadbolt_5
+                      - input_boolean.tue_inc_front_door_deadbolt_5
+                      - input_datetime.tue_start_date_front_door_deadbolt_5
+                      - input_datetime.tue_end_date_front_door_deadbolt_5
+                      - type: divider
+                      - input_boolean.wed_front_door_deadbolt_5
+                      - input_boolean.wed_inc_front_door_deadbolt_5
+                      - input_datetime.wed_start_date_front_door_deadbolt_5
+                      - input_datetime.wed_end_date_front_door_deadbolt_5
+                      - type: divider
+                      - input_boolean.thu_front_door_deadbolt_5
+                      - input_boolean.thu_inc_front_door_deadbolt_5
+                      - input_datetime.thu_start_date_front_door_deadbolt_5
+                      - input_datetime.thu_end_date_front_door_deadbolt_5
+                      - type: divider
+                      - input_boolean.fri_front_door_deadbolt_5
+                      - input_boolean.fri_inc_front_door_deadbolt_5
+                      - input_datetime.fri_start_date_front_door_deadbolt_5
+                      - input_datetime.fri_end_date_front_door_deadbolt_5
+                      - type: divider
+                      - input_boolean.sat_front_door_deadbolt_5
+                      - input_boolean.sat_inc_front_door_deadbolt_5
+                      - input_datetime.sat_start_date_front_door_deadbolt_5
+                      - input_datetime.sat_end_date_front_door_deadbolt_5
+      - type: vertical-stack
+        cards:
+          - content: |
+              ## Code 6
+            type: markdown
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: input_text.front_door_deadbolt_name_6
+              - entity: input_text.front_door_deadbolt_pin_6
+              - entity: input_boolean.enabled_front_door_deadbolt_6
+              - entity: input_boolean.notify_front_door_deadbolt_6
+              - type: divider
+              - entity: sensor.connected_front_door_deadbolt_6
+                state_color: true
+              - entity: binary_sensor.active_front_door_deadbolt_6
+                state_color: true
+              - type: custom:fold-entity-row
+                head:
+                  type: section
+                  label: Advanced Options
+                entities:
+                  - entity: input_boolean.reset_codeslot_front_door_deadbolt_6
+                  - type: divider
+                  - entity: input_boolean.accesslimit_front_door_deadbolt_6
+                  - entity: input_number.accesscount_front_door_deadbolt_6
+                    type: custom:numberbox-card
+                    icon: mdi:key-variant
+                    speed: 250
+                  - type: divider
+                  - entity: input_boolean.daterange_front_door_deadbolt_6
+                  - entity: input_datetime.start_date_front_door_deadbolt_6
+                  - entity: input_datetime.end_date_front_door_deadbolt_6
+                  - type: custom:fold-entity-row
+                    head:
+                      type: section
+                      label: Custom Weekdays
+                    entities:
+                      - input_boolean.sun_front_door_deadbolt_6
+                      - input_boolean.sun_inc_front_door_deadbolt_6
+                      - input_datetime.sun_start_date_front_door_deadbolt_6
+                      - input_datetime.sun_end_date_front_door_deadbolt_6
+                      - type: divider
+                      - input_boolean.mon_front_door_deadbolt_6
+                      - input_boolean.mon_inc_front_door_deadbolt_6
+                      - input_datetime.mon_start_date_front_door_deadbolt_6
+                      - input_datetime.mon_end_date_front_door_deadbolt_6
+                      - type: divider
+                      - input_boolean.tue_front_door_deadbolt_6
+                      - input_boolean.tue_inc_front_door_deadbolt_6
+                      - input_datetime.tue_start_date_front_door_deadbolt_6
+                      - input_datetime.tue_end_date_front_door_deadbolt_6
+                      - type: divider
+                      - input_boolean.wed_front_door_deadbolt_6
+                      - input_boolean.wed_inc_front_door_deadbolt_6
+                      - input_datetime.wed_start_date_front_door_deadbolt_6
+                      - input_datetime.wed_end_date_front_door_deadbolt_6
+                      - type: divider
+                      - input_boolean.thu_front_door_deadbolt_6
+                      - input_boolean.thu_inc_front_door_deadbolt_6
+                      - input_datetime.thu_start_date_front_door_deadbolt_6
+                      - input_datetime.thu_end_date_front_door_deadbolt_6
+                      - type: divider
+                      - input_boolean.fri_front_door_deadbolt_6
+                      - input_boolean.fri_inc_front_door_deadbolt_6
+                      - input_datetime.fri_start_date_front_door_deadbolt_6
+                      - input_datetime.fri_end_date_front_door_deadbolt_6
+                      - type: divider
+                      - input_boolean.sat_front_door_deadbolt_6
+                      - input_boolean.sat_inc_front_door_deadbolt_6
+                      - input_datetime.sat_start_date_front_door_deadbolt_6
+                      - input_datetime.sat_end_date_front_door_deadbolt_6
+      - type: vertical-stack
+        cards:
+          - content: |
+              ## Code 7
+            type: markdown
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: input_text.front_door_deadbolt_name_7
+              - entity: input_text.front_door_deadbolt_pin_7
+              - entity: input_boolean.enabled_front_door_deadbolt_7
+              - entity: input_boolean.notify_front_door_deadbolt_7
+              - type: divider
+              - entity: sensor.connected_front_door_deadbolt_7
+                state_color: true
+              - entity: binary_sensor.active_front_door_deadbolt_7
+                state_color: true
+              - type: custom:fold-entity-row
+                head:
+                  type: section
+                  label: Advanced Options
+                entities:
+                  - entity: input_boolean.reset_codeslot_front_door_deadbolt_7
+                  - type: divider
+                  - entity: input_boolean.accesslimit_front_door_deadbolt_7
+                  - entity: input_number.accesscount_front_door_deadbolt_7
+                    type: custom:numberbox-card
+                    icon: mdi:key-variant
+                    speed: 250
+                  - type: divider
+                  - entity: input_boolean.daterange_front_door_deadbolt_7
+                  - entity: input_datetime.start_date_front_door_deadbolt_7
+                  - entity: input_datetime.end_date_front_door_deadbolt_7
+                  - type: custom:fold-entity-row
+                    head:
+                      type: section
+                      label: Custom Weekdays
+                    entities:
+                      - input_boolean.sun_front_door_deadbolt_7
+                      - input_boolean.sun_inc_front_door_deadbolt_7
+                      - input_datetime.sun_start_date_front_door_deadbolt_7
+                      - input_datetime.sun_end_date_front_door_deadbolt_7
+                      - type: divider
+                      - input_boolean.mon_front_door_deadbolt_7
+                      - input_boolean.mon_inc_front_door_deadbolt_7
+                      - input_datetime.mon_start_date_front_door_deadbolt_7
+                      - input_datetime.mon_end_date_front_door_deadbolt_7
+                      - type: divider
+                      - input_boolean.tue_front_door_deadbolt_7
+                      - input_boolean.tue_inc_front_door_deadbolt_7
+                      - input_datetime.tue_start_date_front_door_deadbolt_7
+                      - input_datetime.tue_end_date_front_door_deadbolt_7
+                      - type: divider
+                      - input_boolean.wed_front_door_deadbolt_7
+                      - input_boolean.wed_inc_front_door_deadbolt_7
+                      - input_datetime.wed_start_date_front_door_deadbolt_7
+                      - input_datetime.wed_end_date_front_door_deadbolt_7
+                      - type: divider
+                      - input_boolean.thu_front_door_deadbolt_7
+                      - input_boolean.thu_inc_front_door_deadbolt_7
+                      - input_datetime.thu_start_date_front_door_deadbolt_7
+                      - input_datetime.thu_end_date_front_door_deadbolt_7
+                      - type: divider
+                      - input_boolean.fri_front_door_deadbolt_7
+                      - input_boolean.fri_inc_front_door_deadbolt_7
+                      - input_datetime.fri_start_date_front_door_deadbolt_7
+                      - input_datetime.fri_end_date_front_door_deadbolt_7
+                      - type: divider
+                      - input_boolean.sat_front_door_deadbolt_7
+                      - input_boolean.sat_inc_front_door_deadbolt_7
+                      - input_datetime.sat_start_date_front_door_deadbolt_7
+                      - input_datetime.sat_end_date_front_door_deadbolt_7
+      - type: vertical-stack
+        cards:
+          - content: |
+              ## Code 8
+            type: markdown
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: input_text.front_door_deadbolt_name_8
+              - entity: input_text.front_door_deadbolt_pin_8
+              - entity: input_boolean.enabled_front_door_deadbolt_8
+              - entity: input_boolean.notify_front_door_deadbolt_8
+              - type: divider
+              - entity: sensor.connected_front_door_deadbolt_8
+                state_color: true
+              - entity: binary_sensor.active_front_door_deadbolt_8
+                state_color: true
+              - type: custom:fold-entity-row
+                head:
+                  type: section
+                  label: Advanced Options
+                entities:
+                  - entity: input_boolean.reset_codeslot_front_door_deadbolt_8
+                  - type: divider
+                  - entity: input_boolean.accesslimit_front_door_deadbolt_8
+                  - entity: input_number.accesscount_front_door_deadbolt_8
+                    type: custom:numberbox-card
+                    icon: mdi:key-variant
+                    speed: 250
+                  - type: divider
+                  - entity: input_boolean.daterange_front_door_deadbolt_8
+                  - entity: input_datetime.start_date_front_door_deadbolt_8
+                  - entity: input_datetime.end_date_front_door_deadbolt_8
+                  - type: custom:fold-entity-row
+                    head:
+                      type: section
+                      label: Custom Weekdays
+                    entities:
+                      - input_boolean.sun_front_door_deadbolt_8
+                      - input_boolean.sun_inc_front_door_deadbolt_8
+                      - input_datetime.sun_start_date_front_door_deadbolt_8
+                      - input_datetime.sun_end_date_front_door_deadbolt_8
+                      - type: divider
+                      - input_boolean.mon_front_door_deadbolt_8
+                      - input_boolean.mon_inc_front_door_deadbolt_8
+                      - input_datetime.mon_start_date_front_door_deadbolt_8
+                      - input_datetime.mon_end_date_front_door_deadbolt_8
+                      - type: divider
+                      - input_boolean.tue_front_door_deadbolt_8
+                      - input_boolean.tue_inc_front_door_deadbolt_8
+                      - input_datetime.tue_start_date_front_door_deadbolt_8
+                      - input_datetime.tue_end_date_front_door_deadbolt_8
+                      - type: divider
+                      - input_boolean.wed_front_door_deadbolt_8
+                      - input_boolean.wed_inc_front_door_deadbolt_8
+                      - input_datetime.wed_start_date_front_door_deadbolt_8
+                      - input_datetime.wed_end_date_front_door_deadbolt_8
+                      - type: divider
+                      - input_boolean.thu_front_door_deadbolt_8
+                      - input_boolean.thu_inc_front_door_deadbolt_8
+                      - input_datetime.thu_start_date_front_door_deadbolt_8
+                      - input_datetime.thu_end_date_front_door_deadbolt_8
+                      - type: divider
+                      - input_boolean.fri_front_door_deadbolt_8
+                      - input_boolean.fri_inc_front_door_deadbolt_8
+                      - input_datetime.fri_start_date_front_door_deadbolt_8
+                      - input_datetime.fri_end_date_front_door_deadbolt_8
+                      - type: divider
+                      - input_boolean.sat_front_door_deadbolt_8
+                      - input_boolean.sat_inc_front_door_deadbolt_8
+                      - input_datetime.sat_start_date_front_door_deadbolt_8
+                      - input_datetime.sat_end_date_front_door_deadbolt_8
+      - type: vertical-stack
+        cards:
+          - content: |
+              ## Code 9
+            type: markdown
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: input_text.front_door_deadbolt_name_9
+              - entity: input_text.front_door_deadbolt_pin_9
+              - entity: input_boolean.enabled_front_door_deadbolt_9
+              - entity: input_boolean.notify_front_door_deadbolt_9
+              - type: divider
+              - entity: sensor.connected_front_door_deadbolt_9
+                state_color: true
+              - entity: binary_sensor.active_front_door_deadbolt_9
+                state_color: true
+              - type: custom:fold-entity-row
+                head:
+                  type: section
+                  label: Advanced Options
+                entities:
+                  - entity: input_boolean.reset_codeslot_front_door_deadbolt_9
+                  - type: divider
+                  - entity: input_boolean.accesslimit_front_door_deadbolt_9
+                  - entity: input_number.accesscount_front_door_deadbolt_9
+                    type: custom:numberbox-card
+                    icon: mdi:key-variant
+                    speed: 250
+                  - type: divider
+                  - entity: input_boolean.daterange_front_door_deadbolt_9
+                  - entity: input_datetime.start_date_front_door_deadbolt_9
+                  - entity: input_datetime.end_date_front_door_deadbolt_9
+                  - type: custom:fold-entity-row
+                    head:
+                      type: section
+                      label: Custom Weekdays
+                    entities:
+                      - input_boolean.sun_front_door_deadbolt_9
+                      - input_boolean.sun_inc_front_door_deadbolt_9
+                      - input_datetime.sun_start_date_front_door_deadbolt_9
+                      - input_datetime.sun_end_date_front_door_deadbolt_9
+                      - type: divider
+                      - input_boolean.mon_front_door_deadbolt_9
+                      - input_boolean.mon_inc_front_door_deadbolt_9
+                      - input_datetime.mon_start_date_front_door_deadbolt_9
+                      - input_datetime.mon_end_date_front_door_deadbolt_9
+                      - type: divider
+                      - input_boolean.tue_front_door_deadbolt_9
+                      - input_boolean.tue_inc_front_door_deadbolt_9
+                      - input_datetime.tue_start_date_front_door_deadbolt_9
+                      - input_datetime.tue_end_date_front_door_deadbolt_9
+                      - type: divider
+                      - input_boolean.wed_front_door_deadbolt_9
+                      - input_boolean.wed_inc_front_door_deadbolt_9
+                      - input_datetime.wed_start_date_front_door_deadbolt_9
+                      - input_datetime.wed_end_date_front_door_deadbolt_9
+                      - type: divider
+                      - input_boolean.thu_front_door_deadbolt_9
+                      - input_boolean.thu_inc_front_door_deadbolt_9
+                      - input_datetime.thu_start_date_front_door_deadbolt_9
+                      - input_datetime.thu_end_date_front_door_deadbolt_9
+                      - type: divider
+                      - input_boolean.fri_front_door_deadbolt_9
+                      - input_boolean.fri_inc_front_door_deadbolt_9
+                      - input_datetime.fri_start_date_front_door_deadbolt_9
+                      - input_datetime.fri_end_date_front_door_deadbolt_9
+                      - type: divider
+                      - input_boolean.sat_front_door_deadbolt_9
+                      - input_boolean.sat_inc_front_door_deadbolt_9
+                      - input_datetime.sat_start_date_front_door_deadbolt_9
+                      - input_datetime.sat_end_date_front_door_deadbolt_9
+      - type: vertical-stack
+        cards:
+          - content: |
+              ## Code 10
+            type: markdown
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: input_text.front_door_deadbolt_name_10
+              - entity: input_text.front_door_deadbolt_pin_10
+              - entity: input_boolean.enabled_front_door_deadbolt_10
+              - entity: input_boolean.notify_front_door_deadbolt_10
+              - type: divider
+              - entity: sensor.connected_front_door_deadbolt_10
+                state_color: true
+              - entity: binary_sensor.active_front_door_deadbolt_10
+                state_color: true
+              - type: custom:fold-entity-row
+                head:
+                  type: section
+                  label: Advanced Options
+                entities:
+                  - entity: input_boolean.reset_codeslot_front_door_deadbolt_10
+                  - type: divider
+                  - entity: input_boolean.accesslimit_front_door_deadbolt_10
+                  - entity: input_number.accesscount_front_door_deadbolt_10
+                    type: custom:numberbox-card
+                    icon: mdi:key-variant
+                    speed: 250
+                  - type: divider
+                  - entity: input_boolean.daterange_front_door_deadbolt_10
+                  - entity: input_datetime.start_date_front_door_deadbolt_10
+                  - entity: input_datetime.end_date_front_door_deadbolt_10
+                  - type: custom:fold-entity-row
+                    head:
+                      type: section
+                      label: Custom Weekdays
+                    entities:
+                      - input_boolean.sun_front_door_deadbolt_10
+                      - input_boolean.sun_inc_front_door_deadbolt_10
+                      - input_datetime.sun_start_date_front_door_deadbolt_10
+                      - input_datetime.sun_end_date_front_door_deadbolt_10
+                      - type: divider
+                      - input_boolean.mon_front_door_deadbolt_10
+                      - input_boolean.mon_inc_front_door_deadbolt_10
+                      - input_datetime.mon_start_date_front_door_deadbolt_10
+                      - input_datetime.mon_end_date_front_door_deadbolt_10
+                      - type: divider
+                      - input_boolean.tue_front_door_deadbolt_10
+                      - input_boolean.tue_inc_front_door_deadbolt_10
+                      - input_datetime.tue_start_date_front_door_deadbolt_10
+                      - input_datetime.tue_end_date_front_door_deadbolt_10
+                      - type: divider
+                      - input_boolean.wed_front_door_deadbolt_10
+                      - input_boolean.wed_inc_front_door_deadbolt_10
+                      - input_datetime.wed_start_date_front_door_deadbolt_10
+                      - input_datetime.wed_end_date_front_door_deadbolt_10
+                      - type: divider
+                      - input_boolean.thu_front_door_deadbolt_10
+                      - input_boolean.thu_inc_front_door_deadbolt_10
+                      - input_datetime.thu_start_date_front_door_deadbolt_10
+                      - input_datetime.thu_end_date_front_door_deadbolt_10
+                      - type: divider
+                      - input_boolean.fri_front_door_deadbolt_10
+                      - input_boolean.fri_inc_front_door_deadbolt_10
+                      - input_datetime.fri_start_date_front_door_deadbolt_10
+                      - input_datetime.fri_end_date_front_door_deadbolt_10
+                      - type: divider
+                      - input_boolean.sat_front_door_deadbolt_10
+                      - input_boolean.sat_inc_front_door_deadbolt_10
+                      - input_datetime.sat_start_date_front_door_deadbolt_10
+                      - input_datetime.sat_end_date_front_door_deadbolt_10
