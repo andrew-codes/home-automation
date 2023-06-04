@@ -66,6 +66,17 @@
     - name: DNS certbot plugin
       shell: sudo -H pip3 install certbot-dns-digitalocean
 
+    - name: Remove broken OpenSSL
+      become_user: root
+      become_method: sudo
+      become: yes
+      file:
+        path: /usr/lib/python3/dist-packages/OpenSSL
+        state: absent
+
+    - name: Install OpenSSL
+      shell: sudo -H pip3 install -U pyopenssl
+
     - name: Reset secrets directory via deletion
       become_user: root
       become_method: sudo
