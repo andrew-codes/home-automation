@@ -186,6 +186,8 @@ lovelace:
       type: module
     - url: /hacsfiles/lovelace-expander-card/expander-card.js
       type: module
+    - url: /hacsfiles/tabbed-card/tabbed-card.js
+      type: module
 
   dashboards:
     admin-dashboard:
