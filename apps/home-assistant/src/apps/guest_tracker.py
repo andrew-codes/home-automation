@@ -6,7 +6,8 @@ class GuestTracker(hass.Hass):
 
     def initialize(self):
         self.log('Starting Guest Tracker')
-        self.listen_event(self.on_message, 'MQTT_MESSAGE', topic=self.args["topic"], namespace="mqtt")
+        self.listen_event(self.on_message, 'MQTT_MESSAGE', topic=self.args["topic"] + "/add", namespace="mqtt")
+        self.listen_event(self.on_message, 'MQTT_MESSAGE', topic=self.args["topic"] + "/update", namespace="mqtt")
 
     def on_message(self, eventName, data, kwargs):
         self.log(data["topic"]+" "+data["payload"])
