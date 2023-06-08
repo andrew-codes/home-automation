@@ -2,7 +2,8 @@ group:
   low_batteries:
     name: Low Batteries
     entities:
-      - binary_sensor.front_door_deadbolt
+      - binary_sensor.front_door_deadbolt_low_battery_level
+      - binary_sensor.carport_door_deadbolt_low_battery_level
       - binary_sensor.cat_bathroom_sink_low_battery
       - binary_sensor.guest_bathroom_left_sink_low_battery
       - binary_sensor.guest_bathroom_right_sink_low_battery
