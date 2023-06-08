@@ -74,7 +74,7 @@ export default function RegisterMacRoute() {
       <input name="mac" type="hidden" value={params.mac} />
       {knownMobile && <input name="primaryDevice" type="hidden" value="on" />}
       <fieldset disabled={transition.state === "submitting"}>
-        {!!knownMobile && (
+        {!knownMobile && (
           <p>
             <label>
               Please mark if this device is your phone:{" "}

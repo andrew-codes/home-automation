@@ -31,7 +31,7 @@ function* updateHomeAssistantWithGuests(action: AddGuestAction) {
           message: string | Buffer,
           { qos }: { qos: QoS },
         ) => Promise<void>
-      >(mqtt.publish.bind(mqtt), "homeassistant/group/guests/add", mac, {
+      >(mqtt.publish.bind(mqtt), "homeassistant/group/guests/update", mac, {
         qos: 1,
       })
     }

@@ -1,6 +1,7 @@
-import { all, fork, takeLatest } from "redux-saga/effects"
+import { all, delay, fork, put, takeLatest } from "redux-saga/effects"
 import addGuest from "./sagas/addGuest"
 import updateHomeAssistantWithGuests from "./sagas/updateHomeAssistantWithGuests"
+import { updateHomeAssistantWithGuests as updateHomeAssistantWithGuestsActionCreator } from "./actionCreators"
 
 function* addGuestSaga() {
   yield takeLatest("ADD_GUEST", addGuest)
@@ -13,9 +14,20 @@ function* updateHomeAssistantWithGuestsSaga() {
   )
 }
 
+function* periodicUpdateHomeAssistantWithGuestsSaga() {
+  while (true) {
+    yield delay(1000 * 60)
+    yield put(updateHomeAssistantWithGuestsActionCreator())
+  }
+}
+
 function* saga() {
   yield all(
-    [addGuestSaga, updateHomeAssistantWithGuestsSaga].map((saga) => fork(saga)),
+    [
+      addGuestSaga,
+      updateHomeAssistantWithGuestsSaga,
+      periodicUpdateHomeAssistantWithGuestsSaga,
+    ].map((saga) => fork(saga)),
   )
 }
 

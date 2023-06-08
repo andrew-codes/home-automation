@@ -19,7 +19,7 @@ appdaemon:
       birth_topic: /appdaemon/birth
       event_name: MQTT_MESSAGE
       client_topics:
-        - homeassistant/group/guests/add
+        - homeassistant/group/guests/+
 
 http:
   url: !secret APPDAEMON_URL
