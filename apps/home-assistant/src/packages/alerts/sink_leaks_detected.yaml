@@ -1,0 +1,8 @@
+group:
+  low_batteries:
+    name: Leaks detected
+    entities:
+      - binary_sensor.cat_bathroom_sink_ias_zone
+      - binary_sensor.guest_bathroom_sink_1_ias_zone
+      - binary_sensor.guest_bathroom_sink_2_ias_zone
+      - binary_sensor.kitchen_sink_ias_zone
