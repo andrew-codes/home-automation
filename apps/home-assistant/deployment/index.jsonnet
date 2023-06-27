@@ -28,7 +28,20 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withPersistentVolume('home-assistant')
                    + lib.deployment.withPersistentVolume('home-assistant-new-config')
                    + lib.deployment.withConfigMapVolume('ha-secrets')
-                   + lib.deployment.withContainer('app-daemon', 'acockburn/appdaemon:dev', { command: ['sh'], args: ['-c', 'ln -s /home-assistant/appdaemon.yaml /conf/appdaemon.yaml && ln -s /home-assistant/apps /conf/apps && ln -s /home-assistant/dashboards /conf/dashboards && ln -s /home-assistant/secrets.yaml /conf/secrets.yaml && ./dockerStart.sh'] },)
+                   + lib.deployment.withContainer('app-daemon', 'acockburn/appdaemon:dev', {
+                     command: ['sh'],
+                     args: ['-c', 'ln -s /home-assistant/appdaemon.yaml /conf/appdaemon.yaml && ln -s /home-assistant/apps /conf/apps && ln -s /home-assistant/dashboards /conf/dashboards && ln -s /home-assistant/secrets.yaml /conf/secrets.yaml && ./dockerStart.sh'],
+                     livenessProbe: {
+                       tcpSocket: {
+                         port: 5050,
+                       },
+                       initialDelaySeconds: 60,
+                       failureThreshold: 5,
+                       timeoutSeconds: 10,
+                       periodSeconds: 20,
+                     },
+
+                   },)
                    + lib.deployment.withProbe(0, '/')
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('home-assistant', '/config',))
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('ha-secrets', '/root/set_ssh_keys.sh') + k.core.v1.volumeMount.withSubPath('set_ssh_keys.sh'))
