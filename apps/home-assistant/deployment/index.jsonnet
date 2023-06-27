@@ -40,7 +40,24 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                        timeoutSeconds: 10,
                        periodSeconds: 20,
                      },
-
+                     readinessProbe: {
+                       tcpSocket: {
+                         port: 5050,
+                       },
+                       initialDelaySeconds: 60,
+                       failureThreshold: 5,
+                       timeoutSeconds: 10,
+                       periodSeconds: 20,
+                     },
+                     startupProbe: {
+                       tcpSocket: {
+                         port: 5050,
+                       },
+                       initialDelaySeconds: 60,
+                       failureThreshold: 30,
+                       timeoutSeconds: 10,
+                       periodSeconds: 10,
+                     },
                    },)
                    + lib.deployment.withProbe(0, '/')
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('home-assistant', '/config',))
