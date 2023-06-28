@@ -29,3 +29,5 @@
         state: present
 
     - import_playbook: playbooks/tools.yml
+    - import_playbook: playbooks/tweaks.yml
+    - import_playbook: playbooks/conclude.yml

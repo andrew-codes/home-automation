@@ -1,0 +1,10 @@
+---
+- hosts: all
+  gather_facts: yes
+  connection: winrm
+  vars_files:
+    - ../.secrets/ansible-secrets.yml
+
+  tasks:
+    - name: Restart
+      ansible.windows.win_reboot:

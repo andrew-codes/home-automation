@@ -1,0 +1,59 @@
+---
+- hosts: all
+  gather_facts: yes
+  connection: winrm
+  vars_files:
+    - ../../.secrets/ansible-secrets.yml
+
+  tasks:
+    - name: Disable windows notification center
+      ansible.windows.win_regedit:
+        path: HKCU:\Software\Policies\Microsoft\Windows\Explorer
+        name: DisableNotificationCenter
+        data: 1
+        type: dword
+        state: present
+
+    - name: Disable windows notifications
+      ansible.windows.win_regedit:
+        path: HKCU:\Software\Microsoft\Windows\CurrentVersion\PushNotifications
+        name: ToastEnabled
+        data: 0
+        type: dword
+        state: present
+
+    - name: Ensure developer and tools directories exist
+      ansible.windows.win_file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "C:\\Users\\{{ user }}\\developer\\repos"
+        - "C:\\Users\\{{ user }}\\developer\\tools"
+
+    - name: Clone PowerShell repo to configure taskbar
+      ansible.builtin.git:
+        repo: "https://github.com/Ccmexec/PowerShell.git"
+        dest: C:\Users\{{ user }}\developer\tools\ccmexec
+        version: master
+
+    - name: Configure taskbar and set auto-hide
+      win_shell: |
+        pwsh -noprofile -executionpolicy bypass -file C:\Users\{{ user }}\developer\tools\ccmexec\Customiz/ TaskBar\ and \Start\ Windows\ 11/CustomizeTaskbar.ps1 -RemoveWidgets -RemoveChat -StartMorePins
+        $RegPath = 'HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3'
+        $RegValues = (Get-ItemProperty -Path $RegPath).Settings
+        $RegValues[8] = 3
+        Set-ItemProperty -Path $RegPath -Name Settings -Value $RegValues
+        #Kill the Explorer process to force the change
+        Stop-Process -Name explorer -Force
+        Start-Sleep -Seconds 2
+        Try {
+          $p = Get-Process -Name Explorer -ErrorAction stop
+        }
+        Catch {
+            Try {
+                Start-Process explorer.exe
+            }
+            Catch {
+                Throw $_
+            }
+        }
