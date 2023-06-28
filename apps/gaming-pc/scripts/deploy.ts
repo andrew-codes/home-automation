@@ -21,7 +21,7 @@ const run = async (
 
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "hosts.yml"),
-    `sll:
+    `all:
   vars:
     ansible_user: ${username.value}
     ansible_password: ${password.value}

@@ -1,0 +1,1 @@
+Get-process -Name "yuzu" | Stop-Process

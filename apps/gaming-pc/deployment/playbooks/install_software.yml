@@ -1,0 +1,122 @@
+---
+- hosts: all
+  gather_facts: yes
+  connection: winrm
+  vars_files:
+    - ../../.secrets/ansible-secrets.yml
+
+  tasks:
+    # Developer tooling
+    - name: Ensure nuget is installed
+      win_chocolatey:
+        name: nuget.commandline
+        state: present
+
+    - name: Ensure 7zip is installed
+      win_chocolatey:
+        name: 7zip
+        state: present
+
+    # - name: Ensure node is installed
+    #   win_chocolatey:
+    #     name: nodejs
+    #     state: present
+
+    # - name: Ensure yarn is installed
+    #   win_chocolatey:
+    #     name: yarn
+    #     state: present
+
+    - name: Ensure Git is installed
+      win_chocolatey:
+        name: git
+        package_params: /GitAndUnixToolsOnPath /NoShellIntegration
+        state: present
+
+    - name: Ensure vscode
+      win_chocolatey:
+        name: vscode
+        state: present
+
+    # - name: Ensure Visual Studio is installed
+    #   win_chocolatey:
+    #     name: visualstudio2022community
+    #     state: present
+
+    - name: Ensure Win32-OpenSSH service
+      win_chocolatey:
+        name: openssh
+        package_params: /SSHServerFeature /AlsoLogToFile
+        state: present
+
+    - name: Ensure PowerShell Core
+      win_chocolatey:
+        name: powershell-core
+        state: present
+
+    - name: Ensure Playnite .NET version is installed
+      win_chocolatey:
+        name: netfx-4.6.2-devpack
+        state: present
+
+    - name: Ensure Visual C++ version is installed
+      win_chocolatey:
+        name: vcredist140
+        state: present
+
+    - name: Ensure HASS.Agent .NET version is installed
+      win_chocolatey:
+        name: dotnet-6.0-runtime
+        state: present
+
+    # Gaming platforms
+    - name: Ensure Nvidia GeForce Experience is installed
+      win_chocolatey:
+        name: geforce-experience
+        state: present
+
+    - name: Ensure Discord is installed
+      win_chocolatey:
+        name: discord
+        state: present
+
+    - name: Ensure Steam is installed
+      win_chocolatey:
+        name: steam
+        state: present
+
+    - name: Ensure Epic is installed
+      win_chocolatey:
+        name: epicgameslauncher
+        state: present
+
+    - name: Ensure Playnite is installed
+      win_chocolatey:
+        name: playnite
+        state: present
+
+    - name: Ensure Uplay is installed
+      win_chocolatey:
+        name: uplay
+        state: present
+
+    # Other
+    - name: Ensure HidHide driver is installed
+      win_chocolatey:
+        name: hidhide
+        state: present
+
+    - name: Ensure MSI Afterburner is installed
+      win_chocolatey:
+        name: msiafterburner
+        state: present
+
+    - name: Ensure Vortext is installed
+      win_chocolatey:
+        name: vortex
+        state: present
+
+    - name: Ensure 1password is installed
+      win_chocolatey:
+        name: 1password
+        state: present

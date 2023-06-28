@@ -1,0 +1,26 @@
+---
+- hosts: all
+  gather_facts: yes
+  connection: winrm
+  vars_files:
+    - ../../.secrets/ansible-secrets.yml
+
+  tasks:
+    - name: Ensure developer and tools directories exist
+      ansible.windows.win_file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "C:\\Users\\{{ user }}\\developer\\repos"
+        - "C:\\Users\\{{ user }}\\developer\\tools"
+
+    - name: Clone Nvidia driver updater PowerShell script
+      ansible.builtin.git:
+        repo: "https://github.com/lord-carlos/nvidia-update.git"
+        dest: C:\Users\{{ user }}\developer\tools\nvidia-update
+        version: master
+
+    - name: Copy tool scripts
+      ansible.windows.win_copy:
+        src: ../../src/tools
+        dest: C:\Users\{{ user }}\developer\tools

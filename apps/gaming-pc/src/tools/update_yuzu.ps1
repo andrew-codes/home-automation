@@ -1,0 +1,1 @@
+C:\Users\james\AppData\Local\yuzu\maintenancetool.exe --launcher C:\Users\james\AppData\Local\yuzu\yuzu-windows-msvc\yuzu.exe
