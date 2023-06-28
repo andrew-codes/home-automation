@@ -24,3 +24,7 @@
       ansible.windows.win_copy:
         src: ../../src/tools
         dest: C:\Users\{{ user }}\developer\tools
+
+    - name: Install module to manage Windows 11 updates
+      win_shell: |
+        Install-Module -Name PSWindowsUpdate -Force -Confirm -AllowClobber
