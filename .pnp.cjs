@@ -1568,6 +1568,148 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@azure/abort-controller", [\
+        ["npm:1.1.0", {\
+          "packageLocation": "./.yarn/cache/@azure-abort-controller-npm-1.1.0-5b4e309629-0f45e504d4.zip/node_modules/@azure/abort-controller/",\
+          "packageDependencies": [\
+            ["@azure/abort-controller", "npm:1.1.0"],\
+            ["tslib", "npm:2.6.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@azure/core-auth", [\
+        ["npm:1.4.0", {\
+          "packageLocation": "./.yarn/cache/@azure-core-auth-npm-1.4.0-c2eea392a5-1c76c296fe.zip/node_modules/@azure/core-auth/",\
+          "packageDependencies": [\
+            ["@azure/core-auth", "npm:1.4.0"],\
+            ["@azure/abort-controller", "npm:1.1.0"],\
+            ["tslib", "npm:2.6.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@azure/core-client", [\
+        ["npm:1.7.3", {\
+          "packageLocation": "./.yarn/cache/@azure-core-client-npm-1.7.3-9ff29e28c6-155a188b75.zip/node_modules/@azure/core-client/",\
+          "packageDependencies": [\
+            ["@azure/core-client", "npm:1.7.3"],\
+            ["@azure/abort-controller", "npm:1.1.0"],\
+            ["@azure/core-auth", "npm:1.4.0"],\
+            ["@azure/core-rest-pipeline", "npm:1.11.0"],\
+            ["@azure/core-tracing", "npm:1.0.1"],\
+            ["@azure/core-util", "npm:1.3.2"],\
+            ["@azure/logger", "npm:1.0.4"],\
+            ["tslib", "npm:2.6.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@azure/core-rest-pipeline", [\
+        ["npm:1.11.0", {\
+          "packageLocation": "./.yarn/cache/@azure-core-rest-pipeline-npm-1.11.0-9354d5ae6b-e65b03022b.zip/node_modules/@azure/core-rest-pipeline/",\
+          "packageDependencies": [\
+            ["@azure/core-rest-pipeline", "npm:1.11.0"],\
+            ["@azure/abort-controller", "npm:1.1.0"],\
+            ["@azure/core-auth", "npm:1.4.0"],\
+            ["@azure/core-tracing", "npm:1.0.1"],\
+            ["@azure/core-util", "npm:1.3.2"],\
+            ["@azure/logger", "npm:1.0.4"],\
+            ["form-data", "npm:4.0.0"],\
+            ["http-proxy-agent", "npm:5.0.0"],\
+            ["https-proxy-agent", "npm:5.0.0"],\
+            ["tslib", "npm:2.6.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@azure/core-tracing", [\
+        ["npm:1.0.1", {\
+          "packageLocation": "./.yarn/cache/@azure-core-tracing-npm-1.0.1-6bbb5dfe25-ae4309f8ab.zip/node_modules/@azure/core-tracing/",\
+          "packageDependencies": [\
+            ["@azure/core-tracing", "npm:1.0.1"],\
+            ["tslib", "npm:2.6.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@azure/core-util", [\
+        ["npm:1.3.2", {\
+          "packageLocation": "./.yarn/cache/@azure-core-util-npm-1.3.2-a28e819d81-c26053a209.zip/node_modules/@azure/core-util/",\
+          "packageDependencies": [\
+            ["@azure/core-util", "npm:1.3.2"],\
+            ["@azure/abort-controller", "npm:1.1.0"],\
+            ["tslib", "npm:2.6.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@azure/identity", [\
+        ["npm:3.2.3", {\
+          "packageLocation": "./.yarn/cache/@azure-identity-npm-3.2.3-f2d71d4ea2-8f74831a35.zip/node_modules/@azure/identity/",\
+          "packageDependencies": [\
+            ["@azure/identity", "npm:3.2.3"],\
+            ["@azure/abort-controller", "npm:1.1.0"],\
+            ["@azure/core-auth", "npm:1.4.0"],\
+            ["@azure/core-client", "npm:1.7.3"],\
+            ["@azure/core-rest-pipeline", "npm:1.11.0"],\
+            ["@azure/core-tracing", "npm:1.0.1"],\
+            ["@azure/core-util", "npm:1.3.2"],\
+            ["@azure/logger", "npm:1.0.4"],\
+            ["@azure/msal-browser", "npm:2.37.1"],\
+            ["@azure/msal-common", "npm:13.1.0"],\
+            ["@azure/msal-node", "npm:1.17.3"],\
+            ["events", "npm:3.3.0"],\
+            ["jws", "npm:4.0.0"],\
+            ["open", "npm:8.4.2"],\
+            ["stoppable", "npm:1.1.0"],\
+            ["tslib", "npm:2.6.0"],\
+            ["uuid", "npm:8.3.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@azure/logger", [\
+        ["npm:1.0.4", {\
+          "packageLocation": "./.yarn/cache/@azure-logger-npm-1.0.4-496582cdff-2c243d4c66.zip/node_modules/@azure/logger/",\
+          "packageDependencies": [\
+            ["@azure/logger", "npm:1.0.4"],\
+            ["tslib", "npm:2.6.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@azure/msal-browser", [\
+        ["npm:2.37.1", {\
+          "packageLocation": "./.yarn/cache/@azure-msal-browser-npm-2.37.1-dacfc22172-920b892bcd.zip/node_modules/@azure/msal-browser/",\
+          "packageDependencies": [\
+            ["@azure/msal-browser", "npm:2.37.1"],\
+            ["@azure/msal-common", "npm:13.1.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@azure/msal-common", [\
+        ["npm:13.1.0", {\
+          "packageLocation": "./.yarn/cache/@azure-msal-common-npm-13.1.0-a51b119736-db21145f82.zip/node_modules/@azure/msal-common/",\
+          "packageDependencies": [\
+            ["@azure/msal-common", "npm:13.1.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@azure/msal-node", [\
+        ["npm:1.17.3", {\
+          "packageLocation": "./.yarn/cache/@azure-msal-node-npm-1.17.3-84d38ad11d-6afc815116.zip/node_modules/@azure/msal-node/",\
+          "packageDependencies": [\
+            ["@azure/msal-node", "npm:1.17.3"],\
+            ["@azure/msal-common", "npm:13.1.0"],\
+            ["jsonwebtoken", "npm:9.0.0"],\
+            ["uuid", "npm:8.3.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@babel/code-frame", [\
         ["npm:7.16.0", {\
           "packageLocation": "./.yarn/cache/@babel-code-frame-npm-7.16.0-13dafb7fe1-8961d0302e.zip/node_modules/@babel/code-frame/",\
@@ -8958,6 +9100,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./apps/guest-pin-codes/",\
           "packageDependencies": [\
             ["@ha/guest-pin-codes", "workspace:apps/guest-pin-codes"],\
+            ["@azure/identity", "npm:3.2.3"],\
             ["@ha/build-ts", "workspace:packages/build-ts"],\
             ["@ha/configuration-api", "workspace:packages/configuration-api"],\
             ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
@@ -8969,6 +9112,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/mqtt-client", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/mqtt-client"],\
             ["@ha/nx-executors", "workspace:packages/nx-executors"],\
             ["@ha/unifi-client", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/unifi-client"],\
+            ["@microsoft/microsoft-graph-client", "virtual:ba3c80966cccf6320af56404fcf85305a3d9b6b7f8847a170d1274f6a04d1592f5e64a978de39768c916537ebaff609533bc041dee86b301e2e4016832b1a9d9#npm:3.0.5"],\
             ["@redux-saga/is", "npm:1.1.3"],\
             ["@redux-saga/symbols", "npm:1.1.3"],\
             ["@types/jest", "npm:29.2.5"],\
@@ -8978,8 +9122,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["debug", "virtual:311f00d850caa9627b6ac11974e53f96ee9fc030a73da3d1abe5cce7e72b8ee2e1f115ef7f47e2e6108ff8071f1a98050f7a4c5c3fe7df743e1d5a4130e33289#npm:4.3.4"],\
             ["esbuild", "npm:0.17.3"],\
             ["esbuild-register", "virtual:67c2aad2b1bd47fe7a2a41d331ce53a09742994e6e4cf897b697836ad2af8b3577c1b4c3128f4d1437800d10106137809a85386ab3553d979a125a47045c5628#npm:3.4.2"],\
-            ["google-auth-library", "npm:7.14.1"],\
-            ["googleapis", "npm:92.0.0"],\
             ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
             ["jest-when", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:3.5.2"],\
             ["lodash", "npm:4.17.21"],\
@@ -10377,6 +10519,42 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@jridgewell/trace-mapping", "npm:0.3.9"],\
             ["@jridgewell/resolve-uri", "npm:3.0.5"],\
             ["@jridgewell/sourcemap-codec", "npm:1.4.11"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@microsoft/microsoft-graph-client", [\
+        ["npm:3.0.5", {\
+          "packageLocation": "./.yarn/cache/@microsoft-microsoft-graph-client-npm-3.0.5-d750c33a26-6587481694.zip/node_modules/@microsoft/microsoft-graph-client/",\
+          "packageDependencies": [\
+            ["@microsoft/microsoft-graph-client", "npm:3.0.5"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:ba3c80966cccf6320af56404fcf85305a3d9b6b7f8847a170d1274f6a04d1592f5e64a978de39768c916537ebaff609533bc041dee86b301e2e4016832b1a9d9#npm:3.0.5", {\
+          "packageLocation": "./.yarn/__virtual__/@microsoft-microsoft-graph-client-virtual-f0a0150da5/0/cache/@microsoft-microsoft-graph-client-npm-3.0.5-d750c33a26-6587481694.zip/node_modules/@microsoft/microsoft-graph-client/",\
+          "packageDependencies": [\
+            ["@microsoft/microsoft-graph-client", "virtual:ba3c80966cccf6320af56404fcf85305a3d9b6b7f8847a170d1274f6a04d1592f5e64a978de39768c916537ebaff609533bc041dee86b301e2e4016832b1a9d9#npm:3.0.5"],\
+            ["@azure/identity", "npm:3.2.3"],\
+            ["@azure/msal-browser", null],\
+            ["@babel/runtime", "npm:7.19.4"],\
+            ["@types/azure__identity", null],\
+            ["@types/azure__msal-browser", null],\
+            ["@types/buffer", null],\
+            ["@types/stream-browserify", null],\
+            ["buffer", null],\
+            ["stream-browserify", null],\
+            ["tslib", "npm:2.6.0"]\
+          ],\
+          "packagePeers": [\
+            "@azure/identity",\
+            "@azure/msal-browser",\
+            "@types/azure__identity",\
+            "@types/azure__msal-browser",\
+            "@types/buffer",\
+            "@types/stream-browserify",\
+            "buffer",\
+            "stream-browserify"\
           ],\
           "linkType": "HARD"\
         }]\
@@ -17137,6 +17315,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["events", [\
+        ["npm:3.3.0", {\
+          "packageLocation": "./.yarn/cache/events-npm-3.3.0-c280bc7e48-f6f487ad21.zip/node_modules/events/",\
+          "packageDependencies": [\
+            ["events", "npm:3.3.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["execa", [\
         ["npm:5.1.1", {\
           "packageLocation": "./.yarn/cache/execa-npm-5.1.1-191347acf5-fba9022c8c.zip/node_modules/execa/",\
@@ -21152,6 +21339,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["jsonwebtoken", [\
+        ["npm:9.0.0", {\
+          "packageLocation": "./.yarn/cache/jsonwebtoken-npm-9.0.0-36fd1594c0-b9181cecf9.zip/node_modules/jsonwebtoken/",\
+          "packageDependencies": [\
+            ["jsonwebtoken", "npm:9.0.0"],\
+            ["jws", "npm:3.2.2"],\
+            ["lodash", "npm:4.17.21"],\
+            ["ms", "npm:2.1.3"],\
+            ["semver", "npm:7.3.8"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["jsx-ast-utils", [\
         ["npm:3.3.3", {\
           "packageLocation": "./.yarn/cache/jsx-ast-utils-npm-3.3.3-3d3171e1e4-a2ed78cac4.zip/node_modules/jsx-ast-utils/",\
@@ -21164,6 +21364,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["jwa", [\
+        ["npm:1.4.1", {\
+          "packageLocation": "./.yarn/cache/jwa-npm-1.4.1-4f19d6572c-ff30ea7c2d.zip/node_modules/jwa/",\
+          "packageDependencies": [\
+            ["jwa", "npm:1.4.1"],\
+            ["buffer-equal-constant-time", "npm:1.0.1"],\
+            ["ecdsa-sig-formatter", "npm:1.0.11"],\
+            ["safe-buffer", "npm:5.2.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:2.0.0", {\
           "packageLocation": "./.yarn/cache/jwa-npm-2.0.0-52a7c3f1ca-8f00b71ad5.zip/node_modules/jwa/",\
           "packageDependencies": [\
@@ -21176,6 +21386,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["jws", [\
+        ["npm:3.2.2", {\
+          "packageLocation": "./.yarn/cache/jws-npm-3.2.2-c1ae59c7af-f0213fe5b7.zip/node_modules/jws/",\
+          "packageDependencies": [\
+            ["jws", "npm:3.2.2"],\
+            ["jwa", "npm:1.4.1"],\
+            ["safe-buffer", "npm:5.2.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:4.0.0", {\
           "packageLocation": "./.yarn/cache/jws-npm-4.0.0-2a24fd53b9-d68d07aa6d.zip/node_modules/jws/",\
           "packageDependencies": [\
@@ -23578,6 +23797,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/unplugged/open-npm-8.4.0-df63cfe537/node_modules/open/",\
           "packageDependencies": [\
             ["open", "npm:8.4.0"],\
+            ["define-lazy-prop", "npm:2.0.0"],\
+            ["is-docker", "npm:2.2.1"],\
+            ["is-wsl", "npm:2.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:8.4.2", {\
+          "packageLocation": "./.yarn/unplugged/open-npm-8.4.2-1f763e8b75/node_modules/open/",\
+          "packageDependencies": [\
+            ["open", "npm:8.4.2"],\
             ["define-lazy-prop", "npm:2.0.0"],\
             ["is-docker", "npm:2.2.1"],\
             ["is-wsl", "npm:2.2.0"]\
@@ -26801,6 +27030,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["stoppable", [\
+        ["npm:1.1.0", {\
+          "packageLocation": "./.yarn/cache/stoppable-npm-1.1.0-23cdcad1a6-63104fcbde.zip/node_modules/stoppable/",\
+          "packageDependencies": [\
+            ["stoppable", "npm:1.1.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["stream-shift", [\
         ["npm:1.0.1", {\
           "packageLocation": "./.yarn/cache/stream-shift-npm-1.0.1-9526210fa7-59b82b44b2.zip/node_modules/stream-shift/",\
@@ -27778,6 +28016,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/tslib-npm-2.5.0-bb364efebd-ae3ed5f9ce.zip/node_modules/tslib/",\
           "packageDependencies": [\
             ["tslib", "npm:2.5.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:2.6.0", {\
+          "packageLocation": "./.yarn/cache/tslib-npm-2.6.0-4d336a6824-c01066038f.zip/node_modules/tslib/",\
+          "packageDependencies": [\
+            ["tslib", "npm:2.6.0"]\
           ],\
           "linkType": "HARD"\
         }]\

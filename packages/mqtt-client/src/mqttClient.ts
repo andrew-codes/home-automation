@@ -1,6 +1,7 @@
 import {
   AsyncMqttClient,
   connectAsync,
+  IClientPublishOptions,
   IPublishPacket,
   ISubscriptionGrant,
 } from "async-mqtt"
@@ -14,7 +15,7 @@ const createMqtt = async (
   host: string | undefined = MQTT_HOST,
   port: number | undefined = mqttPort,
   username: string | undefined = MQTT_USERNAME,
-  password: string | undefined = MQTT_PASSWORD
+  password: string | undefined = MQTT_PASSWORD,
 ): Promise<AsyncMqttClient> => {
   if (!mqttClient) {
     mqttClient = await connectAsync(`tcp://${MQTT_HOST}`, {
@@ -28,4 +29,9 @@ const createMqtt = async (
 }
 
 export { createMqtt }
-export type { AsyncMqttClient, IPublishPacket, ISubscriptionGrant }
+export type {
+  AsyncMqttClient,
+  IPublishPacket,
+  ISubscriptionGrant,
+  IClientPublishOptions,
+}

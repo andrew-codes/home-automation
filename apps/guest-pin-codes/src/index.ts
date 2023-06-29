@@ -3,29 +3,25 @@ import createSagaMiddleware from "redux-saga"
 import { createHeartbeat } from "@ha/http-heartbeat"
 import { createStore, applyMiddleware } from "redux"
 import { CronJob } from "cron"
-import candiateCodes from "./candidateCodes"
+import candidateCodes from "./candidateCodes"
 import reducer from "./reducer"
 import sagas from "./sagas"
 import {
-  addCodesToPool,
+  setCodesInPool,
   addDoorLocks,
-  scheduleEvents,
   fetchEvents,
   setGuestSlots,
 } from "./actionCreators"
-import { shuffle } from "./shuffle"
 
 const {
   GUEST_PIN_CODES_DOOR_LOCKS,
   GUEST_PIN_CODES_GUEST_CODE_INDEX_OFFSET,
-  GUEST_PIN_CODES_GUEST_LOCK_CODE_EXCLUSIONS,
   GUEST_PIN_CODES_NUMBER_OF_GUEST_CODES,
 } = process.env
 const debug = createDebugger("@ha/guest-pin-codes/index")
 
 const run = async (
   doorLocks: string,
-  codeExclusions: string,
   guestCodeOffset: number,
   numberOfGuestCodes: number,
 ) => {
@@ -44,41 +40,26 @@ const run = async (
   store.dispatch(setGuestSlots(numberOfGuestCodes, guestCodeOffset))
   store.dispatch(addDoorLocks(doorLocks.split(",").filter((lock) => !!lock)))
 
-  const exclusionCodes = codeExclusions.split(",")
-  const codes = candiateCodes.filter((code) => !exclusionCodes.includes(code))
-  store.dispatch(addCodesToPool(shuffle(codes)))
+  store.dispatch(setCodesInPool(candidateCodes()))
 
   sagaMiddleware.run(sagas)
 
   const fetchEventsJob = new CronJob(
     "*/5 * * * *",
     () => {
-      store.dispatch(fetchEvents(new Date()))
+      store.dispatch(fetchEvents(new Date(), 90))
     },
     null,
     true,
     "America/New_York",
   )
-  const scheduledEventsJob = new CronJob(
-    "10 */1 * * * *",
-    () => {
-      store.dispatch(scheduleEvents(new Date()))
-    },
-    null,
-    true,
-    "America/New_York",
-  )
-  const now = new Date()
-  store.dispatch(fetchEvents(now))
-  store.dispatch(scheduleEvents(now))
+  store.dispatch(fetchEvents(new Date(), 90))
   fetchEventsJob.start()
-  scheduledEventsJob.start()
 }
 
 if (require.main === module) {
   run(
     GUEST_PIN_CODES_DOOR_LOCKS as string,
-    GUEST_PIN_CODES_GUEST_LOCK_CODE_EXCLUSIONS as string,
     parseInt(GUEST_PIN_CODES_GUEST_CODE_INDEX_OFFSET as string, 10) + 1,
     parseInt(GUEST_PIN_CODES_NUMBER_OF_GUEST_CODES as string, 10),
   )

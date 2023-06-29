@@ -1,18 +1,19 @@
-import { calendar_v3 } from "googleapis"
-
-type AddCodesToPoolAction = {
-  type: "ADD_CODES_TO_POOL"
+type SetCodesInPoolAction = {
+  type: "SET_CODES_IN_POOL"
   payload: string[]
 }
 
-type AddDoorLocksAction = {
-  type: "ADD_DOOR_LOCKS"
+type SetDoorLocks = {
+  type: "SET_DOOR_LOCKS"
   payload: string[]
 }
 
-type FetchEventAction = {
+type FetchEventsAction = {
   type: "FETCH_EVENTS"
-  payload: Date
+  payload: {
+    start: Date
+    end: Date
+  }
 }
 
 type SetGuestSlotsAction = {
@@ -23,37 +24,15 @@ type SetGuestSlotsAction = {
   }
 }
 
-type ScheduleEventsAction = {
-  type: "SCHEDULE_EVENTS"
-  payload: Date
-}
-
-type LastUsedCodeAction = {
-  type: "LAST_USED_CODE"
-  payload: string
-}
-
-type SetEventsAction = {
-  type: "SET_EVENTS"
-  payload: (calendar_v3.Schema$Event & { id: string })[]
-}
-
 type AssignGuestSlotAction = {
-  type: "ASSIGNED_GUEST_SLOT"
+  type: "ASSIGN_GUEST_SLOT"
   payload: {
-    id: string
-    eventId: string | null
+    slotId: string
+    eventId: string
+    start: Date
+    end: Date
+    code?: string
   }
-}
-
-type RemoveEventsAction = {
-  type: "REMOVE_EVENTS"
-  payload: (calendar_v3.Schema$Event & { id: string })[]
-}
-
-type FetchGuestWifiNetworkInformationAction = {
-  type: "FETCH_GUEST_WIFI_NETWORK_INFORMATION"
-  meta?: { error: boolean | string }
 }
 
 type SetGuestWifiNetworkInformationAction = {
@@ -65,29 +44,19 @@ type SetGuestWifiNetworkInformationAction = {
 }
 
 type AnyAction =
-  | AddCodesToPoolAction
-  | AddDoorLocksAction
+  | SetDoorLocks
   | AssignGuestSlotAction
-  | FetchEventAction
-  | FetchGuestWifiNetworkInformationAction
-  | LastUsedCodeAction
-  | RemoveEventsAction
-  | ScheduleEventsAction
-  | SetEventsAction
+  | FetchEventsAction
+  | SetCodesInPoolAction
   | SetGuestSlotsAction
   | SetGuestWifiNetworkInformationAction
 
 export type {
-  AddCodesToPoolAction,
-  AddDoorLocksAction,
+  SetDoorLocks,
   AnyAction,
   AssignGuestSlotAction,
-  FetchEventAction,
-  FetchGuestWifiNetworkInformationAction,
-  LastUsedCodeAction,
-  RemoveEventsAction,
-  ScheduleEventsAction,
-  SetEventsAction,
+  FetchEventsAction,
+  SetCodesInPoolAction,
   SetGuestSlotsAction,
   SetGuestWifiNetworkInformationAction,
 }

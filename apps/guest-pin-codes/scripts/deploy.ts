@@ -12,6 +12,9 @@ const run = async (
   const secrets: Array<keyof Configuration> = [
     "mqtt/password",
     "mqtt/username",
+    "guest-pin-codes/client_id",
+    "guest-pin-codes/client_secret",
+    "guest-pin-codes/tenant-id",
     "guest-pin-codes/door-locks",
     "guest-pin-codes/calendar-id",
     "guest-pin-codes/google-private-key",

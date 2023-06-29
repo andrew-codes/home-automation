@@ -1,80 +1,17 @@
-import { calendar_v3 } from "googleapis"
-import { defaultTo } from "lodash"
 import { get } from "lodash/fp"
 import { createSelector, Selector } from "reselect"
-import getMinuteAccurateDate from "./getMinuteAccurateDate"
 import { State } from "./reducer"
 
 type Entry<X extends string, Y> = [X, Y]
 
-const getEvents: Selector<
-  State,
-  Record<string, calendar_v3.Schema$Event & { id: string }>
-> = (state) => state?.events ?? {}
-const getDeletedEventDictionary: Selector<
-  State,
-  Record<string, calendar_v3.Schema$Event & { id: string }>
-> = (state) => state.deletedEvents ?? {}
-const getEventOrder: Selector<State, string[]> = (state) =>
-  state?.eventOrder ?? []
-const getLastScheduleTime: Selector<State, Date | null> = (state) =>
-  state?.lastScheduledTime
 const getCodes: Selector<State, string[]> = (state) => state.codes
-const getCurrentCodeIndex: Selector<State, number> = (state) => state.codeIndex
 const getDoorLocks: Selector<State, string[]> = (state) => state.doorLocks
 
 const getLockSlots: Selector<State, Entry<string, string>[]> = (state) =>
   Object.entries(state?.guestSlots ?? {})
 
-const getDeletedEvents = createSelector(getDeletedEventDictionary, (events) =>
-  Object.values(events),
-)
-
 const getAvailableLockSlots = createSelector(getLockSlots, (slots) =>
   slots.filter(([key, value]) => !value).map(get(0)),
-)
-
-const getChronologicalEvents = createSelector(
-  getEvents,
-  getEventOrder,
-  (events, eventOrder) => eventOrder.map((id) => events[id]),
-)
-const getUnassignedChronologicalEvents = createSelector(
-  getChronologicalEvents,
-  getLockSlots,
-  (events, slots) => events.filter(({ id }) => !slots.map(get(1)).includes(id)),
-)
-
-const getEndingEvents = createSelector(
-  getChronologicalEvents,
-  getDeletedEvents,
-  getLastScheduleTime,
-  (events, deletedEvents, scheduleTime) =>
-    events
-      .filter((event) => {
-        const end = getMinuteAccurateDate(
-          new Date(defaultTo(event?.end?.dateTime, event?.end?.date) as string),
-        )
-        return end.toLocaleString() === scheduleTime?.toLocaleString()
-      })
-      .concat(deletedEvents),
-)
-
-const getStartingEvents = createSelector(
-  getUnassignedChronologicalEvents,
-  getLastScheduleTime,
-  (events, scheduleTime) =>
-    events.filter((event) => {
-      const start = getMinuteAccurateDate(
-        new Date(
-          defaultTo(event?.start?.dateTime, event?.start?.date) as string,
-        ),
-      )
-      if (!scheduleTime) {
-        return false
-      }
-      return start.getTime() <= scheduleTime?.getTime()
-    }),
 )
 
 const getGuestWifiNetwork: Selector<
@@ -83,14 +20,9 @@ const getGuestWifiNetwork: Selector<
 > = (state) => state.guestNetwork ?? null
 
 export {
-  getUnassignedChronologicalEvents,
   getAvailableLockSlots,
   getCodes,
-  getChronologicalEvents,
-  getCurrentCodeIndex,
   getDoorLocks,
-  getEndingEvents,
   getGuestWifiNetwork,
   getLockSlots,
-  getStartingEvents,
 }

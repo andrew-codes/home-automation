@@ -1,26 +1,28 @@
-import { calendar_v3 } from "googleapis"
 import {
-  AddCodesToPoolAction,
-  AddDoorLocksAction,
-  FetchEventAction,
+  SetDoorLocks,
+  FetchEventsAction,
   SetGuestSlotsAction,
-  ScheduleEventsAction,
-  LastUsedCodeAction,
-  SetEventsAction,
   AssignGuestSlotAction,
-  RemoveEventsAction,
-  FetchGuestWifiNetworkInformationAction,
   SetGuestWifiNetworkInformationAction,
+  SetCodesInPoolAction,
 } from "./actions"
 import getMinuteAccurateDate from "./getMinuteAccurateDate"
 
-const fetchEvents = (end: Date): FetchEventAction => ({
-  type: "FETCH_EVENTS",
-  payload: getMinuteAccurateDate(end),
-})
+const fetchEvents = (start: Date, numberOfDays: number): FetchEventsAction => {
+  const end = getMinuteAccurateDate(start)
+  end.setDate(start.getDate() + numberOfDays)
 
-const addDoorLocks = (doorLocks: string[]): AddDoorLocksAction => ({
-  type: "ADD_DOOR_LOCKS",
+  return {
+    type: "FETCH_EVENTS",
+    payload: {
+      start: getMinuteAccurateDate(start),
+      end,
+    },
+  }
+}
+
+const addDoorLocks = (doorLocks: string[]): SetDoorLocks => ({
+  type: "SET_DOOR_LOCKS",
   payload: doorLocks,
 })
 
@@ -32,55 +34,21 @@ const setGuestSlots = (
   payload: { guestCodeOffset, numberOfGuestCodes },
 })
 
-const addCodesToPool = (codes: string[]): AddCodesToPoolAction => ({
-  type: "ADD_CODES_TO_POOL",
+const setCodesInPool = (codes: string[]): SetCodesInPoolAction => ({
+  type: "SET_CODES_IN_POOL",
   payload: codes,
 })
 
-const scheduleEvents = (start: Date): ScheduleEventsAction => ({
-  type: "SCHEDULE_EVENTS",
-  payload: getMinuteAccurateDate(start),
-})
-
-const setEvents = (
-  events: (calendar_v3.Schema$Event & { id: string })[],
-): SetEventsAction => ({
-  type: "SET_EVENTS",
-  payload: events,
-})
-
-const removeEvents = (
-  events: (calendar_v3.Schema$Event & { id: string })[],
-): RemoveEventsAction => ({
-  type: "REMOVE_EVENTS",
-  payload: events,
-})
-
-const lastUsedCode = (code: string): LastUsedCodeAction => ({
-  type: "LAST_USED_CODE",
-  payload: code,
-})
-
-const assignedGuestSlot = (
+const assignGuestSlot = (
   slotId: string,
-  eventId: string | null,
+  eventId: string,
+  start: Date,
+  end: Date,
+  code?: string,
 ): AssignGuestSlotAction => ({
-  type: "ASSIGNED_GUEST_SLOT",
-  payload: { id: slotId, eventId },
+  type: "ASSIGN_GUEST_SLOT",
+  payload: { slotId, eventId, start, end, code },
 })
-
-const fetchGuestWifiNetworkInformation = (
-  error?: string | boolean,
-): FetchGuestWifiNetworkInformationAction => {
-  if (!error) {
-    return { type: "FETCH_GUEST_WIFI_NETWORK_INFORMATION" }
-  }
-
-  return {
-    type: "FETCH_GUEST_WIFI_NETWORK_INFORMATION",
-    meta: { error },
-  }
-}
 
 const setGuestWifiNetworkInformation = (
   ssid: string,
@@ -93,15 +61,10 @@ const setGuestWifiNetworkInformation = (
 }
 
 export {
-  addCodesToPool,
+  setCodesInPool,
   addDoorLocks,
-  assignedGuestSlot,
+  assignGuestSlot,
   fetchEvents,
-  fetchGuestWifiNetworkInformation,
-  lastUsedCode,
-  removeEvents,
-  scheduleEvents,
-  setEvents,
   setGuestSlots,
   setGuestWifiNetworkInformation,
 }

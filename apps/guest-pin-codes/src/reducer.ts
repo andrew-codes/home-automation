@@ -1,32 +1,25 @@
-import { calendar_v3 } from "googleapis"
 import { defaultTo, keyBy, merge, uniq } from "lodash"
 import { get } from "lodash/fp"
 import { AnyAction } from "./actions"
 import getMinuteAccurateDate from "./getMinuteAccurateDate"
 
 type State = {
-  codeIndex: number
+  assignedEventIds: string[]
   codes: string[]
-  deletedEvents: Record<string, calendar_v3.Schema$Event & { id: string }>
   doorLocks: string[]
   eventOrder: string[]
-  events: Record<string, calendar_v3.Schema$Event & { id: string }>
   guestSlots: Record<string, string>
-  lastScheduledTime: Date | null
   guestNetwork?: {
     ssid: string
     password: string
   }
 }
 const defaultState: State = {
-  codeIndex: 0,
+  assignedEventIds: [],
   codes: [],
-  deletedEvents: {},
   doorLocks: [],
   eventOrder: [],
-  events: {},
   guestSlots: {},
-  lastScheduledTime: null,
 }
 
 const reducer = (
@@ -34,71 +27,8 @@ const reducer = (
   action: AnyAction,
 ): State => {
   switch (action.type) {
-    case "SET_EVENTS":
-      if (
-        action.payload.some(
-          (event) =>
-            !event?.end?.dateTime &&
-            !event?.end?.date &&
-            !event?.start?.dateTime &&
-            !event?.start?.date,
-        )
-      ) {
-        throw new Error("Payload has events with no start or end date/times.")
-      }
-      const events = action.payload.filter((event) => {
-        const end = defaultTo(event?.end?.dateTime, event?.end?.date) as string
-        return getMinuteAccurateDate(new Date(end)).getTime() > Date.now()
-      })
-      const orderedEvents = events.sort((a, b) => {
-        const startA = new Date(
-          defaultTo(a?.start?.dateTime, a?.start?.date) as string,
-        )
-        const startB = new Date(
-          defaultTo(b?.start?.dateTime, b?.start?.date) as string,
-        )
-        if (startA.getTime() < startB.getTime()) {
-          return -1
-        }
-        if (startA.getTime() > startB.getTime()) {
-          return 1
-        }
-        return 0
-      })
-      const deletedEvents = state.eventOrder
-        .filter((id) => !events.find((event) => event.id === id))
-        .map((id) => state.events[id])
-
-      return {
-        ...state,
-        deletedEvents: keyBy(deletedEvents, "id"),
-        eventOrder: orderedEvents.map(get<any, "id">("id")),
-        events: keyBy(events, "id"),
-      }
-
-    case "SCHEDULE_EVENTS":
-      const scheduledEventsState = merge({}, state, {
-        lastScheduledTime: action.payload,
-      })
-
-      return scheduledEventsState
-
-    case "LAST_USED_CODE":
-      if (!action.payload) {
-        return state
-      }
-      const codeIndex = Math.max(
-        0,
-        (state.codes as string[]).indexOf(action.payload),
-      )
-      return merge({}, state, {
-        codeIndex,
-      })
-
-    case "ASSIGNED_GUEST_SLOT":
-      return merge({}, state, {
-        guestSlots: { [action.payload.id]: action.payload.eventId },
-      })
+    case "SET_CODES_IN_POOL":
+      return merge({}, state, { codes: action.payload })
 
     case "SET_GUEST_SLOTS":
       return merge({}, state, {
@@ -108,26 +38,8 @@ const reducer = (
           .reduce((acc, val) => merge(acc, { [val]: null }), {}),
       })
 
-    case "ADD_CODES_TO_POOL":
-      return merge({}, state, { codes: state.codes.concat(action.payload) })
-
-    case "ADD_DOOR_LOCKS":
-      const stateWithNewDoorLocks = merge({}, state)
-      stateWithNewDoorLocks.doorLocks = uniq(
-        state.doorLocks.concat(action.payload),
-      )
-      return stateWithNewDoorLocks
-
-    case "REMOVE_EVENTS":
-      const stateWithRemovedEvents = merge({}, state)
-      stateWithRemovedEvents.eventOrder = state.eventOrder.filter(
-        (id) => !action.payload.find((event) => event.id === id),
-      )
-      action.payload.forEach((removedEvent) => {
-        delete stateWithRemovedEvents.events[removedEvent.id]
-        delete stateWithRemovedEvents.deletedEvents[removedEvent.id]
-      })
-      return stateWithRemovedEvents
+    case "SET_DOOR_LOCKS":
+      return merge({}, state, { doorLocks: action.payload })
 
     case "SET_GUEST_WIFI_NETWORK_INFORMATION": {
       return merge({}, state, { guestNetwork: action.payload })
