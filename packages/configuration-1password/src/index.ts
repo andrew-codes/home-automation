@@ -66,6 +66,8 @@ const configurationNames = [
   "home-assistant/jira-authorization-header",
   "home-assistant/latitude",
   "home-assistant/longitude",
+  "home-assistant/o365-client-id",
+  "home-assistant/o365-client-secret",
   "home-assistant/port/external",
   "home-assistant/postgres/db",
   "home-assistant/postgres/password",

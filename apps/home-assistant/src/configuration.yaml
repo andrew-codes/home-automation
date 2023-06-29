@@ -121,6 +121,24 @@ stream:
   segment_duration: 2
   part_duration: 0.2
 
+o365:
+  accounts:
+    - account_name: JAS
+      client_id: !secret O365_CLIENT_ID
+      client_secret: !secret O365_CLIENT_SECRET
+      alt_auth_method: True
+      enable_update: True
+      groups: True
+      email_sensor:
+        - name: Package Delivery Inbox
+          folder: Mail
+          max_items: 15
+          download_attachments: False
+          html_body: True
+      todo_sensors:
+        enabled: True
+        enable_update: True
+
 lovelace:
   mode: yaml
   resources:

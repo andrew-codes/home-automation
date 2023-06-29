@@ -10,8 +10,13 @@ const run = async (
   const secretNames = configurationApi.getNames()
   const secretsValues = await Promise.all(
     secretNames.map(async (name) => {
-      const value = await configurationApi.get(name)
-      return { name, value: typeof value === "string" ? value : value.value }
+      let value
+      try {
+        value = await configurationApi.get(name)
+      } catch (error) {}
+      const secretValue =
+        value != null ? (typeof value === "string" ? value : value.value) : ""
+      return { name, value: secretValue }
     }),
   )
   const secretTemplates = secretsValues.map(
