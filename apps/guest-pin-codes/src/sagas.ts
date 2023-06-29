@@ -1,8 +1,17 @@
 import createDebugger from "debug"
-import { call, fork, takeLatest } from "redux-saga/effects"
+import { call, fork, put, select, takeLatest } from "redux-saga/effects"
+import { isEmpty } from "lodash"
+import { get } from "lodash/fp"
 // import { createMqtt } from "@ha/mqtt-client"
 import { FetchEventsAction } from "./actions"
 import getClient from "./graphClient"
+import {
+  getAlreadyAssignedEventIds,
+  getAvailableLockSlots,
+  getCodes,
+} from "./selectors"
+import { assignGuestSlot, setCodesInPool } from "./actionCreators"
+import candidateCodes from "./candidateCodes"
 
 const debug = createDebugger("@ha/guest-pin-codes/sagas")
 
@@ -17,7 +26,44 @@ function* fetchEvents(action: FetchEventsAction) {
     const client = getClient()
     const getEvents = client.api(`groups/${GUEST_PIN_CODES_CALENDAR_ID}/events`)
     const { value: events } = yield call(getEvents.get)
+
     console.dir(events)
+
+    yield put({ type: "ATTEMPT_TO_FREE_SLOTS", payload: events.map(get("id")) })
+
+    if (isEmpty(events)) {
+      throw new Error("No events found")
+    }
+
+    const codes = yield select(getCodes)
+    const availableSlots = yield select(getAvailableLockSlots)
+    const assignedEventIds = yield select(getAlreadyAssignedEventIds)
+
+    const eventsToAssign = events.filter(
+      ({ id }) => !assignedEventIds.includes(id),
+    )
+
+    for (let eventIndex = 0; eventIndex < eventsToAssign.length; eventIndex++) {
+      if (eventIndex >= availableSlots.length) {
+        throw new Error("No more available slots")
+      }
+      if (eventIndex >= codes.length) {
+        yield put(
+          setCodesInPool(candidateCodes().filter((c) => !codes.includes(c))),
+        )
+        throw new Error("No more available codes")
+      }
+
+      yield put(
+        assignGuestSlot(
+          availableSlots[eventIndex],
+          eventsToAssign[eventIndex].id,
+          new Date(eventsToAssign[eventIndex].start.dateTime),
+          new Date(eventsToAssign[eventIndex].end.dateTime),
+          codes[eventIndex],
+        ),
+      )
+    }
   } catch (error) {
     debug(error)
   }

@@ -35,6 +35,11 @@ type AssignGuestSlotAction = {
   }
 }
 
+type AttemptToFreeSlotsAction = {
+  type: "ATTEMPT_TO_FREE_SLOTS"
+  payload: string[]
+}
+
 type SetGuestWifiNetworkInformationAction = {
   type: "SET_GUEST_WIFI_NETWORK_INFORMATION"
   payload: {
@@ -44,6 +49,7 @@ type SetGuestWifiNetworkInformationAction = {
 }
 
 type AnyAction =
+  | AttemptToFreeSlotsAction
   | SetDoorLocks
   | AssignGuestSlotAction
   | FetchEventsAction
@@ -52,6 +58,7 @@ type AnyAction =
   | SetGuestWifiNetworkInformationAction
 
 export type {
+  AttemptToFreeSlotsAction,
   SetDoorLocks,
   AnyAction,
   AssignGuestSlotAction,

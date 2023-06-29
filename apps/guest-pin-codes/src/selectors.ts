@@ -14,15 +14,19 @@ const getAvailableLockSlots = createSelector(getLockSlots, (slots) =>
   slots.filter(([key, value]) => !value).map(get(0)),
 )
 
+const getAlreadyAssignedEventIds = createSelector(getLockSlots, (slots) =>
+  slots.filter(([key, value]) => !!value).map(get(1)),
+)
+
 const getGuestWifiNetwork: Selector<
   State,
   { ssid: string; password: string } | null
 > = (state) => state.guestNetwork ?? null
 
 export {
-  getAvailableLockSlots,
   getCodes,
-  getDoorLocks,
-  getGuestWifiNetwork,
+  getAvailableLockSlots,
+  getAlreadyAssignedEventIds,
   getLockSlots,
+  getGuestWifiNetwork,
 }

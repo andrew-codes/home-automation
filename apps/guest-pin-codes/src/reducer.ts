@@ -45,6 +45,26 @@ const reducer = (
       return merge({}, state, { guestNetwork: action.payload })
     }
 
+    case "ASSIGN_GUEST_SLOT": {
+      return merge({}, state, {
+        guestSlots: { [action.payload.slotId]: action.payload.eventId },
+        codes: state.codes.filter((code) => code !== action.payload.code),
+      })
+    }
+
+    case "ATTEMPT_TO_FREE_SLOTS":
+      const knownEvents = Object.values(state.guestSlots)
+      const eventsToFree = knownEvents.filter(
+        (eventId) => !action.payload.includes(eventId),
+      )
+      const newState = merge({}, state)
+      Object.entries(state.guestSlots).forEach(([slotId, eventId]) => {
+        if (eventsToFree.includes(eventId)) {
+          newState.guestSlots[slotId] = null
+        }
+      })
+      return newState
+
     default:
       return state
   }
