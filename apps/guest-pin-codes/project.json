@@ -41,13 +41,12 @@
       }
     },
     "serve": {
-      "executor": "@ha/nx-executors:telepresence"
-    },
-    "start/dev": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "@ha/nx-executors:telepresence-local",
       "options": {
-        "command": "yarn nodemon src/index.ts --inspect=0.0.0.0:9233",
-        "cwd": "apps/guest-pin-codes"
+        "cwd": "apps/guest-pin-codes",
+        "fromPort": 8087,
+        "toPort": 80,
+        "command": "yarn node --inspect --require esbuild-register scripts/nodemon.ts"
       }
     },
     "test": {

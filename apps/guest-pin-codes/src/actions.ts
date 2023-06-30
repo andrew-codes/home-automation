@@ -10,10 +10,6 @@ type SetDoorLocks = {
 
 type FetchEventsAction = {
   type: "FETCH_EVENTS"
-  payload: {
-    start: Date
-    end: Date
-  }
 }
 
 type SetGuestSlotsAction = {
@@ -27,6 +23,7 @@ type SetGuestSlotsAction = {
 type AssignGuestSlotAction = {
   type: "ASSIGN_GUEST_SLOT"
   payload: {
+    title: string
     slotId: string
     eventId: string
     start: Date
@@ -35,8 +32,8 @@ type AssignGuestSlotAction = {
   }
 }
 
-type AttemptToFreeSlotsAction = {
-  type: "ATTEMPT_TO_FREE_SLOTS"
+type FreeSlots = {
+  type: "FREE_SLOTS"
   payload: string[]
 }
 
@@ -49,7 +46,7 @@ type SetGuestWifiNetworkInformationAction = {
 }
 
 type AnyAction =
-  | AttemptToFreeSlotsAction
+  | FreeSlots
   | SetDoorLocks
   | AssignGuestSlotAction
   | FetchEventsAction
@@ -58,7 +55,7 @@ type AnyAction =
   | SetGuestWifiNetworkInformationAction
 
 export type {
-  AttemptToFreeSlotsAction,
+  FreeSlots,
   SetDoorLocks,
   AnyAction,
   AssignGuestSlotAction,

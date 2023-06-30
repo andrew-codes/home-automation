@@ -59,7 +59,8 @@
       "options": {
         "command": "yarn nodemon src/index.ts --inspect=0.0.0.0:9233",
         "cwd": "apps/ps5",
-        "port": 80
+        "fromPort": 8086,
+        "toPort": 80
       }
     }
   },

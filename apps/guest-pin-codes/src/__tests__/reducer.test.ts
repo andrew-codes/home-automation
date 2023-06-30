@@ -1,11 +1,9 @@
 import { merge } from "lodash"
 import {
   setCodesInPool,
-  addDoorLocks,
   setGuestSlots,
   setGuestWifiNetworkInformation,
 } from "../actionCreators"
-import getMinuteAccurateDate from "../getMinuteAccurateDate"
 import reducer, { defaultState, State } from "../reducer"
 
 const tomorrow = new Date()

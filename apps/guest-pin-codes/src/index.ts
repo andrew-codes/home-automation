@@ -47,13 +47,13 @@ const run = async (
   const fetchEventsJob = new CronJob(
     "*/5 * * * *",
     () => {
-      store.dispatch(fetchEvents(new Date(), 90))
+      store.dispatch(fetchEvents())
     },
     null,
     true,
     "America/New_York",
   )
-  store.dispatch(fetchEvents(new Date(), 90))
+  store.dispatch(fetchEvents())
   fetchEventsJob.start()
 }
 

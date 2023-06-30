@@ -7,20 +7,13 @@ jest.mock("../sagas")
 jest.mock("cron", () => ({
   CronJob: jest.fn(),
 }))
-const codes = ["0", "1", "2"]
 jest.mock("../candidateCodes")
-jest.mock("../getMinuteAccurateDate")
-jest.mock("../actionCreators", () => ({
-  ...jest.requireActual("../actionCreators"),
-  fetchEvents: jest.fn(),
-}))
 import createSagaMiddleware from "redux-saga"
 import { applyMiddleware, createStore } from "redux"
 import { createHeartbeat } from "@ha/http-heartbeat"
 import { CronJob as mockCronJob } from "cron"
 import { when } from "jest-when"
 import run from "../index"
-import getMinuteAccurateDate from "../getMinuteAccurateDate"
 import reducer from "../reducer"
 import sagas from "../sagas"
 import candidateCodes from "../candidateCodes"
@@ -93,44 +86,21 @@ test("store is loaded with available codes", async () => {
   })
 })
 
-describe.skip("", () => {
-  test("immediately fetches events and processes events to be scheduled", async () => {
-    ;(createStore as jest.Mock).mockReturnValue(store)
-    const now = new Date()
-    jest.spyOn(global, "Date").mockImplementation(() => now as any)
-    when(getMinuteAccurateDate).calledWith(now).mockReturnValue(now)
-    await run("front_door,back_door", 1, 5)
+test("fetch events is dispatched and then, on every 5th minute, fetch events is dispatched with the current date", async () => {
+  ;(createStore as jest.Mock).mockReturnValue(store)
+  let cronJobCallback
+  mockCronJob.mockImplementationOnce((timePattern, cb) => {
+    expect(timePattern).toEqual("*/5 * * * *")
+    cronJobCallback = cb
 
-    expect(store.dispatch).toBeCalledWith({
-      type: "FETCH_EVENTS",
-      payload: now,
-    })
-    expect(store.dispatch).toBeCalledWith({
-      type: "SCHEDULE_EVENTS",
-      payload: now,
-    })
+    return {
+      start,
+    }
   })
 
-  test("every 5th minute, fetch events is dispatched with the current date", async () => {
-    ;(createStore as jest.Mock).mockReturnValue(store)
-    const now = new Date()
-    jest.spyOn(global, "Date").mockImplementation(() => now as any)
-    when(getMinuteAccurateDate).calledWith(now).mockReturnValue(now)
-    mockCronJob.mockImplementationOnce((timePattern, cb) => {
-      expect(timePattern).toEqual("*/5 * * * *")
-      cb()
-      expect(store.dispatch.mock.calls[3]).toEqual([
-        {
-          type: "FETCH_EVENTS",
-          payload: now,
-        },
-      ])
+  await run("front_door,back_door", 1, 5)
+  expect(store.dispatch.mock.calls[3]).toEqual([{ type: "FETCH_EVENTS" }])
 
-      return {
-        start,
-      }
-    })
-
-    await run("front_door,back_door", 1, 5)
-  })
+  cronJobCallback()
+  expect(store.dispatch.mock.calls[4]).toEqual([{ type: "FETCH_EVENTS" }])
 })

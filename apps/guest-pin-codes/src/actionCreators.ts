@@ -6,18 +6,10 @@ import {
   SetGuestWifiNetworkInformationAction,
   SetCodesInPoolAction,
 } from "./actions"
-import getMinuteAccurateDate from "./getMinuteAccurateDate"
 
-const fetchEvents = (start: Date, numberOfDays: number): FetchEventsAction => {
-  const end = getMinuteAccurateDate(start)
-  end.setDate(start.getDate() + numberOfDays)
-
+const fetchEvents = (): FetchEventsAction => {
   return {
     type: "FETCH_EVENTS",
-    payload: {
-      start: getMinuteAccurateDate(start),
-      end,
-    },
   }
 }
 
@@ -40,6 +32,7 @@ const setCodesInPool = (codes: string[]): SetCodesInPoolAction => ({
 })
 
 const assignGuestSlot = (
+  title: string,
   slotId: string,
   eventId: string,
   start: Date,
@@ -47,7 +40,7 @@ const assignGuestSlot = (
   code?: string,
 ): AssignGuestSlotAction => ({
   type: "ASSIGN_GUEST_SLOT",
-  payload: { slotId, eventId, start, end, code },
+  payload: { title, slotId, eventId, start, end, code },
 })
 
 const setGuestWifiNetworkInformation = (

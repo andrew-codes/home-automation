@@ -1,13 +1,11 @@
 import { defaultTo, keyBy, merge, uniq } from "lodash"
 import { get } from "lodash/fp"
 import { AnyAction } from "./actions"
-import getMinuteAccurateDate from "./getMinuteAccurateDate"
 
 type State = {
   assignedEventIds: string[]
   codes: string[]
   doorLocks: string[]
-  eventOrder: string[]
   guestSlots: Record<string, string>
   guestNetwork?: {
     ssid: string
@@ -18,7 +16,6 @@ const defaultState: State = {
   assignedEventIds: [],
   codes: [],
   doorLocks: [],
-  eventOrder: [],
   guestSlots: {},
 }
 
@@ -52,14 +49,10 @@ const reducer = (
       })
     }
 
-    case "ATTEMPT_TO_FREE_SLOTS":
-      const knownEvents = Object.values(state.guestSlots)
-      const eventsToFree = knownEvents.filter(
-        (eventId) => !action.payload.includes(eventId),
-      )
+    case "FREE_SLOTS":
       const newState = merge({}, state)
       Object.entries(state.guestSlots).forEach(([slotId, eventId]) => {
-        if (eventsToFree.includes(eventId)) {
+        if (action.payload.includes(eventId)) {
           newState.guestSlots[slotId] = null
         }
       })

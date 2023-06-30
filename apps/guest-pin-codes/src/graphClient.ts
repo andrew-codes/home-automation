@@ -14,7 +14,7 @@ const getClient = (): Client => {
 
     client = Client.initWithMiddleware({
       authProvider: new TokenCredentialAuthenticationProvider(credential, {
-        scopes: [],
+        scopes: ["https://graph.microsoft.com/.default"],
       }),
     })
   }
