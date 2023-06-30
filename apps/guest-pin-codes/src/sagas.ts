@@ -116,7 +116,6 @@ function* fetchEvents(action: FetchEventsAction) {
         )
         throw new Error("No more available codes")
       }
-      console.log(availableSlots, availableSlots[eventIndex])
 
       yield put(
         assignGuestSlot(
@@ -147,6 +146,10 @@ function* assignGuestSlotEffects(action: AssignGuestSlotAction) {
       ),
       { qos: 1 },
     )
+    yield put({
+      type: "POST_EVENT_UPDATE",
+      payload: { eventId: action.payload.eventId, code: action.payload.code },
+    })
   } catch (error) {
     debug(error)
   }
@@ -155,7 +158,6 @@ function* assignGuestSlotEffects(action: AssignGuestSlotAction) {
 function* postEventUpdate(action: PostEventUpdateAction) {
   try {
     const { GUEST_PIN_CODES_CALENDAR_ID } = process.env
-
     const client = getClient()
     const eventApi = client.api(
       `/users/${GUEST_PIN_CODES_CALENDAR_ID}/events/${action.payload.eventId}`,
@@ -163,7 +165,7 @@ function* postEventUpdate(action: PostEventUpdateAction) {
     yield call([eventApi, eventApi.patch], {
       body: {
         contentType: "text",
-        content: `=================
+        content: `================= 
 # ACCESS CODE
 ${
   action.payload.code ?? "The access code will be provided closer to the event."
