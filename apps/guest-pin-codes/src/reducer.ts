@@ -61,8 +61,8 @@ const reducer = (
 
     case "FREE_SLOTS":
       const newState = merge({}, state)
-      Object.entries(state.guestSlots).forEach(([slotId, slot]) => {
-        if (!!slot && action.payload.includes(slot.eventId)) {
+      Object.entries(state.guestSlots).forEach(([slotId]) => {
+        if (action.payload.includes(slotId)) {
           newState.guestSlots[slotId] = null
         }
       })

@@ -15,7 +15,10 @@ const getAvailableLockSlots = createSelector(getLockSlots, (slots) =>
 )
 
 const getAlreadyAssignedEventIds = createSelector(getLockSlots, (slots) =>
-  slots.filter(([key, value]) => !!value).map(get(1)),
+  slots
+    .filter(([key, value]) => !!value)
+    .map(get(1))
+    .map(get("eventId")),
 )
 
 const getGuestWifiNetwork: Selector<

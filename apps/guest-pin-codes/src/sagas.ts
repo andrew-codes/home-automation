@@ -1,7 +1,15 @@
 import createDebugger from "debug"
 import { merge } from "lodash"
 import { get } from "lodash/fp"
-import { all, call, fork, put, select, takeLatest } from "redux-saga/effects"
+import {
+  all,
+  call,
+  fork,
+  put,
+  select,
+  takeEvery,
+  takeLatest,
+} from "redux-saga/effects"
 import { createMqtt } from "@ha/mqtt-client"
 import { assignGuestSlot, setCodesInPool } from "./actionCreators"
 import type {
@@ -23,6 +31,22 @@ import {
 
 const debug = createDebugger("@ha/guest-pin-codes/sagas")
 
+function parseIsoUtcToLocal(s: string): Date {
+  var b = s.split(/\D/).map((s) => parseInt(s, 10))
+
+  return new Date(
+    b[0],
+    b[1] - 1,
+    b[2],
+    b[3],
+    b[4] +
+      (!s.endsWith("00:00:00.0000000")
+        ? new Date().getTimezoneOffset()
+        : new Date().getTimezoneOffset() * -1),
+    b[5],
+  )
+}
+
 function* fetchEvents(action: FetchEventsAction) {
   try {
     const { GUEST_PIN_CODES_CALENDAR_ID } = process.env
@@ -34,21 +58,24 @@ function* fetchEvents(action: FetchEventsAction) {
     const codes = yield select(getCodes)
     const availableSlots = yield select(getAvailableLockSlots)
     const assignedEventIds = yield select(getAlreadyAssignedEventIds)
+    const lockSlotEntries: Entry<string, Slot>[] = yield select(getLockSlots)
 
     const removedEvents = assignedEventIds.filter(
       (id) => events.find((event) => event.id === id) === undefined,
     )
     const completedEvents = events.filter(
-      (event) => new Date(event.end.dateTime) < new Date(),
+      (event) => parseIsoUtcToLocal(event.end.dateTime) < new Date(),
     )
     const eventsToDeallocate = removedEvents.concat(
       completedEvents.map(get("id")),
     )
 
-    yield put({ type: "FREE_SLOTS", payload: eventsToDeallocate })
-
-    const lockSlotEntries: Entry<string, Slot>[] = yield select(getLockSlots)
     const lockSlots = Object.fromEntries(lockSlotEntries)
+    const slotsToFree = lockSlotEntries
+      .filter(([slotId, slot]) => eventsToDeallocate.includes(slot?.eventId))
+      .map(get(0))
+    yield put({ type: "FREE_SLOTS", payload: slotsToFree })
+
     const assignedEvents = events.filter((event) =>
       lockSlotEntries.find(([_, slot]) => event.id === slot?.eventId),
     )
@@ -58,14 +85,13 @@ function* fetchEvents(action: FetchEventsAction) {
       )
       if (slotEntry) {
         const slot = slotEntry[1]
-
         yield put(
           assignGuestSlot(
             event.subject,
             slot.id,
             event.id,
-            new Date(event.start.dateTime),
-            new Date(event.end.dateTime),
+            parseIsoUtcToLocal(event.start.dateTime),
+            parseIsoUtcToLocal(event.end.dateTime),
             slot.code,
           ),
         )
@@ -90,14 +116,15 @@ function* fetchEvents(action: FetchEventsAction) {
         )
         throw new Error("No more available codes")
       }
+      console.log(availableSlots, availableSlots[eventIndex])
 
       yield put(
         assignGuestSlot(
           newEventsToAssign[eventIndex].subject,
           availableSlots[eventIndex],
           newEventsToAssign[eventIndex].id,
-          new Date(newEventsToAssign[eventIndex].start.dateTime),
-          new Date(newEventsToAssign[eventIndex].end.dateTime),
+          parseIsoUtcToLocal(newEventsToAssign[eventIndex].start.dateTime),
+          parseIsoUtcToLocal(newEventsToAssign[eventIndex].end.dateTime),
           codes[eventIndex],
         ),
       )
@@ -114,7 +141,9 @@ function* assignGuestSlotEffects(action: AssignGuestSlotAction) {
       [mqtt, mqtt.publish],
       "guests/assigned-slot",
       JSON.stringify(
-        merge({}, action.payload, { slotId: parseInt(action.payload.slotId) }),
+        merge({}, action.payload, {
+          slotId: parseInt(action.payload.slotId),
+        }),
       ),
       { qos: 1 },
     )
@@ -175,15 +204,15 @@ function* fetchEventsSaga() {
 }
 
 function* assignGuestSlotSaga() {
-  yield takeLatest("ASSIGN_GUEST_SLOT", assignGuestSlotEffects)
+  yield takeEvery("ASSIGN_GUEST_SLOT", assignGuestSlotEffects)
 }
 
 function* postEventUpdateSaga() {
-  yield takeLatest("POST_EVENT_UPDATE", postEventUpdate)
+  yield takeEvery("POST_EVENT_UPDATE", postEventUpdate)
 }
 
 function* freeSlotsSaga() {
-  yield takeLatest("FREE_SLOTS", freeSlots)
+  yield takeEvery("FREE_SLOTS", freeSlots)
 }
 
 function* sagas() {

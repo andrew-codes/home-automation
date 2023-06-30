@@ -214,7 +214,9 @@ test(`More events that available slots
     .run()
 })
 
-test("fetching more unassigned events than available codes will assign the remaining slots, dispatch to refill the available codes, and stop processing events", () => {
+test(`More events than available codes
+
+- Fetching more unassigned events than available codes will assign the remaining slots, dispatch to refill the available codes, and stop processing events`, () => {
   ;(candidateCodes as jest.Mock).mockReturnValue(["code1", "code2"])
 
   const fakeResults = {
@@ -271,7 +273,9 @@ test("fetching more unassigned events than available codes will assign the remai
     .run()
 })
 
-test("removed events' guest slots are deallocated", () => {
+test(`Removed events
+
+- Removed events' guest slots are deallocated`, () => {
   ;(candidateCodes as jest.Mock).mockReturnValue(["code1", "code2"])
 
   const fakeResults = {
@@ -293,6 +297,20 @@ test("removed events' guest slots are deallocated", () => {
 
   return expectSaga(sagas)
     .provide([
+      [
+        matchers.select(getLockSlots),
+        [
+          [
+            "slot1",
+            {
+              id: "slot1",
+              eventId: "event2",
+              code: "code3",
+            },
+          ],
+          ["slot2", null],
+        ],
+      ],
       [matchers.select(getAlreadyAssignedEventIds), ["123", "event2"]],
       [matchers.select(getAvailableLockSlots), []],
       [matchers.select(getCodes), []],
@@ -300,7 +318,7 @@ test("removed events' guest slots are deallocated", () => {
     ])
     .put({
       type: "FREE_SLOTS",
-      payload: ["event2"],
+      payload: ["slot1"],
     })
     .dispatch({
       type: "FETCH_EVENTS",
@@ -308,8 +326,12 @@ test("removed events' guest slots are deallocated", () => {
     .run()
 })
 
-test("completed events' guest slots are deallocated", () => {
+test(`Completed events remove slots
+
+- Events ending in the past have heir slots deallocated`, () => {
   ;(candidateCodes as jest.Mock).mockReturnValue(["code1", "code2"])
+  const future = new Date()
+  future.setFullYear(future.getFullYear() + 1)
 
   const fakeResults = {
     value: [
@@ -321,7 +343,7 @@ test("completed events' guest slots are deallocated", () => {
           timeZone: "UTC",
         },
         end: {
-          dateTime: "2023-07-10T00:00:00.0000000",
+          dateTime: future.toUTCString(),
           timeZone: "UTC",
         },
       },
@@ -342,6 +364,20 @@ test("completed events' guest slots are deallocated", () => {
 
   return expectSaga(sagas)
     .provide([
+      [
+        matchers.select(getLockSlots),
+        [
+          [
+            "slot1",
+            {
+              id: "slot1",
+              eventId: "event2",
+              code: "code3",
+            },
+          ],
+          ["slot2", null],
+        ],
+      ],
       [matchers.select(getAlreadyAssignedEventIds), []],
       [matchers.select(getAvailableLockSlots), ["slot1", "slot2"]],
       [matchers.select(getCodes), ["code1", "code2"]],
@@ -349,7 +385,7 @@ test("completed events' guest slots are deallocated", () => {
     ])
     .put({
       type: "FREE_SLOTS",
-      payload: ["event2"],
+      payload: ["slot1"],
     })
     .dispatch({
       type: "FETCH_EVENTS",
@@ -357,8 +393,12 @@ test("completed events' guest slots are deallocated", () => {
     .run()
 })
 
-test("fetched events that have already passed are excluded from those assigned to a guest slot", () => {
+test(`Completed events are ignored for assignment
+
+- Fetched events that have already passed are excluded from those assigned to a guest slot`, () => {
   ;(candidateCodes as jest.Mock).mockReturnValue(["code1", "code2"])
+  const future = new Date()
+  future.setFullYear(future.getFullYear() + 1)
 
   const fakeResults = {
     value: [
@@ -370,7 +410,7 @@ test("fetched events that have already passed are excluded from those assigned t
           timeZone: "UTC",
         },
         end: {
-          dateTime: "2023-07-10T00:00:00.0000000",
+          dateTime: future.toUTCString(),
           timeZone: "UTC",
         },
       },
@@ -401,6 +441,50 @@ test("fetched events that have already passed are excluded from those assigned t
         type: "ASSIGN_GUEST_SLOT",
         payload: {
           eventId: "event2",
+        },
+      },
+    })
+    .dispatch({
+      type: "FETCH_EVENTS",
+    })
+    .run()
+})
+
+test(`Event times are converted to local time zone
+
+- Fetched event times are converted to local time zone`, () => {
+  ;(candidateCodes as jest.Mock).mockReturnValue(["code1", "code2"])
+  const futureYear = new Date().getFullYear() + 1
+  const fakeResults = {
+    value: [
+      {
+        id: "123",
+        subject: "Event title",
+        start: {
+          dateTime: `${futureYear}-06-30T19:30:00.0000000`,
+          timeZone: "UTC",
+        },
+        end: {
+          dateTime: `${futureYear}-06-30T19:35:00.0000000`,
+          timeZone: "UTC",
+        },
+      },
+    ],
+  }
+
+  return expectSaga(sagas)
+    .provide([
+      [matchers.select(getAlreadyAssignedEventIds), []],
+      [matchers.select(getAvailableLockSlots), ["slot1", "slot2"]],
+      [matchers.select(getCodes), ["code1", "code2"]],
+      [matchers.call([api, api.get]), fakeResults],
+    ])
+    .put.like({
+      action: {
+        type: "ASSIGN_GUEST_SLOT",
+        payload: {
+          start: new Date(futureYear, 5, 30, 3, 30),
+          end: new Date(futureYear, 5, 30, 3, 35),
         },
       },
     })
