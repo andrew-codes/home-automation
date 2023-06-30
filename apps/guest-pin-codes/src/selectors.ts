@@ -1,13 +1,13 @@
 import { get } from "lodash/fp"
 import { createSelector, Selector } from "reselect"
-import { State } from "./reducer"
+import type { Slot, State } from "./reducer"
 
 type Entry<X extends string, Y> = [X, Y]
 
 const getCodes: Selector<State, string[]> = (state) => state.codes
 const getDoorLocks: Selector<State, string[]> = (state) => state.doorLocks
 
-const getLockSlots: Selector<State, Entry<string, string>[]> = (state) =>
+const getLockSlots: Selector<State, Entry<string, Slot | null>[]> = (state) =>
   Object.entries(state?.guestSlots ?? {})
 
 const getAvailableLockSlots = createSelector(getLockSlots, (slots) =>
@@ -30,3 +30,4 @@ export {
   getLockSlots,
   getGuestWifiNetwork,
 }
+export type { Entry }

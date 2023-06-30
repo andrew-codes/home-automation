@@ -1,8 +1,6 @@
 {
   "jest.jestCommandLine": "yarn jest",
-  "jest.autoRun": {
-    "onStart": []
-  },
+  "jest.autoRun": "on-save",
   "search.exclude": {
     "**/.yarn": true,
     "**/.pnp.*": true

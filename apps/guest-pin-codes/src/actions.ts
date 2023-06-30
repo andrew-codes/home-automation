@@ -28,13 +28,21 @@ type AssignGuestSlotAction = {
     eventId: string
     start: Date
     end: Date
-    code?: string
+    code: string
   }
 }
 
-type FreeSlots = {
+type FreeSlotsAction = {
   type: "FREE_SLOTS"
   payload: string[]
+}
+
+type PostEventUpdateAction = {
+  type: "POST_EVENT_UPDATE"
+  payload: {
+    eventId: string
+    code?: string
+  }
 }
 
 type SetGuestWifiNetworkInformationAction = {
@@ -46,20 +54,22 @@ type SetGuestWifiNetworkInformationAction = {
 }
 
 type AnyAction =
-  | FreeSlots
+  | FreeSlotsAction
   | SetDoorLocks
   | AssignGuestSlotAction
   | FetchEventsAction
+  | PostEventUpdateAction
   | SetCodesInPoolAction
   | SetGuestSlotsAction
   | SetGuestWifiNetworkInformationAction
 
 export type {
-  FreeSlots,
+  FreeSlotsAction,
   SetDoorLocks,
   AnyAction,
   AssignGuestSlotAction,
   FetchEventsAction,
+  PostEventUpdateAction,
   SetCodesInPoolAction,
   SetGuestSlotsAction,
   SetGuestWifiNetworkInformationAction,

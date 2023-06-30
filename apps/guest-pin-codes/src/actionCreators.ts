@@ -37,7 +37,7 @@ const assignGuestSlot = (
   eventId: string,
   start: Date,
   end: Date,
-  code?: string,
+  code: string,
 ): AssignGuestSlotAction => ({
   type: "ASSIGN_GUEST_SLOT",
   payload: { title, slotId, eventId, start, end, code },

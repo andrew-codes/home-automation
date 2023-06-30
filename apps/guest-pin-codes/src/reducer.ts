@@ -1,12 +1,16 @@
-import { defaultTo, keyBy, merge, uniq } from "lodash"
-import { get } from "lodash/fp"
+import { merge } from "lodash"
 import { AnyAction } from "./actions"
 
+type Slot = {
+  id: string
+  eventId: string
+  code: string
+}
 type State = {
   assignedEventIds: string[]
   codes: string[]
   doorLocks: string[]
-  guestSlots: Record<string, string>
+  guestSlots: Record<string, Slot | null>
   guestNetwork?: {
     ssid: string
     password: string
@@ -44,15 +48,21 @@ const reducer = (
 
     case "ASSIGN_GUEST_SLOT": {
       return merge({}, state, {
-        guestSlots: { [action.payload.slotId]: action.payload.eventId },
+        guestSlots: {
+          [action.payload.slotId]: {
+            id: action.payload.slotId,
+            eventId: action.payload.eventId,
+            code: action.payload.code,
+          },
+        },
         codes: state.codes.filter((code) => code !== action.payload.code),
       })
     }
 
     case "FREE_SLOTS":
       const newState = merge({}, state)
-      Object.entries(state.guestSlots).forEach(([slotId, eventId]) => {
-        if (action.payload.includes(eventId)) {
+      Object.entries(state.guestSlots).forEach(([slotId, slot]) => {
+        if (!!slot && action.payload.includes(slot.eventId)) {
           newState.guestSlots[slotId] = null
         }
       })
@@ -65,4 +75,4 @@ const reducer = (
 
 export default reducer
 export { defaultState }
-export type { State }
+export type { Slot, State }

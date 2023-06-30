@@ -1,19 +1,25 @@
 import createDebugger from "debug"
-import { all, call, fork, put, select, takeLatest } from "redux-saga/effects"
-import { isEmpty, merge } from "lodash"
+import { merge } from "lodash"
 import { get } from "lodash/fp"
-// import { createMqtt } from "@ha/mqtt-client"
-import { AssignGuestSlotAction, FetchEventsAction } from "./actions"
+import { all, call, fork, put, select, takeLatest } from "redux-saga/effects"
+import { createMqtt } from "@ha/mqtt-client"
+import { assignGuestSlot, setCodesInPool } from "./actionCreators"
+import type {
+  AssignGuestSlotAction,
+  FetchEventsAction,
+  FreeSlotsAction,
+  PostEventUpdateAction,
+} from "./actions"
+import candidateCodes from "./candidateCodes"
 import getClient from "./graphClient"
+import { Slot } from "./reducer"
 import {
+  Entry,
   getAlreadyAssignedEventIds,
   getAvailableLockSlots,
   getCodes,
   getLockSlots,
 } from "./selectors"
-import { assignGuestSlot, setCodesInPool } from "./actionCreators"
-import candidateCodes from "./candidateCodes"
-import { createMqtt } from "@ha/mqtt-client"
 
 const debug = createDebugger("@ha/guest-pin-codes/sagas")
 
@@ -22,8 +28,8 @@ function* fetchEvents(action: FetchEventsAction) {
     const { GUEST_PIN_CODES_CALENDAR_ID } = process.env
 
     const client = getClient()
-    const getEvents = client.api(`/users/${GUEST_PIN_CODES_CALENDAR_ID}/events`)
-    const { value: events } = yield call([getEvents, getEvents.get])
+    const eventsApi = client.api(`/users/${GUEST_PIN_CODES_CALENDAR_ID}/events`)
+    const { value: events } = yield call([eventsApi, eventsApi.get])
 
     const codes = yield select(getCodes)
     const availableSlots = yield select(getAvailableLockSlots)
@@ -41,8 +47,29 @@ function* fetchEvents(action: FetchEventsAction) {
 
     yield put({ type: "FREE_SLOTS", payload: eventsToDeallocate })
 
-    if (isEmpty(events)) {
-      throw new Error("No events found")
+    const lockSlotEntries: Entry<string, Slot>[] = yield select(getLockSlots)
+    const lockSlots = Object.fromEntries(lockSlotEntries)
+    const assignedEvents = events.filter((event) =>
+      lockSlotEntries.find(([_, slot]) => event.id === slot?.eventId),
+    )
+    for (let event of assignedEvents) {
+      const slotEntry = lockSlotEntries.find(
+        ([slotId]) => lockSlots[slotId]?.eventId === event.id,
+      )
+      if (slotEntry) {
+        const slot = slotEntry[1]
+
+        yield put(
+          assignGuestSlot(
+            event.subject,
+            slot.id,
+            event.id,
+            new Date(event.start.dateTime),
+            new Date(event.end.dateTime),
+            slot.code,
+          ),
+        )
+      }
     }
 
     const newEventsToAssign = events
@@ -96,6 +123,53 @@ function* assignGuestSlotEffects(action: AssignGuestSlotAction) {
   }
 }
 
+function* postEventUpdate(action: PostEventUpdateAction) {
+  try {
+    const { GUEST_PIN_CODES_CALENDAR_ID } = process.env
+
+    const client = getClient()
+    const eventApi = client.api(
+      `/users/${GUEST_PIN_CODES_CALENDAR_ID}/events/${action.payload.eventId}`,
+    )
+    yield call([eventApi, eventApi.patch], {
+      body: {
+        contentType: "text",
+        content: `=================
+# ACCESS CODE
+${
+  action.payload.code ?? "The access code will be provided closer to the event."
+}
+=================
+
+This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code, contact us.
+
+* To Unlock the door, enter the access code above and then press the check mark button.
+* To Lock the door when you leave, press the "Yale" logo at the top of the keypad.
+
+Thank you!`,
+      },
+    })
+  } catch (error) {
+    debug(error)
+  }
+}
+
+function* freeSlots(action: FreeSlotsAction) {
+  try {
+    const mqtt = yield call(createMqtt)
+    for (let slotId of action.payload) {
+      yield call(
+        [mqtt, mqtt.publish],
+        "guests/assigned-slot",
+        JSON.stringify({ slotId: parseInt(slotId) }),
+        { qos: 1 },
+      )
+    }
+  } catch (error) {
+    debug(error)
+  }
+}
+
 function* fetchEventsSaga() {
   yield takeLatest("FETCH_EVENTS", fetchEvents)
 }
@@ -104,8 +178,23 @@ function* assignGuestSlotSaga() {
   yield takeLatest("ASSIGN_GUEST_SLOT", assignGuestSlotEffects)
 }
 
+function* postEventUpdateSaga() {
+  yield takeLatest("POST_EVENT_UPDATE", postEventUpdate)
+}
+
+function* freeSlotsSaga() {
+  yield takeLatest("FREE_SLOTS", freeSlots)
+}
+
 function* sagas() {
-  yield all([fetchEventsSaga, assignGuestSlotSaga].map((saga) => fork(saga)))
+  yield all(
+    [
+      fetchEventsSaga,
+      assignGuestSlotSaga,
+      postEventUpdateSaga,
+      freeSlotsSaga,
+    ].map((saga) => fork(saga)),
+  )
 }
 
 export default sagas

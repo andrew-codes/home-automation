@@ -10,6 +10,7 @@ import {
   getAlreadyAssignedEventIds,
   getAvailableLockSlots,
   getCodes,
+  getLockSlots,
 } from "../selectors"
 import candidateCodes from "../candidateCodes"
 
@@ -29,13 +30,16 @@ beforeEach(() => {
 test("Network errors do not crash saga", () => {
   return expectSaga(sagas)
     .provide([
-      [matchers.call([api, api.get]), throwError(new Error("Google Error"))],
+      [matchers.call([api, api.get]), throwError(new Error("API Error"))],
     ])
+    .call([api, api.get])
     .dispatch({ type: "FETCH_EVENTS" })
     .run()
 })
 
-test("successfully, but with no events", () => {
+test(`No event found
+
+- No slot assignments occur`, () => {
   const fakeResults = { value: [] }
 
   return expectSaga(sagas)
@@ -49,7 +53,9 @@ test("successfully, but with no events", () => {
     .run()
 })
 
-test("fetching an event that has never been assigned will assign event to the next available slot and next available code", () => {
+test(`Assign guest slot to new events
+
+- Fetching an event that has never been assigned will assign event to the next available slot and next available code`, () => {
   const fakeResults = {
     value: [
       {
@@ -90,7 +96,9 @@ test("fetching an event that has never been assigned will assign event to the ne
     .run()
 })
 
-test("fetching events that have already been assigned a slot will not attempt to assign the slot to the event again", () => {
+test(`Assign guest slot to existing events
+
+- Fetched events that have already been assigned a slot will assign the slot with the previously assigned code`, () => {
   const fakeResults = {
     value: [
       {
@@ -111,22 +119,48 @@ test("fetching events that have already been assigned a slot will not attempt to
   return expectSaga(sagas)
     .provide([
       [matchers.select(getAlreadyAssignedEventIds), ["123"]],
-      [matchers.select(getAvailableLockSlots), ["slot1", "slot2"]],
+      [matchers.select(getAvailableLockSlots), ["slot2"]],
+      [
+        matchers.select(getLockSlots),
+        [
+          [
+            "slot1",
+            {
+              id: "slot1",
+              eventId: "123",
+              code: "code3",
+            },
+          ],
+          ["slot2", null],
+        ],
+      ],
       [matchers.select(getCodes), ["code1", "code2"]],
       [matchers.call([api, api.get]), fakeResults],
     ])
-    .not.put.like({
+    .put.like({
       action: {
         type: "ASSIGN_GUEST_SLOT",
+        payload: {
+          code: "code3",
+          end: new Date("2023-07-10T00:00:00.0000000"),
+          eventId: "123",
+          slotId: "slot1",
+          start: new Date("2023-07-07T00:00:00.0000000"),
+          title: "Event title",
+        },
       },
     })
+
     .dispatch({
       type: "FETCH_EVENTS",
     })
     .run()
 })
 
-test("fetching more unassigned events than slots will assign the remaining slots and throw an error as soon as no slots are left", () => {
+test(`More events that available slots
+
+- Slots will continue to be assigned to new events until there are no slots left
+- Throw error once no slots are left`, () => {
   const fakeResults = {
     value: [
       {
