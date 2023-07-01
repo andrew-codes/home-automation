@@ -1,5 +1,6 @@
 jest.mock("../graphClient")
 jest.mock("../candidateCodes")
+jest.mock("../parseUtcToLocalDate")
 import { when } from "jest-when"
 import { expectSaga } from "redux-saga-test-plan"
 import { throwError } from "redux-saga-test-plan/providers"
@@ -13,8 +14,10 @@ import {
   getLockSlots,
 } from "../selectors"
 import candidateCodes from "../candidateCodes"
+import parseUtcToLocalDate from "../parseUtcToLocalDate"
 
 let api
+let futureLocalDate
 beforeEach(() => {
   jest.resetAllMocks()
   process.env.GUEST_PIN_CODES_CALENDAR_ID = "cal_id"
@@ -25,6 +28,10 @@ beforeEach(() => {
 
   api = { get: jest.fn() }
   when(client.api).calledWith("/users/cal_id/events").mockReturnValue(api)
+
+  futureLocalDate = new Date()
+  futureLocalDate.setDate(futureLocalDate.getDate() + 1)
+  ;(parseUtcToLocalDate as jest.Mock).mockReturnValue(futureLocalDate)
 })
 
 test("Network errors do not crash saga", () => {
@@ -61,6 +68,8 @@ test(`Assign guest slot to new events
       {
         id: "123",
         subject: "Event title",
+        originalStartTimeZone: "Eastern Standard Time",
+        originalEndTimeZone: "Eastern Standard Time",
         start: {
           dateTime: "2023-07-07T00:00:00.0000000",
           timeZone: "UTC",
@@ -85,9 +94,10 @@ test(`Assign guest slot to new events
         title: "Event title",
         slotId: "slot1",
         eventId: "123",
-        start: new Date("2023-07-07T00:00:00.0000000"),
-        end: new Date("2023-07-10T00:00:00.0000000"),
+        start: futureLocalDate,
+        end: futureLocalDate,
         code: "code1",
+        timeZone: "Eastern Standard Time",
       },
     })
     .dispatch({
@@ -103,6 +113,8 @@ test(`Assign guest slot to existing events
     value: [
       {
         id: "123",
+        originalStartTimeZone: "Eastern Standard Time",
+        originalEndTimeZone: "Eastern Standard Time",
         subject: "Event title",
         start: {
           dateTime: "2023-07-07T00:00:00.0000000",
@@ -142,10 +154,10 @@ test(`Assign guest slot to existing events
         type: "ASSIGN_GUEST_SLOT",
         payload: {
           code: "code3",
-          end: new Date("2023-07-10T00:00:00.0000000"),
+          start: futureLocalDate,
+          end: futureLocalDate,
           eventId: "123",
           slotId: "slot1",
-          start: new Date("2023-07-07T00:00:00.0000000"),
           title: "Event title",
         },
       },
@@ -165,6 +177,8 @@ test(`More events that available slots
     value: [
       {
         id: "123",
+        originalStartTimeZone: "Eastern Standard Time",
+        originalEndTimeZone: "Eastern Standard Time",
         subject: "Event title",
         start: {
           dateTime: "2023-07-07T00:00:00.0000000",
@@ -177,6 +191,8 @@ test(`More events that available slots
       },
       {
         id: "event2",
+        originalStartTimeZone: "Eastern Standard Time",
+        originalEndTimeZone: "Eastern Standard Time",
         subject: "Event title",
         start: {
           dateTime: "2023-07-07T00:00:00.0000000",
@@ -203,9 +219,10 @@ test(`More events that available slots
         title: "Event title",
         slotId: "slot1",
         eventId: "123",
-        start: new Date("2023-07-07T00:00:00.0000000"),
-        end: new Date("2023-07-10T00:00:00.0000000"),
+        start: futureLocalDate,
+        end: futureLocalDate,
         code: "code1",
+        timeZone: "Eastern Standard Time",
       },
     })
     .dispatch({
@@ -223,6 +240,8 @@ test(`More events than available codes
     value: [
       {
         id: "123",
+        originalStartTimeZone: "Eastern Standard Time",
+        originalEndTimeZone: "Eastern Standard Time",
         subject: "Event title",
         start: {
           dateTime: "2023-07-07T00:00:00.0000000",
@@ -235,6 +254,8 @@ test(`More events than available codes
       },
       {
         id: "event2",
+        originalStartTimeZone: "Eastern Standard Time",
+        originalEndTimeZone: "Eastern Standard Time",
         subject: "Event title",
         start: {
           dateTime: "2023-07-07T00:00:00.0000000",
@@ -261,9 +282,10 @@ test(`More events than available codes
         title: "Event title",
         slotId: "slot1",
         eventId: "123",
-        start: new Date("2023-07-07T00:00:00.0000000"),
-        end: new Date("2023-07-10T00:00:00.0000000"),
+        start: futureLocalDate,
+        end: futureLocalDate,
         code: "code1",
+        timeZone: "Eastern Standard Time",
       },
     })
     .put({ type: "SET_CODES_IN_POOL", payload: ["code2"] })
@@ -282,6 +304,8 @@ test(`Removed events
     value: [
       {
         id: "123",
+        originalStartTimeZone: "Eastern Standard Time",
+        originalEndTimeZone: "Eastern Standard Time",
         subject: "Event title",
         start: {
           dateTime: "2023-07-07T00:00:00.0000000",
@@ -330,32 +354,38 @@ test(`Completed events remove slots
 
 - Events ending in the past have heir slots deallocated`, () => {
   ;(candidateCodes as jest.Mock).mockReturnValue(["code1", "code2"])
-  const future = new Date()
-  future.setFullYear(future.getFullYear() + 1)
-
+  const pastDate = new Date()
+  pastDate.setFullYear(pastDate.getFullYear() - 1)
+  when(parseUtcToLocalDate)
+    .calledWith("2022-07-07T01:00:00.0000000", "Eastern Standard Time")
+    .mockReturnValue(pastDate)
   const fakeResults = {
     value: [
       {
         id: "123",
-        subject: "Event title",
-        start: {
-          dateTime: "2023-07-07T00:00:00.0000000",
-          timeZone: "UTC",
-        },
-        end: {
-          dateTime: future.toUTCString(),
-          timeZone: "UTC",
-        },
-      },
-      {
-        id: "event2",
+        originalStartTimeZone: "Eastern Standard Time",
+        originalEndTimeZone: "Eastern Standard Time",
         subject: "Event title",
         start: {
           dateTime: "2022-07-07T00:00:00.0000000",
           timeZone: "UTC",
         },
         end: {
-          dateTime: "2022-07-10T00:00:00.0000000",
+          dateTime: "2022-07-07T03:00:00.0000000",
+          timeZone: "UTC",
+        },
+      },
+      {
+        id: "event2",
+        originalStartTimeZone: "Eastern Standard Time",
+        originalEndTimeZone: "Eastern Standard Time",
+        subject: "Event title",
+        start: {
+          dateTime: "2022-07-07T00:00:00.0000000",
+          timeZone: "UTC",
+        },
+        end: {
+          dateTime: "2022-07-07T01:00:00.0000000",
           timeZone: "UTC",
         },
       },
@@ -397,32 +427,40 @@ test(`Completed events are ignored for assignment
 
 - Fetched events that have already passed are excluded from those assigned to a guest slot`, () => {
   ;(candidateCodes as jest.Mock).mockReturnValue(["code1", "code2"])
-  const future = new Date()
-  future.setFullYear(future.getFullYear() + 1)
+
+  const pastDate = new Date()
+  pastDate.setFullYear(pastDate.getFullYear() - 1)
+  when(parseUtcToLocalDate)
+    .calledWith("2022-07-07T01:00:00.0000000", "Eastern Standard Time")
+    .mockReturnValue(pastDate)
 
   const fakeResults = {
     value: [
       {
         id: "123",
-        subject: "Event title",
-        start: {
-          dateTime: "2023-07-07T00:00:00.0000000",
-          timeZone: "UTC",
-        },
-        end: {
-          dateTime: future.toUTCString(),
-          timeZone: "UTC",
-        },
-      },
-      {
-        id: "event2",
+        originalStartTimeZone: "Eastern Standard Time",
+        originalEndTimeZone: "Eastern Standard Time",
         subject: "Event title",
         start: {
           dateTime: "2022-07-07T00:00:00.0000000",
           timeZone: "UTC",
         },
         end: {
-          dateTime: "2022-07-10T00:00:00.0000000",
+          dateTime: "2022-07-07T01:01:00.0000000",
+          timeZone: "UTC",
+        },
+      },
+      {
+        id: "event2",
+        originalStartTimeZone: "Eastern Standard Time",
+        originalEndTimeZone: "Eastern Standard Time",
+        subject: "Event title",
+        start: {
+          dateTime: "2022-07-07T00:00:00.0000000",
+          timeZone: "UTC",
+        },
+        end: {
+          dateTime: "2022-07-07T01:00:00.0000000",
           timeZone: "UTC",
         },
       },
@@ -454,18 +492,19 @@ test(`Event times are converted to local time zone
 
 - Fetched event times are converted to local time zone`, () => {
   ;(candidateCodes as jest.Mock).mockReturnValue(["code1", "code2"])
-  const futureYear = new Date().getFullYear() + 1
   const fakeResults = {
     value: [
       {
         id: "123",
+        originalStartTimeZone: "Eastern Standard Time",
+        originalEndTimeZone: "Eastern Standard Time",
         subject: "Event title",
         start: {
-          dateTime: `${futureYear}-06-30T19:30:00.0000000`,
+          dateTime: `2023-06-30T19:30:00.0000000`,
           timeZone: "UTC",
         },
         end: {
-          dateTime: `${futureYear}-06-30T19:35:00.0000000`,
+          dateTime: `2023-06-30T19:35:00.0000000`,
           timeZone: "UTC",
         },
       },
@@ -483,8 +522,9 @@ test(`Event times are converted to local time zone
       action: {
         type: "ASSIGN_GUEST_SLOT",
         payload: {
-          start: new Date(futureYear, 5, 30, 3, 30),
-          end: new Date(futureYear, 5, 30, 3, 35),
+          start: futureLocalDate,
+          end: futureLocalDate,
+          timeZone: "Eastern Standard Time",
         },
       },
     })

@@ -5,6 +5,7 @@ import { expectSaga } from "redux-saga-test-plan"
 import { throwError } from "redux-saga-test-plan/providers"
 import * as matchers from "redux-saga-test-plan/matchers"
 import sagas from "../sagas"
+import parseUtcToLocalDate from "../parseUtcToLocalDate"
 
 let mqtt
 
@@ -24,12 +25,19 @@ test("Network errors do not crash saga", async () => {
     .run()
 })
 
-test("Event title, slot ID, start, and end are published via mqtt", () => {
+test("Event ID, title, slot ID, start, and end are published via mqtt", () => {
   const payload = {
     title: "Title 1",
+    eventId: "event1",
     slotId: "1",
-    start: "2020-01-01T00:00:00.000Z",
-    end: "2020-01-01T00:00:00.000Z",
+    start: parseUtcToLocalDate(
+      "2023-06-30T23:30:00.0000000",
+      "Eastern Standard Time",
+    ),
+    end: parseUtcToLocalDate(
+      "2023-06-30T23:35:00.0000000",
+      "Eastern Standard Time",
+    ),
   }
   return expectSaga(sagas)
     .provide([[matchers.call(createMqtt), mqtt]])
@@ -37,10 +45,11 @@ test("Event title, slot ID, start, and end are published via mqtt", () => {
       [mqtt, mqtt.publish],
       "guests/assigned-slot",
       JSON.stringify({
+        eventId: payload.eventId,
         title: payload.title,
         slotId: 1,
-        start: "2020-01-01T00:00:00.000Z",
-        end: "2020-01-01T00:00:00.000Z",
+        start: "2023-06-30T19:30:00.000",
+        end: "2023-06-30T19:35:00.000",
       }),
       {
         qos: 1,

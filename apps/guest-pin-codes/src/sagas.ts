@@ -28,24 +28,9 @@ import {
   getCodes,
   getLockSlots,
 } from "./selectors"
+import parseUtcToLocalDate from "./parseUtcToLocalDate"
 
 const debug = createDebugger("@ha/guest-pin-codes/sagas")
-
-function parseIsoUtcToLocal(s: string): Date {
-  var b = s.split(/\D/).map((s) => parseInt(s, 10))
-
-  return new Date(
-    b[0],
-    b[1] - 1,
-    b[2],
-    b[3],
-    b[4] +
-      (!s.endsWith("00:00:00.0000000")
-        ? new Date().getTimezoneOffset()
-        : new Date().getTimezoneOffset() * -1),
-    b[5],
-  )
-}
 
 function* fetchEvents(action: FetchEventsAction) {
   try {
@@ -64,7 +49,9 @@ function* fetchEvents(action: FetchEventsAction) {
       (id) => events.find((event) => event.id === id) === undefined,
     )
     const completedEvents = events.filter(
-      (event) => parseIsoUtcToLocal(event.end.dateTime) < new Date(),
+      (event) =>
+        parseUtcToLocalDate(event.end.dateTime, event.originalEndTimeZone) <
+        new Date(),
     )
     const eventsToDeallocate = removedEvents.concat(
       completedEvents.map(get("id")),
@@ -90,9 +77,13 @@ function* fetchEvents(action: FetchEventsAction) {
             event.subject,
             slot.id,
             event.id,
-            parseIsoUtcToLocal(event.start.dateTime),
-            parseIsoUtcToLocal(event.end.dateTime),
+            parseUtcToLocalDate(
+              event.start.dateTime,
+              event.originalStartTimeZone,
+            ),
+            parseUtcToLocalDate(event.end.dateTime, event.originalEndTimeZone),
             slot.code,
+            event.originalStartTimeZone,
           ),
         )
       }
@@ -117,14 +108,19 @@ function* fetchEvents(action: FetchEventsAction) {
         throw new Error("No more available codes")
       }
 
+      const event = newEventsToAssign[eventIndex]
       yield put(
         assignGuestSlot(
-          newEventsToAssign[eventIndex].subject,
+          event.subject,
           availableSlots[eventIndex],
-          newEventsToAssign[eventIndex].id,
-          parseIsoUtcToLocal(newEventsToAssign[eventIndex].start.dateTime),
-          parseIsoUtcToLocal(newEventsToAssign[eventIndex].end.dateTime),
+          event.id,
+          parseUtcToLocalDate(
+            event.start.dateTime,
+            event.originalStartTimeZone,
+          ),
+          parseUtcToLocalDate(event.end.dateTime, event.originalEndTimeZone),
           codes[eventIndex],
+          event.originalStartTimeZone,
         ),
       )
     }
@@ -139,11 +135,14 @@ function* assignGuestSlotEffects(action: AssignGuestSlotAction) {
     yield call(
       [mqtt, mqtt.publish],
       "guests/assigned-slot",
-      JSON.stringify(
-        merge({}, action.payload, {
-          slotId: parseInt(action.payload.slotId),
-        }),
-      ),
+      JSON.stringify({
+        eventId: action.payload.eventId,
+        title: action.payload.title,
+        slotId: parseInt(action.payload.slotId),
+        code: action.payload.code,
+        start: action.payload.start.toISOString().slice(0, -1),
+        end: action.payload.end.toISOString().slice(0, -1),
+      }),
       { qos: 1 },
     )
     yield put({

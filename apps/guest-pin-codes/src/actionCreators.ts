@@ -38,9 +38,10 @@ const assignGuestSlot = (
   start: Date,
   end: Date,
   code: string,
+  timeZone: string,
 ): AssignGuestSlotAction => ({
   type: "ASSIGN_GUEST_SLOT",
-  payload: { title, slotId, eventId, start, end, code },
+  payload: { title, slotId, eventId, start, end, code, timeZone },
 })
 
 const setGuestWifiNetworkInformation = (

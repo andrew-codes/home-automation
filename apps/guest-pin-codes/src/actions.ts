@@ -29,6 +29,7 @@ type AssignGuestSlotAction = {
     start: Date
     end: Date
     code: string
+    timeZone: string
   }
 }
 
