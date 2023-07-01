@@ -1,5 +1,9 @@
 import parseUtcToLocalDate from "../parseUtcToLocalDate"
 
+beforeEach(() => {
+  process.env.TZ = "America/New_York"
+})
+
 test("Parses UTC date and time to local date and time", () => {
   const inputDate = "2023-06-30T21:00:00.0000000"
   const inputTimeZone = "Eastern Standard Time"

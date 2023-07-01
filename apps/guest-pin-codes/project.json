@@ -53,7 +53,7 @@
       "executor": "@nrwl/workspace:run-commands",
       "outputs": ["{projectRoot}/.test-runs/unit"],
       "options": {
-        "command": "jest",
+        "command": "TZ=America/New_York jest",
         "cwd": "apps/guest-pin-codes"
       }
     },
