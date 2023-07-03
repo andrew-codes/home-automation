@@ -49,8 +49,8 @@ test("Event ID, PIN, title, slot ID, start, and end are published via mqtt", () 
         title: payload.title,
         slotId: 1,
         pin: "1234",
-        start: "2023-06-30T19:30:00.000",
-        end: "2023-06-30T19:35:00.000",
+        start: "2023-06-30T19:30:00.000Z",
+        end: "2023-06-30T19:35:00.000Z",
       }),
       {
         qos: 1,

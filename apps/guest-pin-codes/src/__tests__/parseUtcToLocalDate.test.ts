@@ -17,5 +17,5 @@ test("Parsing dates that start at beginning of day", () => {
   const inputTimeZone = "Eastern Standard Time"
   const date = parseUtcToLocalDate(inputDate, inputTimeZone)
 
-  expect(date.toISOString()).toBe("2023-06-30T00:00:00.000Z")
+  expect(date.toISOString()).toBe("2023-06-29T20:00:00.000Z")
 })

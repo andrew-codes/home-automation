@@ -48,11 +48,16 @@ function* fetchEvents(action: FetchEventsAction) {
     const removedEvents = assignedEventIds.filter(
       (id) => events.find((event) => event.id === id) === undefined,
     )
-    const completedEvents = events.filter(
-      (event) =>
+    const completedEvents = events.filter((event) => {
+      return (
         parseUtcToLocalDate(event.end.dateTime, event.originalEndTimeZone) <
-        new Date(),
-    )
+        parseUtcToLocalDate(
+          new Date().toISOString().replace("Z", ""),
+          event.originalEndTimeZone,
+        )
+      )
+    })
+    console.log(completedEvents)
     const eventsToDeallocate = removedEvents.concat(
       completedEvents.map(get("id")),
     )
@@ -143,8 +148,8 @@ function* assignGuestSlotEffects(action: AssignGuestSlotAction) {
         title: action.payload.title,
         slotId: parseInt(action.payload.slotId),
         pin: action.payload.pin,
-        start: action.payload.start.toISOString().slice(0, -1),
-        end: action.payload.end.toISOString().slice(0, -1),
+        start: action.payload.start.toISOString(),
+        end: action.payload.end.toISOString(),
       }),
       { qos: 1 },
     )
