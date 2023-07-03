@@ -1,106 +1,72 @@
 jest.mock("@ha/http-heartbeat")
 jest.mock("@ha/mqtt-client")
-jest.mock("redux")
-jest.mock("redux-saga")
-jest.mock("../reducer")
-jest.mock("../sagas")
-jest.mock("cron", () => ({
-  CronJob: jest.fn(),
-}))
-jest.mock("../candidateCodes")
-import createSagaMiddleware from "redux-saga"
-import { applyMiddleware, createStore } from "redux"
+jest.mock("../app")
 import { createHeartbeat } from "@ha/http-heartbeat"
-import { CronJob as mockCronJob } from "cron"
-import { when } from "jest-when"
+import { createMqtt } from "@ha/mqtt-client"
+import createApp from "../app"
 import run from "../index"
-import reducer from "../reducer"
-import sagas from "../sagas"
-import candidateCodes from "../candidateCodes"
 
 let store
-let sagaMiddleware
-let start
+let mqttClient
+const start = jest.fn()
 beforeEach(() => {
   jest.resetAllMocks()
   store = { dispatch: jest.fn(), subscribe: jest.fn(), getState: jest.fn() }
-  sagaMiddleware = { run: jest.fn() }
-  ;(createSagaMiddleware as jest.Mock).mockReturnValue(sagaMiddleware)
-  start = jest.fn()
-  mockCronJob.mockImplementation(() => ({ start }))
+  mqttClient = {
+    on: jest.fn(),
+    publish: jest.fn(),
+    subscribe: jest.fn(),
+  }
+  ;(createMqtt as jest.Mock).mockResolvedValue(mqttClient)
+  ;(createApp as jest.Mock).mockResolvedValue({ store, start })
 })
 
 test("sets up a heartbeat health check", async () => {
-  jest.mocked(createStore).mockReturnValue(store)
-  await run("", 0, 0)
+  await run()
 
   expect(createHeartbeat).toBeCalled()
 })
 
-test("store is created with the reducer and redux saga middleware", async () => {
-  const middleware = jest.fn()
-  when(applyMiddleware).calledWith(sagaMiddleware).mockReturnValue(middleware)
-  when(createStore).calledWith(reducer, middleware).mockReturnValue(store)
-  await run("", 0, 0)
+test("subscribes to topic to initialize store with existing guest slots", async () => {
+  await run()
 
-  expect(sagaMiddleware.run).toBeCalledWith(sagas)
+  expect(mqttClient.subscribe).toBeCalledWith("guest/slot/all/state/set", {
+    qos: 1,
+  })
 })
 
-test("guest slots and door locks are configured in the store", async () => {
-  ;(createStore as jest.Mock).mockReturnValue(store)
-  await run("front_door,back_door", 1, 5)
+test("Slots are set and the app is then started upon receiving the guest/slot/all/state/set message", async () => {
+  await run()
+  const messageHandler = mqttClient.on.mock.calls[0][1]
+  messageHandler(
+    "guest/slot/all/state/set",
+    JSON.stringify({ slots: [{ slotId: 4, eventId: "event1", pin: "123" }] }),
+  )
 
   expect(store.dispatch).toBeCalledWith({
     type: "SET_GUEST_SLOTS",
-    payload: {
-      guestCodeOffset: 1,
-      numberOfGuestCodes: 5,
-    },
+    payload: [{ slotId: 4, eventId: "event1", pin: "123" }],
   })
-
-  expect(store.dispatch).toBeCalledWith({
-    type: "SET_DOOR_LOCKS",
-    payload: ["front_door", "back_door"],
-  })
+  expect(start).toBeCalled()
 })
 
-test("empty door locks string is converted to an empty list to be dispatched", async () => {
-  ;(createStore as jest.Mock).mockReturnValue(store)
-  await run("", 1, 5)
+test("publishes mqtt message that the application has started", async () => {
+  await run()
 
-  expect(store.dispatch).toBeCalledWith({
-    type: "SET_DOOR_LOCKS",
-    payload: [],
-  })
+  expect(mqttClient.publish).toBeCalledWith("guest/started", "", { qos: 1 })
 })
 
-test("store is loaded with available codes", async () => {
-  ;(createStore as jest.Mock).mockReturnValue(store)
-  const expectedCodes = ["0", "2"]
-  ;(candidateCodes as jest.Mock).mockReturnValue(expectedCodes)
-  await run("front_door,back_door", 1, 5)
+test("Subsequent guest/slot/all/state/set messages will not start the app", async () => {
+  await run()
+  const messageHandler = mqttClient.on.mock.calls[0][1]
+  messageHandler(
+    "guest/slot/all/state/set",
+    JSON.stringify({ slots: [{ slotId: 4, eventId: "event1", pin: "123" }] }),
+  )
+  messageHandler(
+    "guest/slot/all/state/set",
+    JSON.stringify({ slots: [{ slotId: 4, eventId: "event1", pin: "123" }] }),
+  )
 
-  expect(store.dispatch).toBeCalledWith({
-    type: "SET_CODES_IN_POOL",
-    payload: expectedCodes,
-  })
-})
-
-test("fetch events is dispatched and then, on every 5th minute, fetch events is dispatched with the current date", async () => {
-  ;(createStore as jest.Mock).mockReturnValue(store)
-  let cronJobCallback
-  mockCronJob.mockImplementationOnce((timePattern, cb) => {
-    expect(timePattern).toEqual("*/5 * * * *")
-    cronJobCallback = cb
-
-    return {
-      start,
-    }
-  })
-
-  await run("front_door,back_door", 1, 5)
-  expect(store.dispatch.mock.calls[3]).toEqual([{ type: "FETCH_EVENTS" }])
-
-  cronJobCallback()
-  expect(store.dispatch.mock.calls[4]).toEqual([{ type: "FETCH_EVENTS" }])
+  expect(start).toBeCalledTimes(1)
 })

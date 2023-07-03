@@ -1,6 +1,11 @@
-type SetCodesInPoolAction = {
-  type: "SET_CODES_IN_POOL"
+type SetPinsInPoolAction = {
+  type: "SET_PINS_IN_POOL"
   payload: string[]
+}
+
+type SetGuestSlotsAction = {
+  type: "SET_GUEST_SLOTS"
+  payload: { slotId: number; eventId: string; pin: string }[]
 }
 
 type SetDoorLocks = {
@@ -12,11 +17,11 @@ type FetchEventsAction = {
   type: "FETCH_EVENTS"
 }
 
-type SetGuestSlotsAction = {
-  type: "SET_GUEST_SLOTS"
+type CreateGuestSlotsAction = {
+  type: "CREATE_GUEST_SLOTS"
   payload: {
-    guestCodeOffset: number
-    numberOfGuestCodes: number
+    guestSlotOffset: number
+    numberOfGuestSlots: number
   }
 }
 
@@ -28,7 +33,7 @@ type AssignGuestSlotAction = {
     eventId: string
     start: Date
     end: Date
-    code: string
+    pin: string
     timeZone: string
   }
 }
@@ -42,7 +47,7 @@ type PostEventUpdateAction = {
   type: "POST_EVENT_UPDATE"
   payload: {
     eventId: string
-    code?: string
+    pin?: string
   }
 }
 
@@ -60,9 +65,10 @@ type AnyAction =
   | AssignGuestSlotAction
   | FetchEventsAction
   | PostEventUpdateAction
-  | SetCodesInPoolAction
-  | SetGuestSlotsAction
+  | SetPinsInPoolAction
+  | CreateGuestSlotsAction
   | SetGuestWifiNetworkInformationAction
+  | SetGuestSlotsAction
 
 export type {
   FreeSlotsAction,
@@ -71,7 +77,8 @@ export type {
   AssignGuestSlotAction,
   FetchEventsAction,
   PostEventUpdateAction,
-  SetCodesInPoolAction,
-  SetGuestSlotsAction,
+  SetPinsInPoolAction,
+  CreateGuestSlotsAction,
   SetGuestWifiNetworkInformationAction,
+  SetGuestSlotsAction,
 }

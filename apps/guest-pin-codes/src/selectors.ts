@@ -4,7 +4,7 @@ import type { Slot, State } from "./reducer"
 
 type Entry<X extends string, Y> = [X, Y]
 
-const getCodes: Selector<State, string[]> = (state) => state.codes
+const getCodes: Selector<State, string[]> = (state) => state.pins
 const getDoorLocks: Selector<State, string[]> = (state) => state.doorLocks
 
 const getLockSlots: Selector<State, Entry<string, Slot | null>[]> = (state) =>
@@ -27,7 +27,7 @@ const getGuestWifiNetwork: Selector<
 > = (state) => state.guestNetwork ?? null
 
 export {
-  getCodes,
+  getCodes as getPins,
   getAvailableLockSlots,
   getAlreadyAssignedEventIds,
   getLockSlots,

@@ -31,7 +31,7 @@ test("Network errors do not crash saga", async () => {
     .call.like({ context: api, fn: api.patch })
     .dispatch({
       type: "POST_EVENT_UPDATE",
-      payload: { eventId, code: "code1" },
+      payload: { eventId, pin: "code1" },
     })
     .run()
 })
@@ -43,7 +43,7 @@ test(`Update events with assigned code
     .provide([matchers.call.like({ context: api, fn: api.patch }), {}])
     .dispatch({
       type: "POST_EVENT_UPDATE",
-      payload: { eventId, code: "code1" },
+      payload: { eventId, pin: "code1" },
     })
     .run()
     .then((result) => {

@@ -10,7 +10,7 @@ import graphClient from "../graphClient"
 import {
   getAlreadyAssignedEventIds,
   getAvailableLockSlots,
-  getCodes,
+  getPins,
   getLockSlots,
 } from "../selectors"
 import candidateCodes from "../candidateCodes"
@@ -85,7 +85,7 @@ test(`Assign guest slot to new events
   return expectSaga(sagas)
     .provide([
       [matchers.select(getAvailableLockSlots), ["slot1", "slot2"]],
-      [matchers.select(getCodes), ["code1", "code2"]],
+      [matchers.select(getPins), ["code1", "code2"]],
       [matchers.call([api, api.get]), fakeResults],
     ])
     .put({
@@ -96,7 +96,7 @@ test(`Assign guest slot to new events
         eventId: "123",
         start: futureLocalDate,
         end: futureLocalDate,
-        code: "code1",
+        pin: "code1",
         timeZone: "Eastern Standard Time",
       },
     })
@@ -140,20 +140,20 @@ test(`Assign guest slot to existing events
             {
               id: "slot1",
               eventId: "123",
-              code: "code3",
+              pin: "code3",
             },
           ],
           ["slot2", null],
         ],
       ],
-      [matchers.select(getCodes), ["code1", "code2"]],
+      [matchers.select(getPins), ["code1", "code2"]],
       [matchers.call([api, api.get]), fakeResults],
     ])
     .put.like({
       action: {
         type: "ASSIGN_GUEST_SLOT",
         payload: {
-          code: "code3",
+          pin: "code3",
           start: futureLocalDate,
           end: futureLocalDate,
           eventId: "123",
@@ -210,7 +210,7 @@ test(`More events that available slots
     .provide([
       [matchers.select(getAlreadyAssignedEventIds), []],
       [matchers.select(getAvailableLockSlots), ["slot1"]],
-      [matchers.select(getCodes), ["code1", "code2"]],
+      [matchers.select(getPins), ["code1", "code2"]],
       [matchers.call([api, api.get]), fakeResults],
     ])
     .put({
@@ -221,7 +221,7 @@ test(`More events that available slots
         eventId: "123",
         start: futureLocalDate,
         end: futureLocalDate,
-        code: "code1",
+        pin: "code1",
         timeZone: "Eastern Standard Time",
       },
     })
@@ -273,7 +273,7 @@ test(`More events than available codes
     .provide([
       [matchers.select(getAlreadyAssignedEventIds), []],
       [matchers.select(getAvailableLockSlots), ["slot1", "slot2"]],
-      [matchers.select(getCodes), ["code1"]],
+      [matchers.select(getPins), ["code1"]],
       [matchers.call([api, api.get]), fakeResults],
     ])
     .put({
@@ -284,11 +284,11 @@ test(`More events than available codes
         eventId: "123",
         start: futureLocalDate,
         end: futureLocalDate,
-        code: "code1",
+        pin: "code1",
         timeZone: "Eastern Standard Time",
       },
     })
-    .put({ type: "SET_CODES_IN_POOL", payload: ["code2"] })
+    .put({ type: "SET_PINS_IN_POOL", payload: ["code2"] })
     .dispatch({
       type: "FETCH_EVENTS",
     })
@@ -329,7 +329,7 @@ test(`Removed events
             {
               id: "slot1",
               eventId: "event2",
-              code: "code3",
+              pin: "code3",
             },
           ],
           ["slot2", null],
@@ -337,7 +337,7 @@ test(`Removed events
       ],
       [matchers.select(getAlreadyAssignedEventIds), ["123", "event2"]],
       [matchers.select(getAvailableLockSlots), []],
-      [matchers.select(getCodes), []],
+      [matchers.select(getPins), []],
       [matchers.call([api, api.get]), fakeResults],
     ])
     .put({
@@ -402,7 +402,7 @@ test(`Completed events remove slots
             {
               id: "slot1",
               eventId: "event2",
-              code: "code3",
+              pin: "code3",
             },
           ],
           ["slot2", null],
@@ -410,7 +410,7 @@ test(`Completed events remove slots
       ],
       [matchers.select(getAlreadyAssignedEventIds), []],
       [matchers.select(getAvailableLockSlots), ["slot1", "slot2"]],
-      [matchers.select(getCodes), ["code1", "code2"]],
+      [matchers.select(getPins), ["code1", "code2"]],
       [matchers.call([api, api.get]), fakeResults],
     ])
     .put({
@@ -471,7 +471,7 @@ test(`Completed events are ignored for assignment
     .provide([
       [matchers.select(getAlreadyAssignedEventIds), []],
       [matchers.select(getAvailableLockSlots), ["slot1", "slot2"]],
-      [matchers.select(getCodes), ["code1", "code2"]],
+      [matchers.select(getPins), ["code1", "code2"]],
       [matchers.call([api, api.get]), fakeResults],
     ])
     .not.put.like({
@@ -515,7 +515,7 @@ test(`Event times are converted to local time zone
     .provide([
       [matchers.select(getAlreadyAssignedEventIds), []],
       [matchers.select(getAvailableLockSlots), ["slot1", "slot2"]],
-      [matchers.select(getCodes), ["code1", "code2"]],
+      [matchers.select(getPins), ["code1", "code2"]],
       [matchers.call([api, api.get]), fakeResults],
     ])
     .put.like({

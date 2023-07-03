@@ -11,7 +11,7 @@ import {
   takeLatest,
 } from "redux-saga/effects"
 import { createMqtt } from "@ha/mqtt-client"
-import { assignGuestSlot, setCodesInPool } from "./actionCreators"
+import { assignGuestSlot, setPinsInPool } from "./actionCreators"
 import type {
   AssignGuestSlotAction,
   FetchEventsAction,
@@ -25,7 +25,7 @@ import {
   Entry,
   getAlreadyAssignedEventIds,
   getAvailableLockSlots,
-  getCodes,
+  getPins,
   getLockSlots,
 } from "./selectors"
 import parseUtcToLocalDate from "./parseUtcToLocalDate"
@@ -40,7 +40,7 @@ function* fetchEvents(action: FetchEventsAction) {
     const eventsApi = client.api(`/users/${GUEST_PIN_CODES_CALENDAR_ID}/events`)
     const { value: events } = yield call([eventsApi, eventsApi.get])
 
-    const codes = yield select(getCodes)
+    const pins = yield select(getPins)
     const availableSlots = yield select(getAvailableLockSlots)
     const assignedEventIds = yield select(getAlreadyAssignedEventIds)
     const lockSlotEntries: Entry<string, Slot>[] = yield select(getLockSlots)
@@ -56,6 +56,7 @@ function* fetchEvents(action: FetchEventsAction) {
     const eventsToDeallocate = removedEvents.concat(
       completedEvents.map(get("id")),
     )
+    console.log(eventsToDeallocate)
 
     const lockSlots = Object.fromEntries(lockSlotEntries)
     const slotsToFree = lockSlotEntries
@@ -63,9 +64,11 @@ function* fetchEvents(action: FetchEventsAction) {
       .map(get(0))
     yield put({ type: "FREE_SLOTS", payload: slotsToFree })
 
-    const assignedEvents = events.filter((event) =>
-      lockSlotEntries.find(([_, slot]) => event.id === slot?.eventId),
-    )
+    const assignedEvents = events
+      .filter((event) => !eventsToDeallocate.includes(event.id))
+      .filter((event) =>
+        lockSlotEntries.find(([_, slot]) => event.id === slot?.eventId),
+      )
     for (let event of assignedEvents) {
       const slotEntry = lockSlotEntries.find(
         ([slotId]) => lockSlots[slotId]?.eventId === event.id,
@@ -82,7 +85,7 @@ function* fetchEvents(action: FetchEventsAction) {
               event.originalStartTimeZone,
             ),
             parseUtcToLocalDate(event.end.dateTime, event.originalEndTimeZone),
-            slot.code,
+            slot.pin,
             event.originalStartTimeZone,
           ),
         )
@@ -101,9 +104,9 @@ function* fetchEvents(action: FetchEventsAction) {
       if (eventIndex >= availableSlots.length) {
         throw new Error("No more available slots")
       }
-      if (eventIndex >= codes.length) {
+      if (eventIndex >= pins.length) {
         yield put(
-          setCodesInPool(candidateCodes().filter((c) => !codes.includes(c))),
+          setPinsInPool(candidateCodes().filter((c) => !pins.includes(c))),
         )
         throw new Error("No more available codes")
       }
@@ -119,7 +122,7 @@ function* fetchEvents(action: FetchEventsAction) {
             event.originalStartTimeZone,
           ),
           parseUtcToLocalDate(event.end.dateTime, event.originalEndTimeZone),
-          codes[eventIndex],
+          pins[eventIndex],
           event.originalStartTimeZone,
         ),
       )
@@ -134,12 +137,12 @@ function* assignGuestSlotEffects(action: AssignGuestSlotAction) {
     const mqtt = yield call(createMqtt)
     yield call(
       [mqtt, mqtt.publish],
-      "guests/assigned-slot",
+      `guest/slot/${action.payload.slotId}/set`,
       JSON.stringify({
         eventId: action.payload.eventId,
         title: action.payload.title,
         slotId: parseInt(action.payload.slotId),
-        code: action.payload.code,
+        pin: action.payload.pin,
         start: action.payload.start.toISOString().slice(0, -1),
         end: action.payload.end.toISOString().slice(0, -1),
       }),
@@ -147,7 +150,7 @@ function* assignGuestSlotEffects(action: AssignGuestSlotAction) {
     )
     yield put({
       type: "POST_EVENT_UPDATE",
-      payload: { eventId: action.payload.eventId, code: action.payload.code },
+      payload: { eventId: action.payload.eventId, pin: action.payload.pin },
     })
   } catch (error) {
     debug(error)
@@ -166,9 +169,7 @@ function* postEventUpdate(action: PostEventUpdateAction) {
         contentType: "text",
         content: `================= 
 # ACCESS CODE
-${
-  action.payload.code ?? "The access code will be provided closer to the event."
-}
+${action.payload.pin ?? "The access code will be provided closer to the event."}
 =================
 
 This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code, contact us.
@@ -190,7 +191,7 @@ function* freeSlots(action: FreeSlotsAction) {
     for (let slotId of action.payload) {
       yield call(
         [mqtt, mqtt.publish],
-        "guests/assigned-slot",
+        `guest/slot/${slotId}/set`,
         JSON.stringify({ slotId: parseInt(slotId) }),
         { qos: 1 },
       )

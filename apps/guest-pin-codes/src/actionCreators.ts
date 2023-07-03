@@ -1,10 +1,10 @@
 import {
   SetDoorLocks,
   FetchEventsAction,
-  SetGuestSlotsAction,
+  CreateGuestSlotsAction,
   AssignGuestSlotAction,
   SetGuestWifiNetworkInformationAction,
-  SetCodesInPoolAction,
+  SetPinsInPoolAction,
 } from "./actions"
 
 const fetchEvents = (): FetchEventsAction => {
@@ -18,16 +18,19 @@ const addDoorLocks = (doorLocks: string[]): SetDoorLocks => ({
   payload: doorLocks,
 })
 
-const setGuestSlots = (
+const createGuestSlots = (
   numberOfGuestCodes: number,
   guestCodeOffset: number,
-): SetGuestSlotsAction => ({
-  type: "SET_GUEST_SLOTS",
-  payload: { guestCodeOffset, numberOfGuestCodes },
+): CreateGuestSlotsAction => ({
+  type: "CREATE_GUEST_SLOTS",
+  payload: {
+    guestSlotOffset: guestCodeOffset,
+    numberOfGuestSlots: numberOfGuestCodes,
+  },
 })
 
-const setCodesInPool = (codes: string[]): SetCodesInPoolAction => ({
-  type: "SET_CODES_IN_POOL",
+const setPinsInPool = (codes: string[]): SetPinsInPoolAction => ({
+  type: "SET_PINS_IN_POOL",
   payload: codes,
 })
 
@@ -37,11 +40,11 @@ const assignGuestSlot = (
   eventId: string,
   start: Date,
   end: Date,
-  code: string,
+  pin: string,
   timeZone: string,
 ): AssignGuestSlotAction => ({
   type: "ASSIGN_GUEST_SLOT",
-  payload: { title, slotId, eventId, start, end, code, timeZone },
+  payload: { title, slotId, eventId, start, end, pin, timeZone },
 })
 
 const setGuestWifiNetworkInformation = (
@@ -55,10 +58,10 @@ const setGuestWifiNetworkInformation = (
 }
 
 export {
-  setCodesInPool,
+  setPinsInPool,
   addDoorLocks,
   assignGuestSlot,
   fetchEvents,
-  setGuestSlots,
+  createGuestSlots,
   setGuestWifiNetworkInformation,
 }

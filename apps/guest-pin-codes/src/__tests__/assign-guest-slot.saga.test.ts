@@ -1,6 +1,5 @@
 jest.mock("@ha/mqtt-client")
 import { createMqtt } from "@ha/mqtt-client"
-import { when } from "jest-when"
 import { expectSaga } from "redux-saga-test-plan"
 import { throwError } from "redux-saga-test-plan/providers"
 import * as matchers from "redux-saga-test-plan/matchers"
@@ -25,10 +24,11 @@ test("Network errors do not crash saga", async () => {
     .run()
 })
 
-test("Event ID, title, slot ID, start, and end are published via mqtt", () => {
+test("Event ID, PIN, title, slot ID, start, and end are published via mqtt", () => {
   const payload = {
     title: "Title 1",
     eventId: "event1",
+    pin: "1234",
     slotId: "1",
     start: parseUtcToLocalDate(
       "2023-06-30T23:30:00.0000000",
@@ -43,11 +43,12 @@ test("Event ID, title, slot ID, start, and end are published via mqtt", () => {
     .provide([[matchers.call(createMqtt), mqtt]])
     .call(
       [mqtt, mqtt.publish],
-      "guests/assigned-slot",
+      `guest/slot/${payload.slotId}/set`,
       JSON.stringify({
         eventId: payload.eventId,
         title: payload.title,
         slotId: 1,
+        pin: "1234",
         start: "2023-06-30T19:30:00.000",
         end: "2023-06-30T19:35:00.000",
       }),

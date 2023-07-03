@@ -1,17 +1,7 @@
-import createDebugger from "debug"
-import createSagaMiddleware from "redux-saga"
 import { createHeartbeat } from "@ha/http-heartbeat"
-import { createStore, applyMiddleware } from "redux"
-import { CronJob } from "cron"
-import candidateCodes from "./candidateCodes"
-import reducer from "./reducer"
-import sagas from "./sagas"
-import {
-  setCodesInPool,
-  addDoorLocks,
-  fetchEvents,
-  setGuestSlots,
-} from "./actionCreators"
+import { createMqtt } from "@ha/mqtt-client"
+import createDebugger from "debug"
+import createApp from "./app"
 
 const {
   GUEST_PIN_CODES_DOOR_LOCKS,
@@ -20,49 +10,38 @@ const {
 } = process.env
 const debug = createDebugger("@ha/guest-pin-codes/index")
 
-const run = async (
-  doorLocks: string,
-  guestCodeOffset: number,
-  numberOfGuestCodes: number,
-) => {
+const run = async () => {
   debug("Started")
   await createHeartbeat()
-  const sagaMiddleware = createSagaMiddleware()
-  const store = createStore(reducer, applyMiddleware(sagaMiddleware))
 
-  store.subscribe(() => {
-    debug(store.getState())
+  const app = await createApp(
+    GUEST_PIN_CODES_DOOR_LOCKS ?? "",
+    Number(GUEST_PIN_CODES_GUEST_CODE_INDEX_OFFSET),
+    Number(GUEST_PIN_CODES_NUMBER_OF_GUEST_CODES),
+  )
+  let appStarted = false
+
+  const mqtt = await createMqtt()
+  mqtt.subscribe("guest/slot/all/state/set", { qos: 1 })
+  mqtt.on("message", (topic, message) => {
+    app.store.dispatch({
+      type: "SET_GUEST_SLOTS",
+      payload: JSON.parse(message.toString()).slots,
+    })
+
+    if (appStarted) {
+      return
+    }
+
+    app.start()
+    appStarted = true
   })
 
-  debug(
-    `Number of guest codes: ${numberOfGuestCodes}, offset by ${guestCodeOffset}`,
-  )
-  store.dispatch(setGuestSlots(numberOfGuestCodes, guestCodeOffset))
-  store.dispatch(addDoorLocks(doorLocks.split(",").filter((lock) => !!lock)))
-
-  store.dispatch(setCodesInPool(candidateCodes()))
-
-  sagaMiddleware.run(sagas)
-
-  const fetchEventsJob = new CronJob(
-    "*/5 * * * *",
-    () => {
-      store.dispatch(fetchEvents())
-    },
-    null,
-    true,
-    "America/New_York",
-  )
-  store.dispatch(fetchEvents())
-  fetchEventsJob.start()
+  mqtt.publish("guest/started", "", { qos: 1 })
 }
 
 if (require.main === module) {
-  run(
-    GUEST_PIN_CODES_DOOR_LOCKS as string,
-    parseInt(GUEST_PIN_CODES_GUEST_CODE_INDEX_OFFSET as string, 10) + 1,
-    parseInt(GUEST_PIN_CODES_NUMBER_OF_GUEST_CODES as string, 10),
-  )
+  run()
 }
 
 export default run
