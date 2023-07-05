@@ -23,8 +23,8 @@ function* registerWithHomeAssistant(action: RegisterWithHomeAssistantAction) {
     `homeassistant/sensor/${action.payload.homeAssistantId}/config`,
     JSON.stringify({
       name: `Guest Wifi ${action.payload.name}`,
-      command_topic: `homeassistant/sensor/wifi/${action.payload.homeAssistantId}/set`,
-      state_topic: `homeassistant/sensor/wifi/${action.payload.homeAssistantId}/state`,
+      command_topic: `homeassistant/sensor/${action.payload.homeAssistantId}/set`,
+      state_topic: `homeassistant/sensor/${action.payload.homeAssistantId}/state`,
       optimistic: true,
       object_id: action.payload.homeAssistantId,
       unique_id: action.payload.homeAssistantId,

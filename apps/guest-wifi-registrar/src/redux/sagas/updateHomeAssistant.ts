@@ -18,7 +18,7 @@ function* updateHomeAssistant(action: UpdateHomeAssistantAction) {
     ) => Promise<void>
   >(
     mqtt.publish.bind(mqtt),
-    `homeassistant/sensor/wifi/${action.payload.homeAssistantId}/state`,
+    `homeassistant/sensor/${action.payload.homeAssistantId}/state`,
     action.payload.passPhrase,
     { qos: 1 },
   )

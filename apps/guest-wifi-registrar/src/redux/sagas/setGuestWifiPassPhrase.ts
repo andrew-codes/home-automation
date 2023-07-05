@@ -1,7 +1,8 @@
 import { createLogger } from "@ha/logger"
 import type { Controller } from "@ha/unifi-client"
 import { createUnifi } from "@ha/unifi-client"
-import { call } from "redux-saga/effects"
+import { call, put } from "redux-saga/effects"
+import { updateHomeAssistant, updatePorters } from "../actionCreators"
 import { SetGuestWifiPassPhraseAction } from "../types"
 
 const logger = createLogger()
@@ -16,6 +17,13 @@ function* setWifiGuestPassPhrase(action: SetGuestWifiPassPhraseAction) {
       action.payload.passPhrase,
     )
     logger.info(result)
+
+    yield put(
+      updateHomeAssistant(action.payload.network.id, action.payload.passPhrase),
+    )
+    yield put(
+      updatePorters(action.payload.network.id, action.payload.passPhrase),
+    )
   } catch (e) {
     logger.error(e)
   }
