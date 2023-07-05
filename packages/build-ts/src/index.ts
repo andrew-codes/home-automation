@@ -10,7 +10,7 @@ const defaultConfig = {
   outfile: path.join(process.cwd(), "dist", "index.js"),
   platform: "node",
   sourcemap: true,
-  target: "node16",
+  target: "node18",
   resolveExtensions: [".ts", ".tsx", ".js"],
   define: { "process.env.NODE_ENV": `"${process.env.NODE_ENV}"` },
 }

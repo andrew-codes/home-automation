@@ -9117,6 +9117,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@redux-saga/symbols", "npm:1.1.3"],\
             ["@types/jest", "npm:29.2.5"],\
             ["@types/node", "npm:18.11.18"],\
+            ["@types/react", "npm:18.0.26"],\
             ["async-mqtt", "npm:2.6.3"],\
             ["cron", "npm:1.8.2"],\
             ["debug", "virtual:311f00d850caa9627b6ac11974e53f96ee9fc030a73da3d1abe5cce7e72b8ee2e1f115ef7f47e2e6108ff8071f1a98050f7a4c5c3fe7df743e1d5a4130e33289#npm:4.3.4"],\
@@ -9127,6 +9128,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lodash", "npm:4.17.21"],\
             ["node-unifi", "npm:2.2.2"],\
             ["nodemon", "npm:2.0.20"],\
+            ["react", "npm:18.2.0"],\
             ["redux", "npm:4.2.0"],\
             ["redux-saga", "npm:1.2.2"],\
             ["redux-saga-test-plan", "virtual:ba3c80966cccf6320af56404fcf85305a3d9b6b7f8847a170d1274f6a04d1592f5e64a978de39768c916537ebaff609533bc041dee86b301e2e4016832b1a9d9#npm:4.0.6"],\
