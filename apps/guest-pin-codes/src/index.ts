@@ -1,7 +1,9 @@
 import { createHeartbeat } from "@ha/http-heartbeat"
 import { createMqtt } from "@ha/mqtt-client"
+import { isEmpty } from "lodash"
 import createDebugger from "debug"
 import createApp from "./app"
+import { setGuestWifiNetworkInformation } from "./actionCreators"
 
 const {
   GUEST_PIN_CODES_DOOR_LOCKS,
@@ -23,18 +25,37 @@ const run = async () => {
 
   const mqtt = await createMqtt()
   mqtt.subscribe("guest/slot/all/state/set", { qos: 1 })
+  mqtt.subscribe("homeassistant/sensor/+/set")
+  const topicRegEx = /^homeassistant\/sensor\/guest_wifi_(.*)\/state$/
   mqtt.on("message", (topic, message) => {
-    app.store.dispatch({
-      type: "SET_GUEST_SLOTS",
-      payload: JSON.parse(message.toString()).slots,
-    })
+    if (topic === "guest/slot/all/state/set") {
+      const { slots, guestWifi } = JSON.parse(message.toString())
+      app.store.dispatch({
+        type: "SET_GUEST_SLOTS",
+        payload: slots,
+      })
+      app.store.dispatch(
+        setGuestWifiNetworkInformation(guestWifi.ssid, guestWifi.passPhrase),
+      )
 
-    if (appStarted) {
+      if (appStarted) {
+        return
+      }
+
+      app.start()
+      appStarted = true
       return
     }
 
-    app.start()
-    appStarted = true
+    if (!appStarted) {
+      return
+    }
+
+    const matches = topicRegEx.exec(topic)
+    if (!isEmpty(matches)) {
+      const { ssid, passPhrase } = JSON.parse(message.toString())
+      app.store.dispatch(setGuestWifiNetworkInformation(ssid, passPhrase))
+    }
   })
 
   mqtt.publish("guest/started", "", { qos: 1 })

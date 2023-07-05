@@ -19,7 +19,10 @@ function* updateHomeAssistant(action: UpdateHomeAssistantAction) {
   >(
     mqtt.publish.bind(mqtt),
     `homeassistant/sensor/${action.payload.homeAssistantId}/state`,
-    action.payload.passPhrase,
+    JSON.stringify({
+      passPhrase: action.payload.passPhrase,
+      ssid: action.payload.ssid,
+    }),
     { qos: 1 },
   )
 }

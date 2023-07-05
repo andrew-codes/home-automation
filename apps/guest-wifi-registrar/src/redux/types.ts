@@ -43,6 +43,7 @@ type UpdateHomeAssistantAction = {
   payload: {
     homeAssistantId: string
     passPhrase: string
+    ssid: string
   }
 }
 

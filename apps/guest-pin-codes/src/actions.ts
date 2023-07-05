@@ -55,7 +55,7 @@ type SetGuestWifiNetworkInformationAction = {
   type: "SET_GUEST_WIFI_NETWORK_INFORMATION"
   payload: {
     ssid: string
-    password: string
+    passPhrase: string
   }
 }
 

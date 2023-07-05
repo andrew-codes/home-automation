@@ -50,6 +50,7 @@ const updateHomeAssistant = (
 ): UpdateHomeAssistantAction => ({
   type: "UPDATE_HOME_ASSISTANT",
   payload: {
+    ssid: name,
     homeAssistantId: `guest_wifi_${toEntityId(name)}`,
     passPhrase,
   },

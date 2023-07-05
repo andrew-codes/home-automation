@@ -49,11 +49,11 @@ const assignGuestSlot = (
 
 const setGuestWifiNetworkInformation = (
   ssid: string,
-  password: string,
+  passPhrase: string,
 ): SetGuestWifiNetworkInformationAction => {
   return {
     type: "SET_GUEST_WIFI_NETWORK_INFORMATION",
-    payload: { ssid, password },
+    payload: { ssid, passPhrase },
   }
 }
 

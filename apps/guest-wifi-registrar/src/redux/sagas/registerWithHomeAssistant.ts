@@ -28,6 +28,7 @@ function* registerWithHomeAssistant(action: RegisterWithHomeAssistantAction) {
       optimistic: true,
       object_id: action.payload.homeAssistantId,
       unique_id: action.payload.homeAssistantId,
+      value_template: "{{ value_json.passPhrase }}",
     }),
     { qos: 1 },
   )

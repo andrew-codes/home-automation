@@ -13,7 +13,7 @@ type State = {
   guestSlots: Record<string, Slot | null>
   guestNetwork?: {
     ssid: string
-    password: string
+    passPhrase: string
   }
 }
 const defaultState: State = {
