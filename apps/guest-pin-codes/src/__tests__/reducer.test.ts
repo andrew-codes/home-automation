@@ -43,7 +43,7 @@ test("setting guest wifi network information", () => {
   )
   expect(actual.guestNetwork).toEqual({
     ssid: "test",
-    password: "testing",
+    passPhrase: "testing",
   })
 })
 

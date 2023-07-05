@@ -23,7 +23,7 @@ const getAlreadyAssignedEventIds = createSelector(getLockSlots, (slots) =>
 
 const getGuestWifiNetwork: Selector<
   State,
-  { ssid: string; password: string } | null
+  { ssid: string; passPhrase: string } | null
 > = (state) => state.guestNetwork ?? null
 
 export {

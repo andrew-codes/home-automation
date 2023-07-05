@@ -40,7 +40,10 @@ test("Slots are set and the app is then started upon receiving the guest/slot/al
   const messageHandler = mqttClient.on.mock.calls[0][1]
   messageHandler(
     "guest/slot/all/state/set",
-    JSON.stringify({ slots: [{ slotId: 4, eventId: "event1", pin: "123" }] }),
+    JSON.stringify({
+      slots: [{ slotId: 4, eventId: "event1", pin: "123" }],
+      guestWifi: { ssid: "ssid", passPhrase: "pass" },
+    }),
   )
 
   expect(store.dispatch).toBeCalledWith({
@@ -61,11 +64,17 @@ test("Subsequent guest/slot/all/state/set messages will not start the app", asyn
   const messageHandler = mqttClient.on.mock.calls[0][1]
   messageHandler(
     "guest/slot/all/state/set",
-    JSON.stringify({ slots: [{ slotId: 4, eventId: "event1", pin: "123" }] }),
+    JSON.stringify({
+      slots: [{ slotId: 4, eventId: "event1", pin: "123" }],
+      guestWifi: { ssid: "ssid", passPhrase: "pass" },
+    }),
   )
   messageHandler(
     "guest/slot/all/state/set",
-    JSON.stringify({ slots: [{ slotId: 4, eventId: "event1", pin: "123" }] }),
+    JSON.stringify({
+      slots: [{ slotId: 4, eventId: "event1", pin: "123" }],
+      guestWifi: { ssid: "ssid", passPhrase: "pass" },
+    }),
   )
 
   expect(start).toBeCalledTimes(1)

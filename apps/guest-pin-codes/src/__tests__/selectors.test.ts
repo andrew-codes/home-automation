@@ -7,13 +7,13 @@ test("getting guest network information", () => {
     merge({}, defaultState, {
       guestNetwork: {
         ssid: "test",
-        password: "testing",
+        passPhrase: "testing",
       },
     }),
   )
 
   expect(actual).toEqual({
     ssid: "test",
-    password: "testing",
+    passPhrase: "testing",
   })
 })
