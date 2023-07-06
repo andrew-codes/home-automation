@@ -3,7 +3,7 @@ const { merge } = require("lodash")
 
 const defaultConfig = {
   transform: {
-    "^.+\\.(j|t)s$": [
+    "^.+\\.(j|t)sx?$": [
       "ts-jest",
       {
         tsconfig: "<rootDir>/tsconfig.test.json",
@@ -12,10 +12,11 @@ const defaultConfig = {
     ],
   },
   resetMocks: true,
+  modulePathIgnorePatterns: ["<rootDir>/dist/"],
   passWithNoTests: true,
   coverageDirectory: "<rootDir>/.test-runs/unit",
   collectCoverage: true,
-  moduleFileExtensions: [...defaults.moduleFileExtensions, "ts"],
+  moduleFileExtensions: [...defaults.moduleFileExtensions, "ts", "tsx"],
   collectCoverageFrom: ["**/src/**", "**/scripts/**"],
   coveragePathIgnorePatterns: ["/__tests__/", "/__mocks__/"],
 }

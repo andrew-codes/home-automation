@@ -1,5 +1,6 @@
 import createDebugger from "debug"
-import { merge } from "lodash"
+import { renderToString } from "react-dom/server"
+import * as React from "react"
 import { get } from "lodash/fp"
 import {
   all,
@@ -27,6 +28,7 @@ import {
   getAvailableLockSlots,
   getPins,
   getLockSlots,
+  getGuestWifiNetwork,
 } from "./selectors"
 import parseUtcToLocalDate from "./parseUtcToLocalDate"
 
@@ -61,7 +63,6 @@ function* fetchEvents(action: FetchEventsAction) {
     const eventsToDeallocate = removedEvents.concat(
       completedEvents.map(get("id")),
     )
-    console.log(eventsToDeallocate)
 
     const lockSlots = Object.fromEntries(lockSlotEntries)
     const slotsToFree = lockSlotEntries
@@ -169,23 +170,23 @@ function* postEventUpdate(action: PostEventUpdateAction) {
     const eventApi = client.api(
       `/users/${GUEST_PIN_CODES_CALENDAR_ID}/events/${action.payload.eventId}`,
     )
+    const { default: CalendarInviteBody } = require("./CalendarInviteBody")
+
+    const guestWifi = yield select(getGuestWifiNetwork)
     yield call([eventApi, eventApi.patch], {
       body: {
-        contentType: "text",
-        content: `================= 
-# ACCESS CODE
-${action.payload.pin ?? "The access code will be provided closer to the event."}
-=================
-
-This code will work on all doors for the duration of this calendar invite. If for any reason the lock does not respond to the code, contact us.
-
-* To Unlock the door, enter the access code above and then press the check mark button.
-* To Lock the door when you leave, press the "Yale" logo at the top of the keypad.
-
-Thank you!`,
+        contentType: "html",
+        content: renderToString(
+          React.createElement(CalendarInviteBody, {
+            pin: action.payload.pin,
+            guestWifiSsid: guestWifi?.ssid,
+            guestWifiPassPhrase: guestWifi?.passPhrase,
+          }),
+        ),
       },
     })
   } catch (error) {
+    console.log(error)
     debug(error)
   }
 }

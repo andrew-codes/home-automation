@@ -3,6 +3,7 @@
   "include": ["**/src/**/*.{tj}s", "**/scripts/**/*.{tj}s"],
   "exclude": [],
   "compilerOptions": {
+    "jsx": "react",
     "types": ["@types/node", "@types/jest"]
   }
 }
