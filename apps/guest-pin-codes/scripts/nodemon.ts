@@ -11,6 +11,7 @@ const run = async () => {
     execMap: {
       js: "node --require esbuild-register",
       ts: "node --require esbuild-register",
+      tsx: "node --require esbuild-register",
     },
   })
     .on("start", () => {

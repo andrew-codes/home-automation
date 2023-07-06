@@ -3,7 +3,7 @@ const { merge } = require("lodash")
 
 const defaultConfig = {
   transform: {
-    "^.+\\.(j|t)s$": [
+    "^.+\\.(j|t)sx?$": [
       "ts-jest",
       {
         tsconfig: "<rootDir>/tsconfig.test.json",

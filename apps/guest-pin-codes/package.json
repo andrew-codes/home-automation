@@ -34,6 +34,7 @@
     "node-unifi": "^2.2.2",
     "nodemon": "^2.0.20",
     "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "redux": "^4.2.0",
     "redux-saga": "^1.2.2",
     "redux-saga-test-plan": "^4.0.6",

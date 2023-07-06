@@ -9129,6 +9129,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["node-unifi", "npm:2.2.2"],\
             ["nodemon", "npm:2.0.20"],\
             ["react", "npm:18.2.0"],\
+            ["react-dom", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#npm:18.2.0"],\
             ["redux", "npm:4.2.0"],\
             ["redux-saga", "npm:1.2.2"],\
             ["redux-saga-test-plan", "virtual:ba3c80966cccf6320af56404fcf85305a3d9b6b7f8847a170d1274f6a04d1592f5e64a978de39768c916537ebaff609533bc041dee86b301e2e4016832b1a9d9#npm:4.0.6"],\
