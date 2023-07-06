@@ -186,6 +186,7 @@ function* postEventUpdate(action: PostEventUpdateAction) {
       },
     })
   } catch (error) {
+    console.log(error)
     debug(error)
   }
 }

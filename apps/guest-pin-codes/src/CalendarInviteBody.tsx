@@ -17,7 +17,11 @@ const CalendarInviteBody: React.FC<{
         <h2>Access to our Home</h2>
         <dl>
           <dt>Door Code</dt>
-          <dd>{pin}</dd>
+          <dd>
+            {pin
+              ? pin
+              : "The access code will be provided closer to the event."}
+          </dd>
           {securitySystemPin && (
             <>
               <dt>Security Alarm Code</dt>
