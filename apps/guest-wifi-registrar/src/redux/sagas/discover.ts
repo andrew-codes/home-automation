@@ -18,7 +18,7 @@ function* pollDiscovery(action: DiscoverAction) {
       (wlan) => !!wlan.enabled && !!wlan.is_guest,
     )
     logger.info("Found guest networks")
-    logger.info(guestNetworks)
+    logger.info(JSON.stringify(guestNetworks))
     for (let wlan of guestNetworks) {
       yield put(
         registerWithHomeAssistant(wlan._id, wlan.name, wlan.x_passphrase),
