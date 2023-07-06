@@ -62,7 +62,7 @@ async function run() {
           return
         }
         logger.debug(JSON.stringify(network))
-        const passPhrase = payload.toString()
+        const { passPhrase } = JSON.parse(payload.toString())
         store.dispatch(
           setGuestWifiPassPhrase(network, homeAssistantId, passPhrase),
         )
