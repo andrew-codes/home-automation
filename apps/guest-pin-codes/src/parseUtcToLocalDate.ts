@@ -1,5 +1,5 @@
 const parseUtcToLocalDate = (s: string, timeZone: string): Date => {
-  const utcDate = new Date(`${s}Z`)
+  const utcDate = new Date(`${s.replace("Z", "")}Z`)
 
   const zone = getZone(timeZone)
   const timeZoneOffset = getOffset(zone)

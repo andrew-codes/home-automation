@@ -1,6 +1,6 @@
 import { createHeartbeat } from "@ha/http-heartbeat"
 import { createMqtt } from "@ha/mqtt-client"
-import { isEmpty } from "lodash"
+import { isEmpty, merge } from "lodash"
 import createDebugger from "debug"
 import createApp from "./app"
 import { setGuestWifiNetworkInformation } from "./actionCreators"
@@ -30,13 +30,19 @@ const run = async () => {
   mqtt.on("message", (topic, message) => {
     if (topic === "guest/slot/all/state/set") {
       const { slots, guestWifi } = JSON.parse(message.toString())
-      app.store.dispatch({
-        type: "SET_GUEST_SLOTS",
-        payload: slots,
-      })
       app.store.dispatch(
         setGuestWifiNetworkInformation(guestWifi.ssid, guestWifi.passPhrase),
       )
+      app.store.dispatch({
+        type: "SET_GUEST_SLOTS",
+        payload: slots.map((slot: any) =>
+          merge({}, slot, {
+            guestNetwork: guestWifi,
+            start: new Date(slot.start),
+            end: new Date(slot.end),
+          }),
+        ),
+      })
 
       if (appStarted) {
         return

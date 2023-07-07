@@ -2,6 +2,7 @@ import createDebugger from "debug"
 import { renderToString } from "react-dom/server"
 import * as React from "react"
 import { get } from "lodash/fp"
+import { isMatch, merge, pick } from "lodash"
 import {
   all,
   call,
@@ -59,7 +60,7 @@ function* fetchEvents(action: FetchEventsAction) {
         )
       )
     })
-    console.log(completedEvents)
+
     const eventsToDeallocate = removedEvents.concat(
       completedEvents.map(get("id")),
     )
@@ -70,31 +71,46 @@ function* fetchEvents(action: FetchEventsAction) {
       .map(get(0))
     yield put({ type: "FREE_SLOTS", payload: slotsToFree })
 
+    const guestNetwork = yield select(getGuestWifiNetwork)
     const assignedEvents = events
       .filter((event) => !eventsToDeallocate.includes(event.id))
       .filter((event) =>
         lockSlotEntries.find(([_, slot]) => event.id === slot?.eventId),
       )
+      .map((event) =>
+        merge({}, event, {
+          start: parseUtcToLocalDate(
+            event.start.dateTime,
+            event.originalStartTimeZone,
+          ),
+          end: parseUtcToLocalDate(
+            event.end.dateTime,
+            event.originalEndTimeZone,
+          ),
+          guestNetwork,
+        }),
+      )
+
     for (let event of assignedEvents) {
       const slotEntry = lockSlotEntries.find(
         ([slotId]) => lockSlots[slotId]?.eventId === event.id,
       )
       if (slotEntry) {
         const slot = slotEntry[1]
-        yield put(
-          assignGuestSlot(
-            event.subject,
-            slot.id,
-            event.id,
-            parseUtcToLocalDate(
-              event.start.dateTime,
+        if (!isMatch(event, pick(slot, ["start", "end", "guestNetwork"]))) {
+          yield put(
+            assignGuestSlot(
+              event.subject,
+              slot.id,
+              event.id,
+              event.start,
+              event.end,
+              slot.pin,
               event.originalStartTimeZone,
+              guestNetwork,
             ),
-            parseUtcToLocalDate(event.end.dateTime, event.originalEndTimeZone),
-            slot.pin,
-            event.originalStartTimeZone,
-          ),
-        )
+          )
+        }
       }
     }
 
@@ -130,6 +146,7 @@ function* fetchEvents(action: FetchEventsAction) {
           parseUtcToLocalDate(event.end.dateTime, event.originalEndTimeZone),
           pins[eventIndex],
           event.originalStartTimeZone,
+          guestNetwork,
         ),
       )
     }

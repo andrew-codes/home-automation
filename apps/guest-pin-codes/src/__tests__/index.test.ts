@@ -41,14 +41,31 @@ test("Slots are set and the app is then started upon receiving the guest/slot/al
   messageHandler(
     "guest/slot/all/state/set",
     JSON.stringify({
-      slots: [{ slotId: 4, eventId: "event1", pin: "123" }],
+      slots: [
+        {
+          slotId: 4,
+          eventId: "event1",
+          pin: "123",
+          start: "2023-07-06 00:00:00",
+          end: "2023-07-06 01:00:00",
+        },
+      ],
       guestWifi: { ssid: "ssid", passPhrase: "pass" },
     }),
   )
 
   expect(store.dispatch).toBeCalledWith({
     type: "SET_GUEST_SLOTS",
-    payload: [{ slotId: 4, eventId: "event1", pin: "123" }],
+    payload: [
+      {
+        slotId: 4,
+        eventId: "event1",
+        pin: "123",
+        start: new Date("2023-07-06T00:00:00"),
+        end: new Date("2023-07-06T01:00:00"),
+        guestNetwork: { ssid: "ssid", passPhrase: "pass" },
+      },
+    ],
   })
   expect(start).toBeCalled()
 })

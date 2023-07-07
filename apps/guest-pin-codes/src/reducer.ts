@@ -5,6 +5,12 @@ type Slot = {
   id: string
   eventId: string
   pin: string
+  guestNetwork?: {
+    ssid: string
+    passPhrase: string
+  }
+  start: string
+  end: string
 }
 type State = {
   assignedEventIds: string[]
@@ -47,7 +53,7 @@ const reducer = (
 
     case "SET_GUEST_SLOTS":
       if (isEmpty(action.payload)) {
-        return state
+        return newState
       }
 
       const activeSlots = action.payload.filter(
@@ -58,6 +64,9 @@ const reducer = (
           id: slot.slotId.toString(),
           eventId: slot.eventId,
           pin: slot.pin,
+          guestNetwork: slot.guestNetwork,
+          start: slot.start.toISOString(),
+          end: slot.end.toISOString(),
         }
       })
       newState.assignedEventIds = activeSlots.map((slot) => slot.eventId)
@@ -80,6 +89,9 @@ const reducer = (
             id: action.payload.slotId,
             eventId: action.payload.eventId,
             pin: action.payload.pin,
+            guestNetwork: action.payload.guestNetwork,
+            start: action.payload.start,
+            end: action.payload.end,
           },
         },
         pins: state.pins.filter((pin) => pin !== action.payload.pin),

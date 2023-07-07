@@ -5,7 +5,14 @@ type SetPinsInPoolAction = {
 
 type SetGuestSlotsAction = {
   type: "SET_GUEST_SLOTS"
-  payload: { slotId: number; eventId: string; pin: string }[]
+  payload: {
+    slotId: number
+    eventId: string
+    pin: string
+    guestNetwork?: { ssid: string; passPhrase: string }
+    start: Date
+    end: Date
+  }[]
 }
 
 type SetDoorLocks = {
@@ -35,6 +42,7 @@ type AssignGuestSlotAction = {
     end: Date
     pin: string
     timeZone: string
+    guestNetwork?: { ssid: string; passPhrase: string }
   }
 }
 
