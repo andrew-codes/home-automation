@@ -39,10 +39,12 @@
       }
     },
     "serve": {
-      "executor": "@ha/nx-executors:invoke",
+      "executor": "@ha/nx-executors:telepresence-local",
       "options": {
         "cwd": "apps/captive-portal",
-        "module": "scripts/start.ts"
+        "fromPort": 8089,
+        "toPort": 80,
+        "command": "yarn node --inspect --require esbuild-register scripts/start.ts"
       }
     },
     "test": {

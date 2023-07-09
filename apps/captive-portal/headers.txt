@@ -1,0 +1,16 @@
+HTTP/2 200 
+vary: Origin
+x-dns-prefetch-control: off
+x-frame-options: SAMEORIGIN
+strict-transport-security: max-age=15552000; includeSubDomains
+x-download-options: noopen
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+accept-ranges: bytes
+content-type: application/json; charset=utf-8
+content-length: 3328
+x-csrf-token: 7863e8b4-1ac5-4508-919d-a86a8b87ef49
+x-response-time: 167ms
+set-cookie: TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjMTMwYzExMC02ZDExLTQyMTAtYmEwOS01ZGQ3NWJkYjYzYWMiLCJjc3JmVG9rZW4iOiI3ODYzZThiNC0xYWM1LTQ1MDgtOTE5ZC1hODZhOGI4N2VmNDkiLCJpYXQiOjE2ODg5MzQ1NDUsImV4cCI6MTY4ODkzODE0NSwianRpIjoiZGQ1ZjY4NjYtN2QyYS00ZjRhLWE5N2YtMmFiMzJiNWQ1NzBlIn0.oJz9HG-blvhR307urh8YIn3WYgWTBzrqga5NRm08YuI; path=/; samesite=none; secure; httponly
+date: Sun, 09 Jul 2023 20:29:05 GMT
+

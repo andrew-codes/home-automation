@@ -339,7 +339,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@ha/configuration-api", ["workspace:packages/configuration-api"]],\
       ["@ha/configuration-env-secrets", ["workspace:packages/configuration-env-secrets"]],\
       ["@ha/configuration-workspace", ["workspace:packages/configuration-workspace"]],\
-      ["@ha/configure-jest", ["virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#workspace:packages/configure-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#workspace:packages/configure-jest", "virtual:a309c14a89479752e370696580b9b5876d8305ca18883c44c26f5ebec6f59422c025d084c9d21311c16f2f31962c2ff5d34f0ec2be1cdb92c949d8f6ce85ae86#workspace:packages/configure-jest", "workspace:packages/configure-jest"]],\
+      ["@ha/configure-jest", ["virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#workspace:packages/configure-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#workspace:packages/configure-jest", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/configure-jest", "virtual:a309c14a89479752e370696580b9b5876d8305ca18883c44c26f5ebec6f59422c025d084c9d21311c16f2f31962c2ff5d34f0ec2be1cdb92c949d8f6ce85ae86#workspace:packages/configure-jest", "workspace:packages/configure-jest"]],\
       ["@ha/delay", ["workspace:packages/delay"]],\
       ["@ha/docker", ["workspace:packages/docker"]],\
       ["@ha/docker-creds", ["workspace:apps/docker-creds"]],\
@@ -8316,7 +8316,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@atlaskit/toggle", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#npm:12.5.6"],\
             ["@ha/configuration-api", "workspace:packages/configuration-api"],\
             ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
-            ["@ha/configure-jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#workspace:packages/configure-jest"],\
+            ["@ha/configure-jest", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/configure-jest"],\
             ["@ha/docker", "workspace:packages/docker"],\
             ["@ha/jsonnet", "workspace:packages/jsonnet"],\
             ["@ha/kubectl", "workspace:packages/kubectl"],\
@@ -8336,6 +8336,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react", "npm:18.0.26"],\
             ["@types/react-dom", "npm:18.0.10"],\
             ["async-mqtt", "npm:2.6.3"],\
+            ["esbuild", "npm:0.13.15"],\
+            ["esbuild-register", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#npm:3.4.2"],\
             ["eslint", "npm:8.32.0"],\
             ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
             ["jest-when", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:3.5.2"],\
@@ -8346,7 +8348,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-is", "npm:18.2.0"],\
             ["shelljs", "npm:0.8.5"],\
             ["styled-components", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#npm:5.3.6"],\
-            ["ts-jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.0.5"],\
+            ["ts-jest", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#npm:29.0.5"],\
             ["tsc", "npm:2.0.4"],\
             ["typescript", "patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=ad5954"]\
           ],\
@@ -8483,6 +8485,32 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest-config", "virtual:f042ebd22de135b68fe574550e992d92a3f6ee427d938d32dd06f83c1e0c76277c1c8834115e47b1a96ec97c5e36b6482943aba72396bcb3463a4395f876748c#npm:29.3.1"],\
             ["lodash", "npm:4.17.21"],\
             ["ts-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#npm:29.0.5"],\
+            ["typescript", "patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=ad5954"]\
+          ],\
+          "packagePeers": [\
+            "@types/jest",\
+            "@types/node",\
+            "@types/ts-jest",\
+            "@types/typescript",\
+            "jest",\
+            "ts-jest",\
+            "typescript"\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/configure-jest", {\
+          "packageLocation": "./.yarn/__virtual__/@ha-configure-jest-virtual-e3e023537b/1/packages/configure-jest/",\
+          "packageDependencies": [\
+            ["@ha/configure-jest", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/configure-jest"],\
+            ["@ha/nx-executors", "workspace:packages/nx-executors"],\
+            ["@types/jest", "npm:29.2.5"],\
+            ["@types/node", "npm:18.11.18"],\
+            ["@types/ts-jest", null],\
+            ["@types/typescript", null],\
+            ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
+            ["jest-config", "virtual:f042ebd22de135b68fe574550e992d92a3f6ee427d938d32dd06f83c1e0c76277c1c8834115e47b1a96ec97c5e36b6482943aba72396bcb3463a4395f876748c#npm:29.3.1"],\
+            ["lodash", "npm:4.17.21"],\
+            ["ts-jest", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#npm:29.0.5"],\
             ["typescript", "patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=ad5954"]\
           ],\
           "packagePeers": [\
@@ -16370,6 +16398,30 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
+        ["npm:0.13.15", {\
+          "packageLocation": "./.yarn/unplugged/esbuild-npm-0.13.15-0362570e32/node_modules/esbuild/",\
+          "packageDependencies": [\
+            ["esbuild", "npm:0.13.15"],\
+            ["esbuild-android-arm64", "npm:0.13.15"],\
+            ["esbuild-darwin-64", "npm:0.13.15"],\
+            ["esbuild-darwin-arm64", "npm:0.13.15"],\
+            ["esbuild-freebsd-64", "npm:0.13.15"],\
+            ["esbuild-freebsd-arm64", "npm:0.13.15"],\
+            ["esbuild-linux-32", "npm:0.13.15"],\
+            ["esbuild-linux-64", "npm:0.13.15"],\
+            ["esbuild-linux-arm", "npm:0.13.15"],\
+            ["esbuild-linux-arm64", "npm:0.13.15"],\
+            ["esbuild-linux-mips64le", "npm:0.13.15"],\
+            ["esbuild-linux-ppc64le", "npm:0.13.15"],\
+            ["esbuild-netbsd-64", "npm:0.13.15"],\
+            ["esbuild-openbsd-64", "npm:0.13.15"],\
+            ["esbuild-sunos-64", "npm:0.13.15"],\
+            ["esbuild-windows-32", "npm:0.13.15"],\
+            ["esbuild-windows-64", "npm:0.13.15"],\
+            ["esbuild-windows-arm64", "npm:0.13.15"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:0.16.17", {\
           "packageLocation": "./.yarn/unplugged/esbuild-npm-0.16.17-89fa4ab0dd/node_modules/esbuild/",\
           "packageDependencies": [\
@@ -16487,6 +16539,123 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["esbuild-android-arm64", [\
+        ["npm:0.13.15", {\
+          "packageLocation": "./.yarn/unplugged/esbuild-android-arm64-npm-0.13.15-b8dd833214/node_modules/esbuild-android-arm64/",\
+          "packageDependencies": [\
+            ["esbuild-android-arm64", "npm:0.13.15"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["esbuild-darwin-64", [\
+        ["npm:0.13.15", {\
+          "packageLocation": "./.yarn/unplugged/esbuild-darwin-64-npm-0.13.15-f9e4ea9bd0/node_modules/esbuild-darwin-64/",\
+          "packageDependencies": [\
+            ["esbuild-darwin-64", "npm:0.13.15"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["esbuild-darwin-arm64", [\
+        ["npm:0.13.15", {\
+          "packageLocation": "./.yarn/unplugged/esbuild-darwin-arm64-npm-0.13.15-728a0606b6/node_modules/esbuild-darwin-arm64/",\
+          "packageDependencies": [\
+            ["esbuild-darwin-arm64", "npm:0.13.15"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["esbuild-freebsd-64", [\
+        ["npm:0.13.15", {\
+          "packageLocation": "./.yarn/unplugged/esbuild-freebsd-64-npm-0.13.15-4afb3de7c0/node_modules/esbuild-freebsd-64/",\
+          "packageDependencies": [\
+            ["esbuild-freebsd-64", "npm:0.13.15"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["esbuild-freebsd-arm64", [\
+        ["npm:0.13.15", {\
+          "packageLocation": "./.yarn/unplugged/esbuild-freebsd-arm64-npm-0.13.15-a0db0fbc1b/node_modules/esbuild-freebsd-arm64/",\
+          "packageDependencies": [\
+            ["esbuild-freebsd-arm64", "npm:0.13.15"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["esbuild-linux-32", [\
+        ["npm:0.13.15", {\
+          "packageLocation": "./.yarn/unplugged/esbuild-linux-32-npm-0.13.15-f3f0e35567/node_modules/esbuild-linux-32/",\
+          "packageDependencies": [\
+            ["esbuild-linux-32", "npm:0.13.15"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["esbuild-linux-64", [\
+        ["npm:0.13.15", {\
+          "packageLocation": "./.yarn/unplugged/esbuild-linux-64-npm-0.13.15-e2423b8d8a/node_modules/esbuild-linux-64/",\
+          "packageDependencies": [\
+            ["esbuild-linux-64", "npm:0.13.15"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["esbuild-linux-arm", [\
+        ["npm:0.13.15", {\
+          "packageLocation": "./.yarn/unplugged/esbuild-linux-arm-npm-0.13.15-059f290196/node_modules/esbuild-linux-arm/",\
+          "packageDependencies": [\
+            ["esbuild-linux-arm", "npm:0.13.15"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["esbuild-linux-arm64", [\
+        ["npm:0.13.15", {\
+          "packageLocation": "./.yarn/unplugged/esbuild-linux-arm64-npm-0.13.15-9111ab2c9a/node_modules/esbuild-linux-arm64/",\
+          "packageDependencies": [\
+            ["esbuild-linux-arm64", "npm:0.13.15"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["esbuild-linux-mips64le", [\
+        ["npm:0.13.15", {\
+          "packageLocation": "./.yarn/unplugged/esbuild-linux-mips64le-npm-0.13.15-65230c1f1e/node_modules/esbuild-linux-mips64le/",\
+          "packageDependencies": [\
+            ["esbuild-linux-mips64le", "npm:0.13.15"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["esbuild-linux-ppc64le", [\
+        ["npm:0.13.15", {\
+          "packageLocation": "./.yarn/unplugged/esbuild-linux-ppc64le-npm-0.13.15-54b7c54174/node_modules/esbuild-linux-ppc64le/",\
+          "packageDependencies": [\
+            ["esbuild-linux-ppc64le", "npm:0.13.15"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["esbuild-netbsd-64", [\
+        ["npm:0.13.15", {\
+          "packageLocation": "./.yarn/unplugged/esbuild-netbsd-64-npm-0.13.15-cd9ee03864/node_modules/esbuild-netbsd-64/",\
+          "packageDependencies": [\
+            ["esbuild-netbsd-64", "npm:0.13.15"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["esbuild-openbsd-64", [\
+        ["npm:0.13.15", {\
+          "packageLocation": "./.yarn/unplugged/esbuild-openbsd-64-npm-0.13.15-3ac1ce1539/node_modules/esbuild-openbsd-64/",\
+          "packageDependencies": [\
+            ["esbuild-openbsd-64", "npm:0.13.15"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["esbuild-register", [\
         ["npm:3.4.2", {\
           "packageLocation": "./.yarn/cache/esbuild-register-npm-3.4.2-c873c16acc-f65d1ccb58.zip/node_modules/esbuild-register/",\
@@ -16509,6 +16678,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
+        ["virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#npm:3.4.2", {\
+          "packageLocation": "./.yarn/__virtual__/esbuild-register-virtual-2e88b98c2b/0/cache/esbuild-register-npm-3.4.2-c873c16acc-f65d1ccb58.zip/node_modules/esbuild-register/",\
+          "packageDependencies": [\
+            ["esbuild-register", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#npm:3.4.2"],\
+            ["@types/esbuild", null],\
+            ["debug", "virtual:311f00d850caa9627b6ac11974e53f96ee9fc030a73da3d1abe5cce7e72b8ee2e1f115ef7f47e2e6108ff8071f1a98050f7a4c5c3fe7df743e1d5a4130e33289#npm:4.3.4"],\
+            ["esbuild", "npm:0.13.15"]\
+          ],\
+          "packagePeers": [\
+            "@types/esbuild",\
+            "esbuild"\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["virtual:a309c14a89479752e370696580b9b5876d8305ca18883c44c26f5ebec6f59422c025d084c9d21311c16f2f31962c2ff5d34f0ec2be1cdb92c949d8f6ce85ae86#npm:3.4.2", {\
           "packageLocation": "./.yarn/__virtual__/esbuild-register-virtual-d6600726f6/0/cache/esbuild-register-npm-3.4.2-c873c16acc-f65d1ccb58.zip/node_modules/esbuild-register/",\
           "packageDependencies": [\
@@ -16520,6 +16703,42 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packagePeers": [\
             "@types/esbuild",\
             "esbuild"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["esbuild-sunos-64", [\
+        ["npm:0.13.15", {\
+          "packageLocation": "./.yarn/unplugged/esbuild-sunos-64-npm-0.13.15-7fc99b298f/node_modules/esbuild-sunos-64/",\
+          "packageDependencies": [\
+            ["esbuild-sunos-64", "npm:0.13.15"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["esbuild-windows-32", [\
+        ["npm:0.13.15", {\
+          "packageLocation": "./.yarn/unplugged/esbuild-windows-32-npm-0.13.15-f1f0cc80b6/node_modules/esbuild-windows-32/",\
+          "packageDependencies": [\
+            ["esbuild-windows-32", "npm:0.13.15"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["esbuild-windows-64", [\
+        ["npm:0.13.15", {\
+          "packageLocation": "./.yarn/unplugged/esbuild-windows-64-npm-0.13.15-90c09f35a8/node_modules/esbuild-windows-64/",\
+          "packageDependencies": [\
+            ["esbuild-windows-64", "npm:0.13.15"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["esbuild-windows-arm64", [\
+        ["npm:0.13.15", {\
+          "packageLocation": "./.yarn/unplugged/esbuild-windows-arm64-npm-0.13.15-2fc85d2313/node_modules/esbuild-windows-arm64/",\
+          "packageDependencies": [\
+            ["esbuild-windows-arm64", "npm:0.13.15"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -27829,6 +28048,47 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["babel-jest", null],\
             ["bs-logger", "npm:0.2.6"],\
             ["esbuild", "npm:0.17.3"],\
+            ["fast-json-stable-stringify", "npm:2.1.0"],\
+            ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
+            ["jest-util", "npm:29.3.1"],\
+            ["json5", "npm:2.2.3"],\
+            ["lodash.memoize", "npm:4.1.2"],\
+            ["make-error", "npm:1.3.6"],\
+            ["semver", "npm:7.3.5"],\
+            ["typescript", "patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=ad5954"],\
+            ["yargs-parser", "npm:21.1.1"]\
+          ],\
+          "packagePeers": [\
+            "@babel/core",\
+            "@jest/types",\
+            "@types/babel-jest",\
+            "@types/babel__core",\
+            "@types/esbuild",\
+            "@types/jest",\
+            "@types/jest__types",\
+            "@types/typescript",\
+            "babel-jest",\
+            "esbuild",\
+            "jest",\
+            "typescript"\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#npm:29.0.5", {\
+          "packageLocation": "./.yarn/__virtual__/ts-jest-virtual-e93b3a4ac4/0/cache/ts-jest-npm-29.0.5-30e5da5c24-f60f129c22.zip/node_modules/ts-jest/",\
+          "packageDependencies": [\
+            ["ts-jest", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#npm:29.0.5"],\
+            ["@babel/core", null],\
+            ["@jest/types", null],\
+            ["@types/babel-jest", null],\
+            ["@types/babel__core", null],\
+            ["@types/esbuild", null],\
+            ["@types/jest", "npm:29.2.5"],\
+            ["@types/jest__types", null],\
+            ["@types/typescript", null],\
+            ["babel-jest", null],\
+            ["bs-logger", "npm:0.2.6"],\
+            ["esbuild", "npm:0.13.15"],\
             ["fast-json-stable-stringify", "npm:2.1.0"],\
             ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
             ["jest-util", "npm:29.3.1"],\
