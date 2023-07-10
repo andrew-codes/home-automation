@@ -32,6 +32,8 @@ const action: ActionFunction = async ({ request }) => {
     await mqtt.publish("homeassistant/group/guests/add", mac)
   }
 
+  await new Promise((resolve) => setTimeout(resolve, 5000))
+
   return json({ success: true })
 }
 
