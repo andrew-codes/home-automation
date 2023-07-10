@@ -1,7 +1,7 @@
 import sh from "shelljs"
 
 const run = async (): Promise<void> => {
-  sh.exec("yarn remix dev --port 80")
+  sh.exec("yarn remix dev --port 8089")
 }
 
 if (require.main === module) {

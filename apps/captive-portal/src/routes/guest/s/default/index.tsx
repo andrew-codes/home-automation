@@ -60,7 +60,7 @@ function RegisterMacRoute() {
   }
 
   if (actionData?.success) {
-    document.location.reload()
+    navigate("/thankyou")
   }
 
   return (
