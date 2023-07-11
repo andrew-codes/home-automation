@@ -1,5 +1,4 @@
-sensor:
-  - name: External IP
-    unique_id: external_ip
-    platform: command_line
-    command: curl https://checkip.amazonaws.com
+command_line:
+  - sensor:
+      name: External Ip
+      command: curl https://checkip.amazonaws.com
