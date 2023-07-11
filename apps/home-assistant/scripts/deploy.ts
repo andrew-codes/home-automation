@@ -12,6 +12,9 @@ const run = async (
   const repositoryOwner = await configurationApi.get("repository/owner")
   const repositoryName = await configurationApi.get("repository/name")
   const port = await configurationApi.get("home-assistant/port/external")
+  const webrtcPort = await configurationApi.get(
+    "home-assistant/webrtc/api/port",
+  )
   const secrets: Array<keyof Configuration> = [
     "mqtt/password",
     "mqtt/username",
@@ -69,6 +72,7 @@ const run = async (
       repositoryOwner: repositoryOwner.value,
       registryHostname: registry.value,
       port: parseInt(port.value),
+      "webrtc-port": webrtcPort.value,
       secrets,
     },
   )

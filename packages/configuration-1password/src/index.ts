@@ -88,6 +88,7 @@ const configurationNames = [
   "home-assistant/url",
   "home-assistant/withings/client-id",
   "home-assistant/withings/client-secret",
+  "home-assistant/webrtc/api/port",
   "influxdb/bucket",
   "influxdb/org",
   "influxdb/org-id",
