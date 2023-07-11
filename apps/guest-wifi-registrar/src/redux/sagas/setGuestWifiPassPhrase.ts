@@ -21,7 +21,7 @@ function* setWifiGuestPassPhrase(action: SetGuestWifiPassPhraseAction) {
       updateHomeAssistant(action.payload.network.id, action.payload.passPhrase),
     )
     yield put(
-      updatePorters(action.payload.network.id, action.payload.passPhrase),
+      updatePorters(action.payload.network.name, action.payload.passPhrase),
     )
   } catch (e) {
     logger.error(e)
