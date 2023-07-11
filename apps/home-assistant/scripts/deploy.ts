@@ -72,7 +72,7 @@ const run = async (
       repositoryOwner: repositoryOwner.value,
       registryHostname: registry.value,
       port: parseInt(port.value),
-      "webrtc-port": webrtcPort.value,
+      "webrtc-port": parseInt(webrtcPort.value),
       secrets,
     },
   )
