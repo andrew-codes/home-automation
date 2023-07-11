@@ -9,6 +9,7 @@ local configApplicatorInitContainerProperies = {
 
 local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), std.extVar('secrets'), std.extVar('port'), '8123')
                    + lib.deployment.withPort(0, std.extVar('name'), 'webrtc', 1984, std.extVar('webrtc-port'))
+                   + lib.deployment.withPort(0, std.extVar('name'), 'webrtc', 8555, 30713)
                    + lib.deployment.withEnvVars(0, [
                      { name: 'DEBUG', value: '' },
                      { name: 'MQTT_HOST', value: 'mqtt' },
