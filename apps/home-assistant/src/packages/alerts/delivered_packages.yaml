@@ -3,4 +3,4 @@ template:
       - name: Are there packages?
         unique_id: are_there_packages
         device_class: "occupancy"
-        state: "{{ states('sensor.total_delivered_packages') | default(0) > 0 }}"
+        state: "{{ states('sensor.total_delivered_packages') | int(0) > 0 }}"
