@@ -1,0 +1,7 @@
+rest_command:
+  reload_integration:
+    url: https://ha.smith-simms.family/api/config/config_entries/entry/{{ integration_id }}/reload
+    method: POST
+    headers:
+      authorization: !secret HA_AUTHORIZATION_HEADER
+      content-type: "application/json"
