@@ -7,7 +7,7 @@ local elasticSearch = {
     name: 'elk-stack',
   },
   spec: {
-    version: '8.3.3',
+    version: '8.8.2',
     http: {
       tls: {
         selfSignedCertificate: {
@@ -120,7 +120,7 @@ local kibana = {
     name: 'elk-stack',
   },
   spec: {
-    version: '8.3.3',
+    version: '8.8.2',
     count: 1,
     config: {
       'server.publicBaseUrl': 'https://kibana.smith-simms.family',
