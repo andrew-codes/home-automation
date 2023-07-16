@@ -52,6 +52,42 @@ local elasticSearch = {
           },
         },
       },
+      {
+        name: 'data',
+        count: 1,
+        config: {
+          'node.roles': ['master'],
+          'xpack.ml.enabled': true,
+        },
+        volumeClaimTemplates: [{
+          metadata: {
+            name: 'elasticsearch-data',
+          },
+          spec: {
+            accessModes: [
+              'ReadWriteMany',
+            ],
+            resources: {
+              requests: {
+                storage: '350Gi',
+              },
+            },
+            storageClassName: 'manual',
+          },
+        }],
+        podTemplate: {
+          spec: {
+            initContainers: [{
+              name: 'sysctl',
+              securityContext: {
+                privileged: true,
+                runAsUser: 0,
+              },
+              command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144'],
+            }],
+          },
+        },
+      },
     ],
   },
 };
@@ -109,5 +145,11 @@ local volume1 = k.core.v1.persistentVolume.new('elk-stack-pv-volume')
                 + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
                 + k.core.v1.persistentVolume.spec.withCapacity({ storage: '350Gi' })
                 + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/elk-stack-elasticsearch-data-1');
+local volume2 = k.core.v1.persistentVolume.new('elk-stack-pv-volume')
+                + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
+                + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
+                + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
+                + k.core.v1.persistentVolume.spec.withCapacity({ storage: '350Gi' })
+                + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/elk-stack-elasticsearch-data-2');
 
-[volume1, elasticSearch, elasticSearchService, kibana, kibanaService]
+[volume1, volume2, elasticSearch, elasticSearchService, kibana, kibanaService]
