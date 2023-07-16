@@ -29,7 +29,7 @@ local elasticSearch = {
           },
           spec: {
             accessModes: [
-              'ReadWriteMany',
+              'ReadWriteOnce',
             ],
             resources: {
               requests: {
@@ -65,7 +65,7 @@ local elasticSearch = {
           },
           spec: {
             accessModes: [
-              'ReadWriteMany',
+              'ReadWriteOnce',
             ],
             resources: {
               requests: {
@@ -141,13 +141,13 @@ local kibana = {
 
 local volume1 = k.core.v1.persistentVolume.new('elk-stack-pv-volume')
                 + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
-                + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
+                + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteOnce')
                 + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
                 + k.core.v1.persistentVolume.spec.withCapacity({ storage: '350Gi' })
                 + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/elk-stack-elasticsearch-data-1');
-local volume2 = k.core.v1.persistentVolume.new('elk-stack-pv-volume')
+local volume2 = k.core.v1.persistentVolume.new('elk-stack-pv-volume-2')
                 + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
-                + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
+                + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteOnce')
                 + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
                 + k.core.v1.persistentVolume.spec.withCapacity({ storage: '350Gi' })
                 + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/elk-stack-elasticsearch-data-2');
