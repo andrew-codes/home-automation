@@ -4,5 +4,5 @@ binary_sensor:
   - name: Game room gaming-pc power
     platform: ping
     host: !secret GAMING_ROOM_GAMING_PC_IP
-    scan_interval: 5
+    scan_interval: 3
     count: 1
