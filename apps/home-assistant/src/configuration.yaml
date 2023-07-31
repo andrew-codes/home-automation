@@ -139,6 +139,9 @@ o365:
         enabled: True
         enable_update: True
 
+withings:
+  use_webhook: True
+
 lovelace:
   mode: yaml
   resources:
