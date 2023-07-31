@@ -7,6 +7,7 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                      { name: 'PAPERLESS_PORT', value: '8000' },
                      { name: 'PAPERLESS_DBHOST', value: 'localhost' },
                      { name: 'PAPERLESS_REDIS', value: 'redis://localhost:6379' },
+                     { name: 'PAPERLESS_TIKA_ENABLED', value: 'true' },
                      k.core.v1.envVar.fromSecretRef('PAPERLESS_DBUSER', 'paperless-postgres-user', 'secret-value'),
                      k.core.v1.envVar.fromSecretRef('PAPERLESS_DBPASS', 'paperless-postgres-password', 'secret-value'),
                    ])
@@ -110,8 +111,86 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                                                                                           k.core.v1.envVar.fromSecretRef('POSTGRES_PASSWORD', 'paperless-postgres-password', 'secret-value'),
                                                                                         ] }
                                                   ,)
-;
+                   // Tika
+                   + lib.deployment.withContainer('tika', 'ghcr.io/paperless-ngx/tika:latest', {
 
+                                                                                                 livenessProbe: {
+                                                                                                   tcpSocket: {
+                                                                                                     port: 3000,
+                                                                                                   },
+                                                                                                   initialDelaySeconds: 60,
+                                                                                                   failureThreshold: 5,
+                                                                                                   timeoutSeconds: 10,
+                                                                                                   periodSeconds: 20,
+                                                                                                 },
+                                                                                                 readinessProbe: {
+                                                                                                   tcpSocket: {
+                                                                                                     port: 3000,
+                                                                                                   },
+                                                                                                   initialDelaySeconds: 60,
+                                                                                                   failureThreshold: 5,
+                                                                                                   timeoutSeconds: 10,
+                                                                                                   periodSeconds: 20,
+                                                                                                 },
+                                                                                                 startupProbe: {
+                                                                                                   tcpSocket: {
+                                                                                                     port: 3000,
+                                                                                                   },
+                                                                                                   initialDelaySeconds: 60,
+                                                                                                   failureThreshold: 30,
+                                                                                                   timeoutSeconds: 10,
+                                                                                                   periodSeconds: 10,
+                                                                                                 },
+                                                                                               }
+                                                                                               + k.core.v1.container.withImagePullPolicy('Always')
+                                                                                               + k.core.v1.container.withPorts({
+                                                                                                 name: 'redis',
+                                                                                                 containerPort: 3000,
+                                                                                                 protocol: 'TCP',
+                                                                                               },)
+                                                  ,)
+                   // Gotenberg
+                   + lib.deployment.withContainer('gotenberg', 'docker.io/gotenberg/gotenberg:7.8', {
+                                                                                                      command: ['sh'],
+                                                                                                      args: ['-c', 'gotenberg --chromium-disable-javascript=true --chromium-allow-list=file:///tmp/.*'],
+
+
+                                                                                                      livenessProbe: {
+                                                                                                        tcpSocket: {
+                                                                                                          port: 9998,
+                                                                                                        },
+                                                                                                        initialDelaySeconds: 60,
+                                                                                                        failureThreshold: 5,
+                                                                                                        timeoutSeconds: 10,
+                                                                                                        periodSeconds: 20,
+                                                                                                      },
+                                                                                                      readinessProbe: {
+                                                                                                        tcpSocket: {
+                                                                                                          port: 9998,
+                                                                                                        },
+                                                                                                        initialDelaySeconds: 60,
+                                                                                                        failureThreshold: 5,
+                                                                                                        timeoutSeconds: 10,
+                                                                                                        periodSeconds: 20,
+                                                                                                      },
+                                                                                                      startupProbe: {
+                                                                                                        tcpSocket: {
+                                                                                                          port: 9998,
+                                                                                                        },
+                                                                                                        initialDelaySeconds: 60,
+                                                                                                        failureThreshold: 30,
+                                                                                                        timeoutSeconds: 10,
+                                                                                                        periodSeconds: 10,
+                                                                                                      },
+                                                                                                    }
+                                                                                                    + k.core.v1.container.withImagePullPolicy('Always')
+                                                                                                    + k.core.v1.container.withPorts({
+                                                                                                      name: 'redis',
+                                                                                                      containerPort: 9998,
+                                                                                                      protocol: 'TCP',
+                                                                                                    },)
+                                                  ,)
+;
 
 local paperlessVolumeData = lib.volume.persistentVolume.new('paperless-data', '200Gi', '/mnt/data/paperless-data');
 local paperlessVolumeMedia = lib.volume.persistentVolume.new('paperless-media', '80Gi', '/mnt/data/paperless-media');
