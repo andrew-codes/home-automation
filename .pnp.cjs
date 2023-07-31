@@ -172,6 +172,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:apps/openvpn"\
       },\
       {\
+        "name": "@ha/paperless",\
+        "reference": "workspace:apps/paperless"\
+      },\
+      {\
         "name": "@ha/photoprism",\
         "reference": "workspace:apps/photoprism"\
       },\
@@ -393,6 +397,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@ha/mqtt-heartbeat", ["workspace:packages/mqtt-heartbeat"]],\
       ["@ha/nx-executors", ["workspace:packages/nx-executors"]],\
       ["@ha/openvpn", ["workspace:apps/openvpn"]],\
+      ["@ha/paperless", ["workspace:apps/paperless"]],\
       ["@ha/photoprism", ["workspace:apps/photoprism"]],\
       ["@ha/pihole", ["workspace:apps/pihole"]],\
       ["@ha/playnite-mqtt", ["workspace:apps/playnite-mqtt"]],\
@@ -9725,6 +9730,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/nx-executors", "workspace:packages/nx-executors"],\
             ["@ha/shell-utils", "workspace:packages/shell-utils"],\
             ["shelljs", "npm:0.8.5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@ha/paperless", [\
+        ["workspace:apps/paperless", {\
+          "packageLocation": "./apps/paperless/",\
+          "packageDependencies": [\
+            ["@ha/paperless", "workspace:apps/paperless"],\
+            ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+            ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+            ["@ha/docker", "workspace:packages/docker"],\
+            ["@ha/jsonnet", "workspace:packages/jsonnet"],\
+            ["@ha/kubectl", "workspace:packages/kubectl"],\
+            ["@ha/nx-executors", "workspace:packages/nx-executors"]\
           ],\
           "linkType": "SOFT"\
         }]\

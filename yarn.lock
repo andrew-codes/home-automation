@@ -6101,6 +6101,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ha/paperless@workspace:apps/paperless":
+  version: 0.0.0-use.local
+  resolution: "@ha/paperless@workspace:apps/paperless"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/nx-executors": "workspace:^0.1.0"
+  languageName: unknown
+  linkType: soft
+
 "@ha/photoprism@workspace:apps/photoprism":
   version: 0.0.0-use.local
   resolution: "@ha/photoprism@workspace:apps/photoprism"
