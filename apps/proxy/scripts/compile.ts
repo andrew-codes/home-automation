@@ -10,10 +10,11 @@ const generateConfContents = (
     locations: { from: string; to: string }[]
     proxy: string
     http1: boolean
+    extra?: string[]
   }[],
 ) => `
 ${subDomainConfigurations.map(
-  ({ subDomain, locations, proxy, http1 }) => `
+  ({ subDomain, locations, proxy, http1, extra }) => `
 server {
   server_name ${subDomain}.smith-simms.family;
   listen 80;
@@ -42,7 +43,12 @@ server {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_http_version 1.1;
     proxy_set_header Connection "upgrade";
-    client_max_body_size 0;
+    ${
+      !!extra
+        ? extra?.map((value) => `${value.replace(";", "")};`).join(`
+    `)
+        : ""
+    }
   }
 `,
   ).join(`
