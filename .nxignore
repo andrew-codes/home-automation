@@ -2,3 +2,4 @@ apps/k8s
 apps/frigate
 apps/docker-registry
 apps/infrastructure*
+apps/elk-stack
