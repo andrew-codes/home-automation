@@ -3,7 +3,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
 
 {
   deployment+: {
-    new(name, image, secretNames=[], externalPort='', containerPort='')::
+    new(name, image, secretNames=[], externalPort='', containerPort='', disablePortEnv=false)::
       local exPort = if (containerPort != '') then { name: 'http', port: std.parseInt(containerPort), targetPort: 'http' }
                                                    + if (externalPort != '') then k.core.v1.servicePort.withNodePort(std.parseInt(externalPort)) else {} else {};
       local secretNamesCollection = std.split(secretNames, ',');
@@ -11,7 +11,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
         secrets[secretName]
         for secretName in secretNamesCollection
       ] else [];
-      local portEnv = if (containerPort != '') then [{ name: 'PORT', value: containerPort }] else [];
+      local portEnv = if (containerPort != '' && !disablePortEnv) then [{ name: 'PORT', value: containerPort }] else [];
       local service = if (containerPort != '') then k.core.v1.service.new(name, { name: name }, [exPort])
                                                     + if (externalPort != '') then k.core.v1.service.spec.withType('NodePort',) else {} else {};
 
