@@ -7,6 +7,12 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                      { name: 'PAPERLESS_DBHOST', value: 'db' },
                      { name: 'PAPERLESS_REDIS', value: 'redis://redis:6379' },
                    ])
+                   + lib.deployment.withPersistentVolume('paperless-data')
+                   + lib.deployment.withPersistentVolume('paperless-media')
+                   + lib.deployment.withPersistentVolume('paperless-export')
+                   + lib.deployment.withPersistentVolume('paperless-consume')
+                   + lib.deployment.withPersistentVolume('paperless-postgres-db')
+                   + lib.deployment.withPersistentVolume('paperless-redis')
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('paperless-data', '/usr/src/paperless/data',))
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('paperless-media', '/usr/src/paperless/media',))
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('paperless-export', '/usr/src/paperless/export',))
@@ -49,9 +55,6 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                                                                                            containerPort: 5432,
                                                                                            protocol: 'TCP',
                                                                                          },)
-                                                                                         + { volumes: [
-                                                                                           k.core.v1.volume.fromPersistentVolumeClaim('paperless-postgres-db', 'paperless-postgres-db-pv-claim'),
-                                                                                         ] }
                                                                                          + { volumeMounts: [k.core.v1.volumeMount.new('paperless-postgres-db', '/var/lib/postgresql/data')] }
                                                                                          + { env: [
                                                                                            k.core.v1.envVar.fromSecretRef('POSTGRES_DB', 'paperless-postgres-db', 'secret-value'),
@@ -97,9 +100,6 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                                                                                           containerPort: 6379,
                                                                                           protocol: 'TCP',
                                                                                         },)
-                                                                                        + { volumes: [
-                                                                                          k.core.v1.volume.fromPersistentVolumeClaim('paperless-redis', 'paperless-redis-pv-claim'),
-                                                                                        ] }
                                                                                         + { volumeMounts: [k.core.v1.volumeMount.new('paperless-redis', '/data')] }
                                                                                         + { env: [
                                                                                           k.core.v1.envVar.fromSecretRef('POSTGRES_DB', 'paperless-postgres-db', 'secret-value'),
