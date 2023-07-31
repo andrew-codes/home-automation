@@ -4,8 +4,10 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
 
 local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), std.extVar('secrets'), std.extVar('port'), '8000')
                    + lib.deployment.withEnvVars(0, [
-                     { name: 'PAPERLESS_DBHOST', value: 'db' },
-                     { name: 'PAPERLESS_REDIS', value: 'redis://redis:6379' },
+                     { name: 'PAPERLESS_DBHOST', value: 'localhost' },
+                     { name: 'PAPERLESS_REDIS', value: 'redis://localhost:6379' },
+                     k.core.v1.envVar.fromSecretRef('PAPERLESS_DBUSER', 'paperless-postgres-user', 'secret-value'),
+                     k.core.v1.envVar.fromSecretRef('PAPERLESS_DBPASS', 'paperless-postgres-password', 'secret-value'),
                    ])
                    + lib.deployment.withPersistentVolume('paperless-data')
                    + lib.deployment.withPersistentVolume('paperless-media')
