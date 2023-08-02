@@ -1,0 +1,24 @@
+{
+  "name": "velero",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/velero",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/velero",
+        "module": "scripts/deploy.ts"
+      }
+    },
+    "provision": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/velero",
+        "module": "scripts/provision.ts"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

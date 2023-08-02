@@ -43,7 +43,7 @@ RUN apt-get install -y \
     dbus-user-session \
     dnsutils \
     docker-ce \ 
-    dotnet-runtime-7.0 \
+dotnet-runtime-7.0 \
     dotnet-sdk-7.0 \
     etherwake \
     gettext-base \
@@ -72,10 +72,10 @@ RUN apt-get install -y \
     unzip \
     xsel
 
-RUN apt-get -y install --no-install-recommends openvpn \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/library-scripts \
-    && echo 'OPENVPN_CONFIG=""' >> /etc/environment \
-    && echo "unset OPENVPN_CONFIG" | tee -a /etc/bash.bashrc > /etc/profile.d/999-unset-openvpn-config.sh
+RUN apt-get -y install --no-install-recommends openvpn
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
+RUN echo 'OPENVPN_CONFIG=""' >>/etc/environment
+RUN echo "unset OPENVPN_CONFIG" | tee -a /etc/bash.bashrc >/etc/profile.d/999-unset-openvpn-config.sh
 
 RUN sudo curl -fL https://app.getambassador.io/download/tel2/linux/amd64/latest/telepresence -o /usr/local/bin/telepresence
 RUN sudo chmod a+x /usr/local/bin/telepresence
@@ -98,7 +98,7 @@ RUN chmod +x /usr/bin/yq
 RUN mkdir -p /usr/local/bin
 RUN ln -s /usr/bin/gpg /usr/local/bin/gpg
 VOLUME /var/lib/docker
-RUN curl -fsSL -o helm.tar.gz  https://get.helm.sh/helm-v3.6.1-linux-amd64.tar.gz
+RUN curl -fsSL -o helm.tar.gz https://get.helm.sh/helm-v3.6.1-linux-amd64.tar.gz
 RUN tar -zxvf helm.tar.gz
 RUN mv linux-amd64/helm /usr/local/bin/helm
 RUN rm -f ~/.ssh/environment
@@ -107,12 +107,11 @@ RUN ln -s /usr/local/go/bin/go /usr/local/bin
 RUN go install github.com/google/go-jsonnet/cmd/jsonnet@latest
 RUN go install -a github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
 RUN ln -s $(go env GOPATH)/bin/jsonnet /usr/local/bin
-RUN ln -s  $(go env GOPATH)/bin/jb /usr/local/bin
+RUN ln -s $(go env GOPATH)/bin/jb /usr/local/bin
 RUN git clone https://github.com/git/git.git
-RUN cd git \
-    && git checkout v2.38.1 \
-    && sudo make prefix=/usr/local all \
-    && sudo make prefix=/usr/local install
+RUN cd git && git checkout v2.38.1 && sudo make prefix=/usr/local all && sudo make prefix=/usr/local install
 RUN curl -sSL https://rover.apollo.dev/nix/latest | sh
 RUN corepack enable
 RUN corepack prepare yarn@stable --activate
+RUN curl -sSL https://github.com/vmware-tanzu/velero/releases/download/v1.11.1/velero-v1.11.1-linux-amd64.tar.gz | sudo tar -xvf -C /usr/local/bin/velero
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash

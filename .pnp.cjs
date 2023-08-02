@@ -212,6 +212,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:apps/uptime-kuma"\
       },\
       {\
+        "name": "@ha/velero",\
+        "reference": "workspace:apps/velero"\
+      },\
+      {\
         "name": "@ha/wake-on-lan",\
         "reference": "workspace:apps/wake-on-lan"\
       },\
@@ -413,6 +417,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@ha/themes-slate", ["workspace:packages/themes/slate"]],\
       ["@ha/unifi-client", ["virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/unifi-client", "workspace:packages/unifi-client"]],\
       ["@ha/uptime-kuma", ["workspace:apps/uptime-kuma"]],\
+      ["@ha/velero", ["workspace:apps/velero"]],\
       ["@ha/wake-on-lan", ["workspace:apps/wake-on-lan"]],\
       ["@ha/zwavejs", ["workspace:apps/zwavejs"]]\
     ],\
@@ -10069,6 +10074,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@ha/velero", [\
+        ["workspace:apps/velero", {\
+          "packageLocation": "./apps/velero/",\
+          "packageDependencies": [\
+            ["@ha/velero", "workspace:apps/velero"],\
+            ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+            ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+            ["@ha/nx-executors", "workspace:packages/nx-executors"],\
+            ["@types/shelljs", "npm:0.8.12"],\
+            ["shelljs", "npm:0.8.5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@ha/wake-on-lan", [\
         ["workspace:apps/wake-on-lan", {\
           "packageLocation": "./apps/wake-on-lan/",\
@@ -12602,6 +12621,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@types/serve-static", "npm:1.15.0"],\
             ["@types/mime", "npm:3.0.1"],\
+            ["@types/node", "npm:17.0.21"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/shelljs", [\
+        ["npm:0.8.12", {\
+          "packageLocation": "./.yarn/cache/@types-shelljs-npm-0.8.12-cbc88427ef-ffb47809ab.zip/node_modules/@types/shelljs/",\
+          "packageDependencies": [\
+            ["@types/shelljs", "npm:0.8.12"],\
+            ["@types/glob", "npm:7.2.0"],\
             ["@types/node", "npm:17.0.21"]\
           ],\
           "linkType": "HARD"\

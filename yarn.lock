@@ -6384,6 +6384,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ha/velero@workspace:apps/velero":
+  version: 0.0.0-use.local
+  resolution: "@ha/velero@workspace:apps/velero"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/nx-executors": "workspace:^0.1.0"
+    "@types/shelljs": ^0.8.5
+    shelljs: ^0.8.5
+  languageName: unknown
+  linkType: soft
+
 "@ha/wake-on-lan@workspace:apps/wake-on-lan":
   version: 0.0.0-use.local
   resolution: "@ha/wake-on-lan@workspace:apps/wake-on-lan"
@@ -8087,7 +8099,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/glob@npm:^7.1.1":
+"@types/glob@npm:^7.1.1, @types/glob@npm:~7.2.0":
   version: 7.2.0
   resolution: "@types/glob@npm:7.2.0"
   dependencies:
@@ -8381,6 +8393,16 @@ __metadata:
     "@types/mime": "*"
     "@types/node": "*"
   checksum: b6ac93d471fb0f53ddcac1f9b67572a09cd62806f7db5855244b28f6f421139626f24799392566e97d1ffc61b12f9de7f30380c39fcae3c8a161fe161d44edf2
+  languageName: node
+  linkType: hard
+
+"@types/shelljs@npm:^0.8.5":
+  version: 0.8.12
+  resolution: "@types/shelljs@npm:0.8.12"
+  dependencies:
+    "@types/glob": ~7.2.0
+    "@types/node": "*"
+  checksum: ffb47809abef9ee53f900c6b49adb1382d1d78af7f8b50dd474534e3f73127bc4a3849394e4c9de16481cd50203b12464141b4b49d48e88ba6b4c7cc2c85948c
   languageName: node
   linkType: hard
 
