@@ -40,6 +40,7 @@ all:
     path.join(__dirname, "..", ".secrets", "ansible-secrets.yml"),
     `---
 pod_network_cidr: "${networkCIDR.value}"
+environment: dev
 `,
     "utf8",
   )

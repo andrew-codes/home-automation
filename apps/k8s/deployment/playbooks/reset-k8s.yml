@@ -1,0 +1,36 @@
+---
+- name: Reset Kuberentes
+  hosts: main
+  become: true
+  become_method: sudo
+  become_user: root
+  gather_facts: true
+  connection: ssh
+
+  tasks:
+    - name: Reset cluster
+      changed_when: false
+      command: kubeadm reset --force
+
+    - name: Pause
+      pause: seconds=30
+
+    - name: Restart kubelet
+      service:
+        name: kubelet
+        state: restarted
+
+    - name: Pause
+      pause: seconds=30
+
+    - name: Remove networking CNI config
+      changed_when: false
+      shell: rm -rf /var/lib/cni/
+
+    - name: Remove networking CNI config
+      changed_when: false
+      shell: rm -rf /var/lib/kubelet/*
+
+    - name: Remove networking CNI config
+      changed_when: false
+      shell: rm -rf /etc/cni

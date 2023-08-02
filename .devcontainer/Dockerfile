@@ -38,6 +38,7 @@ RUN apt-get remove docker docker-engine docker.io containerd
 RUN apt-get install -y \
     1password-cli \
     ansible \
+    ansible-lint \
     bash \
     ca-certificates \
     dbus-user-session \
@@ -63,7 +64,7 @@ dotnet-runtime-7.0 \
     python-apt-common \
     python3-apt \
     python3-pip \
-    python3.10 \
+    python3.11 \
     snmp \
     sshfs \
     sshpass \
@@ -87,8 +88,10 @@ ENV LC_ALL en_US.UTF-8
 RUN mkdir -p /etc/docker
 RUN echo '{ "features": { "buildkit": true }, "exec-opts": [], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' | tee /etc/docker/daemon.json
 RUN pip3 install "pywinrm>=0.3.0"
+RUN pip3 install "PyYAML"
 RUN ansible-galaxy collection install ansible.windows
 RUN ansible-galaxy collection install community.windows
+RUN ansible-galaxy collection install kubernetes.core
 RUN wget https://github.com/containerd/containerd/releases/download/v1.4.3/containerd-1.4.3-linux-amd64.tar.gz
 RUN mkdir -p containerd
 RUN tar -xvf containerd-1.4.3-linux-amd64.tar.gz --directory containerd

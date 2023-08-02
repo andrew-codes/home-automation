@@ -1,0 +1,193 @@
+---
+- name: Prepare for Kubernetes
+  hosts: all
+  become: true
+  become_method: sudo
+  become_user: root
+  gather_facts: true
+  connection: ssh
+  vars_files:
+    - ../../.secrets/ansible-secrets.yml
+
+  tasks:
+    - name: Install sudo
+      apt:
+        name:
+          - sudo
+        state: present
+
+    - name: Allow user to have sudo
+      lineinfile:
+        dest: /etc/sudoers
+        line: "{{ ansible_user }} ALL=(ALL) ALL"
+        validate: "visudo -cf %s"
+
+    - name: Disabling Swap on all nodes
+      register: disable_swap
+      changed_when: disable_swap != 0
+      shell: swapoff -a
+
+    - name: Commenting Swap entries in /etc/fstab
+      replace:
+        path: /etc/fstab
+        regexp: "(^.*swap.*)"
+        replace: '# \1'
+
+    - name: Disable password SSH access
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "PasswordAuthentication .*"
+        line: "PasswordAuthentication no"
+        state: present
+
+    - name: Set hostname
+      hostname:
+        name: "{{ hostname }}"
+
+    - name: Add myself to /etc/hosts
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '^127\.0\.0\.1[ \t]+localhost'
+        line: "127.0.0.1 localhost {{ hostname }}"
+        state: present
+
+    - name: Free port 53
+      lineinfile:
+        dest: /etc/systemd/resolved.conf
+        regexp: "#DNSStubListener=yes"
+        line: "DNSStubListener=no"
+        state: present
+
+    - name: Free port 53
+      lineinfile:
+        dest: /etc/systemd/resolved.conf
+        regexp: "DNS=.*"
+        line: "DNS=8.8.8.8"
+        state: present
+
+    - name: Free port 53
+      shell: ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
+      changed_when: false
+
+    - name: Reboot all the kubernetes nodes
+      reboot:
+        post_reboot_delay: 10
+        reboot_timeout: 90
+        connect_timeout: 60
+        test_command: uptime
+
+    - name: Installing prerequisite packages
+      apt:
+        update_cache: true
+        name:
+          - apt-transport-https
+          - bindfs
+          - ca-certificates
+          - curl
+          - gnupg-agent
+          - gnupg
+          - gnupg2
+          - software-properties-common
+          - qemu-guest-agent
+        state: present
+
+    - name: Installing yq
+      shell: wget https://github.com/mikefarah/yq/releases/download/v4.6.3/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
+
+    - name: Add Docker official GPG key
+      apt_key:
+        url: https://download.docker.com/linux/debian/gpg
+        state: present
+
+    - name: Add helm official GPG key
+      apt_key:
+        url: https://baltocdn.com/helm/signing.asc
+        keyring: /usr/share/keyrings/helm.gpg
+        state: present
+
+    - name: Add Google official GPG key
+      apt_key:
+        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+        keyring: /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/debian bookworm stable
+        state: present
+        filename: docker
+        mode: "0600"
+
+    - name: Add Helm Repository
+      apt_repository:
+        repo: deb [arch=amd64 signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main
+        state: present
+        filename: helm
+        mode: "0600"
+
+    - name: Add Kubernetes Repository
+      apt_repository:
+        repo: deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main
+        state: present
+        filename: kubernetes
+        mode: "0600"
+
+    - name: Install docker, helm
+      apt:
+        update_cache: true
+        name:
+          - helm
+          - docker.io
+        state: present
+
+    - name: Install kubernetes packages
+      apt:
+        update_cache: true
+        allow_downgrade: true
+        name:
+          - kubeadm=1.23.8
+          - kubectl=1.23.8
+          - kubelet=1.23.8
+        state: present
+
+    - name: Enable service docker, and enable persistently
+      service:
+        name: docker
+        enabled: true
+
+    - name: Setup docker daemon config.
+      changed_when: docker_daemon_config != 0
+      shell: 'echo ''{ "features": { "buildkit": true }, "exec-opts": ["native.cgroupdriver=systemd"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"}, "default-shm-size": "256M" }'' > /etc/docker/daemon.json'
+      register: docker_daemon_config
+
+    - name: Restart docker
+      command: "{{ item }}"
+      become_user: root
+      become_method: sudo
+      become: true
+      changed_when: docker_daemon_config != 0
+      with_items:
+        - systemctl daemon-reload
+        - systemctl restart docker
+
+    - name: Add IPs to /etc/hosts on master and workers
+      lineinfile:
+        dest: /etc/hosts
+        regexp: ".*{{ item }}$"
+        line: "{{ hostvars[item].ansible_host }} {{ item }}"
+        state: present
+      when: hostvars[item].ansible_host is defined
+      with_items: "{{ groups.all }}"
+
+    - name: Enable service kubelet, and enable persistently
+      service:
+        name: kubelet
+        enabled: true
+        state: started
+
+    - name: Reboot all the kubernetes nodes
+      reboot:
+        post_reboot_delay: 10
+        reboot_timeout: 90
+        connect_timeout: 60
+        test_command: uptime
