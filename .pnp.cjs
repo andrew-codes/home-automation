@@ -200,6 +200,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:apps/remote-codespaces"\
       },\
       {\
+        "name": "@ha/samba",\
+        "reference": "workspace:apps/samba"\
+      },\
+      {\
         "name": "@ha/secrets",\
         "reference": "workspace:apps/secrets"\
       },\
@@ -408,6 +412,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@ha/proxy", ["workspace:apps/proxy"]],\
       ["@ha/ps5", ["workspace:apps/ps5"]],\
       ["@ha/remote-codespaces", ["workspace:apps/remote-codespaces"]],\
+      ["@ha/samba", ["workspace:apps/samba"]],\
       ["@ha/secret-utils", ["workspace:packages/secret-utils"]],\
       ["@ha/secrets", ["workspace:apps/secrets"]],\
       ["@ha/shell-utils", ["workspace:packages/shell-utils"]],\
@@ -9877,6 +9882,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/nx-executors", "workspace:packages/nx-executors"],\
             ["@ha/shell-utils", "workspace:packages/shell-utils"],\
             ["shelljs", "npm:0.8.5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@ha/samba", [\
+        ["workspace:apps/samba", {\
+          "packageLocation": "./apps/samba/",\
+          "packageDependencies": [\
+            ["@ha/samba", "workspace:apps/samba"],\
+            ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+            ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+            ["@ha/docker", "workspace:packages/docker"],\
+            ["@ha/jsonnet", "workspace:packages/jsonnet"],\
+            ["@ha/kubectl", "workspace:packages/kubectl"],\
+            ["@ha/nx-executors", "workspace:packages/nx-executors"]\
           ],\
           "linkType": "SOFT"\
         }]\

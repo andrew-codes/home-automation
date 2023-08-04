@@ -150,6 +150,7 @@ const configurationNames = [
   "remote-codespaces/name",
   "repository/name",
   "repository/owner",
+  "samba/user/1",
   "unifi/ip",
   "unifi/password",
   "unifi/port",

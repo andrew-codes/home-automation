@@ -6229,6 +6229,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ha/samba@workspace:apps/samba":
+  version: 0.0.0-use.local
+  resolution: "@ha/samba@workspace:apps/samba"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/nx-executors": "workspace:^0.1.0"
+  languageName: unknown
+  linkType: soft
+
 "@ha/secret-utils@workspace:^0.0.1, @ha/secret-utils@workspace:packages/secret-utils":
   version: 0.0.0-use.local
   resolution: "@ha/secret-utils@workspace:packages/secret-utils"
