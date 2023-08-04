@@ -7,11 +7,12 @@ import { kubectl } from "@ha/kubectl"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
+  const registry = await configurationApi.get("docker-registry/hostname")
   const secrets: Array<keyof Configuration> = []
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      image: "dperson/samba",
+      image: `${registry.value}/samba:latest`,
       name: "samba",
       secrets,
     },

@@ -11,6 +11,19 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                      k.core.v1.envVar.fromSecretRef('PAPERLESS_DBUSER', 'paperless-postgres-user', 'secret-value'),
                      k.core.v1.envVar.fromSecretRef('PAPERLESS_DBPASS', 'paperless-postgres-password', 'secret-value'),
                    ])
+                   + {
+                     deployment+: {
+                       spec+: {
+                         template+: {
+                           spec+: {
+                             securityContext+: {
+                               fsGroup: 1000,
+                             },
+                           },
+                         },
+                       },
+                     },
+                   }
                    + lib.deployment.withPersistentVolume('paperless-data')
                    + lib.deployment.withPersistentVolume('paperless-media')
                    + lib.deployment.withPersistentVolume('paperless-export')

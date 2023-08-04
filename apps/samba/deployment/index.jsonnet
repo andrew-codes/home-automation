@@ -6,8 +6,23 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withHostNetwork()
                    + lib.deployment.withPort(0, std.extVar('name'), 'port1', 139, '')
                    + lib.deployment.withPort(0, std.extVar('name'), 'port2', 445, '')
+                   + {
+                     deployment+: {
+                       spec+: {
+                         template+: {
+                           spec+: {
+                             securityContext+: {
+                               fsGroup: 1000,
+                             },
+                           },
+                         },
+                       },
+                     },
+                   }
                    + lib.deployment.withEnvVars(0, [
-                     { name: 'SHARE1', value: 'paperless;/mnt/data/paperless-consume;yes;no;no;smith-simms' },
+                     { name: 'USERID', value: '1000' },
+                     { name: 'GROUPID', value: '1000' },
+                     { name: 'SHARE1', value: 'paperless;/mnt/data/paperless-consume;yes;no;no;smith-simms;smith-simms;smith-simms' },
                      k.core.v1.envVar.fromSecretRef('USER1', 'samba-user-1', 'secret-value'),
                    ])
                    + lib.deployment.withPersistentVolume('paperless-consume')
