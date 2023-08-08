@@ -44,7 +44,7 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
 
 local originalsVolume = lib.volume.persistentVolume.new('originals', '600Gi', '/mnt/data/photoprism-originals');
 local photoprismVolumeImport = lib.volume.persistentVolume.new('photoprism-import', '150Gi', '/mnt/data/photoprism-import');
-local photoprismVolumeExport = lib.volume.persistentVolume.new('photoprism-import', '150Gi', '/mnt/data/photoprism-export');
+local photoprismVolumeExport = lib.volume.persistentVolume.new('photoprism-export', '150Gi', '/mnt/data/photoprism-export');
 local photoprismStorageVolume = lib.volume.persistentVolume.new('photoprism-storage', '100Gi', '/mnt/data/storage');
 
 local dbContainer = k.core.v1.container.new(name='photoprismdb', image=std.extVar('dbImage'))
