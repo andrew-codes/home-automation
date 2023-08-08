@@ -33,15 +33,18 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                      k.core.v1.envVar.fromSecretRef('PHOTOPRISM_DATABASE_PASSWORD', 'photoprism-db-password', 'secret-value'),
                    ])
                    + lib.deployment.withPersistentVolume('originals')
-                   + lib.deployment.withPersistentVolume('photoprism')
+                   + lib.deployment.withPersistentVolume('photoprism-import')
+                   + lib.deployment.withPersistentVolume('photoprism-export')
                    + lib.deployment.withPersistentVolume('photoprism-storage')
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('originals', '/assets/photos/originals',))
-                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('photoprism', '/assets',))
+                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('photoprism-import', '/assets/photos/import',))
+                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('photoprism-export', '/assets/photos/export',))
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('photoprism-storage', '/photoprism/storage',))
 ;
 
 local originalsVolume = lib.volume.persistentVolume.new('originals', '600Gi', '/mnt/data/photoprism-originals');
-local photoprismVolume = lib.volume.persistentVolume.new('photoprism', '150Gi', '/mnt/data/photoprism');
+local photoprismVolumeImport = lib.volume.persistentVolume.new('photoprism-import', '150Gi', '/mnt/data/photoprism-import');
+local photoprismVolumeExport = lib.volume.persistentVolume.new('photoprism-import', '150Gi', '/mnt/data/photoprism-export');
 local photoprismStorageVolume = lib.volume.persistentVolume.new('photoprism-storage', '100Gi', '/mnt/data/storage');
 
 local dbContainer = k.core.v1.container.new(name='photoprismdb', image=std.extVar('dbImage'))
@@ -74,4 +77,4 @@ local dbService = k.core.v1.service.new('photoprism-db', { name: 'photoprism-db'
 local dbVolume = lib.volume.persistentVolume.new('photoprism-db', '200Gi', '/mnt/data/photoprism-db');
 
 
-originalsVolume + photoprismVolume + photoprismStorageVolume + dbVolume + [dbDeployment, dbService] + std.objectValues(deployment)
+originalsVolume + photoprismVolumeImport + photoprismVolumeExport + photoprismStorageVolume + dbVolume + [dbDeployment, dbService] + std.objectValues(deployment)
