@@ -51,7 +51,7 @@ local dbContainer = k.core.v1.container.new(name='photoprismdb', image=std.extVa
                       containerPort: 3306,
                       protocol: 'TCP',
                     },)
-                    + { volumeMounts: [k.core.v1.volumeMount.new('photoprism-db', '/var/lib/postgresql/data')] }
+                    + { volumeMounts: [k.core.v1.volumeMount.new('photoprism-db', '/var/lib/mysql')] }
                     + { env: [
                       k.core.v1.envVar.fromSecretRef('MARIADB_ROOT_PASSWORD', 'photoprism-db-root-password', 'secret-value'),
                       k.core.v1.envVar.fromSecretRef('MARIADB_USER', 'photoprism-db-username', 'secret-value'),
