@@ -20,6 +20,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:apps/captive-portal"\
       },\
       {\
+        "name": "@ha/crowdsec",\
+        "reference": "workspace:apps/crowdsec"\
+      },\
+      {\
         "name": "@ha/docker-creds",\
         "reference": "workspace:apps/docker-creds"\
       },\
@@ -352,6 +356,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@ha/configuration-env-secrets", ["workspace:packages/configuration-env-secrets"]],\
       ["@ha/configuration-workspace", ["workspace:packages/configuration-workspace"]],\
       ["@ha/configure-jest", ["virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#workspace:packages/configure-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#workspace:packages/configure-jest", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/configure-jest", "virtual:a309c14a89479752e370696580b9b5876d8305ca18883c44c26f5ebec6f59422c025d084c9d21311c16f2f31962c2ff5d34f0ec2be1cdb92c949d8f6ce85ae86#workspace:packages/configure-jest", "workspace:packages/configure-jest"]],\
+      ["@ha/crowdsec", ["workspace:apps/crowdsec"]],\
       ["@ha/delay", ["workspace:packages/delay"]],\
       ["@ha/docker", ["workspace:packages/docker"]],\
       ["@ha/docker-creds", ["workspace:apps/docker-creds"]],\
@@ -8577,6 +8582,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lodash", "npm:4.17.21"],\
             ["ts-jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.0.5"],\
             ["typescript", "patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=ad5954"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@ha/crowdsec", [\
+        ["workspace:apps/crowdsec", {\
+          "packageLocation": "./apps/crowdsec/",\
+          "packageDependencies": [\
+            ["@ha/crowdsec", "workspace:apps/crowdsec"],\
+            ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+            ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+            ["@ha/docker", "workspace:packages/docker"],\
+            ["@ha/jsonnet", "workspace:packages/jsonnet"],\
+            ["@ha/kubectl", "workspace:packages/kubectl"],\
+            ["@ha/nx-executors", "workspace:packages/nx-executors"],\
+            ["shelljs", "npm:0.8.5"]\
           ],\
           "linkType": "SOFT"\
         }]\

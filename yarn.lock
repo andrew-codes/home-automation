@@ -5060,6 +5060,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ha/crowdsec@workspace:apps/crowdsec":
+  version: 0.0.0-use.local
+  resolution: "@ha/crowdsec@workspace:apps/crowdsec"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/nx-executors": "workspace:^0.1.0"
+    shelljs: ^0.8.5
+  languageName: unknown
+  linkType: soft
+
 "@ha/delay@workspace:^0.0.1, @ha/delay@workspace:packages/delay":
   version: 0.0.0-use.local
   resolution: "@ha/delay@workspace:packages/delay"

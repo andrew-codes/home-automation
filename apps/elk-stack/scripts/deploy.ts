@@ -10,10 +10,10 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   sh.exec(
-    `kubectl create -f https://download.elastic.co/downloads/eck/2.3.0/crds.yaml;`,
+    `kubectl create -f https://download.elastic.co/downloads/eck/2.9.0/crds.yaml;`,
   )
   sh.exec(
-    `kubectl apply -f https://download.elastic.co/downloads/eck/2.3.0/operator.yaml;`,
+    `kubectl apply -f https://download.elastic.co/downloads/eck/2.9.0/operator.yaml;`,
   )
 
   const elasticPort = await configurationApi.get(
