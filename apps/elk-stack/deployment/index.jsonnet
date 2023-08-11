@@ -170,12 +170,19 @@ local logStash = {
           {
             name: 'logstash',
             env: [
-              k.core.v1.envVar.fromSecretRef('LOGSTASH_PW', 'elk-stack-logstash-password', 'secret-value'),
+              // k.core.v1.envVar.fromSecretRef('LOGSTASH_PW', 'elk-stack-logstash-password', 'secret-value'),
             ],
             image: 'docker.elastic.co/logstash/logstash-oss:8.9.0',
             ports: [
               {
                 containerPort: 5044,
+                name: 'elastic-agent',
+                protocol: 'TCP',
+              },
+              {
+                name: 'api',
+                containerPort: 9600,
+                protocol: 'TCP',
               },
             ],
             volumeMounts: [
@@ -226,7 +233,7 @@ local logStash = {
   },
 }
 ;
-local logStashNodePort = { name: 'logstash-http', port: 5044, targetPort: 'http' } +
+local logStashNodePort = { name: 'logstash-http', port: 5044, targetPort: 5044 } +
                          k.core.v1.servicePort.withNodePort(std.parseInt(
                            std.extVar('logStashPort')
                          ))
@@ -248,6 +255,48 @@ local logstashOutputClaim = k.core.v1.persistentVolumeClaim.new('elk-stack-logst
                             + k.core.v1.persistentVolumeClaim.spec.withStorageClassName('manual')
                             + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: '100Gi' })
 ;
+
+local config = |||
+  input {
+    elastic_agent {
+      port => 5044
+      codec => plain {
+        charset => "UTF-8"
+      }
+    }
+  }
+  output {
+    stdout { 
+      codec => line
+    }
+    file {
+      path => "/logstash/output/%s.log"
+      codec => line
+    }
+    elasticsearch {
+      hosts => ["http://%s:%s"] 
+      data_stream => "true"
+      user => "%s"
+      password => "%s"
+    }
+  }
+||| % [
+  '%{+YYYY-MM-dd}',
+  std.extVar('k8sIp'),
+  std.extVar('elasticPort'),
+  std.extVar('elasticUser'),
+  std.extVar('elasticPassword'),
+]
+;
+
+local ymlConfig = |||
+  http.host: "0.0.0.0"
+  http.port: 9600
+  path.config: "/usr/share/logstash/pipeline"
+  path.logs: "/var/log/logstash"
+|||
+;
+
 local logStashConfigMap = {
   apiVersion: 'v1',
   kind: 'ConfigMap',
@@ -256,74 +305,56 @@ local logStashConfigMap = {
     namespace: 'default',
   },
   data: {
-    'logstash.yml': |||
-      http.host: "0.0.0.0"
-      path.config: /usr/share/logstash/pipeline'
-    |||,
-    'logstash.conf': |||
-      input {
-        elasticsearch {
-          hosts => "%(std.extVar('k8sMainIp')):%(std.extVar('elasticPort'))"
-          query => '{ "query": { "match_all": { } }, "sort": [ "@timestamp" ] }'
-          user => "%(std.extVar('elasticUser'))"
-          password => "%(std.extVar('elasticPassword'))"
-        }
-      }
-      output {
-        file {
-          path => /logstash/output/%{+YYYY-MM-dd}.log
-          codec => line { format => "%{message}"}
-        }
-      }
-    |||,
+    'logstash.yml': ymlConfig,
+    'logstash.conf': config,
   },
 }
 ;
 
-local logCurator = {
-  apiVersion: 'batch/v1beta1',
-  kind: 'CronJob',
-  metadata: {
-    name: 'elasticsearch-curator',
-    namespace: 'kube-system',
-    labels: {
-      'k8s-app': 'elk-stack',
-    },
-  },
-  spec: {
-    schedule: '0 0 1 * *',
-    jobTemplate: {
-      spec: {
-        template: {
-          backoffLimit: 1,
-          spec: {
-            restartPolicy: 'Never',
-            containers: [
-              {
-                name: 'ingestor',
-                image: 'python:3.6-alpine',
-                args: [
-                  'sh',
-                  '-c',
-                  |||
-                    pip install elasticsearch-curator && curator_cli --host elk-stack delete_indices --filter_list '[{"filtertype":"age","source":"creation_date","direction":"older","unit":"days","unit_count":7},{"filtertype":"pattern","kind":"prefix","value":"logstash"}]' || true
-                  |||,
-                ],
-              },
-            ],
-          },
-          metadata: {
-            name: 'elasticsearch-curator',
-            labels: {
-              'k8s-app': 'elk-stack',
-            },
-          },
-        },
-      },
-    },
-  },
-}
-;
+// local logCurator = {
+//   apiVersion: 'batch/v1beta1',
+//   kind: 'CronJob',
+//   metadata: {
+//     name: 'elasticsearch-curator',
+//     namespace: 'kube-system',
+//     labels: {
+//       'k8s-app': 'elk-stack',
+//     },
+//   },
+//   spec: {
+//     schedule: '0 0 1 * *',
+//     jobTemplate: {
+//       spec: {
+//         template: {
+//           backoffLimit: 1,
+//           spec: {
+//             restartPolicy: 'Never',
+//             containers: [
+//               {
+//                 name: 'ingestor',
+//                 image: 'python:3.6-alpine',
+//                 args: [
+//                   'sh',
+//                   '-c',
+//                   |||
+//                     'pip install elasticsearch-curator && curator_cli --host elk-stack delete_indices --filter_list \'[{"filtertype":"age","source":"creation_date","direction":"older","unit":"days","unit_count":7},{"filtertype":"pattern","kind":"prefix","value":"logstash"}]\' || true'
+//                   |||,
+//                 ],
+//               },
+//             ],
+//           },
+//           metadata: {
+//             name: 'elasticsearch-curator',
+//             labels: {
+//               'k8s-app': 'elk-stack',
+//             },
+//           },
+//         },
+//       },
+//     },
+//   },
+// }
+// ;
 
 local volume1 = k.core.v1.persistentVolume.new('elk-stack-pv-volume-1')
                 + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
@@ -345,4 +376,3 @@ local volume2 = k.core.v1.persistentVolume.new('elk-stack-pv-volume-2')
 + [elasticSearch, elasticSearchService, volume1, volume2]
 + [kibana, kibanaService]
 + [logStashConfigMap, logstashOutput, logstashOutputClaim, logStash, logStashService]
-+ [logCurator]

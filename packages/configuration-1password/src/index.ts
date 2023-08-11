@@ -8,6 +8,7 @@ const configurationNames = [
   "crowdsec/elastic/password",
   "crowdsec/elastic/username",
   "crowdsec/password",
+  "crowdsec/port/external",
   "crowdsec/username",
   "dev/ssh-key/public",
   "docker-registry/hostname",

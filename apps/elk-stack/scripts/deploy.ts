@@ -4,7 +4,6 @@ import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
-import { name } from "./config"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
@@ -30,13 +29,14 @@ const run = async (
   const elasticPassword = await configurationApi.get(
     "crowdsec/elastic/password",
   )
+
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
       secrets: [],
       elasticPort: parseInt(elasticPort.value),
       kibanaPort: parseInt(kibanaPort.value),
-      k8sMainIp: k8sMainIp.value,
+      k8sIp: k8sMainIp.value,
       elasticUser: elasticUser.value,
       elasticPassword: elasticPassword.value,
       logStashPort: logStashPort.value,

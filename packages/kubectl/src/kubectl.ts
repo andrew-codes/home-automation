@@ -15,6 +15,22 @@ const kubectl = {
       }),
     )
   },
+  patch: async (
+    name: string,
+    resourceType: string,
+    namespace: string,
+    content: string,
+  ): Promise<void> => {
+    await throwIfError(
+      sh.exec(
+        `kubectl patch ${resourceType} --namespace ${namespace} ${name} --patch="$(echo -n '${content}' | sed 's/"/\\"/g')";`,
+        {
+          shell: "/bin/bash",
+          silent: true,
+        },
+      ),
+    )
+  },
   rolloutDeployment: async (
     command: DeploymentCommand,
     deploymentName: string,

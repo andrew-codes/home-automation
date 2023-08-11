@@ -194,7 +194,7 @@ lapi:
   persistentVolume:
     # -- Persistent volume for data folder. Stores e.g. registered bouncer api keys
     data:
-      enabled: true
+      enabled: false
       accessModes:
         - ReadWriteOnce
       storageClassName: "manual"
@@ -202,7 +202,7 @@ lapi:
       size: 1Gi
     # -- Persistent volume for config folder. Stores e.g. online api credentials
     config:
-      enabled: true
+      enabled: false
       accessModes:
         - ReadWriteOnce
       storageClassName: "manual"
@@ -240,7 +240,12 @@ lapi:
 agent:
   # -- To add custom acquisitions using available datasources (https://docs.crowdsec.net/docs/next/data_sources/intro)
   additionalAcquisition:
-    []
+    - source: file
+      filenames:
+        - /logstash/*.log
+        - /var/log/syslog
+      labels:
+        type: syslog
     # - source: kinesis
     #   stream_name: my-stream
     #   labels:

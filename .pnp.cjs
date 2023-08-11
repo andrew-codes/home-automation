@@ -8597,6 +8597,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/jsonnet", "workspace:packages/jsonnet"],\
             ["@ha/kubectl", "workspace:packages/kubectl"],\
             ["@ha/nx-executors", "workspace:packages/nx-executors"],\
+            ["@ha/shell-utils", "workspace:packages/shell-utils"],\
             ["shelljs", "npm:0.8.5"]\
           ],\
           "linkType": "SOFT"\

@@ -14,7 +14,7 @@ const throwIfError = async (
         code: number
       }
     | ChildProcess,
-) =>
+): Promise<string> =>
   new Promise((resolve, reject) => {
     try {
       if (child instanceof ChildProcess) {
@@ -46,7 +46,7 @@ const throwIfError = async (
       }
     } catch (error) {
       logger.info(error)
-      reject(error)
+      reject(error.toString())
     }
   })
 
