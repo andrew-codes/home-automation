@@ -149,7 +149,7 @@ local logStash = {
   apiVersion: 'apps/v1',
   kind: 'Deployment',
   metadata: {
-    name: 'logstash-deployment',
+    name: 'logstash',
     namespace: 'default',
   },
   spec: {
@@ -170,15 +170,7 @@ local logStash = {
           {
             name: 'logstash',
             env: [
-              {
-                name: 'LOGSTASH_PW',
-                valueFrom: {
-                  secretKeyRef: {
-                    name: 'elasticsearch-secrets',
-                    key: 'LOGSTASH_PASSWORD',
-                  },
-                },
-              },
+              k.core.v1.envVar.fromSecretRef('LOGSTASH_PW', 'elk-stack-logstash-password', 'secret-value'),
             ],
             image: 'docker.elastic.co/logstash/logstash-oss:8.9.0',
             ports: [
@@ -227,10 +219,63 @@ local logStash = {
               ],
             },
           },
-          k.core.v1.volume.fromPersistentVolumeClaim('logstash-output', 'logstash-output-pv-claim'),
+          k.core.v1.volume.fromPersistentVolumeClaim('logstash-output', 'elk-stack-logstash-output-pv-claim'),
         ],
       },
     },
+  },
+}
+;
+local logStashNodePort = { name: 'logstash-http', port: 5044, targetPort: 'http' } +
+                         k.core.v1.servicePort.withNodePort(std.parseInt(
+                           std.extVar('logStashPort')
+                         ))
+;
+local logStashService = k.core.v1.service.new('logstash', {
+                          app: 'logstash',
+                        }, [logStashNodePort]) +
+                        k.core.v1.service.spec.withType('NodePort',)
+;
+local logstashOutput = k.core.v1.persistentVolume.new('elk-stack-logstash-output-pv-volume')
+                       + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
+                       + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
+                       + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
+                       + k.core.v1.persistentVolume.spec.withCapacity({ storage: '100Gi' })
+                       + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/elk-stack-logstash-output-pv-volume')
+;
+local logstashOutputClaim = k.core.v1.persistentVolumeClaim.new('elk-stack-logstash-output-pv-claim')
+                            + k.core.v1.persistentVolumeClaim.spec.withAccessModes('ReadWriteMany')
+                            + k.core.v1.persistentVolumeClaim.spec.withStorageClassName('manual')
+                            + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: '100Gi' })
+;
+local logStashConfigMap = {
+  apiVersion: 'v1',
+  kind: 'ConfigMap',
+  metadata: {
+    name: 'logstash-configmap',
+    namespace: 'default',
+  },
+  data: {
+    'logstash.yml': |||
+      http.host: "0.0.0.0"
+      path.config: /usr/share/logstash/pipeline'
+    |||,
+    'logstash.conf': |||
+      input {
+        elasticsearch {
+          hosts => "%(std.extVar('k8sMainIp')):%(std.extVar('elasticPort'))"
+          query => '{ "query": { "match_all": { } }, "sort": [ "@timestamp" ] }'
+          user => "%(std.extVar('elasticUser'))"
+          password => "%(std.extVar('elasticPassword'))"
+        }
+      }
+      output {
+        file {
+          path => /logstash/output/%{+YYYY-MM-dd}.log
+          codec => line { format => "%{message}"}
+        }
+      }
+    |||,
   },
 }
 ;
@@ -294,16 +339,10 @@ local volume2 = k.core.v1.persistentVolume.new('elk-stack-pv-volume-2')
                 + k.core.v1.persistentVolume.spec.withCapacity({ storage: '350Gi' })
                 + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/elk-stack-pv-volume-2')
 ;
-local logstashOutput = k.core.v1.persistentVolume.new('elk-stack-logstash-output-pv-volume')
-                       + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
-                       + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
-                       + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
-                       + k.core.v1.persistentVolume.spec.withCapacity({ storage: '100Gi' })
-                       + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/elk-stack-logstash-output-pv-volume')
-;
+
 
 []
-+ [elasticSearchService, kibanaService]
-+ [volume1, volume2, logstashOutput]
-+ [elasticSearch, kibana]
++ [elasticSearch, elasticSearchService, volume1, volume2]
++ [kibana, kibanaService]
++ [logStashConfigMap, logstashOutput, logstashOutputClaim, logStash, logStashService]
 + [logCurator]

@@ -21,6 +21,7 @@ const configurationNames = [
   "elk-stack/fleet/ip",
   "elk-stack/kibana/port/external",
   "elk-stack/logstash/password",
+  "elk-stack/logstash/port/external",
   "external-services-dns-updater/sub-domains",
   "game-library-db/password",
   "game-library-db/port",

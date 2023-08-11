@@ -22,12 +22,24 @@ const run = async (
   const kibanaPort = await configurationApi.get(
     "elk-stack/kibana/port/external",
   )
+  const logStashPort = await configurationApi.get(
+    "elk-stack/logstash/port/external",
+  )
+  const k8sMainIp = await configurationApi.get("k8s/main-node/ip")
+  const elasticUser = await configurationApi.get("crowdsec/elastic/username")
+  const elasticPassword = await configurationApi.get(
+    "crowdsec/elastic/password",
+  )
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
       secrets: [],
       elasticPort: parseInt(elasticPort.value),
       kibanaPort: parseInt(kibanaPort.value),
+      k8sMainIp: k8sMainIp.value,
+      elasticUser: elasticUser.value,
+      elasticPassword: elasticPassword.value,
+      logStashPort: logStashPort.value,
     },
   )
   const resourceJson = JSON.parse(resources)
