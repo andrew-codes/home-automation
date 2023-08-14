@@ -5071,6 +5071,7 @@ __metadata:
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/nx-executors": "workspace:^0.1.0"
     "@ha/shell-utils": "workspace:^1.0.0"
+    "@types/shelljs": 0.8.5
     shelljs: ^0.8.5
   languageName: unknown
   linkType: soft
@@ -6285,6 +6286,7 @@ __metadata:
     "@ha/shell-utils": "workspace:^1.0.0"
     "@types/jest": ^29.2.5
     "@types/node": ^18.11.18
+    "@types/shelljs": ^0.8.5
     jest: ^29.3.1
     jest-when: ^3.5.2
     shelljs: ^0.8.5
@@ -8127,6 +8129,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/glob@npm:*":
+  version: 8.1.0
+  resolution: "@types/glob@npm:8.1.0"
+  dependencies:
+    "@types/minimatch": ^5.1.2
+    "@types/node": "*"
+  checksum: 9101f3a9061e40137190f70626aa0e202369b5ec4012c3fabe6f5d229cce04772db9a94fa5a0eb39655e2e4ad105c38afbb4af56a56c0996a8c7d4fc72350e3d
+  languageName: node
+  linkType: hard
+
 "@types/glob@npm:^7.1.1, @types/glob@npm:~7.2.0":
   version: 7.2.0
   resolution: "@types/glob@npm:7.2.0"
@@ -8278,7 +8290,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/minimatch@npm:*":
+"@types/minimatch@npm:*, @types/minimatch@npm:^5.1.2":
   version: 5.1.2
   resolution: "@types/minimatch@npm:5.1.2"
   checksum: 0391a282860c7cb6fe262c12b99564732401bdaa5e395bee9ca323c312c1a0f45efbf34dce974682036e857db59a5c9b1da522f3d6055aeead7097264c8705a8
@@ -8421,6 +8433,16 @@ __metadata:
     "@types/mime": "*"
     "@types/node": "*"
   checksum: b6ac93d471fb0f53ddcac1f9b67572a09cd62806f7db5855244b28f6f421139626f24799392566e97d1ffc61b12f9de7f30380c39fcae3c8a161fe161d44edf2
+  languageName: node
+  linkType: hard
+
+"@types/shelljs@npm:0.8.5":
+  version: 0.8.5
+  resolution: "@types/shelljs@npm:0.8.5"
+  dependencies:
+    "@types/glob": "*"
+    "@types/node": "*"
+  checksum: 945dea036419097144cbba5db2f04e22b52006dc631a03f1a7af004d5d000380cf3d629d4f90ef314dc1e0f939501fef449031eb563d110009196111c02210e7
   languageName: node
   linkType: hard
 

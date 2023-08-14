@@ -10,12 +10,17 @@ import { throwIfError } from "@ha/shell-utils"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const dashboardPort = await configurationApi.get("crowdsec/port/external")
+  const dashboardPort = await configurationApi.get(
+    "crowdsec/dashboard/port/external",
+  )
+  const apiPort = await configurationApi.get("crowdsec/api/port/external")
+
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
       secrets: [],
       crowdsecDashboardPort: dashboardPort.value,
+      crowdsecApiPort: apiPort.value,
     },
   )
   const resourceJson = JSON.parse(resources)
@@ -78,11 +83,11 @@ const run = async (
     await configurationApi.set("crowdsec/password", password)
   }
 
-  await throwIfError(
-    sh.exec(
-      `kubectl patch deployment crowdsec-lapi --namespace default --type='json' --patch='[{"op": "remove", "path": "/spec/template/spec/containers/0/volumeMounts/0"},{"op": "remove", "path": "/spec/template/spec/containers/1/volumeMounts/1"},{"op": "remove", "path": "/spec/template/spec/volumes/1"}]'`,
-    ),
-  )
+  // await throwIfError(
+  //   sh.exec(
+  //     `kubectl patch deployment crowdsec-lapi --namespace default --type='json' --patch='[{"op": "remove", "path": "/spec/template/spec/containers/0/volumeMounts/0"},{"op": "remove", "path": "/spec/template/spec/containers/1/volumeMounts/1"},{"op": "remove", "path": "/spec/template/spec/volumes/1"}]'`,
+  //   ),
+  // )
 
   const patches = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "patch.jsonnet"),

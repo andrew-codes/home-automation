@@ -1,0 +1,2 @@
+- import_playbook: proxy_internal.yml
+- import_playbook: proxy_external.yml

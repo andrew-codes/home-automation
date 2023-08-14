@@ -8598,6 +8598,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/kubectl", "workspace:packages/kubectl"],\
             ["@ha/nx-executors", "workspace:packages/nx-executors"],\
             ["@ha/shell-utils", "workspace:packages/shell-utils"],\
+            ["@types/shelljs", "npm:0.8.5"],\
             ["shelljs", "npm:0.8.5"]\
           ],\
           "linkType": "SOFT"\
@@ -9954,6 +9955,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/shell-utils", "workspace:packages/shell-utils"],\
             ["@types/jest", "npm:29.2.5"],\
             ["@types/node", "npm:18.11.18"],\
+            ["@types/shelljs", "npm:0.8.12"],\
             ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
             ["jest-when", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:3.5.2"],\
             ["shelljs", "npm:0.8.5"],\
@@ -12327,6 +12329,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:17.0.21"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:8.1.0", {\
+          "packageLocation": "./.yarn/cache/@types-glob-npm-8.1.0-bdb9d0520c-9101f3a906.zip/node_modules/@types/glob/",\
+          "packageDependencies": [\
+            ["@types/glob", "npm:8.1.0"],\
+            ["@types/minimatch", "npm:5.1.2"],\
+            ["@types/node", "npm:17.0.21"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@types/graceful-fs", [\
@@ -12674,6 +12685,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@types/shelljs", "npm:0.8.12"],\
             ["@types/glob", "npm:7.2.0"],\
+            ["@types/node", "npm:17.0.21"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:0.8.5", {\
+          "packageLocation": "./.yarn/cache/@types-shelljs-npm-0.8.5-c7e24e03b3-945dea0364.zip/node_modules/@types/shelljs/",\
+          "packageDependencies": [\
+            ["@types/shelljs", "npm:0.8.5"],\
+            ["@types/glob", "npm:8.1.0"],\
             ["@types/node", "npm:17.0.21"]\
           ],\
           "linkType": "HARD"\

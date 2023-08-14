@@ -135,7 +135,8 @@ secrets:
 lapi:
   # -- environment variables from crowdsecurity/crowdsec docker image
   env:
-    []
+    - name: DISABLE_LOCAL_API
+      value: "false"
     # by default disable the agent because it only needs the local API.
     #- name: DISABLE_AGENT
     #  value: "true"
@@ -165,13 +166,13 @@ lapi:
 
     ## Ref: http://kubernetes.io/docs/user-guide/compute-resources/
     ##
-    resources:
-      {}
-      # limits:
-      #   memory: 2Gi
-      # requests:
-      #   cpu: 150m
-      #   memory: 1700Mi
+    # resources:
+    # {}
+    # limits:
+    #   memory: 2Gi
+    # requests:
+    #   cpu: 150m
+    #   memory: 1700Mi
 
     # -- Enable ingress object
     ingress:
@@ -186,27 +187,27 @@ lapi:
 
   resources:
     limits:
-      memory: 100Mi
+      memory: 1000Mi
     requests:
-      cpu: 150m
-      memory: 100Mi
+      cpu: 350m
+      memory: 1000Mi
   # -- Enable persistent volumes
   persistentVolume:
     # -- Persistent volume for data folder. Stores e.g. registered bouncer api keys
     data:
-      enabled: false
+      enabled: true
       accessModes:
         - ReadWriteOnce
       storageClassName: "manual"
-      existingClaim: ""
-      size: 1Gi
+      existingClaim: "crowdsec-db-pvc"
+      size: 80Gi
     # -- Persistent volume for config folder. Stores e.g. online api credentials
     config:
-      enabled: false
+      enabled: true
       accessModes:
         - ReadWriteOnce
       storageClassName: "manual"
-      existingClaim: ""
+      existingClaim: "crowdsec-config-pvc"
       size: 100Mi
 
   service:
@@ -264,20 +265,21 @@ agent:
     #   # -- program name related to specific parser you will use (see https://hub.crowdsec.net/author/crowdsecurity/configurations/docker-logs)
     #   program: "" #nginx
   resources:
-    limits:
-      memory: 100Mi
-    requests:
-      cpu: 150m
-      memory: 100Mi
+    {}
+    # limits:
+    #   memory: 100Mi
+    # requests:
+    #   cpu: 150m
+    #   memory: 100Mi
   # -- Enable persistent volumes
   persistentVolume:
     # -- Persistent volume for config folder. Stores local config (parsers, scenarios etc.)
     config:
-      enabled: false
+      enabled: true
       accessModes:
         - ReadWriteOnce
       storageClassName: "manual"
-      existingClaim: ""
+      existingClaim: "crowdsec-config-pvc"
       size: 100Mi
   # -- environment variables from crowdsecurity/crowdsec docker image
   env:

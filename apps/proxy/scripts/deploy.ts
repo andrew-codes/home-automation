@@ -61,6 +61,47 @@ all:
     "utf8",
   )
 
+  const k8sIp = await configurationApi.get("k8s/main-node/ip")
+  const crowdsecApiPort = await configurationApi.get(
+    "crowdsec/api/port/external",
+  )
+  const crowdsecApiKey = await configurationApi.get(
+    "crowdsec/bouncer/nginx/key",
+  )
+  await fs.writeFile(
+    path.join(__dirname, "..", ".secrets", "crowdsec-nginx-bouncer.conf"),
+    `
+API_URL=http://${k8sIp.value}:${crowdsecApiPort.value}
+API_KEY=${crowdsecApiKey.value}
+# bounce for all type of remediation that the bouncer can receive from the local API
+BOUNCING_ON_TYPE=all
+# when the bouncer receive an unknown remediation, fallback to this remediation
+FALLBACK_REMEDIATION=ban
+MODE=stream
+REQUEST_TIMEOUT=1000
+# exclude the bouncing on those location
+EXCLUDE_LOCATION=
+# Cache expiration in live mode, in second
+CACHE_EXPIRATION=1
+# Update frequency in stream mode, in second
+UPDATE_FREQUENCY=10
+#those apply for "ban" action
+# REDIRECT_LOCATION and BAN_TEMPLATE_PATH/RET_CODE can't be used together. REDIRECT_LOCATION take priority over RET_CODE AND BAN_TEMPLATE_PATH
+BAN_TEMPLATE_PATH=/var/lib/crowdsec/lua/templates/ban.html
+REDIRECT_LOCATION=
+RET_CODE=
+#those apply for "captcha" action
+#valid providers are recaptcha, hcaptcha, turnstile
+# CAPTCHA_PROVIDER=
+# # default is recaptcha to ensure backwards compatibility
+# # Captcha Secret Key
+# SECRET_KEY=
+# # Captcha Site key
+# SITE_KEY=
+# CAPTCHA_TEMPLATE_PATH=/var/lib/crowdsec/lua/templates/captcha.html
+# CAPTCHA_EXPIRATION=3600`,
+  )
+
   sh.env["ANSIBLE_HOST_KEY_CHECKING"] = "False"
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
 
@@ -69,7 +110,7 @@ all:
       __dirname,
       "..",
       "deployment",
-      "index.yml",
+      "proxy-external.yml",
     )} -i ${path.join(
       __dirname,
       "..",
@@ -84,7 +125,7 @@ all:
       __dirname,
       "..",
       "deployment",
-      "index.yml",
+      "proxy-internal.yml",
     )} -i ${path.join(
       __dirname,
       "..",

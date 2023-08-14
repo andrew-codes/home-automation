@@ -1,9 +1,10 @@
 ---
-- hosts: all
-  become: yes
-  become_method: sudo
+- name: Nginx proxy
+  hosts: all
+  become: true
+  become_method: ansible.builtin.sudo
   become_user: root
-  gather_facts: yes
+  gather_facts: true
   connection: ssh
   vars_files:
     - ../.secrets/ansible-secrets.yml
@@ -11,8 +12,8 @@
   tasks:
     - name: Update apt
       become_user: root
-      become_method: sudo
-      become: yes
+      become_method: ansible.builtin.sudo
+      become: true
       shell: apt-get update --allow-releaseinfo-change
 
     - name: Installing Prerequisites
@@ -35,14 +36,14 @@
         repo: deb https://nginx.org/packages/mainline/ubuntu/ focal nginx
         state: present
         filename: nginx
-        mode: 0600
+        mode: "0600"
 
     - name: Add repository
       apt_repository:
         repo: deb-src https://nginx.org/packages/mainline/ubuntu focal nginx
         state: present
         filename: nginx-src
-        mode: 0600
+        mode: "0600"
 
     - name: Install
       apt:
@@ -51,14 +52,14 @@
           - python3-certbot-nginx
           - python3-pip
         state: present
-        update_cache: yes
+        update_cache: true
 
     - name: Remove existing cerbot packages
       apt:
         name:
           - certbot*
         state: absent
-        update_cache: yes
+        update_cache: true
 
     - name: Install certbot
       shell: sudo -H pip3 install certbot
@@ -68,8 +69,8 @@
 
     - name: Remove broken OpenSSL
       become_user: root
-      become_method: sudo
-      become: yes
+      become_method: ansible.builtin.sudo
+      become: true
       file:
         path: /usr/lib/python3/dist-packages/OpenSSL
         state: absent
@@ -79,16 +80,16 @@
 
     - name: Reset secrets directory via deletion
       become_user: root
-      become_method: sudo
-      become: yes
+      become_method: ansible.builtin.sudo
+      become: true
       file:
         path: ~/.secrets/certbot
         state: absent
 
     - name: Secrets directory for certbot
       become_user: root
-      become_method: sudo
-      become: yes
+      become_method: ansible.builtin.sudo
+      become: true
       file:
         path: ~/.secrets/certbot
         state: directory
@@ -119,16 +120,22 @@
         group: root
         mode: "0644"
 
+    - name: Include modules
+      ansible.builtin.lineinfile:
+        path: /etc/nginx/nginx.conf
+        line: "include /etc/nginx/modules-enabled/*.conf;"
+        state: present
+
     - name: Certs
       shell: 'certbot certonly --non-interactive --agree-tos -d *.smith-simms.family --server https://acme-v02.api.letsencrypt.org/directory --email "{{ cert_email }}" --preferred-challenges=dns --dns-digitalocean --dns-digitalocean-credentials ~/.secrets/certbot/creds.ini'
       become_user: root
-      become_method: sudo
-      become: yes
+      become_method: ansible.builtin.sudo
+      become: true
 
     - name: Renew certs
       become_user: root
-      become_method: sudo
-      become: yes
+      become_method: ansible.builtin.sudo
+      become: true
       ansible.builtin.cron:
         name: renew certs
         minute: "0"
@@ -139,7 +146,7 @@
       ansible.builtin.systemd:
         name: nginx
         daemon_reload: true
-        enabled: yes
+        enabled: true
         state: restarted
 
     - name: Set authorized key for github action runner

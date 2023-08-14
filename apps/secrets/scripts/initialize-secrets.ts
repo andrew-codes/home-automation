@@ -1,5 +1,7 @@
 import type { Configuration } from "@ha/configuration-workspace"
 import { ConfigurationApi } from "@ha/configuration-api"
+import { throwIfError } from "@ha/shell-utils"
+import sh from "shelljs"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
