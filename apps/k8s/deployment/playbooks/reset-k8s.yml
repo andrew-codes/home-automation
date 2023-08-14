@@ -2,7 +2,7 @@
 - name: Reset Kuberentes
   hosts: main
   become: true
-  become_method: sudo
+  become_method: ansible.builtin.sudo
   become_user: root
   gather_facts: true
   connection: ssh

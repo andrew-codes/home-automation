@@ -1,7 +1,7 @@
 ---
 - hosts: all
   become: yes
-  become_method: sudo
+  become_method: ansible.builtin.sudo
   become_user: root
   gather_facts: yes
   connection: ssh
@@ -11,7 +11,7 @@
   tasks:
     - name: Update apt
       become_user: root
-      become_method: sudo
+      become_method: ansible.builtin.sudo
       become: yes
       shell: apt-get update --allow-releaseinfo-change
 
@@ -24,19 +24,19 @@
 
     # - name: Install pihole
     #   become_user: root
-    #   become_method: sudo
+    #   become_method: ansible.builtin.sudo
     #   become: yes
     #   shell: curl -sSL https://install.pi-hole.net | bash /dev/stdin --unattended
 
     - name: Update pihole
       become_user: root
-      become_method: sudo
+      become_method: ansible.builtin.sudo
       become: yes
       shell: pihole -up
 
     - name: Set password
       become_user: root
-      become_method: sudo
+      become_method: ansible.builtin.sudo
       become: yes
       shell: pihole -a -p "{{ pihole_password }}"
 

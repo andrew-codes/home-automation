@@ -4,7 +4,7 @@
 - name: Setup Kuberentes
   hosts: main
   become: true
-  become_method: sudo
+  become_method: ansible.builtin.sudo
   become_user: root
   gather_facts: true
   connection: ssh
@@ -23,7 +23,7 @@
 
     - name: Create directory for kube config
       become_user: hl
-      become_method: sudo
+      become_method: ansible.builtin.sudo
       become: true
       file:
         path: /home/{{ ansible_user }}/.kube
@@ -43,7 +43,7 @@
 
     - name: Remove the cache directory
       become_user: hl
-      become_method: sudo
+      become_method: ansible.builtin.sudo
       become: true
       file:
         path: /home/{{ ansible_user }}/.kube/cache
@@ -51,7 +51,7 @@
 
     - name: Create pod network
       become_user: hl
-      become_method: sudo
+      become_method: ansible.builtin.sudo
       become: true
       changed_when: false
       command: "{{ item }}"
@@ -74,7 +74,7 @@
 
     - name: Fetch kubeconfig to repo secrets
       become_user: hl
-      become_method: sudo
+      become_method: ansible.builtin.sudo
       become: true
       fetch:
         dest: "../../.secrets/.kube/config-{{ k8s_env }}"

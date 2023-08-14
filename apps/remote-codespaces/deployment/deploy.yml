@@ -1,7 +1,7 @@
 ---
 - hosts: all
   become: yes
-  become_method: sudo
+  become_method: ansible.builtin.sudo
   become_user: root
   gather_facts: yes
   connection: ssh
@@ -20,7 +20,7 @@
 
     - name: Update apt
       become_user: root
-      become_method: sudo
+      become_method: ansible.builtin.sudo
       become: yes
       shell: apt-get update --allow-releaseinfo-change
 
@@ -61,7 +61,7 @@
 
     - name: Update apt
       become_user: root
-      become_method: sudo
+      become_method: ansible.builtin.sudo
       become: yes
       shell: apt-get update
 
@@ -84,7 +84,7 @@
     - name: Restart docker.
       command: "{{ item }}"
       become_user: root
-      become_method: sudo
+      become_method: ansible.builtin.sudo
       become: yes
       with_items:
         - systemctl daemon-reload

@@ -1,7 +1,7 @@
 ---
 - hosts: all
   become: yes
-  become_method: sudo
+  become_method: ansible.builtin.sudo
   become_user: root
   gather_facts: yes
   connection: ssh
@@ -9,7 +9,7 @@
   tasks:
     - name: Update apt
       become_user: root
-      become_method: sudo
+      become_method: ansible.builtin.sudo
       become: yes
       shell: apt-get update --allow-releaseinfo-change
 
@@ -57,13 +57,13 @@
     - name: chown /dev/net/tun
       ansible.builtin.shell: chown 100000:100000 /dev/net/tun || true
       become_user: root
-      become_method: sudo
+      become_method: ansible.builtin.sudo
       become: yes
 
     - name: Run installation script
       ansible.builtin.shell: /install.sh
       become_user: root
-      become_method: sudo
+      become_method: ansible.builtin.sudo
       become: yes
       args:
         creates: /install.log
@@ -72,7 +72,7 @@
       ansible.builtin.shell: /setup-users.sh
       become: yes
       become_user: root
-      become_method: sudo
+      become_method: ansible.builtin.sudo
 
     - shell: (cd /root; find . -name "*.ovpn" -maxdepth 1 -type f) | cut -d'/' -f2
       register: files_to_copy

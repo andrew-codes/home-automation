@@ -2,7 +2,7 @@
 - name: Prepare for Kubernetes
   hosts: all
   become: true
-  become_method: sudo
+  become_method: ansible.builtin.sudo
   become_user: root
   gather_facts: true
   connection: ssh
@@ -163,7 +163,7 @@
     - name: Restart docker
       command: "{{ item }}"
       become_user: root
-      become_method: sudo
+      become_method: ansible.builtin.sudo
       become: true
       changed_when: docker_daemon_config != 0
       with_items:
