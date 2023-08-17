@@ -145,9 +145,9 @@
         update_cache: true
         allow_downgrade: true
         name:
-          - kubeadm=1.23.8
-          - kubectl=1.23.8
-          - kubelet=1.23.8
+          - kubeadm=1.23.8-00
+          - kubectl=1.23.8-00
+          - kubelet=1.23.8-00
         state: present
 
     - name: Enable service docker, and enable persistently
