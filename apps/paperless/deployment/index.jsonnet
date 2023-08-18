@@ -205,13 +205,13 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                                                   ,)
 ;
 
-local paperlessVolumeData = lib.volume.persistentVolume.new('paperless-data', '300Gi', '/mnt/data/paperless-data');
-local paperlessVolumeMedia = lib.volume.persistentVolume.new('paperless-media', '400Gi', '/mnt/data/paperless-media');
-local paperlessVolumeExport = lib.volume.persistentVolume.new('paperless-export', '100Gi', '/mnt/data/paperless-export');
-local paperlessVolumeConsume = lib.volume.persistentVolume.new('paperless-consume', '100Gi', '/mnt/data/paperless-consume');
+local paperlessVolumeData = lib.volume.persistentVolume.new('paperless-data', '300Gi');
+local paperlessVolumeMedia = lib.volume.persistentVolume.new('paperless-media', '400Gi');
+local paperlessVolumeExport = lib.volume.persistentVolume.new('paperless-export', '100Gi');
+local paperlessVolumeConsume = lib.volume.persistentVolume.new('paperless-consume', '100Gi');
 
-local postgresVolume = lib.volume.persistentVolume.new('paperless-postgres-db', '200Gi', '/mnt/data/paperless-postgres-db');
-local redisVolume = lib.volume.persistentVolume.new('paperless-redis', '80Gi', '/mnt/data/paperless-redis');
+local postgresVolume = lib.volume.persistentVolume.new('paperless-postgres-db', '200Gi');
+local redisVolume = lib.volume.persistentVolume.new('paperless-redis', '80Gi');
 
 
 paperlessVolumeData + paperlessVolumeMedia + paperlessVolumeExport + paperlessVolumeConsume + postgresVolume + redisVolume + std.objectValues(deployment)

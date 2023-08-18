@@ -23,6 +23,6 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('mosquitto-config', '/mosquitto/config/mosquitto.conf') + k.core.v1.volumeMount.withSubPath('mosquitto.conf'));
 
 local configMap = lib.volume.configMapVolume.new('mosquitto-config', mosquittoConfigMap);
-local volume = lib.volume.persistentVolume.new('mosquitto', '5Gi', '/mnt/data/mosquitto');
+local volume = lib.volume.persistentVolume.new('mosquitto', '5Gi');
 
 volume + configMap + std.objectValues(deployment)

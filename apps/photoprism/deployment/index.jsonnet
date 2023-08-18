@@ -42,10 +42,10 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('photoprism-storage', '/photoprism/storage',))
 ;
 
-local originalsVolume = lib.volume.persistentVolume.new('originals', '600Gi', '/mnt/data/photoprism-originals');
-local photoprismVolumeImport = lib.volume.persistentVolume.new('photoprism-import', '150Gi', '/mnt/data/photoprism-import');
-local photoprismVolumeExport = lib.volume.persistentVolume.new('photoprism-export', '150Gi', '/mnt/data/photoprism-export');
-local photoprismStorageVolume = lib.volume.persistentVolume.new('photoprism-storage', '100Gi', '/mnt/data/storage');
+local originalsVolume = lib.volume.persistentVolume.new('originals', '600Gi');
+local photoprismVolumeImport = lib.volume.persistentVolume.new('photoprism-import', '150Gi');
+local photoprismVolumeExport = lib.volume.persistentVolume.new('photoprism-export', '150Gi');
+local photoprismStorageVolume = lib.volume.persistentVolume.new('photoprism-storage', '100Gi');
 
 local dbContainer = k.core.v1.container.new(name='photoprismdb', image=std.extVar('dbImage'))
                     + k.core.v1.container.withImagePullPolicy('Always')
@@ -74,7 +74,7 @@ local dbService = k.core.v1.service.new('photoprism-db', { name: 'photoprism-db'
   targetPort: 'db',
 }],)
 ;
-local dbVolume = lib.volume.persistentVolume.new('photoprism-db', '200Gi', '/mnt/data/photoprism-db');
+local dbVolume = lib.volume.persistentVolume.new('photoprism-db', '200Gi');
 
 
 originalsVolume + photoprismVolumeImport + photoprismVolumeExport + photoprismStorageVolume + dbVolume + [dbDeployment, dbService] + std.objectValues(deployment)

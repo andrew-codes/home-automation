@@ -12,6 +12,8 @@ const run = async (
     ),
   )
 
+  sh.exec(`helm uninstall nfs-subdir-external-provisioner`)
+
   const nfsIp = await configurationApi.get("nfs/ip")
   const nfsSharePath = await configurationApi.get("nfs/share-path")
   throwIfError(

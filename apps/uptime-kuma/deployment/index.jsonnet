@@ -8,6 +8,19 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withPersistentVolume('uptime-kuma')
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('uptime-kuma', '/app/data',));
 
-local volume = lib.volume.persistentVolume.new('uptime-kuma', '10Gi', '/mnt/data/uptime-kuma');
+local volume = k.core.v1.persistentVolume.new('uptime-kuma-pv')
+               + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
+               + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
+               + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
+               + k.core.v1.persistentVolume.spec.withCapacity({ storage: '10Gi' })
+               + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/uptime-kuma')
+;
+local volumeClaim = k.core.v1.persistentVolumeClaim.new('uptime-kuma-pvc')
+                    + k.core.v1.persistentVolumeClaim.spec.withAccessModes('ReadWriteMany')
+                    + k.core.v1.persistentVolumeClaim.spec.withStorageClassName('manual')
+                    + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: '10Gi' })
+;
 
-volume + std.objectValues(deployment)
+[]
++ [volume, volumeClaim]
++ std.objectValues(deployment)

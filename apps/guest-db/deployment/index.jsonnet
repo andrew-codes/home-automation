@@ -5,6 +5,6 @@ local deployment = lib.deployment.new('guest-db', std.extVar('image'), '', '', '
                    + lib.deployment.withPersistentVolume('guest-db')
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('guest-db', '/data/db',));
 
-local gameLibraryDbVolume = lib.volume.persistentVolume.new('guest-db', '5Gi', '/mnt/data/guest-db');
+local gameLibraryDbVolume = lib.volume.persistentVolume.new('guest-db', '5Gi');
 
 std.objectValues(deployment) + gameLibraryDbVolume

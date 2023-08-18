@@ -14,6 +14,6 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withInitContainer('mqtt-is-ready', std.extVar('registryHostname') + '/mqtt-client:latest', { env: [secrets['mqtt/username'], secrets['mqtt/password']], command: ['sh'], args: ['-c', 'timeout 10 sub -h mqtt -t "\\$SYS/#" -C 1 -u $MQTT_USERNAME -P $MQTT_PASSWORD | grep -v Error || exit 1'] })
                    + lib.deployment.withSecurityContext(0, { privileged: true, allowPrivilegeEscalation: true },);
 
-local volume = lib.volume.persistentVolume.new('frigate-media', '300Gi', '/mnt/data/frigate');
+local volume = lib.volume.persistentVolume.new('frigate-media', '300Gi');
 
 volume + std.objectValues(deployment)

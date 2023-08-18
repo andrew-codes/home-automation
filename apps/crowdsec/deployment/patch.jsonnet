@@ -19,7 +19,7 @@ local agentPatch = {
           {
             name: 'logstash-log-files',
             persistentVolumeClaim: {
-              claimName: 'elk-stack-logstash-output-pv-claim',
+              claimName: 'elk-stack-logstash-output-pvc',
             },
           },
         ],

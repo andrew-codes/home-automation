@@ -89,8 +89,8 @@ local postgresService = k.core.v1.service.new('home-assistant-postgres', { name:
   protocol: 'TCP',
   targetPort: 'db',
 }],);
-local postgresVolume = lib.volume.persistentVolume.new('home-assistant-postgres-db', '40Gi', '/mnt/data/home-assistant-postgres');
-local haVolume = lib.volume.persistentVolume.new('home-assistant', '10Gi', '/mnt/data/home-assistant');
-local haVolumeNewConfig = lib.volume.persistentVolume.new('home-assistant-new-config', '7Gi', '/mnt/data/home-assistant-new-config');
+local postgresVolume = lib.volume.persistentVolume.new('home-assistant-postgres-db', '40Gi');
+local haVolume = lib.volume.persistentVolume.new('home-assistant', '10Gi');
+local haVolumeNewConfig = lib.volume.persistentVolume.new('home-assistant-new-config', '7Gi');
 
 haVolume + haVolumeNewConfig + postgresVolume + [postgresDeployment, postgresService] + std.objectValues(deployment)

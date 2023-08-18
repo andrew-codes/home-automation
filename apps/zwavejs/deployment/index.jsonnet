@@ -14,6 +14,6 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withPersistentVolume('zwave')
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('zwave', '/usr/src/app/store',));
 
-local zwaveVolume = lib.volume.persistentVolume.new('zwave', '5Gi', '/mnt/data/zwave');
+local zwaveVolume = lib.volume.persistentVolume.new('zwave', '5Gi');
 
 zwaveVolume + std.objectValues(deployment)

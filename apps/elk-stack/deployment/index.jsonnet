@@ -1,3 +1,4 @@
+local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
 local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
 
 local elasticSearch = {
@@ -29,14 +30,14 @@ local elasticSearch = {
           },
           spec: {
             accessModes: [
-              'ReadWriteOnce',
+              'ReadWriteMany',
             ],
             resources: {
               requests: {
                 storage: '350Gi',
               },
             },
-            storageClassName: 'manual',
+            storageClassName: 'nfs-client',
           },
         }],
         podTemplate: {
@@ -65,14 +66,14 @@ local elasticSearch = {
           },
           spec: {
             accessModes: [
-              'ReadWriteOnce',
+              'ReadWriteMany',
             ],
             resources: {
               requests: {
                 storage: '350Gi',
               },
             },
-            storageClassName: 'manual',
+            storageClassName: 'nfs-client',
           },
         }],
         podTemplate: {
@@ -226,7 +227,7 @@ local logStash = {
               ],
             },
           },
-          k.core.v1.volume.fromPersistentVolumeClaim('logstash-output', 'elk-stack-logstash-output-pv-claim'),
+          k.core.v1.volume.fromPersistentVolumeClaim('logstash-output', 'elk-stack-logstash-output-pvc'),
         ],
       },
     },
@@ -243,17 +244,7 @@ local logStashService = k.core.v1.service.new('logstash', {
                         }, [logStashNodePort]) +
                         k.core.v1.service.spec.withType('NodePort',)
 ;
-local logstashOutput = k.core.v1.persistentVolume.new('elk-stack-logstash-output-pv-volume')
-                       + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
-                       + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
-                       + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
-                       + k.core.v1.persistentVolume.spec.withCapacity({ storage: '100Gi' })
-                       + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/elk-stack-logstash-output-pv-volume')
-;
-local logstashOutputClaim = k.core.v1.persistentVolumeClaim.new('elk-stack-logstash-output-pv-claim')
-                            + k.core.v1.persistentVolumeClaim.spec.withAccessModes('ReadWriteMany')
-                            + k.core.v1.persistentVolumeClaim.spec.withStorageClassName('manual')
-                            + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: '100Gi' })
+local logStashVolume = lib.volume.persistentVolume.new('elk-stack-logstash-output', '100Gi')
 ;
 
 local config = |||
@@ -356,23 +347,16 @@ local logStashConfigMap = {
 // }
 // ;
 
-local volume1 = k.core.v1.persistentVolume.new('elk-stack-pv-volume-1')
-                + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
-                + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteOnce')
-                + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
-                + k.core.v1.persistentVolume.spec.withCapacity({ storage: '350Gi' })
-                + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/elk-stack-pv-volume-1')
+local volume1 = lib.volume.persistentVolume.new('elk-stack-1', '350Gi')
 ;
-local volume2 = k.core.v1.persistentVolume.new('elk-stack-pv-volume-2')
-                + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
-                + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteOnce')
-                + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
-                + k.core.v1.persistentVolume.spec.withCapacity({ storage: '350Gi' })
-                + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/elk-stack-pv-volume-2')
+local volume2 = lib.volume.persistentVolume.new('elk-stack-2', '350Gi')
 ;
 
 
 []
-+ [elasticSearch, elasticSearchService, volume1, volume2]
++ volume1
++ volume2
++ [elasticSearch, elasticSearchService]
 + [kibana, kibanaService]
-+ [logStashConfigMap, logstashOutput, logstashOutputClaim, logStash, logStashService]
++ logStashVolume
++ [logStashConfigMap, logStash, logStashService]
