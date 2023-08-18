@@ -116,6 +116,8 @@ const configurationNames = [
   "mqtt/password",
   "mqtt/port/external",
   "mqtt/username",
+  "nfs/ip",
+  "nfs/share-path",
   "openvpn/hostname",
   "openvpn/ip",
   "openvpn/passwords",

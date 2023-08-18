@@ -1,0 +1,17 @@
+{
+  "name": "nfs-provisioner",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/nfs-provisioner/src",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/nfs-provisioner",
+        "module": "scripts/deploy.ts"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["secrets"]
+}

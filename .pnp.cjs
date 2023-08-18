@@ -172,6 +172,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:apps/mqtt"\
       },\
       {\
+        "name": "@ha/nfs-provisioner",\
+        "reference": "workspace:apps/nfs-provisioner"\
+      },\
+      {\
         "name": "@ha/openvpn",\
         "reference": "workspace:apps/openvpn"\
       },\
@@ -408,6 +412,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@ha/mqtt", ["workspace:apps/mqtt"]],\
       ["@ha/mqtt-client", ["virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/mqtt-client", "workspace:packages/mqtt-client"]],\
       ["@ha/mqtt-heartbeat", ["workspace:packages/mqtt-heartbeat"]],\
+      ["@ha/nfs-provisioner", ["workspace:apps/nfs-provisioner"]],\
       ["@ha/nx-executors", ["workspace:packages/nx-executors"]],\
       ["@ha/openvpn", ["workspace:apps/openvpn"]],\
       ["@ha/paperless", ["workspace:apps/paperless"]],\
@@ -9721,6 +9726,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["redux-saga-test-plan", "virtual:ba3c80966cccf6320af56404fcf85305a3d9b6b7f8847a170d1274f6a04d1592f5e64a978de39768c916537ebaff609533bc041dee86b301e2e4016832b1a9d9#npm:4.0.6"],\
             ["ts-jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.0.5"],\
             ["typescript", "patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=ad5954"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@ha/nfs-provisioner", [\
+        ["workspace:apps/nfs-provisioner", {\
+          "packageLocation": "./apps/nfs-provisioner/",\
+          "packageDependencies": [\
+            ["@ha/nfs-provisioner", "workspace:apps/nfs-provisioner"],\
+            ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+            ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+            ["@ha/nx-executors", "workspace:packages/nx-executors"],\
+            ["@ha/shell-utils", "workspace:packages/shell-utils"],\
+            ["@types/shelljs", "npm:0.8.12"],\
+            ["shelljs", "npm:0.8.5"]\
           ],\
           "linkType": "SOFT"\
         }]\
