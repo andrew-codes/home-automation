@@ -15,6 +15,7 @@
 
       "extensions": [
         "andrew-codes.jest-snippets",
+        "arcanis.vscode-zipfs",
         "bierner.github-markdown-preview",
         "bierner.markdown-yaml-preamble",
         "capaj.vscode-exports-autocomplete",
