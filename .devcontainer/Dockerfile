@@ -2,26 +2,37 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 USER root
+RUN apt-get install -y \
+    apt-transport-https
 RUN apt update -y
 RUN apt-get install -y \
-    apt-transport-https \
     curl \
     gpg \
+    gnupg2 \
     wget \
     make libssl-dev libghc-zlib-dev libcurl4-gnutls-dev libexpat1-dev gettext unzip \
     software-properties-common
+
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+
+RUN curl -s https://apt.releases.hashicorp.com/gpg | apt-key add -
+RUN echo "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee -a /etc/apt/sources.list.d/hashicorp.list
+
 RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 RUN echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
+
 RUN curl -sS https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 RUN echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable" | tee -a /etc/apt/sources.list.d/docker.list
+
 RUN echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu focal main"
 RUN add-apt-repository -y --update ppa:ansible/ansible
 RUN add-apt-repository -y --update ppa:deadsnakes/ppa
+
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys DA418C88A3219F7B
 RUN curl -sS https://packages.microsoft.com/keys/microsoft.asc | (OUT=$(apt-key add - 2>&1) || echo $OUT)
 RUN curl https://packages.microsoft.com/config/ubuntu/22.04/prod.list | tee /etc/apt/sources.list.d/msprod.list
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 40976EAF437D05B5 3B4FE6ACC0B21F32
+
 RUN echo "deb http://security.ubuntu.com/ubuntu xenial-security main" >>/etc/apt/sources.list
 RUN curl -sS https://downloads.1password.com/linux/keys/1password.asc | gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
 RUN echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main' | tee /etc/apt/sources.list.d/1password.list
@@ -36,6 +47,7 @@ RUN apt-get upgrade -y
 RUN apt-get remove docker docker-engine docker.io containerd
 
 RUN apt-get install -y \
+    1password \
     1password-cli \
     ansible \
     ansible-lint \
@@ -48,7 +60,6 @@ dotnet-runtime-7.0 \
     dotnet-sdk-7.0 \
     etherwake \
     gettext-base \
-    gnupg2 \
     iptables \
     iputils-ping \
     jq \
@@ -59,6 +70,7 @@ dotnet-runtime-7.0 \
     locales \
     lxc \
     lxc ca-certificates iptables \
+    nano \
     net-tools \
     nodejs \
     python-apt-common \
@@ -116,5 +128,3 @@ RUN cd git && git checkout v2.38.1 && sudo make prefix=/usr/local all && sudo ma
 RUN curl -sSL https://rover.apollo.dev/nix/latest | sh
 RUN corepack enable
 RUN corepack prepare yarn@stable --activate
-RUN curl -sSL https://github.com/vmware-tanzu/velero/releases/download/v1.11.1/velero-v1.11.1-linux-amd64.tar.gz | sudo tar -xvf -C /usr/local/bin/velero
-RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash

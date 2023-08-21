@@ -15,7 +15,6 @@
 
       "extensions": [
         "andrew-codes.jest-snippets",
-        "GitHub.vscode-pull-request-github",
         "bierner.github-markdown-preview",
         "bierner.markdown-yaml-preamble",
         "capaj.vscode-exports-autocomplete",
@@ -27,10 +26,12 @@
         "esbenp.prettier-vscode",
         "foxundermoon.shell-format",
         "fredwangwang.vscode-hcl-format",
+        "GitHub.copilot",
+        "github.vscode-github-actions",
+        "GitHub.vscode-pull-request-github",
         "Grafana.vscode-jsonnet",
         "hashicorp.terraform",
         "heptio.jsonnet",
-        "GitHub.copilot",
         "humao.rest-client",
         "influxdata.flux",
         "keesschollaart.vscode-home-assistant",
