@@ -35,17 +35,14 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withPersistentVolume('originals')
                    + lib.deployment.withPersistentVolume('photoprism-import')
                    + lib.deployment.withPersistentVolume('photoprism-export')
-                   + lib.deployment.withPersistentVolume('photoprism-storage')
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('originals', '/assets/photos/originals',))
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('photoprism-import', '/assets/photos/import',))
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('photoprism-export', '/assets/photos/export',))
-                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('photoprism-storage', '/photoprism/storage',))
 ;
 
-local originalsVolume = lib.volume.persistentVolume.new('originals', '600Gi');
-local photoprismVolumeImport = lib.volume.persistentVolume.new('photoprism-import', '150Gi');
-local photoprismVolumeExport = lib.volume.persistentVolume.new('photoprism-export', '150Gi');
-local photoprismStorageVolume = lib.volume.persistentVolume.new('photoprism-storage', '100Gi');
+local originalsPvc = lib.volume.persistentVolume.new('originals', '600Gi');
+local importPvc = lib.volume.persistentVolume.new('photoprism-import', '50Gi');
+local exportPvc = lib.volume.persistentVolume.new('photoprism-export', '200Gi');
 
 local dbContainer = k.core.v1.container.new(name='photoprismdb', image=std.extVar('dbImage'))
                     + k.core.v1.container.withImagePullPolicy('Always')
@@ -74,7 +71,7 @@ local dbService = k.core.v1.service.new('photoprism-db', { name: 'photoprism-db'
   targetPort: 'db',
 }],)
 ;
-local dbVolume = lib.volume.persistentVolume.new('photoprism-db', '200Gi');
+local dbDataPvc = lib.volume.persistentVolume.new('photoprism-db', '200Gi');
 
 
-originalsVolume + photoprismVolumeImport + photoprismVolumeExport + photoprismStorageVolume + dbVolume + [dbDeployment, dbService] + std.objectValues(deployment)
+originalsPvc + importPvc + exportPvc + dbDataPvc + [dbDeployment, dbService] + std.objectValues(deployment)
