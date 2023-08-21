@@ -205,13 +205,13 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                                                   ,)
 ;
 
-local paperlessVolumeData = lib.volume.persistentVolume.new('paperless-data', '300Gi');
-local paperlessVolumeMedia = lib.volume.persistentVolume.new('paperless-media', '400Gi');
-local paperlessVolumeExport = lib.volume.persistentVolume.new('paperless-export', '100Gi');
-local paperlessVolumeConsume = lib.volume.persistentVolume.new('paperless-consume', '100Gi');
+local paperlessPvc = lib.volume.persistentVolume.new('paperless-data', '300Gi');
+local paperlessMediaPvc = lib.volume.persistentVolume.new('paperless-media', '400Gi');
+local exportPvc = lib.volume.persistentVolume.new('paperless-export', '100Gi');
+local consumePvc = lib.volume.persistentVolume.new('paperless-consume', '100Gi');
 
-local postgresVolume = lib.volume.persistentVolume.new('paperless-postgres-db', '200Gi');
-local redisVolume = lib.volume.persistentVolume.new('paperless-redis', '80Gi');
+local dbDataPvc = lib.volume.persistentVolume.new('paperless-postgres-db', '200Gi');
+local redisDataPvc = lib.volume.persistentVolume.new('paperless-redis', '80Gi');
 
 
-paperlessVolumeData + paperlessVolumeMedia + paperlessVolumeExport + paperlessVolumeConsume + postgresVolume + redisVolume + std.objectValues(deployment)
+paperlessPvc + paperlessMediaPvc + exportPvc + consumePvc + dbDataPvc + redisDataPvc + std.objectValues(deployment)
