@@ -16,7 +16,7 @@ cd .secrets
 
 # Save the configuration from the secret if it is present
 if [ ! -z "${OPENVPN_CONFIG}" ]; then
-    echo "${OPENVPN_CONFIG}" >vpnconfig.ovpn
+    echo "${OPENVPN_CONFIG}" >.secrets/vpnconfig.ovpn
 fi
 
 # Save the configuration from the secret if it is present
@@ -40,7 +40,7 @@ fi
 
 # Save the configuration from the secret if it is present
 if [ ! -z "${VPN_CREDS}" ]; then
-    echo -e "${VPN_CREDS}" >vpn.creds
+    echo -e "${VPN_CREDS}" >.secrets/vpn.creds
 fi
 
 # Save the configuration from the secret if it is present

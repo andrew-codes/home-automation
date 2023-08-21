@@ -112,6 +112,7 @@ const configurationNames = [
   "k8s/main-node/ip",
   "k8s/name",
   "k8s/pod-network-cidr",
+  "k8s/config",
   "known-hosts",
   "mqtt/password",
   "mqtt/port/external",

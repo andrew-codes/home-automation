@@ -10,7 +10,7 @@
             "icon": "terminal-bash"
           }
         },
-        "workbench.colorTheme": "Default Dark+"
+        "workbench.colorTheme": "Dracula Pro"
       },
 
       "extensions": [

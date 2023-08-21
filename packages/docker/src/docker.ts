@@ -23,7 +23,7 @@ const createClient = async (
 
   await throwIfError(
     sh.exec(
-      `docker login ${registry.value} --username ${username.value} --password ${password.value}`,
+      `echo "${password.value} | "docker login ${registry.value} --username ${username.value}`,
       { silent: true },
     ),
   )
