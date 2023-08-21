@@ -14,7 +14,7 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('influxdb', '/var/lib/influxdb2',))
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('influxdb-config', '/etc/influxdb2',));
 
-local volumeData = lib.volume.persistentVolume.new('influxdb', '150Gi');
-local volumeConfig = lib.volume.persistentVolume.new('influxdb-config', '30Gi');
+local dataPvc = lib.volume.persistentVolume.new('influxdb', '150Gi');
+local configPvc = lib.volume.persistentVolume.new('influxdb-config', '30Gi');
 
-volumeData + volumeConfig + std.objectValues(deployment)
+dataPvc + configPvc + std.objectValues(deployment)
