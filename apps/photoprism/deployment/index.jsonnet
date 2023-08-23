@@ -63,7 +63,7 @@ local dbContainer = k.core.v1.container.new(name='photoprismdb', image=std.extVa
 ;
 local dbDeployment = k.apps.v1.deployment.new(name='photoprism-db', containers=[dbContainer],)
                      + k.apps.v1.deployment.spec.template.spec.withServiceAccount('app',)
-                     + { spec+: { template+: { spec+: { volumes: [k.core.v1.volume.fromPersistentVolumeClaim('photoprism-db', 'photoprism-db-pv-claim')] } } } };
+                     + { spec+: { template+: { spec+: { volumes: [k.core.v1.volume.fromPersistentVolumeClaim('photoprism-db', 'photoprism-db-pvc')] } } } };
 local dbService = k.core.v1.service.new('photoprism-db', { name: 'photoprism-db' }, [{
   name: 'db',
   port: 3306,
