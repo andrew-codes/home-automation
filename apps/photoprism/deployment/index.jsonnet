@@ -71,7 +71,20 @@ local dbService = k.core.v1.service.new('photoprism-db', { name: 'photoprism-db'
   targetPort: 'db',
 }],)
 ;
-local dbDataPvc = lib.volume.persistentVolume.new('photoprism-db', '200Gi');
+local dbDataPvc =  [
+          k.core.v1.persistentVolume.new('photoprism-db-pv')
+          + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
+          + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
+          + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
+          + k.core.v1.persistentVolume.spec.withCapacity({ storage: '200Gi' })
+          + k.core.v1.persistentVolume.spec.hostPath.withPath("/mnt/data/photoprism-db"),
+
+          k.core.v1.persistentVolumeClaim.new('photoprism-db-pvc')
+          + k.core.v1.persistentVolumeClaim.spec.withAccessModes('ReadWriteMany')
+          + k.core.v1.persistentVolumeClaim.spec.withStorageClassName('manual')
+          + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: '200Gi' }),
+        ]
+;
 
 
 originalsPvc + importPvc + exportPvc + dbDataPvc + [dbDeployment, dbService] + std.objectValues(deployment)
