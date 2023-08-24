@@ -28,6 +28,19 @@ local dataPvc = [
   + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: '150Gi' }),
 ]
 ;
-local configPvc = lib.volume.persistentVolume.new('influxdb-config', '30Gi');
+local configPvc = [
+  k.core.v1.persistentVolume.new('influxdb-config-pv')
+  + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
+  + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
+  + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
+  + k.core.v1.persistentVolume.spec.withCapacity({ storage: '30Gi' })
+  + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/influxdb-config'),
+
+  k.core.v1.persistentVolumeClaim.new('influxdb-config-pvc')
+  + k.core.v1.persistentVolumeClaim.spec.withAccessModes('ReadWriteMany')
+  + k.core.v1.persistentVolumeClaim.spec.withStorageClassName('manual')
+  + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: '30Gi' }),
+]
+;
 
 dataPvc + configPvc + std.objectValues(deployment)
