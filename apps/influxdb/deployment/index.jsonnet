@@ -14,7 +14,20 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('influxdb', '/var/lib/influxdb2',))
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('influxdb-config', '/etc/influxdb2',));
 
-local dataPvc = lib.volume.persistentVolume.new('influxdb', '150Gi');
+local dataPvc = [
+  k.core.v1.persistentVolume.new('influxdb-pv')
+  + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
+  + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
+  + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
+  + k.core.v1.persistentVolume.spec.withCapacity({ storage: '150Gi' })
+  + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/influxdb'),
+
+  k.core.v1.persistentVolumeClaim.new('influxdb-pvc')
+  + k.core.v1.persistentVolumeClaim.spec.withAccessModes('ReadWriteMany')
+  + k.core.v1.persistentVolumeClaim.spec.withStorageClassName('manual')
+  + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: '150Gi' }),
+]
+;
 local configPvc = lib.volume.persistentVolume.new('influxdb-config', '30Gi');
 
 dataPvc + configPvc + std.objectValues(deployment)
