@@ -3,3 +3,4 @@ apps/frigate
 apps/docker-registry
 apps/infrastructure*
 apps/crowdsec
+apps/photoprism
