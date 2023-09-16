@@ -11,7 +11,10 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                      nodeAffinity: {
                        requiredDuringSchedulingIgnoredDuringExecution: {
                          nodeSelectorTerms: [
-                           { matchExpressions: [{ key: 'beta.kubernetes.io/arch', operator: 'In', values: ['amd64'] }] },
+                           { matchExpressions: [
+                            { key: 'beta.kubernetes.io/arch', operator: 'In', values: ['amd64'] },
+                            { key: 'kubernetes.io/hostname', operator: 'In', values: ['k8s-node-01'] }
+                          ] },
                          ],
                        },
                      },
