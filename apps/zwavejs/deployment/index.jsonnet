@@ -12,7 +12,17 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withSecurityContext(0, { privileged: true, allowPrivilegeEscalation: true },)
                    + lib.deployment.withPort(0, std.extVar('name'), 'ws', 3000, std.extVar('wsPort'))
                    + lib.deployment.withPersistentVolume('zwave')
-                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('zwave', '/usr/src/app/store',));
+                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('zwave', '/usr/src/app/store',))
+                   + lib.deployment.withAffinity({
+                     nodeAffinity: {
+                       requiredDuringSchedulingIgnoredDuringExecution: {
+                         nodeSelectorTerms: [
+                           { matchExpressions: [{ key: 'kubernetes.io/hostname', operator: 'In', values: ['k8s-node-01'] }] },
+                         ],
+                       },
+                     },
+                   },)
+;
 
 local pvc = lib.volume.persistentVolume.new('zwave', '5Gi');
 
