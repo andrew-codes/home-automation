@@ -19,7 +19,7 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                      nodeAffinity: {
                        requiredDuringSchedulingIgnoredDuringExecution: {
                          nodeSelectorTerms: [
-                           { matchExpressions: [{ key: 'kubernetes.io/hostname', operator: 'In', values: ['k8s-node-01'] }] },
+                           { matchExpressions: [{ key: 'kubernetes.io/hostname', operator: 'In', values: ['k8s-main-node'] }] },
                          ],
                        },
                      },
