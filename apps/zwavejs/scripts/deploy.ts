@@ -1,8 +1,8 @@
-import path from "path"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
+import path from "path"
 import { name } from "./config"
 
 const run = async (
@@ -15,7 +15,7 @@ const run = async (
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      image: `zwavejs/zwavejs2mqtt:8.20.0`,
+      image: `zwavejs/zwave-js-ui:9.2.3`,
       name,
       secrets,
       port: parseInt(port_external.value),
