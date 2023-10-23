@@ -9874,6 +9874,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/kubectl", "workspace:packages/kubectl"],\
             ["@ha/nx-executors", "workspace:packages/nx-executors"],\
             ["@ha/shell-utils", "workspace:packages/shell-utils"],\
+            ["@types/shelljs", "npm:0.8.12"],\
             ["shelljs", "npm:0.8.5"]\
           ],\
           "linkType": "SOFT"\

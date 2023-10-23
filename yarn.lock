@@ -6208,6 +6208,7 @@ __metadata:
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/nx-executors": "workspace:^0.1.0"
     "@ha/shell-utils": "workspace:^1.0.0"
+    "@types/shelljs": ^0.8.5
     shelljs: ^0.8.5
   languageName: unknown
   linkType: soft

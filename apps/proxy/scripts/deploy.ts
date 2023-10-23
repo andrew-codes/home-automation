@@ -1,9 +1,8 @@
+import type { ConfigurationApi } from "@ha/configuration-api"
+import type { Configuration } from "@ha/configuration-workspace"
 import fs from "fs/promises"
 import path from "path"
 import sh from "shelljs"
-import type { ConfigurationApi } from "@ha/configuration-api"
-import type { Configuration } from "@ha/configuration-workspace"
-import { throwIfError } from "@ha/shell-utils"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
@@ -18,11 +17,7 @@ const run = async (
     "home-assistant/ssh-key/public",
   )
 
-  await throwIfError(
-    sh.exec(`mkdir -p ${path.join(__dirname, "..", ".secrets")};`, {
-      silent: true,
-    }),
-  )
+  await sh.mkdir(`${path.join(__dirname, "..", ".secrets")}`)
 
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "ansible-secrets.yml"),
