@@ -46,7 +46,7 @@ const throwIfError = async (
       }
     } catch (error) {
       logger.info(error)
-      reject(error.toString())
+      reject(error)
     }
   })
 
