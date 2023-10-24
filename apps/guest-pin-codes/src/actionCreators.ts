@@ -1,15 +1,14 @@
 import {
-  SetDoorLocks,
-  FetchEventsAction,
   CreateGuestSlotsAction,
-  AssignGuestSlotAction,
+  EventFetchAction,
+  SetDoorLocks,
   SetGuestWifiNetworkInformationAction,
   SetPinsInPoolAction,
 } from "./actions"
 
-const fetchEvents = (): FetchEventsAction => {
+const fetchEvents = (): EventFetchAction => {
   return {
-    type: "FETCH_EVENTS",
+    type: "EVENT/FETCH",
   }
 }
 
@@ -34,29 +33,6 @@ const setPinsInPool = (codes: string[]): SetPinsInPoolAction => ({
   payload: codes,
 })
 
-const assignGuestSlot = (
-  title: string,
-  slotId: string,
-  eventId: string,
-  start: Date,
-  end: Date,
-  pin: string,
-  timeZone: string,
-  guestNetwork: { ssid: string; passPhrase: string } | null,
-): AssignGuestSlotAction => ({
-  type: "ASSIGN_GUEST_SLOT",
-  payload: {
-    title,
-    slotId,
-    eventId,
-    start,
-    end,
-    pin,
-    timeZone,
-    guestNetwork: guestNetwork ?? undefined,
-  },
-})
-
 const setGuestWifiNetworkInformation = (
   ssid: string,
   passPhrase: string,
@@ -70,7 +46,6 @@ const setGuestWifiNetworkInformation = (
 export {
   setPinsInPool,
   addDoorLocks,
-  assignGuestSlot,
   fetchEvents,
   createGuestSlots,
   setGuestWifiNetworkInformation,

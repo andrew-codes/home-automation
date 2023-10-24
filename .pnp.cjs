@@ -9180,6 +9180,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/http-heartbeat", "workspace:packages/http-heartbeat"],\
             ["@ha/jsonnet", "workspace:packages/jsonnet"],\
             ["@ha/kubectl", "workspace:packages/kubectl"],\
+            ["@ha/logger", "workspace:packages/logger"],\
             ["@ha/mqtt-client", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/mqtt-client"],\
             ["@ha/nx-executors", "workspace:packages/nx-executors"],\
             ["@ha/unifi-client", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/unifi-client"],\
@@ -9197,6 +9198,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
             ["jest-when", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:3.5.2"],\
             ["lodash", "npm:4.17.21"],\
+            ["mongodb", "npm:4.6.0"],\
             ["node-unifi", "npm:2.2.2"],\
             ["nodemon", "npm:2.0.20"],\
             ["react", "npm:18.2.0"],\

@@ -1,8 +1,8 @@
 import { merge } from "lodash"
 import {
-  setPinsInPool,
   createGuestSlots,
   setGuestWifiNetworkInformation,
+  setPinsInPool,
 } from "../actionCreators"
 import reducer, { defaultState, State } from "../reducer"
 

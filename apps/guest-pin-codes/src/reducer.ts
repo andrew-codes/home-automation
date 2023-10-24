@@ -1,21 +1,22 @@
-import { isEmpty, merge } from "lodash"
+import { merge } from "lodash"
 import { AnyAction } from "./actions"
 
+type CalendarEvent = {
+  id: string
+  start: string
+  end: string
+  pin: string
+  title: string
+  calendarId: string
+}
 type Slot = {
   id: string
   eventId: string
-  pin: string
-  guestNetwork?: {
-    ssid: string
-    passPhrase: string
-  }
-  start: string
-  end: string
 }
 type State = {
-  assignedEventIds: string[]
   pins: string[]
   doorLocks: string[]
+  events: Record<string, CalendarEvent>
   guestSlots: Record<string, Slot | null>
   guestNetwork?: {
     ssid: string
@@ -23,23 +24,24 @@ type State = {
   }
 }
 const defaultState: State = {
-  assignedEventIds: [],
   pins: [],
   doorLocks: [],
+  events: {},
   guestSlots: {},
 }
-
-const hasValue = (value: string) =>
-  !isEmpty(value) &&
-  value.toLowerCase() !== "unknown" &&
-  value.toLowerCase() !== "unavailable"
 
 const reducer = (
   state: State | undefined = defaultState,
   action: AnyAction,
 ): State => {
-  let newState = merge({}, state)
   switch (action.type) {
+    case "EVENT/NEW":
+    case "EVENT/TITLE_CHANGE":
+    case "EVENT/TIME_CHANGE":
+      return merge({}, state, {
+        events: { [action.payload.eventId]: action.payload },
+      })
+
     case "SET_PINS_IN_POOL":
       return merge({}, state, { pins: action.payload })
 
@@ -51,60 +53,12 @@ const reducer = (
           .reduce((acc, val) => merge(acc, { [val]: null }), {}),
       })
 
-    case "SET_GUEST_SLOTS":
-      if (isEmpty(action.payload)) {
-        return newState
-      }
-
-      const activeSlots = action.payload.filter(
-        (slot) => hasValue(slot.eventId) && hasValue(slot.pin),
-      )
-      activeSlots.forEach((slot) => {
-        newState.guestSlots[slot.slotId.toString()] = {
-          id: slot.slotId.toString(),
-          eventId: slot.eventId,
-          pin: slot.pin,
-          guestNetwork: slot.guestNetwork,
-          start: slot.start.toISOString(),
-          end: slot.end.toISOString(),
-        }
-      })
-      newState.assignedEventIds = activeSlots.map((slot) => slot.eventId)
-      const activePins = activeSlots.map((slot) => slot.pin)
-      newState.pins = newState.pins.filter((pin) => !activePins.includes(pin))
-
-      return newState
-
     case "SET_DOOR_LOCKS":
       return merge({}, state, { doorLocks: action.payload })
 
     case "SET_GUEST_WIFI_NETWORK_INFORMATION": {
       return merge({}, state, { guestNetwork: action.payload })
     }
-
-    case "ASSIGN_GUEST_SLOT": {
-      return merge({}, state, {
-        guestSlots: {
-          [action.payload.slotId]: {
-            id: action.payload.slotId,
-            eventId: action.payload.eventId,
-            pin: action.payload.pin,
-            guestNetwork: action.payload.guestNetwork,
-            start: action.payload.start.toISOString(),
-            end: action.payload.end.toISOString(),
-          },
-        },
-        pins: state.pins.filter((pin) => pin !== action.payload.pin),
-      })
-    }
-
-    case "FREE_SLOTS":
-      Object.entries(state.guestSlots).forEach(([slotId]) => {
-        if (action.payload.includes(slotId)) {
-          newState.guestSlots[slotId] = null
-        }
-      })
-      return newState
 
     default:
       return state
@@ -113,4 +67,4 @@ const reducer = (
 
 export default reducer
 export { defaultState }
-export type { Slot, State }
+export type { CalendarEvent, Slot, State }

@@ -1,27 +1,68 @@
+type EventFetchAction = {
+  type: "EVENT/FETCH"
+  payload: {
+    calendarId: string
+  }
+}
+
+type EventNewAction = {
+  type: "EVENT/NEW"
+  payload: {
+    eventId: string
+    calendarId: string
+    pin: string
+    start: Date
+    end: Date
+    title: string
+  }
+}
+
+type EventRegisterRemovalProcessAction = {
+  type: "EVENT/REGISTER_REMOVAL_PROCESS"
+  payload: {
+    calendarId: string
+    eventId: string
+    pid: number
+  }
+}
+
+type EventTimeChangeAction = {
+  type: "EVENT/TIME_CHANGE"
+  payload: {
+    calendarId: string
+    eventId: string
+    start: Date
+    end: Date
+  }
+}
+
+type EventTitleChangeAction = {
+  type: "EVENT/TITLE_CHANGE"
+  payload: {
+    calendarId: string
+    eventId: string
+    title: string
+  }
+}
+
+type EventRemoveAction = {
+  type: "EVENT/REMOVE"
+  payload: {
+    calendarId: string
+    eventId: string
+  }
+}
+
+type ErrorAction = {
+  type: "ERROR"
+  payload: {
+    error: Error | string
+  }
+}
+
 type SetPinsInPoolAction = {
   type: "SET_PINS_IN_POOL"
   payload: string[]
-}
-
-type SetGuestSlotsAction = {
-  type: "SET_GUEST_SLOTS"
-  payload: {
-    slotId: number
-    eventId: string
-    pin: string
-    guestNetwork?: { ssid: string; passPhrase: string }
-    start: Date
-    end: Date
-  }[]
-}
-
-type SetDoorLocks = {
-  type: "SET_DOOR_LOCKS"
-  payload: string[]
-}
-
-type FetchEventsAction = {
-  type: "FETCH_EVENTS"
 }
 
 type CreateGuestSlotsAction = {
@@ -29,33 +70,6 @@ type CreateGuestSlotsAction = {
   payload: {
     guestSlotOffset: number
     numberOfGuestSlots: number
-  }
-}
-
-type AssignGuestSlotAction = {
-  type: "ASSIGN_GUEST_SLOT"
-  payload: {
-    title: string
-    slotId: string
-    eventId: string
-    start: Date
-    end: Date
-    pin: string
-    timeZone: string
-    guestNetwork?: { ssid: string; passPhrase: string }
-  }
-}
-
-type FreeSlotsAction = {
-  type: "FREE_SLOTS"
-  payload: string[]
-}
-
-type PostEventUpdateAction = {
-  type: "POST_EVENT_UPDATE"
-  payload: {
-    eventId: string
-    pin?: string
   }
 }
 
@@ -67,26 +81,35 @@ type SetGuestWifiNetworkInformationAction = {
   }
 }
 
+type SetDoorLocks = {
+  type: "SET_DOOR_LOCKS"
+  payload: string[]
+}
+
 type AnyAction =
-  | FreeSlotsAction
-  | SetDoorLocks
-  | AssignGuestSlotAction
-  | FetchEventsAction
-  | PostEventUpdateAction
-  | SetPinsInPoolAction
   | CreateGuestSlotsAction
+  | ErrorAction
+  | EventFetchAction
+  | EventNewAction
+  | EventRegisterRemovalProcessAction
+  | EventRemoveAction
+  | EventTimeChangeAction
+  | EventTitleChangeAction
+  | SetDoorLocks
   | SetGuestWifiNetworkInformationAction
-  | SetGuestSlotsAction
+  | SetPinsInPoolAction
 
 export type {
-  FreeSlotsAction,
-  SetDoorLocks,
   AnyAction,
-  AssignGuestSlotAction,
-  FetchEventsAction,
-  PostEventUpdateAction,
-  SetPinsInPoolAction,
   CreateGuestSlotsAction,
+  ErrorAction,
+  EventFetchAction,
+  EventNewAction,
+  EventRegisterRemovalProcessAction,
+  EventRemoveAction,
+  EventTimeChangeAction,
+  EventTitleChangeAction,
+  SetDoorLocks,
   SetGuestWifiNetworkInformationAction,
-  SetGuestSlotsAction,
+  SetPinsInPoolAction,
 }
