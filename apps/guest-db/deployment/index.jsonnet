@@ -5,19 +5,19 @@ local deployment = lib.deployment.new('guest-db', std.extVar('image'), '', '', '
                    + lib.deployment.withPersistentVolume('guest-db')
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('guest-db', '/data/db',));
 
-local gameLibraryDbVolume = [
-          k.core.v1.persistentVolume.new('guest-db-2-pv')
-          + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
-          + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
-          + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
-          + k.core.v1.persistentVolume.spec.withCapacity({ storage: '5Gi' })
-          + k.core.v1.persistentVolume.spec.hostPath.withPath("/mnt/data/guest-db-2"),
+local guestDbVolume = [
+  k.core.v1.persistentVolume.new('guest-db-pv')
+  + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
+  + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
+  + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
+  + k.core.v1.persistentVolume.spec.withCapacity({ storage: '5Gi' })
+  + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/guest-db-2'),
 
-          k.core.v1.persistentVolumeClaim.new('guest-db-2-pvc')
-          + k.core.v1.persistentVolumeClaim.spec.withAccessModes('ReadWriteMany')
-          + k.core.v1.persistentVolumeClaim.spec.withStorageClassName('manual')
-          + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: '5Gi' }),
-        ]
+  k.core.v1.persistentVolumeClaim.new('guest-db-pvc')
+  + k.core.v1.persistentVolumeClaim.spec.withAccessModes('ReadWriteMany')
+  + k.core.v1.persistentVolumeClaim.spec.withStorageClassName('manual')
+  + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: '5Gi' }),
+]
 ;
 
-std.objectValues(deployment) + gameLibraryDbVolume
+std.objectValues(deployment) + guestDbVolume
