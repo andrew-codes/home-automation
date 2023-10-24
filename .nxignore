@@ -1,6 +1,12 @@
-apps/k8s
-apps/frigate
-apps/docker-registry
-apps/infrastructure*
 apps/crowdsec
+apps/docker-registry
+apps/frigate
+apps/grafana
+apps/infrastructure*
+apps/k8s
+apps/metrics
+apps/paperless
 apps/photoprism
+apps/playnite-library-exporter
+apps/playnite-mqtt
+apps/samba
