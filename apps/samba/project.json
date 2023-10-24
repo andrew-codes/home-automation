@@ -20,5 +20,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["secrets", "paperless"]
+  "implicitDependencies": ["secrets"]
 }
