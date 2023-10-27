@@ -46,8 +46,6 @@ const app = async (
     return aStart - bStart
   })
 
-  console.log(chronologicallySortedEvents)
-
   chronologicallySortedEvents.forEach((calendarEvent) => {
     store.dispatch({
       type: "EVENT/NEW",

@@ -8,7 +8,6 @@ import { getCandidateSlots, getEvents } from "../selectors"
 function* assignEvent(action: EventRemoveAction | EventNewAction) {
   try {
     const slots: Slot[] = yield select(getCandidateSlots)
-
     const slotToAssign = slots[0] ?? null
     if (slotToAssign === null) {
       return
@@ -19,14 +18,13 @@ function* assignEvent(action: EventRemoveAction | EventNewAction) {
     let calendarEvent = nextUpcomingExistingCalendarEvent
     if (
       action.type === "EVENT/NEW" &&
-      new Date(action.payload.start) <
-        new Date(nextUpcomingExistingCalendarEvent.start)
+      new Date(action.payload.start).getTime() <
+        new Date(nextUpcomingExistingCalendarEvent.start).getTime()
     ) {
       calendarEvent = merge({}, action.payload, {
         id: action.payload.eventId,
       })
     }
-
     if (calendarEvent === null) {
       return
     }

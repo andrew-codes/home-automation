@@ -174,7 +174,6 @@ test("Once the app is started, fetch events is dispatched and then, on every 5th
 test("Fetch events is not dispatched unless the app is started", async () => {
   ;(createStore as jest.Mock).mockReturnValue(store)
   await createApp("front_door,back_door", 1, 5, calendarId)
-  console.dir(store.dispatch.mock.calls)
   expect(store.dispatch.mock.calls).not.toContainEqual(
     expect.arrayContaining([
       expect.objectContaining({ type: "EVENT/FETCH", payload: { calendarId } }),

@@ -3,34 +3,22 @@ import { renderToString } from "react-dom/server"
 import { call, put, select } from "redux-saga/effects"
 import { EventNewAction } from "../actions"
 import getClient from "../graphClient"
-import type { CalendarEvent } from "../reducer"
-import { getEvents, getGuestWifiNetwork } from "../selectors"
+import { getGuestWifiNetwork } from "../selectors"
 
 function* updateCalendarEventWithPin(action: EventNewAction) {
   try {
-    const { calendarId, eventId } = action.payload
+    const { calendarId, eventId, pin } = action.payload
     const client = getClient()
     const eventApi = client.api(`/users/${calendarId}/events/${eventId}`)
-    const { default: CalendarInviteBody } = require("./CalendarInviteBody")
-
-    const calendarEvents: CalendarEvent[] = yield select(getEvents)
-    const calendarEvent = calendarEvents.find(
-      (calendarEvent) =>
-        calendarEvent.calendarId === calendarId &&
-        calendarEvent.eventId === eventId,
-    )
-
-    if (!calendarEvent) {
-      throw new Error(`Calendar event not found: ${calendarId}/${eventId}`)
-    }
 
     const guestWifi = yield select(getGuestWifiNetwork)
+    const { default: CalendarInviteBody } = require("../CalendarInviteBody")
     yield call([eventApi, eventApi.patch], {
       body: {
         contentType: "html",
         content: renderToString(
           React.createElement(CalendarInviteBody, {
-            pin: calendarEvent.pin,
+            pin,
             guestWifiSsid: guestWifi?.ssid,
             guestWifiPassPhrase: guestWifi?.passPhrase,
           }),

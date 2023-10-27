@@ -24,8 +24,6 @@ const getAvailablePins = createSelector(
     ),
 )
 
-const getNextPin = createSelector(getAvailablePins, (pins) => pins[0])
-
 const getLockSlots: Selector<State, Slot[]> = (state) =>
   Object.values(state.guestSlots).filter((slot) => !!slot) as Slot[]
 
@@ -59,5 +57,5 @@ const getGuestWifiNetwork: Selector<
   { ssid: string; passPhrase: string } | null
 > = (state) => state.guestNetwork ?? null
 
-export { getNextPin, getEvents, getCandidateSlots, getGuestWifiNetwork }
+export { getAvailablePins, getEvents, getCandidateSlots, getGuestWifiNetwork }
 export type { Entry }

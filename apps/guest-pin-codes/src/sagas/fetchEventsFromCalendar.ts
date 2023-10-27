@@ -1,42 +1,39 @@
+import { isEmpty } from "lodash"
 import { call, put, select } from "redux-saga/effects"
 import { EventFetchAction } from "../actions"
 import getClient from "../graphClient"
 import { CalendarEvent } from "../reducer"
-import { getEvents, getNextPin } from "../selectors"
+import { getAvailablePins, getEvents } from "../selectors"
 
 function* fetchEventsFromCalendar(action: EventFetchAction) {
   try {
     const { calendarId } = action.payload
     const client = getClient()
     const eventsApi = client.api(`/users/${calendarId}/events`)
-    const { value: calendarEvents } = yield call([eventsApi, eventsApi.get])
+    const { value: calendarEvents }: { value?: any[] } = yield call([
+      eventsApi,
+      eventsApi.get,
+    ])
 
     const knownEvents: CalendarEvent[] = yield select(getEvents)
 
-    const eventsWithUpdatedTitle = calendarEvents.filter((calendarEvent) =>
-      knownEvents.some(
-        (knownEvent) =>
-          knownEvent.eventId === calendarEvent.id &&
-          knownEvent.title !== calendarEvent.subject,
-      ),
-    )
-    const eventsWithUpdatedTime = calendarEvents.filter((calendarEvent) =>
-      knownEvents.some(
-        (knownEvent) =>
-          knownEvent.eventId === calendarEvent.id &&
-          knownEvent.start !== calendarEvent.start.dateTime &&
-          knownEvent.end !== calendarEvent.end.dateTime,
-      ),
-    )
-    const newEvents = calendarEvents.filter(
-      (calendarEvent) =>
-        !knownEvents.some(
-          (knownEvent) =>
+    const existingEvents =
+      knownEvents?.filter((knownEvent) =>
+        calendarEvents?.some(
+          (calendarEvent) =>
             knownEvent.eventId === calendarEvent.id &&
             knownEvent.calendarId === calendarId,
         ),
-    )
+      ) ?? []
 
+    const eventsWithUpdatedTitle =
+      calendarEvents?.filter((calendarEvent) =>
+        existingEvents.some(
+          (knownEvent) =>
+            knownEvent.eventId === calendarEvent.id &&
+            knownEvent.title !== calendarEvent.subject,
+        ),
+      ) ?? []
     for (const calendarEvent of eventsWithUpdatedTitle) {
       yield put({
         type: "EVENT/TITLE_CHANGE",
@@ -47,6 +44,16 @@ function* fetchEventsFromCalendar(action: EventFetchAction) {
         },
       })
     }
+
+    const eventsWithUpdatedTime =
+      calendarEvents?.filter((calendarEvent) =>
+        existingEvents.some(
+          (knownEvent) =>
+            knownEvent.eventId === calendarEvent.id &&
+            knownEvent.start !== calendarEvent.start.dateTime &&
+            knownEvent.end !== calendarEvent.end.dateTime,
+        ),
+      ) ?? []
     for (const calendarEvent of eventsWithUpdatedTime) {
       yield put({
         type: "EVENT/TIME_CHANGE",
@@ -58,12 +65,28 @@ function* fetchEventsFromCalendar(action: EventFetchAction) {
         },
       })
     }
+
+    const newEvents =
+      calendarEvents?.filter(
+        (calendarEvent) =>
+          !knownEvents.some(
+            (knownEvent) =>
+              knownEvent.eventId === calendarEvent.id &&
+              knownEvent.calendarId === calendarId,
+          ),
+      ) ?? []
+
+    if (isEmpty(newEvents)) {
+      return ``
+    }
+
+    const availablePins = yield select(getAvailablePins)
+    let index = 0
     for (const calendarEvent of newEvents) {
-      const pin = yield select(getNextPin)
       yield put({
         type: "EVENT/NEW",
         payload: {
-          pin: pin,
+          pin: availablePins[index],
           calendarId,
           eventId: calendarEvent.id,
           title: calendarEvent.subject,
@@ -71,6 +94,7 @@ function* fetchEventsFromCalendar(action: EventFetchAction) {
           end: calendarEvent.end.dateTime,
         },
       })
+      index += 1
     }
   } catch (error) {
     yield put({ type: "ERROR", payload: { error } })
