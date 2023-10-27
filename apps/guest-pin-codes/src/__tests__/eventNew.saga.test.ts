@@ -104,9 +104,12 @@ test(`New events are persisted.`, () => {
     ])
     .dispatch(newEventAction)
     .run()
-    .then((result) => {
-      const { allEffects } = result
+    .then(async (result) => {
+      const client = await getClient()
+      expect(client.db).toHaveBeenCalledWith("guests")
+      expect(client.db().collection).toHaveBeenCalledWith("events")
 
+      const { allEffects } = result
       expect(allEffects).toContainEqual(
         expect.objectContaining({
           type: "CALL",
@@ -157,6 +160,7 @@ test(`MQTT message for slot assignment is the first known event when its start i
         expect.objectContaining({
           type: "CALL",
           payload: expect.objectContaining({
+            fn: publish,
             args: expect.arrayContaining([
               `guest/slot/1/set`,
               expect.stringContaining('"pin":"4567"'),
@@ -169,6 +173,7 @@ test(`MQTT message for slot assignment is the first known event when its start i
         expect.objectContaining({
           type: "CALL",
           payload: expect.objectContaining({
+            fn: publish,
             args: expect.arrayContaining([
               `guest/slot/1/set`,
               expect.stringContaining('"title":"Earlier event"'),
@@ -181,6 +186,7 @@ test(`MQTT message for slot assignment is the first known event when its start i
         expect.objectContaining({
           type: "CALL",
           payload: expect.objectContaining({
+            fn: publish,
             args: expect.arrayContaining([
               `guest/slot/1/set`,
               expect.stringContaining('"slotId":1'),
@@ -193,6 +199,7 @@ test(`MQTT message for slot assignment is the first known event when its start i
         expect.objectContaining({
           type: "CALL",
           payload: expect.objectContaining({
+            fn: publish,
             args: expect.arrayContaining([
               `guest/slot/1/set`,
               expect.stringContaining('"start":"2022-07-06T00:00:00.0000000"'),
@@ -205,6 +212,7 @@ test(`MQTT message for slot assignment is the first known event when its start i
         expect.objectContaining({
           type: "CALL",
           payload: expect.objectContaining({
+            fn: publish,
             args: expect.arrayContaining([
               `guest/slot/1/set`,
               expect.stringContaining('"end":"2023-07-06T00:00:00.0000000"'),
@@ -300,4 +308,27 @@ test(`MQTT message for slot assignment is the new event when its start is before
         }),
       )
     })
+})
+
+test(`SLOT/ASSIGN action is dispatched with the event to be assigned`, () => {
+  return expectSaga(sagas)
+    .provide([
+      [matchers.select(getGuestWifiNetwork), { ssid: "1", passPhrase: "2" }],
+      [matchers.call.like({ context: api, fn: api.patch }), {}],
+      [matchers.select(getCandidateSlots), [{ id: 1 }]],
+      [
+        matchers.select(getEvents),
+        [
+          {
+            start: "2024-07-06T00:00:00.0000000",
+            end: "2024-07-06T00:00:00.0000000",
+            pin: "4567",
+            title: "Earlier event",
+          },
+        ],
+      ],
+    ])
+    .put({ type: "SLOT/ASSIGN", payload: { calendarId, eventId, slotId: 1 } })
+    .dispatch(newEventAction)
+    .run()
 })

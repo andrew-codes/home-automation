@@ -1,7 +1,9 @@
+import { configureStore } from "@reduxjs/toolkit"
 import { CronJob } from "cron"
 import createDebugger from "debug"
+import { merge } from "lodash"
 import { WithId } from "mongodb"
-import { applyMiddleware, createStore, Store } from "redux"
+import { type Store } from "redux"
 import createSagaMiddleware from "redux-saga"
 import {
   addDoorLocks,
@@ -23,8 +25,27 @@ const app = async (
   calendarId: string,
 ): Promise<{ store: Store; start: () => Promise<void> }> => {
   debug("Started")
+  const dbClient = await getClient()
+  const guestEvents = dbClient.db("guests").collection("events")
+  const events = await guestEvents
+    .find<WithId<Document> & CalendarEvent>({ calendarId })
+    .toArray()
+  const eventState = events.reduce(
+    (acc, event) =>
+      merge({}, acc, {
+        [`${event.calendarId}:${event.eventId}`]: event,
+      }),
+    {},
+  )
+
   const sagaMiddleware = createSagaMiddleware()
-  const store = createStore(reducer, applyMiddleware(sagaMiddleware))
+  const store = configureStore({
+    reducer,
+    middleware: (gDm) => gDm().concat(sagaMiddleware),
+    preloadedState: {
+      events: eventState,
+    },
+  })
   sagaMiddleware.run(sagas)
 
   debug(
@@ -33,25 +54,6 @@ const app = async (
   store.dispatch(createGuestSlots(numberOfGuestCodes, guestCodeOffset))
   store.dispatch(addDoorLocks(doorLocks.split(",").filter((lock) => !!lock)))
   store.dispatch(setPinsInPool(candidateCodes()))
-
-  const dbClient = await getClient()
-  const guestEvents = dbClient.db("guests").collection("events")
-  const events = await guestEvents
-    .find<WithId<Document> & CalendarEvent>({ calendarId })
-    .toArray()
-  const chronologicallySortedEvents = events.sort((a, b) => {
-    const aStart = new Date(a.start).getTime()
-    const bStart = new Date(b.start).getTime()
-
-    return aStart - bStart
-  })
-
-  chronologicallySortedEvents.forEach((calendarEvent) => {
-    store.dispatch({
-      type: "EVENT/NEW",
-      payload: calendarEvent,
-    })
-  })
 
   return {
     store,
