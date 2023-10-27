@@ -2,7 +2,7 @@ import { merge } from "lodash"
 import { AnyAction } from "./actions"
 
 type CalendarEvent = {
-  id: string
+  eventId: string
   start: string
   end: string
   pin: string
@@ -12,6 +12,7 @@ type CalendarEvent = {
 type Slot = {
   id: string
   eventId: string
+  calendarId: string
 }
 type State = {
   pins: string[]
@@ -38,8 +39,26 @@ const reducer = (
     case "EVENT/NEW":
     case "EVENT/TITLE_CHANGE":
     case "EVENT/TIME_CHANGE":
+      const eventUpdateId = `${action.payload.calendarId}:${action.payload.eventId}`
       return merge({}, state, {
-        events: { [action.payload.eventId]: action.payload },
+        events: { [eventUpdateId]: action.payload },
+      })
+
+    case "EVENT/REMOVE":
+      const eventRemoveId = `${action.payload.calendarId}:${action.payload.eventId}`
+      const removeEventState = merge({}, state)
+      delete removeEventState.events[eventRemoveId]
+      return removeEventState
+
+    case "SLOT/ASSIGN":
+      return merge({}, state, {
+        slots: {
+          [action.payload.slotId]: {
+            id: action.payload.slotId,
+            eventId: action.payload.eventId,
+            calendarId: action.payload.calendarId,
+          },
+        },
       })
 
     case "SET_PINS_IN_POOL":

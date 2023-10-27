@@ -16,7 +16,8 @@ function* updateCalendarEventWithPin(action: EventNewAction) {
     const calendarEvents: CalendarEvent[] = yield select(getEvents)
     const calendarEvent = calendarEvents.find(
       (calendarEvent) =>
-        calendarEvent.calendarId === calendarId && calendarEvent.id === eventId,
+        calendarEvent.calendarId === calendarId &&
+        calendarEvent.eventId === eventId,
     )
 
     if (!calendarEvent) {

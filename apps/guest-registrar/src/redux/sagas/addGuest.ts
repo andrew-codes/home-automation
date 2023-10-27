@@ -1,9 +1,9 @@
 import { createLogger } from "@ha/logger"
+import { MongoClient, UpdateResult } from "mongodb"
 import { call, put } from "redux-saga/effects"
-import { Collection, MongoClient, UpdateResult } from "mongodb"
 import getMongoDbClient from "../../dbClient"
-import { AddGuestAction } from "../types"
 import { updateMacs } from "../actionCreators"
+import { AddGuestAction } from "../types"
 
 const logger = createLogger()
 

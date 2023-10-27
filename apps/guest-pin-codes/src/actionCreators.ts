@@ -6,9 +6,12 @@ import {
   SetPinsInPoolAction,
 } from "./actions"
 
-const fetchEvents = (): EventFetchAction => {
+const fetchEvents = (calendarId: string): EventFetchAction => {
   return {
     type: "EVENT/FETCH",
+    payload: {
+      calendarId,
+    },
   }
 }
 

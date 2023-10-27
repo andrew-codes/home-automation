@@ -1,70 +1,62 @@
 import { createHeartbeat } from "@ha/http-heartbeat"
 import { createMqtt } from "@ha/mqtt-client"
-import { isEmpty, merge } from "lodash"
 import createDebugger from "debug"
-import createApp from "./app"
 import { setGuestWifiNetworkInformation } from "./actionCreators"
+import createApp from "./app"
 
-const {
-  GUEST_PIN_CODES_DOOR_LOCKS,
-  GUEST_PIN_CODES_GUEST_CODE_INDEX_OFFSET,
-  GUEST_PIN_CODES_NUMBER_OF_GUEST_CODES,
-} = process.env
 const debug = createDebugger("@ha/guest-pin-codes/index")
 
 const run = async () => {
   debug("Started")
+
+  const {
+    GUEST_PIN_CODES_CALENDAR_ID,
+    GUEST_PIN_CODES_DOOR_LOCKS,
+    GUEST_PIN_CODES_GUEST_CODE_INDEX_OFFSET,
+    GUEST_PIN_CODES_NUMBER_OF_GUEST_CODES,
+  } = process.env
+
+  if (!GUEST_PIN_CODES_CALENDAR_ID) {
+    debug("No Calendar ID; exiting")
+
+    return
+  }
+
   await createHeartbeat()
 
   const app = await createApp(
     GUEST_PIN_CODES_DOOR_LOCKS ?? "",
     Number(GUEST_PIN_CODES_GUEST_CODE_INDEX_OFFSET),
     Number(GUEST_PIN_CODES_NUMBER_OF_GUEST_CODES),
+    GUEST_PIN_CODES_CALENDAR_ID,
   )
-  let appStarted = false
 
   const mqtt = await createMqtt()
-  mqtt.subscribe("guest/slot/all/state/set", { qos: 1 })
-  mqtt.subscribe("homeassistant/sensor/+/set")
-  const topicRegEx = /^homeassistant\/sensor\/guest_wifi_(.*)\/state$/
+  mqtt.subscribe("homeassistant/sensor/+/set", { qos: 1 })
+  mqtt.subscribe("homeassistant/guest/slot/+/remove", { qos: 1 })
+
+  const matchesSetGuestWifiTopic = (topic) =>
+    /^homeassistant\/sensor\/guest_wifi_(.*)\/set$/.test(topic)
+  const matchesSlotRemoval = (topic) =>
+    /^homeassistant\/guest\/slot\/(\d+)\/remove$/.test(topic)
+
   mqtt.on("message", (topic, message) => {
-    if (topic === "guest/slot/all/state/set") {
-      const { slots, guestWifi } = JSON.parse(message.toString())
-      app.store.dispatch(
-        setGuestWifiNetworkInformation(guestWifi.ssid, guestWifi.passPhrase),
-      )
-      app.store.dispatch({
-        type: "SET_GUEST_SLOTS",
-        payload: slots.map((slot: any) =>
-          merge({}, slot, {
-            guestNetwork: guestWifi,
-            start: new Date(slot.start),
-            end: new Date(slot.end),
-          }),
-        ),
-      })
-
-      if (appStarted) {
-        return
-      }
-
-      app.start()
-      appStarted = true
-      return
-    }
-
-    if (!appStarted) {
-      return
-    }
-
-    const matches = topicRegEx.exec(topic)
-    if (!isEmpty(matches)) {
+    if (matchesSetGuestWifiTopic(topic)) {
       const { ssid, passPhrase } = JSON.parse(message.toString())
       app.store.dispatch(setGuestWifiNetworkInformation(ssid, passPhrase))
     }
+
+    if (matchesSlotRemoval(topic)) {
+      app.store.dispatch({
+        type: "SLOT/REMOVE",
+        payload: {
+          slotId: message.toString(),
+        },
+      })
+    }
   })
 
-  mqtt.publish("guest/started", "", { qos: 1 })
+  app.start()
 }
 
 if (require.main === module) {

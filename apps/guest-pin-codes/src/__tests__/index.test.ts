@@ -21,78 +21,57 @@ beforeEach(() => {
   ;(createApp as jest.Mock).mockResolvedValue({ store, start })
 })
 
+beforeEach(() => {
+  process.env.GUEST_PIN_CODES_CALENDAR_ID = "cal_id"
+})
+
+test("Exits early if no Calendar ID is provided.", async () => {
+  delete process.env.GUEST_PIN_CODES_CALENDAR_ID
+  await run()
+
+  expect(createHeartbeat).not.toBeCalled()
+})
+
+test("Starts app.", async () => {
+  await run()
+  expect(start).toHaveBeenCalled()
+})
+
 test("sets up a heartbeat health check", async () => {
   await run()
 
   expect(createHeartbeat).toBeCalled()
 })
 
-test("subscribes to topic to initialize store with existing guest slots", async () => {
-  await run()
-
-  expect(mqttClient.subscribe).toBeCalledWith("guest/slot/all/state/set", {
-    qos: 1,
-  })
-})
-
-test("Slots are set and the app is then started upon receiving the guest/slot/all/state/set message", async () => {
+test("Guest Wifi change MQTT messages dispatch action to update the guest wifi.", async () => {
   await run()
   const messageHandler = mqttClient.on.mock.calls[0][1]
   messageHandler(
-    "guest/slot/all/state/set",
+    "homeassistant/sensor/guest_wifi_ssid/set",
     JSON.stringify({
-      slots: [
-        {
-          slotId: 4,
-          eventId: "event1",
-          pin: "123",
-          start: "2023-07-06 00:00:00",
-          end: "2023-07-06 01:00:00",
-        },
-      ],
-      guestWifi: { ssid: "ssid", passPhrase: "pass" },
+      ssid: "ssid",
+      passPhrase: "pass",
     }),
   )
 
   expect(store.dispatch).toBeCalledWith({
-    type: "SET_GUEST_SLOTS",
-    payload: [
-      {
-        slotId: 4,
-        eventId: "event1",
-        pin: "123",
-        start: new Date("2023-07-06T00:00:00"),
-        end: new Date("2023-07-06T01:00:00"),
-        guestNetwork: { ssid: "ssid", passPhrase: "pass" },
-      },
-    ],
+    type: "SET_GUEST_WIFI_NETWORK_INFORMATION",
+    payload: {
+      ssid: "ssid",
+      passPhrase: "pass",
+    },
   })
-  expect(start).toBeCalled()
 })
 
-test("publishes mqtt message that the application has started", async () => {
-  await run()
-
-  expect(mqttClient.publish).toBeCalledWith("guest/started", "", { qos: 1 })
-})
-
-test("Subsequent guest/slot/all/state/set messages will not start the app", async () => {
+test("Slot removal MQTT messages dispatch action to remove the slot.", async () => {
   await run()
   const messageHandler = mqttClient.on.mock.calls[0][1]
-  messageHandler(
-    "guest/slot/all/state/set",
-    JSON.stringify({
-      slots: [{ slotId: 4, eventId: "event1", pin: "123" }],
-      guestWifi: { ssid: "ssid", passPhrase: "pass" },
-    }),
-  )
-  messageHandler(
-    "guest/slot/all/state/set",
-    JSON.stringify({
-      slots: [{ slotId: 4, eventId: "event1", pin: "123" }],
-      guestWifi: { ssid: "ssid", passPhrase: "pass" },
-    }),
-  )
+  messageHandler("homeassistant/guest/slot/2/remove", "2")
 
-  expect(start).toBeCalledTimes(1)
+  expect(store.dispatch).toBeCalledWith({
+    type: "SLOT/REMOVE",
+    payload: {
+      slotId: "2",
+    },
+  })
 })

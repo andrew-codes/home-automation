@@ -16,21 +16,25 @@ function* fetchEventsFromCalendar(action: EventFetchAction) {
     const eventsWithUpdatedTitle = calendarEvents.filter((calendarEvent) =>
       knownEvents.some(
         (knownEvent) =>
-          knownEvent.id === calendarEvent.id &&
+          knownEvent.eventId === calendarEvent.id &&
           knownEvent.title !== calendarEvent.subject,
       ),
     )
     const eventsWithUpdatedTime = calendarEvents.filter((calendarEvent) =>
       knownEvents.some(
         (knownEvent) =>
-          knownEvent.id === calendarEvent.id &&
+          knownEvent.eventId === calendarEvent.id &&
           knownEvent.start !== calendarEvent.start.dateTime &&
           knownEvent.end !== calendarEvent.end.dateTime,
       ),
     )
     const newEvents = calendarEvents.filter(
       (calendarEvent) =>
-        !knownEvents.some((knownEvent) => knownEvent.id === calendarEvent.id),
+        !knownEvents.some(
+          (knownEvent) =>
+            knownEvent.eventId === calendarEvent.id &&
+            knownEvent.calendarId === calendarId,
+        ),
     )
 
     for (const calendarEvent of eventsWithUpdatedTitle) {

@@ -11,18 +11,9 @@ type EventNewAction = {
     eventId: string
     calendarId: string
     pin: string
-    start: Date
-    end: Date
+    start: string
+    end: string
     title: string
-  }
-}
-
-type EventRegisterRemovalProcessAction = {
-  type: "EVENT/REGISTER_REMOVAL_PROCESS"
-  payload: {
-    calendarId: string
-    eventId: string
-    pid: number
   }
 }
 
@@ -31,8 +22,8 @@ type EventTimeChangeAction = {
   payload: {
     calendarId: string
     eventId: string
-    start: Date
-    end: Date
+    start: string
+    end: string
   }
 }
 
@@ -50,6 +41,15 @@ type EventRemoveAction = {
   payload: {
     calendarId: string
     eventId: string
+  }
+}
+
+type SlotAssignAction = {
+  type: "SLOT/ASSIGN"
+  payload: {
+    calendarId: string
+    eventId: string
+    slotId: string
   }
 }
 
@@ -89,9 +89,9 @@ type SetDoorLocks = {
 type AnyAction =
   | CreateGuestSlotsAction
   | ErrorAction
+  | SlotAssignAction
   | EventFetchAction
   | EventNewAction
-  | EventRegisterRemovalProcessAction
   | EventRemoveAction
   | EventTimeChangeAction
   | EventTitleChangeAction
@@ -103,9 +103,9 @@ export type {
   AnyAction,
   CreateGuestSlotsAction,
   ErrorAction,
+  SlotAssignAction,
   EventFetchAction,
   EventNewAction,
-  EventRegisterRemovalProcessAction,
   EventRemoveAction,
   EventTimeChangeAction,
   EventTitleChangeAction,
