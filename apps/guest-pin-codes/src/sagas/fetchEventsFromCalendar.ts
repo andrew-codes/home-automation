@@ -15,11 +15,19 @@ function* fetchEventsFromCalendar(action: EventFetchAction) {
       eventsApi.get,
     ])
 
+    const futureOnlyCalendarEvents =
+      calendarEvents?.filter((calendarEvent) => {
+        return (
+          new Date(calendarEvent.start.dateTime).getTime() >
+          new Date().getTime()
+        )
+      }) ?? []
+
     const knownEvents: CalendarEvent[] = yield select(getEvents)
 
     const existingEvents =
       knownEvents?.filter((knownEvent) =>
-        calendarEvents?.some(
+        futureOnlyCalendarEvents?.some(
           (calendarEvent) =>
             knownEvent.eventId === calendarEvent.id &&
             knownEvent.calendarId === calendarId,
@@ -27,7 +35,7 @@ function* fetchEventsFromCalendar(action: EventFetchAction) {
       ) ?? []
 
     const eventsWithUpdatedTitle =
-      calendarEvents?.filter((calendarEvent) =>
+      futureOnlyCalendarEvents?.filter((calendarEvent) =>
         existingEvents.some(
           (knownEvent) =>
             knownEvent.eventId === calendarEvent.id &&
@@ -46,7 +54,7 @@ function* fetchEventsFromCalendar(action: EventFetchAction) {
     }
 
     const eventsWithUpdatedTime =
-      calendarEvents?.filter((calendarEvent) =>
+      futureOnlyCalendarEvents?.filter((calendarEvent) =>
         existingEvents.some(
           (knownEvent) =>
             knownEvent.eventId === calendarEvent.id &&
@@ -67,7 +75,7 @@ function* fetchEventsFromCalendar(action: EventFetchAction) {
     }
 
     const newEvents =
-      calendarEvents?.filter(
+      futureOnlyCalendarEvents?.filter(
         (calendarEvent) =>
           !knownEvents.some(
             (knownEvent) =>
