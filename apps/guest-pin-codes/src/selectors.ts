@@ -27,35 +27,23 @@ const getAvailablePins = createSelector(
 const getLockSlots: Selector<State, Slot[]> = (state) =>
   Object.values(state.guestSlots).filter((slot) => !!slot) as Slot[]
 
-const getCandidateSlots = createSelector(
-  getLockSlots,
-  getEvents,
-  (slots, events) => {
-    const now = new Date().getTime()
-    return slots.filter((slot) => {
-      if (slot.eventId === null) {
-        return true
-      }
+const getSlots = createSelector(getLockSlots, getEvents, (slots, events) => {
+  return slots.filter((slot) => {
+    if (slot.eventId === null) {
+      return true
+    }
 
-      const event = events.find(
-        (event) =>
-          event.eventId === slot.eventId &&
-          event.calendarId === slot.calendarId,
-      )
-      if (!event) {
-        return true
-      }
-
-      const eventEnd = new Date(event.end).getTime()
-      return now > eventEnd
-    })
-  },
-)
+    return !events.some(
+      (event) =>
+        event.eventId === slot.eventId && event.calendarId === slot.calendarId,
+    )
+  })
+})
 
 const getGuestWifiNetwork: Selector<
   State,
   { ssid: string; passPhrase: string } | null
 > = (state) => state.guestNetwork ?? null
 
-export { getAvailablePins, getEvents, getCandidateSlots, getGuestWifiNetwork }
+export { getAvailablePins, getEvents, getSlots, getGuestWifiNetwork }
 export type { Entry }

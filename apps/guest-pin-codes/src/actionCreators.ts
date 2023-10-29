@@ -46,7 +46,39 @@ const setGuestWifiNetworkInformation = (
   }
 }
 
+const assignEvent = (
+  slotId: string,
+  {
+    calendarId,
+    eventId,
+    pin,
+    title,
+  }: { calendarId: string; eventId: string; pin: string; title: string },
+) => ({
+  type: "SLOT/ASSIGN",
+  payload: {
+    calendarId,
+    eventId,
+    pin,
+    slotId,
+    title,
+  },
+})
+
+const removeEvent = (calendarEvent: {
+  calendarId: string
+  eventId: string
+}) => ({
+  type: "EVENT/REMOVE",
+  payload: {
+    calendarId: calendarEvent.calendarId,
+    eventId: calendarEvent.eventId,
+  },
+})
+
 export {
+  assignEvent,
+  removeEvent,
   setPinsInPool,
   addDoorLocks,
   fetchEvents,

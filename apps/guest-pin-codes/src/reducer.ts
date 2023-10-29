@@ -8,11 +8,12 @@ type CalendarEvent = {
   pin: string
   title: string
   calendarId: string
+  slotId?: string
 }
 type Slot = {
   id: string
-  eventId: string
-  calendarId: string
+  eventId?: string | null
+  calendarId?: string | null
 }
 type State = {
   pins: string[]
@@ -52,7 +53,12 @@ const reducer = (
 
     case "SLOT/ASSIGN":
       return merge({}, state, {
-        slots: {
+        events: {
+          [`${action.payload.calendarId}:${action.payload.eventId}`]: {
+            slotId: action.payload.slotId,
+          },
+        },
+        guestSlots: {
           [action.payload.slotId]: {
             id: action.payload.slotId,
             eventId: action.payload.eventId,

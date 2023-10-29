@@ -1,10 +1,10 @@
 import { createMqtt } from "@ha/mqtt-client"
 import { call, put, select } from "redux-saga/effects"
-import type { SlotAssignAction } from "../actions"
+import type { EventRemoveAction } from "../actions"
 import type { CalendarEvent } from "../reducer"
 import { getEvents } from "../selectors"
 
-function* assignEvent(action: SlotAssignAction) {
+function* assignEvent(action: EventRemoveAction) {
   try {
     const existingCalendarEvents: CalendarEvent[] = yield select(getEvents)
     const calendarEvent = existingCalendarEvents.find(
@@ -12,20 +12,17 @@ function* assignEvent(action: SlotAssignAction) {
         calendarEvent.eventId === action.payload.eventId &&
         calendarEvent.calendarId === action.payload.calendarId,
     )
-    if (!calendarEvent) {
+    if (!calendarEvent || !calendarEvent.slotId) {
       return
     }
 
     const mqtt = yield call(createMqtt)
     yield call(
       [mqtt, mqtt.publish],
-      `guest/slot/${action.payload.slotId}/set`,
+      `guest/slot/${calendarEvent.slotId}/set`,
       JSON.stringify({
-        title: calendarEvent.title,
-        slotId: parseInt(action.payload.slotId, 10),
-        pin: calendarEvent.pin,
-        start: calendarEvent.start,
-        end: calendarEvent.end,
+        slotId: parseInt(calendarEvent.slotId, 10),
+        pin: null,
       }),
       { qos: 1 },
     )

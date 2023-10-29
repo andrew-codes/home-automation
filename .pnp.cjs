@@ -9189,6 +9189,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@redux-saga/symbols", "npm:1.1.3"],\
             ["@reduxjs/toolkit", "virtual:ba3c80966cccf6320af56404fcf85305a3d9b6b7f8847a170d1274f6a04d1592f5e64a978de39768c916537ebaff609533bc041dee86b301e2e4016832b1a9d9#npm:1.9.7"],\
             ["@types/jest", "npm:29.2.5"],\
+            ["@types/lodash", "npm:4.14.200"],\
             ["@types/node", "npm:18.11.18"],\
             ["@types/react", "npm:18.0.26"],\
             ["async-mqtt", "npm:2.6.3"],\
@@ -12523,6 +12524,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.191-67a04a969b-ba0d5434e1.zip/node_modules/@types/lodash/",\
           "packageDependencies": [\
             ["@types/lodash", "npm:4.14.191"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:4.14.200", {\
+          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.200-8559f51fce-6471f8bb5d.zip/node_modules/@types/lodash/",\
+          "packageDependencies": [\
+            ["@types/lodash", "npm:4.14.200"]\
           ],\
           "linkType": "HARD"\
         }]\

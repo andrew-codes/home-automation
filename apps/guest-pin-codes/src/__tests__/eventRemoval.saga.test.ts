@@ -6,7 +6,6 @@ import * as matchers from "redux-saga-test-plan/matchers"
 import { throwError } from "redux-saga-test-plan/providers"
 import getClient from "../dbClient"
 import sagas from "../sagas"
-import { getCandidateSlots, getEvents } from "../selectors"
 
 let action
 const eventId = "123"
@@ -98,100 +97,6 @@ test(`Removed event slot is deleted from persistence.`, () => {
                 calendarId,
                 eventId,
               },
-            ]),
-          }),
-        }),
-      )
-    })
-})
-
-test(`Removing an event will assign the next chronological event to a slot.`, () => {
-  return expectSaga(sagas)
-    .provide([
-      [matchers.select(getCandidateSlots), [{ id: 1 }]],
-      [
-        matchers.select(getEvents),
-        [
-          {
-            start: "2022-07-06T00:00:00.0000000",
-            end: "2023-07-06T00:00:00.0000000",
-            pin: "4567",
-            title: "Next event",
-          },
-          {
-            start: "2024-07-06T00:00:00.0000000",
-            end: "2024-07-06T00:00:00.0000000",
-            pin: "1234",
-            title: "Not the next event",
-          },
-        ],
-      ],
-    ])
-    .dispatch(action)
-    .run()
-    .then(async (result) => {
-      const { allEffects } = result
-      expect(allEffects).toContainEqual(
-        expect.objectContaining({
-          type: "CALL",
-          payload: expect.objectContaining({
-            fn: publish,
-            args: expect.arrayContaining([
-              `guest/slot/1/set`,
-              expect.stringContaining('"pin":"4567"'),
-              { qos: 1 },
-            ]),
-          }),
-        }),
-      )
-      expect(allEffects).toContainEqual(
-        expect.objectContaining({
-          type: "CALL",
-          payload: expect.objectContaining({
-            fn: publish,
-            args: expect.arrayContaining([
-              `guest/slot/1/set`,
-              expect.stringContaining('"title":"Next event"'),
-              { qos: 1 },
-            ]),
-          }),
-        }),
-      )
-      expect(allEffects).toContainEqual(
-        expect.objectContaining({
-          type: "CALL",
-          payload: expect.objectContaining({
-            fn: publish,
-            args: expect.arrayContaining([
-              `guest/slot/1/set`,
-              expect.stringContaining('"slotId":1'),
-              { qos: 1 },
-            ]),
-          }),
-        }),
-      )
-      expect(allEffects).toContainEqual(
-        expect.objectContaining({
-          type: "CALL",
-          payload: expect.objectContaining({
-            fn: publish,
-            args: expect.arrayContaining([
-              `guest/slot/1/set`,
-              expect.stringContaining('"start":"2022-07-06T00:00:00.0000000"'),
-              { qos: 1 },
-            ]),
-          }),
-        }),
-      )
-      expect(allEffects).toContainEqual(
-        expect.objectContaining({
-          type: "CALL",
-          payload: expect.objectContaining({
-            fn: publish,
-            args: expect.arrayContaining([
-              `guest/slot/1/set`,
-              expect.stringContaining('"end":"2023-07-06T00:00:00.0000000"'),
-              { qos: 1 },
             ]),
           }),
         }),

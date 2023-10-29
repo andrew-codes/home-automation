@@ -9,9 +9,14 @@ import reducer from "../reducer"
 import sagas from "../sagas"
 import { getAvailablePins, getEvents } from "../selectors"
 
+jest.useFakeTimers({
+  now: new Date("2023-06-01T00:00:00.000Z"),
+  doNotFake: ["setTimeout", "nextTick"],
+})
 let api
 const calendarId = "cal_id"
 let fetchEventsAction
+
 beforeEach(() => {
   jest.resetAllMocks()
 
@@ -35,7 +40,11 @@ beforeEach(() => {
   }
 })
 
-test("Network errors do not crash saga", () => {
+afterAll(() => {
+  jest.useRealTimers()
+})
+
+test("Errors do not crash saga", () => {
   const error = new Error("error")
   return expectSaga(sagas)
     .provide([[matchers.call([api, api.get]), throwError(error)]])
@@ -44,9 +53,7 @@ test("Network errors do not crash saga", () => {
     .run()
 })
 
-test(`No event found
-
-- No slot assignments occur`, () => {
+test(`No events are found, then no event actions are dispatched.`, () => {
   const fakeResults = { value: [] }
 
   return expectSaga(sagas)
@@ -70,14 +77,28 @@ test(`No event found
     .run()
 })
 
-test(`Assign guest slot to new events only.
+test(`Dispatch new event action for new events.
 
 - Events are considered new if they do not exist in the store; as matched by event ID and calendar ID.
-- 
+- Past event are ignored.
 - New events are assigned an unassigned PIN.
 `, () => {
   const fakeResults = {
     value: [
+      {
+        id: "968",
+        subject: "Event title old",
+        originalStartTimeZone: "Eastern Standard Time",
+        originalEndTimeZone: "Eastern Standard Time",
+        start: {
+          dateTime: "2022-07-07T00:00:00.0000000",
+          timeZone: "UTC",
+        },
+        end: {
+          dateTime: "2022-07-10T00:00:00.0000000",
+          timeZone: "UTC",
+        },
+      },
       {
         id: "123",
         subject: "Event title",
@@ -157,11 +178,26 @@ test(`Assign guest slot to new events only.
 
 test(`Existing assigned events are updated with latest event information.
 
-- Events existing if they match an event in the store by eventId and calendarId.
+- Events are existing if they match an event in the store by eventId and calendarId.
+- Past events are ignored. 
 - Existing events with different titles will have their titles updated.
 - Existing events with different dates will have their start and end dates updated.`, () => {
   const fakeResults = {
     value: [
+      {
+        id: "968",
+        subject: "Event title old",
+        originalStartTimeZone: "Eastern Standard Time",
+        originalEndTimeZone: "Eastern Standard Time",
+        start: {
+          dateTime: "2022-07-07T00:00:00.0000000",
+          timeZone: "UTC",
+        },
+        end: {
+          dateTime: "2022-07-10T00:00:00.0000000",
+          timeZone: "UTC",
+        },
+      },
       {
         id: "123",
         originalStartTimeZone: "Eastern Standard Time",
@@ -245,6 +281,20 @@ test(`Existing assigned events are updated with latest event information.
 test("Events update actions are dispatched before new event actions.", () => {
   const fakeResults = {
     value: [
+      {
+        id: "968",
+        subject: "Event title old",
+        originalStartTimeZone: "Eastern Standard Time",
+        originalEndTimeZone: "Eastern Standard Time",
+        start: {
+          dateTime: "2022-07-07T00:00:00.0000000",
+          timeZone: "UTC",
+        },
+        end: {
+          dateTime: "2022-07-10T00:00:00.0000000",
+          timeZone: "UTC",
+        },
+      },
       {
         id: "123",
         originalStartTimeZone: "Eastern Standard Time",

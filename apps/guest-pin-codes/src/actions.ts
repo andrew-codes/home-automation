@@ -49,7 +49,9 @@ type SlotAssignAction = {
   payload: {
     calendarId: string
     eventId: string
+    pin: string
     slotId: string
+    title: string
   }
 }
 

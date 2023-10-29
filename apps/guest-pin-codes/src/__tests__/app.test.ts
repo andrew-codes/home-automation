@@ -19,11 +19,17 @@ import getClient from "../dbClient"
 import reducer, { type CalendarEvent } from "../reducer"
 import sagas from "../sagas"
 
+jest.useFakeTimers({
+  now: new Date("2023-06-01T00:00:00.000Z"),
+  doNotFake: ["setTimeout", "nextTick"],
+})
+
 let store
 let sagaMiddleware
 let start
 const calendarId = "cal_id"
 let persistedEvents: CalendarEvent[]
+
 beforeEach(() => {
   jest.resetAllMocks()
   store = { dispatch: jest.fn(), subscribe: jest.fn(), getState: jest.fn() }
@@ -37,16 +43,24 @@ beforeEach(() => {
       pin: "4567",
       calendarId,
       eventId: "2",
-      start: "2020-01-01T00:00:00.000Z",
-      end: "2020-01-02T00:00:00.000Z",
+      start: "2024-01-01T00:00:00.000Z",
+      end: "2024-01-02T00:00:00.000Z",
       title: "event 2",
     },
     {
       pin: "1234",
       calendarId,
       eventId: "1",
-      start: "2019-01-01T00:00:00.000Z",
-      end: "2019-01-02T00:00:00.000Z",
+      start: "2024-01-01T00:00:00.000Z",
+      end: "2024-01-02T00:00:00.000Z",
+      title: "event 2",
+    },
+    {
+      pin: "9876",
+      calendarId,
+      eventId: "3",
+      start: "2020-01-01T00:00:00.000Z",
+      end: "2020-01-02T00:00:00.000Z",
       title: "event 2",
     },
   ]
@@ -118,7 +132,9 @@ test("Store is loaded with available PINs", async () => {
   })
 })
 
-test("Store is seeded with existing, persisted events.", async () => {
+test(`Store is seeded with existing, persisted events.
+
+- Past events are ignored.`, async () => {
   ;(configureStore as jest.Mock).mockReturnValue(store)
   await createApp("front_door,back_door", 1, 5, calendarId)
 
@@ -128,6 +144,16 @@ test("Store is seeded with existing, persisted events.", async () => {
         events: expect.objectContaining({
           [`${calendarId}:${persistedEvents[0].eventId}`]: persistedEvents[0],
           [`${calendarId}:${persistedEvents[1].eventId}`]: persistedEvents[1],
+        }),
+      }),
+    }),
+  )
+
+  expect(configureStore).not.toHaveBeenCalledWith(
+    expect.objectContaining({
+      preloadedState: expect.objectContaining({
+        events: expect.objectContaining({
+          [`${calendarId}:${persistedEvents[2].eventId}`]: persistedEvents[2],
         }),
       }),
     }),
@@ -145,9 +171,10 @@ test("App is returned", async () => {
 test("Once the app is started, fetch events is dispatched and then, on every 5th minute, fetch events is dispatched with the current date", async () => {
   ;(configureStore as jest.Mock).mockReturnValue(store)
   let cronJobCallback
-  mockCronJob.mockImplementationOnce((timePattern, cb) => {
-    expect(timePattern).toEqual("*/5 * * * *")
-    cronJobCallback = cb
+  mockCronJob.mockImplementation((timePattern, cb) => {
+    if (timePattern === "*/5 * * * *") {
+      cronJobCallback = cb
+    }
 
     return {
       start,
@@ -165,6 +192,164 @@ test("Once the app is started, fetch events is dispatched and then, on every 5th
   expect(store.dispatch.mock.calls[4]).toEqual([
     { type: "EVENT/FETCH", payload: { calendarId } },
   ])
+})
+
+test(`Once the app is started, then every minute then upcoming events will dispatch slot assignment action.
+
+- An event is considered upcoming if its start time is within an hour.
+- Past events are ignored.`, async () => {
+  ;(configureStore as jest.Mock).mockReturnValue(store)
+  store.getState.mockReturnValue({
+    events: {
+      [`${calendarId}:2`]: {
+        pin: "4567",
+        calendarId,
+        eventId: "2",
+        start: "2023-06-01T00:00:00.000Z",
+        end: "2023-06-02T00:00:00.000Z",
+        title: "event 1",
+      },
+      [`${calendarId}:1`]: {
+        pin: "1234",
+        calendarId,
+        eventId: "1",
+        start: "2023-05-31T23:00:00.000Z",
+        end: "2023-06-02T00:00:00.000Z",
+        title: "event 2",
+      },
+      [`${calendarId}: 3`]: {
+        pin: "9876",
+        calendarId,
+        eventId: "3",
+        start: "2023-06-01T02:00:00.000Z",
+        end: "2023-06-02T00:00:00.000Z",
+        title: "event 3",
+      },
+    },
+    guestSlots: { "1": { id: "1" }, "2": { id: "2" } },
+  })
+
+  let cronJobCallback
+  mockCronJob.mockImplementation((timePattern, cb) => {
+    if (timePattern === "*/1 * * * *") {
+      cronJobCallback = cb
+    }
+
+    return {
+      start,
+    }
+  })
+
+  const app = await createApp("front_door,back_door", 1, 5, calendarId)
+  await app.start()
+
+  cronJobCallback()
+
+  expect(store.dispatch).toHaveBeenCalledWith(
+    expect.objectContaining({
+      type: "SLOT/ASSIGN",
+      payload: {
+        calendarId,
+        eventId: "2",
+        pin: "4567",
+        slotId: "1",
+        title: "event 1",
+      },
+    }),
+  )
+  expect(store.dispatch).not.toHaveBeenCalledWith(
+    expect.objectContaining({
+      type: "SLOT/ASSIGN",
+      payload: expect.objectContaining({
+        pin: "1234",
+      }),
+    }),
+  )
+  expect(store.dispatch).not.toHaveBeenCalledWith(
+    expect.objectContaining({
+      type: "SLOT/ASSIGN",
+      payload: expect.objectContaining({
+        pin: "9876",
+      }),
+    }),
+  )
+})
+
+test(`Once the app is started, then every minute then past events will dispatch action to remove the event.
+
+- An event is considered in the past if its end time is in the past.`, async () => {
+  ;(configureStore as jest.Mock).mockReturnValue(store)
+  store.getState.mockReturnValue({
+    events: {
+      [`${calendarId}:2`]: {
+        pin: "4567",
+        calendarId,
+        eventId: "2",
+        start: "2023-06-01T00:00:00.000Z",
+        end: "2023-06-02T00:00:00.000Z",
+        title: "event 1",
+      },
+      [`${calendarId}:1`]: {
+        pin: "1234",
+        calendarId,
+        eventId: "1",
+        start: "2023-05-31T23:00:00.000Z",
+        end: "2023-05-31T23:30:00.000Z",
+        title: "event 2",
+      },
+      [`${calendarId}: 3`]: {
+        pin: "9876",
+        calendarId,
+        eventId: "3",
+        start: "2023-06-01T02:00:00.000Z",
+        end: "2023-06-02T00:00:00.000Z",
+        title: "event 3",
+      },
+    },
+    guestSlots: { "1": { id: "1" }, "2": { id: "2" } },
+  })
+
+  let cronJobCallback
+  mockCronJob.mockImplementation((timePattern, cb) => {
+    if (timePattern === "*/1 * * * *") {
+      cronJobCallback = cb
+    }
+
+    return {
+      start,
+    }
+  })
+
+  const app = await createApp("front_door,back_door", 1, 5, calendarId)
+  await app.start()
+
+  cronJobCallback()
+
+  expect(store.dispatch).toHaveBeenCalledWith(
+    expect.objectContaining({
+      type: "EVENT/REMOVE",
+      payload: {
+        calendarId,
+        eventId: "1",
+      },
+    }),
+  )
+  expect(store.dispatch).not.toHaveBeenCalledWith(
+    expect.objectContaining({
+      type: "EVENT/REMOVE",
+      payload: expect.objectContaining({
+        eventId: "2",
+      }),
+    }),
+  )
+  expect(store.dispatch).not.toHaveBeenCalledWith(
+    expect.objectContaining({
+      type: "EVENT/REMOVE",
+      payload: expect.objectContaining({
+        eventId: "3",
+      }),
+    }),
+  )
 })
 
 test("Fetch events is not dispatched unless the app is started", async () => {
