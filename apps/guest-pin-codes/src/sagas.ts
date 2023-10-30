@@ -1,9 +1,15 @@
 import { all, call, fork, takeEvery, takeLatest } from "redux-saga/effects"
-import type { EventNewAction, EventRemoveAction } from "./actions"
+import type {
+  EventNewAction,
+  EventRemoveAction,
+  SlotAssignAction,
+} from "./actions"
+import assignEvent from "./sagas/assignEvent"
 import fetchEventsFromCalendar from "./sagas/fetchEventsFromCalendar"
 import persistEvent from "./sagas/persistEvent"
 import persistEventRemoval from "./sagas/persistEventRemoval"
 import persistSlotAssignmentRemoval from "./sagas/persistSlotAssignmentRemoval"
+import removeEventSlot from "./sagas/removeEventSlot"
 import updateCalendarEventWithPin from "./sagas/updateCalendarInviteWithPin"
 
 function* fetchEventsSaga() {
@@ -24,14 +30,18 @@ function* eventRemovalSaga() {
     yield all([
       call(persistEventRemoval, action),
       call(persistSlotAssignmentRemoval, action),
+      call(removeEventSlot, action),
     ])
   })
+}
+function* assignEventSaga() {
+  yield takeEvery<SlotAssignAction>("SLOT/ASSIGN", assignEvent)
 }
 
 function* sagas() {
   yield all(
-    [fetchEventsSaga, eventAdditionSaga, eventRemovalSaga].map((saga) =>
-      fork(saga),
+    [fetchEventsSaga, eventAdditionSaga, eventRemovalSaga, assignEventSaga].map(
+      (saga) => fork(saga),
     ),
   )
 }
