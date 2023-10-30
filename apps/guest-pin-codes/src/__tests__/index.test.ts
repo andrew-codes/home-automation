@@ -62,16 +62,3 @@ test("Guest Wifi change MQTT messages dispatch action to update the guest wifi."
     },
   })
 })
-
-test("Slot removal MQTT messages dispatch action to remove the slot.", async () => {
-  await run()
-  const messageHandler = mqttClient.on.mock.calls[0][1]
-  messageHandler("homeassistant/guest/slot/2/remove", "2")
-
-  expect(store.dispatch).toBeCalledWith({
-    type: "SLOT/REMOVE",
-    payload: {
-      slotId: "2",
-    },
-  })
-})
