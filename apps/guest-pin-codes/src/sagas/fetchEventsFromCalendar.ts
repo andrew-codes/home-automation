@@ -1,4 +1,4 @@
-import { isEmpty } from "lodash"
+import { isEmpty, merge } from "lodash"
 import { call, put, select } from "redux-saga/effects"
 import { EventFetchAction } from "../actions"
 import getClient from "../graphClient"
@@ -10,10 +10,24 @@ function* fetchEventsFromCalendar(action: EventFetchAction) {
     const { calendarId } = action.payload
     const client = getClient()
     const eventsApi = client.api(`/users/${calendarId}/events`)
-    const { value: calendarEvents }: { value?: any[] } = yield call([
+    let { value: calendarEvents }: { value?: any[] } = yield call([
       eventsApi,
       eventsApi.get,
     ])
+
+    calendarEvents =
+      calendarEvents?.map((calendarEvent) =>
+        merge({}, calendarEvent, {
+          start: {
+            dateTime: new Date(
+              `${calendarEvent.start.dateTime}Z`,
+            ).toISOString(),
+          },
+          end: {
+            dateTime: new Date(`${calendarEvent.end.dateTime}Z`).toISOString(),
+          },
+        }),
+      ) ?? []
 
     const futureOnlyCalendarEvents =
       calendarEvents?.filter((calendarEvent) => {
