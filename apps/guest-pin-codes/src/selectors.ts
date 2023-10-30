@@ -31,12 +31,12 @@ const getOpenSlots = createSelector(
   getLockSlots,
   getEvents,
   (slots, events) => {
-    return Object.values(slots).filter((value) => {
-      if (value === null) {
+    return Object.entries(slots).filter(([slotId, eventId]) => {
+      if (eventId === null) {
         return true
       }
 
-      return !events.some((event) => event.eventId === value)
+      return !events.some((event) => event.eventId === eventId)
     })
   },
 )

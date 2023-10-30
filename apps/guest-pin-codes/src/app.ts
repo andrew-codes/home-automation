@@ -106,14 +106,14 @@ const app = async (
 
           const slots = getOpenSlots(state)
           const upcomingEvents = onlyUpcomingEvents(events)
-          slots.forEach((slot, index) => {
+          slots.forEach(([slotId], index) => {
             const upcomingEvent = upcomingEvents[index]
             if (!upcomingEvent) {
               return
             }
 
-            debug(`Assigning ${upcomingEvent.eventId} to ${slot.id}`)
-            store.dispatch(assignEvent(slot.id, upcomingEvents[index]))
+            debug(`Assigning ${upcomingEvent.eventId} to ${slotId}`)
+            store.dispatch(assignEvent(slotId, upcomingEvents[index]))
           })
         },
         null,
