@@ -57,6 +57,10 @@ const run = async () => {
   })
 
   app.start()
+
+  app.store.subscribe(() => {
+    debug("State changed to", app.store.getState())
+  })
 }
 
 if (require.main === module) {

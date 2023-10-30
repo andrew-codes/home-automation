@@ -103,6 +103,7 @@ const app = async (
 
           const pastEvents = onlyPastEvents(events)
           pastEvents.forEach((pastEvent) => {
+            debug(`Removing ${pastEvent.eventId}`)
             store.dispatch(removeEvent(pastEvent))
           })
 
@@ -114,6 +115,7 @@ const app = async (
               return
             }
 
+            debug(`Assigning ${upcomingEvent.eventId} to ${slot.id}`)
             store.dispatch(assignEvent(slot.id, upcomingEvents[index]))
           })
         },
