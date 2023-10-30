@@ -25,6 +25,25 @@ function* fetchEventsFromCalendar(action: EventFetchAction) {
 
     const knownEvents: CalendarEvent[] = yield select(getEvents)
 
+    const removedEvents =
+      knownEvents?.filter(
+        (knownEvent) =>
+          !calendarEvents?.some(
+            (calendarEvent) =>
+              knownEvent.eventId === calendarEvent.id &&
+              knownEvent.calendarId === calendarId,
+          ),
+      ) ?? []
+    for (const calendarEvent of removedEvents) {
+      yield put({
+        type: "EVENT/REMOVE",
+        payload: {
+          calendarId,
+          eventId: calendarEvent.eventId,
+        },
+      })
+    }
+
     const existingEvents =
       knownEvents?.filter((knownEvent) =>
         futureOnlyCalendarEvents?.some(
