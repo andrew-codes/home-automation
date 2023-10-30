@@ -12,7 +12,6 @@ const run = async () => {
   const {
     GUEST_PIN_CODES_CALENDAR_ID,
     GUEST_PIN_CODES_DOOR_LOCKS,
-    GUEST_PIN_CODES_GUEST_CODE_INDEX_OFFSET,
     GUEST_PIN_CODES_NUMBER_OF_GUEST_CODES,
   } = process.env
 
@@ -26,7 +25,6 @@ const run = async () => {
 
   const app = await createApp(
     GUEST_PIN_CODES_DOOR_LOCKS ?? "",
-    Number(GUEST_PIN_CODES_GUEST_CODE_INDEX_OFFSET),
     Number(GUEST_PIN_CODES_NUMBER_OF_GUEST_CODES),
     GUEST_PIN_CODES_CALENDAR_ID,
   )

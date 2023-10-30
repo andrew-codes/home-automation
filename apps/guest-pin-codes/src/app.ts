@@ -47,7 +47,6 @@ const onlyPastEvents = filter<CalendarEvent>((calendarEvent) => {
 
 const app = async (
   doorLocks: string,
-  guestCodeOffset: number,
   numberOfGuestCodes: number,
   calendarId: string,
 ): Promise<{ store: Store; start: () => Promise<void> }> => {
@@ -75,10 +74,8 @@ const app = async (
   })
   sagaMiddleware.run(sagas)
 
-  debug(
-    `Number of guest codes: ${numberOfGuestCodes}, offset by ${guestCodeOffset}`,
-  )
-  store.dispatch(createGuestSlots(numberOfGuestCodes, guestCodeOffset))
+  debug(`Number of guest slots: ${numberOfGuestCodes}`)
+  store.dispatch(createGuestSlots(numberOfGuestCodes))
   store.dispatch(addDoorLocks(doorLocks.split(",").filter((lock) => !!lock)))
   store.dispatch(setPinsInPool(candidateCodes()))
 

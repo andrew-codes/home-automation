@@ -74,7 +74,7 @@ const reducer = (
       return merge({}, state, {
         guestSlots: new Array(action.payload.numberOfGuestSlots)
           .fill("")
-          .map((v, index) => index + 1 + action.payload.guestSlotOffset)
+          .map((v, index) => index + 1)
           .reduce((acc, val) => merge(acc, { [val]: null }), {}),
       })
 

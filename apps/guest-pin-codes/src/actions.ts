@@ -70,7 +70,6 @@ type SetPinsInPoolAction = {
 type CreateGuestSlotsAction = {
   type: "CREATE_GUEST_SLOTS"
   payload: {
-    guestSlotOffset: number
     numberOfGuestSlots: number
   }
 }

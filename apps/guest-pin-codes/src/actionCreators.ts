@@ -22,11 +22,9 @@ const addDoorLocks = (doorLocks: string[]): SetDoorLocks => ({
 
 const createGuestSlots = (
   numberOfGuestCodes: number,
-  guestCodeOffset: number,
 ): CreateGuestSlotsAction => ({
   type: "CREATE_GUEST_SLOTS",
   payload: {
-    guestSlotOffset: guestCodeOffset,
     numberOfGuestSlots: numberOfGuestCodes,
   },
 })
