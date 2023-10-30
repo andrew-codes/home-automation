@@ -85,6 +85,7 @@ const app = async (
       const fetchEventsJob = new CronJob(
         "*/5 * * * *",
         () => {
+          debug("Fetching events")
           store.dispatch(fetchEvents(calendarId))
         },
         null,
@@ -95,6 +96,7 @@ const app = async (
       const updateEventAssignments = new CronJob(
         "*/1 * * * *",
         () => {
+          debug("Updating event assignments")
           const state = store.getState()
           const events = getEvents(state)
 
