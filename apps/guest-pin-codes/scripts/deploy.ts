@@ -1,8 +1,8 @@
-import path from "path"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
+import path from "path"
 import { name } from "./config"
 
 const run = async (
@@ -15,10 +15,8 @@ const run = async (
     "guest-pin-codes/client-id",
     "guest-pin-codes/client-secret",
     "guest-pin-codes/tenant-id",
-    "guest-pin-codes/door-locks",
     "guest-pin-codes/calendar-id",
     "guest-pin-codes/google-private-key",
-    "guest-pin-codes/guest-code-index-offset",
     "guest-pin-codes/guest-lock-code-exclusions",
     "guest-pin-codes/number-of-guest-codes",
     "unifi/ip",

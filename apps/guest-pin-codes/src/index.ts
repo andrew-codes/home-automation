@@ -9,11 +9,8 @@ const debug = createDebugger("@ha/guest-pin-codes/index")
 const run = async () => {
   debug("Started")
 
-  const {
-    GUEST_PIN_CODES_CALENDAR_ID,
-    GUEST_PIN_CODES_DOOR_LOCKS,
-    GUEST_PIN_CODES_NUMBER_OF_GUEST_CODES,
-  } = process.env
+  const { GUEST_PIN_CODES_CALENDAR_ID, GUEST_PIN_CODES_NUMBER_OF_GUEST_CODES } =
+    process.env
 
   if (!GUEST_PIN_CODES_CALENDAR_ID) {
     debug("No Calendar ID; exiting")
@@ -24,7 +21,6 @@ const run = async () => {
   await createHeartbeat()
 
   const app = await createApp(
-    GUEST_PIN_CODES_DOOR_LOCKS ?? "",
     Number(GUEST_PIN_CODES_NUMBER_OF_GUEST_CODES),
     GUEST_PIN_CODES_CALENDAR_ID,
   )

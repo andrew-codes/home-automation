@@ -7,7 +7,6 @@ import { WithId } from "mongodb"
 import { type Store } from "redux"
 import createSagaMiddleware from "redux-saga"
 import {
-  addDoorLocks,
   assignEvent,
   createGuestSlots,
   fetchEvents,
@@ -46,7 +45,6 @@ const onlyPastEvents = filter<CalendarEvent>((calendarEvent) => {
 })
 
 const app = async (
-  doorLocks: string,
   numberOfGuestCodes: number,
   calendarId: string,
 ): Promise<{ store: Store; start: () => Promise<void> }> => {
@@ -76,7 +74,6 @@ const app = async (
 
   debug(`Number of guest slots: ${numberOfGuestCodes}`)
   store.dispatch(createGuestSlots(numberOfGuestCodes))
-  store.dispatch(addDoorLocks(doorLocks.split(",").filter((lock) => !!lock)))
   store.dispatch(setPinsInPool(candidateCodes()))
 
   return {
