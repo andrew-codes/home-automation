@@ -77,7 +77,7 @@ beforeEach(() => {
 
 test("Store is created with the reducer and redux saga middleware.", async () => {
   ;(configureStore as jest.Mock).mockReturnValue(store)
-  await createApp("", 0, 0, calendarId)
+  await createApp("", 0, calendarId)
   const dm = jest.fn().mockReturnValue([])
   const middleware = (configureStore as jest.Mock).mock.calls[0][0].middleware(
     dm,
@@ -94,12 +94,11 @@ test("Store is created with the reducer and redux saga middleware.", async () =>
 
 test("Guest slots and door locks are configured in the store.", async () => {
   ;(configureStore as jest.Mock).mockReturnValue(store)
-  await createApp("front_door,back_door", 1, 5, calendarId)
+  await createApp("front_door,back_door", 5, calendarId)
 
   expect(store.dispatch).toBeCalledWith({
     type: "CREATE_GUEST_SLOTS",
     payload: {
-      guestSlotOffset: 1,
       numberOfGuestSlots: 5,
     },
   })
@@ -112,7 +111,7 @@ test("Guest slots and door locks are configured in the store.", async () => {
 
 test("Empty door locks string is converted to an empty list to be dispatched.", async () => {
   ;(configureStore as jest.Mock).mockReturnValue(store)
-  await createApp("", 1, 5, calendarId)
+  await createApp("", 5, calendarId)
 
   expect(store.dispatch).toBeCalledWith({
     type: "SET_DOOR_LOCKS",
@@ -124,7 +123,7 @@ test("Store is loaded with available PINs", async () => {
   ;(configureStore as jest.Mock).mockReturnValue(store)
   const expectedPins = ["0", "2"]
   ;(candidateCodes as jest.Mock).mockReturnValue(expectedPins)
-  await createApp("front_door,back_door", 1, 5, calendarId)
+  await createApp("front_door,back_door", 5, calendarId)
 
   expect(store.dispatch).toBeCalledWith({
     type: "SET_PINS_IN_POOL",
@@ -136,7 +135,7 @@ test(`Store is seeded with existing, persisted events.
 
 - Past events are ignored.`, async () => {
   ;(configureStore as jest.Mock).mockReturnValue(store)
-  await createApp("front_door,back_door", 1, 5, calendarId)
+  await createApp("front_door,back_door", 5, calendarId)
 
   expect(configureStore).toHaveBeenCalledWith(
     expect.objectContaining({
@@ -162,7 +161,7 @@ test(`Store is seeded with existing, persisted events.
 
 test("App is returned", async () => {
   ;(configureStore as jest.Mock).mockReturnValue(store)
-  const actual = await createApp("front_door,back_door", 1, 5, calendarId)
+  const actual = await createApp("front_door,back_door", 5, calendarId)
 
   expect(actual.store).toEqual(store)
   expect(actual.start).toEqual(expect.any(Function))
@@ -181,7 +180,7 @@ test("Once the app is started, fetch events is dispatched and then, on every 5th
     }
   })
 
-  const app = await createApp("front_door,back_door", 1, 5, calendarId)
+  const app = await createApp("front_door,back_door", 5, calendarId)
   await app.start()
 
   expect(store.dispatch.mock.calls[3]).toEqual([
@@ -240,7 +239,7 @@ test(`Once the app is started, then every minute then upcoming events will dispa
     }
   })
 
-  const app = await createApp("front_door,back_door", 1, 5, calendarId)
+  const app = await createApp("front_door,back_door", 5, calendarId)
   await app.start()
 
   cronJobCallback()
@@ -320,7 +319,7 @@ test(`Once the app is started, then every minute then past events will dispatch 
     }
   })
 
-  const app = await createApp("front_door,back_door", 1, 5, calendarId)
+  const app = await createApp("front_door,back_door", 5, calendarId)
   await app.start()
 
   cronJobCallback()
@@ -354,7 +353,7 @@ test(`Once the app is started, then every minute then past events will dispatch 
 
 test("Fetch events is not dispatched unless the app is started", async () => {
   ;(configureStore as jest.Mock).mockReturnValue(store)
-  await createApp("front_door,back_door", 1, 5, calendarId)
+  await createApp("front_door,back_door", 5, calendarId)
   expect(store.dispatch.mock.calls).not.toContainEqual(
     expect.arrayContaining([
       expect.objectContaining({ type: "EVENT/FETCH", payload: { calendarId } }),
