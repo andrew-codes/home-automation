@@ -8,13 +8,13 @@ import reducer, { defaultState, State } from "../reducer"
 
 test("set the guest slots by a contiguous block starting at an offset index", () => {
   const state = createState()
-  const actual = reducer(state, createGuestSlots(5, 2))
+  const actual = reducer(state, createGuestSlots(5))
   expect(actual.guestSlots).toEqual({
+    "1": null,
+    "2": null,
     "3": null,
     "4": null,
     "5": null,
-    "6": null,
-    "7": null,
   })
 })
 
