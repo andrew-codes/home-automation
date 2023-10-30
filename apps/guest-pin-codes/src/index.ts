@@ -33,26 +33,14 @@ const run = async () => {
 
   const mqtt = await createMqtt()
   mqtt.subscribe("homeassistant/sensor/+/set", { qos: 1 })
-  mqtt.subscribe("homeassistant/guest/slot/+/remove", { qos: 1 })
 
   const matchesSetGuestWifiTopic = (topic) =>
     /^homeassistant\/sensor\/guest_wifi_(.*)\/set$/.test(topic)
-  const matchesSlotRemoval = (topic) =>
-    /^homeassistant\/guest\/slot\/(\d+)\/remove$/.test(topic)
 
   mqtt.on("message", (topic, message) => {
     if (matchesSetGuestWifiTopic(topic)) {
       const { ssid, passPhrase } = JSON.parse(message.toString())
       app.store.dispatch(setGuestWifiNetworkInformation(ssid, passPhrase))
-    }
-
-    if (matchesSlotRemoval(topic)) {
-      app.store.dispatch({
-        type: "SLOT/REMOVE",
-        payload: {
-          slotId: message.toString(),
-        },
-      })
     }
   })
 
