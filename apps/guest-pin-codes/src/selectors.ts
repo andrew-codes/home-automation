@@ -1,5 +1,5 @@
 import { createSelector, Selector } from "reselect"
-import type { CalendarEvent, Slot, State } from "./reducer"
+import type { CalendarEvent, State } from "./reducer"
 
 type Entry<X extends string, Y> = [X, Y]
 
@@ -24,26 +24,27 @@ const getAvailablePins = createSelector(
     ),
 )
 
-const getLockSlots: Selector<State, Slot[]> = (state) =>
-  Object.values(state.guestSlots).filter((slot) => !!slot) as Slot[]
+const getLockSlots: Selector<State, Record<string, string | null>> = (state) =>
+  state.guestSlots
 
-const getSlots = createSelector(getLockSlots, getEvents, (slots, events) => {
-  return slots.filter((slot) => {
-    if (slot.eventId === null) {
-      return true
-    }
+const getOpenSlots = createSelector(
+  getLockSlots,
+  getEvents,
+  (slots, events) => {
+    return Object.values(slots).filter((value) => {
+      if (value === null) {
+        return true
+      }
 
-    return !events.some(
-      (event) =>
-        event.eventId === slot.eventId && event.calendarId === slot.calendarId,
-    )
-  })
-})
+      return !events.some((event) => event.eventId === value)
+    })
+  },
+)
 
 const getGuestWifiNetwork: Selector<
   State,
   { ssid: string; passPhrase: string } | null
 > = (state) => state.guestNetwork ?? null
 
-export { getAvailablePins, getEvents, getSlots, getGuestWifiNetwork }
+export { getAvailablePins, getEvents, getOpenSlots, getGuestWifiNetwork }
 export type { Entry }

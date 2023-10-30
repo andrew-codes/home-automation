@@ -10,16 +10,11 @@ type CalendarEvent = {
   calendarId: string
   slotId?: string
 }
-type Slot = {
-  id: string
-  eventId?: string | null
-  calendarId?: string | null
-}
 type State = {
   pins: string[]
   doorLocks: string[]
   events: Record<string, CalendarEvent>
-  guestSlots: Record<string, Slot | null>
+  guestSlots: Record<string, string | null>
   guestNetwork?: {
     ssid: string
     passPhrase: string
@@ -48,6 +43,10 @@ const reducer = (
     case "EVENT/REMOVE":
       const eventRemoveId = `${action.payload.calendarId}:${action.payload.eventId}`
       const removeEventState = merge({}, state)
+      const event = removeEventState.events[eventRemoveId]
+      if (event?.slotId) {
+        removeEventState.guestSlots[event.slotId] = null
+      }
       delete removeEventState.events[eventRemoveId]
       return removeEventState
 
@@ -59,11 +58,7 @@ const reducer = (
           },
         },
         guestSlots: {
-          [action.payload.slotId]: {
-            id: action.payload.slotId,
-            eventId: action.payload.eventId,
-            calendarId: action.payload.calendarId,
-          },
+          [action.payload.slotId]: action.payload.eventId,
         },
       })
 
@@ -92,4 +87,4 @@ const reducer = (
 
 export default reducer
 export { defaultState }
-export type { CalendarEvent, Slot, State }
+export type { CalendarEvent, State }

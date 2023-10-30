@@ -18,7 +18,7 @@ import candidateCodes from "./candidateCodes"
 import getClient from "./dbClient"
 import reducer, { type CalendarEvent } from "./reducer"
 import sagas from "./sagas"
-import { getEvents, getSlots } from "./selectors"
+import { getEvents, getOpenSlots } from "./selectors"
 
 const debug = createDebugger("@ha/guest-pin-codes/app")
 
@@ -104,7 +104,7 @@ const app = async (
             store.dispatch(removeEvent(pastEvent))
           })
 
-          const slots = getSlots(state)
+          const slots = getOpenSlots(state)
           const upcomingEvents = onlyUpcomingEvents(events)
           slots.forEach((slot, index) => {
             const upcomingEvent = upcomingEvents[index]

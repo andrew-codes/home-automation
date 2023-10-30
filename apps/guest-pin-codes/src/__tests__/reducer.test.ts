@@ -6,7 +6,7 @@ import {
 } from "../actionCreators"
 import reducer, { defaultState, State } from "../reducer"
 
-test("set the guest slots by a contiguous block starting at an offset index", () => {
+test("set the guest slots by a contiguous block", () => {
   const state = createState()
   const actual = reducer(state, createGuestSlots(5))
   expect(actual.guestSlots).toEqual({
