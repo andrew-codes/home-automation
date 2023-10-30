@@ -108,9 +108,7 @@ const app = async (
 
           const slots = getOpenSlots(state)
           const upcomingUnassignedEvents = onlyUpcomingEvents(events).filter(
-            (event) => {
-              !slots.some(([slotId, eventId]) => eventId === event.eventId)
-            },
+            (event) => !event.slotId,
           )
           slots.forEach(([slotId], index) => {
             const upcomingEvent = upcomingUnassignedEvents[index]

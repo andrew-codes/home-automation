@@ -196,6 +196,7 @@ test("Once the app is started, fetch events is dispatched and then, on every 5th
 test(`Once the app is started, then every minute then upcoming events will dispatch slot assignment action.
 
 - An event is considered upcoming if its start time is within an hour.
+- Events already assigned to a slot are ignored.
 - Past events are ignored.`, async () => {
   ;(configureStore as jest.Mock).mockReturnValue(store)
   store.getState.mockReturnValue({
@@ -207,6 +208,15 @@ test(`Once the app is started, then every minute then upcoming events will dispa
         start: "2023-06-01T00:00:00.000Z",
         end: "2023-06-02T00:00:00.000Z",
         title: "event 1",
+      },
+      [`${calendarId}:4`]: {
+        pin: "5684",
+        calendarId,
+        eventId: "4",
+        start: "2023-06-01T00:00:00.000Z",
+        end: "2023-06-02T00:00:00.000Z",
+        title: "event 4",
+        slotId: "2",
       },
       [`${calendarId}:1`]: {
         pin: "1234",
@@ -225,7 +235,7 @@ test(`Once the app is started, then every minute then upcoming events will dispa
         title: "event 3",
       },
     },
-    guestSlots: { "1": { id: "1" }, "2": { id: "2" } },
+    guestSlots: { "1": null, "2": "4" },
   })
 
   let cronJobCallback
@@ -261,6 +271,14 @@ test(`Once the app is started, then every minute then upcoming events will dispa
       type: "SLOT/ASSIGN",
       payload: expect.objectContaining({
         pin: "1234",
+      }),
+    }),
+  )
+  expect(store.dispatch).not.toHaveBeenCalledWith(
+    expect.objectContaining({
+      type: "SLOT/ASSIGN",
+      payload: expect.objectContaining({
+        pin: "5684",
       }),
     }),
   )
