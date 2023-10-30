@@ -18,10 +18,8 @@ function* fetchEventsSaga() {
 
 function* eventAdditionSaga() {
   yield takeEvery<EventNewAction>("EVENT/NEW", function* (action) {
-    yield all([
-      call(persistEvent, action),
-      call(updateCalendarEventWithPin, action),
-    ])
+    yield call(persistEvent, action)
+    yield call(updateCalendarEventWithPin, action)
   })
 }
 
