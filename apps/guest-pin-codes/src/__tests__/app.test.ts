@@ -5,11 +5,13 @@ jest.mock("@reduxjs/toolkit")
 jest.mock("redux-saga")
 jest.mock("../reducer")
 jest.mock("../sagas")
+jest.mock("@ha/unifi-client")
 jest.mock("cron", () => ({
   CronJob: jest.fn(),
 }))
 jest.mock("../candidateCodes")
 jest.mock("../dbClient")
+import { createUnifi } from "@ha/unifi-client"
 import { configureStore } from "@reduxjs/toolkit"
 import { CronJob as mockCronJob } from "cron"
 import createSagaMiddleware from "redux-saga"
@@ -37,6 +39,9 @@ beforeEach(() => {
   ;(createSagaMiddleware as jest.Mock).mockReturnValue(sagaMiddleware)
   start = jest.fn()
   mockCronJob.mockImplementation(() => ({ start }))
+  ;(createUnifi as jest.Mock).mockResolvedValue({
+    getWLanSettings: jest.fn().mockResolvedValue([]),
+  })
 
   persistedEvents = [
     {

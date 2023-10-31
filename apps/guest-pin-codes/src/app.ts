@@ -1,3 +1,4 @@
+import { createUnifi } from "@ha/unifi-client"
 import { configureStore } from "@reduxjs/toolkit"
 import { CronJob } from "cron"
 import createDebugger from "debug"
@@ -62,12 +63,26 @@ const app = async (
     {},
   )
 
+  let guestNetworkState
+  const unifi = await createUnifi()
+  const wlans: any[] = await unifi.getWLanSettings()
+  const guestNetwork = wlans.filter(
+    (wlan) => !!wlan.enabled && !!wlan.is_guest && !wlan.name.includes("Temp"),
+  )[0]
+  if (guestNetwork) {
+    guestNetworkState = {
+      ssid: guestNetwork.name,
+      passPhrase: guestNetwork.x_passphrase,
+    }
+  }
+
   const sagaMiddleware = createSagaMiddleware()
   const store = configureStore({
     reducer,
     middleware: (gDm) => gDm().concat(sagaMiddleware),
     preloadedState: {
       events: eventState,
+      guestNetwork: guestNetworkState,
     },
   })
   sagaMiddleware.run(sagas)

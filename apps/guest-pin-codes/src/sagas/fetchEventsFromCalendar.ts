@@ -118,7 +118,7 @@ function* fetchEventsFromCalendar(action: EventFetchAction) {
       ) ?? []
 
     if (isEmpty(newEvents)) {
-      return ``
+      return
     }
 
     const availablePins = yield select(getAvailablePins)
