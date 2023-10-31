@@ -41,6 +41,7 @@ type EventRemoveAction = {
   payload: {
     calendarId: string
     eventId: string
+    slotId?: string
   }
 }
 

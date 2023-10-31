@@ -1,35 +1,26 @@
 import { createMqtt } from "@ha/mqtt-client"
 import createDebugger from "debug"
-import { call, put, select } from "redux-saga/effects"
+import { call, put } from "redux-saga/effects"
 import type { EventRemoveAction } from "../actions"
-import type { CalendarEvent } from "../reducer"
-import { getEvents } from "../selectors"
 
 const debug = createDebugger("@ha/guest-pin-codes/sagas/removeEventSlot")
 
 function* removeEventSlot(action: EventRemoveAction) {
   try {
-    const existingCalendarEvents: CalendarEvent[] = yield select(getEvents)
-    const calendarEvent = existingCalendarEvents.find(
-      (calendarEvent) =>
-        calendarEvent.eventId === action.payload.eventId &&
-        calendarEvent.calendarId === action.payload.calendarId,
-    )
-
     debug(
-      `Removing event from slot for ${JSON.stringify(calendarEvent, null, 2)}`,
+      `Removing event from slot for ${JSON.stringify(action.payload, null, 2)}`,
     )
-    if (!calendarEvent || !calendarEvent.slotId) {
+    if (!action.payload.slotId) {
       return
     }
 
     const mqtt = yield call(createMqtt)
     yield call(
       [mqtt, mqtt.publish],
-      `guest/slot/${calendarEvent.slotId}/set`,
+      `guest/slot/${action.payload.slotId}/set`,
       JSON.stringify({
-        slotId: parseInt(calendarEvent.slotId, 10),
-        pin: "",
+        slotId: parseInt(action.payload.slotId, 10),
+        pin: null,
       }),
       { qos: 1 },
     )

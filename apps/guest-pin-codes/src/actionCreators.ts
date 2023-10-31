@@ -66,11 +66,13 @@ const assignEvent = (
 const removeEvent = (calendarEvent: {
   calendarId: string
   eventId: string
+  slotId?: string
 }) => ({
   type: "EVENT/REMOVE",
   payload: {
     calendarId: calendarEvent.calendarId,
     eventId: calendarEvent.eventId,
+    slotId: calendarEvent.slotId,
   },
 })
 
