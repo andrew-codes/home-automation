@@ -47,5 +47,3 @@ fi
 if [ ! -z "${HOME_AUTOMATION_SECRETS_ENV}" ]; then
     echo -e "${HOME_AUTOMATION_SECRETS_ENV}" >../../.secrets.env
 fi
-
-echo 'export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"' >>~/.bash_profile

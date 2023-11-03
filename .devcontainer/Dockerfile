@@ -101,7 +101,7 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 RUN mkdir -p /etc/docker
-RUN echo '{ "features": { "buildkit": true }, "exec-opts": [], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' | tee /etc/docker/daemon.json
+RUN echo '{ "features": { "buildkit": true }, "exec-opts": [], "storage-driver": "overlay2", "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' | tee /etc/docker/daemon.json
 RUN pip3 install "pywinrm>=0.3.0"
 RUN pip3 install "PyYAML"
 RUN ansible-galaxy collection install ansible.windows

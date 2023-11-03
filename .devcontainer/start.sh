@@ -13,7 +13,7 @@ if [ -f .secrets.env ]; then
     yarn nx run secrets:dev-env
 fi
 
+./save-config.sh &&
 ./start-openvpn.sh &
-# ./wrapdocker.sh &
 
 # ./start-telepresence.sh
