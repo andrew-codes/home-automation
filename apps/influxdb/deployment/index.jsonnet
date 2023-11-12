@@ -12,7 +12,12 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withPersistentVolume('influxdb')
                    + lib.deployment.withPersistentVolume('influxdb-config')
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('influxdb', '/var/lib/influxdb2',))
-                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('influxdb-config', '/etc/influxdb2',));
+                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('influxdb-config', '/etc/influxdb2',))
+
+                   + lib.deployment.withContainer('telegraf', std.extVar('telegrafImage'), {
+                   },)
+                   + lib.deployment.withVolumeMount(1, k.core.v1.volumeMount.new('telgraf-config', '/etc/telegraf',))
+;
 
 local dataPvc = [
   k.core.v1.persistentVolume.new('influxdb-pv')
@@ -43,4 +48,6 @@ local configPvc = [
 ]
 ;
 
-dataPvc + configPvc + std.objectValues(deployment)
+local telegrafConfigVolume = lib.volume.persistentVolume.new('telegraf-config', '10Gi');
+
+dataPvc + configPvc + telegrafConfigVolume + std.objectValues(deployment)

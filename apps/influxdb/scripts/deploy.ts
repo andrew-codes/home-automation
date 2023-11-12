@@ -1,8 +1,8 @@
-import path from "path"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
+import path from "path"
 import { name } from "./config"
 
 const run = async (
@@ -20,11 +20,14 @@ const run = async (
     "influxdb/bucket",
   )
   const secrets: Array<keyof Configuration> = []
+
+  const registry = await configurationApi.get("docker-registry/hostname")
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      image: "influxdb:2.2.0",
+      image: "influxdb:2.7.4",
       name,
+      telegrafImage: `${registry.value}/telegraf:latest`,
       DOCKER_INFLUXDB_INIT_USERNAME: DOCKER_INFLUXDB_INIT_USERNAME.value,
       DOCKER_INFLUXDB_INIT_PASSWORD: DOCKER_INFLUXDB_INIT_PASSWORD.value,
       DOCKER_INFLUXDB_INIT_ORG: DOCKER_INFLUXDB_INIT_ORG.value,

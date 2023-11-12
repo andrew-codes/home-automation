@@ -9392,6 +9392,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/influxdb", "workspace:apps/influxdb"],\
             ["@ha/configuration-api", "workspace:packages/configuration-api"],\
             ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+            ["@ha/docker", "workspace:packages/docker"],\
             ["@ha/jsonnet", "workspace:packages/jsonnet"],\
             ["@ha/kubectl", "workspace:packages/kubectl"],\
             ["@ha/nx-executors", "workspace:packages/nx-executors"],\
