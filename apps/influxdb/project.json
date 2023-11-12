@@ -10,6 +10,13 @@
         "cwd": "apps/influxdb",
         "module": "scripts/deploy.ts"
       }
+    },
+    "image/push": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "module": "scripts/image-push.ts",
+        "cwd": "apps/influxdb"
+      }
     }
   },
   "tags": [],
