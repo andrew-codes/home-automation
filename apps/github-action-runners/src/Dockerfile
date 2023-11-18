@@ -3,7 +3,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 USER root
 RUN apt update -y
-RUN apt-get install \
+RUN apt-get install -y \
   apt-transport-https wget software-properties-common
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 RUN curl -sS https://packages.cloud.google.com/apt/doc/apt-key.gpg | (OUT=$(apt-key add - 2>&1) || echo $OUT)
