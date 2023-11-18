@@ -53,7 +53,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
       template: {
         spec: {
           serviceAccountName: 'k8s',
-          repository: std.extVar('repository_name'),
+          organization: std.extVar('org'),
           labels: ['amd64-runner', 'github-action-runner'],
           dockerEnabled: true,
           dockerdWithinRunnerContainer: false,
