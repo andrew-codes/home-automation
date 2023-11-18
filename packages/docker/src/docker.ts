@@ -1,8 +1,8 @@
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
+import { throwIfError } from "@ha/shell-utils"
 import process from "process"
 import sh from "shelljs"
-import { throwIfError } from "@ha/shell-utils"
 
 type DockerBuildOptions = {
   context?: string
