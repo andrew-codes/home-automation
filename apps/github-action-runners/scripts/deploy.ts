@@ -95,11 +95,12 @@ const run = async (
   )
 
   const resources = await Promise.all(
-    repoNames.map((repoName) =>
+    repoNames.slice(0, 1).map((repoName) =>
       jsonnet.eval(path.join(__dirname, "..", "deployment", "index.jsonnet"), {
         image: `${registry.value}/${name}:latest`,
         secrets: JSON.stringify([]),
-        repository_name: `${repoName}/${repo_name.value}`,
+        repository_name: `${repo_owner.value}/${repoName}`,
+        org: repo_owner.value,
       }),
     ),
   )
