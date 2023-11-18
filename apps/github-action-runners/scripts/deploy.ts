@@ -1,11 +1,11 @@
-import path from "path"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
-import sh from "shelljs"
+import { createSeal } from "@ha/github-secrets"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
 import { throwIfError } from "@ha/shell-utils"
-import { createSeal } from "@ha/github-secrets"
+import path from "path"
+import sh from "shelljs"
 import { name } from "./config"
 
 const run = async (
@@ -51,40 +51,59 @@ const run = async (
   const registry = await configurationApi.get("docker-registry/hostname")
   const repo_owner = await configurationApi.get("repository/owner")
   const repo_name = await configurationApi.get("repository/name")
+  const otherRepoNames =
+    (await (
+      await configurationApi.get("repository/other/names")
+    ).value.split(",")) ?? []
+
+  const repoNames = [repo_name.value].concat(otherRepoNames)
 
   await Promise.all(
-    secrets.map(async (secretName, index) => {
-      const secretValue = await configurationApi.get(secretName)
+    repoNames.map((repoName) =>
+      Promise.all(
+        secrets.map(async (secretName, index) => {
+          const secretValue = await configurationApi.get(secretName)
 
-      return await seal(
+          return await seal(
+            repo_owner.value,
+            repoName,
+            names[index],
+            typeof secretValue === "string" ? secretValue : secretValue.value,
+          )
+        }),
+      ),
+    ),
+  )
+
+  await Promise.all(
+    repoNames.map((repoName) =>
+      seal(
         repo_owner.value,
-        repo_name.value,
-        names[index],
-        typeof secretValue === "string" ? secretValue : secretValue.value,
+        repoName,
+        "JEST_REPORTER_TOKEN",
+        githubToken.value,
+      ),
+    ),
+  )
+
+  const resources = await Promise.all(
+    repoNames.map((repoName) =>
+      jsonnet.eval(path.join(__dirname, "..", "deployment", "index.jsonnet"), {
+        image: `${registry.value}/${name}:latest`,
+        secrets: JSON.stringify([]),
+        repository_name: `${repoName}/${repo_name.value}`,
+      }),
+    ),
+  )
+  await Promise.all(
+    resources.map((resource) => {
+      const resourceJson = JSON.parse(resource)
+      return Promise.all(
+        resourceJson.map((resource) =>
+          kubectl.applyToCluster(JSON.stringify(resource)),
+        ),
       )
     }),
-  )
-
-  await seal(
-    repo_owner.value,
-    repo_name.value,
-    "JEST_REPORTER_TOKEN",
-    githubToken.value,
-  )
-
-  const resources = await jsonnet.eval(
-    path.join(__dirname, "..", "deployment", "index.jsonnet"),
-    {
-      image: `${registry.value}/${name}:latest`,
-      secrets: JSON.stringify([]),
-      repository_name: `${repo_owner.value}/${repo_name.value}`,
-    },
-  )
-  const resourceJson = JSON.parse(resources)
-  await Promise.all(
-    resourceJson.map((resource) =>
-      kubectl.applyToCluster(JSON.stringify(resource)),
-    ),
   )
 
   await kubectl.rolloutDeployment("restart", "controller-manager", {

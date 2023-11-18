@@ -1,5 +1,5 @@
+import { FullItem, ItemBuilder, OnePasswordConnect } from "@1password/connect"
 import { ConfigurationApi } from "@ha/configuration-api"
-import { OnePasswordConnect, ItemBuilder, FullItem } from "@1password/connect"
 import { configurationApi as EnvSecretsConfiguration } from "@ha/configuration-env-secrets"
 
 const configurationNames = [
@@ -164,6 +164,7 @@ const configurationNames = [
   "remote-codespaces/machine/password",
   "remote-codespaces/name",
   "repository/name",
+  "repository/other/names",
   "repository/owner",
   "samba/user/1",
   "unifi/ip",
