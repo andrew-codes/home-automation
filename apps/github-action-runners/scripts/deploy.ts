@@ -40,20 +40,12 @@ const run = async (
     "onepassword/token",
     "onepassword/vault-id",
     "code-cov/token",
-    "mqtt/port/external",
-    "mqtt/username",
-    "mqtt/password",
-    "k8s/main-node/ip",
   ]
   const names: string[] = [
     "ONEPASSWORD_SERVER_URL",
     "ONEPASSWORD_TOKEN",
     "ONEPASSWORD_VAULT_ID",
     "CODE_COV_TOKEN",
-    "MQTT_PORT_EXTERNAL",
-    "MQTT_USERNAME",
-    "MQTT_PASSWORD",
-    "K8S_MAIN_NODE_IP",
   ]
 
   const registry = await configurationApi.get("docker-registry/hostname")
