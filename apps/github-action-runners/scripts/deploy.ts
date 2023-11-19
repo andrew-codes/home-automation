@@ -28,7 +28,7 @@ const run = async (
   )
 
   sh.exec(
-    `kubectl create -f https://github.com/actions-runner-controller/actions-runner-controller/releases/download/v0.26.0/actions-runner-controller.yaml;`,
+    `kubectl create -f https://github.com/actions-runner-controller/actions-runner-controller/releases/download/v0.27.6/actions-runner-controller.yaml;`,
     { silent: true },
   )
   const seal = createSeal(githubToken.value)
@@ -84,26 +84,27 @@ const run = async (
     ),
   )
 
-  const resources = await Promise.all(
-    repoNames.slice(0, 1).map((repoName) =>
-      jsonnet.eval(path.join(__dirname, "..", "deployment", "index.jsonnet"), {
-        image: `${registry.value}/${name}:latest`,
-        secrets: JSON.stringify([]),
-        repository_name: `${repo_owner.value}/${repoName}`,
-        repository_names: repoNames,
-        org: repo_owner.value,
-      }),
-    ),
-  )
-  await Promise.all(
-    resources.map((resource) => {
-      const resourceJson = JSON.parse(resource)
-      return Promise.all(
-        resourceJson.map((resource) =>
-          kubectl.applyToCluster(JSON.stringify(resource)),
+  const jsonnetOutputs = (
+    await Promise.all(
+      repoNames.map((repoName) =>
+        jsonnet.eval(
+          path.join(__dirname, "..", "deployment", "index.jsonnet"),
+          {
+            image: `${registry.value}/${name}:latest`,
+            repoName: `${repo_owner.value}/${repoName}`,
+            name: repoName,
+          },
         ),
-      )
-    }),
+      ),
+    )
+  ).map((jsonnetOutput) => JSON.parse(jsonnetOutput))
+
+  await Promise.all(
+    jsonnetOutputs.flatMap((resources) =>
+      resources.map(async (resource) =>
+        kubectl.applyToCluster(JSON.stringify(resource)),
+      ),
+    ),
   )
 
   await kubectl.rolloutDeployment("restart", "controller-manager", {

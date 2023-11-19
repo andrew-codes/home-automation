@@ -2,34 +2,10 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
 
 [
   {
-    kind: 'ClusterRoleBinding',
-    apiVersion: 'rbac.authorization.k8s.io/v1',
-    metadata: {
-      name: 'k8s',
-    },
-    subjects: [{
-      kind: 'ServiceAccount',
-      name: 'k8s',
-      namespace: 'default',
-    }],
-    roleRef: {
-      kind: 'ClusterRole',
-      name: 'cluster-admin',
-      apiGroup: 'rbac.authorization.k8s.io',
-    },
-  },
-  {
-    apiVersion: 'v1',
-    kind: 'ServiceAccount',
-    metadata: {
-      name: 'k8s',
-    },
-  },
-  {
     apiVersion: 'actions.summerwind.dev/v1alpha1',
     kind: 'HorizontalRunnerAutoscaler',
     metadata: {
-      name: 'runner-deployment-autoscaler',
+      name: 'runner-deployment-autoscaler' + std.extVar('name'),
     },
     spec: {
       scaleDownDelaySecondsAfterScaleOut: 60,
@@ -39,7 +15,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
       metrics:
         [{
           type: 'TotalNumberOfQueuedAndInProgressWorkflowRuns',
-          repositoryNames: [std.extVar('repository_names')],
+          repositoryNames: [std.extVar('repoName')],
         }],
     },
   },
@@ -47,14 +23,14 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
     apiVersion: 'actions.summerwind.dev/v1alpha1',
     kind: 'RunnerDeployment',
     metadata: {
-      name: 'github-action-runner-amd64',
+      name: 'github-action-runner-amd64-' + std.extVar('name'),
     },
     spec: {
       template: {
         spec: {
-          serviceAccountName: 'k8s',
-          organization: std.extVar('org'),
-          labels: ['amd64-runner', 'github-action-runner'],
+          env: [{ name: 'DISABLE_RUNNER_UPDATE', value: 'true' }],
+          labels: [std.extVar('name'), 'github-action-runner', 'self-hosted'],
+          repository: std.extVar('repoName'),
           dockerEnabled: true,
           dockerdWithinRunnerContainer: false,
           imagePullSecrets: [{
