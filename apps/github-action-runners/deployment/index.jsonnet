@@ -39,7 +39,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
       metrics:
         [{
           type: 'TotalNumberOfQueuedAndInProgressWorkflowRuns',
-          repositoryNames: [std.extVar('repository_name')],
+          repositoryNames: [std.extVar('repository_names')],
         }],
     },
   },

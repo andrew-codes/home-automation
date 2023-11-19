@@ -92,6 +92,9 @@ const run = async (
         image: `${registry.value}/${name}:latest`,
         secrets: JSON.stringify([]),
         repository_name: `${repo_owner.value}/${repoName}`,
+        repository_names: repoNames.map(
+          (repoName) => `${repo_owner.value}/${repoName}`,
+        ),
         org: repo_owner.value,
       }),
     ),
