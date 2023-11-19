@@ -3,7 +3,6 @@ import type { Configuration } from "@ha/configuration-workspace"
 import { createSeal } from "@ha/github-secrets"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
-import { throwIfError } from "@ha/shell-utils"
 import path from "path"
 import sh from "shelljs"
 import { name } from "./config"
@@ -17,11 +16,10 @@ const run = async (
     `kubectl delete secret controller-manager --namespace=actions-runner-system;`,
     { silent: true },
   )
-  await throwIfError(
-    sh.exec(
-      `kubectl create secret generic controller-manager --namespace=actions-runner-system --from-literal=github_token="${githubToken.value}";`,
-      { silent: true },
-    ),
+
+  sh.exec(
+    `kubectl create secret generic controller-manager --namespace=actions-runner-system --from-literal=github_token="${githubToken.value}";`,
+    { silent: true },
   )
 
   sh.exec(
@@ -92,9 +90,7 @@ const run = async (
         image: `${registry.value}/${name}:latest`,
         secrets: JSON.stringify([]),
         repository_name: `${repo_owner.value}/${repoName}`,
-        repository_names: repoNames.map(
-          (repoName) => `${repo_owner.value}/${repoName}`,
-        ),
+        repository_names: repoNames,
         org: repo_owner.value,
       }),
     ),
