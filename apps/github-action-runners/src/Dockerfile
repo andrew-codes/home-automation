@@ -78,7 +78,8 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E03280
 RUN echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" > /etc/apt/sources.list.d/mono-official-stable.list
 RUN apt-get update -y
 RUN apt-get install -y \
-mono-complete
+mono-complete \
+nuget
 
 USER runner
 RUN echo '{ "features": { "buildkit": true }, "exec-opts": [], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' | tee /home/runner/.config/docker/daemon.json
