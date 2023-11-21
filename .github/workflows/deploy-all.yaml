@@ -5,7 +5,7 @@ on: workflow_dispatch
 jobs:
   test:
     name: Run all tests
-    runs-on: amd64-runner
+    runs-on: home-automation
     steps:
       - uses: actions/checkout@v3
         with:
@@ -30,7 +30,7 @@ jobs:
 
   deploy:
     name: Compile, Push, Deploy
-    runs-on: amd64-runner
+    runs-on: home-automation
     needs:
       - test
     steps:
