@@ -79,7 +79,9 @@ RUN echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" >
 RUN apt-get update -y
 RUN apt-get install -y \
 mono-complete \
-nuget
+nuget \
+git-lfs
+RUN git lfs install
 
 USER runner
 RUN echo '{ "features": { "buildkit": true }, "exec-opts": [], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' | tee /home/runner/.config/docker/daemon.json
