@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
+echo "{}" > ~/.docker/config.json
 
 if [ -f .secrets.env ]; then
 set -o allexport
