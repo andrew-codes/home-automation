@@ -5,7 +5,7 @@ on:
 jobs:
   push_image:
     name: Update docker GitHub action runner image
-    runs-on: amd64-runner
+    runs-on: home-automation
     steps:
       - name: Checkout
         uses: actions/checkout@v3
