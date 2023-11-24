@@ -18,16 +18,16 @@ const run = async (
     "obsidian-livesync/password",
   )
 
-  const localIni = await fs
-    .readFile(path.join(__dirname, "..", "src", "local.ini"))
-    .toString()
+  const localIni = await fs.readFile(
+    path.join(__dirname, "..", "src", "local.ini"),
+  )
 
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
       name: "obsidian-livesync",
       port: parseInt(port_external.value),
-      localIni,
+      localIni: localIni.toString() ?? "",
       couchDbUser: couchDbUsername.value,
       couchDbPassword: couchDbPassword.value,
     },
@@ -39,7 +39,7 @@ const run = async (
     ),
   )
 
-  await kubectl.rolloutDeployment("restart", "mqtt")
+  await kubectl.rolloutDeployment("restart", "obsidian-livesync")
 }
 
 export default run
