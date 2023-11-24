@@ -1,6 +1,6 @@
 ---
 - import_playbook: proxy-internal.yml
-- name: Nginx proxy
+- name: Nginx external proxy
   hosts: all
   become: true
   become_method: ansible.builtin.sudo
@@ -11,12 +11,6 @@
     - ../.secrets/ansible-secrets.yml
 
   tasks:
-    - name: Update apt
-      become_user: root
-      become_method: ansible.builtin.sudo
-      become: true
-      shell: apt-get update --allow-releaseinfo-change
-
     - name: Setup repo for crowdsec-nginx-bouncer
       shell: curl -s https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh | sudo bash
 
@@ -31,30 +25,30 @@
           - luarocks
           - gettext-base
           - crowdsec-nginx-bouncer
-        state: present
+        state: absent
         update_cache: true
 
-    - name: Copy nginx bouncer config
-      copy:
-        src: ../dist/crowdsec-nginx-bouncer.conf
-        dest: /etc/crowdsec/bouncers/crowdsec-nginx-bouncer.conf
-        owner: root
-        group: root
-        mode: "0644"
+    # - name: Copy nginx bouncer config
+    #   copy:
+    #     src: ../dist/crowdsec-nginx-bouncer.conf
+    #     dest: /etc/crowdsec/bouncers/crowdsec-nginx-bouncer.conf
+    #     owner: root
+    #     group: root
+    #     mode: "0644"
 
-    - name: Copy nginx bouncer nginx conf
-      copy:
-        src: ../src/crowdsec_nginx.conf
-        dest: /etc/nginx/conf.d/crowdsec_nginx.conf
-        owner: root
-        group: root
-        mode: "0644"
+    # - name: Copy nginx bouncer nginx conf
+    #   copy:
+    #     src: ../src/crowdsec_nginx.conf
+    #     dest: /etc/nginx/conf.d/crowdsec_nginx.conf
+    #     owner: root
+    #     group: root
+    #     mode: "0644"
 
-    - name: Include modules
-      ansible.builtin.lineinfile:
-        path: /etc/nginx/nginx.conf
-        line: "include /etc/nginx/modules-enabled/*.conf;"
-        state: present
+    # - name: Include modules
+    #   ansible.builtin.lineinfile:
+    #     path: /etc/nginx/nginx.conf
+    #     line: "include /etc/nginx/modules-enabled/*.conf;"
+    #     state: present
 
     - name: Restart nginx
       ansible.builtin.systemd:

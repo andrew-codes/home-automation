@@ -1,5 +1,5 @@
 ---
-- name: Nginx proxy
+- name: Nginx internal proxy
   hosts: all
   become: true
   become_method: ansible.builtin.sudo

@@ -112,7 +112,6 @@ RET_CODE=
       ".secrets",
       "hosts.yml",
     )} --extra-vars "nginxDir='proxy'"`,
-    { silent: true },
   )
 
   sh.exec(
@@ -127,7 +126,6 @@ RET_CODE=
       ".secrets",
       "hosts-internal.yml",
     )} --extra-vars "nginxDir='proxy-internal'"`,
-    { silent: true },
   )
 }
 
