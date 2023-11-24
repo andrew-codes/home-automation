@@ -27,8 +27,8 @@ local deployment = lib.deployment.new(std.extVar('name'), "couchdb:3.3.2", [], s
                   }
                    + lib.deployment.withConfigMapVolume('local-ini-config')
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('local-ini-config', '/opt/couchdb/local.ini') + k.core.v1.volumeMount.withSubPath('local.ini'))
-                  //  + lib.deployment.withPersistentVolume('obsidian-livesync')
-                  //  + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('obsidian-livesync', '/opt/couchdb/data',))
+                   + lib.deployment.withPersistentVolume('obsidian-livesync')
+                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('obsidian-livesync', '/opt/couchdb/data',))
 ;
 
 local configMap = lib.volume.configMapVolume.new('local-ini-config', localIniConfigMap);
