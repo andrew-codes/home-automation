@@ -1,5 +1,5 @@
 ---
-- import_playbook: proxy_internal.yml
+- import_playbook: proxy-internal.yml
 - name: Nginx proxy
   hosts: all
   become: true
@@ -44,7 +44,7 @@
 
     - name: Copy nginx bouncer nginx conf
       copy:
-        src: ../srec/crowdsec_nginx.conf
+        src: ../src/crowdsec_nginx.conf
         dest: /etc/nginx/conf.d/crowdsec_nginx.conf
         owner: root
         group: root

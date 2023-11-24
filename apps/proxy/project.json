@@ -13,6 +13,7 @@
     },
     "compile": {
       "executor": "@ha/nx-executors:invoke",
+      "outputs": ["{projectRoot}/dist"],
       "options": {
         "cwd": "apps/proxy",
         "module": "scripts/compile.ts"
