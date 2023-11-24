@@ -176,6 +176,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:apps/nfs-provisioner"\
       },\
       {\
+        "name": "@ha/obsidian-livesync",\
+        "reference": "workspace:apps/obsidian-livesync"\
+      },\
+      {\
         "name": "@ha/openvpn",\
         "reference": "workspace:apps/openvpn"\
       },\
@@ -414,6 +418,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@ha/mqtt-heartbeat", ["workspace:packages/mqtt-heartbeat"]],\
       ["@ha/nfs-provisioner", ["workspace:apps/nfs-provisioner"]],\
       ["@ha/nx-executors", ["workspace:packages/nx-executors"]],\
+      ["@ha/obsidian-livesync", ["workspace:apps/obsidian-livesync"]],\
       ["@ha/openvpn", ["workspace:apps/openvpn"]],\
       ["@ha/paperless", ["workspace:apps/paperless"]],\
       ["@ha/photoprism", ["workspace:apps/photoprism"]],\
@@ -9773,6 +9778,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["shelljs", "npm:0.8.5"],\
             ["ts-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#npm:29.0.5"],\
             ["typescript", "patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=ad5954"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@ha/obsidian-livesync", [\
+        ["workspace:apps/obsidian-livesync", {\
+          "packageLocation": "./apps/obsidian-livesync/",\
+          "packageDependencies": [\
+            ["@ha/obsidian-livesync", "workspace:apps/obsidian-livesync"],\
+            ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+            ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+            ["@ha/docker", "workspace:packages/docker"],\
+            ["@ha/jsonnet", "workspace:packages/jsonnet"],\
+            ["@ha/kubectl", "workspace:packages/kubectl"],\
+            ["@ha/nx-executors", "workspace:packages/nx-executors"]\
           ],\
           "linkType": "SOFT"\
         }]\

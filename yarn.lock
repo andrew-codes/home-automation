@@ -6122,6 +6122,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ha/obsidian-livesync@workspace:apps/obsidian-livesync":
+  version: 0.0.0-use.local
+  resolution: "@ha/obsidian-livesync@workspace:apps/obsidian-livesync"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/nx-executors": "workspace:^0.1.0"
+  languageName: unknown
+  linkType: soft
+
 "@ha/openvpn@workspace:apps/openvpn":
   version: 0.0.0-use.local
   resolution: "@ha/openvpn@workspace:apps/openvpn"
