@@ -93,4 +93,4 @@ local postgresVolume = lib.volume.persistentVolume.new('home-assistant-postgres-
 local haVolume = lib.volume.persistentVolume.new('home-assistant', '10Gi');
 local haVolumeNewConfig = lib.volume.persistentVolume.new('home-assistant-new-config', '7Gi');
 
-haVolume + haVolumeNewConfig + postgresVolume + [postgresDeployment, postgresService] + std.objectValues(deployment)
+std.objectValues(deployment) + [postgresDeployment, postgresService] + haVolume + haVolumeNewConfig + postgresVolume
