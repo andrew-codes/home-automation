@@ -3,4 +3,4 @@ group:
     name: Family is sleeping
     all: true
     entities:
-      - binary_sensor.andrew_is_sleeping
+      - input_boolean.andrew_is_sleeping

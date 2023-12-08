@@ -3,5 +3,5 @@ group:
     name: Someone is sleeping
     all: false
     entities:
-      - binary_sensor.andrew_is_sleeping
-      - binary_sensor.dorri_is_sleeping
+      - input_boolean.andrew_is_sleeping
+      - input_boolean.dorri_is_sleeping
