@@ -25,7 +25,6 @@
     "jest": "^29.3.1",
     "jest-when": "^3.5.2",
     "lodash": "^4.17.21",
-    "node-unifi": "^2.2.2",
     "nodemon": "^2.0.20",
     "redux": "^4.2.0",
     "redux-saga": "^1.2.2",

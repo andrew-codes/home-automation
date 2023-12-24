@@ -1,8 +1,8 @@
+import { createHeartbeat } from "@ha/http-heartbeat"
 import { createLogger } from "@ha/logger"
 import { createMqtt } from "@ha/mqtt-client"
-import { createHeartbeat } from "@ha/http-heartbeat"
+import { applyMiddleware, createStore } from "redux"
 import createSagaMiddleware from "redux-saga"
-import { createStore, applyMiddleware } from "redux"
 import reducer, {
   pollDiscovery,
   registerWithHomeAssistant,
@@ -61,7 +61,9 @@ async function run() {
           logger.info(`No network found for ${homeAssistantId}`)
           return
         }
-        logger.debug(JSON.stringify(network))
+        logger.info("Networks found")
+        console.dir(network)
+        // logger.debug(JSON.stringify(network))
         const { passPhrase } = JSON.parse(payload.toString())
         store.dispatch(
           setGuestWifiPassPhrase(network, homeAssistantId, passPhrase),

@@ -4,12 +4,6 @@
   "version": "0.1.0",
   "license": "MIT",
   "main": "src/index.ts",
-  "peerDependencies": {
-    "node-unifi": "^2.2.2"
-  },
-  "dependencies": {
-    "node-unifi": "^2.2.2"
-  },
   "devDependencies": {
     "@ha/configure-jest": "workspace:^0.0.1",
     "@ha/nx-executors": "workspace:^0.1.0",

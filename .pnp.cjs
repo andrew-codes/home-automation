@@ -435,7 +435,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@ha/subgraph-gaming", ["workspace:apps/subgraph-gaming"]],\
       ["@ha/themes-definition", ["workspace:packages/themes/definition"]],\
       ["@ha/themes-slate", ["workspace:packages/themes/slate"]],\
-      ["@ha/unifi-client", ["virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/unifi-client", "workspace:packages/unifi-client"]],\
+      ["@ha/unifi-client", ["workspace:packages/unifi-client"]],\
       ["@ha/uptime-kuma", ["workspace:apps/uptime-kuma"]],\
       ["@ha/velero", ["workspace:apps/velero"]],\
       ["@ha/wake-on-lan", ["workspace:apps/wake-on-lan"]],\
@@ -8355,7 +8355,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/nx-executors", "workspace:packages/nx-executors"],\
             ["@ha/shell-utils", "workspace:packages/shell-utils"],\
             ["@ha/themes-slate", "workspace:packages/themes/slate"],\
-            ["@ha/unifi-client", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/unifi-client"],\
+            ["@ha/unifi-client", "workspace:packages/unifi-client"],\
             ["@remix-run/dev", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#npm:1.11.0"],\
             ["@remix-run/eslint-config", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#npm:1.11.0"],\
             ["@remix-run/node", "npm:1.11.0"],\
@@ -8372,7 +8372,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
             ["jest-when", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:3.5.2"],\
             ["lodash", "npm:4.17.21"],\
-            ["node-unifi", "npm:2.2.2"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#npm:18.2.0"],\
             ["react-is", "npm:18.2.0"],\
@@ -9188,7 +9187,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/logger", "workspace:packages/logger"],\
             ["@ha/mqtt-client", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/mqtt-client"],\
             ["@ha/nx-executors", "workspace:packages/nx-executors"],\
-            ["@ha/unifi-client", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/unifi-client"],\
+            ["@ha/unifi-client", "workspace:packages/unifi-client"],\
             ["@microsoft/microsoft-graph-client", "virtual:ba3c80966cccf6320af56404fcf85305a3d9b6b7f8847a170d1274f6a04d1592f5e64a978de39768c916537ebaff609533bc041dee86b301e2e4016832b1a9d9#npm:3.0.5"],\
             ["@redux-saga/is", "npm:1.1.3"],\
             ["@redux-saga/symbols", "npm:1.1.3"],\
@@ -9206,7 +9205,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest-when", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:3.5.2"],\
             ["lodash", "npm:4.17.21"],\
             ["mongodb", "npm:4.6.0"],\
-            ["node-unifi", "npm:2.2.2"],\
             ["nodemon", "npm:2.0.20"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#npm:18.2.0"],\
@@ -9237,7 +9235,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/logger", "workspace:packages/logger"],\
             ["@ha/mqtt-client", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/mqtt-client"],\
             ["@ha/nx-executors", "workspace:packages/nx-executors"],\
-            ["@ha/unifi-client", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/unifi-client"],\
             ["@types/jest", "npm:29.2.5"],\
             ["@types/node", "npm:18.11.18"],\
             ["async-mqtt", "npm:2.6.3"],\
@@ -9245,7 +9242,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest-when", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:3.5.2"],\
             ["lodash", "npm:4.17.21"],\
             ["mongodb", "npm:4.6.0"],\
-            ["node-unifi", "npm:2.2.2"],\
             ["nodemon", "npm:2.0.20"],\
             ["redux", "npm:4.2.0"],\
             ["redux-saga", "npm:1.2.2"],\
@@ -9273,7 +9269,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/logger", "workspace:packages/logger"],\
             ["@ha/mqtt-client", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/mqtt-client"],\
             ["@ha/nx-executors", "workspace:packages/nx-executors"],\
-            ["@ha/unifi-client", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/unifi-client"],\
+            ["@ha/unifi-client", "workspace:packages/unifi-client"],\
             ["@types/jest", "npm:29.2.5"],\
             ["@types/node", "npm:18.11.18"],\
             ["async-mqtt", "npm:2.6.3"],\
@@ -9282,7 +9278,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
             ["jest-when", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:3.5.2"],\
             ["lodash", "npm:4.17.21"],\
-            ["node-unifi", "npm:2.2.2"],\
             ["nodemon", "npm:2.0.20"],\
             ["redux", "npm:4.2.0"],\
             ["redux-saga", "npm:1.2.2"],\
@@ -9309,7 +9304,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/logger", "workspace:packages/logger"],\
             ["@ha/mqtt-client", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/mqtt-client"],\
             ["@ha/nx-executors", "workspace:packages/nx-executors"],\
-            ["@ha/unifi-client", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/unifi-client"],\
+            ["@ha/unifi-client", "workspace:packages/unifi-client"],\
             ["@types/jest", "npm:29.2.5"],\
             ["@types/node", "npm:18.11.18"],\
             ["async-mqtt", "npm:2.6.3"],\
@@ -9317,7 +9312,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["esbuild-register", "virtual:67c2aad2b1bd47fe7a2a41d331ce53a09742994e6e4cf897b697836ad2af8b3577c1b4c3128f4d1437800d10106137809a85386ab3553d979a125a47045c5628#npm:3.4.2"],\
             ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
             ["jest-when", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:3.5.2"],\
-            ["node-unifi", "npm:2.2.2"],\
             ["nodemon", "npm:2.0.20"],\
             ["ts-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#npm:29.0.5"],\
             ["typescript", "patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=ad5954"]\
@@ -10112,27 +10106,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@ha/unifi-client", [\
-        ["virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/unifi-client", {\
-          "packageLocation": "./.yarn/__virtual__/@ha-unifi-client-virtual-2251ad1a48/1/packages/unifi-client/",\
-          "packageDependencies": [\
-            ["@ha/unifi-client", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/unifi-client"],\
-            ["@ha/configure-jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#workspace:packages/configure-jest"],\
-            ["@ha/nx-executors", "workspace:packages/nx-executors"],\
-            ["@types/jest", "npm:29.2.5"],\
-            ["@types/node", "npm:18.11.18"],\
-            ["@types/node-unifi", null],\
-            ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
-            ["jest-when", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:3.5.2"],\
-            ["node-unifi", "npm:2.2.2"],\
-            ["ts-jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.0.5"],\
-            ["typescript", "patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=ad5954"]\
-          ],\
-          "packagePeers": [\
-            "@types/node-unifi",\
-            "node-unifi"\
-          ],\
-          "linkType": "SOFT"\
-        }],\
         ["workspace:packages/unifi-client", {\
           "packageLocation": "./packages/unifi-client/",\
           "packageDependencies": [\
@@ -10143,7 +10116,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:18.11.18"],\
             ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
             ["jest-when", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:3.5.2"],\
-            ["node-unifi", "npm:2.2.2"],\
             ["ts-jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.0.5"],\
             ["typescript", "patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=ad5954"]\
           ],\
@@ -13937,16 +13909,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:1.1.3", {\
-          "packageLocation": "./.yarn/cache/axios-npm-1.1.3-4b63965ac1-cab3b17bf6.zip/node_modules/axios/",\
-          "packageDependencies": [\
-            ["axios", "npm:1.1.3"],\
-            ["follow-redirects", "virtual:a6641ce4e3bdcc0997f8f53d9481b67c5d38e21276de8eeee7bf92881685b3ad5600bae416c2af904ceab8132bac649e7efd0af93f18e158e0e65ee05a263d72#npm:1.15.2"],\
-            ["form-data", "npm:4.0.0"],\
-            ["proxy-from-env", "npm:1.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:1.2.2", {\
           "packageLocation": "./.yarn/cache/axios-npm-1.2.2-151da260f0-6e357491b3.zip/node_modules/axios/",\
           "packageDependencies": [\
@@ -17723,15 +17685,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["eventemitter2", [\
-        ["npm:6.4.9", {\
-          "packageLocation": "./.yarn/cache/eventemitter2-npm-6.4.9-ba37798a18-be59577c1e.zip/node_modules/eventemitter2/",\
-          "packageDependencies": [\
-            ["eventemitter2", "npm:6.4.9"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["events", [\
         ["npm:3.3.0", {\
           "packageLocation": "./.yarn/cache/events-npm-3.3.0-c280bc7e48-f6f487ad21.zip/node_modules/events/",\
@@ -19624,36 +19577,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/http-cache-semantics-npm-4.1.0-860520a31f-974de94a81.zip/node_modules/http-cache-semantics/",\
           "packageDependencies": [\
             ["http-cache-semantics", "npm:4.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["http-cookie-agent", [\
-        ["npm:4.0.2", {\
-          "packageLocation": "./.yarn/cache/http-cookie-agent-npm-4.0.2-3ceb4d8b3f-864a23c555.zip/node_modules/http-cookie-agent/",\
-          "packageDependencies": [\
-            ["http-cookie-agent", "npm:4.0.2"]\
-          ],\
-          "linkType": "SOFT"\
-        }],\
-        ["virtual:917969c37da16516834fa804e915e2990f6759b5666d5b859fc093a6f90148a90ab6e88861bd69953cc8e4ac162282dbe5d1f9925a225e29b2fba456698a88a3#npm:4.0.2", {\
-          "packageLocation": "./.yarn/__virtual__/http-cookie-agent-virtual-0d670cf743/0/cache/http-cookie-agent-npm-4.0.2-3ceb4d8b3f-864a23c555.zip/node_modules/http-cookie-agent/",\
-          "packageDependencies": [\
-            ["http-cookie-agent", "virtual:917969c37da16516834fa804e915e2990f6759b5666d5b859fc093a6f90148a90ab6e88861bd69953cc8e4ac162282dbe5d1f9925a225e29b2fba456698a88a3#npm:4.0.2"],\
-            ["@types/deasync", null],\
-            ["@types/tough-cookie", null],\
-            ["@types/undici", null],\
-            ["agent-base", "npm:6.0.2"],\
-            ["deasync", "npm:0.1.28"],\
-            ["tough-cookie", "npm:4.1.2"],\
-            ["undici", null]\
-          ],\
-          "packagePeers": [\
-            "@types/deasync",\
-            "@types/tough-cookie",\
-            "@types/undici",\
-            "tough-cookie",\
-            "undici"\
           ],\
           "linkType": "HARD"\
         }]\
@@ -23803,21 +23726,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["node-unifi", [\
-        ["npm:2.2.2", {\
-          "packageLocation": "./.yarn/cache/node-unifi-npm-2.2.2-917969c37d-2f1a4216eb.zip/node_modules/node-unifi/",\
-          "packageDependencies": [\
-            ["node-unifi", "npm:2.2.2"],\
-            ["axios", "npm:1.1.3"],\
-            ["eventemitter2", "npm:6.4.9"],\
-            ["http-cookie-agent", "virtual:917969c37da16516834fa804e915e2990f6759b5666d5b859fc093a6f90148a90ab6e88861bd69953cc8e4ac162282dbe5d1f9925a225e29b2fba456698a88a3#npm:4.0.2"],\
-            ["tough-cookie", "npm:4.1.2"],\
-            ["url", "npm:0.11.0"],\
-            ["ws", "virtual:917969c37da16516834fa804e915e2990f6759b5666d5b859fc093a6f90148a90ab6e88861bd69953cc8e4ac162282dbe5d1f9925a225e29b2fba456698a88a3#npm:8.12.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["nodemon", [\
         ["npm:2.0.20", {\
           "packageLocation": "./.yarn/unplugged/nodemon-npm-2.0.20-2fea8f7bf9/node_modules/nodemon/",\
@@ -25249,15 +25157,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["psl", [\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/cache/psl-npm-1.8.0-226099d70e-6150048ed2.zip/node_modules/psl/",\
-          "packageDependencies": [\
-            ["psl", "npm:1.8.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["pstree.remy", [\
         ["npm:1.1.8", {\
           "packageLocation": "./.yarn/cache/pstree.remy-npm-1.1.8-2dd5d55de2-5cb53698d6.zip/node_modules/pstree.remy/",\
@@ -25300,13 +25199,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["punycode", [\
-        ["npm:1.3.2", {\
-          "packageLocation": "./.yarn/cache/punycode-npm-1.3.2-3727a84cea-b8807fd594.zip/node_modules/punycode/",\
-          "packageDependencies": [\
-            ["punycode", "npm:1.3.2"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:1.4.1", {\
           "packageLocation": "./.yarn/cache/punycode-npm-1.4.1-be4c23e6d2-fa6e698cb5.zip/node_modules/punycode/",\
           "packageDependencies": [\
@@ -25362,24 +25254,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/qs-npm-6.9.7-3f3fa3ac7b-5bbd263332.zip/node_modules/qs/",\
           "packageDependencies": [\
             ["qs", "npm:6.9.7"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["querystring", [\
-        ["npm:0.2.0", {\
-          "packageLocation": "./.yarn/cache/querystring-npm-0.2.0-421b870c92-8258d6734f.zip/node_modules/querystring/",\
-          "packageDependencies": [\
-            ["querystring", "npm:0.2.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["querystringify", [\
-        ["npm:2.2.0", {\
-          "packageLocation": "./.yarn/cache/querystringify-npm-2.2.0-4e77c9f606-5641ea231b.zip/node_modules/querystringify/",\
-          "packageDependencies": [\
-            ["querystringify", "npm:2.2.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -26269,15 +26143,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/requireindex-npm-1.2.0-483c52ddaf-50d8b10a1f.zip/node_modules/requireindex/",\
           "packageDependencies": [\
             ["requireindex", "npm:1.2.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["requires-port", [\
-        ["npm:1.0.0", {\
-          "packageLocation": "./.yarn/cache/requires-port-npm-1.0.0-fd036b488a-eee0e303ad.zip/node_modules/requires-port/",\
-          "packageDependencies": [\
-            ["requires-port", "npm:1.0.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -28167,19 +28032,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["tough-cookie", [\
-        ["npm:4.1.2", {\
-          "packageLocation": "./.yarn/cache/tough-cookie-npm-4.1.2-09068826e1-a7359e9a3e.zip/node_modules/tough-cookie/",\
-          "packageDependencies": [\
-            ["tough-cookie", "npm:4.1.2"],\
-            ["psl", "npm:1.8.0"],\
-            ["punycode", "npm:2.1.1"],\
-            ["universalify", "npm:0.2.0"],\
-            ["url-parse", "npm:1.5.10"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["tr46", [\
         ["npm:0.0.3", {\
           "packageLocation": "./.yarn/cache/tr46-npm-0.0.3-de53018915-726321c5ea.zip/node_modules/tr46/",\
@@ -28988,13 +28840,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:0.2.0", {\
-          "packageLocation": "./.yarn/cache/universalify-npm-0.2.0-9984e61c10-e86134cb12.zip/node_modules/universalify/",\
-          "packageDependencies": [\
-            ["universalify", "npm:0.2.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:2.0.0", {\
           "packageLocation": "./.yarn/cache/universalify-npm-2.0.0-03b8b418a8-2406a4edf4.zip/node_modules/universalify/",\
           "packageDependencies": [\
@@ -29092,28 +28937,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/urix-npm-0.1.0-bd5e55a13a-4c076ecfbf.zip/node_modules/urix/",\
           "packageDependencies": [\
             ["urix", "npm:0.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["url", [\
-        ["npm:0.11.0", {\
-          "packageLocation": "./.yarn/cache/url-npm-0.11.0-32ce15acfb-50d100d3dd.zip/node_modules/url/",\
-          "packageDependencies": [\
-            ["url", "npm:0.11.0"],\
-            ["punycode", "npm:1.3.2"],\
-            ["querystring", "npm:0.2.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["url-parse", [\
-        ["npm:1.5.10", {\
-          "packageLocation": "./.yarn/cache/url-parse-npm-1.5.10-64fa2bcd6d-fbdba6b1d8.zip/node_modules/url-parse/",\
-          "packageDependencies": [\
-            ["url-parse", "npm:1.5.10"],\
-            ["querystringify", "npm:2.2.0"],\
-            ["requires-port", "npm:1.0.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -29701,13 +29524,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["npm:8.12.0", {\
-          "packageLocation": "./.yarn/cache/ws-npm-8.12.0-4e21348613-818ff3f874.zip/node_modules/ws/",\
-          "packageDependencies": [\
-            ["ws", "npm:8.12.0"]\
-          ],\
-          "linkType": "SOFT"\
-        }],\
         ["npm:8.12.1", {\
           "packageLocation": "./.yarn/cache/ws-npm-8.12.1-d385ae1b1d-97301c1c4d.zip/node_modules/ws/",\
           "packageDependencies": [\
@@ -29736,23 +29552,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/ws-virtual-74beb45f85/0/cache/ws-npm-7.5.9-26f12a5ed6-c3c100a181.zip/node_modules/ws/",\
           "packageDependencies": [\
             ["ws", "virtual:42cab96512ed7ade0282c0ce85318374af5ec18080c07341dbe50218789571c6d90f6c30824e407b25016843f318eca61a98fa57e3cd6b0a8163227c59101106#npm:7.5.9"],\
-            ["@types/bufferutil", null],\
-            ["@types/utf-8-validate", null],\
-            ["bufferutil", null],\
-            ["utf-8-validate", null]\
-          ],\
-          "packagePeers": [\
-            "@types/bufferutil",\
-            "@types/utf-8-validate",\
-            "bufferutil",\
-            "utf-8-validate"\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["virtual:917969c37da16516834fa804e915e2990f6759b5666d5b859fc093a6f90148a90ab6e88861bd69953cc8e4ac162282dbe5d1f9925a225e29b2fba456698a88a3#npm:8.12.0", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-ca78effe5b/0/cache/ws-npm-8.12.0-4e21348613-818ff3f874.zip/node_modules/ws/",\
-          "packageDependencies": [\
-            ["ws", "virtual:917969c37da16516834fa804e915e2990f6759b5666d5b859fc093a6f90148a90ab6e88861bd69953cc8e4ac162282dbe5d1f9925a225e29b2fba456698a88a3#npm:8.12.0"],\
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\

@@ -2,11 +2,11 @@ import { createLogger } from "@ha/logger"
 import type { Controller } from "@ha/unifi-client"
 import { createUnifi } from "@ha/unifi-client"
 import { call, put } from "redux-saga/effects"
-import { DiscoverAction } from "../types"
 import {
   registerWithHomeAssistant,
   updateHomeAssistant,
 } from "../actionCreators"
+import { DiscoverAction } from "../types"
 
 const logger = createLogger()
 
@@ -18,7 +18,6 @@ function* pollDiscovery(action: DiscoverAction) {
       (wlan) => !!wlan.enabled && !!wlan.is_guest,
     )
     logger.info("Found guest networks")
-    logger.info(JSON.stringify(guestNetworks))
     for (let wlan of guestNetworks) {
       yield put(
         registerWithHomeAssistant(wlan._id, wlan.name, wlan.x_passphrase),

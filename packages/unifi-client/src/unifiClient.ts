@@ -1,12 +1,17 @@
-import { readFile } from "fs/promises"
-import { Controller } from "node-unifi"
-import path from "path"
 import cp from "child_process"
+import { readFile } from "fs/promises"
+import path from "path"
 
 const { UNIFI_IP, UNIFI_PORT, UNIFI_PASSWORD, UNIFI_USERNAME } = process.env
 const unifiPort = parseInt(UNIFI_PORT || "8443", 10)
 
-let client: Controller
+interface Controller {
+  authorizeGuest: (mac: string, minutes: number) => void
+  getWLanSettings: () => any
+  setWLanSettings: (network: string, passPhrase: string) => void
+}
+
+let client: Controller | null
 
 const createUnifi = async (
   host: string | undefined = UNIFI_IP,
@@ -14,16 +19,12 @@ const createUnifi = async (
   username: string | undefined = UNIFI_USERNAME,
   password: string | undefined = UNIFI_PASSWORD,
 ): Promise<Controller> => {
-  if (!client) {
-    client = new Controller({
-      host,
-      port: port.toString(),
-      sslverify: false,
-    })
-    await client.login(username, password)
-  }
+  let csrfToken: string | null = null
 
-  client.authorizeGuest = async (mac: string, minutes: number) => {
+  const getToken = async () => {
+    if (csrfToken) {
+      return csrfToken
+    }
     cp.execSync("rm -f headers.txt cookies.txt")
     cp.execSync(
       `curl -k -D headers.txt -X POST --header "Content-Type: application/json" --data '{"username": "${username}", "password": "${password}"}' -b cookies.txt -c cookies.txt https://${host}:${port}/api/auth/login`,
@@ -35,16 +36,49 @@ const createUnifi = async (
     const headers = headersText.split("\n")
     const csrfHeader =
       headers.find((header) => header.includes("x-csrf-token")) ?? ":"
-    const [, csrfToken] = csrfHeader.split(":") ?? ["x-csrf-token", ""]
+    const [, token] = csrfHeader.split(":") ?? ["x-csrf-token", ""]
 
-    if (!csrfToken) {
-      throw new Error(`No CSRF token found in header.
-    ${headersText}`)
+    return new Promise((resolve) => {
+      if (!token) {
+        console.log(`No CSRF token found in header.`)
+        setTimeout(() => {
+          getToken().then(resolve)
+        }, 30000)
+
+        return
+      }
+
+      csrfToken = token
+      resolve(token)
+    })
+  }
+
+  if (!client) {
+    client = {
+      authorizeGuest: async (mac: string, minutes: number) => {
+        const csrfToken = await getToken()
+
+        cp.execSync(
+          `curl -k -X POST --header "Content-Type: application/json" --header "x-csrf-token: ${csrfToken}" --data '{"cmd":"authorize-guest", "mac": "${mac}"}' -b cookies.txt -c cookies.txt https://${host}:${port}/proxy/network/api/s/default/cmd/stamgr`,
+        )
+      },
+      getWLanSettings: async () => {
+        const csrfToken = await getToken()
+
+        const response = cp.execSync(
+          `curl -k -X GET --header "Content-Type: application/json" --header "x-csrf-token: ${csrfToken}" -b cookies.txt -c cookies.txt https://${host}:${port}/proxy/network/api/s/default/rest/wlanconf`,
+        )
+
+        return JSON.parse(response.toString()).data
+      },
+      setWLanSettings: async (networkId, passPhrase) => {
+        const csrfToken = await getToken()
+
+        cp.execSync(
+          `curl -k -X PUT --header "Content-Type: application/json" --header "x-csrf-token: ${csrfToken}" --data '${passPhrase}' -b cookies.txt -c cookies.txt https://${host}:${port}/proxy/network/api/s/default/rest/wlanconf/${networkId}`,
+        )
+      },
     }
-
-    cp.execSync(
-      `curl -k -X POST --header "Content-Type: application/json" --header "x-csrf-token: ${csrfToken}" --data '{"cmd":"authorize-guest", "mac": "${mac}"}' -b cookies.txt -c cookies.txt https://${host}:${port}/proxy/network/api/s/default/cmd/stamgr`,
-    )
   }
 
   return client

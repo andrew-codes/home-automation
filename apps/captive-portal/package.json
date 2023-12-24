@@ -21,7 +21,6 @@
     "@remix-run/serve": "^1.11.0",
     "async-mqtt": "^2.6.3",
     "lodash": "^4.17.21",
-    "node-unifi": "^2.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-is": "18.2.0",
