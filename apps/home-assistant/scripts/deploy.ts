@@ -1,8 +1,8 @@
-import path from "path"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
+import path from "path"
 import { name } from "./config"
 
 const run = async (
@@ -36,7 +36,7 @@ const run = async (
     "home-assistant/ssh-key/private",
     "home-assistant/ssh-key/public",
     "home-assistant/influxdb/token",
-    "home-assistant/jira-authorization-header",
+    "home-assistant/github-authorization-header",
     "home-assistant/latitude",
     "home-assistant/longitude",
     "home-assistant/o365-client-id",

@@ -78,7 +78,7 @@ const configurationNames = [
   "home-assistant/ssh-key/private",
   "home-assistant/ssh-key/public",
   "home-assistant/influxdb/token",
-  "home-assistant/jira-authorization-header",
+  "home-assistant/github-authorization-header",
   "home-assistant/latitude",
   "home-assistant/longitude",
   "home-assistant/o365-client-id",

@@ -1,0 +1,42 @@
+rest_command:
+  report_issue:
+    url: |
+      https://api.github.com/repos/andrew-codes/home-automation/issues
+    method: POST
+    timeout: 20
+    verify_ssl: true
+    headers:
+      X-GitHub-Api-Version: "2022-11-28"
+      accept: "application/vnd.github+json"
+      authorization: !secret GITHUB_AUTHORIZATION_HEADER
+      content-type: "application/json"
+    payload: |
+      {
+        "title": "{{ states('input_text.defect_summary') | to_json }}",
+        "body": "",
+        "labels": [
+          "bug",
+          "reported"
+        ]
+      }
+
+  report_feature_request:
+    url: |
+      https://api.github.com/repos/andrew-codes/home-automation/issues
+    method: POST
+    timeout: 20
+    verify_ssl: true
+    headers:
+      X-GitHub-Api-Version: "2022-11-28"
+      accept: "application/vnd.github+json"
+      authorization: !secret GITHUB_AUTHORIZATION_HEADER
+      content-type: "application/json"
+    payload: |
+      {
+        "title": "{{ states('input_text.feature_request') | to_json }}",
+        "body": "",
+        "labels": [
+          "enhancement",
+          "reported"
+        ]
+      }
