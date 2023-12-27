@@ -12,7 +12,7 @@ rest_command:
       content-type: "application/json"
     payload: |
       {
-        "title": "{{ states('input_text.defect_summary') | to_json }}",
+        "title": {{ states('input_text.defect_summary') | to_json }},
         "body": "",
         "labels": [
           "bug",
@@ -33,7 +33,7 @@ rest_command:
       content-type: "application/json"
     payload: |
       {
-        "title": "{{ states('input_text.feature_request') | to_json }}",
+        "title": {{ states('input_text.feature_request') | to_json }},
         "body": "",
         "labels": [
           "enhancement",
