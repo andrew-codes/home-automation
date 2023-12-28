@@ -49,6 +49,9 @@ const createUnifi = async (
       }
 
       csrfToken = token
+      setTimeout(() => {
+        csrfToken = null
+      }, 7200000)
       resolve(token)
     })
   }
