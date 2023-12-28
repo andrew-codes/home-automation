@@ -52,10 +52,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:apps/game-library-db"\
       },\
       {\
-        "name": "@ha/game-library-updater",\
-        "reference": "workspace:apps/game-library-updater"\
-      },\
-      {\
         "name": "@ha/game-room-remote",\
         "reference": "workspace:apps/game-room-remote"\
       },\
@@ -198,6 +194,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {\
         "name": "@ha/playnite-mqtt",\
         "reference": "workspace:apps/playnite-mqtt"\
+      },\
+      {\
+        "name": "@ha/game-library-updater",\
+        "reference": "workspace:apps/playnite-web-game-db-updater"\
       },\
       {\
         "name": "@ha/proxy",\
@@ -375,7 +375,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@ha/frigate", ["workspace:apps/frigate"]],\
       ["@ha/game-devices", ["workspace:apps/game-devices"]],\
       ["@ha/game-library-db", ["workspace:apps/game-library-db"]],\
-      ["@ha/game-library-updater", ["workspace:apps/game-library-updater"]],\
+      ["@ha/game-library-updater", ["workspace:apps/playnite-web-game-db-updater"]],\
       ["@ha/game-room-remote", ["workspace:apps/game-room-remote"]],\
       ["@ha/gaming-assets-shared-volume", ["workspace:apps/gaming-assets-shared-volume"]],\
       ["@ha/gaming-assets-web", ["workspace:apps/gaming-assets-web"]],\
@@ -8808,10 +8808,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@ha/game-library-updater", [\
-        ["workspace:apps/game-library-updater", {\
-          "packageLocation": "./apps/game-library-updater/",\
+        ["workspace:apps/playnite-web-game-db-updater", {\
+          "packageLocation": "./apps/playnite-web-game-db-updater/",\
           "packageDependencies": [\
-            ["@ha/game-library-updater", "workspace:apps/game-library-updater"],\
+            ["@ha/game-library-updater", "workspace:apps/playnite-web-game-db-updater"],\
             ["@ha/build-ts", "workspace:packages/build-ts"],\
             ["@ha/configuration-api", "workspace:packages/configuration-api"],\
             ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
@@ -8833,7 +8833,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
             ["jest-when", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:3.5.2"],\
             ["lodash", "npm:4.17.21"],\
-            ["mongodb", "virtual:33c00bf061e352069999cfbb7a9b6262496571c2f9758ac31427d47edc588154abfb24d216dc2cb87badd059da18a71b939c8397a63bca0b08f6ecc48a320a67#npm:5.1.0"],\
+            ["mongodb", "virtual:d66ed0b6d270b28bddef355e74554bdf802e15ebbdda2e7df94ea0aa50018591f57c254ef55215cb3e8869f9f5036097519e67afccb8d6edd5797db1a3d464fc#npm:5.1.0"],\
             ["nodemon", "npm:2.0.20"],\
             ["ts-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#npm:29.0.5"],\
             ["typescript", "patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=ad5954"]\
@@ -23317,10 +23317,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:33c00bf061e352069999cfbb7a9b6262496571c2f9758ac31427d47edc588154abfb24d216dc2cb87badd059da18a71b939c8397a63bca0b08f6ecc48a320a67#npm:5.1.0", {\
-          "packageLocation": "./.yarn/__virtual__/mongodb-virtual-1468375e09/0/cache/mongodb-npm-5.1.0-2eee478213-993c14299a.zip/node_modules/mongodb/",\
+        ["virtual:d66ed0b6d270b28bddef355e74554bdf802e15ebbdda2e7df94ea0aa50018591f57c254ef55215cb3e8869f9f5036097519e67afccb8d6edd5797db1a3d464fc#npm:5.1.0", {\
+          "packageLocation": "./.yarn/__virtual__/mongodb-virtual-30014bab32/0/cache/mongodb-npm-5.1.0-2eee478213-993c14299a.zip/node_modules/mongodb/",\
           "packageDependencies": [\
-            ["mongodb", "virtual:33c00bf061e352069999cfbb7a9b6262496571c2f9758ac31427d47edc588154abfb24d216dc2cb87badd059da18a71b939c8397a63bca0b08f6ecc48a320a67#npm:5.1.0"],\
+            ["mongodb", "virtual:d66ed0b6d270b28bddef355e74554bdf802e15ebbdda2e7df94ea0aa50018591f57c254ef55215cb3e8869f9f5036097519e67afccb8d6edd5797db1a3d464fc#npm:5.1.0"],\
             ["@aws-sdk/credential-providers", null],\
             ["@types/aws-sdk__credential-providers", null],\
             ["@types/mongodb-client-encryption", null],\

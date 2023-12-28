@@ -1,0 +1,17 @@
+{
+  "name": "playnite-web-game-db-updater",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/playnite-web-game-db-updater/src",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/playnite-web-game-db-updater",
+        "module": "scripts/deploy.ts"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["gaming-assets-shared-volume"]
+}

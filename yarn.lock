@@ -5249,9 +5249,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/game-library-updater@workspace:apps/game-library-updater":
+"@ha/game-library-updater@workspace:apps/playnite-web-game-db-updater":
   version: 0.0.0-use.local
-  resolution: "@ha/game-library-updater@workspace:apps/game-library-updater"
+  resolution: "@ha/game-library-updater@workspace:apps/playnite-web-game-db-updater"
   dependencies:
     "@ha/build-ts": "workspace:^1.0.0"
     "@ha/configuration-api": "workspace:^0.0.1"
