@@ -135,6 +135,7 @@ const configurationNames = [
   "paperless/postgres-user",
   "paperless/secret-key",
   "paperless/url",
+  "playnite-web/port/external",
   "photoprism/admin/password",
   "photoprism/admin/username",
   "photoprism/db/password",
