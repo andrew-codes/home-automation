@@ -1,13 +1,13 @@
 {
   "name": "playnite-web-app",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/playnite-web-game-db-updater/src",
+  "sourceRoot": "apps/playnite-web-app/src",
   "projectType": "application",
   "targets": {
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
-        "cwd": "apps/playnite-web-game-db-updater",
+        "cwd": "apps/playnite-web-app",
         "module": "scripts/deploy.ts"
       }
     }
