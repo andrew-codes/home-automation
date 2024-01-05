@@ -7,5 +7,6 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                      { name: 'DB_HOST', value: 'game-library-db' },
                      { name: 'DEBUG', value: 'playnite-web-app/*'}
                    ])
+;
 
 std.objectValues(deployment)
