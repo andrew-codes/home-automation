@@ -196,6 +196,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:apps/playnite-mqtt"\
       },\
       {\
+        "name": "@ha/playnite-web-app",\
+        "reference": "workspace:apps/playnite-web-app"\
+      },\
+      {\
         "name": "@ha/game-library-updater",\
         "reference": "workspace:apps/playnite-web-game-db-updater"\
       },\
@@ -424,6 +428,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@ha/photoprism", ["workspace:apps/photoprism"]],\
       ["@ha/pihole", ["workspace:apps/pihole"]],\
       ["@ha/playnite-mqtt", ["workspace:apps/playnite-mqtt"]],\
+      ["@ha/playnite-web-app", ["workspace:apps/playnite-web-app"]],\
       ["@ha/proxy", ["workspace:apps/proxy"]],\
       ["@ha/ps5", ["workspace:apps/ps5"]],\
       ["@ha/remote-codespaces", ["workspace:apps/remote-codespaces"]],\
@@ -8817,23 +8822,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
             ["@ha/configure-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#workspace:packages/configure-jest"],\
             ["@ha/docker", "workspace:packages/docker"],\
-            ["@ha/http-heartbeat", "workspace:packages/http-heartbeat"],\
             ["@ha/jest-utils", "workspace:packages/jest-utils"],\
             ["@ha/jsonnet", "workspace:packages/jsonnet"],\
             ["@ha/kubectl", "workspace:packages/kubectl"],\
-            ["@ha/logger", "workspace:packages/logger"],\
-            ["@ha/mqtt-client", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/mqtt-client"],\
             ["@ha/nx-executors", "workspace:packages/nx-executors"],\
-            ["@ha/string-utils", "workspace:packages/string-utils"],\
             ["@types/jest", "npm:29.2.5"],\
             ["@types/node", "npm:18.11.18"],\
-            ["async-mqtt", "npm:2.6.3"],\
             ["esbuild", "npm:0.17.3"],\
             ["esbuild-register", "virtual:67c2aad2b1bd47fe7a2a41d331ce53a09742994e6e4cf897b697836ad2af8b3577c1b4c3128f4d1437800d10106137809a85386ab3553d979a125a47045c5628#npm:3.4.2"],\
             ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
             ["jest-when", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:3.5.2"],\
-            ["lodash", "npm:4.17.21"],\
-            ["mongodb", "virtual:d66ed0b6d270b28bddef355e74554bdf802e15ebbdda2e7df94ea0aa50018591f57c254ef55215cb3e8869f9f5036097519e67afccb8d6edd5797db1a3d464fc#npm:5.1.0"],\
             ["nodemon", "npm:2.0.20"],\
             ["ts-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#npm:29.0.5"],\
             ["typescript", "patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=ad5954"]\
@@ -9878,6 +9876,33 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["nx", "virtual:67c2aad2b1bd47fe7a2a41d331ce53a09742994e6e4cf897b697836ad2af8b3577c1b4c3128f4d1437800d10106137809a85386ab3553d979a125a47045c5628#npm:15.5.2"],\
             ["shelljs", "npm:0.8.5"],\
             ["wakeonlan", "npm:0.1.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@ha/playnite-web-app", [\
+        ["workspace:apps/playnite-web-app", {\
+          "packageLocation": "./apps/playnite-web-app/",\
+          "packageDependencies": [\
+            ["@ha/playnite-web-app", "workspace:apps/playnite-web-app"],\
+            ["@ha/build-ts", "workspace:packages/build-ts"],\
+            ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+            ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+            ["@ha/configure-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#workspace:packages/configure-jest"],\
+            ["@ha/docker", "workspace:packages/docker"],\
+            ["@ha/jest-utils", "workspace:packages/jest-utils"],\
+            ["@ha/jsonnet", "workspace:packages/jsonnet"],\
+            ["@ha/kubectl", "workspace:packages/kubectl"],\
+            ["@ha/nx-executors", "workspace:packages/nx-executors"],\
+            ["@types/jest", "npm:29.2.5"],\
+            ["@types/node", "npm:18.11.18"],\
+            ["esbuild", "npm:0.17.3"],\
+            ["esbuild-register", "virtual:67c2aad2b1bd47fe7a2a41d331ce53a09742994e6e4cf897b697836ad2af8b3577c1b4c3128f4d1437800d10106137809a85386ab3553d979a125a47045c5628#npm:3.4.2"],\
+            ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
+            ["jest-when", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:3.5.2"],\
+            ["nodemon", "npm:2.0.20"],\
+            ["ts-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#npm:29.0.5"],\
+            ["typescript", "patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=ad5954"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -14584,13 +14609,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["bson", "npm:4.7.2"],\
             ["buffer", "npm:5.7.1"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:5.0.1", {\
-          "packageLocation": "./.yarn/cache/bson-npm-5.0.1-b7a576e9c2-c8b028cdad.zip/node_modules/bson/",\
-          "packageDependencies": [\
-            ["bson", "npm:5.0.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -23307,38 +23325,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["mongodb-connection-string-url", "npm:2.6.0"],\
             ["saslprep", "npm:1.0.3"],\
             ["socks", "npm:2.7.1"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:5.1.0", {\
-          "packageLocation": "./.yarn/cache/mongodb-npm-5.1.0-2eee478213-993c14299a.zip/node_modules/mongodb/",\
-          "packageDependencies": [\
-            ["mongodb", "npm:5.1.0"]\
-          ],\
-          "linkType": "SOFT"\
-        }],\
-        ["virtual:d66ed0b6d270b28bddef355e74554bdf802e15ebbdda2e7df94ea0aa50018591f57c254ef55215cb3e8869f9f5036097519e67afccb8d6edd5797db1a3d464fc#npm:5.1.0", {\
-          "packageLocation": "./.yarn/__virtual__/mongodb-virtual-30014bab32/0/cache/mongodb-npm-5.1.0-2eee478213-993c14299a.zip/node_modules/mongodb/",\
-          "packageDependencies": [\
-            ["mongodb", "virtual:d66ed0b6d270b28bddef355e74554bdf802e15ebbdda2e7df94ea0aa50018591f57c254ef55215cb3e8869f9f5036097519e67afccb8d6edd5797db1a3d464fc#npm:5.1.0"],\
-            ["@aws-sdk/credential-providers", null],\
-            ["@types/aws-sdk__credential-providers", null],\
-            ["@types/mongodb-client-encryption", null],\
-            ["@types/snappy", null],\
-            ["bson", "npm:5.0.1"],\
-            ["mongodb-client-encryption", null],\
-            ["mongodb-connection-string-url", "npm:2.6.0"],\
-            ["saslprep", "npm:1.0.3"],\
-            ["snappy", null],\
-            ["socks", "npm:2.7.1"]\
-          ],\
-          "packagePeers": [\
-            "@aws-sdk/credential-providers",\
-            "@types/aws-sdk__credential-providers",\
-            "@types/mongodb-client-encryption",\
-            "@types/snappy",\
-            "mongodb-client-encryption",\
-            "snappy"\
           ],\
           "linkType": "HARD"\
         }]\

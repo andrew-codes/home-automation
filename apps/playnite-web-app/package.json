@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@ha/game-library-updater",
+  "name": "@ha/playnite-web-app",
   "version": "0.0.1",
   "license": "MIT",
   "devDependencies": {
