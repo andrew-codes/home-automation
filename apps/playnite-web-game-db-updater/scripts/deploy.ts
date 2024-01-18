@@ -13,7 +13,7 @@ const run = async (
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      image: `ghcr.io/andrew-codes/playnite-web-game-db-updater:1.0.0`,
+      image: `ghcr.io/andrew-codes/playnite-web-game-db-updater:dev`,
       name,
       registryHostname: registry.value,
       secrets,
