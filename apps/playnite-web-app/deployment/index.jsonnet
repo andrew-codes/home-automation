@@ -6,6 +6,8 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withEnvVars(0, [
                      { name: 'DB_HOST', value: 'game-library-db' },
                      { name: 'DEBUG', value: 'playnite-web-app/*'},
+                     { name: "MQTT_HOST", value: 'mqtt' },
+                     { name: 'MQTT_PORT', value: '1883'},
                      { name: 'USERNAME', value: std.extVar('username')},
                      { name: 'PASSWORD', value: std.extVar('password')},
                      { name: 'SECRET', value: std.extVar('secret')},

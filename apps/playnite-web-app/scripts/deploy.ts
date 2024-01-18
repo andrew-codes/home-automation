@@ -9,7 +9,7 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   const registry = await configurationApi.get("docker-registry/hostname")
-  const secrets: Array<keyof Configuration> = []
+  const secrets: Array<keyof Configuration> = ["mqtt/username", "mqtt/password"]
   const port = await configurationApi.get("playnite-web/port/external")
   const username = await configurationApi.get("playnite-web/username")
   const password = await configurationApi.get("playnite-web/password")
