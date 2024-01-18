@@ -9,12 +9,11 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   const registry = await configurationApi.get("docker-registry/hostname")
-  const secrets: Array<keyof Configuration> = [
-    "playnite-web/username",
-    "playnite-web/password",
-    "playnite-web/secret",
-  ]
+  const secrets: Array<keyof Configuration> = []
   const port = await configurationApi.get("playnite-web/port/external")
+  const username = await configurationApi.get("playnite-web/username")
+  const password = await configurationApi.get("playnite-web/password")
+  const secret = await configurationApi.get("playnite-web/secret")
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
@@ -23,6 +22,9 @@ const run = async (
       port: parseInt(port.value),
       registryHostname: registry.value,
       secrets,
+      username: username.value,
+      password: password.value,
+      secret: secret.value,
     },
   )
   const resourceJson = JSON.parse(resources)
