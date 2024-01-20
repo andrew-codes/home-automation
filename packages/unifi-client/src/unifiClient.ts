@@ -62,7 +62,7 @@ const createUnifi = async (
         const csrfToken = await getToken()
 
         cp.execSync(
-          `curl -k -X POST --header "Content-Type: application/json" --header "x-csrf-token: ${csrfToken}" --data '{"cmd":"authorize-guest", "mac": "${mac}"}' -b cookies.txt -c cookies.txt https://${host}:${port}/proxy/network/api/s/default/cmd/stamgr`,
+          `curl -k -X POST --header "Content-Type: application/json" --header "x-csrf-token: ${csrfToken}" --data '{"cmd":"authorize-guest", "mac": "${mac}", "minutes": ${minutes} }' -b cookies.txt -c cookies.txt https://${host}:${port}/proxy/network/api/s/default/cmd/stamgr`,
         )
       },
       getWLanSettings: async () => {
