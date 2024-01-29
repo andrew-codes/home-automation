@@ -17,7 +17,7 @@ const run = async (
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      image: `ghcr.io/andrew-codes/playnite-web-app:dev`,
+      image: `ghcr.io/andrew-codes/playnite-web-app:2.0.0`,
       name,
       port: parseInt(port.value),
       registryHostname: registry.value,
@@ -35,6 +35,31 @@ const run = async (
   )
 
   await kubectl.rolloutDeployment("restart", name)
+
+  const stagingPort = await configurationApi.get(
+    "playnite-web/staging/port/external",
+  )
+  const stagingResources = await jsonnet.eval(
+    path.join(__dirname, "..", "deployment", "index.jsonnet"),
+    {
+      image: `ghcr.io/andrew-codes/playnite-web-app:dev`,
+      name: `${name}-staging`,
+      port: parseInt(stagingPort.value),
+      registryHostname: registry.value,
+      secrets,
+      username: username.value,
+      password: password.value,
+      secret: secret.value,
+    },
+  )
+  const stagingResourceJson = JSON.parse(resources)
+  await Promise.all(
+    stagingResourceJson.map((resource) =>
+      kubectl.applyToCluster(JSON.stringify(resource)),
+    ),
+  )
+
+  await kubectl.rolloutDeployment("restart", `${name}-staging`)
 }
 
 export default run
