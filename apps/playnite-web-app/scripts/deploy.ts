@@ -52,7 +52,7 @@ const run = async (
       secret: secret.value,
     },
   )
-  const stagingResourceJson = JSON.parse(resources)
+  const stagingResourceJson = JSON.parse(stagingResources)
   await Promise.all(
     stagingResourceJson.map((resource) =>
       kubectl.applyToCluster(JSON.stringify(resource)),

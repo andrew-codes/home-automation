@@ -12,6 +12,7 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                      { name: 'PASSWORD', value: std.extVar('password')},
                      { name: 'SECRET', value: std.extVar('secret')},
                    ])
+                   + lib.deployment.withProbe(0, "/")
 ;
 
 std.objectValues(deployment)
