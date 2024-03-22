@@ -93,4 +93,79 @@ local postgresVolume = lib.volume.persistentVolume.new('home-assistant-postgres-
 local haVolume = lib.volume.persistentVolume.new('home-assistant', '10Gi');
 local haVolumeNewConfig = lib.volume.persistentVolume.new('home-assistant-new-config', '7Gi');
 
-std.objectValues(deployment) + [postgresDeployment, postgresService] + haVolume + haVolumeNewConfig + postgresVolume
+local sttVolume = lib.volume.persistentVolume.new('whisper-data', '40Gi');
+local sttContainer = k.core.v1.container.new(name='home-assistant-whisper', image='rhasspy/wyoming-whisper:2.1.0')
+                     + k.core.v1.container.withImagePullPolicy('Always')
+                     + k.core.v1.container.withPorts({
+                       name: 'whisper',
+                       containerPort: 10300,
+                       protocol: 'TCP',
+                     },)
+                     + { volumeMounts: [k.core.v1.volumeMount.new('home-assistant-whisper', '/data')] }
+                     + { args: ['--model', 'medium.en', '--language', 'en'] };
+local sstDeployment = k.apps.v1.deployment.new(name='home-assistant-whisper', containers=[sttContainer],)
+                      + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: 'regcred' },)
+                      + k.apps.v1.deployment.spec.template.spec.withServiceAccount('app',)
+                      + { spec+: { template+: { spec+: { volumes: [k.core.v1.volume.fromPersistentVolumeClaim('home-assistant', 'home-assistant-whisper-pv-claim')] } } } }
+                      + k.core.v1.container.withEnv([
+                        { name: 'TZ', value: 'America/New_York' },
+                      ]);
+local sstService = k.core.v1.service.new('home-assistant-whisper', { name: 'home-assistant-whisper' }, [{
+  name: 'whisper',
+  port: 10300,
+  protocol: 'TCP',
+  targetPort: 'whisper',
+}],);
+
+local ttsVolume = lib.volume.persistentVolume.new('piper-data', '40Gi');
+local ttsContainer = k.core.v1.container.new(name='home-assistant-whisper', image='rhasspy/wyoming-piper:1.5.0')
+                     + k.core.v1.container.withImagePullPolicy('Always')
+                     + k.core.v1.container.withPorts({
+                       name: 'piper',
+                       containerPort: 10200,
+                       protocol: 'TCP',
+                     },)
+                     + { volumeMounts: [k.core.v1.volumeMount.new('home-assistant-piper', '/data')] }
+                     + { args: ['--voice', 'en_US-hfc_female-medium'] };
+local ttsDeployment = k.apps.v1.deployment.new(name='home-assistant-whisper', containers=[ttsContainer],)
+                      + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: 'regcred' },)
+                      + k.apps.v1.deployment.spec.template.spec.withServiceAccount('app',)
+                      + { spec+: { template+: { spec+: { volumes: [k.core.v1.volume.fromPersistentVolumeClaim('home-assistant', 'home-assistant-piper-pv-claim')] } } } }
+                      + k.core.v1.container.withEnv([
+                        { name: 'TZ', value: 'America/New_York' },
+                      ]);
+local ttsService = k.core.v1.service.new('home-assistant-piper', { name: 'home-assistant-piper' }, [{
+  name: 'piper',
+  port: 10200,
+  protocol: 'TCP',
+  targetPort: 'piper',
+}],);
+
+local openWakeWordVolumeData = lib.volume.persistentVolume.new('open-wake-word-data', '40Gi');
+local openWakeWordVolumeCustom = lib.volume.persistentVolume.new('open-wake-word-custom', '40Gi');
+local openWakeWordContainer = k.core.v1.container.new(name='home-assistant-open-wake-word', image='rhasspy/wyoming-openwakeword:1.10.0')
+                              + k.core.v1.container.withImagePullPolicy('Always')
+                              + k.core.v1.container.withPorts({
+                                name: 'open-wake-word',
+                                containerPort: 10400,
+                                protocol: 'TCP',
+                              },)
+                              + { volumeMounts: [k.core.v1.volumeMount.new('home-assistant-open-wake-word-data', '/data')] }
+                              + { volumeMounts: [k.core.v1.volumeMount.new('home-assistant-open-wake-word-custom', '/custom')] }
+                              + { args: ['--voice', 'en_US-hfc_female-medium'] };
+local openWakeWordDeployment = k.apps.v1.deployment.new(name='home-assistant-open-wake-word', containers=[openWakeWordContainer],)
+                               + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: 'regcred' },)
+                               + k.apps.v1.deployment.spec.template.spec.withServiceAccount('app',)
+                               + { spec+: { template+: { spec+: { volumes: [k.core.v1.volume.fromPersistentVolumeClaim('home-assistant', 'home-assistant-open-wake-word-data-pv-claim')] } } } }
+                               + { spec+: { template+: { spec+: { volumes: [k.core.v1.volume.fromPersistentVolumeClaim('home-assistant', 'home-assistant-open-wake-word-custom-pv-claim')] } } } }
+                               + k.core.v1.container.withEnv([
+                                 { name: 'TZ', value: 'America/New_York' },
+                               ]);
+local openWakeWordService = k.core.v1.service.new('home-assistant-piper', { name: 'home-assistant-piper' }, [{
+  name: 'open-wake-word',
+  port: 10400,
+  protocol: 'TCP',
+  targetPort: 'open-wake-word',
+}],);
+
+std.objectValues(deployment) + [sstDeployment, sstService] + sttVolume + [ttsDeployment, ttsService] + ttsVolume + [openWakeWordDeployment, openWakeWordService] + openWakeWordVolumeData + openWakeWordVolumeCustom + [postgresDeployment, postgresService] + haVolume + haVolumeNewConfig + postgresVolume
