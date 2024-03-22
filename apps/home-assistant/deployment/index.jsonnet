@@ -128,9 +128,10 @@ local ttsContainer = k.core.v1.container.new(name='piper', image='rhasspy/wyomin
                        protocol: 'TCP',
                      },)
                      + { volumeMounts: [k.core.v1.volumeMount.new('piper-data', '/data')] }
-                     + { args: ['--voice', 'en_US-hfc_female-medium'] } + k.core.v1.container.withEnv([
-  { name: 'TZ', value: 'America/New_York' },
-])
+                     + { args: ['--voice', 'en_US-hfc_female-medium'] }
+                     + k.core.v1.container.withEnv([
+                       { name: 'TZ', value: 'America/New_York' },
+                     ])
 ;
 local ttsDeployment = k.apps.v1.deployment.new(name='piper', containers=[ttsContainer],)
                       + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: 'regcred' },)
@@ -155,9 +156,9 @@ local openWakeWordContainer = k.core.v1.container.new(name='open-wake-word', ima
                               },)
                               + { volumeMounts: [k.core.v1.volumeMount.new('open-wake-word-data', '/data')] }
                               + { volumeMounts: [k.core.v1.volumeMount.new('open-wake-word-custom', '/custom')] }
-                              + { args: ['--voice', 'en_US-hfc_female-medium'] } + k.core.v1.container.withEnv([
-  { name: 'TZ', value: 'America/New_York' },
-])
+                              + k.core.v1.container.withEnv([
+                                { name: 'TZ', value: 'America/New_York' },
+                              ])
 ;
 local openWakeWordDeployment = k.apps.v1.deployment.new(name='open-wake-word', containers=[openWakeWordContainer],)
                                + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: 'regcred' },)
