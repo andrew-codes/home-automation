@@ -110,7 +110,7 @@ local sttContainer = k.core.v1.container.new(name='whisper', image='rhasspy/wyom
 local sstDeployment = k.apps.v1.deployment.new(name='whisper', containers=[sttContainer],)
                       + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: 'regcred' },)
                       + k.apps.v1.deployment.spec.template.spec.withServiceAccount('app',)
-                      + { spec+: { template+: { spec+: { volumes: [k.core.v1.volume.fromPersistentVolumeClaim('whisper-data', 'whisper-pvc')] } } } }
+                      + { spec+: { template+: { spec+: { volumes: [k.core.v1.volume.fromPersistentVolumeClaim('whisper-data', 'whisper-data-pvc')] } } } }
 ;
 local sstService = k.core.v1.service.new('whisper', { name: 'whisper' }, [{
   name: 'whisper',
@@ -135,7 +135,7 @@ local ttsContainer = k.core.v1.container.new(name='piper', image='rhasspy/wyomin
 local ttsDeployment = k.apps.v1.deployment.new(name='piper', containers=[ttsContainer],)
                       + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: 'regcred' },)
                       + k.apps.v1.deployment.spec.template.spec.withServiceAccount('app',)
-                      + { spec+: { template+: { spec+: { volumes: [k.core.v1.volume.fromPersistentVolumeClaim('piper-data', 'piper-pvc')] } } } }
+                      + { spec+: { template+: { spec+: { volumes: [k.core.v1.volume.fromPersistentVolumeClaim('piper-data', 'piper-data-pvc')] } } } }
 ;
 local ttsService = k.core.v1.service.new('piper', { name: 'piper' }, [{
   name: 'piper',
