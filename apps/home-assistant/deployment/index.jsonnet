@@ -171,6 +171,32 @@ local openWakeWordService = k.core.v1.service.new('piper', { name: 'piper' }, [{
   port: 10400,
   protocol: 'TCP',
   targetPort: 'open-wake-word',
-}],);
+}],)
+;
 
-std.objectValues(deployment) + sttVolume + [sstDeployment, sstService] + ttsVolume + [ttsDeployment, ttsService] + openWakeWordVolumeData + openWakeWordVolumeCustom + [openWakeWordDeployment, openWakeWordService] + [postgresDeployment, postgresService] + haVolume + haVolumeNewConfig + postgresVolume
+local espHomeConfigVolume = lib.volume.persistentVolume.new('esphome-config', '10Gi');
+local espHomeContainer = k.core.v1.container.new(name='esphome', image='esphome/esphome:2024.3.0')
+                              + k.core.v1.container.withImagePullPolicy('Always')
+                            
+                              + { volumeMounts: [k.core.v1.volumeMount.new('esphome-config', '/config')] }
+                              + k.core.v1.container.withEnv([
+                                { name: 'TZ', value: 'America/New_York' },
+                              ])
+;
+local espHomeDeployment = k.apps.v1.deployment.new(name='esphome', containers=[espHomeContainer],)
+                               + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: 'regcred' },)
+                               + k.apps.v1.deployment.spec.template.spec.withServiceAccount('app',)
+                               + { spec+: { template+: { spec+: { volumes: [k.core.v1.volume.fromPersistentVolumeClaim('esphome-config', 'esphome-config-pvc')] } } } }
+                               +  {
+                                    spec+: {
+                                      template+: {
+                                        spec+: {
+                                          hostNetwork: true,
+                                          dnsPolicy: 'ClusterFirstWithHostNet',
+                                        },
+                                      },
+                                    },
+                                  }
+;
+
+std.objectValues(deployment) + espHomeConfigVolume + [espHomeDeployment] + sttVolume + [sstDeployment, sstService] + ttsVolume + [ttsDeployment, ttsService] + openWakeWordVolumeData + openWakeWordVolumeCustom + [openWakeWordDeployment, openWakeWordService] + [postgresDeployment, postgresService] + haVolume + haVolumeNewConfig + postgresVolume 
