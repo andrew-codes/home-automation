@@ -69,6 +69,15 @@
       shell: ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
       changed_when: false
 
+    - name: Copy forward ipv4 script
+      copy:
+        src: "{{ playbook_dir }}/../../src/forward-ipv4.sh"
+        dest: /tmp/forward-ipv4.sh
+        mode: 0777
+
+    - name: Forward IP4v4
+      shell: . /tmp/forward-ipv4.sh
+
     - name: Reboot all the kubernetes nodes
       reboot:
         post_reboot_delay: 10
@@ -94,29 +103,23 @@
     - name: Installing yq
       shell: wget https://github.com/mikefarah/yq/releases/download/v4.6.3/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
 
-    - name: Add Docker official GPG key
-      apt_key:
-        url: https://download.docker.com/linux/debian/gpg
-        state: present
-
     - name: Add helm official GPG key
       apt_key:
         url: https://baltocdn.com/helm/signing.asc
         keyring: /usr/share/keyrings/helm.gpg
         state: present
 
-    - name: Add Google official GPG key
+    - name: Add k8s GPG key
       apt_key:
-        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
-        keyring: /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+        url: https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key
+        keyring: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
         state: present
 
-    - name: Add Docker Repository
-      apt_repository:
-        repo: deb [arch=amd64] https://download.docker.com/linux/debian bookworm stable
+    - name: Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        keyring: /etc/apt/keyrings/docker.gpg
         state: present
-        filename: docker
-        mode: "0600"
 
     - name: Add Helm Repository
       apt_repository:
@@ -127,48 +130,73 @@
 
     - name: Add Kubernetes Repository
       apt_repository:
-        repo: deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main
+        repo: deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /
         state: present
         filename: kubernetes
         mode: "0600"
 
-    - name: Install docker, helm
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu jammy stable
+        state: present
+        filename: docker
+        mode: "0600"
+
+    - name: Install helm, containerd
       apt:
         update_cache: true
         name:
           - helm
-          - docker.io
+          - containerd.io
         state: present
+
+    - name: Enable cri containerd
+      lineinfile:
+        dest: /etc/containerd/config.toml
+        regexp: '^disabled_plugins = ["cri"]'
+        state: absent
+
+    - name: Set some kernel parameters
+      lineinfile:
+        dest: /etc/containerd/config.toml
+        line: "{{ item.line }}"
+        state: present
+      loop:
+        - { line: '[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]' }
+        - { line: '[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]' }
+        - { line: '    SystemdCgroup = true' }
+        - { line: '[plugins."io.containerd.grpc.v1.cri"]' }
+        - { line: '    sandbox_image = "registry.k8s.io/pause:3.2"' }
+
+    - name: Restart containerd.
+      command: "{{ item }}"
+      become_user: root
+      become_method: ansible.builtin.sudo
+      become: yes
+      with_items:
+        - systemctl restart containerd
 
     - name: Install kubernetes packages
       apt:
         update_cache: true
         allow_downgrade: true
         name:
-          - kubeadm=1.23.8-00
-          - kubectl=1.23.8-00
-          - kubelet=1.23.8-00
+          - kubeadm=1.29.2-*
+          - kubectl=1.29.2-*
+          - kubelet=1.29.2-*
         state: present
-
-    - name: Enable service docker, and enable persistently
-      service:
-        name: docker
-        enabled: true
-
-    - name: Setup docker daemon config.
-      changed_when: docker_daemon_config != 0
-      shell: 'echo ''{ "features": { "buildkit": true }, "exec-opts": ["native.cgroupdriver=systemd"], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"}, "default-shm-size": "256M" }'' > /etc/docker/daemon.json'
-      register: docker_daemon_config
-
-    - name: Restart docker
-      command: "{{ item }}"
-      become_user: root
-      become_method: ansible.builtin.sudo
-      become: true
-      changed_when: docker_daemon_config != 0
-      with_items:
-        - systemctl daemon-reload
-        - systemctl restart docker
+    - name: Hold kubeadm
+      ansible.builtin.dpkg_selections:
+        name: kubeadm
+        selection: hold
+    - name: Hold kubelet
+      ansible.builtin.dpkg_selections:
+        name: kubelet
+        selection: hold
+    - name: Hold kubectl
+      ansible.builtin.dpkg_selections:
+        name: kubectl
+        selection: hold
 
     - name: Add IPs to /etc/hosts on master and workers
       lineinfile:

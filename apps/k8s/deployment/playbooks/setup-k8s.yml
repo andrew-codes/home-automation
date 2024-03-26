@@ -1,7 +1,5 @@
 ---
-- import_playbook: reset-k8s.yml
-
-- name: Setup Kuberentes
+- name: Setup Kubernetes
   hosts: main
   become: true
   become_method: ansible.builtin.sudo
@@ -56,10 +54,23 @@
       changed_when: false
       command: "{{ item }}"
       with_items:
-        - "kubectl taint nodes {{ hostname }} node-role.kubernetes.io/master:NoSchedule-"
-        - kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+        - kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/tigera-operator.yaml
+        - kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/custom-resources.yaml
 
-    - name: Get the token for joining the nodes with Kuberentes master
+    - name: Pause
+      pause: seconds=120
+
+    - name: Remove taints
+      become_user: hl
+      become_method: ansible.builtin.sudo
+      become: true
+      changed_when: false
+      command: "{{ item }}"
+      with_items:
+        - kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+        - kubectl taint nodes --all node-role.kubernetes.io/master-
+
+    - name: Get the token for joining the nodes with Kubernetes master
       changed_when: false
       shell: kubeadm token create  --print-join-command
       register: kubernetes_join_command
@@ -70,13 +81,13 @@
 
     - name: Copy join command to local file
       become: false
-      local_action: copy content="{{ kubernetes_join_command.stdout_lines[0] }}" dest="{{ playbook_dir }}/../../.secrets/kubernetes_join_command-{{ k8s_env }}" mode=0777
+      local_action: copy content="{{ kubernetes_join_command.stdout_lines[0] }}" dest="{{ playbook_dir }}/../../.secrets/kubernetes_join_command" mode=0777
 
     - name: Fetch kubeconfig to repo secrets
       become_user: hl
       become_method: ansible.builtin.sudo
       become: true
       fetch:
-        dest: "../../.secrets/.kube/config-{{ k8s_env }}"
+        dest: "../../.secrets/.kube/config"
         flat: true
         src: "/home/{{ ansible_user }}/.kube/config"

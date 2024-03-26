@@ -1,10 +1,10 @@
-import fs from "fs/promises"
-import path from "path"
-import sh from "shelljs"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { createCodeSpaceSecretClient } from "@ha/github-secrets"
 import { throwIfError } from "@ha/shell-utils"
+import fs from "fs/promises"
+import path from "path"
+import sh from "shelljs"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
@@ -27,10 +27,9 @@ all:
     ansible_user: ${k8sUsername.value}
   children:
     main:
-      vars:
-        hostname: "${k8sName.value}"
       hosts:
         ${ip.value}:
+          hostname: "${k8sName.value}"
     workers:
       hosts:
 `,
@@ -42,11 +41,6 @@ all:
 pod_network_cidr: "${networkCIDR.value}"
 environment: dev
 `,
-    "utf8",
-  )
-  await fs.writeFile(
-    path.join(__dirname, "..", ".secrets", "flannel-pod-network-cidr.json"),
-    `{"Network": "${networkCIDR.value}","Backend":{"Type":"vxlan"}}`,
     "utf8",
   )
 
