@@ -1,5 +1,5 @@
 ---
-- name: Reset Kuberentes
+- name: Reset Kubernetes
   hosts: main
   become: true
   become_method: ansible.builtin.sudo

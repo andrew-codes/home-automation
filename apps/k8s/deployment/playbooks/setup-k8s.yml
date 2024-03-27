@@ -16,9 +16,6 @@
       with_items:
         - kubeadm init --pod-network-cidr="{{ pod_network_cidr }}"
 
-    - name: Pause
-      pause: seconds=240
-
     - name: Create directory for kube config
       become_user: hl
       become_method: ansible.builtin.sudo
@@ -47,6 +44,23 @@
         path: /home/{{ ansible_user }}/.kube/cache
         state: absent
 
+    - name: Copy Calico custom resource install
+      copy:
+        src: "{{ playbook_dir }}/../../src/calico-custom-resource-install.yaml"
+        dest: /tmp/calico-custom-resource-install.yaml
+
+    - name: Copy Calico custom resource operator
+      copy:
+        src: "{{ playbook_dir }}/../../src/calico-custom-resource-operator.yaml"
+        dest: /tmp/calico-custom-resource-operator.yaml
+
+    - name: Replace the pod network CIDR
+      become_user: hl
+      become_method: ansible.builtin.sudo
+      become: true
+      changed_when: false
+      command: yq eval '.spec.calicoNetwork.ipPools[0].cidr= "{{ pod_network_cidr }}"' -i /tmp/calico-custom-resource-install.yaml
+
     - name: Create pod network
       become_user: hl
       become_method: ansible.builtin.sudo
@@ -54,11 +68,12 @@
       changed_when: false
       command: "{{ item }}"
       with_items:
-        - kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/tigera-operator.yaml
-        - kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/custom-resources.yaml
+        - KUBECONFIG=~/etc/kubernetes/adim.conf kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/tigera-operator.yaml
+        - KUBECONFIG=~/etc/kubernetes/adim.conf kubectl create -f /tmp/calico-custom-resources-install.yaml
+        - KUBECONFIG=~/etc/kubernetes/adim.conf kubectl create -f /tmp/calico-custom-resources-operator.yaml
 
     - name: Pause
-      pause: seconds=120
+      pause: seconds=240
 
     - name: Remove taints
       become_user: hl
@@ -67,12 +82,12 @@
       changed_when: false
       command: "{{ item }}"
       with_items:
-        - kubectl taint nodes --all node-role.kubernetes.io/control-plane-
-        - kubectl taint nodes --all node-role.kubernetes.io/master-
+        - KUBECONFIG=~/etc/kubernetes/adim.conf kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+        - KUBECONFIG=~/etc/kubernetes/adim.conf kubectl taint nodes --all node-role.kubernetes.io/master-
 
     - name: Get the token for joining the nodes with Kubernetes master
       changed_when: false
-      shell: kubeadm token create  --print-join-command
+      shell: KUBECONFIG=~/etc/kubernetes/adim.conf kubeadm token create  --print-join-command
       register: kubernetes_join_command
 
     - name: Print join command

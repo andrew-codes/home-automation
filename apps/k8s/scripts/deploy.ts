@@ -2,6 +2,7 @@ import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { createCodeSpaceSecretClient } from "@ha/github-secrets"
 import { throwIfError } from "@ha/shell-utils"
+import { existsSync } from "fs"
 import fs from "fs/promises"
 import path from "path"
 import sh from "shelljs"
@@ -19,6 +20,7 @@ const run = async (
 
   await fs.mkdir(path.join(__dirname, "..", ".secrets"), { recursive: true })
 
+  if (!existsSync(path.join(__dirname, "..", ".secrets", "hosts.yml"))) {
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "hosts.yml"),
     `
@@ -35,11 +37,12 @@ all:
 `,
     "utf8",
   )
+  }
+  
   await fs.writeFile(
     path.join(__dirname, "..", ".secrets", "ansible-secrets.yml"),
     `---
 pod_network_cidr: "${networkCIDR.value}"
-environment: dev
 `,
     "utf8",
   )

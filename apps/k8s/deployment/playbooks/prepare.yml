@@ -78,6 +78,12 @@
     - name: Forward IP4v4
       shell: . /tmp/forward-ipv4.sh
 
+    # - name: Configure NetworkManager for calico
+    #   copy:
+    #     src: "{{ playbook_dir }}/../../src/calico.conf"
+    #     dest: /etc/NetworkManager/conf.d/calico.conf
+    #     mode: 0777
+
     - name: Reboot all the kubernetes nodes
       reboot:
         post_reboot_delay: 10
@@ -115,6 +121,12 @@
         keyring: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
         state: present
 
+    # - name: Add cri-o GPG key
+    #   apt_key:
+    #     url: https://pkgs.k8s.io/addons:/cri-o:/prerelease:/main/deb/Release.key
+    #     keyring: /etc/apt/keyrings/cri-o-apt-keyring.gpg
+    #     state: present
+
     - name: Docker GPG key
       apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
@@ -135,6 +147,13 @@
         filename: kubernetes
         mode: "0600"
 
+    # - name: Add cri-o Repository
+    #   apt_repository:
+    #     repo: deb [signed-by=/etc/apt/keyrings/cri-o-apt-keyring.gpg] https://pkgs.k8s.io/addons:/cri-o:/prerelease:/main/deb/ /
+    #     state: present
+    #     filename: cri-o
+    #     mode: "0600"
+
     - name: Add Docker Repository
       apt_repository:
         repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu jammy stable
@@ -142,7 +161,7 @@
         filename: docker
         mode: "0600"
 
-    - name: Install helm, containerd
+    - name: Install helm, container runtime
       apt:
         update_cache: true
         name:
@@ -150,13 +169,33 @@
           - containerd.io
         state: present
 
-    - name: Enable cri containerd
+    # - name: Copy crio.conf
+    #   copy:
+    #     src: "{{ playbook_dir }}/../../src/crio.conf"
+    #     dest: /etc/crio/crio.conf.d/02-cgroup-manager.conf
+    #     mode: 0777
+
+    - name: Cni plugin script
+      copy:
+        src: "{{ playbook_dir }}/../../src/cni.sh"
+        dest: /tmp/cni.sh
+        mode: 0777
+    - name: Calico cni plugin
+      shell: . /tmp/cni.sh
+
+    # - name: Enable service cri-o, and enable persistently
+    #   service:
+    #     name: crio
+    #     enabled: true
+    #     state: started
+
+    - name: cri containerd config remove disabled_plugins
       lineinfile:
         dest: /etc/containerd/config.toml
-        regexp: '^disabled_plugins = ["cri"]'
+        line: disabled_plugins = ["cri"]
         state: absent
 
-    - name: Set some kernel parameters
+    - name: Set containerd config
       lineinfile:
         dest: /etc/containerd/config.toml
         line: "{{ item.line }}"
@@ -166,7 +205,14 @@
         - { line: '[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]' }
         - { line: '    SystemdCgroup = true' }
         - { line: '[plugins."io.containerd.grpc.v1.cri"]' }
-        - { line: '    sandbox_image = "registry.k8s.io/pause:3.2"' }
+        - { line: '    sandbox_image = "registry.k8s.io/pause:3.9"' }
+
+
+    - name: Enable service containerd, and enable persistently
+      service:
+        name: containerd
+        enabled: true
+        state: started
 
     - name: Restart containerd.
       command: "{{ item }}"
@@ -181,9 +227,9 @@
         update_cache: true
         allow_downgrade: true
         name:
-          - kubeadm=1.29.2-*
-          - kubectl=1.29.2-*
-          - kubelet=1.29.2-*
+          - kubeadm=1.29.3-1.1
+          - kubectl=1.29.3-1.1
+          - kubelet=1.29.3-1.1
         state: present
     - name: Hold kubeadm
       ansible.builtin.dpkg_selections:
