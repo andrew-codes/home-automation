@@ -121,12 +121,6 @@
         keyring: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
         state: present
 
-    # - name: Add cri-o GPG key
-    #   apt_key:
-    #     url: https://pkgs.k8s.io/addons:/cri-o:/prerelease:/main/deb/Release.key
-    #     keyring: /etc/apt/keyrings/cri-o-apt-keyring.gpg
-    #     state: present
-
     - name: Docker GPG key
       apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
@@ -147,13 +141,6 @@
         filename: kubernetes
         mode: "0600"
 
-    # - name: Add cri-o Repository
-    #   apt_repository:
-    #     repo: deb [signed-by=/etc/apt/keyrings/cri-o-apt-keyring.gpg] https://pkgs.k8s.io/addons:/cri-o:/prerelease:/main/deb/ /
-    #     state: present
-    #     filename: cri-o
-    #     mode: "0600"
-
     - name: Add Docker Repository
       apt_repository:
         repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu jammy stable
@@ -169,44 +156,22 @@
           - containerd.io
         state: present
 
-    # - name: Copy crio.conf
-    #   copy:
-    #     src: "{{ playbook_dir }}/../../src/crio.conf"
-    #     dest: /etc/crio/crio.conf.d/02-cgroup-manager.conf
-    #     mode: 0777
+    - name: Install runc
+      shell: |
+        wget https://github.com/opencontainers/runc/releases/download/v1.1.1/runc.amd64
+        install -m 755 runc.amd64 /usr/local/sbin/runc
 
-    - name: Cni plugin script
-      copy:
-        src: "{{ playbook_dir }}/../../src/cni.sh"
-        dest: /tmp/cni.sh
-        mode: 0777
-    - name: Calico cni plugin
-      shell: . /tmp/cni.sh
+    - name: Configure containerd
+      shell: |
+        mkdir -p /etc/containerd/
+        containerd config default | tee /etc/containerd/config.toml
+        sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
 
-    # - name: Enable service cri-o, and enable persistently
-    #   service:
-    #     name: crio
-    #     enabled: true
-    #     state: started
-
-    - name: cri containerd config remove disabled_plugins
-      lineinfile:
-        dest: /etc/containerd/config.toml
-        line: disabled_plugins = ["cri"]
-        state: absent
-
-    - name: Set containerd config
-      lineinfile:
-        dest: /etc/containerd/config.toml
-        line: "{{ item.line }}"
-        state: present
-      loop:
-        - { line: '[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]' }
-        - { line: '[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]' }
-        - { line: '    SystemdCgroup = true' }
-        - { line: '[plugins."io.containerd.grpc.v1.cri"]' }
-        - { line: '    sandbox_image = "registry.k8s.io/pause:3.9"' }
-
+    - name: Install cni backends
+      shell: |
+        mkdir -p /opt/cni/bin
+        curl -O -L https://github.com/containernetworking/plugins/releases/download/v1.2.0/cni-plugins-linux-amd64-v1.2.0.tgz
+        tar -C /opt/cni/bin -xzf cni-plugins-linux-amd64-v1.2.0.tgz
 
     - name: Enable service containerd, and enable persistently
       service:

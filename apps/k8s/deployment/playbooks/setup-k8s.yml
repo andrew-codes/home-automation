@@ -44,23 +44,6 @@
         path: /home/{{ ansible_user }}/.kube/cache
         state: absent
 
-    - name: Copy Calico custom resource install
-      copy:
-        src: "{{ playbook_dir }}/../../src/calico-custom-resource-install.yaml"
-        dest: /tmp/calico-custom-resource-install.yaml
-
-    - name: Copy Calico custom resource operator
-      copy:
-        src: "{{ playbook_dir }}/../../src/calico-custom-resource-operator.yaml"
-        dest: /tmp/calico-custom-resource-operator.yaml
-
-    - name: Replace the pod network CIDR
-      become_user: hl
-      become_method: ansible.builtin.sudo
-      become: true
-      changed_when: false
-      command: yq eval '.spec.calicoNetwork.ipPools[0].cidr= "{{ pod_network_cidr }}"' -i /tmp/calico-custom-resource-install.yaml
-
     - name: Create pod network
       become_user: hl
       become_method: ansible.builtin.sudo
@@ -68,9 +51,7 @@
       changed_when: false
       command: "{{ item }}"
       with_items:
-        - KUBECONFIG=~/etc/kubernetes/adim.conf kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/tigera-operator.yaml
-        - KUBECONFIG=~/etc/kubernetes/adim.conf kubectl create -f /tmp/calico-custom-resources-install.yaml
-        - KUBECONFIG=~/etc/kubernetes/adim.conf kubectl create -f /tmp/calico-custom-resources-operator.yaml
+        - KUBECONFIG=/etc/kubernetes/admin.conf kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
 
     - name: Pause
       pause: seconds=240
