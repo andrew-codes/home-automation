@@ -102,6 +102,7 @@
           - gnupg-agent
           - gnupg
           - gnupg2
+          - nfs-common
           - software-properties-common
           - qemu-guest-agent
         state: present
