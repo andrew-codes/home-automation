@@ -9,23 +9,17 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                      { name: 'DOCKER_INFLUXDB_INIT_ORG', value: std.extVar('DOCKER_INFLUXDB_INIT_ORG') },
                      { name: 'DOCKER_INFLUXDB_INIT_BUCKET', value: std.extVar('DOCKER_INFLUXDB_INIT_BUCKET') },
                    ])
-                   + lib.deployment.withPersistentVolume('influxdb')
+                   + lib.deployment.withPersistentVolume('influxdb-data')
                    + lib.deployment.withPersistentVolume('influxdb-config')
-                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('influxdb', '/var/lib/influxdb2',))
+                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('influxdb-data', '/var/lib/influxdb2',))
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('influxdb-config', '/etc/influxdb2',))
-                   + lib.deployment.withAffinity({
-                     nodeAffinity: {
-                       requiredDuringSchedulingIgnoredDuringExecution: {
-                         nodeSelectorTerms: [
-                           { matchExpressions: [{ key: 'kubernetes.io/hostname', operator: 'In', values: ['k8s-main'] }] },
-                         ],
-                       },
-                     },
-                   },)
 ;
 
-local dataVolume = lib.volume.persistentVolume.new('influxdb', '150Gi');
-local configVolume = lib.volume.persistentVolume.new('influxdb-config', '30Gi');
-local telegrafConfigVolume = lib.volume.persistentVolume.new('telegraf-config', '10Gi');
+local dataVolume = lib.volume.persistentNfsVolume.new('influxdb-data', '150Gi', std.extVar('nfsIp'), std.extVar('nfsUsername'), std.extVar('nfsPassword'))
+;
+local configVolume = lib.volume.persistentNfsVolume.new('influxdb-config', '30Gi', std.extVar('nfsIp'), std.extVar('nfsUsername'), std.extVar('nfsPassword'))
+;
+local telegrafConfigVolume = lib.volume.persistentVolume.new('telegraf-config', '10Gi')
+;
 
-dataVolume + configVolume + telegrafConfigVolume + std.objectValues(deployment)
+dataVolume + configVolume + std.objectValues(deployment) + telegrafConfigVolume

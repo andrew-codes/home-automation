@@ -9,6 +9,9 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   const port = await configurationApi.get("influxdb/port/external")
+  const nfsUsername = await configurationApi.get("nfs/username")
+  const nfsPassword = await configurationApi.get("nfs/password")
+  const nfsIp = await configurationApi.get("nfs/ip")
   const DOCKER_INFLUXDB_INIT_USERNAME = await configurationApi.get(
     "influxdb/username",
   )
@@ -25,7 +28,7 @@ const run = async (
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      image: "influxdb:2.7.4",
+      image: `${registry.value}/influxdb:latest`,
       name,
       telegrafImage: `${registry.value}/telegraf:latest`,
       DOCKER_INFLUXDB_INIT_USERNAME: DOCKER_INFLUXDB_INIT_USERNAME.value,
@@ -34,6 +37,9 @@ const run = async (
       DOCKER_INFLUXDB_INIT_BUCKET: DOCKER_INFLUXDB_INIT_BUCKET.value,
       port: parseInt(port.value),
       secrets,
+      nfsPassword: nfsPassword.value,
+      nfsUsername: nfsUsername.value,
+      nfsIp: nfsIp.value,
     },
   )
   const resourceJson = JSON.parse(resources)

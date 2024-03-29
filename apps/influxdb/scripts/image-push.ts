@@ -6,8 +6,8 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   const docker = await createClient(configurationApi)
-  await docker.build(`telegraf:latest`)
-  await docker.pushImage(`telegraf:latest`)
+  await docker.build(`influxdb:latest`)
+  await docker.pushImage(`influxdb:latest`)
 }
 
 export default run
