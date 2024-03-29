@@ -73,6 +73,7 @@ dotnet-runtime-7.0 \
     locales \
     lxc \
     lxc ca-certificates iptables \
+    mosquitto-clients \
     nano \
     net-tools \
     nodejs \
