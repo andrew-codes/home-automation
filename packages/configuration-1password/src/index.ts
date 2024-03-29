@@ -119,6 +119,8 @@ const configurationNames = [
   "mqtt/username",
   "nfs/ip",
   "nfs/share-path",
+  'nfs/username',
+  'nfs/password',
   "obsidian-livesync/port/external",
   "obsidian-livesync/username",
   "obsidian-livesync/password",
@@ -180,12 +182,6 @@ const configurationNames = [
   "unifi/port",
   "unifi/username",
   "uptime-kuma/port/external",
-  "velero/client-id",
-  "velero/client-secret",
-  "velero/creds",
-  "velero/storage-account-id",
-  "velero/subscription-id",
-  "velero/tenant-id",
   "wifi-porter/account-password",
   "wifi-porter/api-key",
   "wifi-porter/location-id",
@@ -260,3 +256,4 @@ const createConfigApi = async (): Promise<
 
 export type { OnePasswordConfiguration as Configuration }
 export { createConfigApi, configurationNames }
+
