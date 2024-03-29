@@ -13,41 +13,19 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withPersistentVolume('influxdb-config')
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('influxdb', '/var/lib/influxdb2',))
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('influxdb-config', '/etc/influxdb2',))
-
-                   + lib.deployment.withContainer('telegraf', std.extVar('telegrafImage'), {
+                   + lib.deployment.withAffinity({
+                     nodeAffinity: {
+                       requiredDuringSchedulingIgnoredDuringExecution: {
+                         nodeSelectorTerms: [
+                           { matchExpressions: [{ key: 'kubernetes.io/hostname', operator: 'In', values: ['k8s-main'] }] },
+                         ],
+                       },
+                     },
                    },)
-                   + lib.deployment.withVolumeMount(1, k.core.v1.volumeMount.new('telgraf-config', '/etc/telegraf',))
 ;
 
-local dataPvc = [
-  k.core.v1.persistentVolume.new('influxdb-pv')
-  + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
-  + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
-  + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
-  + k.core.v1.persistentVolume.spec.withCapacity({ storage: '150Gi' })
-  + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/influxdb'),
-
-  k.core.v1.persistentVolumeClaim.new('influxdb-pvc')
-  + k.core.v1.persistentVolumeClaim.spec.withAccessModes('ReadWriteMany')
-  + k.core.v1.persistentVolumeClaim.spec.withStorageClassName('manual')
-  + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: '150Gi' }),
-]
-;
-local configPvc = [
-  k.core.v1.persistentVolume.new('influxdb-config-pv')
-  + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
-  + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
-  + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
-  + k.core.v1.persistentVolume.spec.withCapacity({ storage: '30Gi' })
-  + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/influxdb-config'),
-
-  k.core.v1.persistentVolumeClaim.new('influxdb-config-pvc')
-  + k.core.v1.persistentVolumeClaim.spec.withAccessModes('ReadWriteMany')
-  + k.core.v1.persistentVolumeClaim.spec.withStorageClassName('manual')
-  + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: '30Gi' }),
-]
-;
-
+local dataVolume = lib.volume.persistentVolume.new('influxdb', '150Gi');
+local configVolume = lib.volume.persistentVolume.new('influxdb-config', '30Gi');
 local telegrafConfigVolume = lib.volume.persistentVolume.new('telegraf-config', '10Gi');
 
-dataPvc + configPvc + telegrafConfigVolume + std.objectValues(deployment)
+dataVolume + configVolume + telegrafConfigVolume + std.objectValues(deployment)

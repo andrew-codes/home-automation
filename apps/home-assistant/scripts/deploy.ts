@@ -12,6 +12,12 @@ const run = async (
   const repositoryOwner = await configurationApi.get("repository/owner")
   const repositoryName = await configurationApi.get("repository/name")
   const port = await configurationApi.get("home-assistant/port/external")
+  const nfsUsername = await configurationApi.get("nfs/username")
+  const nfsPassword = await configurationApi.get("nfs/password")
+  const postgresDb = await configurationApi.get("home-assistant/postgres/db")
+  const postgresUsername = await configurationApi.get("home-assistant/postgres/username")
+  const postgresPassword = await configurationApi.get("home-assistant/postgres/password")
+  const nfsIp = await configurationApi.get("nfs/ip")
   const webrtcPort = await configurationApi.get(
     "home-assistant/webrtc/api/port",
   )
@@ -74,6 +80,12 @@ const run = async (
       port: parseInt(port.value),
       "webrtc-port": parseInt(webrtcPort.value),
       secrets,
+      nfsPassword: nfsPassword.value,
+      nfsUsername: nfsUsername.value,
+      nfsIp: nfsIp.value,
+      postgresDb: postgresDb.value,
+      postgresUsername: nfsUsername.value,
+      postgresPassword: postgresPassword.value,
     },
   )
   const resourceJson = JSON.parse(resources)

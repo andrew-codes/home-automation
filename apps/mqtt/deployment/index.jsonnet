@@ -26,7 +26,9 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withSecurityContext(0, k.core.v1.securityContext.withRunAsUser(0))
 ;
 
-local configMap = lib.volume.configMapVolume.new('mosquitto-config', mosquittoConfigMap);
-local mqttData = lib.volume.persistentNfsVolume.new('mqtt-data', '5Gi', std.extVar('nfsIp'), std.extVar('nfsUsername'), std.extVar('nfsPassword'));
+local configMap = lib.volume.configMapVolume.new('mosquitto-config', mosquittoConfigMap)
+;
+local mqttData = lib.volume.persistentNfsVolume.new('mqtt-data', '5Gi', std.extVar('nfsIp'), std.extVar('nfsUsername'), std.extVar('nfsPassword'))
+;
 
 mqttData + configMap + std.objectValues(deployment)

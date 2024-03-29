@@ -6,9 +6,7 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   const docker = await createClient(configurationApi)
-  await docker.build(`telegraf:latest`, {
-    dockerFile: `../telegraf.Dockerfile`,
-  })
+  await docker.build(`telegraf:latest`)
   await docker.pushImage(`telegraf:latest`)
 }
 
