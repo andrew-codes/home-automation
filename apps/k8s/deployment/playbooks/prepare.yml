@@ -58,12 +58,11 @@
         line: "DNSStubListener=no"
         state: present
 
-    - name: Free port 53
+    - name: Unset DNS
       lineinfile:
         dest: /etc/systemd/resolved.conf
         regexp: "DNS=.*"
-        line: "DNS=8.8.8.8"
-        state: present
+        state: absent
 
     - name: Free port 53
       shell: ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
