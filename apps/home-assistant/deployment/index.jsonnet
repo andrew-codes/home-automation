@@ -65,11 +65,11 @@ local haVolumeNewConfig = lib.volume.persistentNfsVolume.new('home-assistant-new
 
 local postgresContainer = k.core.v1.container.new(name='home-assistant-postgres', image=std.extVar('postgresImage'))
                           + k.core.v1.container.withImagePullPolicy('Always')
-                          + {env: [
-                            { name: 'POSTGRES_DB', value: std.extVar('postgresDb')},
-                            { name: 'POSTGRES_USER', value: std.extVar('postgresUsername')},
-                            { name: 'POSTGRES_PASSWORD', value: std.extVar('postgresPassword')},
-                          ]}
+                          + { env: [
+                            k.core.v1.envVar.fromSecretRef('POSTGRES_DB', 'home-assistant-postgres-db', 'secret-value'),
+                            k.core.v1.envVar.fromSecretRef('POSTGRES_PASSWORD', 'home-assistant-postgres-password', 'secret-value'),
+                            k.core.v1.envVar.fromSecretRef('POSTGRES_USER', 'home-assistant-postgres-username', 'secret-value'),
+                          ] }
                           + k.core.v1.container.withPorts({
                             name: 'db',
                             containerPort: 5432,
