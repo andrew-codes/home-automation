@@ -68,7 +68,7 @@ influxdb:
   host: influxdb
   port: 8086
   organization: smith-simms
-  bucket: home-automation
+  bucket: home-assistant
   token: !secret INFLUXDB_TOKEN
   tags:
     source: HA
