@@ -1,8 +1,8 @@
+import type { ConfigurationApi } from "@ha/configuration-api"
+import type { Configuration } from "@ha/configuration-workspace"
 import fs from "fs/promises"
 import path from "path"
 import sh from "shelljs"
-import type { ConfigurationApi } from "@ha/configuration-api"
-import type { Configuration } from "@ha/configuration-workspace"
 
 const generateConfContents = (
   subDomainConfigurations: {
@@ -99,32 +99,14 @@ const run = async (
 ): Promise<void> => {
   const dist = path.join(__dirname, "..", "dist")
   const distInternal = path.join(dist, "proxy-internal", "nginx")
-  const distNginx = path.join(dist, "proxy", "nginx")
-  const distSites = path.join(distNginx, "sites-enabled")
-  const distStream = path.join(distNginx, "stream", "enabled")
   const distSitesInternal = path.join(distInternal, "sites-enabled")
   const distStreamInternal = path.join(distInternal, "stream", "enabled")
   const dirs = [
-    distSites,
     distSitesInternal,
-    distStream,
     distStreamInternal,
   ].forEach((dir) => {
     sh.exec(`mkdir -p ${dir};`, { silent: true })
   })
-
-  const subDomainRedirects = await configurationApi.get(
-    "proxy/sub-domain/redirects",
-  )
-  const subDomainConfigurations = JSON.parse(subDomainRedirects.value)
-  const proxyConf = generateConfContents(subDomainConfigurations)
-  await fs.writeFile(path.join(distSites, "01_sites.conf"), proxyConf, "utf8")
-  const proxyStreamConf = generateStreamConf(subDomainConfigurations)
-  await fs.writeFile(
-    path.join(distStream, "01_sites.conf"),
-    proxyStreamConf,
-    "utf8",
-  )
 
   const internalSubDomainRedirects = await configurationApi.get(
     "proxy-internal/sub-domain/redirects",
@@ -136,7 +118,7 @@ const run = async (
     internalSubDomainConfigurations,
   )
   await fs.writeFile(
-    path.join(distSitesInternal, "01_sites_interanl.conf"),
+    path.join(distSitesInternal, "01_sites_internal.conf"),
     proxyInternalConf,
     "utf8",
   )
