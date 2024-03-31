@@ -2,7 +2,7 @@ local lib = import "../../../packages/deployment-utils/dist/index.libsonnet";
 local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet";
 
 local configMap = lib.volume.configMapVolume.new("cloudflared-config", {
-  "config.yml": '\ntunnel: "e1f74da6-7c3c-4f61-a509-e4ef0fe2cc81"\ncredentials-file: "/etc/cloudflared/auth/auth.json"\nno-autoupdate: true\nprotocol: "http2"\ningress:\n- hostname: "ha.smith-simms.family"\n  service: "http://home-assistant:8123"\n- hostname: "device-ha.smith-simms.family"\n  service: "http://home-assistant:8123"\n- service: "http_status:404"\n',
+  "config.yml": '\ntunnel: "e1f74da6-7c3c-4f61-a509-e4ef0fe2cc81"\ncredentials-file: "/etc/cloudflared/auth/auth.json"\nno-autoupdate: true\nprotocol: "http2"\ningress:\n- hostname: "ha.smith-simms.family"\n  service: "http://home-assistant:8123"\n- hostname: "device-ha.smith-simms.family"\n  service: "http://home-assistant:8123"\n- hostname: "games.smith-simms.family"\n  service: "http://playnite-web-app:3000"\n- hostname: "games-staging.smith-simms.family"\n  service: "http://playnite-web-app-staging:3000"\n- service: "http_status:404"\n',
 })
 ;
 
