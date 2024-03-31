@@ -4958,6 +4958,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ha/cert-manager@workspace:apps/cert-manager":
+  version: 0.0.0-use.local
+  resolution: "@ha/cert-manager@workspace:apps/cert-manager"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/nx-executors": "workspace:^0.1.0"
+  languageName: unknown
+  linkType: soft
+
 "@ha/cli-utils@workspace:^0.0.1, @ha/cli-utils@workspace:packages/cli-utils":
   version: 0.0.0-use.local
   resolution: "@ha/cli-utils@workspace:packages/cli-utils"
@@ -6425,6 +6437,18 @@ __metadata:
   resolution: "@ha/themes-slate@workspace:packages/themes/slate"
   dependencies:
     "@ha/themes-definition": "workspace:^0.0.1"
+  languageName: unknown
+  linkType: soft
+
+"@ha/tunnel-proxy@workspace:apps/tunnel-proxy":
+  version: 0.0.0-use.local
+  resolution: "@ha/tunnel-proxy@workspace:apps/tunnel-proxy"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/nx-executors": "workspace:^0.1.0"
   languageName: unknown
   linkType: soft
 

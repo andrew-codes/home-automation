@@ -1,17 +1,23 @@
 {
-  "name": "playnite-web-game-db-updater",
+  "name": "cert-manager",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/playnite-web-game-db-updater/src",
+  "sourceRoot": "apps/cert-manager",
   "projectType": "application",
   "targets": {
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
-        "cwd": "apps/playnite-web-game-db-updater",
+        "cwd": "apps/cert-manager",
         "module": "scripts/deploy.ts"
-      }
+      },
+      "dependsOn": [
+        {
+          "target": "image/push",
+          "projects": "self"
+        }
+      ]
     }
   },
   "tags": [],
-  "implicitDependencies": []
+  "implicitDependencies": ["secrets"]
 }

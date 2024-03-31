@@ -18,6 +18,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:apps/captive-portal"\
     },\
     {\
+      "name": "@ha/cert-manager",\
+      "reference": "workspace:apps/cert-manager"\
+    },\
+    {\
       "name": "@ha/crowdsec",\
       "reference": "workspace:apps/crowdsec"\
     },\
@@ -226,6 +230,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:apps/subgraph-gaming"\
     },\
     {\
+      "name": "@ha/tunnel-proxy",\
+      "reference": "workspace:apps/tunnel-proxy"\
+    },\
+    {\
       "name": "@ha/uptime-kuma",\
       "reference": "workspace:apps/uptime-kuma"\
     },\
@@ -360,6 +368,7 @@ const RAW_RUNTIME_STATE =
     ["@andrew-codes/home-automation", ["workspace:."]],\
     ["@ha/build-ts", ["workspace:packages/build-ts"]],\
     ["@ha/captive-portal", ["workspace:apps/captive-portal"]],\
+    ["@ha/cert-manager", ["workspace:apps/cert-manager"]],\
     ["@ha/cli-utils", ["workspace:packages/cli-utils"]],\
     ["@ha/configuration-1password", ["workspace:packages/configuration-1password"]],\
     ["@ha/configuration-api", ["workspace:packages/configuration-api"]],\
@@ -438,6 +447,7 @@ const RAW_RUNTIME_STATE =
     ["@ha/subgraph-gaming", ["workspace:apps/subgraph-gaming"]],\
     ["@ha/themes-definition", ["workspace:packages/themes/definition"]],\
     ["@ha/themes-slate", ["workspace:packages/themes/slate"]],\
+    ["@ha/tunnel-proxy", ["workspace:apps/tunnel-proxy"]],\
     ["@ha/unifi-client", ["workspace:packages/unifi-client"]],\
     ["@ha/uptime-kuma", ["workspace:apps/uptime-kuma"]],\
     ["@ha/velero", ["workspace:apps/velero"]],\
@@ -8387,6 +8397,20 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@ha/cert-manager", [\
+      ["workspace:apps/cert-manager", {\
+        "packageLocation": "./apps/cert-manager/",\
+        "packageDependencies": [\
+          ["@ha/cert-manager", "workspace:apps/cert-manager"],\
+          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
+          ["@ha/kubectl", "workspace:packages/kubectl"],\
+          ["@ha/nx-executors", "workspace:packages/nx-executors"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@ha/cli-utils", [\
       ["workspace:packages/cli-utils", {\
         "packageLocation": "./packages/cli-utils/",\
@@ -10124,6 +10148,20 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@ha/themes-slate", "workspace:packages/themes/slate"],\
           ["@ha/themes-definition", "workspace:packages/themes/definition"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@ha/tunnel-proxy", [\
+      ["workspace:apps/tunnel-proxy", {\
+        "packageLocation": "./apps/tunnel-proxy/",\
+        "packageDependencies": [\
+          ["@ha/tunnel-proxy", "workspace:apps/tunnel-proxy"],\
+          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
+          ["@ha/kubectl", "workspace:packages/kubectl"],\
+          ["@ha/nx-executors", "workspace:packages/nx-executors"]\
         ],\
         "linkType": "SOFT"\
       }]\

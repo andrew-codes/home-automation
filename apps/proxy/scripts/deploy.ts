@@ -7,7 +7,6 @@ import sh from "shelljs"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const ip = await configurationApi.get("proxy/ip")
   const ipInternal = await configurationApi.get("proxy-internal/ip")
   const certEmail = await configurationApi.get("proxy/ddns/cert-email")
   const dnsCredentials = await configurationApi.get(
@@ -23,16 +22,6 @@ const run = async (
     path.join(__dirname, "..", ".secrets", "ansible-secrets.yml"),
     `---
 cert_email: "${certEmail.value}"`,
-    "utf8",
-  )
-  await fs.writeFile(
-    path.join(__dirname, "..", ".secrets", "hosts.yml"),
-    `
-all:
-  vars:
-    ansible_user: root
-  hosts:
-    ${ip.value}:`,
     "utf8",
   )
   await fs.writeFile(
@@ -99,20 +88,6 @@ RET_CODE=
 
   sh.env["ANSIBLE_HOST_KEY_CHECKING"] = "False"
   sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
-
-  sh.exec(
-    `ansible-playbook ${path.join(
-      __dirname,
-      "..",
-      "deployment",
-      "proxy-external.yml",
-    )} -i ${path.join(
-      __dirname,
-      "..",
-      ".secrets",
-      "hosts.yml",
-    )} --extra-vars "nginxDir='proxy'"`,
-  )
 
   sh.exec(
     `ansible-playbook ${path.join(

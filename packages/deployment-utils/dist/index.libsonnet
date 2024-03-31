@@ -245,7 +245,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
         },
       },
 
-    withConfigMapVolume(name, defaultMode=384)::
+    withConfigMapVolume(name, defaultMode=384, other={})::
       {
         deployment+: {
           spec+: {
@@ -254,7 +254,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
                 volumes+: [
                   {
                     name: name,
-                    configMap: { name: name, defaultMode: defaultMode },
+                    configMap: other + { name: name, defaultMode: defaultMode,},
                   },
                 ],
               },
