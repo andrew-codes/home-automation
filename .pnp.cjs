@@ -18,6 +18,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:apps/captive-portal"\
     },\
     {\
+      "name": "@ha/cert-manager",\
+      "reference": "workspace:apps/cert-manager"\
+    },\
+    {\
       "name": "@ha/crowdsec",\
       "reference": "workspace:apps/crowdsec"\
     },\
@@ -364,6 +368,7 @@ const RAW_RUNTIME_STATE =
     ["@andrew-codes/home-automation", ["workspace:."]],\
     ["@ha/build-ts", ["workspace:packages/build-ts"]],\
     ["@ha/captive-portal", ["workspace:apps/captive-portal"]],\
+    ["@ha/cert-manager", ["workspace:apps/cert-manager"]],\
     ["@ha/cli-utils", ["workspace:packages/cli-utils"]],\
     ["@ha/configuration-1password", ["workspace:packages/configuration-1password"]],\
     ["@ha/configuration-api", ["workspace:packages/configuration-api"]],\
@@ -8388,6 +8393,20 @@ const RAW_RUNTIME_STATE =
           ["ts-jest", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#npm:29.0.5"],\
           ["tsc", "npm:2.0.4"],\
           ["typescript", "patch:typescript@npm%3A4.9.4#optional!builtin<compat/typescript>::version=4.9.4&hash=289587"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@ha/cert-manager", [\
+      ["workspace:apps/cert-manager", {\
+        "packageLocation": "./apps/cert-manager/",\
+        "packageDependencies": [\
+          ["@ha/cert-manager", "workspace:apps/cert-manager"],\
+          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
+          ["@ha/kubectl", "workspace:packages/kubectl"],\
+          ["@ha/nx-executors", "workspace:packages/nx-executors"]\
         ],\
         "linkType": "SOFT"\
       }]\

@@ -1,0 +1,23 @@
+{
+  "name": "cert-manager",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/cert-manager",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/cert-manager",
+        "module": "scripts/deploy.ts"
+      },
+      "dependsOn": [
+        {
+          "target": "image/push",
+          "projects": "self"
+        }
+      ]
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["secrets"]
+}
