@@ -4,9 +4,7 @@ apps/frigate
 apps/game-library-updater
 apps/infrastructure*
 apps/k8s
-apps/metrics
 apps/paperless
 apps/photoprism
 apps/playnite-library-exporter
 apps/playnite-mqtt
-apps/samba

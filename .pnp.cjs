@@ -6442,6 +6442,7 @@ const RAW_RUNTIME_STATE =
           ["@ha/configuration-api", "workspace:packages/configuration-api"],\
           ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
           ["@ha/nx-executors", "workspace:packages/nx-executors"],\
+          ["@ha/shell-utils", "workspace:packages/shell-utils"],\
           ["shelljs", "npm:0.8.5"]\
         ],\
         "linkType": "SOFT"\
