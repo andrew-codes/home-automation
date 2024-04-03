@@ -1,5 +1,8 @@
-import sh from "shelljs"
 import { throwIfError } from "@ha/shell-utils"
+import fs from "fs/promises"
+import path from "path"
+import sh from "shelljs"
+import { v4 as uuidv4 } from "uuid"
 
 type DeploymentOptions = {
   namespace: string
@@ -8,12 +11,18 @@ type DeploymentCommand = "restart"
 
 const kubectl = {
   applyToCluster: async (content: string): Promise<void> => {
+    const fileName = uuidv4()
+    try {
+      await fs.mkdir("/tmp")
+    } catch (e) {}
+    await fs.writeFile(path.join("/tmp", fileName), content)
     await throwIfError(
-      sh.exec(`echo -n '${content}' | kubectl apply -f -;`, {
+      sh.exec(`kubectl apply -f /tmp/${fileName};`, {
         shell: "/bin/bash",
-        silent: true,
+        silent: false,
       }),
     )
+    await fs.unlink(path.join("/tmp", fileName))
   },
   patch: async (
     name: string,
