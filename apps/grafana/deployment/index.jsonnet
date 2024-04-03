@@ -1,5 +1,6 @@
 local grafonnet = import 'github.com/grafana/grafonnet-lib/grafonnet/grafana.libsonnet';
 local g = import 'github.com/grafana/jsonnet-libs/grafana-builder/grafana.libsonnet';
+local grafana = import 'grafana/grafana.libsonnet';
 local dashboard = grafonnet.dashboard;
 local row = grafonnet.row;
 local prometheus = grafonnet.prometheus;
@@ -10,6 +11,7 @@ local grafana = import 'grafana/grafana.libsonnet';
 
 local network = import 'network.jsonnet';
 local proxmox = import 'proxmox.jsonnet';
+local k8s = import 'k8s.json';
 
 {
   _config:: {
@@ -28,8 +30,8 @@ local proxmox = import 'proxmox.jsonnet';
     windowsExporterSelector: 'job="kubernetes-windows-exporter"',
     containerfsSelector: 'container!=""',
     namespace: 'default',
-    version: '8.5.1',
-    image: 'grafana/grafana:9.0.1',
+    version: '10.1.9',
+    image: 'grafana/grafana:10.1.9',
     datasources: [{
       name: 'prometheus',
       type: 'prometheus',
@@ -54,28 +56,17 @@ local proxmox = import 'proxmox.jsonnet';
         token: std.extVar('grafana_influxdb_token'),
       },
     }],
-    dashboards+: proxmox.grafanaDashboards + network.grafanaDashboards,
+    dashboards+: proxmox.grafanaDashboards + network.grafanaDashboards
+                 + {
+                   'k8s.json': k8s,
+                 },
   },
-  grafana: grafana($._config) + {
-    service+: {
-      spec+: {
-        type: 'NodePort',
-        ports: [
-          {
-            name: 'http',
-            port: 3000,
-            targetPort: 'http',
-            nodePort: std.parseInt(std.extVar('port')),
-          }
-          for port in super.ports
-        ],
-      },
-    },
-  } + {
-    config+: {
-      stringData: {
-        'grafana.ini': '[date_formats]\ndefault_timezone = UTC\n\n\n        [security]\n        admin_password = ' + std.extVar('grafana_password') + '\n \n        admin_user = ' + std.extVar('grafana_username') + '\n\n        ',
-      },
-    },
-  },
+  grafana: grafana($._config)
+           + {
+             config+: {
+               stringData: {
+                 'grafana.ini': '[date_formats]\ndefault_timezone = America/New_York\n\n\n        [security]\n        admin_password = ' + std.extVar('grafana_password') + '\n \n        admin_user = ' + std.extVar('grafana_username') + '\n\n',
+               },
+             },
+           },
 }

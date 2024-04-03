@@ -1,8 +1,9 @@
-import path from "path"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
+import { writeFile } from "fs/promises"
+import path from "path"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
@@ -22,13 +23,11 @@ const run = async (
       grafana_influxdb_token: grafana_influxdb_token.value,
     },
   )
+  await writeFile("deployment.json", deployments, "utf8")
   const deploymentsJson = JSON.parse(deployments).grafana
-  await Promise.all(
-    Object.values(deploymentsJson).map((deployment) =>
-      kubectl.applyToCluster(JSON.stringify(deployment)),
-    ),
-  )
-
+  for (const deployment of Object.values(deploymentsJson)) {
+    await kubectl.applyToCluster(JSON.stringify(deployment))
+  }
   await kubectl.rolloutDeployment("restart", "grafana")
 }
 
