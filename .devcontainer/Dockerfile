@@ -16,7 +16,7 @@ RUN apt-get install -y \
     make libssl-dev libghc-zlib-dev libcurl4-gnutls-dev libexpat1-dev gettext unzip \
     software-properties-common
 
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
 
 RUN mkdir -p /etc/apt/keyrings/
 
@@ -132,6 +132,5 @@ RUN ln -s $(go env GOPATH)/bin/jb /usr/local/bin
 RUN git clone https://github.com/git/git.git
 RUN cd git && git checkout v2.38.1 && sudo make prefix=/usr/local all && sudo make prefix=/usr/local install
 RUN curl -sSL https://rover.apollo.dev/nix/latest | sh
-RUN corepack enable
-RUN corepack prepare --activate yarn@stable
+RUN corepack prepare --activate yarn@4.1.1
 RUN curl -fsSL https://d2lang.com/install.sh | sh -s --

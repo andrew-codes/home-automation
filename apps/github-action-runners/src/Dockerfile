@@ -5,7 +5,7 @@ USER root
 RUN apt update -y
 RUN apt-get install -y \
   apt-transport-https wget software-properties-common
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
 RUN echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /" | tee /etc/apt/sources.list.d/kubernetes.list
 RUN curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 RUN add-apt-repository -y --update ppa:ansible/ansible
@@ -69,7 +69,6 @@ RUN mkdir -p /home/runner/.docker
 RUN mkdir -p /home/runner/.config/docker
 RUN mkdir -p /home/runner/.cache/node/corepack
 RUN chown --recursive runner /home/runner
-RUN corepack enable
 RUN corepack prepare yarn@4.1.1 --activate
 RUN chown --recursive runner /home/runner
 RUN apt-get install -y \
