@@ -99,10 +99,8 @@ const run = async (
     ),
   )
 
-  await kubectl.rolloutDeployment("restart", "home-assistant-postgres")
-  await kubectl.rolloutDeployment("restart", "whisper")
+  await kubectl.rolloutDeployment("restart", "esphome")
   await kubectl.rolloutDeployment("restart", "piper")
-  await kubectl.rolloutDeployment("restart", "open-wake-word")
   await kubectl.rolloutDeployment("restart", name)
 }
 
