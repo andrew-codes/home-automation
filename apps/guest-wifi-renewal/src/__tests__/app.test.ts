@@ -1,10 +1,10 @@
 jest.mock("@ha/mqtt-client")
 jest.mock("@ha/http-heartbeat")
 jest.mock("@ha/unifi-client")
+import { createHeartbeat } from "@ha/http-heartbeat"
 import type { AsyncMqttClient } from "@ha/mqtt-client"
 import { createMqtt } from "@ha/mqtt-client"
-import { createHeartbeat } from "@ha/http-heartbeat"
-import { createUnifi } from "@ha/unifi-client"
+import { Controller, createUnifi } from "@ha/unifi-client"
 import { when } from "jest-when"
 import run from "../app"
 
@@ -19,9 +19,14 @@ describe.skip("guest wifi renewal", () => {
       on: onMock,
       subscribe,
     } as unknown as AsyncMqttClient)
-    jest.mocked(createUnifi).mockResolvedValue({
-      authorizeGuest,
-    })
+    jest.mocked(createUnifi).mockResolvedValue(
+      jest.mocked<Controller>(
+        {
+          authorizeGuest,
+        } as unknown as Controller,
+        { shallow: true },
+      ),
+    )
   })
 
   test("sets up a heartbeat health check", async () => {

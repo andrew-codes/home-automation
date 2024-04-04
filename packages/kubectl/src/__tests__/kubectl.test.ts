@@ -1,7 +1,12 @@
 jest.mock("shelljs", () => ({
   exec: jest.fn(),
 }))
+jest.mock("fs/promises")
+jest.mock("uuid")
+import fs from "fs/promises"
+import path from "path"
 import sh from "shelljs"
+import { v4 as uuidv4 } from "uuid"
 import kubectl from "../kubectl"
 
 describe("kubectl", () => {
@@ -14,16 +19,22 @@ describe("kubectl", () => {
   })
 
   describe("applyToCluster", () => {
-    test("Applies content to k8s cluster via kubectl CLI.", () => {
+    test(`Applies content to k8s cluster via kubectl CLI.
+- a temporary file is used for the content to be applied to avoid a shell command that is too long.`, async () => {
+      ;(uuidv4 as jest.Mock).mockReturnValue("fileName")
+
       const input = `{
         "person"
       }`
-      kubectl.applyToCluster(input)
+      await kubectl.applyToCluster(input)
+
+      expect(fs.writeFile).toHaveBeenCalledWith(
+        path.join("/tmp", "fileName"),
+        input,
+      )
       expect(sh.exec).toHaveBeenCalledWith(
-        expect.stringMatching(
-          /echo '{\\n        \"person\"\\n      }' | kubectl apply -f -;/,
-        ),
-        { silent: true, shell: "/bin/bash" },
+        expect.stringMatching(/kubectl apply -f \/tmp\/fileName;/),
+        { silent: false, shell: "/bin/bash" },
       )
     })
   })
