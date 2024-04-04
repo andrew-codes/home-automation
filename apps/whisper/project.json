@@ -1,0 +1,9 @@
+{
+  "name": "whisper",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/whisper/src",
+  "projectType": "application",
+  "targets": {},
+  "tags": [],
+  "implicitDependencies": ["docker-creds", "secrets"]
+}

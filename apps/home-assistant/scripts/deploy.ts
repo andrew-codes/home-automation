@@ -15,8 +15,12 @@ const run = async (
   const nfsUsername = await configurationApi.get("nfs/username")
   const nfsPassword = await configurationApi.get("nfs/password")
   const postgresDb = await configurationApi.get("home-assistant/postgres/db")
-  const postgresUsername = await configurationApi.get("home-assistant/postgres/username")
-  const postgresPassword = await configurationApi.get("home-assistant/postgres/password")
+  const postgresUsername = await configurationApi.get(
+    "home-assistant/postgres/username",
+  )
+  const postgresPassword = await configurationApi.get(
+    "home-assistant/postgres/password",
+  )
   const nfsIp = await configurationApi.get("nfs/ip")
   const webrtcPort = await configurationApi.get(
     "home-assistant/webrtc/api/port",
@@ -84,7 +88,7 @@ const run = async (
       nfsUsername: nfsUsername.value,
       nfsIp: nfsIp.value,
       postgresDb: postgresDb.value,
-      postgresUsername: nfsUsername.value,
+      postgresUsername: postgresUsername.value,
       postgresPassword: postgresPassword.value,
     },
   )
@@ -95,6 +99,10 @@ const run = async (
     ),
   )
 
+  await kubectl.rolloutDeployment("restart", "home-assistant-postgres")
+  await kubectl.rolloutDeployment("restart", "whisper")
+  await kubectl.rolloutDeployment("restart", "piper")
+  await kubectl.rolloutDeployment("restart", "open-wake-word")
   await kubectl.rolloutDeployment("restart", name)
 }
 

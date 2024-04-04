@@ -4461,6 +4461,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ha/whisper@workspace:apps/whisper":
+  version: 0.0.0-use.local
+  resolution: "@ha/whisper@workspace:apps/whisper"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/nx-executors": "workspace:^0.1.0"
+  languageName: unknown
+  linkType: soft
+
 "@ha/zwavejs@workspace:apps/zwavejs":
   version: 0.0.0-use.local
   resolution: "@ha/zwavejs@workspace:apps/zwavejs"

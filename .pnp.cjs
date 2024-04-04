@@ -202,6 +202,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:apps/wake-on-lan"\
     },\
     {\
+      "name": "@ha/whisper",\
+      "reference": "workspace:apps/whisper"\
+    },\
+    {\
       "name": "@ha/zwavejs",\
       "reference": "workspace:apps/zwavejs"\
     },\
@@ -387,6 +391,7 @@ const RAW_RUNTIME_STATE =
     ["@ha/uptime-kuma", ["workspace:apps/uptime-kuma"]],\
     ["@ha/velero", ["workspace:apps/velero"]],\
     ["@ha/wake-on-lan", ["workspace:apps/wake-on-lan"]],\
+    ["@ha/whisper", ["workspace:apps/whisper"]],\
     ["@ha/zwavejs", ["workspace:apps/zwavejs"]]\
   ],\
   "fallbackPool": [\
@@ -6954,6 +6959,21 @@ const RAW_RUNTIME_STATE =
           ["ts-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#npm:29.0.5"],\
           ["typescript", "patch:typescript@npm%3A4.9.4#optional!builtin<compat/typescript>::version=4.9.4&hash=289587"],\
           ["wakeonlan", "npm:0.1.0"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@ha/whisper", [\
+      ["workspace:apps/whisper", {\
+        "packageLocation": "./apps/whisper/",\
+        "packageDependencies": [\
+          ["@ha/whisper", "workspace:apps/whisper"],\
+          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+          ["@ha/docker", "workspace:packages/docker"],\
+          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
+          ["@ha/kubectl", "workspace:packages/kubectl"],\
+          ["@ha/nx-executors", "workspace:packages/nx-executors"]\
         ],\
         "linkType": "SOFT"\
       }]\
