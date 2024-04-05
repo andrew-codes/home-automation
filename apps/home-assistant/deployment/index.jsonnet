@@ -108,57 +108,33 @@ local postgresService = k.core.v1.service.new('home-assistant-postgres', { name:
 local postgresVolume = lib.volume.persistentVolume.new('home-assistant-postgres', '40Gi');
 
 
-// local sttVolume = lib.volume.persistentVolume.new('whisper-data', '40Gi');
-// local sttContainer = k.core.v1.container.new(name='whisper', image='rhasspy/wyoming-whisper:2.1.0')
-//                      + k.core.v1.container.withImagePullPolicy('Always')
-//                      + k.core.v1.container.withPorts({
-//                        name: 'whisper',
-//                        containerPort: 10300,
-//                        protocol: 'TCP',
-//                      },)
-//                      + { volumeMounts: [k.core.v1.volumeMount.new('whisper-data', '/data')] }
-//                      + { args: ['--model', 'medium.en', '--language', 'en'] }
-//                      + k.core.v1.container.withEnv([
-//                        { name: 'TZ', value: 'America/New_York' },
-//                      ])
-// ;
-// local sstDeployment = k.apps.v1.deployment.new(name='whisper', containers=[sttContainer],)
-//                       + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: 'regcred' },)
-//                       + k.apps.v1.deployment.spec.template.spec.withServiceAccount('app',)
-//                       + { spec+: { template+: { spec+: { volumes: [k.core.v1.volume.fromPersistentVolumeClaim('whisper-data', 'whisper-data-pvc')] } } } }
-// ;
-// local sstService = k.core.v1.service.new('whisper', { name: 'whisper' }, [{
-//   name: 'whisper',
-//   port: 10300,
-//   protocol: 'TCP',
-//   targetPort: 'whisper',
-// }],);
+local ttsVolume = lib.volume.persistentNfsVolume.new('piper-data', '40Gi', std.extVar('nfsIp'), std.extVar('nfsUsername'), std.extVar('nfsPassword'))
+;
+local ttsContainer = k.core.v1.container.new(name='piper', image='rhasspy/wyoming-piper:1.5.0')
+                     + k.core.v1.container.withImagePullPolicy('Always')
+                     + k.core.v1.container.withPorts({
+                       name: 'piper',
+                       containerPort: 10200,
+                       protocol: 'TCP',
+                     },)
+                     + { volumeMounts: [k.core.v1.volumeMount.new('piper-data', '/data')] }
+                     + { args: ['--voice', 'en_US-hfc_female-medium', '--debug'] }
+                     + k.core.v1.container.withEnv([
+                       { name: 'TZ', value: 'America/New_York' },
+                     ])
+;
+local ttsDeployment = k.apps.v1.deployment.new(name='piper', containers=[ttsContainer],)
+                      + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: 'regcred' },)
+                      + k.apps.v1.deployment.spec.template.spec.withServiceAccount('app',)
+                      + { spec+: { template+: { spec+: { volumes: [k.core.v1.volume.fromPersistentVolumeClaim('piper-data', 'piper-data-pvc')] } } } }
+;
+local ttsService = k.core.v1.service.new('piper', { name: 'piper' }, [{
+  name: 'piper',
+  port: 10200,
+  protocol: 'TCP',
+  targetPort: 'piper',
+}],);
 
-// local ttsVolume = lib.volume.persistentVolume.new('piper-data', '40Gi');
-// local ttsContainer = k.core.v1.container.new(name='piper', image='rhasspy/wyoming-piper:1.5.0')
-//                      + k.core.v1.container.withImagePullPolicy('Always')
-//                      + k.core.v1.container.withPorts({
-//                        name: 'piper',
-//                        containerPort: 10200,
-//                        protocol: 'TCP',
-//                      },)
-//                      + { volumeMounts: [k.core.v1.volumeMount.new('piper-data', '/data')] }
-//                      + { args: ['--voice', 'en_US-hfc_female-medium'] }
-//                      + k.core.v1.container.withEnv([
-//                        { name: 'TZ', value: 'America/New_York' },
-//                      ])
-// ;
-// local ttsDeployment = k.apps.v1.deployment.new(name='piper', containers=[ttsContainer],)
-//                       + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: 'regcred' },)
-//                       + k.apps.v1.deployment.spec.template.spec.withServiceAccount('app',)
-//                       + { spec+: { template+: { spec+: { volumes: [k.core.v1.volume.fromPersistentVolumeClaim('piper-data', 'piper-data-pvc')] } } } }
-// ;
-// local ttsService = k.core.v1.service.new('piper', { name: 'piper' }, [{
-//   name: 'piper',
-//   port: 10200,
-//   protocol: 'TCP',
-//   targetPort: 'piper',
-// }],);
 
 // local openWakeWordVolumeData = lib.volume.persistentVolume.new('open-wake-word-data', '40Gi');
 // local openWakeWordVolumeCustom = lib.volume.persistentVolume.new('open-wake-word-custom', '40Gi');
@@ -178,9 +154,9 @@ local postgresVolume = lib.volume.persistentVolume.new('home-assistant-postgres'
 //                                + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: 'regcred' },)
 //                                + k.apps.v1.deployment.spec.template.spec.withServiceAccount('app',)
 //                                + { spec+: { template+: { spec+: { volumes: [
-//                                       k.core.v1.volume.fromPersistentVolumeClaim('open-wake-word-data', 'open-wake-word-data-pvc'),
-//                                       k.core.v1.volume.fromPersistentVolumeClaim('open-wake-word-custom', 'open-wake-word-custom-pvc')
-//                                     ] } } } }
+//                                  k.core.v1.volume.fromPersistentVolumeClaim('open-wake-word-data', 'open-wake-word-data-pvc'),
+//                                  k.core.v1.volume.fromPersistentVolumeClaim('open-wake-word-custom', 'open-wake-word-custom-pvc'),
+//                                ] } } } }
 // ;
 // local openWakeWordService = k.core.v1.service.new('open-wake-word', { name: 'open-wake-word' }, [{
 //   name: 'open-wake-word',
@@ -190,35 +166,47 @@ local postgresVolume = lib.volume.persistentVolume.new('home-assistant-postgres'
 // }],)
 // ;
 
-// local espHomeConfigVolume = lib.volume.persistentVolume.new('esphome-config', '10Gi');
-// local espHomeContainer = k.core.v1.container.new(name='esphome', image='esphome/esphome:2024.3.0')
-//                               + k.core.v1.container.withImagePullPolicy('Always')
+local espHomeConfigVolume = lib.volume.persistentNfsVolume.new('esphome-config', '10Gi', std.extVar('nfsIp'), std.extVar('nfsUsername'), std.extVar('nfsPassword'))
+;
+local espGitConfigVolume = k.core.v1.configMap.new('esphome-gitconfig', { '.gitconfig': '[safe]\n        directory = *' })
+;
+local espHomeContainer = k.core.v1.container.new(name='esphome', image='esphome/esphome:2024.3.0')
+                         + k.core.v1.container.withImagePullPolicy('Always')
 
-//                               + { volumeMounts: [k.core.v1.volumeMount.new('esphome-config', '/config')] }
-//                               + k.core.v1.container.withPorts({
-//                                 name: 'esphome',
-//                                 containerPort: 6052,
-//                                 protocol: 'TCP',
-//                               },)
-//                               + k.core.v1.container.withEnv([
-//                                 { name: 'TZ', value: 'America/New_York' },
-//                               ])
-// ;
-// local espHomeDeployment = k.apps.v1.deployment.new(name='esphome', containers=[espHomeContainer],)
-//                                + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: 'regcred' },)
-//                                + k.apps.v1.deployment.spec.template.spec.withServiceAccount('app',)
-//                                + { spec+: { template+: { spec+: { volumes: [k.core.v1.volume.fromPersistentVolumeClaim('esphome-config', 'esphome-config-pvc')] } } } }
-//                                +  {
-//                                     spec+: {
-//                                       template+: {
-//                                         spec+: {
-//                                           hostNetwork: true,
-//                                           dnsPolicy: 'ClusterFirstWithHostNet',
-//                                         },
-//                                       },
-//                                     },
-//                                   }
-// ;
+                         + { volumeMounts: [
+                           k.core.v1.volumeMount.new('esphome-config', '/config'),
+                           k.core.v1.volumeMount.new('esphome-gitconfig', '/root/.gitconfig') + k.core.v1.volumeMount.withSubPath('.gitconfig'),
+                         ] }
+                         + k.core.v1.container.withPorts({
+                           name: 'esphome',
+                           containerPort: 6052,
+                           protocol: 'TCP',
+                         },)
+                         + k.core.v1.container.withEnv([
+                           { name: 'TZ', value: 'America/New_York' },
+                         ])
+;
+local espHomeDeployment = k.apps.v1.deployment.new(name='esphome', containers=[espHomeContainer],)
+                          + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: 'regcred' },)
+                          + k.apps.v1.deployment.spec.template.spec.withServiceAccount('app',)
+                          + { spec+: { template+: { spec+: { volumes: [
+                            k.core.v1.volume.fromPersistentVolumeClaim('esphome-config', 'esphome-config-pvc'),
+                            {
+                              name: 'esphome-gitconfig',
+                              configMap: { name: 'esphome-gitconfig', defaultMode: 384 },
+                            },
+                          ] } } } }
+                          + {
+                            spec+: {
+                              template+: {
+                                spec+: {
+                                  hostNetwork: true,
+                                  dnsPolicy: 'ClusterFirstWithHostNet',
+                                },
+                              },
+                            },
+                          }
+;
 
 
 // local wasVolume = lib.volume.persistentVolume.new('willow-as-storage', '40Gi');
@@ -232,4 +220,6 @@ local postgresVolume = lib.volume.persistentVolume.new('home-assistant-postgres'
 // ;
 
 haVolume + haVolumeNewConfig + std.objectValues(deployment)
++ ttsVolume + [ttsDeployment, ttsService]
 + postgresVolume + [postgresDeployment, postgresService]
++ espHomeConfigVolume + [espHomeDeployment, espGitConfigVolume]

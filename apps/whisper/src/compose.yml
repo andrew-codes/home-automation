@@ -1,0 +1,42 @@
+version: "3"
+services:
+  wyoming-whisper:
+    image: rhasspy/wyoming-whisper:latest
+    ports:
+      - "10300:10300"
+    volumes:
+      - /mnt/data/whisper-data:/data
+      - /usr/lib/x86_64-linux-gnu/libcudnn_ops_infer.so.8:/usr/lib/x86_64-linux-gnu/libcudnn_ops_infer.so.8:ro
+      - /usr/lib/x86_64-linux-gnu/libcudnn_cnn_infer.so.8:/usr/lib/x86_64-linux-gnu/libcudnn_cnn_infer.so.8:ro
+      - /usr/lib/x86_64-linux-gnu/libcublasLt.so.11:/usr/lib/x86_64-linux-gnu/libcublasLt.so.12:ro
+      - /usr/lib/x86_64-linux-gnu/libcublas.so.11:/usr/lib/x86_64-linux-gnu/libcublas.so.12:ro
+    command: --model medium-int8 --language en --beam-size 5 --device cuda
+    restart: unless-stopped
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  # openwakeword:
+  #   image: rhasspy/wyoming-openwakeword:latest
+  #   ports:
+  #     - "10400:10400"
+  #   volumes:
+  #     - /mnt/data/openwakeword-data:/data
+  #     - /usr/lib/x86_64-linux-gnu/libcudnn_ops_infer.so.8:/usr/lib/x86_64-linux-gnu/libcudnn_ops_infer.so.8:ro
+  #     - /usr/lib/x86_64-linux-gnu/libcudnn_cnn_infer.so.8:/usr/lib/x86_64-linux-gnu/libcudnn_cnn_infer.so.8:ro
+  #     - /usr/lib/x86_64-linux-gnu/libcublasLt.so.11:/usr/lib/x86_64-linux-gnu/libcublasLt.so.12:ro
+  #     - /usr/lib/x86_64-linux-gnu/libcublas.so.11:/usr/lib/x86_64-linux-gnu/libcublas.so.12:ro
+  #   command: --preload-model alexa --debug
+  #   restart: unless-stopped
+  #   runtime: nvidia
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: 1
+  #             capabilities: [gpu]
