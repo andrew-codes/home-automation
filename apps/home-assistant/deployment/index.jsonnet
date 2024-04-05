@@ -135,6 +135,37 @@ local ttsService = k.core.v1.service.new('piper', { name: 'piper' }, [{
   targetPort: 'piper',
 }],);
 
+
+// local openWakeWordVolumeData = lib.volume.persistentVolume.new('open-wake-word-data', '40Gi');
+// local openWakeWordVolumeCustom = lib.volume.persistentVolume.new('open-wake-word-custom', '40Gi');
+// local openWakeWordContainer = k.core.v1.container.new(name='open-wake-word', image='rhasspy/wyoming-openwakeword:1.10.0')
+//                               + k.core.v1.container.withImagePullPolicy('Always')
+//                               + k.core.v1.container.withPorts({
+//                                 name: 'open-wake-word',
+//                                 containerPort: 10400,
+//                                 protocol: 'TCP',
+//                               },)
+//                               + { volumeMounts: [k.core.v1.volumeMount.new('open-wake-word-data', '/data'), k.core.v1.volumeMount.new('open-wake-word-custom', '/custom')] }
+//                               + k.core.v1.container.withEnv([
+//                                 { name: 'TZ', value: 'America/New_York' },
+//                               ])
+// ;
+// local openWakeWordDeployment = k.apps.v1.deployment.new(name='open-wake-word', containers=[openWakeWordContainer],)
+//                                + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: 'regcred' },)
+//                                + k.apps.v1.deployment.spec.template.spec.withServiceAccount('app',)
+//                                + { spec+: { template+: { spec+: { volumes: [
+//                                  k.core.v1.volume.fromPersistentVolumeClaim('open-wake-word-data', 'open-wake-word-data-pvc'),
+//                                  k.core.v1.volume.fromPersistentVolumeClaim('open-wake-word-custom', 'open-wake-word-custom-pvc'),
+//                                ] } } } }
+// ;
+// local openWakeWordService = k.core.v1.service.new('open-wake-word', { name: 'open-wake-word' }, [{
+//   name: 'open-wake-word',
+//   port: 10400,
+//   protocol: 'TCP',
+//   targetPort: 'open-wake-word',
+// }],)
+// ;
+
 local espHomeConfigVolume = lib.volume.persistentNfsVolume.new('esphome-config', '10Gi', std.extVar('nfsIp'), std.extVar('nfsUsername'), std.extVar('nfsPassword'))
 ;
 local espGitConfigVolume = k.core.v1.configMap.new('esphome-gitconfig', { '.gitconfig': '[safe]\n        directory = *' })
