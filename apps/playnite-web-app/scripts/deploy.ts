@@ -17,7 +17,7 @@ const run = async (
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      image: `ghcr.io/andrew-codes/playnite-web-app:2.0.0`,
+      image: `ghcr.io/andrew-codes/playnite-web-app:2-latest`,
       name,
       port: parseInt(port.value),
       registryHostname: registry.value,
@@ -42,7 +42,7 @@ const run = async (
   const stagingResources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      image: `ghcr.io/andrew-codes/playnite-web-app:dev`,
+      image: `ghcr.io/andrew-codes/playnite-web-app:3-dev`,
       name: `${name}-staging`,
       port: parseInt(stagingPort.value),
       registryHostname: registry.value,
