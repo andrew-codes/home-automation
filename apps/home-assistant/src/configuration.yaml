@@ -206,6 +206,10 @@ lovelace:
       type: module
     - url: /hacsfiles/tabbed-card/tabbed-card.js
       type: module
+    - url: /hacsfiles/kiosk-mode/kiosk-mode.js
+      type: module
+    - url: /hacsfiles/Bubble-Card/bubble-card.js
+      type: module
 
   dashboards:
     admin-dashboard:
