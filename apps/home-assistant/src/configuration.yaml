@@ -226,3 +226,10 @@ lovelace:
       filename: lovelace/game-room-dashboard.yaml
       show_in_sidebar: true
       require_admin: false
+    security-dashboard:
+      mode: yaml
+      title: Security
+      icon: mdi:cctv
+      filename: lovelace/security-dashboard.yaml
+      show_in_sidebar: true
+      require_admin: false
