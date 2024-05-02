@@ -2,18 +2,41 @@ local secrets = import '../../../apps/secrets/dist/secrets.jsonnet';
 local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
 local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
 
-local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), std.extVar('secrets'), std.extVar('port'), '5000')
-                   + lib.deployment.withEnvVars(0, [
-                     { name: 'DEBUG', value: '' },
-                     { name: 'MQTT_HOST', value: 'mqtt' },
-                     { name: 'MQTT_PORT', value: '1883' },
-                   ])
-                   + lib.deployment.withPort(0, std.extVar('name'), 'rtmp', 1935, std.extVar('external_rmtp_port'))
-                   + lib.deployment.withPersistentVolume('frigate-media')
-                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('frigate-media', '/media/frigate',))
-                   + lib.deployment.withInitContainer('mqtt-is-ready', std.extVar('registryHostname') + '/mqtt-client:latest', { env: [secrets['mqtt/username'], secrets['mqtt/password']], command: ['sh'], args: ['-c', 'timeout 10 sub -h mqtt -t "\\$SYS/#" -C 1 -u $MQTT_USERNAME -P $MQTT_PASSWORD | grep -v Error || exit 1'] })
-                   + lib.deployment.withSecurityContext(0, { privileged: true, allowPrivilegeEscalation: true },);
+local mediaVolume = [
+  k.core.v1.persistentVolume.new('frigate-media')
+  + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
+  + k.core.v1.persistentVolume.spec.withStorageClassName('nfs')
+  + k.core.v1.persistentVolume.spec.withCapacity({ storage: '300Gi' })
+  + k.core.v1.persistentVolume.spec.nfs.withPath('/volume1/k8s-data/frigate-media')
+  + k.core.v1.persistentVolume.spec.nfs.withServer(std.extVar('nfsIp'))
+  + k.core.v1.persistentVolume.spec.nfs.withReadOnly(false)
+  + k.core.v1.persistentVolume.spec.withMountOptions(['nfsvers=4.1'])
+  + k.core.v1.persistentVolume.spec.withVolumeMode('Filesystem')
+  + k.core.v1.persistentVolume.spec.withPersistentVolumeReclaimPolicy('Recycle'),
 
-local volume = lib.volume.persistentVolume.new('frigate-media', '300Gi');
+  k.core.v1.persistentVolumeClaim.new('frigate-media')
+  + k.core.v1.persistentVolumeClaim.spec.withAccessModes('ReadWriteMany')
+  + k.core.v1.persistentVolumeClaim.spec.withStorageClassName('nfs')
+  + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: '300Gi' }),
+]
+;
+local configVolume = [
+  k.core.v1.persistentVolume.new('frigate-config')
+  + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
+  + k.core.v1.persistentVolume.spec.withStorageClassName('nfs')
+  + k.core.v1.persistentVolume.spec.withCapacity({ storage: '10Gi' })
+  + k.core.v1.persistentVolume.spec.nfs.withPath('/volume1/k8s-data/frigate-config')
+  + k.core.v1.persistentVolume.spec.nfs.withServer(std.extVar('nfsIp'))
+  + k.core.v1.persistentVolume.spec.nfs.withReadOnly(false)
+  + k.core.v1.persistentVolume.spec.withMountOptions(['nfsvers=4.1'])
+  + k.core.v1.persistentVolume.spec.withVolumeMode('Filesystem')
+  + k.core.v1.persistentVolume.spec.withPersistentVolumeReclaimPolicy('Recycle'),
 
-volume + std.objectValues(deployment)
+  k.core.v1.persistentVolumeClaim.new('frigate-config')
+  + k.core.v1.persistentVolumeClaim.spec.withAccessModes('ReadWriteMany')
+  + k.core.v1.persistentVolumeClaim.spec.withStorageClassName('nfs')
+  + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: '10Gi' }),
+]
+;
+
+mediaVolume + configVolume

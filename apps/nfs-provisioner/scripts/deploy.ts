@@ -18,7 +18,7 @@ const run = async (
   const nfsSharePath = await configurationApi.get("nfs/share-path")
   throwIfError(
     sh.exec(
-      `helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=${nfsIp.value} --set nfs.path=${nfsSharePath.value} --set storageClass.name=nfs-client --set storageClass.accessMode=ReadWriteMany`,
+      `helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=${nfsIp.value} --set nfs.path=${nfsSharePath.value} --set storageClass.name=nfs --set storageClass.accessMode=ReadWriteMany`,
     ),
   )
 }

@@ -8,14 +8,6 @@
       "options": {
         "cwd": "apps/frigate",
         "module": "scripts/deploy.ts"
-      },
-      "dependsOn": [{ "target": "image/push", "projects": "self" }]
-    },
-    "image/push": {
-      "executor": "@ha/nx-executors:invoke",
-      "options": {
-        "module": "scripts/image-push.ts",
-        "cwd": "apps/frigate"
       }
     }
   },

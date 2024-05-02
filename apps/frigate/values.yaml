@@ -1,0 +1,25 @@
+image:
+  tag: "0.13.2"
+imagePullSecrets:
+  - name: regcred
+persistence:
+  config:
+    enabled: true
+    size: 10Gi
+    accessMode: ReadWriteMany
+  media:
+    enabled: true
+    size: 300Gi
+    accessMode: ReadWriteMany
+coral:
+  enabled: false
+  hostPath: "/dev/bus/usb"
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: "kubernetes.io/hostname"
+              operator: "In"
+              values:
+                - "k8s-node-3"

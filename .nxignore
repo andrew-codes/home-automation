@@ -1,6 +1,5 @@
 apps/crowdsec
 apps/docker-registry
-apps/frigate
 apps/game-library-updater
 apps/infrastructure*
 apps/k8s

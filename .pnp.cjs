@@ -5846,7 +5846,8 @@ const RAW_RUNTIME_STATE =
           ["@ha/docker", "workspace:packages/docker"],\
           ["@ha/jsonnet", "workspace:packages/jsonnet"],\
           ["@ha/kubectl", "workspace:packages/kubectl"],\
-          ["@ha/nx-executors", "workspace:packages/nx-executors"]\
+          ["@ha/nx-executors", "workspace:packages/nx-executors"],\
+          ["shelljs", "npm:0.8.5"]\
         ],\
         "linkType": "SOFT"\
       }]\
