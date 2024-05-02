@@ -1,6 +1,0 @@
-group:
-  family:
-    name: Family
-    entities:
-      - person.andrew_smith
-      - person.dorri_smith

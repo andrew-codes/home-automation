@@ -1,3 +1,0 @@
-shell_command:
-  update_pihole_1: ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@10.1.0.130 pihole -up
-  update_pihole_2: ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@10.1.0.131 pihole -up

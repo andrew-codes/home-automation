@@ -1,4 +1,0 @@
-command_line:
-  - sensor:
-      name: External Ip
-      command: curl https://checkip.amazonaws.com

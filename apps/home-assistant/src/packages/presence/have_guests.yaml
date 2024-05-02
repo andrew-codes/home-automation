@@ -1,6 +1,0 @@
-template:
-  - binary_sensor:
-      - name: Do we have guests?
-        unique_id: are_there_guests
-        device_class: "presence"
-        state: "{{ is_state('group.guests', 'home') }}"

@@ -1,6 +1,0 @@
-template:
-  - binary_sensor:
-      - name: Are there packages?
-        unique_id: are_there_packages
-        device_class: "occupancy"
-        state: "{{ states('sensor.total_delivered_packages') | int(0) > 0 }}"

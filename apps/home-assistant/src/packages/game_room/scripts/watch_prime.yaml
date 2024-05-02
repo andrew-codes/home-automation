@@ -1,9 +1,0 @@
-script:
-  watch_prime:
-    sequence:
-      - service: script.start_gaming_room_streaming_media_activity
-      - service: androidtv.adb_command
-        entity_id: media_player.shield
-        data:
-          command: >-
-            am start -a android.intent.action.VIEW -n com.amazon.amazonvideo.livingroom/com.amazon.ignition.IgnitionActivity

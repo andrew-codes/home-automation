@@ -1,6 +1,0 @@
-group:
-  tracked_presence:
-    name: Tracked Presence
-    entities:
-      - group.family
-      - group.guests

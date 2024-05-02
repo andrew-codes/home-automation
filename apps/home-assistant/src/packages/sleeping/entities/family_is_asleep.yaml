@@ -1,6 +1,0 @@
-group:
-  family_is_sleeping:
-    name: Family is sleeping
-    all: true
-    entities:
-      - input_boolean.andrew_is_sleeping
