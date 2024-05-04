@@ -2,7 +2,7 @@ local secrets = import '../../../apps/secrets/dist/secrets.jsonnet';
 local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
 local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
 
-local mediaVolume = [
+local mediaVolumeNfs = [
   k.core.v1.persistentVolume.new('frigate-media')
   + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
   + k.core.v1.persistentVolume.spec.withStorageClassName('nfs')
@@ -20,6 +20,7 @@ local mediaVolume = [
   + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: '300Gi' }),
 ]
 ;
+
 local configVolume = [
   k.core.v1.persistentVolume.new('frigate-config')
   + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
@@ -39,4 +40,4 @@ local configVolume = [
 ]
 ;
 
-mediaVolume + configVolume
+mediaVolumeNfs + configVolume

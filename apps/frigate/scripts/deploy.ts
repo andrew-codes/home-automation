@@ -36,6 +36,12 @@ const run = async (
     `helm upgrade --install ${name} blakeblackshear/frigate -f values.yaml`,
   )
 
+  const patch = await jsonnet.eval(
+    path.join(__dirname, "..", "deployment", "patch.jsonnet"),
+  )
+  const patchJson = JSON.parse(patch)
+  sh.exec(`kubectl patch deployment ${name} -p '${JSON.stringify(patchJson)}'`)
+
   await kubectl.rolloutDeployment("restart", name)
 }
 

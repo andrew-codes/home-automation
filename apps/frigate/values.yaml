@@ -12,8 +12,16 @@ persistence:
     size: 300Gi
     accessMode: ReadWriteMany
 coral:
-  enabled: false
+  enabled: true
   hostPath: "/dev/bus/usb"
+extraVolumeMounts:
+  - name: timezone
+    mountPath: /etc/localtime
+    readOnly: true
+extraVolumes:
+  - name: timezone
+    hostPath:
+      path: /etc/localtime
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
@@ -23,3 +31,126 @@ affinity:
               operator: "In"
               values:
                 - "k8s-node-3"
+config: >-
+  mqtt:
+    host: mqtt
+    port: 1883
+    topic_prefix: frigate
+    client_id: frigate
+    user: "{FRIGATE_MQTT_USERNAME}"
+    password: "{FRIGATE_MQTT_PASSWORD}"
+    stats_interval: 60
+
+  # ffmpeg:
+    # hwaccel_args: preset-vaapi
+
+  objects:
+    track:
+      - person
+      - package
+
+  record:
+    enabled: True
+    retain:
+      days: 7
+      mode: motion
+    events:
+      objects:
+        - person
+      retain:
+        default: 30
+        mode: motion
+
+  detectors:
+    coral:
+      type: edgetpu
+      device: usb
+
+  logger:
+    default: debug
+    logs:
+      frigate.mqtt: error
+
+  snapshots:
+    enabled: True
+    timestamp: False
+    bounding_box: False
+    crop: False
+    retain:
+      default: 30
+
+  go2rtc:
+    streams:
+      front_door_high:
+        - rtspx://10.0.0.1:7441/pIoemwMeuLmPImpU
+      front_door_medium:
+        - rtspx://10.0.0.1:7441/ah0JdxBSou5ZQ0C9
+      front_door_low:
+        - rtspx://10.0.0.1:7441/OYxkUfg64NZR0sir
+      carport_door_high:
+        - rtspx://10.0.0.1:7441/VlhW91FIidpA2uht
+      carport_door_medium:
+        - rtspx://10.0.0.1:7441/2pc1Wk8CHN6AncWh
+      carport_door_low:
+        - rtspx://10.0.0.1:7441/uJmhQwBJoDPnITOb
+
+  cameras:
+    front_door:
+      mqtt:
+        timestamp: False
+        bounding_box: False
+        crop: True
+        height: 500
+        quality: 95
+      best_image_timeout: 120
+      ffmpeg:
+        inputs:
+          - path: rtsp://localhost:8554/front_door_medium
+            input_args: preset-rtsp-restream
+            roles:
+              - detect
+          - path: rtsp://localhost:8554/front_door_high
+            input_args: preset-rtsp-restream
+            roles:
+              - rtmp
+              - record
+      detect:
+        fps: 5
+      motion:
+        mask:
+          - 511,374,960,417,960,720,0,720,0,429,284,413
+      objects:
+        filters:
+          person:
+            mask:
+              - 0,720,710,720,634,456,535,299,258,281,103,401
+
+    carport_door:
+      mqtt:
+        timestamp: False
+        bounding_box: False
+        crop: True
+        height: 500
+        quality: 95
+      ffmpeg:
+        inputs:
+          - path: rtsp://localhost:8554/carport_door_medium
+            roles:
+              - detect
+          - path: rtsp://localhost:8554/carport_door_high
+            roles:
+              - rtmp
+              - record
+          - path: rtsp://localhost:8554/carport_door_low
+            roles:
+              - audio
+      detect:
+        fps: 5
+      motion:
+        mask:
+          - 640,720,651,417,378,416,0,584,0,720
+      objects:
+        filters:
+          person:
+            mask:
+              - 675,720,706,115,401,108,91,118,190,390,133,507,0,720
