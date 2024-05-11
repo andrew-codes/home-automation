@@ -57,6 +57,15 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withEnvVars(0, [secrets['home-assistant/token'], secrets['home-assistant/server']],)
                    + lib.deployment.withPort(1, std.extVar('name'), 'appdaemon', 5050)
                    + lib.deployment.withVolumeMount(1, k.core.v1.volumeMount.new('home-assistant-config', '/home-assistant',))
+									  + lib.deployment.withAffinity({
+                      nodeAffinity: {
+                        requiredDuringSchedulingIgnoredDuringExecution: {
+                          nodeSelectorTerms: [
+                            { matchExpressions: [{ key: "kubernetes.io/hostname", operator: "In", values: ["k8s-node-2"] }] },
+                          ],
+                        },
+                      },
+                    },)
 ;
 local haVolume = lib.volume.persistentNfsVolume.new('home-assistant-config', '10Gi', std.extVar('nfsIp'), std.extVar('nfsUsername'), std.extVar('nfsPassword'))
 ;
