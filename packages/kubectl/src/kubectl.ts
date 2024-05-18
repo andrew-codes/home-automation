@@ -15,6 +15,7 @@ const kubectl = {
     try {
       await fs.mkdir("/tmp")
     } catch (e) {}
+    console.log(fileName)
     await fs.writeFile(path.join("/tmp", fileName), content)
     await throwIfError(
       sh.exec(`kubectl apply -f /tmp/${fileName};`, {
