@@ -1,11 +1,12 @@
 jest.mock("@ha/jsonnet")
 jest.mock("@ha/kubectl")
+jest.mock("fs/promises")
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
-import path from "path"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
 import { when } from "jest-when"
+import path from "path"
 import run from "../deploy"
 
 describe("deploy", () => {
