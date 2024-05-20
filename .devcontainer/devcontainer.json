@@ -3,6 +3,9 @@
   "dockerFile": "Dockerfile",
   "privileged": true,
   "customizations": {
+    "devpod": {
+      "prebuildRepository": "ghcr.io/andrew-codes/home-automation"
+    },
     "vscode": {
       "settings": {
         "terminal.integrated.profiles.linux": {
