@@ -2,7 +2,8 @@
   "name": "Home Automation",
   "dockerFile": "Dockerfile",
   "mounts": [
-    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind,consistency=cached"
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind,consistency=cached",
+    "source=/var/lib/docker,target=/var/lib/docker,type=bind,consistency=cached"
   ],
   "privileged": true,
   "customizations": {
