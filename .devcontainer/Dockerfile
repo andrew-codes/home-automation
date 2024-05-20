@@ -133,3 +133,5 @@ RUN git clone https://github.com/git/git.git
 RUN cd git && git checkout v2.38.1 && sudo make prefix=/usr/local all && sudo make prefix=/usr/local install
 RUN curl -sSL https://rover.apollo.dev/nix/latest | sh
 RUN curl -fsSL https://d2lang.com/install.sh | sh -s --
+RUN corepack enable
+RUN corepack prepare --activate yarn@4.1.1
