@@ -1,9 +1,6 @@
 {
   "name": "Home Automation",
   "dockerFile": "Dockerfile",
-  "mounts": [
-    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind,consistency=cached"
-  ],
   "privileged": true,
   "customizations": {
     "vscode": {
@@ -59,13 +56,11 @@
       ],
     }
   },
-  "initializeCommand": "bash -c '.devcontainer/save-config.sh'",
-  "postAttachCommand": "bash -c '.devcontainer/start.sh'",
+  "initializeCommand": "bash -c '.devcontainer/initialize.sh'",
   "remoteUser": "root",
   "runArgs": [
     "--cap-add=NET_ADMIN",
     "--cap-add=NET_RAW",
-    "--device=/dev/net/tun",
     "--security-opt",
     "seccomp=unconfined"
   ]
