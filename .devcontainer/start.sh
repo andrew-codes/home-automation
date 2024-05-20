@@ -6,5 +6,3 @@ if [ -f .secrets.env ]; then
     source .secrets.env
     set +o allexport
 fi
-
-yarn

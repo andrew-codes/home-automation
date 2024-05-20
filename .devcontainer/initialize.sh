@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
+cd "$(dirname "${BASH_SOURCE[0]}")"
+cd ../
+
 mkdir -p ~/.kube
 echo -e "$(op read op://$OP_CONNECT_HOST/$OP_CONNECT_VAULT_ID/s6mbwk4ppivpoyjgmzba3nsyu4/secret-value)}" >~/.kube/config
 
