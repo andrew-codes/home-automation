@@ -56,7 +56,7 @@
       ],
     }
   },
-  "initializeCommand": "bash -c '.devcontainer/save-config.sh'",
+  "initializeCommand": "bash -c '.devcontainer/initialize.sh'",
   "postAttachCommand": "bash -c '.devcontainer/start.sh'",
   "remoteUser": "root",
   "runArgs": [
