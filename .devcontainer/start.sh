@@ -9,6 +9,7 @@ export ONEPASSWORD_TOKEN="$OP_CONNECT_TOKEN"
 export ONEPASSWORD_VAULT_ID="$OP_CONNECT_VAULT_ID"
 
 yarn
+yarn nx run-many --target prepare --all
 yarn nx run secrets:dev-env
 
 ./.devcontainer/save-config.sh
