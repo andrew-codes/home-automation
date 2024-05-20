@@ -1,18 +1,17 @@
 #!/usr/bin/env bash
 set -e
 
-echo "{}" > ~/.docker/config.json
+mkdir -p ~/.docker
+echo "{}" >~/.docker/config.json
 
 if [ -f .secrets.env ]; then
-set -o allexport
+    set -o allexport
     source .secrets.env
-    set +o allexport    
+    set +o allexport
 
     yarn
     yarn nx run secrets:dev-env
 fi
 
-./.devcontainer/save-config.sh &&
-./.devcontainer/start-openvpn.sh &
-
+./.devcontainer/save-config.sh
 # ./start-telepresence.sh
