@@ -91,10 +91,7 @@ dotnet-runtime-7.0 \
     unzip \
     xsel
 
-RUN apt-get -y install --no-install-recommends openvpn
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
-RUN echo 'OPENVPN_CONFIG=""' >>/etc/environment
-RUN echo "unset OPENVPN_CONFIG" | tee -a /etc/bash.bashrc >/etc/profile.d/999-unset-openvpn-config.sh
 
 RUN sudo curl -fL https://app.getambassador.io/download/tel2/linux/amd64/latest/telepresence -o /usr/local/bin/telepresence
 RUN sudo chmod a+x /usr/local/bin/telepresence
