@@ -1,7 +1,11 @@
+FROM docker as docker
+
 FROM summerwind/actions-runner:ubuntu-22.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 USER root
+COPY --from=docker/buildx-bin /buildx /usr/libexec/docker/cli-plugins/docker-buildx
+RUN docker buildx install
 RUN apt update -y
 RUN apt-get install -y \
   apt-transport-https wget software-properties-common
@@ -20,7 +24,6 @@ RUN apt-get install -y \
   ansible \ 
   bash \
   dbus-user-session \
-  docker-buildx-plugin \
   dotnet-runtime-7.0 \
   dotnet-sdk-7.0 \
   etherwake \
