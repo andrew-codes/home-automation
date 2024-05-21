@@ -14,10 +14,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:."\
     },\
     {\
-      "name": "devcontainer",\
-      "reference": "workspace:.devcontainer"\
-    },\
-    {\
       "name": "@ha/captive-portal",\
       "reference": "workspace:apps/captive-portal"\
     },\
@@ -396,8 +392,7 @@ const RAW_RUNTIME_STATE =
     ["@ha/velero", ["workspace:apps/velero"]],\
     ["@ha/wake-on-lan", ["workspace:apps/wake-on-lan"]],\
     ["@ha/whisper", ["workspace:apps/whisper"]],\
-    ["@ha/zwavejs", ["workspace:apps/zwavejs"]],\
-    ["devcontainer", ["workspace:.devcontainer"]]\
+    ["@ha/zwavejs", ["workspace:apps/zwavejs"]]\
   ],\
   "fallbackPool": [\
   ],\
@@ -5525,7 +5520,7 @@ const RAW_RUNTIME_STATE =
           ["@types/react-dom", "npm:18.0.10"],\
           ["async-mqtt", "npm:2.6.3"],\
           ["esbuild", "npm:0.13.15"],\
-          ["esbuild-register", "virtual:073bab4f7d6398923e0d1f2971ae749e0ab274ef1cf44e219eadd772e5d5c92474351e9ef7f66202fafb7f9e889985d4716ce65ebebfe50c8acab506762834c0#npm:3.4.2"],\
+          ["esbuild-register", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#npm:3.4.2"],\
           ["eslint", "npm:8.32.0"],\
           ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
           ["jest-when", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:3.5.2"],\
@@ -11699,27 +11694,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["devcontainer", [\
-      ["workspace:.devcontainer", {\
-        "packageLocation": "./.devcontainer/",\
-        "packageDependencies": [\
-          ["devcontainer", "workspace:.devcontainer"],\
-          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
-          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
-          ["@ha/docker", "workspace:packages/docker"],\
-          ["@ha/nx-executors", "workspace:packages/nx-executors"],\
-          ["@ha/shell-utils", "workspace:packages/shell-utils"],\
-          ["@types/node", "npm:18.11.18"],\
-          ["esbuild", "npm:0.13.15"],\
-          ["esbuild-register", "virtual:073bab4f7d6398923e0d1f2971ae749e0ab274ef1cf44e219eadd772e5d5c92474351e9ef7f66202fafb7f9e889985d4716ce65ebebfe50c8acab506762834c0#npm:3.4.2"],\
-          ["lodash", "npm:4.17.21"],\
-          ["shelljs", "npm:0.8.5"],\
-          ["tsc", "npm:2.0.4"],\
-          ["typescript", "patch:typescript@npm%3A4.9.4#optional!builtin<compat/typescript>::version=4.9.4&hash=289587"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["diff", [\
       ["npm:5.1.0", {\
         "packageLocation": "./.yarn/cache/diff-npm-5.1.0-d24d222280-f4557032a9.zip/node_modules/diff/",\
@@ -12296,20 +12270,6 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:073bab4f7d6398923e0d1f2971ae749e0ab274ef1cf44e219eadd772e5d5c92474351e9ef7f66202fafb7f9e889985d4716ce65ebebfe50c8acab506762834c0#npm:3.4.2", {\
-        "packageLocation": "./.yarn/__virtual__/esbuild-register-virtual-d03cd8f827/0/cache/esbuild-register-npm-3.4.2-c873c16acc-3850490785.zip/node_modules/esbuild-register/",\
-        "packageDependencies": [\
-          ["esbuild-register", "virtual:073bab4f7d6398923e0d1f2971ae749e0ab274ef1cf44e219eadd772e5d5c92474351e9ef7f66202fafb7f9e889985d4716ce65ebebfe50c8acab506762834c0#npm:3.4.2"],\
-          ["@types/esbuild", null],\
-          ["debug", "virtual:311f00d850caa9627b6ac11974e53f96ee9fc030a73da3d1abe5cce7e72b8ee2e1f115ef7f47e2e6108ff8071f1a98050f7a4c5c3fe7df743e1d5a4130e33289#npm:4.3.4"],\
-          ["esbuild", "npm:0.13.15"]\
-        ],\
-        "packagePeers": [\
-          "@types/esbuild",\
-          "esbuild"\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["virtual:67c2aad2b1bd47fe7a2a41d331ce53a09742994e6e4cf897b697836ad2af8b3577c1b4c3128f4d1437800d10106137809a85386ab3553d979a125a47045c5628#npm:3.4.2", {\
         "packageLocation": "./.yarn/__virtual__/esbuild-register-virtual-9042e1c080/0/cache/esbuild-register-npm-3.4.2-c873c16acc-3850490785.zip/node_modules/esbuild-register/",\
         "packageDependencies": [\
@@ -12317,6 +12277,20 @@ const RAW_RUNTIME_STATE =
           ["@types/esbuild", null],\
           ["debug", "virtual:311f00d850caa9627b6ac11974e53f96ee9fc030a73da3d1abe5cce7e72b8ee2e1f115ef7f47e2e6108ff8071f1a98050f7a4c5c3fe7df743e1d5a4130e33289#npm:4.3.4"],\
           ["esbuild", "npm:0.17.3"]\
+        ],\
+        "packagePeers": [\
+          "@types/esbuild",\
+          "esbuild"\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#npm:3.4.2", {\
+        "packageLocation": "./.yarn/__virtual__/esbuild-register-virtual-2e88b98c2b/0/cache/esbuild-register-npm-3.4.2-c873c16acc-3850490785.zip/node_modules/esbuild-register/",\
+        "packageDependencies": [\
+          ["esbuild-register", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#npm:3.4.2"],\
+          ["@types/esbuild", null],\
+          ["debug", "virtual:311f00d850caa9627b6ac11974e53f96ee9fc030a73da3d1abe5cce7e72b8ee2e1f115ef7f47e2e6108ff8071f1a98050f7a4c5c3fe7df743e1d5a4130e33289#npm:4.3.4"],\
+          ["esbuild", "npm:0.13.15"]\
         ],\
         "packagePeers": [\
           "@types/esbuild",\

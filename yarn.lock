@@ -8257,25 +8257,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"devcontainer@workspace:.devcontainer":
-  version: 0.0.0-use.local
-  resolution: "devcontainer@workspace:.devcontainer"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/docker": "workspace:^0.0.1"
-    "@ha/nx-executors": "workspace:^0.1.0"
-    "@ha/shell-utils": "workspace:^1.0.0"
-    "@types/node": "npm:^18.11.18"
-    esbuild: "npm:^0.13.9"
-    esbuild-register: "npm:3.4.2"
-    lodash: "npm:^4.17.21"
-    shelljs: "npm:^0.8.5"
-    tsc: "npm:^2.0.4"
-    typescript: "npm:^4.9.4"
-  languageName: unknown
-  linkType: soft
-
 "diff-sequences@npm:^29.3.1":
   version: 29.3.1
   resolution: "diff-sequences@npm:29.3.1"

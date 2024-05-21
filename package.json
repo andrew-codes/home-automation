@@ -38,8 +38,7 @@
   "workspaces": {
     "packages": [
       "apps/*",
-      "packages/**/*",
-      ".devcontainer"
+      "packages/**/*"
     ]
   },
   "devDependencies": {
