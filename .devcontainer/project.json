@@ -1,0 +1,15 @@
+{
+  "name": "devcontainer",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": ".devcontainer",
+  "projectType": "application",
+  "targets": {
+    "image/push": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": ".devcontainer",
+        "module": "scripts/image-push.ts"
+      }
+    }
+  }
+}
