@@ -14856,10 +14856,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["ip", [\
-      ["npm:1.1.8", {\
-        "packageLocation": "./.yarn/cache/ip-npm-1.1.8-abea558b72-52975ebf84.zip/node_modules/ip/",\
+      ["npm:1.1.9", {\
+        "packageLocation": "./.yarn/cache/ip-npm-1.1.9-e72dd3cc0a-29261559b8.zip/node_modules/ip/",\
         "packageDependencies": [\
-          ["ip", "npm:1.1.8"]\
+          ["ip", "npm:1.1.9"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -18698,7 +18698,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["pac-resolver", "npm:5.0.1"],\
           ["degenerator", "npm:3.0.2"],\
-          ["ip", "npm:1.1.8"],\
+          ["ip", "npm:1.1.9"],\
           ["netmask", "npm:2.0.2"]\
         ],\
         "linkType": "HARD"\
