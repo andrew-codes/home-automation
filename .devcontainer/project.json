@@ -10,6 +10,13 @@
         "cwd": ".devcontainer",
         "module": "scripts/image-push.ts"
       }
+    },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "echo 'Deploying to devcontainer'",
+        "cwd": "apps/.devcontainer"
+      }
     }
   }
 }
