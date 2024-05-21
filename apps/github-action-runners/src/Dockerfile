@@ -22,7 +22,7 @@ RUN echo "deb http://security.ubuntu.com/ubuntu xenial-security main" >>/etc/apt
 RUN apt update -y --fix-missing
 RUN apt-get install -y \
   ansible \ 
-  bash \
+bash \
   dbus-user-session \
   dotnet-runtime-7.0 \
   dotnet-sdk-7.0 \
@@ -77,17 +77,15 @@ RUN corepack enable
 RUN corepack prepare yarn@4.1.1 --activate
 RUN chown --recursive runner /home/runner
 RUN apt-get install -y \
-dirmngr
+  dirmngr
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-RUN echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" > /etc/apt/sources.list.d/mono-official-stable.list
+RUN echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" >/etc/apt/sources.list.d/mono-official-stable.list
 RUN apt-get update -y
 RUN apt-get install -y \
-mono-complete \
-nuget \
-git-lfs
+  mono-complete \
+  nuget \
+  git-lfs
 RUN git lfs install
 
 USER runner
 RUN echo '{ "features": { "buildkit": true }, "exec-opts": [], "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' | tee /home/runner/.config/docker/daemon.json
-RUN curl -L -o devpod "https://github.com/loft-sh/devpod/releases/latest/download/devpod-linux-amd64" && sudo install -c -m 0755 devpod /usr/local/bin && rm -f devpod
-RUN devpod provider add docker
