@@ -20,6 +20,7 @@ RUN apt-get install -y \
   ansible \ 
   bash \
   dbus-user-session \
+  docker-buildx-plugin \
   dotnet-runtime-7.0 \
   dotnet-sdk-7.0 \
   etherwake \
