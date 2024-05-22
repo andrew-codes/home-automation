@@ -26,9 +26,6 @@ RUN echo "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp
 RUN curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 RUN echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /" | tee -a /etc/apt/sources.list.d/kubernetes.list
 
-RUN curl -sS https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-RUN echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu jammy stable" | tee -a /etc/apt/sources.list.d/docker.list
-
 RUN echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu focal main"
 RUN add-apt-repository -y --update ppa:ansible/ansible
 RUN add-apt-repository -y --update ppa:deadsnakes/ppa
@@ -60,7 +57,6 @@ RUN apt-get install -y \
     ca-certificates \
     dbus-user-session \
     dnsutils \
-    docker-ce \ 
 dotnet-runtime-7.0 \
     dotnet-sdk-7.0 \
     etherwake \
@@ -101,7 +97,7 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 RUN mkdir -p /etc/docker
-RUN echo '{ "features": { "buildkit": true }, "exec-opts": [], "storage-driver": "overlay2", "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' | tee /etc/docker/daemon.json
+RUN echo '{ "data-root": "/var/lib/docker2", "features": { "buildkit": true }, "exec-opts": [], "storage-driver": "overlay2", "log-driver": "json-file", "log-opts": {"max-size": "10m", "max-file": "3"} }' | tee /etc/docker/daemon.json
 RUN pip3 install "pywinrm>=0.3.0"
 RUN pip3 install "PyYAML"
 RUN ansible-galaxy collection install ansible.windows
@@ -115,7 +111,6 @@ RUN wget https://github.com/mikefarah/yq/releases/download/v4.6.3/yq_linux_amd64
 RUN chmod +x /usr/bin/yq
 RUN mkdir -p /usr/local/bin
 RUN ln -s /usr/bin/gpg /usr/local/bin/gpg
-VOLUME /var/lib/docker
 RUN curl -fsSL -o helm.tar.gz https://get.helm.sh/helm-v3.6.1-linux-amd64.tar.gz
 RUN tar -zxvf helm.tar.gz
 RUN mv linux-amd64/helm /usr/local/bin/helm
