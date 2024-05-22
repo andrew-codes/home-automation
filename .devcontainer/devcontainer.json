@@ -65,7 +65,7 @@
       ],
     }
   },
-  "initializeCommand": "bash -c '.devcontainer/initialize.sh'",
+  "postCreateCommand": "bash -c '.devcontainer/post-create.sh'",
   "remoteUser": "root",
   "runArgs": [
     "--cap-add=NET_ADMIN",

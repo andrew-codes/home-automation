@@ -12,3 +12,6 @@ ONEPASSWORD_TOKEN="$OP_CONNECT_TOKEN"
 ONEPASSWORD_VAULT_ID="$OP_CONNECT_VAULT_ID"
 
 " >.secrets.env
+
+corepack enable
+corepack prepare --activate yarn@4.1.1
