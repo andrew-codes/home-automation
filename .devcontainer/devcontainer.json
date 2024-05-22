@@ -2,6 +2,9 @@
   "name": "Home Automation",
   "dockerFile": "Dockerfile",
   "privileged": true,
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+  },
   "customizations": {
     "devpod": {
       "prebuildRepository": "ghcr.io/andrew-codes/home-automation"
