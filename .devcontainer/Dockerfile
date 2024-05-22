@@ -43,7 +43,7 @@ RUN curl -sS https://downloads.1password.com/linux/keys/1password.asc | gpg --de
 RUN apt update -y --fix-missing
 RUN apt-get upgrade -y
 
-RUN apt-get remove docker docker-engine docker.io containerd
+RUN apt-get remove docker docker-engine docker.io containerd nodejs
 
 RUN apt-get install -y \
     1password \
