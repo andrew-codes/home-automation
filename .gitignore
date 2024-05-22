@@ -32,3 +32,5 @@ node_modules
 
 headers.txt
 cookies.txt
+
+.devcontainer/.devpod-internal/

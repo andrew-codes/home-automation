@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
+echo -e "{
+\"data-root\": \"/var/lib/docker2\"
+}" > /etc/docker/daemon.json
+/usr/local/share/docker-init.sh
+
 mkdir -p ~/.kube
 echo -e "$(op read op://$OP_CONNECT_VAULT_ID/s6mbwk4ppivpoyjgmzba3nsyu4/secret-value)" >~/.kube/config
 
