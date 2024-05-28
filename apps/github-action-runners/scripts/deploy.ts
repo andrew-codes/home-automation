@@ -49,10 +49,15 @@ const run = async (
   const registry = await configurationApi.get("docker-registry/hostname")
   const repo_owner = await configurationApi.get("repository/owner")
   const repo_name = await configurationApi.get("repository/name")
-  const otherRepoNames =
-    (await (
-      await configurationApi.get("repository/other/names")
-    ).value.split(",")) ?? []
+  let otherRepoNames: string[] = []
+  try {
+    otherRepoNames =
+      (await (
+        await configurationApi.get("repository/other/names")
+      ).value.split(",")) ?? []
+  } catch (e) {
+    otherRepoNames = []
+  }
 
   const repoNames = [repo_name.value].concat(otherRepoNames)
 
@@ -104,6 +109,45 @@ const run = async (
       resources.map(async (resource) =>
         kubectl.applyToCluster(JSON.stringify(resource)),
       ),
+    ),
+  )
+
+  // Playnite web
+  Promise.all(
+    await Promise.all(
+      secrets.map(async (secretName, index) => {
+        const secretValue = await configurationApi.get(secretName)
+
+        return await seal(
+          repo_owner.value,
+          "playnite-web",
+          names[index],
+          typeof secretValue === "string" ? secretValue : secretValue.value,
+        )
+      }),
+    ),
+  )
+  await seal(
+    repo_owner.value,
+    "playnite-web",
+    "JEST_REPORTER_TOKEN",
+    githubToken.value,
+  )
+
+  const playniteWebJsonOutputs = JSON.parse(
+    await jsonnet.eval(
+      path.join(__dirname, "..", "deployment", "index.jsonnet"),
+      {
+        image: `ghcr.io/andrew-codes/playnite-web-gh-action-runner:3-dev`,
+        repoName: `${repo_owner.value}/playnite-web`,
+        name: "playnite-web",
+      },
+    ),
+  )
+
+  await Promise.all(
+    playniteWebJsonOutputs.flatMap((resource) =>
+      kubectl.applyToCluster(JSON.stringify(resource)),
     ),
   )
 

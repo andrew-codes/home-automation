@@ -35,6 +35,9 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
           dockerdWithinRunnerContainer: false,
           imagePullSecrets: [{
             name: 'regcred',
+          },
+          {
+            name: 'ghcr',
           }],
           securityContext: {
             fsGroup: 1001,

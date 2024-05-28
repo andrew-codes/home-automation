@@ -40,6 +40,8 @@ const configurationNames = [
   "gaming-pc/machine/password",
   "gaming-pc/user",
   "github/token",
+  "github/email",
+  "github/cr/token",
   "grafana/influxdb/token",
   "grafana/password",
   "grafana/port/external",
@@ -119,8 +121,8 @@ const configurationNames = [
   "mqtt/username",
   "nfs/ip",
   "nfs/share-path",
-  'nfs/username',
-  'nfs/password',
+  "nfs/username",
+  "nfs/password",
   "obsidian-livesync/port/external",
   "obsidian-livesync/username",
   "obsidian-livesync/password",
@@ -256,4 +258,3 @@ const createConfigApi = async (): Promise<
 
 export type { OnePasswordConfiguration as Configuration }
 export { createConfigApi, configurationNames }
-

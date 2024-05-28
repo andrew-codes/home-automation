@@ -18,7 +18,7 @@ const kubectl = {
     console.log(fileName)
     await fs.writeFile(path.join("/tmp", fileName), content)
     await throwIfError(
-      sh.exec(`kubectl apply -f /tmp/${fileName};`, {
+      sh.exec(`kubectl apply --namespace default -f /tmp/${fileName};`, {
         shell: "/bin/bash",
         silent: false,
       }),
