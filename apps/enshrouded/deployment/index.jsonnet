@@ -2,7 +2,7 @@ local secrets = import '../../../apps/secrets/dist/secrets.jsonnet';
 local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
 local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
 
-local deployment = lib.deployment.new(std.extVar('name'), 'mbround18/enshrouded-docker:1.1.0-proton', std.extVar('secrets'), '', '', true)
+local deployment = lib.deployment.new(std.extVar('name'), 'mornedhels/enshrouded-server:1.1.0-proton', std.extVar('secrets'), '', '', true)
                    + lib.deployment.withEnvVars(0, [
                      { name: 'SERVER_SLOT_COUNT', value: '4' },
                      { name: 'UPDATE_CRON', value: '*/30 * * * *' },
@@ -27,14 +27,14 @@ local deployment = lib.deployment.new(std.extVar('name'), 'mbround18/enshrouded-
                        spec+: {
                          template+: {
                            spec+: {
-                             containers: [super.containers[0] { ports+: [{ name: 'port2tcp', containerPort: 15637, protocol: 'TCP' }, { name: 'port2udp', containerPort: 15637, protocol: 'UDP' }] }] + super.containers[1:],
+                             containers: [super.containers[0] { ports+: [{ name: 'enshrouded-port-tcp', containerPort: 15637, protocol: 'TCP' }, { name: 'enshrouded-port-udp', containerPort: 15637, protocol: 'UDP' }] }] + super.containers[1:],
                            },
                          },
                        },
                      },
-                     'service-port2tcp': k.core.v1.service.new('port2tcp', { name: std.extVar('name') }, [{ name: 'port2tcp', port: 15637, targetPort: 'port2tcp', protocol: 'TCP' }])
+                     'service-enshrouded-tcp': k.core.v1.service.new('enshrouded-port-tcp', { name: std.extVar('name') }, [{ name: 'enshrouded-port-tcp', port: 15637, targetPort: 'enshrouded-port-tcp', protocol: 'TCP' }])
                                          + k.core.v1.servicePort.withNodePort(std.parseInt(std.extVar('porttcp'))),
-                     'service-port2udp': k.core.v1.service.new('port2ludp', { name: std.extVar('name') }, [{ name: 'port2ludp', port: 15637, targetPort: 'port2ludp', protocol: 'UDP' }])
+                     'service-enshrouded-udp': k.core.v1.service.new('enshrouded-port-udp', { name: std.extVar('name') }, [{ name: 'enshrouded-port-udp', port: 15637, targetPort: 'enshrouded-port-udp', protocol: 'UDP' }])
                                          + k.core.v1.servicePort.withNodePort(std.parseInt(std.extVar('portudp'))),
                    }
                    + lib.deployment.withPersistentVolume('enshrouded-game-data')
