@@ -7,7 +7,7 @@
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
-        "cwd": "{projectRoot}",
+        "cwd": "apps/enshrouded",
         "module": "scripts/deploy.ts"
       }
     }
