@@ -27,19 +27,18 @@ local deployment = lib.deployment.new(std.extVar('name'), 'mornedhels/enshrouded
                        spec+: {
                          template+: {
                            spec+: {
-                             containers: [super.containers[0] { ports+: [{ name: 'enshrouded-tcp', containerPort: 15637, protocol: 'TCP' }, { name: 'enshrouded-udp', containerPort: 15637, protocol: 'UDP' }] }] + super.containers[1:],
+                             containers: [super.containers[0] { ports+: [{ name: 'enshrouded', containerPort: 15637 }] }] + super.containers[1:],
                            },
                          },
                        },
                      },
-                     'service-enshrouded-tcp': k.core.v1.service.new('enshrouded-tcp', { name: std.extVar('name') }, [{ name: 'enshrouded-tcp', port: 15637, targetPort: 'enshrouded-tcp', protocol: 'TCP' } + k.core.v1.servicePort.withNodePort(std.parseInt(std.extVar('porttcp')))]) + k.core.v1.service.spec.withType('NodePort',),
-                     'service-enshrouded-udp': k.core.v1.service.new('enshrouded-udp', { name: std.extVar('name') }, [{ name: 'enshrouded-udp', port: 15637, targetPort: 'enshrouded-udp', protocol: 'UDP' } + k.core.v1.servicePort.withNodePort(std.parseInt(std.extVar('portudp')))]) + k.core.v1.service.spec.withType('NodePort',),
+                     'service-enshrouded': k.core.v1.service.new('enshrouded', { name: std.extVar('name') }, [{ name: 'enshrouded', port: 15637, targetPort: 'enshrouded' } + k.core.v1.servicePort.withNodePort(30726)]) + k.core.v1.service.spec.withType('NodePort',),
                    }
                    + lib.deployment.withPersistentVolume('enshrouded-game-data')
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('enshrouded-game-data', '/opt/enshrouded',))
 ;
 
-local pvc = lib.volume.persistentNfsVolume.new('enshrouded-game-data', '100Gi', std.extVar('nfsIp'), std.extVar('nfsUsername'), std.extVar('nfsPassword'))
+local pvc = lib.volume.persistentVolume.new('enshrouded-game-data', '60Gi')
 ;
 
 pvc + std.objectValues(deployment)
