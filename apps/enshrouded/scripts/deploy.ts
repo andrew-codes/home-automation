@@ -12,12 +12,16 @@ const run = async (
   const nfsUsername = await configurationApi.get("nfs/username")
   const nfsPassword = await configurationApi.get("nfs/password")
   const nfsIp = await configurationApi.get("nfs/ip")
+  const porttcp = await configurationApi.get("enshrouded/port/external/tcp")
+  const portudp = await configurationApi.get("enshrouded/port/external/udp")
   const secrets: Array<keyof Configuration> = ["enshrouded/password"]
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
       name,
       secrets,
+      porttcp: porttcp.value,
+      portudp: portudp.value,
       nfsPassword: nfsPassword.value,
       nfsUsername: nfsUsername.value,
       nfsIp: nfsIp.value,

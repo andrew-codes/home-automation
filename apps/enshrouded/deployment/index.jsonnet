@@ -32,8 +32,10 @@ local deployment = lib.deployment.new(std.extVar('name'), 'mbround18/enshrouded-
                          },
                        },
                      },
-                     'service-port2tcp': k.core.v1.service.new('port2tcp', { name: std.extVar('name') }, [{ name: 'port2tcp', port: 15637, targetPort: 'port2tcp', protocol: 'TCP' }]),
-                     'service-port2udp': k.core.v1.service.new('port2ludp', { name: std.extVar('name') }, [{ name: 'port2ludp', port: 15637, targetPort: 'port2ludp', protocol: 'UDP' }]),
+                     'service-port2tcp': k.core.v1.service.new('port2tcp', { name: std.extVar('name') }, [{ name: 'port2tcp', port: 15637, targetPort: 'port2tcp', protocol: 'TCP' }])
+                                         + k.core.v1.servicePort.withNodePort(std.parseInt(std.extVar('porttcp'))),
+                     'service-port2udp': k.core.v1.service.new('port2ludp', { name: std.extVar('name') }, [{ name: 'port2ludp', port: 15637, targetPort: 'port2ludp', protocol: 'UDP' }])
+                                         + k.core.v1.servicePort.withNodePort(std.parseInt(std.extVar('portudp'))),
                    }
                    + lib.deployment.withPersistentVolume('enshrouded-game-data')
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('enshrouded-game-data', '/opt/enshrouded',))
