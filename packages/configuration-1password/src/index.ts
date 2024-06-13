@@ -28,6 +28,7 @@ const configurationNames = [
   "elk-stack/kibana/port/external",
   "elk-stack/logstash/password",
   "elk-stack/logstash/port/external",
+  "enshrouded/password",
   "external-services-dns-updater/sub-domains",
   "game-library-db/password",
   "game-library-db/port",

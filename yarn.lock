@@ -3451,6 +3451,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ha/enshrouded@workspace:apps/enshrouded":
+  version: 0.0.0-use.local
+  resolution: "@ha/enshrouded@workspace:apps/enshrouded"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/nx-executors": "workspace:^0.1.0"
+  languageName: unknown
+  linkType: soft
+
 "@ha/env-utils@workspace:^0.0.1, @ha/env-utils@workspace:packages/env-utils":
   version: 0.0.0-use.local
   resolution: "@ha/env-utils@workspace:packages/env-utils"

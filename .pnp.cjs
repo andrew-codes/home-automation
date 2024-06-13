@@ -34,6 +34,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:apps/elk-stack"\
     },\
     {\
+      "name": "@ha/enshrouded",\
+      "reference": "workspace:apps/enshrouded"\
+    },\
+    {\
       "name": "@ha/frigate",\
       "reference": "workspace:apps/frigate"\
     },\
@@ -332,6 +336,7 @@ const RAW_RUNTIME_STATE =
     ["@ha/docker-creds", ["workspace:apps/docker-creds"]],\
     ["@ha/docker-registry", ["workspace:apps/docker-registry"]],\
     ["@ha/elk-stack", ["workspace:apps/elk-stack"]],\
+    ["@ha/enshrouded", ["workspace:apps/enshrouded"]],\
     ["@ha/env-utils", ["workspace:packages/env-utils"]],\
     ["@ha/frigate", ["workspace:apps/frigate"]],\
     ["@ha/game-library-db", ["workspace:apps/game-library-db"]],\
@@ -5814,6 +5819,20 @@ const RAW_RUNTIME_STATE =
           ["@ha/kubectl", "workspace:packages/kubectl"],\
           ["@ha/nx-executors", "workspace:packages/nx-executors"],\
           ["shelljs", "npm:0.8.5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@ha/enshrouded", [\
+      ["workspace:apps/enshrouded", {\
+        "packageLocation": "./apps/enshrouded/",\
+        "packageDependencies": [\
+          ["@ha/enshrouded", "workspace:apps/enshrouded"],\
+          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
+          ["@ha/kubectl", "workspace:packages/kubectl"],\
+          ["@ha/nx-executors", "workspace:packages/nx-executors"]\
         ],\
         "linkType": "SOFT"\
       }]\
