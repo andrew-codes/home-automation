@@ -27,15 +27,13 @@ local deployment = lib.deployment.new(std.extVar('name'), 'mornedhels/enshrouded
                        spec+: {
                          template+: {
                            spec+: {
-                             containers: [super.containers[0] { ports+: [{ name: 'enshrouded-port-tcp', containerPort: 15637, protocol: 'TCP' }, { name: 'enshrouded-port-udp', containerPort: 15637, protocol: 'UDP' }] }] + super.containers[1:],
+                             containers: [super.containers[0] { ports+: [{ name: 'enshrouded-tcp', containerPort: 15637, protocol: 'TCP' }, { name: 'enshrouded-udp', containerPort: 15637, protocol: 'UDP' }] }] + super.containers[1:],
                            },
                          },
                        },
                      },
-                     'service-enshrouded-tcp': k.core.v1.service.new('enshrouded-port-tcp', { name: std.extVar('name') }, [{ name: 'enshrouded-port-tcp', port: 15637, targetPort: 'enshrouded-port-tcp', protocol: 'TCP' }])
-                                         + k.core.v1.servicePort.withNodePort(std.parseInt(std.extVar('porttcp'))),
-                     'service-enshrouded-udp': k.core.v1.service.new('enshrouded-port-udp', { name: std.extVar('name') }, [{ name: 'enshrouded-port-udp', port: 15637, targetPort: 'enshrouded-port-udp', protocol: 'UDP' }])
-                                         + k.core.v1.servicePort.withNodePort(std.parseInt(std.extVar('portudp'))),
+                     'service-enshrouded-tcp': k.core.v1.service.new('enshrouded-tcp', { name: std.extVar('name') }, [{ name: 'enshrouded-tcp', port: 15637, targetPort: 'enshrouded-tcp', protocol: 'TCP' } + k.core.v1.servicePort.withNodePort(std.parseInt(std.extVar('porttcp')))]) + k.core.v1.service.spec.withType('NodePort',),
+                     'service-enshrouded-udp': k.core.v1.service.new('enshrouded-udp', { name: std.extVar('name') }, [{ name: 'enshrouded-udp', port: 15637, targetPort: 'enshrouded-udp', protocol: 'UDP' } + k.core.v1.servicePort.withNodePort(std.parseInt(std.extVar('portudp')))]) + k.core.v1.service.spec.withType('NodePort',),
                    }
                    + lib.deployment.withPersistentVolume('enshrouded-game-data')
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('enshrouded-game-data', '/opt/enshrouded',))
