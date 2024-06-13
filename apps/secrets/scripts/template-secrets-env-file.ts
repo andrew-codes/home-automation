@@ -1,7 +1,7 @@
+import { ConfigurationApi } from "@ha/configuration-api"
+import type { Configuration } from "@ha/configuration-workspace"
 import fs from "fs/promises"
 import path from "path"
-import type { Configuration } from "@ha/configuration-workspace"
-import { ConfigurationApi } from "@ha/configuration-api"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
@@ -13,7 +13,9 @@ const run = async (
       let value
       try {
         value = await configurationApi.get(name)
-      } catch (error) {}
+      } catch (error) {
+        console.error(error)
+      }
       const secretValue =
         value != null ? (typeof value === "string" ? value : value.value) : ""
       return { name, value: secretValue }
