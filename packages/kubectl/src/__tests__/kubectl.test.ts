@@ -29,7 +29,9 @@ describe("kubectl", () => {
 
       expect(fs.writeFile).toHaveBeenCalledWith("/tmp/uuid", input)
       expect(sh.exec).toHaveBeenCalledWith(
-        expect.stringMatching(/kubectl apply -f \/tmp\/uuid;/),
+        expect.stringMatching(
+          /kubectl apply --namespace default -f \/tmp\/uuid;/,
+        ),
         { silent: false, shell: "/bin/bash" },
       )
     })
