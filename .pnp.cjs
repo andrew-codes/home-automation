@@ -178,6 +178,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:apps/playnite-web-game-db-updater"\
     },\
     {\
+      "name": "@ha/proxmox",\
+      "reference": "workspace:apps/proxmox"\
+    },\
+    {\
       "name": "@ha/ps5",\
       "reference": "workspace:apps/ps5"\
     },\
@@ -383,6 +387,7 @@ const RAW_RUNTIME_STATE =
     ["@ha/photoprism", ["workspace:apps/photoprism"]],\
     ["@ha/pihole", ["workspace:apps/pihole"]],\
     ["@ha/playnite-web-app", ["workspace:apps/playnite-web-app"]],\
+    ["@ha/proxmox", ["workspace:apps/proxmox"]],\
     ["@ha/ps5", ["workspace:apps/ps5"]],\
     ["@ha/remote-codespaces", ["workspace:apps/remote-codespaces"]],\
     ["@ha/samba", ["workspace:apps/samba"]],\
@@ -6740,6 +6745,20 @@ const RAW_RUNTIME_STATE =
           ["nodemon", "npm:2.0.20"],\
           ["ts-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#npm:29.0.5"],\
           ["typescript", "patch:typescript@npm%3A4.9.4#optional!builtin<compat/typescript>::version=4.9.4&hash=289587"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@ha/proxmox", [\
+      ["workspace:apps/proxmox", {\
+        "packageLocation": "./apps/proxmox/",\
+        "packageDependencies": [\
+          ["@ha/proxmox", "workspace:apps/proxmox"],\
+          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
+          ["@ha/kubectl", "workspace:packages/kubectl"],\
+          ["@ha/nx-executors", "workspace:packages/nx-executors"]\
         ],\
         "linkType": "SOFT"\
       }]\

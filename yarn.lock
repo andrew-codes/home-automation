@@ -4262,6 +4262,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ha/proxmox@workspace:apps/proxmox":
+  version: 0.0.0-use.local
+  resolution: "@ha/proxmox@workspace:apps/proxmox"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:*"
+    "@ha/kubectl": "workspace:*"
+    "@ha/nx-executors": "workspace:^0.1.0"
+  languageName: unknown
+  linkType: soft
+
 "@ha/ps5@workspace:apps/ps5":
   version: 0.0.0-use.local
   resolution: "@ha/ps5@workspace:apps/ps5"
