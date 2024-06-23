@@ -1,11 +1,7 @@
-FROM docker as docker
-
 FROM summerwind/actions-runner:ubuntu-22.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 USER root
-COPY --from=docker/buildx-bin /buildx /usr/libexec/docker/cli-plugins/docker-buildx
-RUN docker buildx install
 RUN apt update -y
 RUN apt-get install -y \
   curl \
@@ -29,8 +25,6 @@ RUN echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu focal main"
 RUN add-apt-repository -y --update ppa:ansible/ansible
 RUN add-apt-repository -y --update ppa:deadsnakes/ppa
 
-RUN echo "deb http://security.ubuntu.com/ubuntu xenial-security main" >>/etc/apt/sources.list
-
 RUN apt update -y --fix-missing
 RUN apt-get upgrade -y
 RUN apt-get install -y \
@@ -45,8 +39,7 @@ RUN apt-get install -y \
   iptables \
   jq \
   kubectl \
-  libssl1.0.0 \
-  libssl1.0.0 libssl-dev \
+  libssl3 \
   locales \
   lxc \
   python-apt-common \
@@ -72,8 +65,8 @@ RUN ansible-galaxy collection install kubernetes.core
 # kubctl
 RUN export KUBECONFIG=/home/runner/.kube/config
 
-# uq
-RUN curl https://github.com/mikefarah/yq/releases/download/v4.6.3/yq_linux_amd64 -O /usr/local/bin/yq
+# yq
+RUN curl https://github.com/mikefarah/yq/releases/download/v4.6.3/yq_linux_amd64 -o /usr/local/bin/yq
 RUN chmod +x /usr/local/bin/yq
 
 # helm
@@ -83,7 +76,7 @@ RUN mv linux-amd64/helm /usr/local/bin/helm
 RUN chmod +x /usr/local/bin/helm
 
 # go, jsonnet
-RUN curl https://dl.google.com/go/go1.18.1.linux-amd64.tar.gz -O - | tar -xz -C /usr/local
+RUN curl -s https://dl.google.com/go/go1.18.1.linux-amd64.tar.gz | tar -xz -C /usr/local
 RUN ln -s /usr/local/go/bin/go /usr/local/bin
 RUN go install github.com/google/go-jsonnet/cmd/jsonnet@latest
 RUN go install -a github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
@@ -94,6 +87,10 @@ RUN ln -s $(go env GOPATH)/bin/jb /usr/local/bin
 RUN curl -Os https://uploader.codecov.io/latest/linux/codecov
 RUN chmod +x codecov
 RUN ln -s codecov /usr/local/bin
+
+# git
+RUN git clone https://github.com/git/git.git
+RUN cd git && git checkout v2.38.1 && make prefix=/usr/local all && make prefix=/usr/local install
 
 # rover
 RUN curl -sSL https://rover.apollo.dev/nix/latest | sh
