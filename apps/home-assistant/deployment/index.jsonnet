@@ -23,7 +23,7 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                        tcpSocket: {
                          port: 5050,
                        },
-                       initialDelaySeconds: 60,
+                       initialDelaySeconds: 160,
                        failureThreshold: 5,
                        timeoutSeconds: 10,
                        periodSeconds: 20,
@@ -32,7 +32,7 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                        tcpSocket: {
                          port: 5050,
                        },
-                       initialDelaySeconds: 60,
+                       initialDelaySeconds: 160,
                        failureThreshold: 5,
                        timeoutSeconds: 10,
                        periodSeconds: 20,
@@ -41,7 +41,7 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                        tcpSocket: {
                          port: 5050,
                        },
-                       initialDelaySeconds: 60,
+                       initialDelaySeconds: 160,
                        failureThreshold: 30,
                        timeoutSeconds: 10,
                        periodSeconds: 10,
@@ -160,9 +160,9 @@ local sttDeployment = k.apps.v1.deployment.new(name='whisper', containers=[sttCo
                         template+: {
 
                           spec+: {
-                            tolerations: [
-                              { key: 'nvidia.com/gpu', operator: 'Exists', effect: 'NoSchedule' },
-                            ],
+                            // tolerations: [
+                            //   { key: 'nvidia.com/gpu', operator: 'Exists', effect: 'NoSchedule' },
+                            // ],
                             volumes: [k.core.v1.volume.fromPersistentVolumeClaim('whisper-data', 'whisper-data-pvc')],
                           },
                         },
