@@ -9,7 +9,7 @@ jobs:
     runs-on: home-automation
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Extract node version from package.json
         uses: sergeysova/jq-action@v2
         id: node_version
