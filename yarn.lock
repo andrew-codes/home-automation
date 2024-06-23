@@ -4229,6 +4229,8 @@ __metadata:
   dependencies:
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:*"
+    "@ha/kubectl": "workspace:*"
     "@ha/nx-executors": "workspace:^0.1.0"
     "@ha/shell-utils": "workspace:^1.0.0"
     shelljs: "npm:^0.8.5"
@@ -4257,21 +4259,6 @@ __metadata:
     nodemon: "npm:^2.0.20"
     ts-jest: "npm:^29.0.5"
     typescript: "npm:^4.9.4"
-  languageName: unknown
-  linkType: soft
-
-"@ha/proxy@workspace:apps/proxy":
-  version: 0.0.0-use.local
-  resolution: "@ha/proxy@workspace:apps/proxy"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/jsonnet": "workspace:^0.0.1"
-    "@ha/kubectl": "workspace:^1.0.0"
-    "@ha/nx-executors": "workspace:^0.1.0"
-    "@ha/shell-utils": "workspace:^1.0.0"
-    "@types/shelljs": "npm:^0.8.5"
-    shelljs: "npm:^0.8.5"
   languageName: unknown
   linkType: soft
 
@@ -4498,19 +4485,6 @@ __metadata:
     ts-jest: "npm:^29.0.5"
     typescript: "npm:^4.9.4"
     wakeonlan: "npm:^0.1.0"
-  languageName: unknown
-  linkType: soft
-
-"@ha/whisper@workspace:apps/whisper":
-  version: 0.0.0-use.local
-  resolution: "@ha/whisper@workspace:apps/whisper"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/docker": "workspace:^0.0.1"
-    "@ha/jsonnet": "workspace:^0.0.1"
-    "@ha/kubectl": "workspace:^1.0.0"
-    "@ha/nx-executors": "workspace:^0.1.0"
   languageName: unknown
   linkType: soft
 

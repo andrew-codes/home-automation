@@ -178,10 +178,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:apps/playnite-web-game-db-updater"\
     },\
     {\
-      "name": "@ha/proxy",\
-      "reference": "workspace:apps/proxy"\
-    },\
-    {\
       "name": "@ha/ps5",\
       "reference": "workspace:apps/ps5"\
     },\
@@ -212,10 +208,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@ha/wake-on-lan",\
       "reference": "workspace:apps/wake-on-lan"\
-    },\
-    {\
-      "name": "@ha/whisper",\
-      "reference": "workspace:apps/whisper"\
     },\
     {\
       "name": "@ha/zwavejs",\
@@ -391,7 +383,6 @@ const RAW_RUNTIME_STATE =
     ["@ha/photoprism", ["workspace:apps/photoprism"]],\
     ["@ha/pihole", ["workspace:apps/pihole"]],\
     ["@ha/playnite-web-app", ["workspace:apps/playnite-web-app"]],\
-    ["@ha/proxy", ["workspace:apps/proxy"]],\
     ["@ha/ps5", ["workspace:apps/ps5"]],\
     ["@ha/remote-codespaces", ["workspace:apps/remote-codespaces"]],\
     ["@ha/samba", ["workspace:apps/samba"]],\
@@ -406,7 +397,6 @@ const RAW_RUNTIME_STATE =
     ["@ha/uptime-kuma", ["workspace:apps/uptime-kuma"]],\
     ["@ha/velero", ["workspace:apps/velero"]],\
     ["@ha/wake-on-lan", ["workspace:apps/wake-on-lan"]],\
-    ["@ha/whisper", ["workspace:apps/whisper"]],\
     ["@ha/zwavejs", ["workspace:apps/zwavejs"]]\
   ],\
   "fallbackPool": [\
@@ -6718,6 +6708,8 @@ const RAW_RUNTIME_STATE =
           ["@ha/pihole", "workspace:apps/pihole"],\
           ["@ha/configuration-api", "workspace:packages/configuration-api"],\
           ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
+          ["@ha/kubectl", "workspace:packages/kubectl"],\
           ["@ha/nx-executors", "workspace:packages/nx-executors"],\
           ["@ha/shell-utils", "workspace:packages/shell-utils"],\
           ["shelljs", "npm:0.8.5"]\
@@ -6748,23 +6740,6 @@ const RAW_RUNTIME_STATE =
           ["nodemon", "npm:2.0.20"],\
           ["ts-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#npm:29.0.5"],\
           ["typescript", "patch:typescript@npm%3A4.9.4#optional!builtin<compat/typescript>::version=4.9.4&hash=289587"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@ha/proxy", [\
-      ["workspace:apps/proxy", {\
-        "packageLocation": "./apps/proxy/",\
-        "packageDependencies": [\
-          ["@ha/proxy", "workspace:apps/proxy"],\
-          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
-          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
-          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
-          ["@ha/kubectl", "workspace:packages/kubectl"],\
-          ["@ha/nx-executors", "workspace:packages/nx-executors"],\
-          ["@ha/shell-utils", "workspace:packages/shell-utils"],\
-          ["@types/shelljs", "npm:0.8.12"],\
-          ["shelljs", "npm:0.8.5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7020,21 +6995,6 @@ const RAW_RUNTIME_STATE =
           ["ts-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#npm:29.0.5"],\
           ["typescript", "patch:typescript@npm%3A4.9.4#optional!builtin<compat/typescript>::version=4.9.4&hash=289587"],\
           ["wakeonlan", "npm:0.1.0"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@ha/whisper", [\
-      ["workspace:apps/whisper", {\
-        "packageLocation": "./apps/whisper/",\
-        "packageDependencies": [\
-          ["@ha/whisper", "workspace:apps/whisper"],\
-          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
-          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
-          ["@ha/docker", "workspace:packages/docker"],\
-          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
-          ["@ha/kubectl", "workspace:packages/kubectl"],\
-          ["@ha/nx-executors", "workspace:packages/nx-executors"]\
         ],\
         "linkType": "SOFT"\
       }]\
