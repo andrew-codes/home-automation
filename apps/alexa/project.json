@@ -1,0 +1,17 @@
+{
+  "name": "alexa",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/alexa/src",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/alexa",
+        "module": "scripts/deploy.ts"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["docker-creds", "secrets"]
+}

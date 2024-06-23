@@ -14,6 +14,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:."\
     },\
     {\
+      "name": "@ha/alexa",\
+      "reference": "workspace:apps/alexa"\
+    },\
+    {\
       "name": "@ha/captive-portal",\
       "reference": "workspace:apps/captive-portal"\
     },\
@@ -322,6 +326,7 @@ const RAW_RUNTIME_STATE =
   "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
   "fallbackExclusionList": [\
     ["@andrew-codes/home-automation", ["workspace:."]],\
+    ["@ha/alexa", ["workspace:apps/alexa"]],\
     ["@ha/build-ts", ["workspace:packages/build-ts"]],\
     ["@ha/captive-portal", ["workspace:apps/captive-portal"]],\
     ["@ha/cert-manager", ["workspace:apps/cert-manager"]],\
@@ -5469,6 +5474,21 @@ const RAW_RUNTIME_STATE =
           ["@gar/promisify", "npm:1.1.3"]\
         ],\
         "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@ha/alexa", [\
+      ["workspace:apps/alexa", {\
+        "packageLocation": "./apps/alexa/",\
+        "packageDependencies": [\
+          ["@ha/alexa", "workspace:apps/alexa"],\
+          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+          ["@ha/docker", "workspace:packages/docker"],\
+          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
+          ["@ha/kubectl", "workspace:packages/kubectl"],\
+          ["@ha/nx-executors", "workspace:packages/nx-executors"]\
+        ],\
+        "linkType": "SOFT"\
       }]\
     ]],\
     ["@ha/build-ts", [\

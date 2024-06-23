@@ -3199,6 +3199,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ha/alexa@workspace:apps/alexa":
+  version: 0.0.0-use.local
+  resolution: "@ha/alexa@workspace:apps/alexa"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/nx-executors": "workspace:^0.1.0"
+  languageName: unknown
+  linkType: soft
+
 "@ha/build-ts@workspace:^1.0.0, @ha/build-ts@workspace:packages/build-ts":
   version: 0.0.0-use.local
   resolution: "@ha/build-ts@workspace:packages/build-ts"
