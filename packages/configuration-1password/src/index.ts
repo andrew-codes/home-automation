@@ -5,6 +5,7 @@ import { configurationApi as EnvSecretsConfiguration } from "@ha/configuration-e
 const configurationNames = [
   "captive-portal/host",
   "captive-portal/port/external",
+  "cloudflared/config",
   "crowdsec/elastic/password",
   "crowdsec/bouncer/nginx/key",
   "crowdsec/api/port/external",

@@ -26,6 +26,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:apps/cert-manager"\
     },\
     {\
+      "name": "@ha/cloudflared",\
+      "reference": "workspace:apps/cloudflared"\
+    },\
+    {\
       "name": "@ha/docker-creds",\
       "reference": "workspace:apps/docker-creds"\
     },\
@@ -331,6 +335,7 @@ const RAW_RUNTIME_STATE =
     ["@ha/captive-portal", ["workspace:apps/captive-portal"]],\
     ["@ha/cert-manager", ["workspace:apps/cert-manager"]],\
     ["@ha/cli-utils", ["workspace:packages/cli-utils"]],\
+    ["@ha/cloudflared", ["workspace:apps/cloudflared"]],\
     ["@ha/configuration-1password", ["workspace:packages/configuration-1password"]],\
     ["@ha/configuration-api", ["workspace:packages/configuration-api"]],\
     ["@ha/configuration-env-secrets", ["workspace:packages/configuration-env-secrets"]],\
@@ -5589,6 +5594,21 @@ const RAW_RUNTIME_STATE =
           ["lodash", "npm:4.17.21"],\
           ["ts-jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.0.5"],\
           ["typescript", "patch:typescript@npm%3A4.9.4#optional!builtin<compat/typescript>::version=4.9.4&hash=289587"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@ha/cloudflared", [\
+      ["workspace:apps/cloudflared", {\
+        "packageLocation": "./apps/cloudflared/",\
+        "packageDependencies": [\
+          ["@ha/cloudflared", "workspace:apps/cloudflared"],\
+          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+          ["@ha/docker", "workspace:packages/docker"],\
+          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
+          ["@ha/kubectl", "workspace:packages/kubectl"],\
+          ["@ha/nx-executors", "workspace:packages/nx-executors"]\
         ],\
         "linkType": "SOFT"\
       }]\
