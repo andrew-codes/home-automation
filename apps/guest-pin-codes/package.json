@@ -37,7 +37,7 @@
     "@types/node": "^18.11.18",
     "@types/react": "^18.0.26",
     "async-mqtt": "^2.6.3",
-    "cron": "^1.8.2",
+    "cron": "^3.1.7",
     "debug": "^4.3.4",
     "esbuild": "^0.17.3",
     "esbuild-register": "^3.4.2",
