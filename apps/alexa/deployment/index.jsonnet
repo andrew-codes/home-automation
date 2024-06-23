@@ -89,13 +89,6 @@ local wakeWordContainer = k.core.v1.container.new(name='open-wake-word', image='
                           + k.core.v1.container.withEnv([
                             { name: 'TZ', value: 'America/New_York' },
                           ])
-                          + {
-                            resources: {
-                              limits: {
-                                'nvidia.com/gpu': 1,
-                              },
-                            },
-                          }
 ;
 local wakeWordDeployment = k.apps.v1.deployment.new(name='open-wake-word', containers=[wakeWordContainer],)
                            + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: 'regcred' },)
