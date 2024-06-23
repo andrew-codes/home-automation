@@ -22,10 +22,17 @@ RUN apt-get install -y \
 
 RUN mkdir -p /etc/apt/keyrings/
 
+# Ansible
+RUN echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu focal main"
+RUN add-apt-repository -y --update ppa:ansible/ansible
+RUN add-apt-repository -y --update ppa:deadsnakes/ppa
+
 RUN apt update -y --fix-missing
 RUN apt-get upgrade -y
 
 RUN apt-get install -y \
+    ansible \
+    ansible-lint \
     bash \
     ca-certificates \
     dbus-user-session \
