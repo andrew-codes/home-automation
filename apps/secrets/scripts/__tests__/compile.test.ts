@@ -28,7 +28,7 @@ describe("compile secrets", () => {
     await run({ get, getNames } as unknown as ConfigurationApi<Configuration>)
 
     const expectedFileContents = `
-local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.26/main.libsonnet";
+local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet";
 
 {
   "mqtt/username": k.core.v1.envVar.fromSecretRef(\"MQTT_USERNAME\", \"mqtt-username\", 'secret-value'),

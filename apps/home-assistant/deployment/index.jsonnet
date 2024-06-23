@@ -16,7 +16,6 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withInitContainer('mqtt-is-ready', std.extVar('registryHostname') + '/mqtt-client:latest', { env: [secrets['mqtt/username'], secrets['mqtt/password']], command: ['sh'], args: ['-c', 'timeout 10 sub -h mqtt -t "\\$SYS/#" -C 1 -u $MQTT_USERNAME -P $MQTT_PASSWORD | grep -v Error || exit 1'] })
                    + lib.deployment.withInitContainer('postgres-is-ready', 'postgres:13.3-alpine', { command: ['sh'], args: ['-c', 'until pg_isready -h home-assistant-postgres -p 5432; do echo waiting for database; sleep 2; done;'] })
                    + lib.deployment.withPersistentVolume('home-assistant-config')
-                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('zigbee-usb', '/dev/ttyUSB1',))
                    + lib.deployment.withContainer('app-daemon', 'acockburn/appdaemon:dev', {
                      command: ['sh'],
                      args: ['-c', 'ln -s /home-assistant/appdaemon.yaml /conf/appdaemon.yaml && ln -s /home-assistant/apps /conf/apps && ln -s /home-assistant/dashboards /conf/dashboards && ln -s /home-assistant/secrets.yaml /conf/secrets.yaml && ./dockerStart.sh'],
@@ -134,37 +133,40 @@ local ttsService = k.core.v1.service.new('piper', { name: 'piper' }, [{
 
 local sttVolume = lib.volume.persistentNfsVolume.new('whisper-data', '80Gi', std.extVar('nfsIp'), std.extVar('nfsUsername'), std.extVar('nfsPassword'))
 ;
-local sttDeployment = k.core.v1.container.new(name='piper', image='rhasspy/wyoming-whisper') + k.core.v1.container.withImagePullPolicy('Always')
-                      + k.core.v1.container.withPorts({
-                        name: 'whisper',
-                        containerPort: 10300,
-                        protocol: 'TCP',
-                      },)
-                      + { volumeMounts: [k.core.v1.volumeMount.new('whisper-data', '/data')] }
-                      + { args: ['--model', 'medium-int8', '--language', 'en'] }
-                      + k.core.v1.container.withEnv([
-                        { name: 'TZ', value: 'America/New_York' },
-                      ])
-                      + {
-                        deployment+: {
+local sttContainer = k.core.v1.container.new(name='piper', image='rhasspy/wyoming-whisper') + k.core.v1.container.withImagePullPolicy('Always')
+                     + k.core.v1.container.withPorts({
+                       name: 'whisper',
+                       containerPort: 10300,
+                       protocol: 'TCP',
+                     },)
+                     + { volumeMounts: [k.core.v1.volumeMount.new('whisper-data', '/data')] }
+                     + { args: ['--model', 'medium-int8', '--language', 'en'] }
+                     + k.core.v1.container.withEnv([
+                       { name: 'TZ', value: 'America/New_York' },
+                     ])
+                     +
+                     {
+                       resources: {
+                         limits: {
+                           'nvidia.com/gpu': 1,
+                         },
+                       },
+                     }
+;
+local sttDeployment = k.apps.v1.deployment.new(name='whisper', containers=[sttContainer],)
+                      + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: 'regcred' },)
+                      + k.apps.v1.deployment.spec.template.spec.withServiceAccount('app',)
+                      + { spec+: {
+                        template+: {
+
                           spec+: {
-                            template+: {
-                              tolerations: [
-                                { key: 'nvidia.com/gpu', operator: 'Exists', effect: 'NoSchedule' },
-                              ],
-                              spec+: {
-                                containers: [super.containers[0] {
-                                  resources: {
-                                    limits: {
-                                      'nvidia.com/gpu': 1,
-                                    },
-                                  },
-                                }] + super.containers[1:],
-                              },
-                            },
+                            tolerations: [
+                              { key: 'nvidia.com/gpu', operator: 'Exists', effect: 'NoSchedule' },
+                            ],
+                            volumes: [k.core.v1.volume.fromPersistentVolumeClaim('whisper-data', 'whisper-data-pvc')],
                           },
                         },
-                      }
+                      } }
 ;
 local sttService = k.core.v1.service.new('whisper', { name: 'whisper' }, [{
   name: 'whisper',
@@ -258,6 +260,6 @@ local espHomeDeployment = k.apps.v1.deployment.new(name='esphome', containers=[e
 
 haVolume + std.objectValues(deployment)
 + ttsVolume + [ttsDeployment, ttsService]
-+ sttDeploymentVolume + [sttDeploymentDeployment, sttDeploymentService]
++ sttVolume + [sttDeployment, sttService]
 + postgresVolume + [postgresDeployment, postgresService]
 + espHomeConfigVolume + [espHomeDeployment, espGitConfigVolume]

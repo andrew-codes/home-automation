@@ -53,7 +53,7 @@ local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
     )}", "${toK8sName(name)}", 'secret-value')`
   })
   const secretJsonnet = `
-local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.26/main.libsonnet";
+local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet";
 
 {
   ${secretsJsonnet.join(`,
