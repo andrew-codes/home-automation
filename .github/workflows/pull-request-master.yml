@@ -13,15 +13,17 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Read .nvmrc
-        run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
-        id: nvm
-      - name: Save version
-        run: echo "latest" > version
-      - name: Use Node.js (.nvmrc)
-        uses: actions/setup-node@v3
+      - name: Extract node version from package.json
+        uses: sergeysova/jq-action@v2
+        id: node_version
         with:
-          node-version: "${{ steps.nvm.outputs.NVMRC }}"
+          cmd: jq .engines.node package.json -r | sed -e 's/"//g' | sed -e 's/>=//g'
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "${{ steps.node_version.outputs.value }}"
+      - name: Use Yarn
+        run: corepack enable
       - name: Install deps
         run: yarn
       - name: Prepare
@@ -45,15 +47,17 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Read .nvmrc
-        run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
-        id: nvm
-      - name: Save version
-        run: echo "latest" > version
-      - name: Use Node.js (.nvmrc)
-        uses: actions/setup-node@v3
+      - name: Extract node version from package.json
+        uses: sergeysova/jq-action@v2
+        id: node_version
         with:
-          node-version: "${{ steps.nvm.outputs.NVMRC }}"
+          cmd: jq .engines.node package.json -r | sed -e 's/"//g' | sed -e 's/>=//g'
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "${{ steps.node_version.outputs.value }}"
+      - name: Use Yarn
+        run: corepack enable
       - name: Install deps
         run: yarn
       - name: Prepare

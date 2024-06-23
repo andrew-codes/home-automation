@@ -3,9 +3,11 @@
   "dockerFile": "Dockerfile",
   "privileged": true,
   "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "installDockerBuildx": true
+    },
     "ghcr.io/devcontainers/features/node:1": {
-      "version": "18.12.1"
+      "version": "20.15.0"
     }
   },
   "customizations": {
@@ -72,5 +74,8 @@
     "--cap-add=NET_RAW",
     "--security-opt",
     "seccomp=unconfined"
-  ]
+  ],
+  "containerEnv": {
+    "DISPLAY": "localhost:0"
+  }
 }
