@@ -1,5 +1,5 @@
 local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
-local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
+local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
 
 local mosquittoConfigMap = {
   'mosquitto.conf': '\nallow_anonymous false\nlistener 1883\n\nlistener 9001\nprotocol websockets\n\npersistence true\npersistence_location /mosquitto/data\nlog_dest file /mosquitto/log/mosquitto.log\npassword_file /mosquitto/passwd\nuser root\n',

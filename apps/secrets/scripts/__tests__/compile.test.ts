@@ -1,9 +1,9 @@
 jest.mock("fs/promises")
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
-import path from "path"
 import fs from "fs/promises"
 import { when } from "jest-when"
+import path from "path"
 import run from "../compile"
 
 describe("compile secrets", () => {
@@ -28,7 +28,7 @@ describe("compile secrets", () => {
     await run({ get, getNames } as unknown as ConfigurationApi<Configuration>)
 
     const expectedFileContents = `
-local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet";
+local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.26/main.libsonnet";
 
 {
   "mqtt/username": k.core.v1.envVar.fromSecretRef(\"MQTT_USERNAME\", \"mqtt-username\", 'secret-value'),

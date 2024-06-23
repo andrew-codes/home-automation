@@ -5800,9 +5800,10 @@ const RAW_RUNTIME_STATE =
           ["@ha/docker-registry", "workspace:apps/docker-registry"],\
           ["@ha/configuration-api", "workspace:packages/configuration-api"],\
           ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
+          ["@ha/kubectl", "workspace:packages/kubectl"],\
           ["@ha/nx-executors", "workspace:packages/nx-executors"],\
-          ["@ha/shell-utils", "workspace:packages/shell-utils"],\
-          ["shelljs", "npm:0.8.5"]\
+          ["@ha/shell-utils", "workspace:packages/shell-utils"]\
         ],\
         "linkType": "SOFT"\
       }]\

@@ -1,5 +1,5 @@
 local secrets = import '../../../apps/secrets/dist/secrets.jsonnet';
-local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
+local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
 
 {
   deployment+: {
@@ -254,7 +254,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
                 volumes+: [
                   {
                     name: name,
-                    configMap: other + { name: name, defaultMode: defaultMode,},
+                    configMap: other { name: name, defaultMode: defaultMode },
                   },
                 ],
               },

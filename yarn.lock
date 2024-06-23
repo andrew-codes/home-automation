@@ -3412,9 +3412,10 @@ __metadata:
   dependencies:
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:*"
+    "@ha/kubectl": "workspace:*"
     "@ha/nx-executors": "workspace:^0.1.0"
     "@ha/shell-utils": "workspace:^1.0.0"
-    shelljs: "npm:^0.8.5"
   languageName: unknown
   linkType: soft
 
@@ -3938,7 +3939,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/jsonnet@workspace:^0.0.1, @ha/jsonnet@workspace:packages/jsonnet":
+"@ha/jsonnet@workspace:*, @ha/jsonnet@workspace:^0.0.1, @ha/jsonnet@workspace:packages/jsonnet":
   version: 0.0.0-use.local
   resolution: "@ha/jsonnet@workspace:packages/jsonnet"
   dependencies:
@@ -3969,7 +3970,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/kubectl@workspace:^1.0.0, @ha/kubectl@workspace:packages/kubectl":
+"@ha/kubectl@workspace:*, @ha/kubectl@workspace:^1.0.0, @ha/kubectl@workspace:packages/kubectl":
   version: 0.0.0-use.local
   resolution: "@ha/kubectl@workspace:packages/kubectl"
   dependencies:

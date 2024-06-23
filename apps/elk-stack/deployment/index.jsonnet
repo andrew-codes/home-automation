@@ -1,5 +1,5 @@
 local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
-local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
+local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
 
 local elasticSearch = {
   apiVersion: 'elasticsearch.k8s.elastic.co/v1',

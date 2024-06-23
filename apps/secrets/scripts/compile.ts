@@ -1,8 +1,8 @@
+import { ConfigurationApi } from "@ha/configuration-api"
+import type { Configuration } from "@ha/configuration-workspace"
+import { toEnvName, toK8sName } from "@ha/secret-utils"
 import fs from "fs/promises"
 import path from "path"
-import type { Configuration } from "@ha/configuration-workspace"
-import { ConfigurationApi } from "@ha/configuration-api"
-import { toEnvName, toK8sName } from "@ha/secret-utils"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
@@ -53,7 +53,7 @@ local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
     )}", "${toK8sName(name)}", 'secret-value')`
   })
   const secretJsonnet = `
-local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet";
+local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.26/main.libsonnet";
 
 {
   ${secretsJsonnet.join(`,

@@ -1,4 +1,5 @@
 {
+  "name": "docker-registry",
   "root": "apps/docker-registry",
   "sourceRoot": "apps/docker-registry",
   "projectType": "application",
@@ -7,6 +8,13 @@
       "executor": "@ha/nx-executors:invoke",
       "options": {
         "module": "scripts/deploy.ts",
+        "cwd": "apps/docker-registry"
+      }
+    },
+    "setup": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "module": "scripts/setup.ts",
         "cwd": "apps/docker-registry"
       }
     }

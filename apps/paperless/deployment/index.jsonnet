@@ -1,6 +1,6 @@
 local secrets = import '../../../apps/secrets/dist/secrets.jsonnet';
 local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
-local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
+local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
 
 local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), std.extVar('secrets'), std.extVar('port'), '8000', true)
                    + lib.deployment.withEnvVars(0, [
@@ -211,33 +211,33 @@ local exportPvc = lib.volume.persistentVolume.new('paperless-export', '100Gi');
 local consumePvc = lib.volume.persistentVolume.new('paperless-consume', '100Gi');
 
 local dbDataPvc = [
-          k.core.v1.persistentVolume.new('paperless-postgres-db-pv')
-          + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
-          + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
-          + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
-          + k.core.v1.persistentVolume.spec.withCapacity({ storage: '200Gi' })
-          + k.core.v1.persistentVolume.spec.hostPath.withPath("/mnt/data/paperless-db"),
+  k.core.v1.persistentVolume.new('paperless-postgres-db-pv')
+  + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
+  + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
+  + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
+  + k.core.v1.persistentVolume.spec.withCapacity({ storage: '200Gi' })
+  + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/paperless-db'),
 
-          k.core.v1.persistentVolumeClaim.new('paperless-postgres-db-pvc')
-          + k.core.v1.persistentVolumeClaim.spec.withAccessModes('ReadWriteMany')
-          + k.core.v1.persistentVolumeClaim.spec.withStorageClassName('manual')
-          + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: '200Gi' }),
-        ]
+  k.core.v1.persistentVolumeClaim.new('paperless-postgres-db-pvc')
+  + k.core.v1.persistentVolumeClaim.spec.withAccessModes('ReadWriteMany')
+  + k.core.v1.persistentVolumeClaim.spec.withStorageClassName('manual')
+  + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: '200Gi' }),
+]
 ;
 
 local redisDataPvc = [
-          k.core.v1.persistentVolume.new('paperless-redis-pv')
-          + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
-          + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
-          + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
-          + k.core.v1.persistentVolume.spec.withCapacity({ storage: '80Gi' })
-          + k.core.v1.persistentVolume.spec.hostPath.withPath("/mnt/data/paperless-redis"),
+  k.core.v1.persistentVolume.new('paperless-redis-pv')
+  + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
+  + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
+  + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
+  + k.core.v1.persistentVolume.spec.withCapacity({ storage: '80Gi' })
+  + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/paperless-redis'),
 
-          k.core.v1.persistentVolumeClaim.new('paperless-redis-pvc')
-          + k.core.v1.persistentVolumeClaim.spec.withAccessModes('ReadWriteMany')
-          + k.core.v1.persistentVolumeClaim.spec.withStorageClassName('manual')
-          + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: '80Gi' }),
-        ]
+  k.core.v1.persistentVolumeClaim.new('paperless-redis-pvc')
+  + k.core.v1.persistentVolumeClaim.spec.withAccessModes('ReadWriteMany')
+  + k.core.v1.persistentVolumeClaim.spec.withStorageClassName('manual')
+  + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: '80Gi' }),
+]
 ;
 
 

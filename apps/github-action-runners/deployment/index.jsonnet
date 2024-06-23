@@ -1,4 +1,4 @@
-local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
+local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
 
 [
   {
@@ -33,12 +33,14 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
           repository: std.extVar('repoName'),
           dockerEnabled: true,
           dockerdWithinRunnerContainer: false,
-          imagePullSecrets: [{
-            name: 'regcred',
-          },
-          {
-            name: 'ghcr',
-          }],
+          imagePullSecrets: [
+            {
+              name: 'regcred',
+            },
+            {
+              name: 'ghcr',
+            },
+          ],
           securityContext: {
             fsGroup: 1001,
             fsGroupChangePolicy: 'Always',

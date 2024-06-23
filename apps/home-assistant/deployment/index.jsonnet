@@ -1,6 +1,6 @@
 local secrets = import '../../../apps/secrets/dist/secrets.jsonnet';
 local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
-local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.24/main.libsonnet';
+local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
 
 local configApplicatorInitContainerProperies = {
   env: [{ name: 'GIT_BRANCH', value: 'main' }, { name: 'CHECKOUT_PATH', value: 'apps/home-assistant/src' }, { name: 'REPOSITORY', value: 'https://github.com/' + std.extVar('repositoryOwner') + '/' + std.extVar('repositoryName') + '.git' }],
@@ -132,6 +132,47 @@ local ttsService = k.core.v1.service.new('piper', { name: 'piper' }, [{
 }],);
 
 
+local sttVolume = lib.volume.persistentNfsVolume.new('whisper-data', '80Gi', std.extVar('nfsIp'), std.extVar('nfsUsername'), std.extVar('nfsPassword'))
+;
+local sttDeployment = k.core.v1.container.new(name='piper', image='rhasspy/wyoming-whisper') + k.core.v1.container.withImagePullPolicy('Always')
+                      + k.core.v1.container.withPorts({
+                        name: 'whisper',
+                        containerPort: 10300,
+                        protocol: 'TCP',
+                      },)
+                      + { volumeMounts: [k.core.v1.volumeMount.new('whisper-data', '/data')] }
+                      + { args: ['--model', 'medium-int8', '--language', 'en'] }
+                      + k.core.v1.container.withEnv([
+                        { name: 'TZ', value: 'America/New_York' },
+                      ])
+                      + {
+                        deployment+: {
+                          spec+: {
+                            template+: {
+                              tolerations: [
+                                { key: 'nvidia.com/gpu', operator: 'Exists', effect: 'NoSchedule' },
+                              ],
+                              spec+: {
+                                containers: [super.containers[0] {
+                                  resources: {
+                                    limits: {
+                                      'nvidia.com/gpu': 1,
+                                    },
+                                  },
+                                }] + super.containers[1:],
+                              },
+                            },
+                          },
+                        },
+                      }
+;
+local sttService = k.core.v1.service.new('whisper', { name: 'whisper' }, [{
+  name: 'whisper',
+  port: 10300,
+  protocol: 'TCP',
+  targetPort: 'whisper',
+}],);
+
 // local openWakeWordVolumeData = lib.volume.persistentVolume.new('open-wake-word-data', '40Gi');
 // local openWakeWordVolumeCustom = lib.volume.persistentVolume.new('open-wake-word-custom', '40Gi');
 // local openWakeWordContainer = k.core.v1.container.new(name='open-wake-word', image='rhasspy/wyoming-openwakeword:1.10.0')
@@ -217,5 +258,6 @@ local espHomeDeployment = k.apps.v1.deployment.new(name='esphome', containers=[e
 
 haVolume + std.objectValues(deployment)
 + ttsVolume + [ttsDeployment, ttsService]
++ sttDeploymentVolume + [sttDeploymentDeployment, sttDeploymentService]
 + postgresVolume + [postgresDeployment, postgresService]
 + espHomeConfigVolume + [espHomeDeployment, espGitConfigVolume]
