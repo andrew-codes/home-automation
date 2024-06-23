@@ -3306,6 +3306,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ha/cloudflared@workspace:apps/cloudflared":
+  version: 0.0.0-use.local
+  resolution: "@ha/cloudflared@workspace:apps/cloudflared"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/nx-executors": "workspace:^0.1.0"
+  languageName: unknown
+  linkType: soft
+
 "@ha/configuration-1password@workspace:^0.0.1, @ha/configuration-1password@workspace:packages/configuration-1password":
   version: 0.0.0-use.local
   resolution: "@ha/configuration-1password@workspace:packages/configuration-1password"
@@ -4216,6 +4229,8 @@ __metadata:
   dependencies:
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:*"
+    "@ha/kubectl": "workspace:*"
     "@ha/nx-executors": "workspace:^0.1.0"
     "@ha/shell-utils": "workspace:^1.0.0"
     shelljs: "npm:^0.8.5"
@@ -4247,18 +4262,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/proxy@workspace:apps/proxy":
+"@ha/proxmox@workspace:apps/proxmox":
   version: 0.0.0-use.local
-  resolution: "@ha/proxy@workspace:apps/proxy"
+  resolution: "@ha/proxmox@workspace:apps/proxmox"
   dependencies:
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/jsonnet": "workspace:^0.0.1"
-    "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/jsonnet": "workspace:*"
+    "@ha/kubectl": "workspace:*"
     "@ha/nx-executors": "workspace:^0.1.0"
-    "@ha/shell-utils": "workspace:^1.0.0"
-    "@types/shelljs": "npm:^0.8.5"
-    shelljs: "npm:^0.8.5"
   languageName: unknown
   linkType: soft
 
@@ -4485,19 +4497,6 @@ __metadata:
     ts-jest: "npm:^29.0.5"
     typescript: "npm:^4.9.4"
     wakeonlan: "npm:^0.1.0"
-  languageName: unknown
-  linkType: soft
-
-"@ha/whisper@workspace:apps/whisper":
-  version: 0.0.0-use.local
-  resolution: "@ha/whisper@workspace:apps/whisper"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/docker": "workspace:^0.0.1"
-    "@ha/jsonnet": "workspace:^0.0.1"
-    "@ha/kubectl": "workspace:^1.0.0"
-    "@ha/nx-executors": "workspace:^0.1.0"
   languageName: unknown
   linkType: soft
 
