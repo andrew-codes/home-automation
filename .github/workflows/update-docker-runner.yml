@@ -8,7 +8,7 @@ jobs:
     runs-on: home-automation
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Docker system prune
         run: docker system prune -f
       - name: Extract node version from package.json

@@ -7,7 +7,7 @@ jobs:
     name: Run all tests
     runs-on: home-automation
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Extract node version from package.json
@@ -39,7 +39,7 @@ jobs:
     needs:
       - test
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Extract node version from package.json

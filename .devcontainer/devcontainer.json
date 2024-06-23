@@ -3,12 +3,18 @@
   "dockerFile": "Dockerfile",
   "privileged": true,
   "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {
-      "installDockerBuildx": true
-    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
     "ghcr.io/devcontainers/features/node:1": {
       "version": "20.15.0"
-    }
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11"
+    },
+    "ghcr.io/flexwie/devcontainer-features/op:1": {},
+    "ghcr.io/eitsupi/devcontainer-features/jq-likes:2": {},
+    "ghcr.io/devcontainers/features/go:1": {},
+    "ghcr.io/devcontainers-contrib/features/kubectl-asdf:2": {}
   },
   "customizations": {
     "devpod": {
@@ -63,7 +69,7 @@
         "streetsidesoftware.code-spell-checker",
         "tamasfe.even-better-toml",
         "Terrastruct.d2",
-        "unifiedjs.vscode-mdx"
+        "yzhang.markdown-all-in-one"
       ],
     }
   },
