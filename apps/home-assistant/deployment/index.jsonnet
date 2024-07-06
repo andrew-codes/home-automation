@@ -103,6 +103,48 @@ local postgresService = k.core.v1.service.new('home-assistant-postgres', { name:
 local postgresVolume = lib.volume.persistentVolume.new('home-assistant-postgres', '40Gi');
 
 
+local espHomeConfigVolume = lib.volume.persistentNfsVolume.new('esphome-config', '10Gi', std.extVar('nfsIp'), std.extVar('nfsUsername'), std.extVar('nfsPassword'))
+;
+local espGitConfigVolume = k.core.v1.configMap.new('esphome-gitconfig', { '.gitconfig': '[safe]\n        directory = *' })
+;
+local espHomeContainer = k.core.v1.container.new(name='esphome', image='esphome/esphome:2024.3.0')
+                         + k.core.v1.container.withImagePullPolicy('Always')
+
+                         + { volumeMounts: [
+                           k.core.v1.volumeMount.new('esphome-config', '/config'),
+                           k.core.v1.volumeMount.new('esphome-gitconfig', '/root/.gitconfig') + k.core.v1.volumeMount.withSubPath('.gitconfig'),
+                         ] }
+                         + k.core.v1.container.withPorts({
+                           name: 'esphome',
+                           containerPort: 6052,
+                           protocol: 'TCP',
+                         },)
+                         + k.core.v1.container.withEnv([
+                           { name: 'TZ', value: 'America/New_York' },
+                         ])
+;
+local espHomeDeployment = k.apps.v1.deployment.new(name='esphome', containers=[espHomeContainer],)
+                          + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: 'regcred' },)
+                          + k.apps.v1.deployment.spec.template.spec.withServiceAccount('app',)
+                          + { spec+: { template+: { spec+: { volumes: [
+                            k.core.v1.volume.fromPersistentVolumeClaim('esphome-config', 'esphome-config-pvc'),
+                            {
+                              name: 'esphome-gitconfig',
+                              configMap: { name: 'esphome-gitconfig', defaultMode: 384 },
+                            },
+                          ] } } } }
+                          + {
+                            spec+: {
+                              template+: {
+                                spec+: {
+                                  hostNetwork: true,
+                                  dnsPolicy: 'ClusterFirstWithHostNet',
+                                },
+                              },
+                            },
+                          }
+;
+
 haVolume + std.objectValues(deployment)
 + postgresVolume + [postgresDeployment, postgresService]
 + espHomeConfigVolume + [espHomeDeployment, espGitConfigVolume]
