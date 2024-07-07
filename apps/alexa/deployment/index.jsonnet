@@ -31,7 +31,7 @@ local ttsService = k.core.v1.service.new('piper', { name: 'piper' }, [{
 
 local sttVolume = lib.volume.persistentNfsVolume.new('whisper-data', '80Gi', std.extVar('nfsIp'), std.extVar('nfsUsername'), std.extVar('nfsPassword'))
 ;
-local sttContainer = k.core.v1.container.new(name='whisper', image='whisper:latest') + k.core.v1.container.withImagePullPolicy('Always')
+local sttContainer = k.core.v1.container.new(name='whisper', image=std.extVar('whisperImage')) + k.core.v1.container.withImagePullPolicy('Always')
                      + k.core.v1.container.withPorts({
                        name: 'whisper',
                        containerPort: 10300,

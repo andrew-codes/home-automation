@@ -10,11 +10,13 @@ const run = async (
   const nfsUsername = await configurationApi.get("nfs/username")
   const nfsPassword = await configurationApi.get("nfs/password")
   const nfsIp = await configurationApi.get("nfs/ip")
+  const registry = await configurationApi.get("docker-registry/hostname")
 
   const secrets: Array<keyof Configuration> = []
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
+      whisperImage: `${registry.value}/whisper:latest`,
       secrets,
       nfsPassword: nfsPassword.value,
       nfsUsername: nfsUsername.value,
