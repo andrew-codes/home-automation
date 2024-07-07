@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.7.1-cudnn8-runtime-ubuntu20.04
+FROM nvidia/cuda:12.5.0-runtime-ubuntu22.04
 
 # Install Whisper
 WORKDIR /usr/src
@@ -14,7 +14,7 @@ RUN pip3 install --no-cache-dir -U \
     setuptools \
     wheel
 RUN pip3 install --no-cache-dir \
-    "wyoming-faster-whisper==${WHISPER_VERSION}"
+    "wyoming-faster-whisper==${WHISPER_VERSION}" nvidia-cublas-cu12 nvidia-cudnn-cu12
 RUN apt-get purge -y --auto-remove \
     build-essential \
     python3-dev
