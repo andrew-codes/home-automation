@@ -9,7 +9,8 @@ RUN apt-get install -y --no-install-recommends \
     build-essential \
     python3 \
     python3-dev \
-    python3-pip
+    python3-pip \
+    libcudnn8
 RUN pip3 install --no-cache-dir -U \
     setuptools \
     wheel
