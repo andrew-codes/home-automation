@@ -1,4 +1,3 @@
-local secrets = import '../../../apps/secrets/dist/secrets.jsonnet';
 local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
 local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
 
@@ -32,7 +31,7 @@ local ttsService = k.core.v1.service.new('piper', { name: 'piper' }, [{
 
 local sttVolume = lib.volume.persistentNfsVolume.new('whisper-data', '80Gi', std.extVar('nfsIp'), std.extVar('nfsUsername'), std.extVar('nfsPassword'))
 ;
-local sttContainer = k.core.v1.container.new(name='piper', image='rhasspy/wyoming-whisper') + k.core.v1.container.withImagePullPolicy('Always')
+local sttContainer = k.core.v1.container.new(name='whisper', image='rhasspy/wyoming-whisper') + k.core.v1.container.withImagePullPolicy('Always')
                      + k.core.v1.container.withPorts({
                        name: 'whisper',
                        containerPort: 10300,
@@ -59,8 +58,9 @@ local sttDeployment = k.apps.v1.deployment.new(name='whisper', containers=[sttCo
                         template+: {
 
                           spec+: {
+                            runtimeClassName: 'nvidia',
                             // tolerations: [
-                            //   { key: 'nvidia.com/gpu', operator: 'Exists', effect: 'NoSchedule' },
+                            // { key: 'nvidia.com/gpu', operator: 'Exists', effect: 'NoSchedule' },
                             // ],
                             volumes: [k.core.v1.volume.fromPersistentVolumeClaim('whisper-data', 'whisper-data-pvc')],
                           },
