@@ -3,10 +3,10 @@ jest.mock("shelljs", () => ({
 }))
 import { ConfigurationApi } from "@ha/configuration-api"
 import { Configuration } from "@ha/configuration-workspace"
-import sh from "shelljs"
 import { when } from "jest-when"
-import { createClient } from "../docker"
 import path from "path"
+import sh from "shelljs"
+import { createClient } from "../docker"
 
 describe("docker", () => {
   const get = jest.fn()
@@ -57,7 +57,7 @@ describe("docker", () => {
 
     expect(sh.exec).toHaveBeenCalledWith(
       `docker build -t registry.com/some/imageName:latest ${process.cwd()} -f Dockerfile;`,
-      { silent: true },
+      { silent: false },
     )
   })
 
@@ -74,7 +74,7 @@ describe("docker", () => {
       `docker build -t registry.com/some/imageName:latest ${path.join(
         __dirname,
       )} -f Dockerfile;`,
-      { silent: true },
+      { silent: false },
     )
   })
 
@@ -89,13 +89,13 @@ describe("docker", () => {
 
     expect(sh.exec).toHaveBeenCalledWith(
       `docker build -t registry.com/some/imageName:latest ${process.cwd()} -f aFile;`,
-      { silent: true },
+      { silent: false },
     )
   })
 
   test("Docker build CLI errors throw error.", async () => {
     when(sh.exec)
-      .calledWith(expect.stringContaining("docker build"), { silent: true })
+      .calledWith(expect.stringContaining("docker build"), expect.anything())
       .mockReturnValue({ stderr: "error", stdout: "", code: 1 })
     const docker = await createClient({
       get,
@@ -113,13 +113,13 @@ describe("docker", () => {
 
     expect(sh.exec).toHaveBeenCalledWith(
       `docker push registry.com/some/imageName:latest;`,
-      { silent: true },
+      { silent: false },
     )
   })
 
   test("Docker push CLI errors throw error.", async () => {
     when(sh.exec)
-      .calledWith(expect.stringContaining("docker push"), { silent: true })
+      .calledWith(expect.stringContaining("docker push"), expect.anything())
       .mockReturnValue({ stderr: "error", stdout: "", code: 1 })
     const docker = await createClient({
       get,
