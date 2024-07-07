@@ -35,13 +35,13 @@ const createClient = async (
           `docker build -t ${registry.value}/${name} ${
             options.context ?? process.cwd()
           } -f ${options.dockerFile ?? "Dockerfile"};`,
-          { silent: true },
+          { silent: false },
         ),
       )
     },
     pushImage: async (name) => {
       await throwIfError(
-        sh.exec(`docker push ${registry.value}/${name};`, { silent: true }),
+        sh.exec(`docker push ${registry.value}/${name};`, { silent: false }),
       )
     },
   }
