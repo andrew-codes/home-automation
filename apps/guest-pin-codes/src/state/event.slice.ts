@@ -2,7 +2,7 @@ import { createSelector, createSlice } from "@reduxjs/toolkit"
 import { filter, flow } from "lodash/fp"
 
 type CalendarEvent = {
-  eventId: string
+  id: string
   start: string
   end: string
   title: string
@@ -20,17 +20,15 @@ const stateSlice = createSlice({
   reducers: {
     fetchEvents: (state, action) => {},
     created: (state, action: { payload: CalendarEvent }) => {
-      state.events[`${action.payload.calendarId}_${action.payload.eventId}`] =
+      state.events[`${action.payload.calendarId}_${action.payload.id}`] =
         action.payload
     },
     updated: (state, action: { payload: CalendarEvent }) => {
-      state.events[`${action.payload.calendarId}_${action.payload.eventId}`] =
+      state.events[`${action.payload.calendarId}_${action.payload.id}`] =
         action.payload
     },
     removed: (state, action: { payload: CalendarEvent }) => {
-      delete state.events[
-        `${action.payload.calendarId}_${action.payload.eventId}`
-      ]
+      delete state.events[`${action.payload.calendarId}_${action.payload.id}`]
     },
   },
 })
@@ -47,11 +45,19 @@ const eventsStartingBeforeAnHourFromNow = filter<CalendarEvent>(
     return new Date(calendarEvent.start) <= now
   },
 )
+
+const inProgressEvents = filter<CalendarEvent>((calendarEvent) => {
+  const now = new Date()
+  return (
+    new Date(calendarEvent.start) <= now && new Date(calendarEvent.end) >= now
+  )
+})
+
 const readyEvents = flow([notStartedEvents, eventsStartingBeforeAnHourFromNow])
 
 const getEventsReadyToAssignToLock = createSelector(
   stateSlice.selectors.getEvents,
-  (events) => readyEvents(events),
+  (events) => readyEvents(events).concat(inProgressEvents(events)),
 )
 
 export default stateSlice.reducer

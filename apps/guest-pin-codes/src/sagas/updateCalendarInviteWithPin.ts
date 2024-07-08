@@ -7,9 +7,9 @@ import { getWifi } from "../state/wifi.slice"
 
 function* updateCalendarEventWithPin(action: ReturnType<typeof assigned>) {
   try {
-    const { calendarId, eventId, pin } = action.payload
+    const { calendarId, id, code } = action.payload
     const client = getClient()
-    const eventApi = client.api(`/users/${calendarId}/events/${eventId}`)
+    const eventApi = client.api(`/users/${calendarId}/events/${id}`)
 
     const guestWifi = yield select(getWifi)
     const { default: CalendarInviteBody } = require("../CalendarInviteBody")
@@ -18,7 +18,7 @@ function* updateCalendarEventWithPin(action: ReturnType<typeof assigned>) {
         contentType: "html",
         content: renderToString(
           React.createElement(CalendarInviteBody, {
-            pin,
+            pin: code,
             guestWifiSsid: guestWifi?.ssid,
             guestWifiPassPhrase: guestWifi?.passPhrase,
           }),

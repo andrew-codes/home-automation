@@ -20,7 +20,11 @@ import persistLockAssignment from "./sagas/persistLockAssignment"
 import persistLockAssignmentRemoval from "./sagas/persistLockAssignmentRemoval"
 import unassignLockSlot from "./sagas/unassignLockSlot"
 import updateCalendarEventWithPin from "./sagas/updateCalendarInviteWithPin"
-import { assigned, unassigned } from "./state/assignedEvent.slice"
+import {
+  assigned,
+  getPastAssignedEventIds,
+  unassigned,
+} from "./state/assignedEvent.slice"
 import {
   created,
   fetchEvents,
@@ -49,17 +53,16 @@ function* fetchEventsSaga() {
 function* readyEventsSaga() {
   while (true) {
     const readyEvents = yield select(getEventsReadyToAssignToLock)
-    console.log(readyEvents)
     for (const readyEvent of readyEvents) {
       try {
         const slot = yield select(getNextSlot)
         if (!slot) {
-          throw new Error(`No available slots for event ${readyEvent.eventId}`)
+          throw new Error(`No available slots for event ${readyEvent.id}`)
         }
         yield put(
           assignedSlot({
             slotId: slot,
-            eventId: readyEvent.eventId,
+            eventId: readyEvent.id,
             code: readyEvent.code,
             calendarId: readyEvent.calendarId,
           }),
@@ -96,6 +99,11 @@ function* unAssignOldEventsSaga() {
         }),
       )
     }
+
+    const eventsToUnAssign = yield select(getPastAssignedEventIds)
+    for (const eventId of eventsToUnAssign) {
+      yield put(unassigned({ id: eventId }))
+    }
     yield delay(55000)
   }
 }
@@ -108,8 +116,8 @@ function* eventAdditionSaga() {
       yield put(
         assigned({
           calendarId: action.payload.calendarId,
-          eventId: action.payload.eventId,
-          code: code,
+          id: action.payload.id,
+          code,
         }),
       )
     }
@@ -139,19 +147,19 @@ function* eventRemovalSaga() {
     yield put(
       unassigned({
         calendarId: action.payload.calendarId,
-        eventId: action.payload.eventId,
+        eventId: action.payload.id,
       }),
     )
 
     const slots = yield select(getSlots)
-    const [slotId] = slots.find(
-      ([id, slot]) => slot.eventId === action.payload.eventId,
-    ) ?? [null]
+    const [slotId] = slots
+      .filter((id, slot) => !!slot)
+      .find(([id, slot]) => slot?.eventId === action.payload.id) ?? [null]
     if (slotId) {
       yield put(
         unassignedSlot({
           calendarId: action.payload.calendarId,
-          eventId: action.payload.eventId,
+          eventId: action.payload.id,
           slotId,
         }),
       )

@@ -2,6 +2,7 @@ import createDebugger from "debug"
 import { merge } from "lodash"
 import { call, put, select } from "redux-saga/effects"
 import getClient from "../graphClient"
+import { getAssignedEvents } from "../state/assignedEvent.slice"
 import {
   CalendarEvent,
   created,
@@ -33,7 +34,7 @@ function* fetchEventsFromCalendar(action: ReturnType<typeof fetchEvents>) {
         (knownEvent) =>
           !calendarEvents?.some(
             (calendarEvent) =>
-              knownEvent.eventId === calendarEvent.id &&
+              knownEvent.id === calendarEvent.id &&
               knownEvent.calendarId === calendarId,
           ),
       ) ?? []
@@ -45,7 +46,7 @@ function* fetchEventsFromCalendar(action: ReturnType<typeof fetchEvents>) {
       knownEvents?.filter((knownEvent) =>
         calendarEvents?.some(
           (calendarEvent) =>
-            knownEvent.eventId === calendarEvent.id &&
+            knownEvent.id === calendarEvent.id &&
             knownEvent.calendarId === calendarId,
         ),
       ) ?? []
@@ -54,7 +55,7 @@ function* fetchEventsFromCalendar(action: ReturnType<typeof fetchEvents>) {
         existingEvents.some(
           (knownEvent) =>
             knownEvent.calendarId === calendarId &&
-            knownEvent.eventId === calendarEvent.id &&
+            knownEvent.id === calendarEvent.id &&
             (knownEvent.title !== calendarEvent.subject ||
               knownEvent.start !== calendarEvent.start.dateTime ||
               knownEvent.end !== calendarEvent.end.dateTime),
@@ -72,20 +73,23 @@ function* fetchEventsFromCalendar(action: ReturnType<typeof fetchEvents>) {
       )
     }
 
+    const assignedEvents = yield select(getAssignedEvents)
+    const now = new Date()
     const newEvents =
-      calendarEvents?.filter(
-        (calendarEvent) =>
-          !knownEvents.some(
-            (knownEvent) =>
-              knownEvent.eventId === calendarEvent.id &&
-              knownEvent.calendarId === calendarId,
-          ),
-      ) ?? []
+      calendarEvents
+        ?.filter((calendarEvent) => new Date(calendarEvent.end.dateTime) >= now)
+        ?.filter(
+          (calendarEvent) =>
+            !assignedEvents.some(
+              (knownEventId) => knownEventId === calendarEvent.id,
+            ),
+        ) ?? []
+
     for (const calendarEvent of newEvents) {
       yield put(
         created({
           calendarId,
-          eventId: calendarEvent.id,
+          id: calendarEvent.id,
           title: calendarEvent.subject,
           start: calendarEvent.start.dateTime,
           end: calendarEvent.end.dateTime,

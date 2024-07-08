@@ -1,4 +1,3 @@
-import { merge } from "lodash"
 import type { MongoClient } from "mongodb"
 import { call } from "redux-saga/effects"
 import getClient from "../dbClient"
@@ -14,12 +13,10 @@ function* persistEvent({
   yield (call as unknown as any)(
     [guestEvents, guestEvents.updateOne],
     {
-      id: `${payload.calendarId}:${payload.eventId}`,
+      id: payload.id,
     },
     {
-      $set: merge({}, payload, {
-        id: `${payload.calendarId}:${payload.eventId}`,
-      }),
+      $set: payload,
     },
     { upsert: true },
   )

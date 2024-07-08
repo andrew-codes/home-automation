@@ -40,10 +40,7 @@ const app = async (
     .find<WithId<Document> & CalendarEvent>({ calendarId })
     .toArray()
   preloadedState.event.events = events.reduce((acc, event) => {
-    acc[`${event.calendarId}_${event.eventId}`] = omit(
-      event,
-      "_id",
-    ) as CalendarEvent
+    acc[`${event.calendarId}_${event.id}`] = omit(event, "_id") as CalendarEvent
     return acc
   }, {} as Record<string, CalendarEvent>)
 
@@ -63,6 +60,25 @@ const app = async (
     return acc
   }, {} as Record<string, { code: string; eventId: string; calendarId: string }>)
 
+  const assignedEvents = await dbClient
+    .db("guests")
+    .collection("assignedEvents")
+    .find<
+      WithId<Document> & {
+        id: string
+        calendarId: string
+        code: string
+      }
+    >({})
+    .toArray()
+  preloadedState.assignedEvent.assignedEvents = assignedEvents
+    .filter((assignedEvent) => !!assignedEvent.id)
+    .reduce((acc, assignedEvent) => {
+      acc[assignedEvent.id] = assignedEvent.code
+
+      return acc
+    }, {} as Record<string, string>)
+
   const unifi = await createUnifi()
   const wlans: any[] = await unifi.getWLanSettings()
   const guestNetwork = wlans.filter(
@@ -76,7 +92,6 @@ const app = async (
 
   const store = createStore(preloadedState)
 
-  console.log(numberOfGuestCodes, lockSlots.length)
   const lockSlotDiff = numberOfGuestCodes - lockSlots.length
   const remainingLockSlots = lockSlotDiff > 0 ? lockSlotDiff : 0
   debug(`Remaining number of guest slots: ${remainingLockSlots}`)

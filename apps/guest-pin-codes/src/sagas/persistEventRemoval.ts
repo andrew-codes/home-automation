@@ -9,7 +9,7 @@ function* persistEventRemoval(action: ReturnType<typeof removed>) {
     const guestEvents = dbClient.db("guests").collection("events")
 
     yield (call as unknown as any)([guestEvents, guestEvents.deleteOne], {
-      id: `${action.payload.calendarId}:${action.payload.eventId}`,
+      id: action.payload.id,
     })
   } catch (error) {
     yield put({ type: "ERROR", payload: { error: error } })

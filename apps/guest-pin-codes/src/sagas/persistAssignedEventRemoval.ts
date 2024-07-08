@@ -8,7 +8,7 @@ function* persistAssignedEventRemoval(action: ReturnType<typeof unassigned>) {
   const codes = dbClient.db("guests").collection("assignedEvents")
 
   yield (call as unknown as any)([codes, codes.deleteOne], {
-    id: `${action.payload.calendarId}:${action.payload.eventId}`,
+    id: action.payload.id,
   })
 }
 
