@@ -1,10 +1,13 @@
 import { createHeartbeat } from "@ha/http-heartbeat"
 import { createMqtt } from "@ha/mqtt-client"
 import createDebugger from "debug"
-import { setGuestWifiNetworkInformation } from "./actionCreators"
 import createApp from "./app"
+import { setWifi } from "./state/wifi.slice"
 
 const debug = createDebugger("@ha/guest-pin-codes/index")
+const debugStateChanges = createDebugger(
+  "@ha/guest-pin-codes/index:state-changes",
+)
 
 const run = async () => {
   debug("Started")
@@ -34,14 +37,14 @@ const run = async () => {
   mqtt.on("message", (topic, message) => {
     if (matchesSetGuestWifiTopic(topic)) {
       const { ssid, passPhrase } = JSON.parse(message.toString())
-      app.store.dispatch(setGuestWifiNetworkInformation(ssid, passPhrase))
+      app.store.dispatch(setWifi({ ssid, passPhrase }))
     }
   })
 
   app.start()
 
   app.store.subscribe(() => {
-    debug("State changed to", app.store.getState())
+    debugStateChanges("State changed to", app.store.getState())
   })
 }
 

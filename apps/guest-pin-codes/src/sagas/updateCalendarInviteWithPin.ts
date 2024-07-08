@@ -1,17 +1,17 @@
 import * as React from "react"
 import { renderToString } from "react-dom/server"
 import { call, put, select } from "redux-saga/effects"
-import { EventNewAction } from "../actions"
 import getClient from "../graphClient"
-import { getGuestWifiNetwork } from "../selectors"
+import { assigned } from "../state/assignedEvent.slice"
+import { getWifi } from "../state/wifi.slice"
 
-function* updateCalendarEventWithPin(action: EventNewAction) {
+function* updateCalendarEventWithPin(action: ReturnType<typeof assigned>) {
   try {
     const { calendarId, eventId, pin } = action.payload
     const client = getClient()
     const eventApi = client.api(`/users/${calendarId}/events/${eventId}`)
 
-    const guestWifi = yield select(getGuestWifiNetwork)
+    const guestWifi = yield select(getWifi)
     const { default: CalendarInviteBody } = require("../CalendarInviteBody")
     yield call([eventApi, eventApi.patch], {
       body: {

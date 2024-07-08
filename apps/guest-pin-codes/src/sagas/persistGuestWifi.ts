@@ -1,9 +1,9 @@
 import type { MongoClient } from "mongodb"
 import { call } from "redux-saga/effects"
-import { SetGuestWifiNetworkInformationAction } from "../actions"
 import getClient from "../dbClient"
+import { setWifi } from "../state/wifi.slice"
 
-function* persistGuestWifi(action: SetGuestWifiNetworkInformationAction) {
+function* persistGuestWifi(action: ReturnType<typeof setWifi>) {
   const dbClient: MongoClient = yield call(getClient)
   const guestEvents = dbClient.db("guests").collection("wifi")
 

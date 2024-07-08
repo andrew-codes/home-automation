@@ -2,7 +2,7 @@
   "verbose": true,
   "ignore": ["*.test.js", "fixtures/*", "*.log"],
   "execMap": {
-    "js": "node -r esbuild-register",
-    "ts": "node -r esbuild-register"
+    "js": "yarn node -r esbuild-register",
+    "ts": "yarn node -r esbuild-register"
   }
 }

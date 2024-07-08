@@ -1,16 +1,16 @@
 import { createMqtt } from "@ha/mqtt-client"
 import createDebugger from "debug"
 import { call, put, select } from "redux-saga/effects"
-import type { SlotAssignAction } from "../actions"
-import type { CalendarEvent } from "../reducer"
-import { getEvents } from "../selectors"
+import { CalendarEvent, getEvents } from "../state/event.slice"
+import { assignedSlot } from "../state/lock.slice"
+import { getPins } from "../state/pinCode.slice"
 
-const debug = createDebugger("@ha/guest-pin-codes/assignEvent")
+const debug = createDebugger("@ha/guest-pin-codes/assignLockSlot")
 
-function* assignEvent(action: SlotAssignAction) {
+function* assignLockSlot(action: ReturnType<typeof assignedSlot>) {
   try {
-    const existingCalendarEvents: CalendarEvent[] = yield select(getEvents)
-    const calendarEvent = existingCalendarEvents.find(
+    const calendarEvents: CalendarEvent[] = yield select(getEvents)
+    const calendarEvent = calendarEvents.find(
       (calendarEvent) =>
         calendarEvent.eventId === action.payload.eventId &&
         calendarEvent.calendarId === action.payload.calendarId,
@@ -19,8 +19,11 @@ function* assignEvent(action: SlotAssignAction) {
       return
     }
 
+    const eventCode = yield select(getPins)
+    const pin = eventCode.find((pin) => pin.eventId === action.payload.eventId)
+
     debug(
-      `Assigning event ${calendarEvent.title} to slot ${action.payload.slotId} with pin ${calendarEvent.pin}`,
+      `Assigning event ${calendarEvent.title} to slot ${action.payload.slotId} with pin ${pin}`,
     )
     const mqtt = yield call(createMqtt)
     yield call(
@@ -29,7 +32,7 @@ function* assignEvent(action: SlotAssignAction) {
       JSON.stringify({
         title: calendarEvent.title,
         slotId: parseInt(action.payload.slotId, 10),
-        pin: calendarEvent.pin,
+        pin,
         start: calendarEvent.start,
         end: calendarEvent.end,
       }),
@@ -40,4 +43,4 @@ function* assignEvent(action: SlotAssignAction) {
   }
 }
 
-export default assignEvent
+export default assignLockSlot

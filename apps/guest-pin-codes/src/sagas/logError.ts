@@ -1,9 +1,8 @@
 import createDebugger from "debug"
-import { ErrorAction } from "../actions"
 
 const debug = createDebugger("@ha/guest-pin-codes/saga/errors")
 
-function* logError(action: ErrorAction) {
+function* logError(action: { type: "ERROR"; payload: { error: Error } }) {
   debug(action.payload.error)
 }
 

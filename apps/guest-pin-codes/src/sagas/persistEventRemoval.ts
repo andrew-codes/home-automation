@@ -1,9 +1,9 @@
 import type { MongoClient } from "mongodb"
 import { call, put } from "redux-saga/effects"
-import { EventRemoveAction } from "../actions"
 import getClient from "../dbClient"
+import { removed } from "../state/event.slice"
 
-function* persistEventRemoval(action: EventRemoveAction) {
+function* persistEventRemoval(action: ReturnType<typeof removed>) {
   try {
     const dbClient: MongoClient = yield call(getClient)
     const guestEvents = dbClient.db("guests").collection("events")

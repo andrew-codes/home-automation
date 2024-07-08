@@ -1,9 +1,10 @@
+import { omit } from "lodash"
 import type { MongoClient } from "mongodb"
 import { call } from "redux-saga/effects"
-import { SlotAssignAction } from "../actions"
 import getClient from "../dbClient"
+import { assignedSlot } from "../state/lock.slice"
 
-function* persistSlotAssignment(action: SlotAssignAction) {
+function* persistLockAssignment(action: ReturnType<typeof assignedSlot>) {
   const dbClient: MongoClient = yield call(getClient)
   const guestEvents = dbClient.db("guests").collection("slots")
 
@@ -13,10 +14,10 @@ function* persistSlotAssignment(action: SlotAssignAction) {
       id: action.payload.slotId,
     },
     {
-      $set: action.payload,
+      $set: omit(action.payload, "slotId"),
     },
     { upsert: true },
   )
 }
 
-export default persistSlotAssignment
+export default persistLockAssignment

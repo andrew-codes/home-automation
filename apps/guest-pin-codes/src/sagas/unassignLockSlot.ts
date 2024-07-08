@@ -1,11 +1,11 @@
 import { createMqtt } from "@ha/mqtt-client"
 import createDebugger from "debug"
 import { call, put } from "redux-saga/effects"
-import type { EventRemoveAction } from "../actions"
+import { unassignedSlot } from "../state/lock.slice"
 
-const debug = createDebugger("@ha/guest-pin-codes/sagas/removeEventSlot")
+const debug = createDebugger("@ha/guest-pin-codes/sagas/removeLockAssignment")
 
-function* removeEventSlot(action: EventRemoveAction) {
+function* unassignLockSlot(action: ReturnType<typeof unassignedSlot>) {
   try {
     debug(
       `Removing event from slot for ${JSON.stringify(action.payload, null, 2)}`,
@@ -29,4 +29,4 @@ function* removeEventSlot(action: EventRemoveAction) {
   }
 }
 
-export default removeEventSlot
+export default unassignLockSlot

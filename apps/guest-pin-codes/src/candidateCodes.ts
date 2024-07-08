@@ -1,5 +1,3 @@
-import { shuffle } from "./shuffle"
-
 const allCodes = [
   "0124",
   "0125",
@@ -5036,12 +5034,4 @@ const allCodes = [
   "9876",
 ]
 
-const getCodes = () => {
-  const exclusionCodes = (
-    process.env.GUEST_PIN_CODES_GUEST_LOCK_CODE_EXCLUSIONS ?? ""
-  ).split(",")
-
-  return shuffle(allCodes.filter((code) => !exclusionCodes.includes(code)))
-}
-
-export default getCodes
+export default allCodes

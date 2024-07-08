@@ -1,24 +1,14 @@
 import { createUnifi } from "@ha/unifi-client"
-import { configureStore } from "@reduxjs/toolkit"
-import { CronJob } from "cron"
+import { Store } from "@reduxjs/toolkit"
 import createDebugger from "debug"
-import { merge } from "lodash"
+import { omit } from "lodash"
 import { filter, flow } from "lodash/fp"
 import { WithId } from "mongodb"
-import { type Store } from "redux"
-import createSagaMiddleware from "redux-saga"
-import {
-  assignEvent,
-  createGuestSlots,
-  fetchEvents,
-  removeEvent,
-  setPinsInPool,
-} from "./actionCreators"
-import candidateCodes from "./candidateCodes"
+import allCodes from "./candidateCodes"
 import getClient from "./dbClient"
-import reducer, { type CalendarEvent } from "./reducer"
-import sagas from "./sagas"
-import { getEvents, getOpenSlots } from "./selectors"
+import createStore, { RootState } from "./state"
+import { CalendarEvent, fetchEvents } from "./state/event.slice"
+import { created } from "./state/lock.slice"
 
 const debug = createDebugger("@ha/guest-pin-codes/app")
 
@@ -50,97 +40,75 @@ const app = async (
   calendarId: string,
 ): Promise<{ store: Store; start: () => Promise<void> }> => {
   debug("Started")
+  const preloadedState: RootState = {
+    assignedEvent: {
+      assignedEvents: {},
+    },
+    event: {
+      events: {},
+    },
+    pinCode: {
+      codes: allCodes,
+    },
+    lock: {
+      slots: {},
+    },
+    wifi: {
+      guestWifi: {},
+    },
+  }
+
   const dbClient = await getClient()
-  const guestEvents = dbClient.db("guests").collection("events")
-  const events = await guestEvents
+  const persistedEvents = dbClient.db("guests").collection("events")
+  const events = await persistedEvents
     .find<WithId<Document> & CalendarEvent>({ calendarId })
     .toArray()
-  const eventState = notStartedEvents(events).reduce(
-    (acc, event) =>
-      merge({}, acc, {
-        [`${event.calendarId}:${event.eventId}`]: event,
-      }),
-    {},
-  )
+  preloadedState.event.events = events.reduce((acc, event) => {
+    acc[`${event.calendarId}_${event.eventId}`] = omit(
+      event,
+      "_id",
+    ) as CalendarEvent
+    return acc
+  }, {} as Record<string, CalendarEvent>)
 
-  let guestNetworkState
+  const lockSlots = await dbClient
+    .db("guests")
+    .collection("slots")
+    .find<
+      WithId<Document> & {
+        id: number
+        code: string
+        eventId: string
+      }
+    >({})
+    .toArray()
+  preloadedState.lock.slots = lockSlots.reduce((acc, slot) => {
+    acc[slot.id] = slot
+    return acc
+  }, {} as Record<string, { code: string; eventId: string }>)
+
   const unifi = await createUnifi()
   const wlans: any[] = await unifi.getWLanSettings()
   const guestNetwork = wlans.filter(
     (wlan) => !!wlan.enabled && !!wlan.is_guest && !wlan.name.includes("Temp"),
   )[0]
   if (guestNetwork) {
-    guestNetworkState = {
-      ssid: guestNetwork.name,
-      passPhrase: guestNetwork.x_passphrase,
+    preloadedState.wifi.guestWifi = {
+      [guestNetwork.name]: guestNetwork.x_passphrase,
     }
   }
 
-  const sagaMiddleware = createSagaMiddleware()
-  const store = configureStore({
-    reducer,
-    middleware: (gDm) => gDm().concat(sagaMiddleware),
-    preloadedState: {
-      events: eventState,
-      guestNetwork: guestNetworkState,
-    },
-  })
-  sagaMiddleware.run(sagas)
+  const store = createStore(preloadedState)
 
-  debug(`Number of guest slots: ${numberOfGuestCodes}`)
-  store.dispatch(createGuestSlots(numberOfGuestCodes))
-  store.dispatch(setPinsInPool(candidateCodes()))
+  const lockSlotDiff = numberOfGuestCodes - lockSlots.length
+  const remainingLockSlots = lockSlotDiff > 0 ? lockSlotDiff : 0
+  debug(`Remaining number of guest slots: ${remainingLockSlots}`)
+  store.dispatch(created(numberOfGuestCodes))
 
   return {
     store,
     start: async () => {
-      const fetchEventsJob = new CronJob(
-        "*/5 * * * *",
-        () => {
-          debug("Fetching events")
-          store.dispatch(fetchEvents(calendarId))
-        },
-        null,
-        true,
-        process.env.TZ ?? "America/New_York",
-      )
-
-      const updateEventAssignments = new CronJob(
-        "*/1 * * * *",
-        () => {
-          debug("Updating event assignments")
-          const state = store.getState()
-          const events = getEvents(state)
-
-          const pastEvents = onlyPastEvents(events)
-          pastEvents.forEach((pastEvent) => {
-            debug(`Removing ${pastEvent.eventId}`)
-            store.dispatch(removeEvent(pastEvent))
-          })
-
-          const slots = getOpenSlots(state)
-          const upcomingUnassignedEvents = onlyUpcomingEvents(events).filter(
-            (event) => !event.slotId,
-          )
-          slots.forEach(([slotId], index) => {
-            const upcomingEvent = upcomingUnassignedEvents[index]
-            if (!upcomingEvent) {
-              return
-            }
-
-            debug(`Assigning ${upcomingEvent.eventId} to ${slotId}`)
-            store.dispatch(assignEvent(slotId, upcomingUnassignedEvents[index]))
-          })
-        },
-        null,
-        true,
-        process.env.TZ ?? "America/New_York",
-      )
-
-      store.dispatch(fetchEvents(calendarId))
-
-      fetchEventsJob.start()
-      updateEventAssignments.start()
+      store.dispatch(fetchEvents({ calendarId }))
     },
   }
 }
