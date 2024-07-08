@@ -13,7 +13,8 @@ const stateSlice = createSlice({
   },
   reducers: {
     created: (state, action) => {
-      const existingSlotIndex = Object.keys(state.slots).length - 1
+      const existingSlotLength = Object.keys(state.slots).length
+      const existingSlotIndex = existingSlotLength > 0 ? existingSlotLength : 0
       for (let i = existingSlotIndex; i < action.payload.numberOfSlots; i++) {
         state.slots[i] = null
       }

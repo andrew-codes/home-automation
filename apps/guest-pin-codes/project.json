@@ -46,7 +46,7 @@
         "cwd": "apps/guest-pin-codes",
         "fromPort": 8087,
         "toPort": 80,
-        "command": "yarn node --inspect --require esbuild-register scripts/nodemon.ts"
+        "command": "yarn cross-env DEBUG=\"@ha/*\" yarn node --inspect --require esbuild-register scripts/nodemon.ts"
       }
     },
     "test": {

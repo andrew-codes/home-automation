@@ -6069,6 +6069,7 @@ const RAW_RUNTIME_STATE =
           ["@types/react", "npm:18.0.26"],\
           ["async-mqtt", "npm:2.6.3"],\
           ["cron", "npm:1.8.2"],\
+          ["cross-env", "npm:7.0.3"],\
           ["debug", "virtual:311f00d850caa9627b6ac11974e53f96ee9fc030a73da3d1abe5cce7e72b8ee2e1f115ef7f47e2e6108ff8071f1a98050f7a4c5c3fe7df743e1d5a4130e33289#npm:4.3.4"],\
           ["esbuild", "npm:0.17.3"],\
           ["esbuild-register", "virtual:67c2aad2b1bd47fe7a2a41d331ce53a09742994e6e4cf897b697836ad2af8b3577c1b4c3128f4d1437800d10106137809a85386ab3553d979a125a47045c5628#npm:3.4.2"],\
@@ -11278,6 +11279,16 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["cron", "npm:1.8.2"],\
           ["moment-timezone", "npm:0.5.33"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["cross-env", [\
+      ["npm:7.0.3", {\
+        "packageLocation": "./.yarn/cache/cross-env-npm-7.0.3-96d81820f4-e99911f0d3.zip/node_modules/cross-env/",\
+        "packageDependencies": [\
+          ["cross-env", "npm:7.0.3"],\
+          ["cross-spawn", "npm:7.0.3"]\
         ],\
         "linkType": "HARD"\
       }]\

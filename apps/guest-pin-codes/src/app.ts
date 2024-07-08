@@ -1,8 +1,7 @@
 import { createUnifi } from "@ha/unifi-client"
 import { Store } from "@reduxjs/toolkit"
 import createDebugger from "debug"
-import { omit } from "lodash"
-import { filter, flow } from "lodash/fp"
+import { merge, omit } from "lodash"
 import { WithId } from "mongodb"
 import allCodes from "./candidateCodes"
 import getClient from "./dbClient"
@@ -11,29 +10,6 @@ import { CalendarEvent, fetchEvents } from "./state/event.slice"
 import { created } from "./state/lock.slice"
 
 const debug = createDebugger("@ha/guest-pin-codes/app")
-
-const notStartedEvents = filter<CalendarEvent>((calendarEvent) => {
-  const now = new Date()
-  return new Date(calendarEvent.start) >= now
-})
-
-const eventsStartingBeforeAnHourFromNow = filter<CalendarEvent>(
-  (calendarEvent) => {
-    const now = new Date()
-    now.setTime(now.getTime() + 60 * 60 * 1000)
-    return new Date(calendarEvent.start).getTime() <= now.getTime()
-  },
-)
-
-const onlyUpcomingEvents = flow([
-  notStartedEvents,
-  eventsStartingBeforeAnHourFromNow,
-])
-
-const onlyPastEvents = filter<CalendarEvent>((calendarEvent) => {
-  const now = new Date()
-  return new Date(calendarEvent.end) <= now
-})
 
 const app = async (
   numberOfGuestCodes: number,
@@ -83,9 +59,9 @@ const app = async (
     >({})
     .toArray()
   preloadedState.lock.slots = lockSlots.reduce((acc, slot) => {
-    acc[slot.id] = slot
+    acc[slot.id] = merge({}, slot, { calendarId })
     return acc
-  }, {} as Record<string, { code: string; eventId: string }>)
+  }, {} as Record<string, { code: string; eventId: string; calendarId: string }>)
 
   const unifi = await createUnifi()
   const wlans: any[] = await unifi.getWLanSettings()
@@ -100,10 +76,11 @@ const app = async (
 
   const store = createStore(preloadedState)
 
+  console.log(numberOfGuestCodes, lockSlots.length)
   const lockSlotDiff = numberOfGuestCodes - lockSlots.length
   const remainingLockSlots = lockSlotDiff > 0 ? lockSlotDiff : 0
   debug(`Remaining number of guest slots: ${remainingLockSlots}`)
-  store.dispatch(created(numberOfGuestCodes))
+  store.dispatch(created({ numberOfSlots: remainingLockSlots }))
 
   return {
     store,

@@ -22,15 +22,23 @@ const createUnifi = async (
   let csrfToken: string | null = null
 
   const getToken = async () => {
+    console.log(host, port)
     if (csrfToken) {
       return csrfToken
     }
-    cp.execSync("rm -f headers.txt cookies.txt")
     cp.execSync(
-      `curl -k -D headers.txt -X POST --header "Content-Type: application/json" --data '{"username": "${username}", "password": "${password}"}' -b cookies.txt -c cookies.txt https://${host}:${port}/api/auth/login`,
+      `rm -f ${path.join(process.cwd(), "headers.txt")} ${path.join(
+        process.cwd(),
+        "cookies.txt",
+      )}`,
+    )
+    console.log(
+      cp.execSync(
+        `curl -k -D headers.txt -X POST --header "Content-Type: application/json" --data '{"username": "${username}", "password": "${password}"}' -b cookies.txt -c cookies.txt https://${host}:${port}/api/auth/login`,
+      ),
     )
     const headersText = await readFile(
-      path.join(__dirname, "..", "headers.txt"),
+      path.join(process.cwd(), "headers.txt"),
       "utf8",
     )
     const headers = headersText.split("\n")

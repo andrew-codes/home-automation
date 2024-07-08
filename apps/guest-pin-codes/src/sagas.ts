@@ -49,6 +49,7 @@ function* fetchEventsSaga() {
 function* readyEventsSaga() {
   while (true) {
     const readyEvents = yield select(getEventsReadyToAssignToLock)
+    console.log(readyEvents)
     for (const readyEvent of readyEvents) {
       try {
         const slot = yield select(getNextSlot)

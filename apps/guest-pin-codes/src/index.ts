@@ -1,13 +1,11 @@
 import { createHeartbeat } from "@ha/http-heartbeat"
 import { createMqtt } from "@ha/mqtt-client"
 import createDebugger from "debug"
+import { omit } from "lodash"
 import createApp from "./app"
 import { setWifi } from "./state/wifi.slice"
 
 const debug = createDebugger("@ha/guest-pin-codes/index")
-const debugStateChanges = createDebugger(
-  "@ha/guest-pin-codes/index:state-changes",
-)
 
 const run = async () => {
   debug("Started")
@@ -42,10 +40,7 @@ const run = async () => {
   })
 
   app.start()
-
-  app.store.subscribe(() => {
-    debugStateChanges("State changed to", app.store.getState())
-  })
+  debug(JSON.stringify(omit(app.store.getState(), "pinCode"), null, 2))
 }
 
 if (require.main === module) {

@@ -1,5 +1,5 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit"
-import { filter } from "lodash/fp"
+import { filter, flow } from "lodash/fp"
 
 type CalendarEvent = {
   eventId: string
@@ -35,6 +35,11 @@ const stateSlice = createSlice({
   },
 })
 
+const notStartedEvents = filter<CalendarEvent>((calendarEvent) => {
+  const now = new Date()
+  return new Date(calendarEvent.start) >= now
+})
+
 const eventsStartingBeforeAnHourFromNow = filter<CalendarEvent>(
   (calendarEvent) => {
     const now = new Date()
@@ -42,10 +47,11 @@ const eventsStartingBeforeAnHourFromNow = filter<CalendarEvent>(
     return new Date(calendarEvent.start) <= now
   },
 )
+const readyEvents = flow([notStartedEvents, eventsStartingBeforeAnHourFromNow])
 
 const getEventsReadyToAssignToLock = createSelector(
   stateSlice.selectors.getEvents,
-  (events) => eventsStartingBeforeAnHourFromNow(events),
+  (events) => readyEvents(events),
 )
 
 export default stateSlice.reducer
