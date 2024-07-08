@@ -8,6 +8,7 @@ import {
   takeEvery,
   takeLatest,
 } from "redux-saga/effects"
+import getNow from "./getNow"
 import assignLockSlot from "./sagas/assignLockSlot"
 import fetchEventsFromCalendar from "./sagas/fetchEventsFromCalendar"
 import logError from "./sagas/logError"
@@ -22,6 +23,7 @@ import unassignLockSlot from "./sagas/unassignLockSlot"
 import updateCalendarEventWithPin from "./sagas/updateCalendarInviteWithPin"
 import {
   assigned,
+  getAssigned,
   getPastAssignedEventIds,
   unassigned,
 } from "./state/assignedEvent.slice"
@@ -53,17 +55,24 @@ function* fetchEventsSaga() {
 function* readyEventsSaga() {
   while (true) {
     const readyEvents = yield select(getEventsReadyToAssignToLock)
+    const assignedEvents = yield select(getAssigned)
     for (const readyEvent of readyEvents) {
       try {
         const slot = yield select(getNextSlot)
-        if (!slot) {
+        if (slot === null) {
           throw new Error(`No available slots for event ${readyEvent.id}`)
+        }
+        const code = assignedEvents.find(
+          ([id, code]) => id === readyEvent.id,
+        )?.[1]
+        if (!code) {
+          throw new Error(`No code assigned for event ${readyEvent.id}`)
         }
         yield put(
           assignedSlot({
             slotId: slot,
             eventId: readyEvent.id,
-            code: readyEvent.code,
+            code,
             calendarId: readyEvent.calendarId,
           }),
         )
@@ -71,7 +80,7 @@ function* readyEventsSaga() {
         yield put({ type: "ERROR", payload: error })
       }
     }
-    yield delay(55000)
+    yield delay(10000)
   }
 }
 
@@ -86,7 +95,7 @@ function* unAssignOldEventsSaga() {
       if (!slotEvent) {
         return true
       }
-      const now = new Date()
+      const now = getNow()
       return new Date(slotEvent.end) > now
     })
 
@@ -111,7 +120,7 @@ function* unAssignOldEventsSaga() {
 function* eventAdditionSaga() {
   yield takeEvery<ReturnType<typeof created>>(created.type, function* (action) {
     yield call(persistEvent, action)
-    if (new Date(action.payload.end).getTime() >= new Date().getTime()) {
+    if (new Date(action.payload.end).getTime() >= getNow().getTime()) {
       const code = yield select(getNextCode)
       yield put(
         assigned({

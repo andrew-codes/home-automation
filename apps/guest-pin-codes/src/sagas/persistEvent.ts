@@ -9,7 +9,6 @@ function* persistEvent({
 }: ReturnType<typeof created> | ReturnType<typeof updated>) {
   const dbClient: MongoClient = yield call(getClient)
   const guestEvents = dbClient.db("guests").collection("events")
-
   yield (call as unknown as any)(
     [guestEvents, guestEvents.updateOne],
     {

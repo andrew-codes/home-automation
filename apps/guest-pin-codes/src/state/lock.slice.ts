@@ -44,10 +44,9 @@ const getAssignedSlots = createSelector(
   stateSlice.selectors.getSlots,
   (slots) => slots.filter(([_, slot]) => !!slot),
 )
-const getNextSlot = createSelector(
-  getAvailableLockSlots,
-  (availableSlots) => availableSlots[0] ?? null,
-)
+const getNextSlot = createSelector(getAvailableLockSlots, (availableSlots) => {
+  return availableSlots[0] ?? null
+})
 
 export default stateSlice.reducer
 export { getNextSlot, getAssignedSlots }

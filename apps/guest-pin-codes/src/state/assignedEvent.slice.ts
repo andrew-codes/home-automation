@@ -1,4 +1,5 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit"
+import getNow from "../getNow"
 import { getEvents } from "./event.slice"
 
 const stateSlice = createSlice({
@@ -9,6 +10,7 @@ const stateSlice = createSlice({
   selectors: {
     getAssignedEvents: (state) => Object.keys(state.assignedEvents),
     getAssignedCodes: (state) => Object.values(state.assignedEvents),
+    getAssigned: (state) => Object.entries(state.assignedEvents),
   },
   reducers: {
     assigned: (state, action) => {
@@ -24,7 +26,7 @@ const getPastAssignedEventIds = createSelector(
   stateSlice.selectors.getAssignedEvents,
   getEvents,
   (assignedEvents, events) => {
-    const now = new Date()
+    const now = getNow()
     return assignedEvents
       .map((eventId) => events.find((event) => event.id === eventId) ?? eventId)
       .filter((event) => typeof event === "string" || new Date(event.end) < now)
@@ -33,6 +35,7 @@ const getPastAssignedEventIds = createSelector(
 )
 
 export default stateSlice.reducer
-export const { getAssignedCodes, getAssignedEvents } = stateSlice.selectors
+export const { getAssignedCodes, getAssignedEvents, getAssigned } =
+  stateSlice.selectors
 export const { assigned, unassigned } = stateSlice.actions
 export { getPastAssignedEventIds }
