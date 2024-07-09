@@ -1,19 +1,21 @@
-import type { AsyncMqttClient } from "@ha/mqtt-client"
 import { createLogger } from "@ha/logger"
-import { call, put } from "redux-saga/effects"
-import { merge } from "lodash"
 import { createMqtt } from "@ha/mqtt-client"
-import type { RegisterDeviceWithHomeAssistantAction } from "../types"
-import { updateHomeAssistant } from "../actionCreators"
-import { QoS } from "async-mqtt"
+import { PayloadAction } from "@reduxjs/toolkit"
+import { AsyncMqttClient, QoS } from "async-mqtt"
+import { call } from "redux-saga/effects"
+import { DiscoveredPlayStation } from "../device.slice"
 
 const logger = createLogger()
 
-function* registerWithHomeAssistant(
-  action: RegisterDeviceWithHomeAssistantAction,
+function* registerWithHomeAssistantEffect(
+  action: PayloadAction<DiscoveredPlayStation>,
 ) {
-  logger.info("Registering with HA")
-  logger.debug(JSON.stringify(action.payload, null, 2))
+  logger.info(`Registering PlayStation (${action.payload.id}) with HA`)
+  const entityId = action.payload.name
+    .replace(/[^a-zA-Z\d\s-_:]/g, "")
+    .replace(/[\s-]/g, "_")
+    .toLowerCase()
+
   const mqtt: AsyncMqttClient = yield call(createMqtt)
   yield call<
     (
@@ -43,7 +45,7 @@ function* registerWithHomeAssistant(
       state_off: "STANDBY",
       payload_on: "AWAKE",
       payload_off: "STANDBY",
-      unique_id: `${action.payload.name}_switch_power`,
+      unique_id: `${entityId}_switch_power`,
       device: {
         manufacturer: "Sony",
         model: `Playstation ${action.payload.type === "PS5" ? "5" : "4"} `,
@@ -52,10 +54,8 @@ function* registerWithHomeAssistant(
         sw_version: action.payload.systemVersion,
       },
     }),
-    { qos: 1 },
+    { qos: 0 },
   )
-
-  yield put(updateHomeAssistant(merge({}, action.payload)))
 }
 
-export { registerWithHomeAssistant }
+export default registerWithHomeAssistantEffect

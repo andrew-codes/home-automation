@@ -6778,6 +6778,7 @@ const RAW_RUNTIME_STATE =
           ["@ha/mqtt-client", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/mqtt-client"],\
           ["@ha/mqtt-heartbeat", "workspace:packages/mqtt-heartbeat"],\
           ["@ha/nx-executors", "workspace:packages/nx-executors"],\
+          ["@reduxjs/toolkit", "virtual:cfadd4a50e2f897d2097b803463b3936e7a90bb056548d26506b3f857230c08a64345a1a79f004bdebf7a6e927e99967ccadbc4fc1b57fe8f32d0e4f22dfebb4#npm:2.2.6"],\
           ["@types/jest", "npm:29.2.5"],\
           ["@types/node", "npm:18.11.18"],\
           ["async-mqtt", "npm:2.6.3"],\
@@ -6788,9 +6789,7 @@ const RAW_RUNTIME_STATE =
           ["lodash", "npm:4.17.21"],\
           ["nodemon", "npm:2.0.20"],\
           ["playactor", "npm:0.4.1"],\
-          ["redux", "npm:4.2.0"],\
-          ["redux-saga", "npm:1.2.2"],\
-          ["reselect", "npm:4.1.7"],\
+          ["redux-saga", "npm:1.3.0"],\
           ["shelljs", "npm:0.8.5"],\
           ["ts-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#npm:29.0.5"],\
           ["typescript", "patch:typescript@npm%3A4.9.4#optional!builtin<compat/typescript>::version=4.9.4&hash=289587"]\
@@ -8120,6 +8119,27 @@ const RAW_RUNTIME_STATE =
           ["@types/react-redux", null],\
           ["immer", "npm:10.1.1"],\
           ["react", "npm:18.2.0"],\
+          ["react-redux", null],\
+          ["redux", "npm:5.0.1"],\
+          ["redux-thunk", "virtual:9fffa7f3343338514d619ed69dd442e13620cf5e12c1bbab41926ce166762d4c9e10b7e947dbb6c23c487546af59e0bb0f5805966c29d570ded9e596cd9d3181#npm:3.1.0"],\
+          ["reselect", "npm:5.1.1"]\
+        ],\
+        "packagePeers": [\
+          "@types/react-redux",\
+          "@types/react",\
+          "react-redux",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["virtual:cfadd4a50e2f897d2097b803463b3936e7a90bb056548d26506b3f857230c08a64345a1a79f004bdebf7a6e927e99967ccadbc4fc1b57fe8f32d0e4f22dfebb4#npm:2.2.6", {\
+        "packageLocation": "./.yarn/__virtual__/@reduxjs-toolkit-virtual-4f554a847b/0/cache/@reduxjs-toolkit-npm-2.2.6-7681383fab-a63fba0943.zip/node_modules/@reduxjs/toolkit/",\
+        "packageDependencies": [\
+          ["@reduxjs/toolkit", "virtual:cfadd4a50e2f897d2097b803463b3936e7a90bb056548d26506b3f857230c08a64345a1a79f004bdebf7a6e927e99967ccadbc4fc1b57fe8f32d0e4f22dfebb4#npm:2.2.6"],\
+          ["@types/react", null],\
+          ["@types/react-redux", null],\
+          ["immer", "npm:10.1.1"],\
+          ["react", null],\
           ["react-redux", null],\
           ["redux", "npm:5.0.1"],\
           ["redux-thunk", "virtual:9fffa7f3343338514d619ed69dd442e13620cf5e12c1bbab41926ce166762d4c9e10b7e947dbb6c23c487546af59e0bb0f5805966c29d570ded9e596cd9d3181#npm:3.1.0"],\
