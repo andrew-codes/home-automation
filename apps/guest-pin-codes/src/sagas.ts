@@ -80,7 +80,7 @@ function* readyEventsSaga() {
         yield put({ type: "ERROR", payload: error })
       }
     }
-    yield delay(10000)
+    yield delay(60000)
   }
 }
 
@@ -113,7 +113,7 @@ function* unAssignOldEventsSaga() {
     for (const eventId of eventsToUnAssign) {
       yield put(unassigned({ id: eventId }))
     }
-    yield delay(55000)
+    yield delay(60000)
   }
 }
 
