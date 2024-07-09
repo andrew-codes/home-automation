@@ -31,6 +31,7 @@ function* pollStateEffect() {
       })
       yield put(updatedPlayStation(newDevice))
     } catch (e) {
+      logger.debug("Error checking device state. Device may be offline.")
       logger.error(e)
       yield put(
         updatedPlayStation(
