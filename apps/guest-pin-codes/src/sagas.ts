@@ -54,31 +54,35 @@ function* fetchEventsSaga() {
 
 function* readyEventsSaga() {
   while (true) {
-    const readyEvents = yield select(getEventsReadyToAssignToLock)
-    const assignedEvents = yield select(getAssigned)
-    for (const readyEvent of readyEvents) {
-      try {
-        const slot = yield select(getNextSlot)
-        if (slot === null) {
-          throw new Error(`No available slots for event ${readyEvent.id}`)
+    try {
+      const readyEvents = yield select(getEventsReadyToAssignToLock)
+      const assignedEvents = yield select(getAssigned)
+      for (const readyEvent of readyEvents) {
+        try {
+          const slot = yield select(getNextSlot)
+          if (slot === null) {
+            throw new Error(`No available slots for event ${readyEvent.id}`)
+          }
+          const code = assignedEvents.find(
+            ([id, code]) => id === readyEvent.id,
+          )?.[1]
+          if (!code) {
+            throw new Error(`No code assigned for event ${readyEvent.id}`)
+          }
+          yield put(
+            assignedSlot({
+              slotId: slot,
+              eventId: readyEvent.id,
+              code,
+              calendarId: readyEvent.calendarId,
+            }),
+          )
+        } catch (error) {
+          yield put({ type: "ERROR", payload: error })
         }
-        const code = assignedEvents.find(
-          ([id, code]) => id === readyEvent.id,
-        )?.[1]
-        if (!code) {
-          throw new Error(`No code assigned for event ${readyEvent.id}`)
-        }
-        yield put(
-          assignedSlot({
-            slotId: slot,
-            eventId: readyEvent.id,
-            code,
-            calendarId: readyEvent.calendarId,
-          }),
-        )
-      } catch (error) {
-        yield put({ type: "ERROR", payload: error })
       }
+    } catch (error) {
+      yield put({ type: "ERROR", payload: error })
     }
     yield delay(60000)
   }
@@ -86,32 +90,36 @@ function* readyEventsSaga() {
 
 function* unAssignOldEventsSaga() {
   while (true) {
-    const assignedSlots = yield select(getAssignedSlots)
-    const allEvents = yield select(getEvents)
-    const slotsReadyToUnassign = assignedSlots.filter(([id, slot]) => {
-      const slotEvent = allEvents.find(
-        (event) => event.eventId === slot.eventId,
-      )
-      if (!slotEvent) {
-        return true
+    try {
+      const assignedSlots = yield select(getAssignedSlots)
+      const allEvents = yield select(getEvents)
+      const slotsReadyToUnassign = assignedSlots.filter(([id, slot]) => {
+        const slotEvent = allEvents.find(
+          (event) => event.eventId === slot.eventId,
+        )
+        if (!slotEvent) {
+          return true
+        }
+        const now = getNow()
+        return new Date(slotEvent.end) > now
+      })
+
+      for (const [slotId, slot] of slotsReadyToUnassign) {
+        yield put(
+          unassignedSlot({
+            slotId: parseInt(slotId),
+            eventId: slot.eventId,
+            calendarId: slot.calendarId,
+          }),
+        )
       }
-      const now = getNow()
-      return new Date(slotEvent.end) > now
-    })
 
-    for (const [slotId, slot] of slotsReadyToUnassign) {
-      yield put(
-        unassignedSlot({
-          slotId: parseInt(slotId),
-          eventId: slot.eventId,
-          calendarId: slot.calendarId,
-        }),
-      )
-    }
-
-    const eventsToUnAssign = yield select(getPastAssignedEventIds)
-    for (const eventId of eventsToUnAssign) {
-      yield put(unassigned({ id: eventId }))
+      const eventsToUnAssign = yield select(getPastAssignedEventIds)
+      for (const eventId of eventsToUnAssign) {
+        yield put(unassigned({ id: eventId }))
+      }
+    } catch (error) {
+      yield put({ type: "ERROR", payload: error })
     }
     yield delay(60000)
   }

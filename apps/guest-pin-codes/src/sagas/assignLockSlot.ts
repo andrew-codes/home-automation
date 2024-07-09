@@ -12,7 +12,7 @@ function* assignLockSlot(action: ReturnType<typeof assignedSlot>) {
     const calendarEvents: CalendarEvent[] = yield select(getEvents)
     const calendarEvent = calendarEvents.find(
       (calendarEvent) =>
-        calendarEvent.eventId === action.payload.eventId &&
+        calendarEvent.id === action.payload.eventId &&
         calendarEvent.calendarId === action.payload.calendarId,
     )
     if (!calendarEvent) {
