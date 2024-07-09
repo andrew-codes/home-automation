@@ -6,7 +6,7 @@ const stateSlice = createSlice({
     guestWifi: {} as Record<string, string>,
   },
   selectors: {
-    getWifi: (state) => state.guestWifi,
+    getWifi: (state) => Object.entries(state.guestWifi),
   },
   reducers: {
     setWifi: (state, action) => {
