@@ -1,12 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 const stateSlice = createSlice({
-  name: "assignedEvent",
+  name: "wifi",
   initialState: {
     guestWifi: {} as Record<string, string>,
   },
   selectors: {
-    getWifi: (state) => Object.entries(state.guestWifi),
+    getWifi: (state) => {
+      return Object.entries(state.guestWifi ?? {})
+    },
   },
   reducers: {
     setWifi: (state, action) => {
