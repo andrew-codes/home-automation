@@ -1,9 +1,9 @@
 import { createMqtt } from "@ha/mqtt-client"
 import createDebugger from "debug"
-import { call, put, select } from "redux-saga/effects"
+import { call, select } from "redux-saga/effects"
+import { getAssigned } from "../state/assignedEvent.slice"
 import { CalendarEvent, getEvents } from "../state/event.slice"
 import { assignedSlot } from "../state/lock.slice"
-import { getPins } from "../state/pinCode.slice"
 
 const debug = createDebugger("@ha/guest-pin-codes/assignLockSlot")
 
@@ -19,8 +19,14 @@ function* assignLockSlot(action: ReturnType<typeof assignedSlot>) {
       return
     }
 
-    const eventCode = yield select(getPins)
-    const pin = eventCode.find((pin) => pin.eventId === action.payload.eventId)
+    const assignedEvent = yield select(getAssigned)
+    const pin = assignedEvent.find(
+      ([eventId, code]) => eventId === action.payload.eventId,
+    )?.[1]
+
+    if (!pin) {
+      return
+    }
 
     debug(
       `Assigning event ${calendarEvent.title} to slot ${action.payload.slotId} with pin ${pin}`,
@@ -36,10 +42,10 @@ function* assignLockSlot(action: ReturnType<typeof assignedSlot>) {
         start: calendarEvent.start,
         end: calendarEvent.end,
       }),
-      { qos: 1 },
+      { qos: 0 },
     )
   } catch (error) {
-    yield put({ type: "ERROR", payload: { error } })
+    console.log(error)
   }
 }
 

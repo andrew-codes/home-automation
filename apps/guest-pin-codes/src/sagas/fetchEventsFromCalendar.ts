@@ -104,7 +104,7 @@ function* fetchEventsFromCalendar(action: ReturnType<typeof fetchEvents>) {
       yield put(created(calendarEvent))
     }
   } catch (error) {
-    yield put({ type: "ERROR", payload: { error } })
+    debug("Error fetching events", error)
   }
 }
 

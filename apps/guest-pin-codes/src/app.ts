@@ -6,7 +6,7 @@ import { WithId } from "mongodb"
 import allCodes from "./candidateCodes"
 import getClient from "./dbClient"
 import createStore, { RootState } from "./state"
-import { CalendarEvent, fetchEvents } from "./state/event.slice"
+import { CalendarEvent } from "./state/event.slice"
 import { created } from "./state/lock.slice"
 
 const debug = createDebugger("@ha/guest-pin-codes/app")
@@ -56,7 +56,7 @@ const app = async (
     >({})
     .toArray()
   preloadedState.lock.slots = lockSlots.reduce((acc, slot) => {
-    acc[slot.id] = merge({}, slot, { calendarId })
+    acc[slot.id] = merge({}, omit(slot, "_id"), { calendarId })
     return acc
   }, {} as Record<string, { code: string; eventId: string; calendarId: string }>)
 
@@ -92,16 +92,13 @@ const app = async (
 
   const store = createStore(preloadedState)
 
-  const lockSlotDiff = numberOfGuestCodes - lockSlots.length
-  const remainingLockSlots = lockSlotDiff > 0 ? lockSlotDiff : 0
-  debug(`Remaining number of guest slots: ${remainingLockSlots}`)
-  store.dispatch(created({ numberOfSlots: remainingLockSlots }))
+  for (let i = 1; i <= numberOfGuestCodes; i++) {
+    store.dispatch(created({ slotId: i + 3 }))
+  }
 
   return {
     store,
-    start: async () => {
-      store.dispatch(fetchEvents({ calendarId }))
-    },
+    start: async () => {},
   }
 }
 

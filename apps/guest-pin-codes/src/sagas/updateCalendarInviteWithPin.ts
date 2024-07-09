@@ -1,6 +1,6 @@
 import * as React from "react"
 import { renderToString } from "react-dom/server"
-import { call, put, select } from "redux-saga/effects"
+import { call, select } from "redux-saga/effects"
 import getClient from "../graphClient"
 import { assigned } from "../state/assignedEvent.slice"
 import { getWifi } from "../state/wifi.slice"
@@ -26,7 +26,7 @@ function* updateCalendarEventWithPin(action: ReturnType<typeof assigned>) {
       },
     })
   } catch (error) {
-    yield put({ type: "ERROR", payload: { error } })
+    console.log(error)
   }
 }
 

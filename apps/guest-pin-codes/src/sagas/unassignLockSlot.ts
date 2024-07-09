@@ -1,6 +1,6 @@
 import { createMqtt } from "@ha/mqtt-client"
 import createDebugger from "debug"
-import { call, put } from "redux-saga/effects"
+import { call } from "redux-saga/effects"
 import { unassignedSlot } from "../state/lock.slice"
 
 const debug = createDebugger("@ha/guest-pin-codes/sagas/removeLockAssignment")
@@ -22,10 +22,10 @@ function* unassignLockSlot(action: ReturnType<typeof unassignedSlot>) {
         slotId: parseInt(action.payload.slotId, 10),
         pin: null,
       }),
-      { qos: 1 },
+      { qos: 0 },
     )
   } catch (error) {
-    yield put({ type: "ERROR", payload: { error } })
+    console.log(error)
   }
 }
 
