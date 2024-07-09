@@ -5,10 +5,14 @@ const deviceSlice = createSlice({
   initialState: {
     lastPoll: null as Date | null,
     isPolling: false,
+    isPollingState: false,
   },
   selectors: {
     getShouldPoll: (state) => {
       return state.isPolling
+    },
+    getShouldPollState: (state) => {
+      return state.isPollingState
     },
   },
   reducers: {
@@ -21,9 +25,21 @@ const deviceSlice = createSlice({
     polled: (state) => {
       state.lastPoll = new Date()
     },
+    startedPollingState(state) {
+      state.isPollingState = true
+    },
+    endedPollingState(state) {
+      state.isPollingState = false
+    },
   },
 })
 
 export default deviceSlice.reducer
-export const { startedPolling, endedPolling, polled } = deviceSlice.actions
-export const { getShouldPoll } = deviceSlice.selectors
+export const {
+  startedPolling,
+  endedPolling,
+  polled,
+  startedPollingState,
+  endedPollingState,
+} = deviceSlice.actions
+export const { getShouldPoll, getShouldPollState } = deviceSlice.selectors

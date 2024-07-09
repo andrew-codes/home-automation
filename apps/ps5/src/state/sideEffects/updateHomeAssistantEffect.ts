@@ -8,6 +8,9 @@ const logger = createLogger()
 
 function* updateHomeAssistantEffect(ps: PlayStation) {
   logger.info(`Updating PlayStation (${ps.id}) state in HA`)
+  logger.debug(
+    `${ps.name} is available: ${ps.available} and in state ${ps.state.name}`,
+  )
 
   const mqtt: AsyncMqttClient = yield call(createMqtt)
   yield call<

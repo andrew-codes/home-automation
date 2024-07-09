@@ -12,7 +12,7 @@ function* turnOffEffect(ps: PlayStation) {
   )
   logger.info(stdout.toString())
   if (code !== 0) {
-    throw new Error(stderr.toString())
+    logger.error(stderr.toString(), code)
   }
 }
 

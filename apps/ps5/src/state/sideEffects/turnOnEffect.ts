@@ -12,7 +12,7 @@ function* turnOnEffect(ps: PlayStation) {
   )
   logger.info(stdout.toString())
   if (code !== 0) {
-    throw new Error(stderr.toString())
+    logger.debug(stderr.toString(), code)
   }
 }
 

@@ -1,5 +1,4 @@
 import { createLogger } from "@ha/logger"
-import { merge } from "lodash"
 import { put, select } from "redux-saga/effects"
 import sh from "shelljs"
 import {
@@ -21,28 +20,31 @@ function* pollStateEffect() {
         `playactor check --host-name ${device.name} --machine-friendly --no-open-urls --no-auth;`,
       )
       if (stderr || code !== 0) {
+        logger.debug("Playactor check failed. Device may be offline.")
         throw new Error(stderr)
       }
 
       const checkedDevice: DiscoveredPlayStation = JSON.parse(stdout)
 
-      const newDevice = merge({}, checkedDevice, {
+      const newDevice = {
+        id: checkedDevice.id,
         available: true,
-      })
+        extras: checkedDevice.extras,
+      }
       yield put(updatedPlayStation(newDevice))
     } catch (e) {
       logger.debug("Error checking device state. Device may be offline.")
-      logger.error(e)
-      yield put(
-        updatedPlayStation(
-          merge({}, device, {
-            extras: {
-              status: "UNKNOWN",
-            },
-            available: false,
-          }),
-        ),
-      )
+      try {
+        const newDevice = {
+          id: device.id,
+          available: true,
+          extras: { status: "UNKNOWN" as "UNKNOWN" },
+        }
+        yield put(updatedPlayStation(newDevice))
+      } catch (error) {
+        logger.debug("FATAL error")
+        logger.error(error)
+      }
     }
   }
 }

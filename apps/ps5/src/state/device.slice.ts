@@ -68,27 +68,22 @@ const deviceSlice = createSlice({
     },
     updatedPlayStation: (
       state,
-      action: PayloadAction<
-        DiscoveredPlayStation & {
-          available: boolean
-          extras: {
-            status: "STANDBY" | "AWAKE" | "UNKNOWN"
-          }
+      action: PayloadAction<{
+        id: string
+        available: boolean
+        extras: {
+          status: "STANDBY" | "AWAKE" | "UNKNOWN"
         }
-      >,
+      }>,
     ) => {
-      state.devices[action.payload.id].state = {
-        name: action.payload.extras.status,
-        statusCode: action.payload.extras.statusCode,
-        statusMessage: action.payload.extras.statusMessage,
-      }
+      state.devices[action.payload.id].state.name = action.payload.extras.status
       state.devices[action.payload.id].available = action.payload.available
     },
     turnedOn: (state, action: PayloadAction<{ id: string }>) => {
-      state[action.payload.id].state.name = "AWAKE"
+      state.devices[action.payload.id].state.name = "AWAKE"
     },
     turnedOff: (state, action: PayloadAction<{ id: string }>) => {
-      state[action.payload.id].state.name = "STANDBY"
+      state.devices[action.payload.id].state.name = "STANDBY"
     },
   },
 })

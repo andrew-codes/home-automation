@@ -3,7 +3,7 @@ import { createMqtt } from "@ha/mqtt-client"
 import { createHeartbeat } from "@ha/mqtt-heartbeat"
 import { createStore, RootState } from "./state"
 import { getKnownPlayStations, turnedOff, turnedOn } from "./state/device.slice"
-import { startedPolling } from "./state/polling.slice"
+import { startedPolling, startedPollingState } from "./state/polling.slice"
 
 const logger = createLogger()
 
@@ -19,6 +19,7 @@ async function run() {
       polling: {
         isPolling: false,
         lastPoll: null,
+        isPollingState: false,
       },
     }
     const store = createStore(preloadedState)
@@ -46,8 +47,8 @@ async function run() {
           if (data === "STANDBY") {
             store.dispatch(turnedOff({ id: deviceId }))
           } else {
+            store.dispatch(turnedOn({ id: deviceId }))
           }
-          store.dispatch(turnedOn({ id: deviceId }))
         }
       } catch (error) {
         logger.debug("MQTT message failed to process.")
@@ -57,6 +58,7 @@ async function run() {
 
     await mqtt.subscribe("playstation/#")
     store.dispatch(startedPolling())
+    store.dispatch(startedPollingState())
   } catch (e) {
     logger.error(e)
   }

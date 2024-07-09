@@ -19,10 +19,14 @@ import {
   turnedOn,
   updatedPlayStation,
 } from "./device.slice"
-import { getShouldPoll, startedPolling } from "./polling.slice"
+import {
+  getShouldPoll,
+  getShouldPollState,
+  startedPolling,
+  startedPollingState,
+} from "./polling.slice"
 import { discoverDevicesEffect } from "./sideEffects/discoverDevicesEffect"
 import { pollStateEffect } from "./sideEffects/pollStateEffect"
-import registerWithHomeAssistantEffect from "./sideEffects/registerWithHomeAssistantEffect"
 import { turnOffEffect } from "./sideEffects/turnOffEffect"
 import { turnOnEffect } from "./sideEffects/turnOnEffect"
 import updateHomeAssistantEffect from "./sideEffects/updateHomeAssistantEffect"
@@ -45,13 +49,13 @@ function* pollingToDiscover() {
 }
 
 function* pollingToCheckState() {
-  yield takeLatest(startedPolling.type, function* () {
+  yield takeLatest(startedPollingState.type, function* () {
     let shouldPoll = true
     while (shouldPoll) {
       try {
         yield call(pollStateEffect)
         yield delay(1000)
-        shouldPoll = yield select(getShouldPoll)
+        shouldPoll = yield select(getShouldPollState)
       } catch (error) {
         logger.error(error)
       }
@@ -67,11 +71,12 @@ function* discovered() {
         getKnownPlayStations,
       )
       const ps = knownPlayStations.find((p) => p.id === action.payload.id)
-      if (ps) {
-        yield call(updateHomeAssistantEffect, ps)
-      } else {
-        yield call(registerWithHomeAssistantEffect, action)
+      logger.debug("Discovered PlayStation", action.payload)
+      logger.debug("Known PlayStations", ps)
+      if (!ps) {
+        return
       }
+      yield call(updateHomeAssistantEffect, ps)
     },
   )
 }
@@ -83,58 +88,89 @@ function* update() {
       action: PayloadAction<
         DiscoveredPlayStation & {
           available: boolean
-          extras: {
-            status: "STANDBY" | "AWAKE" | "UNKNOWN"
-          }
+          extras:
+            | {
+                status: "STANDBY" | "AWAKE" | "UNKNOWN"
+              }
+            | {
+                status: "STANDBY" | "AWAKE"
+                statusCode: number
+                statusMessage: string
+              }
         }
       >,
     ) {
-      const knownPlayStations: Array<PlayStation> = yield select(
-        getKnownPlayStations,
-      )
-      const ps = knownPlayStations.find((p) => p.id === action.payload.id)
-      if (!ps) {
-        return
-      }
-      yield call(
-        updateHomeAssistantEffect,
-        merge({}, ps, {
+      try {
+        const knownPlayStations: Array<PlayStation> = yield select(
+          getKnownPlayStations,
+        )
+        const ps = knownPlayStations.find((p) => p.id === action.payload.id)
+        if (!ps) {
+          return
+        }
+        yield call(updateHomeAssistantEffect, {
+          ...ps,
           available: action.payload.available,
           state: {
             name: action.payload.extras.status,
-            statusCode: action.payload.extras.statusCode,
-            statusMessage: action.payload.extras.statusMessage,
+            statusCode: action.payload.extras.statusCode ?? ps.state.statusCode,
+            statusMessage:
+              action.payload.extras.statusMessage ?? ps.state.statusMessage,
           },
-        }),
-      )
+        })
+      } catch (error) {
+        logger.error(error)
+      }
     },
   )
 }
 
 function* turnOn() {
-  yield takeLatest(turnedOn.type, function* (action: PayloadAction<string>) {
-    const knownPlayStations: Array<PlayStation> = yield select(
-      getKnownPlayStations,
-    )
-    const ps = knownPlayStations.find((p) => p.id === action.payload)
-    if (ps) {
-      yield call(turnOnEffect, ps)
-      yield call(updateHomeAssistantEffect, ps)
-    }
-  })
+  yield takeLatest(
+    turnedOn.type,
+    function* (action: PayloadAction<{ id: string }>) {
+      try {
+        const knownPlayStations: Array<PlayStation> = yield select(
+          getKnownPlayStations,
+        )
+        const ps = knownPlayStations.find((p) => p.id === action.payload.id)
+        if (ps) {
+          logger.debug("Turning on", ps)
+          yield call(turnOnEffect, ps)
+          yield call(updateHomeAssistantEffect, {
+            ...ps,
+            state: { name: "AWAKE" },
+          } as PlayStation)
+        }
+      } catch (error) {
+        logger.error(error)
+      }
+    },
+  )
 }
 
 function* turnOff() {
-  yield takeLatest(turnedOff.type, function* (action: PayloadAction<string>) {
-    const knownPlayStations: Array<PlayStation> = yield select(
-      getKnownPlayStations,
-    )
-    const ps = knownPlayStations.find((p) => p.id === action.payload)
-    if (ps) {
-      yield call(turnOffEffect, ps)
-      yield call(updateHomeAssistantEffect, ps)
-    }
-  })
+  yield takeLatest(
+    turnedOff.type,
+    function* (action: PayloadAction<{ id: string }>) {
+      try {
+        const knownPlayStations: Array<PlayStation> = yield select(
+          getKnownPlayStations,
+        )
+        const ps = knownPlayStations.find((p) => p.id === action.payload.id)
+        if (ps) {
+          logger.debug("Turning off", ps)
+          yield call(turnOffEffect, ps)
+          yield call(updateHomeAssistantEffect, {
+            ...ps,
+            state: { name: "STANDBY" },
+          } as PlayStation)
+        }
+      } catch (error) {
+        logger.error(error)
+      }
+    },
+  )
 }
 
 function* saga() {

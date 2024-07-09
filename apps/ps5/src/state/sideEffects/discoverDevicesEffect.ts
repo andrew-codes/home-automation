@@ -2,6 +2,7 @@ import { createLogger } from "@ha/logger"
 import { Discovery } from "playactor/dist/discovery"
 import { call, put } from "redux-saga/effects"
 import { DiscoveredPlayStation, playStationDiscovered } from "../device.slice"
+import registerWithHomeAssistantEffect from "./registerWithHomeAssistantEffect"
 
 const logger = createLogger()
 
@@ -40,7 +41,9 @@ function* discoverDevicesEffect() {
     logger.info("Discovered device")
     logger.debug(JSON.stringify(device, null, 2))
 
-    yield put(playStationDiscovered(device))
+    const action = playStationDiscovered(device)
+    yield put(action)
+    yield call(registerWithHomeAssistantEffect, action)
   }
 }
 
