@@ -47,7 +47,7 @@ function* registerWithHomeAssistantEffect(
         state_off: "STANDBY",
         payload_on: "AWAKE",
         payload_off: "STANDBY",
-        unique_id: `${entityId}_switch_power`,
+        unique_id: `switch_power`,
         device: {
           manufacturer: "Sony",
           model: `Playstation ${action.payload.type === "PS5" ? "5" : "4"} `,
