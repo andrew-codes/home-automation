@@ -14,7 +14,7 @@
     "redux-saga-test-plan": "^4.0.6"
   },
   "devDependencies": {
-    "@azure/identity": "3.2.3",
+    "@azure/identity": "4.2.1",
     "@ha/build-ts": "workspace:^1.0.0",
     "@ha/configuration-api": "workspace:^0.0.1",
     "@ha/configuration-workspace": "workspace:^0.0.1",
