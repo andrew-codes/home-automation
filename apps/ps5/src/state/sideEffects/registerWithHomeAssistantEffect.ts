@@ -12,11 +12,6 @@ function* registerWithHomeAssistantEffect(
 ) {
   try {
     logger.info(`Registering PlayStation (${action.payload.id}) with HA`)
-    const entityId = action.payload.name
-      .replace(/[^a-zA-Z\d\s-_:]/g, "")
-      .replace(/[\s-]/g, "_")
-      .toLowerCase()
-
     logger.debug("Publishing power switch config")
     const mqtt: AsyncMqttClient = yield call(createMqtt)
     yield call<
@@ -36,7 +31,8 @@ function* registerWithHomeAssistantEffect(
             payload_not_available: "offline",
           },
         ],
-        name: `${action.payload.name} Switch Power`,
+        object_id: `${action.payload.name}_power`,
+        name: `Switch Power`,
         command_topic: `playstation/${action.payload.id}/set/power`,
         state_topic: `playstation/${action.payload.id}/state`,
         optimistic: false,
@@ -47,7 +43,7 @@ function* registerWithHomeAssistantEffect(
         state_off: "STANDBY",
         payload_on: "AWAKE",
         payload_off: "STANDBY",
-        unique_id: `switch_power`,
+        unique_id: action.payload.id,
         device: {
           manufacturer: "Sony",
           model: `Playstation ${action.payload.type === "PS5" ? "5" : "4"} `,
