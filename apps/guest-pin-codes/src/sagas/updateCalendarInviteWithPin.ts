@@ -19,8 +19,8 @@ function* updateCalendarEventWithPin(action: ReturnType<typeof assigned>) {
         content: renderToString(
           React.createElement(CalendarInviteBody, {
             pin: code,
-            guestWifiSsid: guestWifi[0],
-            guestWifiPassPhrase: guestWifi[1],
+            guestWifiSsid: guestWifi?.[0],
+            guestWifiPassPhrase: guestWifi?.[1],
           }),
         ),
       },

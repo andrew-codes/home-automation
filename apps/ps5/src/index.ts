@@ -1,16 +1,9 @@
 import { createLogger } from "@ha/logger"
-import createSagaMiddleware from "redux-saga"
-import { createStore, applyMiddleware } from "redux"
-import reducer, {
-  applyToDevice,
-  getDeviceRegistry,
-  pollDevices,
-  pollDiscovery,
-  saga,
-} from "./redux"
-import { createHeartbeat } from "@ha/mqtt-heartbeat"
 import { createMqtt } from "@ha/mqtt-client"
-import { SwitchStatus } from "./redux/types"
+import { createHeartbeat } from "@ha/mqtt-heartbeat"
+import { createStore, RootState } from "./state"
+import { getKnownPlayStations, turnedOff, turnedOn } from "./state/device.slice"
+import { startedPolling, startedPollingState } from "./state/polling.slice"
 
 const logger = createLogger()
 
@@ -19,43 +12,53 @@ async function run() {
   try {
     await createHeartbeat("ps5")
 
-    const sagaMiddleware = createSagaMiddleware()
-    const store = createStore(reducer, applyMiddleware(sagaMiddleware))
-    store.subscribe(() => {
-      logger.debug("State change", store.getState())
-      logger.debug(JSON.stringify(store.getState(), null, 2))
-    })
-    sagaMiddleware.run(saga)
+    const preloadedState: RootState = {
+      device: {
+        devices: {},
+      },
+      polling: {
+        isPolling: false,
+        lastPoll: null,
+        isPollingState: false,
+      },
+    }
+    const store = createStore(preloadedState)
+
     const mqtt = await createMqtt()
 
     const topicRegEx = /^playstation\/([^/]*)\/set\/(.*)$/
-    const discoverTopic = "playstation/discover"
     mqtt.on("message", (topic, payload) => {
-      if (topic === discoverTopic) {
-        store.dispatch({ type: "CLEAR_ALL_DEVICES" })
-      } else if (topicRegEx.test(topic)) {
-        const matches = topicRegEx.exec(topic)
-        if (!matches) {
-          return
+      try {
+        if (topicRegEx.test(topic)) {
+          const matches = topicRegEx.exec(topic)
+          if (!matches) {
+            return
+          }
+          logger.info(`MQTT topic message received: ${topic}`)
+          logger.debug(payload.toString())
+          const [, deviceId, deviceProperty] = matches
+          const knownPlayStations = getKnownPlayStations(store.getState())
+          const playStation = knownPlayStations.find((ps) => ps.id === deviceId)
+          if (!playStation || deviceProperty !== "power") {
+            logger.info("No device or deviceProperty is not set to power")
+            return
+          }
+          const data = payload.toString()
+          if (data === "STANDBY") {
+            store.dispatch(turnedOff({ id: deviceId }))
+          } else {
+            store.dispatch(turnedOn({ id: deviceId }))
+          }
         }
-        logger.info(`MQTT topic message received: ${topic}`)
-        logger.debug(payload.toString())
-        const [, deviceId, deviceProperty] = matches
-        const devices = getDeviceRegistry(store.getState())
-        const device = devices[deviceId]
-        if (!device || deviceProperty !== "power") {
-          logger.info("No device or deviceProperty is not set to power")
-          return
-        }
-        const data = payload.toString()
-        store.dispatch(applyToDevice(device, data as SwitchStatus))
+      } catch (error) {
+        logger.debug("MQTT message failed to process.")
+        logger.error(error)
       }
     })
 
     await mqtt.subscribe("playstation/#")
-
-    store.dispatch(pollDevices())
-    store.dispatch(pollDiscovery())
+    store.dispatch(startedPolling())
+    store.dispatch(startedPollingState())
   } catch (e) {
     logger.error(e)
   }
