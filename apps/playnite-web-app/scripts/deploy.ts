@@ -14,11 +14,17 @@ const run = async (
   const username = await configurationApi.get("playnite-web/username")
   const password = await configurationApi.get("playnite-web/password")
   const secret = await configurationApi.get("playnite-web/secret")
+  const nfsIp = await configurationApi.get("nfs/ip")
+  const nfsUsername = await configurationApi.get("nfs/username")
+  const nfsPassword = await configurationApi.get("nfs/password")
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      image: `ghcr.io/andrew-codes/playnite-web-app:3-latest`,
+      image: `ghcr.io/andrew-codes/playnite-web-app:5-latest`,
       name,
+      nfsPassword: nfsPassword.value,
+      nfsUsername: nfsUsername.value,
+      nfsIp: nfsIp.value,
       port: parseInt(port.value),
       registryHostname: registry.value,
       secrets,
@@ -42,8 +48,11 @@ const run = async (
   const stagingResources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      image: `ghcr.io/andrew-codes/playnite-web-app:3-dev`,
+      image: `ghcr.io/andrew-codes/playnite-web-app:dev`,
       name: `${name}-staging`,
+      nfsPassword: nfsPassword.value,
+      nfsUsername: nfsUsername.value,
+      nfsIp: nfsIp.value,
       port: parseInt(stagingPort.value),
       registryHostname: registry.value,
       secrets,
