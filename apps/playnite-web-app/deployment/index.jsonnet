@@ -10,7 +10,7 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new(std.extVar('name') + '-assets', '/opt/playnite-web-app/public/assets/asset-by-id',))
                   + lib.deployment.withEnvVars(0, [
                     { name: 'DB_HOST', value: 'game-library-db' },
-                    { name: 'DEBUG', value: 'playnite-web-app/*' },
+                    { name: 'DEBUG', value: 'playnite*' },
                     { name: 'MQTT_HOST', value: 'mqtt' },
                     { name: 'MQTT_PORT', value: '1883' },
                     { name: 'USERNAME', value: std.extVar('username') },
@@ -18,6 +18,15 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                     { name: 'SECRET', value: std.extVar('secret') },
                   ])
                   + lib.deployment.withProbe(0, '/')
+                  + lib.deployment.withAffinity({
+                     nodeAffinity: {
+                       requiredDuringSchedulingIgnoredDuringExecution: {
+                         nodeSelectorTerms: [
+                           { matchExpressions: [{ key: 'kubernetes.io/hostname', operator: 'In', values: ['k8s-node-3'] }] },
+                         ],
+                       },
+                     },
+                   },)
 ;
 
 []
