@@ -374,7 +374,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/core-auth@npm:^1.3.0, @azure/core-auth@npm:^1.4.0":
+"@azure/abort-controller@npm:^2.0.0":
+  version: 2.1.2
+  resolution: "@azure/abort-controller@npm:2.1.2"
+  dependencies:
+    tslib: "npm:^2.6.2"
+  checksum: 10/484e34a8121e5815f764af4da1c8b51d4713106e43f1c44e59671773ffff52da066780821c7633cf601668daa1181a57a1c88f57854d60b62ecc5560f9c52932
+  languageName: node
+  linkType: hard
+
+"@azure/core-auth@npm:^1.4.0":
   version: 1.4.0
   resolution: "@azure/core-auth@npm:1.4.0"
   dependencies:
@@ -384,18 +393,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/core-client@npm:^1.4.0":
-  version: 1.7.3
-  resolution: "@azure/core-client@npm:1.7.3"
+"@azure/core-auth@npm:^1.5.0":
+  version: 1.7.2
+  resolution: "@azure/core-auth@npm:1.7.2"
   dependencies:
-    "@azure/abort-controller": "npm:^1.0.0"
+    "@azure/abort-controller": "npm:^2.0.0"
+    "@azure/core-util": "npm:^1.1.0"
+    tslib: "npm:^2.6.2"
+  checksum: 10/c85325c5977490554e1cdc9acbb6f8e309ab68935919900ff59cb6b125833848e082347c5ed454d1fcfa028c75e42ecd16e982f7f1eada76a17a76751f689261
+  languageName: node
+  linkType: hard
+
+"@azure/core-client@npm:^1.9.2":
+  version: 1.9.2
+  resolution: "@azure/core-client@npm:1.9.2"
+  dependencies:
+    "@azure/abort-controller": "npm:^2.0.0"
     "@azure/core-auth": "npm:^1.4.0"
     "@azure/core-rest-pipeline": "npm:^1.9.1"
     "@azure/core-tracing": "npm:^1.0.0"
-    "@azure/core-util": "npm:^1.0.0"
+    "@azure/core-util": "npm:^1.6.1"
     "@azure/logger": "npm:^1.0.0"
-    tslib: "npm:^2.2.0"
-  checksum: 10/8564d001b3edddb394b0a1a9590864748899aa512a4a12945cdc7e187dfd8a998acb98fd66ce3b830eda6e54f89107aea4f70aa7fd885b8bee1d9e14d4cb7150
+    tslib: "npm:^2.6.2"
+  checksum: 10/0358b8245bf23943914eb77384955c994bf3ef84f862234cb3e261f9c602a9f4717beedafd48d1da902b15f3464a4211540976fabb4569039fac8e0d41e59ef1
   languageName: node
   linkType: hard
 
@@ -425,7 +445,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/core-util@npm:^1.0.0, @azure/core-util@npm:^1.3.0":
+"@azure/core-util@npm:^1.1.0, @azure/core-util@npm:^1.6.1":
+  version: 1.9.1
+  resolution: "@azure/core-util@npm:1.9.1"
+  dependencies:
+    "@azure/abort-controller": "npm:^2.0.0"
+    tslib: "npm:^2.6.2"
+  checksum: 10/0b9d331430ad0b7009f3beb251989b6da1e94d2573dbf84dfae97cd33633303ab0256291c677660aa5cc5715fc1694402b6acd93ec0cffca6147dbcad30d77a9
+  languageName: node
+  linkType: hard
+
+"@azure/core-util@npm:^1.3.0":
   version: 1.3.2
   resolution: "@azure/core-util@npm:1.3.2"
   dependencies:
@@ -435,27 +465,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/identity@npm:3.2.3":
-  version: 3.2.3
-  resolution: "@azure/identity@npm:3.2.3"
+"@azure/identity@npm:4.4.1":
+  version: 4.4.1
+  resolution: "@azure/identity@npm:4.4.1"
   dependencies:
     "@azure/abort-controller": "npm:^1.0.0"
-    "@azure/core-auth": "npm:^1.3.0"
-    "@azure/core-client": "npm:^1.4.0"
+    "@azure/core-auth": "npm:^1.5.0"
+    "@azure/core-client": "npm:^1.9.2"
     "@azure/core-rest-pipeline": "npm:^1.1.0"
     "@azure/core-tracing": "npm:^1.0.0"
-    "@azure/core-util": "npm:^1.0.0"
+    "@azure/core-util": "npm:^1.3.0"
     "@azure/logger": "npm:^1.0.0"
-    "@azure/msal-browser": "npm:^2.37.1"
-    "@azure/msal-common": "npm:^13.1.0"
-    "@azure/msal-node": "npm:^1.17.3"
+    "@azure/msal-browser": "npm:^3.14.0"
+    "@azure/msal-node": "npm:^2.9.2"
     events: "npm:^3.0.0"
     jws: "npm:^4.0.0"
     open: "npm:^8.0.0"
     stoppable: "npm:^1.1.0"
     tslib: "npm:^2.2.0"
-    uuid: "npm:^8.3.0"
-  checksum: 10/97ce50b5cbd77fb96b5466ee04d3ce2b264d73ebc3231829c27d7333f9cd0c4e87f67cfcf113a859896e17a19d640787b29fcc0a63cd16841039c5747297b5a9
+  checksum: 10/93891329e115ed675e1cda3dca22031f37a75d0779fd145790c21990bc440ab2ffc9f1fbacec3b33dc7a0ac87661bdd9e8e763ae12d494a5daf3f1baa8915a5b
   languageName: node
   linkType: hard
 
@@ -468,30 +496,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/msal-browser@npm:^2.37.1":
-  version: 2.37.1
-  resolution: "@azure/msal-browser@npm:2.37.1"
+"@azure/msal-browser@npm:^3.14.0":
+  version: 3.20.0
+  resolution: "@azure/msal-browser@npm:3.20.0"
   dependencies:
-    "@azure/msal-common": "npm:13.1.0"
-  checksum: 10/21f6470267e762a4e9f4b847914400ad90a37e0ad19dff2c1a5053b7da14ed98c01c8c2ef7593c89b36d693206b0439a167f5441889a27ec3cd3714976442acc
+    "@azure/msal-common": "npm:14.14.0"
+  checksum: 10/25bf912f41c5931894473dc097bbcc13cb603531285cbd1ca5e30f29fa1f3f0752bbb66fab96974b52f8c682b05619a84812a34303040f879325ae4ecb636724
   languageName: node
   linkType: hard
 
-"@azure/msal-common@npm:13.1.0, @azure/msal-common@npm:^13.1.0":
-  version: 13.1.0
-  resolution: "@azure/msal-common@npm:13.1.0"
-  checksum: 10/728ead57e1c71bc30481a0db16001bdb997845ff465752582a4656f4dfb0b311f84dafd6fc8ef36902120dfc8708fb230c770cb35abdb108ee9e37ea7f1d52ad
+"@azure/msal-common@npm:14.14.0":
+  version: 14.14.0
+  resolution: "@azure/msal-common@npm:14.14.0"
+  checksum: 10/1c8b19c6e2846dc2085c32c24992488bd2338c85db8fcfad78c74a8481e900f4423d72411af026ec1d581a293667c4f2b269f575b23775dae843390bad1babe3
   languageName: node
   linkType: hard
 
-"@azure/msal-node@npm:^1.17.3":
-  version: 1.17.3
-  resolution: "@azure/msal-node@npm:1.17.3"
+"@azure/msal-node@npm:^2.9.2":
+  version: 2.12.0
+  resolution: "@azure/msal-node@npm:2.12.0"
   dependencies:
-    "@azure/msal-common": "npm:13.1.0"
+    "@azure/msal-common": "npm:14.14.0"
     jsonwebtoken: "npm:^9.0.0"
     uuid: "npm:^8.3.0"
-  checksum: 10/17981052f3933f57b42b533d7b07f994e4340829e0f6ccb186fc38ab2420aeb7d64ebfcfc8f295d393aa7cb25756e120dd8a4d50d50f70a0ead7fecb16eeb774
+  checksum: 10/96ae84891ae570f0a4167491fbdb335cf3b480899c36e5ea44d57a4556bfd437e7d397a3d1f74cf3c440b38cd367cd0d9bde579fe3e32111ed859e82a6dd5052
   languageName: node
   linkType: hard
 
@@ -3478,18 +3506,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/enshrouded@workspace:apps/enshrouded":
-  version: 0.0.0-use.local
-  resolution: "@ha/enshrouded@workspace:apps/enshrouded"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/jsonnet": "workspace:^0.0.1"
-    "@ha/kubectl": "workspace:^1.0.0"
-    "@ha/nx-executors": "workspace:^0.1.0"
-  languageName: unknown
-  linkType: soft
-
 "@ha/env-utils@workspace:^0.0.1, @ha/env-utils@workspace:packages/env-utils":
   version: 0.0.0-use.local
   resolution: "@ha/env-utils@workspace:packages/env-utils"
@@ -3610,25 +3626,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/grafana@workspace:apps/grafana":
-  version: 0.0.0-use.local
-  resolution: "@ha/grafana@workspace:apps/grafana"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/configure-jest": "workspace:^0.0.1"
-    "@ha/jsonnet": "workspace:^0.0.1"
-    "@ha/kubectl": "workspace:^1.0.0"
-    "@ha/nx-executors": "workspace:^0.1.0"
-    "@types/jest": "npm:^29.2.5"
-    "@types/node": "npm:^18.11.18"
-    jest: "npm:^29.3.1"
-    jest-when: "npm:^3.5.2"
-    ts-jest: "npm:^29.0.5"
-    typescript: "npm:^4.9.4"
-  languageName: unknown
-  linkType: soft
-
 "@ha/guest-db@workspace:apps/guest-db":
   version: 0.0.0-use.local
   resolution: "@ha/guest-db@workspace:apps/guest-db"
@@ -3646,7 +3643,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ha/guest-pin-codes@workspace:apps/guest-pin-codes"
   dependencies:
-    "@azure/identity": "npm:3.2.3"
+    "@azure/identity": "npm:4.4.1"
     "@ha/build-ts": "workspace:^1.0.0"
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
@@ -4318,19 +4315,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/samba@workspace:apps/samba":
-  version: 0.0.0-use.local
-  resolution: "@ha/samba@workspace:apps/samba"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/docker": "workspace:^0.0.1"
-    "@ha/jsonnet": "workspace:^0.0.1"
-    "@ha/kubectl": "workspace:^1.0.0"
-    "@ha/nx-executors": "workspace:^0.1.0"
-  languageName: unknown
-  linkType: soft
-
 "@ha/secret-utils@workspace:^0.0.1, @ha/secret-utils@workspace:packages/secret-utils":
   version: 0.0.0-use.local
   resolution: "@ha/secret-utils@workspace:packages/secret-utils"
@@ -4416,18 +4400,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/tunnel-proxy@workspace:apps/tunnel-proxy":
-  version: 0.0.0-use.local
-  resolution: "@ha/tunnel-proxy@workspace:apps/tunnel-proxy"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/jsonnet": "workspace:^0.0.1"
-    "@ha/kubectl": "workspace:^1.0.0"
-    "@ha/nx-executors": "workspace:^0.1.0"
-  languageName: unknown
-  linkType: soft
-
 "@ha/unifi-client@workspace:^0.1.0, @ha/unifi-client@workspace:packages/unifi-client":
   version: 0.0.0-use.local
   resolution: "@ha/unifi-client@workspace:packages/unifi-client"
@@ -4452,18 +4424,6 @@ __metadata:
     "@ha/jsonnet": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/nx-executors": "workspace:^0.1.0"
-  languageName: unknown
-  linkType: soft
-
-"@ha/velero@workspace:apps/velero":
-  version: 0.0.0-use.local
-  resolution: "@ha/velero@workspace:apps/velero"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/nx-executors": "workspace:^0.1.0"
-    "@types/shelljs": "npm:^0.8.5"
-    shelljs: "npm:^0.8.5"
   languageName: unknown
   linkType: soft
 
@@ -17360,6 +17320,13 @@ __metadata:
   version: 2.6.0
   resolution: "tslib@npm:2.6.0"
   checksum: 10/52360693c62761f902e1946b350188be6505de297068b33421cb26bedd99591203a74cb2a49e1f43f0922d59b1fb3499fe5cfe61a61ca65a1743d5c92c69720a
+  languageName: node
+  linkType: hard
+
+"tslib@npm:^2.6.2":
+  version: 2.6.3
+  resolution: "tslib@npm:2.6.3"
+  checksum: 10/52109bb681f8133a2e58142f11a50e05476de4f075ca906d13b596ae5f7f12d30c482feb0bff167ae01cfc84c5803e575a307d47938999246f5a49d174fc558c
   languageName: node
   linkType: hard
 
