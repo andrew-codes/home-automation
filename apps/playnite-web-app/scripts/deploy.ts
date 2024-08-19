@@ -20,7 +20,7 @@ const run = async (
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      image: `ghcr.io/andrew-codes/playnite-web-app:5-latest`,
+      image: `ghcr.io/andrew-codes/playnite-web-app:6-latest`,
       name,
       nfsPassword: nfsPassword.value,
       nfsUsername: nfsUsername.value,
