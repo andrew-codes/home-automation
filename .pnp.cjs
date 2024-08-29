@@ -42,16 +42,8 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:apps/elk-stack"\
     },\
     {\
-      "name": "@ha/enshrouded",\
-      "reference": "workspace:apps/enshrouded"\
-    },\
-    {\
       "name": "@ha/frigate",\
       "reference": "workspace:apps/frigate"\
-    },\
-    {\
-      "name": "@ha/game-library-db",\
-      "reference": "workspace:apps/game-library-db"\
     },\
     {\
       "name": "@ha/gaming-pc",\
@@ -60,10 +52,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@ha/github-action-runners",\
       "reference": "workspace:apps/github-action-runners"\
-    },\
-    {\
-      "name": "@ha/grafana",\
-      "reference": "workspace:apps/grafana"\
     },\
     {\
       "name": "@ha/guest-db",\
@@ -190,24 +178,12 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:apps/remote-codespaces"\
     },\
     {\
-      "name": "@ha/samba",\
-      "reference": "workspace:apps/samba"\
-    },\
-    {\
       "name": "@ha/secrets",\
       "reference": "workspace:apps/secrets"\
     },\
     {\
-      "name": "@ha/tunnel-proxy",\
-      "reference": "workspace:apps/tunnel-proxy"\
-    },\
-    {\
       "name": "@ha/uptime-kuma",\
       "reference": "workspace:apps/uptime-kuma"\
-    },\
-    {\
-      "name": "@ha/velero",\
-      "reference": "workspace:apps/velero"\
     },\
     {\
       "name": "@ha/wake-on-lan",\
@@ -342,15 +318,12 @@ const RAW_RUNTIME_STATE =
     ["@ha/docker-creds", ["workspace:apps/docker-creds"]],\
     ["@ha/docker-registry", ["workspace:apps/docker-registry"]],\
     ["@ha/elk-stack", ["workspace:apps/elk-stack"]],\
-    ["@ha/enshrouded", ["workspace:apps/enshrouded"]],\
     ["@ha/env-utils", ["workspace:packages/env-utils"]],\
     ["@ha/frigate", ["workspace:apps/frigate"]],\
-    ["@ha/game-library-db", ["workspace:apps/game-library-db"]],\
     ["@ha/game-library-updater", ["workspace:apps/playnite-web-game-db-updater"]],\
     ["@ha/gaming-pc", ["workspace:apps/gaming-pc"]],\
     ["@ha/github-action-runners", ["workspace:apps/github-action-runners"]],\
     ["@ha/github-secrets", ["workspace:packages/github-secrets"]],\
-    ["@ha/grafana", ["workspace:apps/grafana"]],\
     ["@ha/guest-db", ["workspace:apps/guest-db"]],\
     ["@ha/guest-pin-codes", ["workspace:apps/guest-pin-codes"]],\
     ["@ha/guest-registrar", ["workspace:apps/guest-registrar"]],\
@@ -390,17 +363,14 @@ const RAW_RUNTIME_STATE =
     ["@ha/proxmox", ["workspace:apps/proxmox"]],\
     ["@ha/ps5", ["workspace:apps/ps5"]],\
     ["@ha/remote-codespaces", ["workspace:apps/remote-codespaces"]],\
-    ["@ha/samba", ["workspace:apps/samba"]],\
     ["@ha/secret-utils", ["workspace:packages/secret-utils"]],\
     ["@ha/secrets", ["workspace:apps/secrets"]],\
     ["@ha/shell-utils", ["workspace:packages/shell-utils"]],\
     ["@ha/string-utils", ["workspace:packages/string-utils"]],\
     ["@ha/themes-definition", ["workspace:packages/themes/definition"]],\
     ["@ha/themes-slate", ["workspace:packages/themes/slate"]],\
-    ["@ha/tunnel-proxy", ["workspace:apps/tunnel-proxy"]],\
     ["@ha/unifi-client", ["workspace:packages/unifi-client"]],\
     ["@ha/uptime-kuma", ["workspace:apps/uptime-kuma"]],\
-    ["@ha/velero", ["workspace:apps/velero"]],\
     ["@ha/wake-on-lan", ["workspace:apps/wake-on-lan"]],\
     ["@ha/zwavejs", ["workspace:apps/zwavejs"]]\
   ],\
@@ -5859,20 +5829,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@ha/enshrouded", [\
-      ["workspace:apps/enshrouded", {\
-        "packageLocation": "./apps/enshrouded/",\
-        "packageDependencies": [\
-          ["@ha/enshrouded", "workspace:apps/enshrouded"],\
-          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
-          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
-          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
-          ["@ha/kubectl", "workspace:packages/kubectl"],\
-          ["@ha/nx-executors", "workspace:packages/nx-executors"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@ha/env-utils", [\
       ["workspace:packages/env-utils", {\
         "packageLocation": "./packages/env-utils/",\
@@ -5903,21 +5859,6 @@ const RAW_RUNTIME_STATE =
           ["@ha/kubectl", "workspace:packages/kubectl"],\
           ["@ha/nx-executors", "workspace:packages/nx-executors"],\
           ["shelljs", "npm:0.8.5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@ha/game-library-db", [\
-      ["workspace:apps/game-library-db", {\
-        "packageLocation": "./apps/game-library-db/",\
-        "packageDependencies": [\
-          ["@ha/game-library-db", "workspace:apps/game-library-db"],\
-          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
-          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
-          ["@ha/docker", "workspace:packages/docker"],\
-          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
-          ["@ha/kubectl", "workspace:packages/kubectl"],\
-          ["@ha/nx-executors", "workspace:packages/nx-executors"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5999,27 +5940,6 @@ const RAW_RUNTIME_STATE =
           ["libsodium-wrappers", "npm:0.7.10"],\
           ["lodash", "npm:4.17.21"],\
           ["shelljs", "npm:0.8.5"],\
-          ["ts-jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.0.5"],\
-          ["typescript", "patch:typescript@npm%3A4.9.4#optional!builtin<compat/typescript>::version=4.9.4&hash=289587"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@ha/grafana", [\
-      ["workspace:apps/grafana", {\
-        "packageLocation": "./apps/grafana/",\
-        "packageDependencies": [\
-          ["@ha/grafana", "workspace:apps/grafana"],\
-          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
-          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
-          ["@ha/configure-jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#workspace:packages/configure-jest"],\
-          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
-          ["@ha/kubectl", "workspace:packages/kubectl"],\
-          ["@ha/nx-executors", "workspace:packages/nx-executors"],\
-          ["@types/jest", "npm:29.2.5"],\
-          ["@types/node", "npm:18.11.18"],\
-          ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
-          ["jest-when", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:3.5.2"],\
           ["ts-jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.0.5"],\
           ["typescript", "patch:typescript@npm%3A4.9.4#optional!builtin<compat/typescript>::version=4.9.4&hash=289587"]\
         ],\
@@ -6811,21 +6731,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@ha/samba", [\
-      ["workspace:apps/samba", {\
-        "packageLocation": "./apps/samba/",\
-        "packageDependencies": [\
-          ["@ha/samba", "workspace:apps/samba"],\
-          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
-          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
-          ["@ha/docker", "workspace:packages/docker"],\
-          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
-          ["@ha/kubectl", "workspace:packages/kubectl"],\
-          ["@ha/nx-executors", "workspace:packages/nx-executors"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@ha/secret-utils", [\
       ["workspace:packages/secret-utils", {\
         "packageLocation": "./packages/secret-utils/",\
@@ -6924,20 +6829,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@ha/tunnel-proxy", [\
-      ["workspace:apps/tunnel-proxy", {\
-        "packageLocation": "./apps/tunnel-proxy/",\
-        "packageDependencies": [\
-          ["@ha/tunnel-proxy", "workspace:apps/tunnel-proxy"],\
-          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
-          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
-          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
-          ["@ha/kubectl", "workspace:packages/kubectl"],\
-          ["@ha/nx-executors", "workspace:packages/nx-executors"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@ha/unifi-client", [\
       ["workspace:packages/unifi-client", {\
         "packageLocation": "./packages/unifi-client/",\
@@ -6965,20 +6856,6 @@ const RAW_RUNTIME_STATE =
           ["@ha/jsonnet", "workspace:packages/jsonnet"],\
           ["@ha/kubectl", "workspace:packages/kubectl"],\
           ["@ha/nx-executors", "workspace:packages/nx-executors"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@ha/velero", [\
-      ["workspace:apps/velero", {\
-        "packageLocation": "./apps/velero/",\
-        "packageDependencies": [\
-          ["@ha/velero", "workspace:apps/velero"],\
-          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
-          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
-          ["@ha/nx-executors", "workspace:packages/nx-executors"],\
-          ["@types/shelljs", "npm:0.8.12"],\
-          ["shelljs", "npm:0.8.5"]\
         ],\
         "linkType": "SOFT"\
       }]\

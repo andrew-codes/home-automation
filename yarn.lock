@@ -3478,18 +3478,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/enshrouded@workspace:apps/enshrouded":
-  version: 0.0.0-use.local
-  resolution: "@ha/enshrouded@workspace:apps/enshrouded"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/jsonnet": "workspace:^0.0.1"
-    "@ha/kubectl": "workspace:^1.0.0"
-    "@ha/nx-executors": "workspace:^0.1.0"
-  languageName: unknown
-  linkType: soft
-
 "@ha/env-utils@workspace:^0.0.1, @ha/env-utils@workspace:packages/env-utils":
   version: 0.0.0-use.local
   resolution: "@ha/env-utils@workspace:packages/env-utils"
@@ -3517,19 +3505,6 @@ __metadata:
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/nx-executors": "workspace:^0.1.0"
     shelljs: "npm:^0.8.5"
-  languageName: unknown
-  linkType: soft
-
-"@ha/game-library-db@workspace:apps/game-library-db":
-  version: 0.0.0-use.local
-  resolution: "@ha/game-library-db@workspace:apps/game-library-db"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/docker": "workspace:^0.0.1"
-    "@ha/jsonnet": "workspace:^0.0.1"
-    "@ha/kubectl": "workspace:^1.0.0"
-    "@ha/nx-executors": "workspace:^0.1.0"
   languageName: unknown
   linkType: soft
 
@@ -3607,25 +3582,6 @@ __metadata:
     typescript: "npm:^4.9.4"
   bin:
     seal-github-secret: dist/seal.js
-  languageName: unknown
-  linkType: soft
-
-"@ha/grafana@workspace:apps/grafana":
-  version: 0.0.0-use.local
-  resolution: "@ha/grafana@workspace:apps/grafana"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/configure-jest": "workspace:^0.0.1"
-    "@ha/jsonnet": "workspace:^0.0.1"
-    "@ha/kubectl": "workspace:^1.0.0"
-    "@ha/nx-executors": "workspace:^0.1.0"
-    "@types/jest": "npm:^29.2.5"
-    "@types/node": "npm:^18.11.18"
-    jest: "npm:^29.3.1"
-    jest-when: "npm:^3.5.2"
-    ts-jest: "npm:^29.0.5"
-    typescript: "npm:^4.9.4"
   languageName: unknown
   linkType: soft
 
@@ -4318,19 +4274,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/samba@workspace:apps/samba":
-  version: 0.0.0-use.local
-  resolution: "@ha/samba@workspace:apps/samba"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/docker": "workspace:^0.0.1"
-    "@ha/jsonnet": "workspace:^0.0.1"
-    "@ha/kubectl": "workspace:^1.0.0"
-    "@ha/nx-executors": "workspace:^0.1.0"
-  languageName: unknown
-  linkType: soft
-
 "@ha/secret-utils@workspace:^0.0.1, @ha/secret-utils@workspace:packages/secret-utils":
   version: 0.0.0-use.local
   resolution: "@ha/secret-utils@workspace:packages/secret-utils"
@@ -4416,18 +4359,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/tunnel-proxy@workspace:apps/tunnel-proxy":
-  version: 0.0.0-use.local
-  resolution: "@ha/tunnel-proxy@workspace:apps/tunnel-proxy"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/jsonnet": "workspace:^0.0.1"
-    "@ha/kubectl": "workspace:^1.0.0"
-    "@ha/nx-executors": "workspace:^0.1.0"
-  languageName: unknown
-  linkType: soft
-
 "@ha/unifi-client@workspace:^0.1.0, @ha/unifi-client@workspace:packages/unifi-client":
   version: 0.0.0-use.local
   resolution: "@ha/unifi-client@workspace:packages/unifi-client"
@@ -4452,18 +4383,6 @@ __metadata:
     "@ha/jsonnet": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/nx-executors": "workspace:^0.1.0"
-  languageName: unknown
-  linkType: soft
-
-"@ha/velero@workspace:apps/velero":
-  version: 0.0.0-use.local
-  resolution: "@ha/velero@workspace:apps/velero"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/nx-executors": "workspace:^0.1.0"
-    "@types/shelljs": "npm:^0.8.5"
-    shelljs: "npm:^0.8.5"
   languageName: unknown
   linkType: soft
 
