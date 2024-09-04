@@ -2,7 +2,7 @@ local secrets = import '../../../apps/secrets/dist/secrets.jsonnet';
 local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
 local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
 
-local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), std.extVar('secrets'), std.extVar('port'), '8123')
+local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), std.extVar('secrets'), '', '8123')
                    + lib.deployment.withEnvVars(0, [
                      { name: 'DEBUG', value: '' },
                      { name: 'MQTT_HOST', value: 'mqtt' },
@@ -10,43 +10,10 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    ])
                    + lib.deployment.withInitContainer('mqtt-is-ready', std.extVar('registryHostname') + '/mqtt-client:latest', { env: [secrets['mqtt/username'], secrets['mqtt/password']], command: ['sh'], args: ['-c', 'timeout 10 sub -h mqtt -t "\\$SYS/#" -C 1 -u $MQTT_USERNAME -P $MQTT_PASSWORD | grep -v Error || exit 1'] })
                    + lib.deployment.withPersistentVolume('home-assistant-config')
-                   + lib.deployment.withContainer('app-daemon', 'acockburn/appdaemon:dev', {
-                     command: ['sh'],
-                     args: ['-c', 'ln -s /home-assistant/appdaemon.yaml /conf/appdaemon.yaml && ln -s /home-assistant/apps /conf/apps && ln -s /home-assistant/dashboards /conf/dashboards && ln -s /home-assistant/secrets.yaml /conf/secrets.yaml && ./dockerStart.sh'],
-                     livenessProbe: {
-                       tcpSocket: {
-                         port: 5050,
-                       },
-                       initialDelaySeconds: 160,
-                       failureThreshold: 5,
-                       timeoutSeconds: 10,
-                       periodSeconds: 20,
-                     },
-                     readinessProbe: {
-                       tcpSocket: {
-                         port: 5050,
-                       },
-                       initialDelaySeconds: 160,
-                       failureThreshold: 5,
-                       timeoutSeconds: 10,
-                       periodSeconds: 20,
-                     },
-                     startupProbe: {
-                       tcpSocket: {
-                         port: 5050,
-                       },
-                       initialDelaySeconds: 160,
-                       failureThreshold: 30,
-                       timeoutSeconds: 10,
-                       periodSeconds: 10,
-                     },
-                   },)
                    + lib.deployment.withProbe(0, '/')
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('home-assistant-config', '/config',))
                    + lib.deployment.withSecurityContext(0, { privileged: true, allowPrivilegeEscalation: true },)
                    + lib.deployment.withEnvVars(0, [secrets['home-assistant/token'], secrets['home-assistant/server']],)
-                   + lib.deployment.withPort(1, std.extVar('name'), 'appdaemon', 5050)
-                   + lib.deployment.withVolumeMount(1, k.core.v1.volumeMount.new('home-assistant-config', '/home-assistant',))
                    + lib.deployment.withSecurityContext(0, { privileged: true, allowPrivilegeEscalation: true },)
 ;
 local haVolume = lib.volume.persistentNfsVolume.new('home-assistant-config', '10Gi', std.extVar('nfsIp'), std.extVar('nfsUsername'), std.extVar('nfsPassword'))
