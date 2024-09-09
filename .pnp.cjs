@@ -1003,6 +1003,14 @@ const RAW_RUNTIME_STATE =
           ["tslib", "npm:2.6.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:2.1.2", {\
+        "packageLocation": "./.yarn/cache/@azure-abort-controller-npm-2.1.2-a36d73ebb9-484e34a812.zip/node_modules/@azure/abort-controller/",\
+        "packageDependencies": [\
+          ["@azure/abort-controller", "npm:2.1.2"],\
+          ["tslib", "npm:2.6.3"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@azure/core-auth", [\
@@ -1012,6 +1020,16 @@ const RAW_RUNTIME_STATE =
           ["@azure/core-auth", "npm:1.4.0"],\
           ["@azure/abort-controller", "npm:1.1.0"],\
           ["tslib", "npm:2.6.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:1.7.2", {\
+        "packageLocation": "./.yarn/cache/@azure-core-auth-npm-1.7.2-10196debae-c85325c597.zip/node_modules/@azure/core-auth/",\
+        "packageDependencies": [\
+          ["@azure/core-auth", "npm:1.7.2"],\
+          ["@azure/abort-controller", "npm:2.1.2"],\
+          ["@azure/core-util", "npm:1.9.0"],\
+          ["tslib", "npm:2.6.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1069,29 +1087,36 @@ const RAW_RUNTIME_STATE =
           ["tslib", "npm:2.6.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:1.9.0", {\
+        "packageLocation": "./.yarn/cache/@azure-core-util-npm-1.9.0-18f60dbc00-601853796b.zip/node_modules/@azure/core-util/",\
+        "packageDependencies": [\
+          ["@azure/core-util", "npm:1.9.0"],\
+          ["@azure/abort-controller", "npm:2.1.2"],\
+          ["tslib", "npm:2.6.3"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@azure/identity", [\
-      ["npm:3.2.3", {\
-        "packageLocation": "./.yarn/cache/@azure-identity-npm-3.2.3-f2d71d4ea2-97ce50b5cb.zip/node_modules/@azure/identity/",\
+      ["npm:4.2.1", {\
+        "packageLocation": "./.yarn/cache/@azure-identity-npm-4.2.1-857ff0b183-56adf3313a.zip/node_modules/@azure/identity/",\
         "packageDependencies": [\
-          ["@azure/identity", "npm:3.2.3"],\
+          ["@azure/identity", "npm:4.2.1"],\
           ["@azure/abort-controller", "npm:1.1.0"],\
-          ["@azure/core-auth", "npm:1.4.0"],\
+          ["@azure/core-auth", "npm:1.7.2"],\
           ["@azure/core-client", "npm:1.7.3"],\
           ["@azure/core-rest-pipeline", "npm:1.11.0"],\
           ["@azure/core-tracing", "npm:1.0.1"],\
           ["@azure/core-util", "npm:1.3.2"],\
           ["@azure/logger", "npm:1.0.4"],\
-          ["@azure/msal-browser", "npm:2.37.1"],\
-          ["@azure/msal-common", "npm:13.1.0"],\
-          ["@azure/msal-node", "npm:1.17.3"],\
+          ["@azure/msal-browser", "npm:3.18.0"],\
+          ["@azure/msal-node", "npm:2.10.0"],\
           ["events", "npm:3.3.0"],\
           ["jws", "npm:4.0.0"],\
           ["open", "npm:8.4.2"],\
           ["stoppable", "npm:1.1.0"],\
-          ["tslib", "npm:2.6.0"],\
-          ["uuid", "npm:8.3.2"]\
+          ["tslib", "npm:2.6.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1107,30 +1132,30 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@azure/msal-browser", [\
-      ["npm:2.37.1", {\
-        "packageLocation": "./.yarn/cache/@azure-msal-browser-npm-2.37.1-dacfc22172-21f6470267.zip/node_modules/@azure/msal-browser/",\
+      ["npm:3.18.0", {\
+        "packageLocation": "./.yarn/cache/@azure-msal-browser-npm-3.18.0-11e6bd2f3c-a5c6fe215e.zip/node_modules/@azure/msal-browser/",\
         "packageDependencies": [\
-          ["@azure/msal-browser", "npm:2.37.1"],\
-          ["@azure/msal-common", "npm:13.1.0"]\
+          ["@azure/msal-browser", "npm:3.18.0"],\
+          ["@azure/msal-common", "npm:14.13.0"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@azure/msal-common", [\
-      ["npm:13.1.0", {\
-        "packageLocation": "./.yarn/cache/@azure-msal-common-npm-13.1.0-a51b119736-728ead57e1.zip/node_modules/@azure/msal-common/",\
+      ["npm:14.13.0", {\
+        "packageLocation": "./.yarn/cache/@azure-msal-common-npm-14.13.0-f77242c157-0e908b8d95.zip/node_modules/@azure/msal-common/",\
         "packageDependencies": [\
-          ["@azure/msal-common", "npm:13.1.0"]\
+          ["@azure/msal-common", "npm:14.13.0"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@azure/msal-node", [\
-      ["npm:1.17.3", {\
-        "packageLocation": "./.yarn/cache/@azure-msal-node-npm-1.17.3-84d38ad11d-17981052f3.zip/node_modules/@azure/msal-node/",\
+      ["npm:2.10.0", {\
+        "packageLocation": "./.yarn/cache/@azure-msal-node-npm-2.10.0-808d107ec3-7a57d371b2.zip/node_modules/@azure/msal-node/",\
         "packageDependencies": [\
-          ["@azure/msal-node", "npm:1.17.3"],\
-          ["@azure/msal-common", "npm:13.1.0"],\
+          ["@azure/msal-node", "npm:2.10.0"],\
+          ["@azure/msal-common", "npm:14.13.0"],\
           ["jsonwebtoken", "npm:9.0.0"],\
           ["uuid", "npm:8.3.2"]\
         ],\
@@ -5966,7 +5991,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./apps/guest-pin-codes/",\
         "packageDependencies": [\
           ["@ha/guest-pin-codes", "workspace:apps/guest-pin-codes"],\
-          ["@azure/identity", "npm:3.2.3"],\
+          ["@azure/identity", "npm:4.2.1"],\
           ["@ha/build-ts", "workspace:packages/build-ts"],\
           ["@ha/configuration-api", "workspace:packages/configuration-api"],\
           ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
@@ -7350,7 +7375,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/__virtual__/@microsoft-microsoft-graph-client-virtual-f0a0150da5/0/cache/@microsoft-microsoft-graph-client-npm-3.0.5-d750c33a26-6190f78233.zip/node_modules/@microsoft/microsoft-graph-client/",\
         "packageDependencies": [\
           ["@microsoft/microsoft-graph-client", "virtual:ba3c80966cccf6320af56404fcf85305a3d9b6b7f8847a170d1274f6a04d1592f5e64a978de39768c916537ebaff609533bc041dee86b301e2e4016832b1a9d9#npm:3.0.5"],\
-          ["@azure/identity", "npm:3.2.3"],\
+          ["@azure/identity", "npm:4.2.1"],\
           ["@azure/msal-browser", null],\
           ["@babel/runtime", "npm:7.19.4"],\
           ["@types/azure__identity", null],\
@@ -21913,6 +21938,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/tslib-npm-2.6.0-4d336a6824-52360693c6.zip/node_modules/tslib/",\
         "packageDependencies": [\
           ["tslib", "npm:2.6.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:2.6.3", {\
+        "packageLocation": "./.yarn/cache/tslib-npm-2.6.3-0fd136b3be-52109bb681.zip/node_modules/tslib/",\
+        "packageDependencies": [\
+          ["tslib", "npm:2.6.3"]\
         ],\
         "linkType": "HARD"\
       }]\
