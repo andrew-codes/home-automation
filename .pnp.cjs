@@ -62,10 +62,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:apps/guest-pin-codes"\
     },\
     {\
-      "name": "@ha/guest-registrar",\
-      "reference": "workspace:apps/guest-registrar"\
-    },\
-    {\
       "name": "@ha/guest-wifi-registrar",\
       "reference": "workspace:apps/guest-wifi-registrar"\
     },\
@@ -326,7 +322,6 @@ const RAW_RUNTIME_STATE =
     ["@ha/github-secrets", ["workspace:packages/github-secrets"]],\
     ["@ha/guest-db", ["workspace:apps/guest-db"]],\
     ["@ha/guest-pin-codes", ["workspace:apps/guest-pin-codes"]],\
-    ["@ha/guest-registrar", ["workspace:apps/guest-registrar"]],\
     ["@ha/guest-wifi-registrar", ["workspace:apps/guest-wifi-registrar"]],\
     ["@ha/guest-wifi-renewal", ["workspace:apps/guest-wifi-renewal"]],\
     ["@ha/ha-entity-utils", ["workspace:packages/ha-entity-utils"]],\
@@ -6003,40 +5998,6 @@ const RAW_RUNTIME_STATE =
           ["redux-saga", "npm:1.3.0"],\
           ["redux-saga-test-plan", "virtual:ba3c80966cccf6320af56404fcf85305a3d9b6b7f8847a170d1274f6a04d1592f5e64a978de39768c916537ebaff609533bc041dee86b301e2e4016832b1a9d9#npm:4.0.6"],\
           ["ts-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#npm:29.0.5"],\
-          ["typescript", "patch:typescript@npm%3A4.9.4#optional!builtin<compat/typescript>::version=4.9.4&hash=289587"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@ha/guest-registrar", [\
-      ["workspace:apps/guest-registrar", {\
-        "packageLocation": "./apps/guest-registrar/",\
-        "packageDependencies": [\
-          ["@ha/guest-registrar", "workspace:apps/guest-registrar"],\
-          ["@ha/build-ts", "workspace:packages/build-ts"],\
-          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
-          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
-          ["@ha/configure-jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#workspace:packages/configure-jest"],\
-          ["@ha/docker", "workspace:packages/docker"],\
-          ["@ha/ha-entity-utils", "workspace:packages/ha-entity-utils"],\
-          ["@ha/http-heartbeat", "workspace:packages/http-heartbeat"],\
-          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
-          ["@ha/kubectl", "workspace:packages/kubectl"],\
-          ["@ha/logger", "workspace:packages/logger"],\
-          ["@ha/mqtt-client", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/mqtt-client"],\
-          ["@ha/nx-executors", "workspace:packages/nx-executors"],\
-          ["@types/jest", "npm:29.2.5"],\
-          ["@types/node", "npm:18.11.18"],\
-          ["async-mqtt", "npm:2.6.3"],\
-          ["jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.3.1"],\
-          ["jest-when", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:3.5.2"],\
-          ["lodash", "npm:4.17.21"],\
-          ["mongodb", "npm:4.6.0"],\
-          ["nodemon", "npm:2.0.20"],\
-          ["redux", "npm:4.2.0"],\
-          ["redux-saga", "npm:1.2.2"],\
-          ["reselect", "npm:4.1.7"],\
-          ["ts-jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.0.5"],\
           ["typescript", "patch:typescript@npm%3A4.9.4#optional!builtin<compat/typescript>::version=4.9.4&hash=289587"]\
         ],\
         "linkType": "SOFT"\

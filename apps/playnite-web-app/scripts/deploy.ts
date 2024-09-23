@@ -20,7 +20,8 @@ const run = async (
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      image: `ghcr.io/andrew-codes/playnite-web-app:6-latest`,
+      host: "games.smith-simms.family",
+      image: `ghcr.io/andrew-codes/playnite-web-app:7-latest`,
       name,
       nfsPassword: nfsPassword.value,
       nfsUsername: nfsUsername.value,
@@ -48,6 +49,7 @@ const run = async (
   const stagingResources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
+      host: "games-staging.smith-simms.family",
       image: `ghcr.io/andrew-codes/playnite-web-app:dev`,
       name: `${name}-staging`,
       nfsPassword: nfsPassword.value,

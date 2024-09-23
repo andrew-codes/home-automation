@@ -3643,38 +3643,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/guest-registrar@workspace:apps/guest-registrar":
-  version: 0.0.0-use.local
-  resolution: "@ha/guest-registrar@workspace:apps/guest-registrar"
-  dependencies:
-    "@ha/build-ts": "workspace:^1.0.0"
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/configure-jest": "workspace:^0.0.1"
-    "@ha/docker": "workspace:^0.0.1"
-    "@ha/ha-entity-utils": "workspace:^0.0.1"
-    "@ha/http-heartbeat": "workspace:^0.0.1"
-    "@ha/jsonnet": "workspace:^0.0.1"
-    "@ha/kubectl": "workspace:^1.0.0"
-    "@ha/logger": "workspace:^0.0.1"
-    "@ha/mqtt-client": "workspace:^0.0.1"
-    "@ha/nx-executors": "workspace:^0.1.0"
-    "@types/jest": "npm:^29.2.5"
-    "@types/node": "npm:^18.11.18"
-    async-mqtt: "npm:^2.6.3"
-    jest: "npm:^29.3.1"
-    jest-when: "npm:^3.5.2"
-    lodash: "npm:^4.17.21"
-    mongodb: "npm:~4.6.0"
-    nodemon: "npm:^2.0.20"
-    redux: "npm:^4.2.0"
-    redux-saga: "npm:^1.2.2"
-    reselect: "npm:^4.1.7"
-    ts-jest: "npm:^29.0.5"
-    typescript: "npm:^4.9.4"
-  languageName: unknown
-  linkType: soft
-
 "@ha/guest-wifi-registrar@workspace:apps/guest-wifi-registrar":
   version: 0.0.0-use.local
   resolution: "@ha/guest-wifi-registrar@workspace:apps/guest-wifi-registrar"
