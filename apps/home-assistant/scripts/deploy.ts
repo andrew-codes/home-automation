@@ -25,59 +25,12 @@ const run = async (
   const webrtcPort = await configurationApi.get(
     "home-assistant/webrtc/api/port",
   )
-  const secrets: Array<keyof Configuration> = [
-    "mqtt/password",
-    "mqtt/username",
-    "home-assistant/appdaemon/password",
-    "home-assistant/appdaemon/url",
-    "home-assistant/domain",
-    "home-assistant/elevation",
-    "home-assistant/game-room/gaming-pc/ip",
-    "home-assistant/game-room/gaming-pc/mac",
-    "home-assistant/game-room/gaming-pc/machine-username",
-    "home-assistant/game-room/nintendo-switch/ip",
-    "home-assistant/game-room/nvidia-shield/ip",
-    "home-assistant/game-room/playstation-5/ip",
-    "home-assistant/game-room/tv/ip",
-    "home-assistant/game-room/tv/mac",
-    "home-assistant/github/token",
-    "home-assistant/google/calendar/client-id",
-    "home-assistant/google/calendar/client-secret",
-    "home-assistant/ssh-key/private",
-    "home-assistant/ssh-key/public",
-    "home-assistant/influxdb/token",
-    "home-assistant/github-authorization-header",
-    "home-assistant/latitude",
-    "home-assistant/longitude",
-    "home-assistant/o365-client-id",
-    "home-assistant/o365-client-secret",
-    "home-assistant/port/external",
-    "home-assistant/postgres/db",
-    "home-assistant/postgres/password",
-    "home-assistant/postgres/username",
-    "home-assistant/spotcast/dc-2",
-    "home-assistant/spotcast/dc",
-    "home-assistant/spotcast/key-2",
-    "home-assistant/spotcast/key",
-    "home-assistant/spotify/client-id",
-    "home-assistant/spotify/client-secret",
-    "home-assistant/time-zone",
-    "home-assistant/token",
-    "home-assistant/unit-system",
-    "home-assistant/url",
-    "home-assistant/withings/client-id",
-    "home-assistant/withings/client-secret",
-    "influxdb/org-id",
-    "unifi/ip",
-    "unifi/password",
-    "unifi/username",
-  ]
+  const secrets: Array<keyof Configuration> = []
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      image: `${registry.value}/${name}:latest`,
+      image: "homeassistant/home-assistant:2024.9.2",
       name,
-      postgresImage: "postgres:13.3-alpine",
       repositoryName: repositoryName.value,
       repositoryOwner: repositoryOwner.value,
       registryHostname: registry.value,
@@ -87,9 +40,6 @@ const run = async (
       nfsPassword: nfsPassword.value,
       nfsUsername: nfsUsername.value,
       nfsIp: nfsIp.value,
-      postgresDb: postgresDb.value,
-      postgresUsername: postgresUsername.value,
-      postgresPassword: postgresPassword.value,
     },
   )
   const resourceJson = JSON.parse(resources)
@@ -99,8 +49,6 @@ const run = async (
     ),
   )
 
-  await kubectl.rolloutDeployment("restart", "esphome")
-  await kubectl.rolloutDeployment("restart", "piper")
   await kubectl.rolloutDeployment("restart", name)
 }
 

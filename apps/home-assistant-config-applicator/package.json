@@ -1,9 +1,0 @@
-{
-  "name": "@ha/home-assistant-config-applicator",
-  "devDependencies": {
-    "@ha/configuration-api": "workspace:^0.0.1",
-    "@ha/configuration-workspace": "workspace:^0.0.1",
-    "@ha/docker": "workspace:^0.0.1",
-    "@ha/nx-executors": "workspace:^0.1.0"
-  }
-}

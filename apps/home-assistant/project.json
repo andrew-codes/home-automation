@@ -4,26 +4,11 @@
   "sourceRoot": "apps/home-assistant/src",
   "projectType": "application",
   "targets": {
-    "image/push": {
-      "executor": "@ha/nx-executors:invoke",
-      "options": {
-        "module": "scripts/image-push.ts",
-        "cwd": "apps/home-assistant"
-      },
-      "dependsOn": [{ "target": "image/push/pre", "projects": "self" }]
-    },
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/home-assistant",
         "module": "scripts/deploy.ts"
-      }
-    },
-    "image/push/pre": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "command": "mkdir -p dist && cp ../home-assistant-config-applicator/sync.sh dist/sync.sh",
-        "cwd": "apps/home-assistant"
       }
     },
     "serve": {
