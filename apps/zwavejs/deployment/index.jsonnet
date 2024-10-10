@@ -13,29 +13,6 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withPort(0, std.extVar('name'), 'ws', 3000, std.extVar('wsPort'))
                    + lib.deployment.withPersistentVolume('zwave')
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('zwave', '/usr/src/app/store',))
-                   + {
-                     deployment+: {
-                       spec+: {
-                         template+: {
-                           spec+: {
-                             volumes+: [
-                               k.core.v1.volume.fromHostPath('zwave-usb', '/dev/ttyUSB1'),
-                             ],
-                           },
-                         },
-                       },
-                     },
-                   }
-                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('zwave-usb', '/dev/ttyUSB1',))
-                   + lib.deployment.withAffinity({
-                     nodeAffinity: {
-                       requiredDuringSchedulingIgnoredDuringExecution: {
-                         nodeSelectorTerms: [
-                           { matchExpressions: [{ key: 'kubernetes.io/hostname', operator: 'In', values: ['k8s-main'] }] },
-                         ],
-                       },
-                     },
-                   },)
 ;
 
 local pvc = lib.volume.persistentNfsVolume.new('zwave', '5Gi', std.extVar('nfsIp'), std.extVar('nfsUsername'), std.extVar('nfsPassword'))
