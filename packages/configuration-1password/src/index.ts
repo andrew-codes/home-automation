@@ -6,6 +6,8 @@ const configurationNames = [
   "captive-portal/host",
   "captive-portal/port/external",
   "cloudflared/config",
+  "coder/db/username",
+  "coder/db/password",
   "crowdsec/elastic/password",
   "crowdsec/bouncer/nginx/key",
   "crowdsec/api/port/external",

@@ -1,0 +1,17 @@
+{
+  "name": "coder",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/coder/src",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/coder",
+        "module": "scripts/deploy.ts"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

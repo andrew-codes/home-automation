@@ -30,6 +30,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:apps/cloudflared"\
     },\
     {\
+      "name": "@ha/coder",\
+      "reference": "workspace:apps/coder"\
+    },\
+    {\
       "name": "@ha/docker-creds",\
       "reference": "workspace:apps/docker-creds"\
     },\
@@ -72,10 +76,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@ha/home-assistant",\
       "reference": "workspace:apps/home-assistant"\
-    },\
-    {\
-      "name": "@ha/home-assistant-config-applicator",\
-      "reference": "workspace:apps/home-assistant-config-applicator"\
     },\
     {\
       "name": "@ha/influxdb",\
@@ -304,6 +304,7 @@ const RAW_RUNTIME_STATE =
     ["@ha/cert-manager", ["workspace:apps/cert-manager"]],\
     ["@ha/cli-utils", ["workspace:packages/cli-utils"]],\
     ["@ha/cloudflared", ["workspace:apps/cloudflared"]],\
+    ["@ha/coder", ["workspace:apps/coder"]],\
     ["@ha/configuration-1password", ["workspace:packages/configuration-1password"]],\
     ["@ha/configuration-api", ["workspace:packages/configuration-api"]],\
     ["@ha/configuration-env-secrets", ["workspace:packages/configuration-env-secrets"]],\
@@ -326,7 +327,6 @@ const RAW_RUNTIME_STATE =
     ["@ha/guest-wifi-renewal", ["workspace:apps/guest-wifi-renewal"]],\
     ["@ha/ha-entity-utils", ["workspace:packages/ha-entity-utils"]],\
     ["@ha/home-assistant", ["workspace:apps/home-assistant"]],\
-    ["@ha/home-assistant-config-applicator", ["workspace:apps/home-assistant-config-applicator"]],\
     ["@ha/http-heartbeat", ["workspace:packages/http-heartbeat"]],\
     ["@ha/influxdb", ["workspace:apps/influxdb"]],\
     ["@ha/infrastructure-debian-cloudinit", ["workspace:apps/infrastructure-debian-cloudinit"]],\
@@ -5573,6 +5573,23 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@ha/coder", [\
+      ["workspace:apps/coder", {\
+        "packageLocation": "./apps/coder/",\
+        "packageDependencies": [\
+          ["@ha/coder", "workspace:apps/coder"],\
+          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+          ["@ha/docker", "workspace:packages/docker"],\
+          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
+          ["@ha/kubectl", "workspace:packages/kubectl"],\
+          ["@ha/nx-executors", "workspace:packages/nx-executors"],\
+          ["@types/shelljs", "npm:0.8.12"],\
+          ["shelljs", "npm:0.8.5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@ha/configuration-1password", [\
       ["workspace:packages/configuration-1password", {\
         "packageLocation": "./packages/configuration-1password/",\
@@ -6098,19 +6115,6 @@ const RAW_RUNTIME_STATE =
           ["@ha/docker", "workspace:packages/docker"],\
           ["@ha/jsonnet", "workspace:packages/jsonnet"],\
           ["@ha/kubectl", "workspace:packages/kubectl"],\
-          ["@ha/nx-executors", "workspace:packages/nx-executors"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@ha/home-assistant-config-applicator", [\
-      ["workspace:apps/home-assistant-config-applicator", {\
-        "packageLocation": "./apps/home-assistant-config-applicator/",\
-        "packageDependencies": [\
-          ["@ha/home-assistant-config-applicator", "workspace:apps/home-assistant-config-applicator"],\
-          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
-          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
-          ["@ha/docker", "workspace:packages/docker"],\
           ["@ha/nx-executors", "workspace:packages/nx-executors"]\
         ],\
         "linkType": "SOFT"\

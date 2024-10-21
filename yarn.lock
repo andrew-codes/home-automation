@@ -3319,6 +3319,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ha/coder@workspace:apps/coder":
+  version: 0.0.0-use.local
+  resolution: "@ha/coder@workspace:apps/coder"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/nx-executors": "workspace:^0.1.0"
+    "@types/shelljs": "npm:^0.8.5"
+    shelljs: "npm:^0.8.5"
+  languageName: unknown
+  linkType: soft
+
 "@ha/configuration-1password@workspace:^0.0.1, @ha/configuration-1password@workspace:packages/configuration-1password":
   version: 0.0.0-use.local
   resolution: "@ha/configuration-1password@workspace:packages/configuration-1password"
@@ -3719,17 +3734,6 @@ __metadata:
     lodash: "npm:^4.17.21"
     ts-jest: "npm:^29.0.5"
     typescript: "npm:^4.9.4"
-  languageName: unknown
-  linkType: soft
-
-"@ha/home-assistant-config-applicator@workspace:apps/home-assistant-config-applicator":
-  version: 0.0.0-use.local
-  resolution: "@ha/home-assistant-config-applicator@workspace:apps/home-assistant-config-applicator"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/docker": "workspace:^0.0.1"
-    "@ha/nx-executors": "workspace:^0.1.0"
   languageName: unknown
   linkType: soft
 
