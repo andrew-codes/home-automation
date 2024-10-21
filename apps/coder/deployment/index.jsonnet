@@ -44,19 +44,7 @@ local postgresService = k.core.v1.service.new('coder-postgres', { name: 'coder-p
   targetPort: 'db',
 }],);
 local postgresVolume = lib.volume.persistentVolume.new('coder-postgres', '20Gi');
-local coderWorkspaceVolume = k.core.v1.persistentVolume.new('coder-workspace-pv')
-                             + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
-                             + k.core.v1.persistentVolume.spec.withStorageClassName('nfs')
-                             + k.core.v1.persistentVolume.spec.withCapacity({ storage: '20Gi' })
-                             + k.core.v1.persistentVolume.spec.nfs.withPath('/volume1/k8s-data/coder-workspace')
-                             + k.core.v1.persistentVolume.spec.nfs.withServer(std.extVar('nfsIp'))
-                             + k.core.v1.persistentVolume.spec.nfs.withReadOnly(false)
-                             + k.core.v1.persistentVolume.spec.withMountOptions(['nfsvers=4.1'])
-                             + k.core.v1.persistentVolume.spec.withVolumeMode('Filesystem')
-                             + k.core.v1.persistentVolume.spec.withPersistentVolumeReclaimPolicy('Recycle')
-;
 
 []
 + postgresVolume
-+ [coderWorkspaceVolume]
 + [postgresDeployment, postgresService]

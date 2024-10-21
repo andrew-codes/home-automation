@@ -25,9 +25,6 @@ const run = async (
 
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
-    {
-      nfsIp: (await configurationApi.get("nfs/ip")).value,
-    },
   )
   const resourceJson = JSON.parse(resources)
   await Promise.all(
