@@ -10,6 +10,13 @@
         "cwd": "apps/coder",
         "module": "scripts/deploy.ts"
       }
+    },
+    "image/push": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "apps/coder",
+        "module": "scripts/image-push.ts"
+      }
     }
   },
   "tags": [],

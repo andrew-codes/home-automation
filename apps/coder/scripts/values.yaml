@@ -13,3 +13,11 @@ coder:
     enable: true
     type: ClusterIP
     externalTrafficPolicy: Local
+image:
+  repo: "docker-registry.smith-simms.family/coder"
+  tag: "latest"
+  pullSecrets:
+    - name: regcred
+  pullPolicy: Always
+  securityContext:
+    runAsNonRoot: false

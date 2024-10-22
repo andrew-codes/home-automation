@@ -32,6 +32,8 @@ const run = async (
       kubectl.applyToCluster(JSON.stringify(resource)),
     ),
   )
+
+  await kubectl.rolloutDeployment("restart", "coder")
 }
 
 export default run
