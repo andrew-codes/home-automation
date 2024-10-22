@@ -22,6 +22,12 @@ const run = async (
       "values.yaml",
     )} --version 2.16.0`,
   )
+  sh.exec(
+    `helm upgrade coder coder-v2/coder -f ${path.join(
+      __dirname,
+      "values.yaml",
+    )}`,
+  )
 
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
@@ -32,8 +38,6 @@ const run = async (
       kubectl.applyToCluster(JSON.stringify(resource)),
     ),
   )
-
-  await kubectl.rolloutDeployment("restart", "coder")
 }
 
 export default run
