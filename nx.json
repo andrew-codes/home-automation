@@ -6,7 +6,6 @@
         "cacheableOperations": [
           "compile",
           "generate",
-          "image/push",
           "lint",
           "prepare",
           "prestart",
