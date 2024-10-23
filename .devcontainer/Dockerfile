@@ -56,6 +56,7 @@ RUN apt-get install -y \
     xsel
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
+RUN rm -f ~/.ssh/environment
 
 # terraform
 RUN CURRR_VER=$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M '.current_version') \
@@ -72,8 +73,19 @@ RUN locale-gen
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
+RUN pip3 install "pywinrm>=0.3.0"
+RUN pip3 install "PyYAML"
+RUN ansible-galaxy collection install ansible.windows
+RUN ansible-galaxy collection install community.windows
+RUN ansible-galaxy collection install kubernetes.core
 
-RUN rm -f ~/.ssh/environment
+# Jsonnet
+RUN go install github.com/google/go-jsonnet/cmd/jsonnet@latest
+RUN go install -a github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
+RUN ln -s $(go env GOPATH)/bin/jsonnet /usr/local/bin
+RUN ln -s $(go env GOPATH)/bin/jb /usr/local/bin
 
-# rover
-RUN curl -sSL https://rover.apollo.dev/nix/latest | sh
+RUN mkdir -p ~/.kube
+COPY .devcontainer/bash_profile_setup.sh /root/.bash_profile_setup.sh
+RUN echo "source ~/.bash_profile_setup.sh" >>/root/.bashrc
+RUN echo "source ~/.bash_profile_setup.sh" >>/root/.bash_profile

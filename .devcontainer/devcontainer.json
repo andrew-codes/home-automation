@@ -17,9 +17,6 @@
     "ghcr.io/devcontainers-contrib/features/kubectl-asdf:2": {}
   },
   "customizations": {
-    "devpod": {
-      "prebuildRepository": "ghcr.io/andrew-codes/home-automation"
-    },
     "vscode": {
       "settings": {
         "terminal.integrated.profiles.linux": {
@@ -80,8 +77,5 @@
     "--cap-add=NET_RAW",
     "--security-opt",
     "seccomp=unconfined"
-  ],
-  "containerEnv": {
-    "DISPLAY": "localhost:0"
-  }
+  ]
 }
