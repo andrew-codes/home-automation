@@ -86,6 +86,6 @@ RUN ln -s $(go env GOPATH)/bin/jsonnet /usr/local/bin
 RUN ln -s $(go env GOPATH)/bin/jb /usr/local/bin
 
 RUN mkdir -p ~/.kube
-COPY .devcontainer/bash_profile_setup.sh /root/.bash_profile_setup.sh
+COPY bash_profile_setup.sh /root/.bash_profile_setup.sh
 RUN echo "source ~/.bash_profile_setup.sh" >>/root/.bashrc
 RUN echo "source ~/.bash_profile_setup.sh" >>/root/.bash_profile
