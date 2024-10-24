@@ -57,5 +57,4 @@ ENV LC_ALL en_US.UTF-8
 
 RUN mkdir -p ~/.kube
 COPY bash_profile_setup.sh /root/.bash_profile_setup.sh
-RUN echo "source ~/.bash_profile_setup.sh" >>/root/.bashrc
 RUN echo "source ~/.bash_profile_setup.sh" >>/root/.bash_profile
