@@ -2,61 +2,39 @@ FROM mcr.microsoft.com/devcontainers/base:bullseye
 USER root
 ENV OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
-RUN apt update -y
+RUN apt update -y --fix-missing
 
 RUN apt-get install -y \
     apt-transport-https
 
 RUN apt-get install -y \
-    curl \
-    gettext \
-    gnupg \
-    gnupg2 \
-    gpg \
-    libexpat1-dev \
-    libssl-dev \
-    make \
-    software-properties-common \
-    unzip
-
-RUN mkdir -p /etc/apt/keyrings/
-
-# Ansible
-RUN echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu focal main"
-RUN add-apt-repository -y --update ppa:ansible/ansible
-RUN add-apt-repository -y --update ppa:deadsnakes/ppa
-
-RUN apt update -y --fix-missing
-RUN apt-get upgrade -y
-
-RUN apt-get install -y \
-    ansible \
-    ansible-lint \
-    bash \
     ca-certificates \
+    curl \
     dbus-user-session \
     dnsutils \
     etherwake \
+    gettext \
     gettext-base \
+    gnupg \
+    gnupg2 \
     iptables \
     iputils-ping \
+    libexpat1-dev \
+    libssl-dev \
     libssl3 \
     locales \
     lxc \
+    make \
     mosquitto-clients \
     nano \
     net-tools \
-    python-apt-common \
-    python3-apt \
-    python3-pip \
     snmp \
+    software-properties-common \
     sshfs \
     sshpass \
     sudo \
+    unzip \
     xsel
-
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
-RUN rm -f ~/.ssh/environment
 
 # terraform
 RUN CURRR_VER=$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M '.current_version') \
@@ -78,7 +56,3 @@ RUN mkdir -p ~/.kube
 COPY bash_profile_setup.sh /root/.bash_profile_setup.sh
 RUN echo "source ~/.bash_profile_setup.sh" >>/root/.bashrc
 RUN echo "source ~/.bash_profile_setup.sh" >>/root/.bash_profile
-
-# updated git
-RUN git clone https://github.com/git/git.git
-RUN cd git && git checkout v2.38.1 && make prefix=/usr/local all && make prefix=/usr/local install

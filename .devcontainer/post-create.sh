@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-git config --global --add safe.directory /workspaces/home-automation
 /usr/local/share/docker-init.sh
 
 corepack enable
@@ -25,3 +24,5 @@ pip3 install "PyYAML"
 ansible-galaxy collection install ansible.windows
 ansible-galaxy collection install community.windows
 ansible-galaxy collection install kubernetes.core
+
+git config --global --add safe.directory /workspaces/home-automation
