@@ -50,6 +50,7 @@ RUN apt-get install -y \
     python-apt-common \
     python3-apt \
     python3-pip \
+    python3.11 \
     snmp \
     sshfs \
     sshpass \
@@ -80,7 +81,9 @@ RUN ansible-galaxy collection install ansible.windows
 RUN ansible-galaxy collection install community.windows
 RUN ansible-galaxy collection install kubernetes.core
 
-# Jsonnet
+# go/ jsonnet
+RUN curl -s https://dl.google.com/go/go1.18.1.linux-amd64.tar.gz | tar -xz -C /usr/local
+RUN ln -s /usr/local/go/bin/go /usr/local/bin
 RUN go install github.com/google/go-jsonnet/cmd/jsonnet@latest
 RUN go install -a github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
 RUN ln -s $(go env GOPATH)/bin/jsonnet /usr/local/bin
@@ -90,3 +93,17 @@ RUN mkdir -p ~/.kube
 COPY bash_profile_setup.sh /root/.bash_profile_setup.sh
 RUN echo "source ~/.bash_profile_setup.sh" >>/root/.bashrc
 RUN echo "source ~/.bash_profile_setup.sh" >>/root/.bash_profile
+
+# yq
+RUN curl https://github.com/mikefarah/yq/releases/download/v4.6.3/yq_linux_amd64 -o /usr/local/bin/yq
+RUN chmod +x /usr/local/bin/yq
+
+# helm
+RUN curl -fsSL -o helm.tar.gz https://get.helm.sh/helm-v3.6.1-linux-amd64.tar.gz
+RUN tar -zxvf helm.tar.gz
+RUN mv linux-amd64/helm /usr/local/bin/helm
+RUN chmod +x /usr/local/bin/helm
+
+# updated git
+RUN git clone https://github.com/git/git.git
+RUN cd git && git checkout v2.38.1 && make prefix=/usr/local all && make prefix=/usr/local install

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
+git config --global --add safe.directory /workspaces/home-automation
+
 corepack enable
 corepack use yarn@4.1.1
 
