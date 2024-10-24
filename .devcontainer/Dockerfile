@@ -50,7 +50,6 @@ RUN apt-get install -y \
     python-apt-common \
     python3-apt \
     python3-pip \
-    python3.11 \
     snmp \
     sshfs \
     sshpass \
@@ -75,20 +74,11 @@ RUN locale-gen
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
-RUN pip3 install "pywinrm>=0.3.0"
-RUN pip3 install "PyYAML"
-RUN ansible-galaxy collection install ansible.windows
-RUN ansible-galaxy collection install community.windows
-RUN ansible-galaxy collection install kubernetes.core
 
 RUN mkdir -p ~/.kube
 COPY bash_profile_setup.sh /root/.bash_profile_setup.sh
 RUN echo "source ~/.bash_profile_setup.sh" >>/root/.bashrc
 RUN echo "source ~/.bash_profile_setup.sh" >>/root/.bash_profile
-
-# yq
-RUN curl https://github.com/mikefarah/yq/releases/download/v4.6.3/yq_linux_amd64 -o /usr/local/bin/yq
-RUN chmod +x /usr/local/bin/yq
 
 # updated git
 RUN git clone https://github.com/git/git.git
