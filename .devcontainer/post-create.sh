@@ -6,7 +6,7 @@ set -e
 corepack enable
 corepack use yarn
 yarn set version 4.5.1
-yarn dlx @yarnpkg/sdks
+yarn dlx @yarnpkg/sdks vscode
 
 go install github.com/google/go-jsonnet/cmd/jsonnet@latest
 go install -a github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
