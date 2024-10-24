@@ -29,7 +29,7 @@ const run = async (
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      image: "homeassistant/home-assistant:2024.10.1",
+      image: "homeassistant/home-assistant:2024.10.3",
       name,
       repositoryName: repositoryName.value,
       repositoryOwner: repositoryOwner.value,
