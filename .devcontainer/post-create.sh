@@ -14,3 +14,8 @@ ONEPASSWORD_SERVER_URL=""
 ONEPASSWORD_TOKEN=""
 ONEPASSWORD_VAULT_ID=""
 " >.secrets.env
+
+go install github.com/google/go-jsonnet/cmd/jsonnet@latest
+go install -a github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
+ln -s $(go env GOPATH)/bin/jsonnet /usr/local/bin
+ln -s $(go env GOPATH)/bin/jb /usr/local/bin
