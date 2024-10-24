@@ -2,9 +2,11 @@
 set -e
 
 git config --global --add safe.directory /workspaces/home-automation
+/usr/local/share/docker-init.sh
 
 corepack enable
-corepack use yarn@4.1.1
+corepack use yarn
+yarn set version 4.1.1
 
 touch .secrets.env
 echo -e "
