@@ -20,3 +20,5 @@ ansible-galaxy collection install community.windows
 ansible-galaxy collection install kubernetes.core
 
 git config --global --add safe.directory /workspaces/home-automation
+
+jb install
