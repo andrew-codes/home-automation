@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/base:bullseye
+FROM mcr.microsoft.com/devcontainers/base:bookworm
 USER root
 ENV OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
@@ -8,6 +8,7 @@ RUN apt-get install -y \
     apt-transport-https
 
 RUN apt-get install -y \
+    build-essential \
     ca-certificates \
     curl \
     dbus-user-session \
@@ -20,8 +21,8 @@ RUN apt-get install -y \
     iptables \
     iputils-ping \
     libexpat1-dev \
-    libssl-dev \
     libssl3 \
+    libssl-dev \
     locales \
     lxc \
     make \
@@ -34,7 +35,9 @@ RUN apt-get install -y \
     sshpass \
     sudo \
     unzip \
-    xsel
+    xsel \
+    zlib1g-dev
+
 
 # terraform
 RUN CURRR_VER=$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M '.current_version') \
