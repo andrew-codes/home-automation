@@ -49,6 +49,7 @@ RUN apt-get install -y \
     net-tools \
     python-apt-common \
     python3-apt \
+    python3-pip \
     snmp \
     sshfs \
     sshpass \
