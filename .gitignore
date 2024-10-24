@@ -13,6 +13,7 @@ terraform.tfstate*
 .terraform*lock*
 .yarn-cache
 *.env
+!example.secrets.env
 id_rsa
 /vendor
 .test-runs
