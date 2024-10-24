@@ -1,7 +1,6 @@
-FROM mcr.microsoft.com/devcontainers/base:ubuntu-22.04
-ENV DEBIAN_FRONTEND=noninteractive
-ENV OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+FROM mcr.microsoft.com/devcontainers/base:bullseye
 USER root
+ENV OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
 RUN apt update -y
 
