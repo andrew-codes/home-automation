@@ -38,12 +38,6 @@ RUN apt-get install -y \
     xsel \
     zlib1g-dev
 
-
-# terraform
-RUN CURRR_VER=$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M '.current_version') \
-    curl -q "https://releases.hashicorp.com/terraform/${CURRR_VER#?}/terraform_${CURRR_VER#?}_linux_amd64.zip" -o /usr/local/bin/terraform
-RUN chmod +x /usr/local/bin/terraform
-
 # Telepresence
 RUN curl -fL https://app.getambassador.io/download/tel2/linux/amd64/latest/telepresence -o /usr/local/bin/telepresence
 RUN chmod a+x /usr/local/bin/telepresence
