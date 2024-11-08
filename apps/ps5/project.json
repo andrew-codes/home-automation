@@ -4,63 +4,11 @@
   "sourceRoot": "apps/ps5/src",
   "projectType": "application",
   "targets": {
-    "clean": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["{projectRoot}/dist", "{projectRoot}/.test-runs"],
-      "options": {
-        "command": "rm -rf dist .test-runs",
-        "cwd": "apps/ps5"
-      }
-    },
-    "compile": {
-      "executor": "@ha/nx-executors:invoke",
-      "outputs": ["{projectRoot}/dist"],
-      "options": {
-        "module": "scripts/compile.ts",
-        "cwd": "apps/ps5"
-      }
-    },
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
         "cwd": "apps/ps5",
         "module": "scripts/deploy.ts"
-      }
-    },
-    "image/push": {
-      "executor": "@ha/nx-executors:invoke",
-      "dependsOn": [
-        {
-          "target": "compile",
-          "projects": "self"
-        }
-      ],
-      "options": {
-        "module": "scripts/image-push.ts",
-        "cwd": "apps/ps5"
-      }
-    },
-    "test": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["{projectRoot}/.test-runs/unit"],
-      "options": {
-        "command": "jest",
-        "cwd": "apps/ps5"
-      }
-    },
-    "code-coverage": {
-      "executor": "@ha/nx-executors:upload-codecov",
-      "options": {
-        "coverageFilePath": "apps/ps5/.test-runs/unit/lcov.info"
-      }
-    },
-    "serve": {
-      "executor": "@ha/nx-executors:telepresence-local",
-      "options": {
-        "command": "yarn nodemon src/index.ts --inspect=0.0.0.0:9233",
-        "cwd": "apps/ps5",
-        "fromPort": 8086,
-        "toPort": 80
       }
     }
   },
