@@ -20,7 +20,7 @@ const run = async (
     `helm install coder coder-v2/coder --values ${path.join(
       __dirname,
       "values.yaml",
-    )} --version 2.16.0`,
+    )} --version 2.16.1`,
   )
   sh.exec(
     `helm upgrade coder coder-v2/coder -f ${path.join(
