@@ -9,22 +9,17 @@ import { name } from "./config"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const nfsUsername = await configurationApi.get("nfs/username")
-  const nfsPassword = await configurationApi.get("nfs/password")
   const nfsIp = await configurationApi.get("nfs/ip")
 
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      nfsPassword: nfsPassword.value,
-      nfsUsername: nfsUsername.value,
       nfsIp: nfsIp.value,
     },
   )
   const resourceJson = JSON.parse(resources)
-  Promise.all(
+  await Promise.all(
     resourceJson.map(async (resource) => {
-      console.log(JSON.stringify(resource))
       await kubectl.applyToCluster(JSON.stringify(resource))
     }),
   )

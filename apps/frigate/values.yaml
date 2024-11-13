@@ -1,5 +1,7 @@
 image:
-  tag: "0.13.2"
+  tag: 9950684-tensorrt
+  repository: ghcr.io/blakeblackshear/frigate
+  pullPolicy: Always
 imagePullSecrets:
   - name: regcred
 persistence:
@@ -12,8 +14,13 @@ persistence:
     size: 300Gi
     accessMode: ReadWriteMany
 coral:
-  enabled: true
-  hostPath: "/dev/bus/usb"
+  enabled: false
+gpu:
+  nvidia:
+    enabled: true
+    runtimeClassName: nvidia
+env:
+  YOLO_MODELS: yolov7x-640
 extraVolumeMounts:
   - name: timezone
     mountPath: /etc/localtime
@@ -22,15 +29,7 @@ extraVolumes:
   - name: timezone
     hostPath:
       path: /etc/localtime
-affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-        - matchExpressions:
-            - key: "kubernetes.io/hostname"
-              operator: "In"
-              values:
-                - "k8s-node-3"
+
 config: >-
   mqtt:
     host: mqtt
@@ -41,8 +40,9 @@ config: >-
     password: "{FRIGATE_MQTT_PASSWORD}"
     stats_interval: 60
 
-  # ffmpeg:
-    # hwaccel_args: preset-vaapi
+  ffmpeg:
+    output_args:
+      record: preset-record-ubiquiti
 
   objects:
     track:
@@ -58,13 +58,19 @@ config: >-
       objects:
         - person
       retain:
-        default: 30
+        default: 90
         mode: motion
 
   detectors:
-    coral:
-      type: edgetpu
-      device: usb
+    tensorrt:
+      type: tensorrt
+
+  model:
+    path: /config/model_cache/tensorrt/yolov7x-640.trt
+    input_tensor: nchw
+    input_pixel_format: rgb
+    width: 640
+    height: 640
 
   logger:
     default: debug
@@ -82,17 +88,21 @@ config: >-
   go2rtc:
     streams:
       front_door_high:
-        - rtspx://10.0.0.1:7441/pIoemwMeuLmPImpU
+        - rtspx://10.0.0.1:7441/WWnLGxUnUddpIbc9
       front_door_medium:
-        - rtspx://10.0.0.1:7441/ah0JdxBSou5ZQ0C9
+        - rtspx://10.0.0.1:7441/XA02kHRi13FuJr7P
       front_door_low:
-        - rtspx://10.0.0.1:7441/OYxkUfg64NZR0sir
+        - rtspx://10.0.0.1:7441/Ava3rj85xCWGK8YL
+      front_door_package:
+        - rtspx://10.0.0.1:7441/FqkwjQB5XReyas1H
       carport_door_high:
-        - rtspx://10.0.0.1:7441/VlhW91FIidpA2uht
+        - rtspx://10.0.0.1:7441/iQXfalnsTQvc8LKW
       carport_door_medium:
-        - rtspx://10.0.0.1:7441/2pc1Wk8CHN6AncWh
+        - rtspx://10.0.0.1:7441/AjycCI6Nysudo94N
       carport_door_low:
-        - rtspx://10.0.0.1:7441/uJmhQwBJoDPnITOb
+        - rtspx://10.0.0.1:7441/70I7A7ND0eCTaGmu
+      carport_door_package:
+        - rtspx://10.0.0.1:7441/Q5o37h6in3ZiqtL9
 
   cameras:
     front_door:
@@ -114,16 +124,46 @@ config: >-
             roles:
               - rtmp
               - record
+          - path: rtsp://localhost:8554/front_door_low
+            roles:
+              - audio
       detect:
         fps: 5
       motion:
         mask:
           - 511,374,960,417,960,720,0,720,0,429,284,413
       objects:
+        track:
+          - person
         filters:
           person:
             mask:
               - 0,720,710,720,634,456,535,299,258,281,103,401
+
+    front_door_package:
+      mqtt:
+        timestamp: False
+        bounding_box: False
+        crop: True
+        height: 500
+        quality: 95
+      best_image_timeout: 120
+      ffmpeg:
+        inputs:
+          - path: rtsp://localhost:8554/front_door_package
+            input_args: preset-rtsp-restream
+            roles:
+              - detect
+              - rtmp
+              - record
+      detect:
+        fps: 5
+      motion:
+        mask:
+          - 511,374,960,417,960,720,0,720,0,429,284,413
+      objects:
+        track:
+          - package
 
     carport_door:
       mqtt:
@@ -150,7 +190,32 @@ config: >-
         mask:
           - 640,720,651,417,378,416,0,584,0,720
       objects:
+        track:
+          - person
         filters:
           person:
             mask:
               - 675,720,706,115,401,108,91,118,190,390,133,507,0,720
+
+    carport_door_package:
+      mqtt:
+        timestamp: False
+        bounding_box: False
+        crop: True
+        height: 500
+        quality: 95
+      ffmpeg:
+        inputs:
+          - path: rtsp://localhost:8554/carport_door_package
+            roles:
+              - detect
+              - rtmp
+              - record
+      detect:
+        fps: 5
+      motion:
+        mask:
+          - 640,720,651,417,378,416,0,584,0,720
+      objects:
+        track:
+          - package

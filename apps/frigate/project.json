@@ -1,5 +1,6 @@
 {
-  "root": "apps/frigate",
+  "name": "frigate",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/frigate",
   "projectType": "application",
   "targets": {
@@ -12,5 +13,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["secrets"]
+  "implicitDependencies": []
 }
