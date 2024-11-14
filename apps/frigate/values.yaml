@@ -18,7 +18,10 @@ coral:
 gpu:
   nvidia:
     enabled: true
-    runtimeClassName: nvidia
+
+resources:
+  limits:
+    aliyun.com/gpu-mem: 4
 env:
   YOLO_MODELS: yolov7x-640
 extraVolumeMounts:

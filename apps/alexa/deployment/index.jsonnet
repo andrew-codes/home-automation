@@ -46,7 +46,7 @@ local sttContainer = k.core.v1.container.new(name='whisper', image=std.extVar('w
                      {
                        resources: {
                          limits: {
-                           'nvidia.com/gpu': 1,
+                           'aliyun.com/gpu-mem': 4,
                          },
                        },
                      }
@@ -58,7 +58,6 @@ local sttDeployment = k.apps.v1.deployment.new(name='whisper', containers=[sttCo
                         template+: {
 
                           spec+: {
-                            runtimeClassName: 'nvidia',
                             // tolerations: [
                             // { key: 'nvidia.com/gpu', operator: 'Exists', effect: 'NoSchedule' },
                             // ],

@@ -1,17 +1,17 @@
 {
-  "name": "alexa",
+  "name": "gpu-scheduler",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/alexa/src",
+  "sourceRoot": "apps/gpu-scheduler",
   "projectType": "application",
   "targets": {
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
-        "cwd": "apps/alexa",
+        "cwd": "apps/gpu-scheduler",
         "module": "scripts/deploy.ts"
       }
     }
   },
   "tags": [],
-  "implicitDependencies": ["docker-creds", "secrets"]
+  "implicitDependencies": []
 }

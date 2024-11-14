@@ -59,6 +59,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:apps/github-action-runners"\
     },\
     {\
+      "name": "@ha/gpu-scheduler",\
+      "reference": "workspace:apps/gpu-scheduler"\
+    },\
+    {\
       "name": "@ha/guest-db",\
       "reference": "workspace:apps/guest-db"\
     },\
@@ -322,6 +326,7 @@ const RAW_RUNTIME_STATE =
     ["@ha/gaming-pc", ["workspace:apps/gaming-pc"]],\
     ["@ha/github-action-runners", ["workspace:apps/github-action-runners"]],\
     ["@ha/github-secrets", ["workspace:packages/github-secrets"]],\
+    ["@ha/gpu-scheduler", ["workspace:apps/gpu-scheduler"]],\
     ["@ha/guest-db", ["workspace:apps/guest-db"]],\
     ["@ha/guest-pin-codes", ["workspace:apps/guest-pin-codes"]],\
     ["@ha/guest-wifi-registrar", ["workspace:apps/guest-wifi-registrar"]],\
@@ -5955,6 +5960,22 @@ const RAW_RUNTIME_STATE =
           ["shelljs", "npm:0.8.5"],\
           ["ts-jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:29.0.5"],\
           ["typescript", "patch:typescript@npm%3A4.9.4#optional!builtin<compat/typescript>::version=4.9.4&hash=289587"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@ha/gpu-scheduler", [\
+      ["workspace:apps/gpu-scheduler", {\
+        "packageLocation": "./apps/gpu-scheduler/",\
+        "packageDependencies": [\
+          ["@ha/gpu-scheduler", "workspace:apps/gpu-scheduler"],\
+          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+          ["@ha/docker", "workspace:packages/docker"],\
+          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
+          ["@ha/kubectl", "workspace:packages/kubectl"],\
+          ["@ha/nx-executors", "workspace:packages/nx-executors"],\
+          ["shelljs", "npm:0.8.5"]\
         ],\
         "linkType": "SOFT"\
       }]\

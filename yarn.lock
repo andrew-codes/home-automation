@@ -3600,6 +3600,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ha/gpu-scheduler@workspace:apps/gpu-scheduler":
+  version: 0.0.0-use.local
+  resolution: "@ha/gpu-scheduler@workspace:apps/gpu-scheduler"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/nx-executors": "workspace:^0.1.0"
+    shelljs: "npm:^0.8.5"
+  languageName: unknown
+  linkType: soft
+
 "@ha/guest-db@workspace:apps/guest-db":
   version: 0.0.0-use.local
   resolution: "@ha/guest-db@workspace:apps/guest-db"
