@@ -1,5 +1,5 @@
 image:
-  tag: 9950684-tensorrt
+  tag: stable-tensorrt
   repository: ghcr.io/blakeblackshear/frigate
   pullPolicy: Always
 imagePullSecrets:
@@ -18,12 +18,12 @@ coral:
 gpu:
   nvidia:
     enabled: true
-
 resources:
   limits:
-    aliyun.com/gpu-mem: 4
+    aliyun.com/gpu-mem: 7
 env:
-  YOLO_MODELS: yolov7x-640
+  YOLO_MODELS: yolov7-320
+  USE_FP16: false
 extraVolumeMounts:
   - name: timezone
     mountPath: /etc/localtime
@@ -69,11 +69,11 @@ config: >-
       type: tensorrt
 
   model:
-    path: /config/model_cache/tensorrt/yolov7x-640.trt
+    path: /config/model_cache/tensorrt/yolov7-320.trt
     input_tensor: nchw
     input_pixel_format: rgb
-    width: 640
-    height: 640
+    width: 320
+    height: 320
 
   logger:
     default: debug
@@ -91,7 +91,7 @@ config: >-
   go2rtc:
     streams:
       front_door_high:
-        - rtspx://10.0.0.1:7441/WWnLGxUnUddpIbc9
+        - rtspx://10.0.0.1:7441/O9raoJXRjeWTUiCg
       front_door_medium:
         - rtspx://10.0.0.1:7441/XA02kHRi13FuJr7P
       front_door_low:
@@ -118,17 +118,11 @@ config: >-
       best_image_timeout: 120
       ffmpeg:
         inputs:
-          - path: rtsp://localhost:8554/front_door_medium
-            input_args: preset-rtsp-restream
-            roles:
-              - detect
           - path: rtsp://localhost:8554/front_door_high
             input_args: preset-rtsp-restream
             roles:
-              - rtmp
+              - detect
               - record
-          - path: rtsp://localhost:8554/front_door_low
-            roles:
               - audio
       detect:
         fps: 5
@@ -141,7 +135,7 @@ config: >-
         filters:
           person:
             mask:
-              - 0,720,710,720,634,456,535,299,258,281,103,401
+              - 0.103,1,0.552,1,0.565,0.704,0.484,0.256,0.23,0.235,0.176,0.586
 
     front_door_package:
       mqtt:
@@ -157,16 +151,16 @@ config: >-
             input_args: preset-rtsp-restream
             roles:
               - detect
-              - rtmp
               - record
       detect:
         fps: 5
-      motion:
-        mask:
-          - 511,374,960,417,960,720,0,720,0,429,284,413
       objects:
         track:
           - package
+        filters:
+          package:
+            mask:
+              - 0.097,0.269,0,0.597,0,0.998,0.75,0.997,0.676,0.437,0.466,0.293
 
     carport_door:
       mqtt:
@@ -177,28 +171,24 @@ config: >-
         quality: 95
       ffmpeg:
         inputs:
-          - path: rtsp://localhost:8554/carport_door_medium
+          - path: rtsp://localhost:8554/carport_door_high
+            input_args: preset-rtsp-restream
             roles:
               - detect
-          - path: rtsp://localhost:8554/carport_door_high
-            roles:
-              - rtmp
               - record
-          - path: rtsp://localhost:8554/carport_door_low
-            roles:
               - audio
       detect:
         fps: 5
       motion:
         mask:
-          - 640,720,651,417,378,416,0,584,0,720
+          - 0.818,0.639,0.82,0.456,0.764,0.46,0.761,0.595,0.69,0.558,0.689,0.46,0.629,0.479,0.623,0.52,0.586,0.506,0.583,0.472,0.546,0.453,0.543,0.575,0.479,0.574,0.397,0.587,0.282,0.619,0.324,1,0.529,1,0.609,0.901,0.603,0.719,0.702,0.697,0.8,0.758
       objects:
         track:
           - person
         filters:
           person:
             mask:
-              - 675,720,706,115,401,108,91,118,190,390,133,507,0,720
+              - 0.621,0.739,0.57,0.409,0.45,0.229,0.253,0.279,0.266,0.634,0.31,0.664,0.318,0.995,0.621,1
 
     carport_door_package:
       mqtt:
@@ -210,15 +200,16 @@ config: >-
       ffmpeg:
         inputs:
           - path: rtsp://localhost:8554/carport_door_package
+            input_args: preset-rtsp-restream
             roles:
               - detect
-              - rtmp
               - record
       detect:
         fps: 5
-      motion:
-        mask:
-          - 640,720,651,417,378,416,0,584,0,720
       objects:
         track:
           - package
+        filters:
+          package:
+            mask:
+              - 0.998,0.247,0.846,0.085,0.684,0.126,0.611,0.306,0.301,0.56,0.501,0.874

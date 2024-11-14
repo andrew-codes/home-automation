@@ -4,7 +4,6 @@ import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
 import path from "path"
 import sh from "shelljs"
-import { name } from "./config"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
@@ -28,16 +27,16 @@ const run = async (
     `helm repo add blakeblackshear https://blakeblackshear.github.io/blakeshome-charts/`,
   )
   sh.exec(
-    `helm upgrade --install ${name} blakeblackshear/frigate -f values.yaml`,
+    `helm upgrade --install frigate blakeblackshear/frigate -f values.yaml`,
   )
 
   const patch = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "patch.jsonnet"),
   )
   const patchJson = JSON.parse(patch)
-  sh.exec(`kubectl patch deployment ${name} -p '${JSON.stringify(patchJson)}'`)
+  sh.exec(`kubectl patch deployment frigate -p '${JSON.stringify(patchJson)}'`)
 
-  await kubectl.rolloutDeployment("restart", name)
+  await kubectl.rolloutDeployment("restart", "frigate")
 }
 
 export default run
