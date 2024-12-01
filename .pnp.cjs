@@ -7483,7 +7483,7 @@ const RAW_RUNTIME_STATE =
           ["@nrwl/devkit", "virtual:25d06c5d44a774fa58ea7cadcf62db53a4c53920a9a1e965861612404478ca7d8f65f45ac3db9526dae5139ae22e74c940ab30fdeb8be31e57a7f1568edddfa9#npm:15.5.1"],\
           ["@phenomnomnominal/tsquery", "virtual:08b8de59771897545bbaef6802f56801e777a710e44f34b6c62145525bd7911e780d32b8fac202677a1c5e18b0302dffa6846e1d45ea04e016f9b78a63479186#npm:4.1.1"],\
           ["@types/nx", null],\
-          ["ejs", "npm:3.1.8"],\
+          ["ejs", "npm:3.1.10"],\
           ["ignore", "npm:5.2.0"],\
           ["nx", "virtual:67c2aad2b1bd47fe7a2a41d331ce53a09742994e6e4cf897b697836ad2af8b3577c1b4c3128f4d1437800d10106137809a85386ab3553d979a125a47045c5628#npm:15.5.2"],\
           ["semver", "npm:7.3.4"],\
@@ -7501,7 +7501,7 @@ const RAW_RUNTIME_STATE =
           ["@nrwl/devkit", "virtual:67c2aad2b1bd47fe7a2a41d331ce53a09742994e6e4cf897b697836ad2af8b3577c1b4c3128f4d1437800d10106137809a85386ab3553d979a125a47045c5628#npm:15.5.2"],\
           ["@phenomnomnominal/tsquery", "virtual:08b8de59771897545bbaef6802f56801e777a710e44f34b6c62145525bd7911e780d32b8fac202677a1c5e18b0302dffa6846e1d45ea04e016f9b78a63479186#npm:4.1.1"],\
           ["@types/nx", null],\
-          ["ejs", "npm:3.1.8"],\
+          ["ejs", "npm:3.1.10"],\
           ["ignore", "npm:5.2.0"],\
           ["nx", "virtual:67c2aad2b1bd47fe7a2a41d331ce53a09742994e6e4cf897b697836ad2af8b3577c1b4c3128f4d1437800d10106137809a85386ab3553d979a125a47045c5628#npm:15.5.2"],\
           ["semver", "npm:7.3.4"],\
@@ -7519,7 +7519,7 @@ const RAW_RUNTIME_STATE =
           ["@nrwl/devkit", "virtual:e1c2c6fa28f8d22a4c5284b9111f37359e8333aa17ba74a7c0e0ead8c8e1d9b2c8c315187f8fa17089ecb742b651ae56374baba2228437b194baa060dafb333b#npm:15.5.1"],\
           ["@phenomnomnominal/tsquery", "virtual:08b8de59771897545bbaef6802f56801e777a710e44f34b6c62145525bd7911e780d32b8fac202677a1c5e18b0302dffa6846e1d45ea04e016f9b78a63479186#npm:4.1.1"],\
           ["@types/nx", null],\
-          ["ejs", "npm:3.1.8"],\
+          ["ejs", "npm:3.1.10"],\
           ["ignore", "npm:5.2.0"],\
           ["nx", null],\
           ["semver", "npm:7.3.4"],\
@@ -7537,7 +7537,7 @@ const RAW_RUNTIME_STATE =
           ["@nrwl/devkit", "virtual:edd32bfe4ae458d97f88b27903c19916f7ece654d084164a5a8d071549ac1078aec32a83cd72aee5288753c37fe800fdbba042a0e82564a32b99b4dc46836eb2#npm:15.5.2"],\
           ["@phenomnomnominal/tsquery", "virtual:08b8de59771897545bbaef6802f56801e777a710e44f34b6c62145525bd7911e780d32b8fac202677a1c5e18b0302dffa6846e1d45ea04e016f9b78a63479186#npm:4.1.1"],\
           ["@types/nx", null],\
-          ["ejs", "npm:3.1.8"],\
+          ["ejs", "npm:3.1.10"],\
           ["ignore", "npm:5.2.0"],\
           ["nx", null],\
           ["semver", "npm:7.3.4"],\
@@ -11792,10 +11792,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["ejs", [\
-      ["npm:3.1.8", {\
-        "packageLocation": "./.yarn/cache/ejs-npm-3.1.8-30583753fc-879f84c8ee.zip/node_modules/ejs/",\
+      ["npm:3.1.10", {\
+        "packageLocation": "./.yarn/cache/ejs-npm-3.1.10-4e8cf4bdc1-a9cb7d7cd1.zip/node_modules/ejs/",\
         "packageDependencies": [\
-          ["ejs", "npm:3.1.8"],\
+          ["ejs", "npm:3.1.10"],\
           ["jake", "npm:10.8.5"]\
         ],\
         "linkType": "HARD"\
