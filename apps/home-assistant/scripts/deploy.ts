@@ -14,13 +14,6 @@ const run = async (
   const port = await configurationApi.get("home-assistant/port/external")
   const nfsUsername = await configurationApi.get("nfs/username")
   const nfsPassword = await configurationApi.get("nfs/password")
-  const postgresDb = await configurationApi.get("home-assistant/postgres/db")
-  const postgresUsername = await configurationApi.get(
-    "home-assistant/postgres/username",
-  )
-  const postgresPassword = await configurationApi.get(
-    "home-assistant/postgres/password",
-  )
   const nfsIp = await configurationApi.get("nfs/ip")
   const webrtcPort = await configurationApi.get(
     "home-assistant/webrtc/api/port",
@@ -29,7 +22,7 @@ const run = async (
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      image: "homeassistant/home-assistant:2024.11",
+      image: "homeassistant/home-assistant:2024.12",
       name,
       repositoryName: repositoryName.value,
       repositoryOwner: repositoryOwner.value,
