@@ -15,6 +15,40 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withSecurityContext(0, { privileged: true, allowPrivilegeEscalation: true },)
                    + lib.deployment.withEnvVars(0, [secrets['home-assistant/token'], secrets['home-assistant/server']],)
                    + lib.deployment.withSecurityContext(0, { privileged: true, allowPrivilegeEscalation: true },)
+                   + {
+                     deployment+: {
+                       spec+: {
+                         template+: {
+                           spec+: {
+                             containers:
+                               [super.containers[0] { volumeMounts+: [
+                                 {
+                                   name: 'docker-env-empty-dir',
+                                   mountPath: '/.dockerenv',
+                                   subPath: '.dockerenv',
+                                 },
+                               ] }] + super.containers[1:],
+                           },
+                         },
+                       },
+                     },
+                   }
+                   + {
+                     deployment+: {
+                       spec+: {
+                         template+: {
+                           spec+: {
+                             volumes+: [
+                               {
+                                 name: 'docker-env-empty-dir',
+                                 emptyDir: {},
+                               },
+                             ],
+                           },
+                         },
+                       },
+                     },
+                   }
 ;
 local haVolume = lib.volume.persistentNfsVolume.new('home-assistant-config', '10Gi', std.extVar('nfsIp'), std.extVar('nfsUsername'), std.extVar('nfsPassword'))
 ;

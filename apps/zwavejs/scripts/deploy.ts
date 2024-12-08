@@ -18,7 +18,7 @@ const run = async (
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      image: `zwavejs/zwave-js-ui:9.17.0`,
+      image: `zwavejs/zwave-js-ui:9.27.8`,
       name,
       secrets,
       port: parseInt(port_external.value),
