@@ -174,6 +174,7 @@ const configurationNames = [
   "proxy-internal/ip",
   "proxy-internal/sub-domain/redirects",
   "ps5/credentials-json",
+  "psn-accounts",
   "remote-codespaces/ip",
   "remote-codespaces/machine/username",
   "remote-codespaces/machine/password",

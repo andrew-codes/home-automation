@@ -9,9 +9,10 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                      { name: 'DEVICE_CHECK_INTERVAL', value: '5000' },
                      { name: 'DEVICE_DISCOVERY_INTERVAL', value: '60000' },
                      { name: 'ACCOUNT_CHECK_INTERVAL', value: '5000' },
-                     { name: 'FRONTEND_PORT', value: '8645' },
+                     { name: 'FRONTEND_PORT', value: '8080' },
                      { name: 'CREDENTIAL_STORAGE_PATH', value: '/config/credentials.json' },
                      { name: 'DEBUG', value: '@ha:ps5:*' },
+                     { name: 'PSN_ACCOUNTS', value: std.extVar('psnAccounts') },
                    ])
                    + lib.deployment.withContainerAugmentation(0, {
                      command: ['sh'],
@@ -20,8 +21,6 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                    + lib.deployment.withHostNetwork()
                    + lib.deployment.withInitContainer('mqtt-is-ready', std.extVar('registryHostname') + '/mqtt-client:latest', { env: [secrets['mqtt/username'], secrets['mqtt/password']], command: ['sh'], args: ['-c', 'timeout 10 sub -h mqtt -t "\\$SYS/#" -C 1 -u $MQTT_USERNAME -P $MQTT_PASSWORD | grep -v Error || exit 1'] })
                    + lib.deployment.withInitContainer('home-assistant-is-ready', 'curlimages/curl:latest', { command: ['sh'], args: ['-c', "timeout 10 curl --fail --insecure --silent --output /dev/null --write-out 'HTTP Code %{http_code}' 'https://ha.smith-simms.family' || exit 1"] })
-                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('ps5-credentials', '/config/credentials.json',))
-                   + lib.deployment.withSecretVolume('ps5-credentials', 'ps5-credentials-json', 511, [{ key: 'secret-value', path: 'credentials.json' }])
 ;
 
 std.objectValues(deployment)

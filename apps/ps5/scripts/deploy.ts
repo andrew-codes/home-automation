@@ -11,6 +11,7 @@ const run = async (
 ): Promise<void> => {
   const registry = await configurationApi.get("docker-registry/hostname")
   const secrets: Array<keyof Configuration> = ["mqtt/password", "mqtt/username"]
+  const psnAccounts = await configurationApi.get("psn-accounts")
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
@@ -18,6 +19,7 @@ const run = async (
       name,
       registryHostname: registry.value,
       secrets,
+      psnAccounts: psnAccounts.value,
     },
   )
   sh.exec(`kubectl delete deployment ${name}`)
