@@ -45,7 +45,7 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                      { name: 'USERNAME', value: std.extVar('username') },
                      { name: 'PASSWORD', value: std.extVar('password') },
                      { name: 'SECRET', value: std.extVar('secret') },
-                     { name: 'CSP_ORIGINS', value: '*.cloudflareinsights.com' },
+                     { name: 'CSP_ORIGINS', value: '*.cloudflareinsights.com,*.smith-simms.family' },
                      { name: 'HOST', value: std.extVar('host') },
                    ])
                    + lib.deployment.withProbe(0, '/')
