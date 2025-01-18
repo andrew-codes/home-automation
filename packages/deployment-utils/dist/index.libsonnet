@@ -305,7 +305,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
     },
 
     persistentNfsVolume+: {
-      new(name, capacity, ip, username, password)::
+      new(name, capacity, ip)::
         [
           k.core.v1.persistentVolume.new(name + '-pv')
           + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')

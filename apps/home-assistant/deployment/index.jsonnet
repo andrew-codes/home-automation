@@ -1,19 +1,19 @@
-local secrets = import '../../../apps/secrets/dist/secrets.jsonnet';
-local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
-local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
+local secrets = import "../../../apps/secrets/dist/secrets.jsonnet";
+local lib = import "../../../packages/deployment-utils/dist/index.libsonnet";
+local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet";
 
-local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), std.extVar('secrets'), '', '8123')
+local deployment = lib.deployment.new(std.extVar("name"), std.extVar("image"), std.extVar("secrets"), "", "8123")
                    + lib.deployment.withEnvVars(0, [
-                     { name: 'DEBUG', value: '' },
-                     { name: 'MQTT_HOST', value: 'mqtt' },
-                     { name: 'MQTT_PORT', value: '1883' },
+                     { name: "DEBUG", value: "" },
+                     { name: "MQTT_HOST", value: "mqtt" },
+                     { name: "MQTT_PORT", value: "1883" },
                    ])
-                   + lib.deployment.withInitContainer('mqtt-is-ready', std.extVar('registryHostname') + '/mqtt-client:latest', { env: [secrets['mqtt/username'], secrets['mqtt/password']], command: ['sh'], args: ['-c', 'timeout 10 sub -h mqtt -t "\\$SYS/#" -C 1 -u $MQTT_USERNAME -P $MQTT_PASSWORD | grep -v Error || exit 1'] })
-                   + lib.deployment.withPersistentVolume('home-assistant-config')
-                   + lib.deployment.withProbe(0, '/')
-                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('home-assistant-config', '/config',))
+                   + lib.deployment.withInitContainer("mqtt-is-ready", std.extVar("registryHostname") + "/mqtt-client:latest", { env: [secrets["mqtt/username"], secrets["mqtt/password"]], command: ["sh"], args: ["-c", 'timeout 10 sub -h mqtt -t "\\$SYS/#" -C 1 -u $MQTT_USERNAME -P $MQTT_PASSWORD | grep -v Error || exit 1'] })
+                   + lib.deployment.withPersistentVolume("home-assistant-config")
+                   + lib.deployment.withProbe(0, "/")
+                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new("home-assistant-config", "/config",))
                    + lib.deployment.withSecurityContext(0, { privileged: true, allowPrivilegeEscalation: true },)
-                   + lib.deployment.withEnvVars(0, [secrets['home-assistant/token'], secrets['home-assistant/server']],)
+                   + lib.deployment.withEnvVars(0, [secrets["home-assistant/token"], secrets["home-assistant/server"]],)
                    + lib.deployment.withSecurityContext(0, { privileged: true, allowPrivilegeEscalation: true },)
                    + {
                      deployment+: {
@@ -23,9 +23,9 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                              containers:
                                [super.containers[0] { volumeMounts+: [
                                  {
-                                   name: 'docker-env-empty-dir',
-                                   mountPath: '/.dockerenv',
-                                   subPath: '.dockerenv',
+                                   name: "docker-env-empty-dir",
+                                   mountPath: "/.dockerenv",
+                                   subPath: ".dockerenv",
                                  },
                                ] }] + super.containers[1:],
                            },
@@ -40,7 +40,7 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                            spec+: {
                              volumes+: [
                                {
-                                 name: 'docker-env-empty-dir',
+                                 name: "docker-env-empty-dir",
                                  emptyDir: {},
                                },
                              ],
@@ -50,11 +50,11 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                      },
                    }
 ;
-local haVolume = lib.volume.persistentNfsVolume.new('home-assistant-config', '10Gi', std.extVar('nfsIp'), std.extVar('nfsUsername'), std.extVar('nfsPassword'))
+local haVolume = lib.volume.persistentNfsVolume.new("home-assistant-config", "10Gi", std.extVar("nfsIp"))
 ;
 
 
-// local espHomeConfigVolume = lib.volume.persistentNfsVolume.new('esphome-config', '10Gi', std.extVar('nfsIp'), std.extVar('nfsUsername'), std.extVar('nfsPassword'))
+// local espHomeConfigVolume = lib.volume.persistentNfsVolume.new('esphome-config', '10Gi', std.extVar('nfsIp'))
 // ;
 // local espGitConfigVolume = k.core.v1.configMap.new('esphome-gitconfig', { '.gitconfig': '[safe]\n        directory = *' })
 // ;

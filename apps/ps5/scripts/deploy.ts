@@ -12,14 +12,16 @@ const run = async (
   const registry = await configurationApi.get("docker-registry/hostname")
   const secrets: Array<keyof Configuration> = ["mqtt/password", "mqtt/username"]
   const psnAccounts = await configurationApi.get("psn-accounts")
+  const nfsIp = await configurationApi.get("nfs/ip")
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
       image: `ghcr.io/funkeyflo/ps5-mqtt/amd64:latest`,
       name,
+      nfsIp: nfsIp.value,
+      psnAccounts: psnAccounts.value,
       registryHostname: registry.value,
       secrets,
-      psnAccounts: psnAccounts.value,
     },
   )
   sh.exec(`kubectl delete deployment ${name}`)
