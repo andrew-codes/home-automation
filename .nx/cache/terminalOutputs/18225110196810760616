@@ -1,0 +1,36 @@
+Provisioning Piholes with Terraform
+
+[0m[1mInitializing the backend...[0m
+
+[0m[1mInitializing provider plugins...[0m
+- Reusing previous version of telmate/proxmox from the dependency lock file
+[31m[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mFailed to query available provider packages[0m
+[31m│[0m [0m
+[31m│[0m [0m[0mCould not retrieve the list of available versions for provider
+[31m│[0m [0mtelmate/proxmox: locked provider registry.terraform.io/telmate/proxmox
+[31m│[0m [0m2.7.1 does not match configured version constraint 3.0.1-rc6; must use
+[31m│[0m [0mterraform init -upgrade to allow selection of new versions
+[31m╵[0m[0m
+[0m[0m
+{"@timestamp":"2025-02-22T20:28:42.485Z","ecs.version":"8.10.0","log.level":"info","message":"\u001b[31m\u001b[31m╷\u001b[0m\u001b[0m\n\u001b[31m│\u001b[0m \u001b[0m\u001b[1m\u001b[31mError: \u001b[0m\u001b[0m\u001b[1mFailed to query available provider packages\u001b[0m\n\u001b[31m│\u001b[0m \u001b[0m\n\u001b[31m│\u001b[0m \u001b[0m\u001b[0mCould not retrieve the list of available versions for provider\n\u001b[31m│\u001b[0m \u001b[0mtelmate/proxmox: locked provider registry.terraform.io/telmate/proxmox\n\u001b[31m│\u001b[0m \u001b[0m2.7.1 does not match configured version constraint 3.0.1-rc6; must use\n\u001b[31m│\u001b[0m \u001b[0mterraform init -upgrade to allow selection of new versions\n\u001b[31m╵\u001b[0m\u001b[0m\n\u001b[0m\u001b[0m\n"}
+Error: [31m[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mFailed to query available provider packages[0m
+[31m│[0m [0m
+[31m│[0m [0m[0mCould not retrieve the list of available versions for provider
+[31m│[0m [0mtelmate/proxmox: locked provider registry.terraform.io/telmate/proxmox
+[31m│[0m [0m2.7.1 does not match configured version constraint 3.0.1-rc6; must use
+[31m│[0m [0mterraform init -upgrade to allow selection of new versions
+[31m╵[0m[0m
+[0m[0m
+
+    at <anonymous> (/Users/andrewsmith/developer/repos/home-automation/packages/shell-utils/src/throwIfError.ts:42:18)
+    at <anonymous> (/Users/andrewsmith/developer/repos/home-automation/packages/env-utils/src/utils.ts:5:17)
+    at <anonymous> (/Users/andrewsmith/developer/repos/home-automation/packages/shell-utils/src/throwIfError.ts:40:36)
+    at new Promise (<anonymous>)
+    at throwIfError (/Users/andrewsmith/developer/repos/home-automation/packages/shell-utils/src/throwIfError.ts:18:3)
+    at Object.run [90m(/Users/andrewsmith/developer/repos/home-automation/apps/pihole/[39mscripts/provision.ts:32:9[90m)[39m
+[90m    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)[39m
+    at async executor (/Users/andrewsmith/developer/repos/home-automation/packages/nx-executors/dist/invoke.js:6780:5)
+    at async promiseToIterator (/Users/andrewsmith/developer/repos/home-automation/.yarn/unplugged/nx-virtual-32d499b082/node_modules/[4mnx[24m/src/command-line/run/run.js:36:11)
+    at async getLastValueFromAsyncIterableIterator (/Users/andrewsmith/developer/repos/home-automation/.yarn/unplugged/nx-virtual-32d499b082/node_modules/[4mnx[24m/src/utils/async-iterator.js:15:19)

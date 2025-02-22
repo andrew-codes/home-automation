@@ -5,7 +5,7 @@
   "projectType": "library",
   "targets": {
     "clean": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "outputs": ["{workspaceRoot}/.test-runs"],
       "options": {
         "command": "rm -rf dist .test-runs",
@@ -13,7 +13,7 @@
       }
     },
     "compile": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "outputs": ["{projectRoot}/dist"],
       "options": {
         "command": "node -r esbuild-register scripts/compile.ts",
@@ -21,7 +21,7 @@
       }
     },
     "test": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "outputs": ["{projectRoot}/.test-runs/unit"],
       "options": {
         "command": "jest",
@@ -35,7 +35,7 @@
       }
     },
     "prepare": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "outputs": ["{projectRoot}/dist"],
       "options": {
         "command": "node -r esbuild-register scripts/compile.ts",

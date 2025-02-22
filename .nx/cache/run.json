@@ -1,0 +1,43 @@
+{
+  "run": {
+    "command": "nx run pihole:deploy --verbose",
+    "startTime": "2025-02-22T21:43:42.147Z",
+    "endTime": "2025-02-22T21:44:26.304Z",
+    "inner": false
+  },
+  "tasks": [
+    {
+      "taskId": "nx-executors:prepare",
+      "target": "prepare",
+      "projectName": "nx-executors",
+      "hash": "5103913296333864969",
+      "startTime": "2025-02-22T21:43:42.155Z",
+      "endTime": "2025-02-22T21:43:43.983Z",
+      "params": "",
+      "cacheStatus": "cache-miss",
+      "status": 0
+    },
+    {
+      "taskId": "secrets:prepare",
+      "target": "prepare",
+      "projectName": "secrets",
+      "hash": "8877600052039825871",
+      "startTime": "2025-02-22T21:43:43.991Z",
+      "endTime": "2025-02-22T21:43:47.109Z",
+      "params": "",
+      "cacheStatus": "cache-miss",
+      "status": 0
+    },
+    {
+      "taskId": "pihole:deploy",
+      "target": "deploy",
+      "projectName": "pihole",
+      "hash": "3395115972311324359",
+      "startTime": "2025-02-22T21:43:47.115Z",
+      "endTime": "2025-02-22T21:44:26.301Z",
+      "params": "",
+      "cacheStatus": "cache-miss",
+      "status": 0
+    }
+  ]
+}

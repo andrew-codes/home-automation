@@ -49,15 +49,15 @@ local deployment = lib.deployment.new(std.extVar("name"), std.extVar("image"), s
                      { name: "HOST", value: std.extVar("host") },
                    ])
                    + lib.deployment.withProbe(0, "/")
-                   + lib.deployment.withAffinity({
-                     nodeAffinity: {
-                       requiredDuringSchedulingIgnoredDuringExecution: {
-                         nodeSelectorTerms: [
-                           { matchExpressions: [{ key: "kubernetes.io/hostname", operator: "In", values: ["k8s-node-3"] }] },
-                         ],
-                       },
-                     },
-                   },)
+                   //  + lib.deployment.withAffinity({
+                   //    nodeAffinity: {
+                   //      requiredDuringSchedulingIgnoredDuringExecution: {
+                   //        nodeSelectorTerms: [
+                   //          { matchExpressions: [{ key: "kubernetes.io/hostname", operator: "In", values: ["k8s-node-3"] }] },
+                   //        ],
+                   //      },
+                   //    },
+                   //  },)
 ;
 
 

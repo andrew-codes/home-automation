@@ -1,5 +1,6 @@
 {
   "name": "pihole",
+  "root": "apps/pihole",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/pihole",
   "projectType": "application",
@@ -7,15 +8,36 @@
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
-        "cwd": "apps/pihole",
+        "cwd": "{projectRoot}",
         "module": "scripts/deploy.ts"
       }
     },
     "update": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
-        "cwd": "apps/pihole",
+        "cwd": "{projectRoot}",
         "module": "scripts/update.ts"
+      }
+    },
+    "clean/provision": {
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{projectRoot}/.terraform",
+        "{projectRoot}/.terraform.lock.hcl",
+        "{projectRoot}/.terraform.tfstate.lock.info",
+        "{projectRoot}/terraform.tfstate",
+        "{projectRoot}/tfplan"
+      ],
+      "options": {
+        "command": "rm -rf .terraform .terraform.lock.hcl .terraform.tfstate.lock.info terraform.tfstate tfplan",
+        "cwd": "{projectRoot}"
+      }
+    },
+    "provision": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "module": "scripts/provision.ts",
+        "cwd": "{projectRoot}"
       }
     }
   },

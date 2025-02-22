@@ -11,6 +11,7 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   const ip = await configurationApi.get("pihole/ip")
+  const ip2 = await configurationApi.get("pihole2/ip")
   const password = await configurationApi.get("pihole/password")
 
   try {
@@ -32,9 +33,10 @@ pihole_password: "${password.value}"`,
       `
 all:
   vars:
-    ansible_user: root
+    ansible_user: hl
   hosts:
-    ${ip.value}:`,
+    ${ip.value}:
+     ${ip2.value}:`,
       "utf8",
     )
     await fs.writeFile(
@@ -53,7 +55,7 @@ all:
           "index.yml",
         )} -i ${hostsPath};`,
         {
-          silent: true,
+          silent: false,
         },
       ),
     )

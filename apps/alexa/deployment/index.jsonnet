@@ -42,14 +42,13 @@ local sttContainer = k.core.v1.container.new(name="whisper", image=std.extVar("w
                      + k.core.v1.container.withEnv([
                        { name: "TZ", value: "America/New_York" },
                      ])
-                     +
-                     {
-                       resources: {
-                         limits: {
-                           "aliyun.com/gpu-mem": 4,
-                         },
-                       },
-                     }
+                     //  + {
+                     //    resources: {
+                     //      limits: {
+                     //        "nvidia.com/gpu.count": 1,
+                     //      },
+                     //    },
+                     //  }
 ;
 local sttDeployment = k.apps.v1.deployment.new(name="whisper", containers=[sttContainer],)
                       + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: "regcred" },)
@@ -65,7 +64,26 @@ local sttDeployment = k.apps.v1.deployment.new(name="whisper", containers=[sttCo
                           },
                         },
                       } }
+                      + {
+                        spec+: {
+                          template+: {
+                            spec+: {
+                              affinity: {
+                                nodeAffinity: {
+                                  requiredDuringSchedulingIgnoredDuringExecution: {
+                                    nodeSelectorTerms: [
+                                      { matchExpressions: [{ key: "kubernetes.io/hostname", operator: "In", values: ["k8s-node-3"] }] },
+                                    ],
+                                  },
+                                },
+                              },
+                            },
+                          },
+                        },
+                      }
+
 ;
+
 local sttService = k.core.v1.service.new("whisper", { name: "whisper" }, [{
   name: "whisper",
   port: 10300,

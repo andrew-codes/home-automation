@@ -1,0 +1,70 @@
+Provisioning Piholes with Terraform
+
+[0m[1mInitializing the backend...[0m
+
+[0m[1mInitializing provider plugins...[0m
+- Finding telmate/proxmox versions matching "3.0.1-rc6"...
+- Using previously-installed telmate/proxmox v3.0.1-rc6
+
+[0m[1m[32mTerraform has been successfully initialized![0m[32m[0m
+[0m[32m
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mArgument is deprecated[0m
+[33m│[0m [0m
+[33m│[0m [0m[0m  with proxmox_vm_qemu.pihole,
+[33m│[0m [0m  on provision.tf line 94, in resource "proxmox_vm_qemu" "pihole":
+[33m│[0m [0m  94:   cpu         = [4m"host"[0m[0m
+[33m│[0m [0m
+[33m│[0m [0muse 'cpu_type' instead
+[33m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mtype must be one of 'disk', 'cdrom', 'cloudinit'[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with proxmox_vm_qemu.pihole,
+[31m│[0m [0m  on provision.tf line 104, in resource "proxmox_vm_qemu" "pihole":
+[31m│[0m [0m 104:     type       = [4m"scsi"[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mformat can only be one of the following values: cow,cloop,qcow,qcow2,qed,vmdk,raw[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with proxmox_vm_qemu.pihole,
+[31m│[0m [0m  on provision.tf line 107, in resource "proxmox_vm_qemu" "pihole":
+[31m│[0m [0m 107:     format     = [4m"ext4"[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+{"@timestamp":"2025-02-22T20:32:39.346Z","ecs.version":"8.10.0","log.level":"info","message":"\u001b[31m╷\u001b[0m\u001b[0m\n\u001b[31m│\u001b[0m \u001b[0m\u001b[1m\u001b[31mError: \u001b[0m\u001b[0m\u001b[1mtype must be one of 'disk', 'cdrom', 'cloudinit'\u001b[0m\n\u001b[31m│\u001b[0m \u001b[0m\n\u001b[31m│\u001b[0m \u001b[0m\u001b[0m  with proxmox_vm_qemu.pihole,\n\u001b[31m│\u001b[0m \u001b[0m  on provision.tf line 104, in resource \"proxmox_vm_qemu\" \"pihole\":\n\u001b[31m│\u001b[0m \u001b[0m 104:     type       = \u001b[4m\"scsi\"\u001b[0m\u001b[0m\n\u001b[31m│\u001b[0m \u001b[0m\n\u001b[31m╵\u001b[0m\u001b[0m\n\u001b[31m╷\u001b[0m\u001b[0m\n\u001b[31m│\u001b[0m \u001b[0m\u001b[1m\u001b[31mError: \u001b[0m\u001b[0m\u001b[1mformat can only be one of the following values: cow,cloop,qcow,qcow2,qed,vmdk,raw\u001b[0m\n\u001b[31m│\u001b[0m \u001b[0m\n\u001b[31m│\u001b[0m \u001b[0m\u001b[0m  with proxmox_vm_qemu.pihole,\n\u001b[31m│\u001b[0m \u001b[0m  on provision.tf line 107, in resource \"proxmox_vm_qemu\" \"pihole\":\n\u001b[31m│\u001b[0m \u001b[0m 107:     format     = \u001b[4m\"ext4\"\u001b[0m\u001b[0m\n\u001b[31m│\u001b[0m \u001b[0m\n\u001b[31m╵\u001b[0m\u001b[0m\n"}
+Error: [31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mtype must be one of 'disk', 'cdrom', 'cloudinit'[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with proxmox_vm_qemu.pihole,
+[31m│[0m [0m  on provision.tf line 104, in resource "proxmox_vm_qemu" "pihole":
+[31m│[0m [0m 104:     type       = [4m"scsi"[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mformat can only be one of the following values: cow,cloop,qcow,qcow2,qed,vmdk,raw[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with proxmox_vm_qemu.pihole,
+[31m│[0m [0m  on provision.tf line 107, in resource "proxmox_vm_qemu" "pihole":
+[31m│[0m [0m 107:     format     = [4m"ext4"[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+
+    at <anonymous> (/Users/andrewsmith/developer/repos/home-automation/packages/shell-utils/src/throwIfError.ts:42:18)
+    at <anonymous> (/Users/andrewsmith/developer/repos/home-automation/packages/env-utils/src/utils.ts:5:17)
+    at <anonymous> (/Users/andrewsmith/developer/repos/home-automation/packages/shell-utils/src/throwIfError.ts:40:36)
+    at new Promise (<anonymous>)
+    at throwIfError (/Users/andrewsmith/developer/repos/home-automation/packages/shell-utils/src/throwIfError.ts:18:3)
+    at Object.run [90m(/Users/andrewsmith/developer/repos/home-automation/apps/pihole/[39mscripts/provision.ts:32:9[90m)[39m
+[90m    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)[39m
+    at async executor (/Users/andrewsmith/developer/repos/home-automation/packages/nx-executors/dist/invoke.js:6780:5)
+    at async promiseToIterator (/Users/andrewsmith/developer/repos/home-automation/.yarn/unplugged/nx-virtual-32d499b082/node_modules/[4mnx[24m/src/command-line/run/run.js:36:11)
+    at async getLastValueFromAsyncIterableIterator (/Users/andrewsmith/developer/repos/home-automation/.yarn/unplugged/nx-virtual-32d499b082/node_modules/[4mnx[24m/src/utils/async-iterator.js:15:19)

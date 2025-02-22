@@ -21,7 +21,7 @@ const run = async (
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
       host: "games.smith-simms.family",
-      image: `ghcr.io/andrew-codes/playnite-web-app:10-latest`,
+      image: `ghcr.io/andrew-codes/playnite-web-app:11-latest`,
       name,
       nfsPassword: nfsPassword.value,
       nfsUsername: nfsUsername.value,

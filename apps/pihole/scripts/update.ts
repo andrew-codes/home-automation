@@ -1,9 +1,9 @@
-import fs from "fs/promises"
-import path from "path"
-import sh from "shelljs"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { throwIfError } from "@ha/shell-utils"
+import fs from "fs/promises"
+import path from "path"
+import sh from "shelljs"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
@@ -17,7 +17,7 @@ const run = async (
     `
 all:
   vars:
-    ansible_user: root
+    ansible_user: hl
   hosts:
     ${ip.value}:
     ${ip2.value}:`,

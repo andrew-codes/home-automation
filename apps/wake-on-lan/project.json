@@ -5,7 +5,7 @@
   "projectType": "application",
   "targets": {
     "clean": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "outputs": ["{projectRoot}/dist", "{projectRoot}/.test-runs"],
       "options": {
         "command": "rm -rf dist .test-runs",
@@ -41,7 +41,7 @@
       }
     },
     "test": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "outputs": ["{projectRoot}/.test-runs/unit"],
       "options": {
         "command": "jest",
@@ -55,7 +55,7 @@
       }
     },
     "serve": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "command": "yarn nodemon src/index.ts --inspect=0.0.0.0:9233",
         "cwd": "apps/wake-on-lan"

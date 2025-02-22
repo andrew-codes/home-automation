@@ -22,11 +22,11 @@
           - qemu-guest-agent
         state: present
 
-    # - name: Install pihole
-    #   become_user: root
-    #   become_method: ansible.builtin.sudo
-    #   become: yes
-    #   shell: curl -sSL https://install.pi-hole.net | bash /dev/stdin --unattended
+    - name: Install pihole
+      become_user: root
+      become_method: ansible.builtin.sudo
+      become: yes
+      shell: curl -sSL https://install.pi-hole.net | bash /dev/stdin --unattended
 
     - name: Update pihole
       become_user: root
@@ -40,7 +40,7 @@
       become: yes
       shell: pihole -a -p "{{ pihole_password }}"
 
-    - name: Set authorized key took from file
+    - name: Set authorized key taken from file
       authorized_key:
         user: root
         state: present

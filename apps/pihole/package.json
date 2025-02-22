@@ -7,6 +7,7 @@
     "@ha/kubectl": "workspace:*",
     "@ha/nx-executors": "workspace:^0.1.0",
     "@ha/shell-utils": "workspace:^1.0.0",
+    "nx": "^20.4.6",
     "shelljs": "^0.8.5"
   }
 }

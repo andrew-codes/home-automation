@@ -5,7 +5,7 @@
   "projectType": "application",
   "targets": {
     "clean": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "outputs": [
         "{projectRoot}/dist",
         "{projectRoot}/.test-runs",
@@ -48,7 +48,7 @@
       }
     },
     "test": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "outputs": ["{projectRoot}/.test-runs/unit"],
       "options": {
         "command": "jest",
