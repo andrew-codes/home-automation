@@ -1,2 +1,0 @@
-[2m> [22mnode -r esbuild-register scripts/compile.ts
-
