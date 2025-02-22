@@ -2,18 +2,18 @@ terraform {
   required_providers {
     proxmox = {
       source  = "telmate/proxmox"
-      version = "2.7.1"
+      version = "3.0.1-rc6"
     }
   }
 }
 
 provider "proxmox" {
- pm_api_url      = var.pm_api_url
-  pm_user         = var.pm_username
-  pm_password     = var.pm_password
-  pm_tls_insecure = true
-  pm_log_enable   = true
-  pm_log_file     = "terraform-plugin-proxmox.log"
+  pm_api_url          = var.pm_api_url
+  pm_api_token_id     = var.pm_username
+  pm_api_token_secret = var.pm_password
+  pm_tls_insecure     = true
+  pm_log_enable       = true
+  pm_log_file         = "terraform-plugin-proxmox.log"
   pm_log_levels = {
     _default    = "debug"
     _capturelog = ""
@@ -84,32 +84,49 @@ variable "nameserver" {
   }
 }
 
-resource "proxmox_lxc" "docker-registry" {
+resource "proxmox_vm_qemu" "docker-registry" {
   count       = 1
-  hostname    = var.hostname
-  target_node = "pve-nuc"
-  ostemplate   = "local:vztmpl/debian-11-standard_11.3-1_amd64.tar.zst"
-  unprivileged = false
-  start        = true
-  onboot       = true
+  name        = var.hostname
+  target_node = "pve"
+  onboot      = true
+  cpu_type    = "host"
+  sockets     = "1"
   cores       = 2
-  memory      = 8192
+  memory      = 4096
+  os_type     = "cloud-init"
+  scsihw      = "virtio-scsi-pci"
 
-  rootfs {
-    storage = "local-lvm"
-    size    = "500G"
+  clone      = "ubuntu-cloud-template"
+  full_clone = true
+
+  disks {
+    scsi {
+      scsi2 {
+        disk {
+          size       = "140G"
+          storage    = "local-lvm"
+          emulatessd = true
+          format     = "raw"
+        }
+      }
+    }
   }
 
-  ssh_public_keys = <<-EOT
+  network {
+    id     = 0
+    model  = "virtio"
+    bridge = "vmbr0"
+  }
+  lifecycle {
+    ignore_changes = [
+      network,
+    ]
+  }
+
+  sshkeys = <<-EOT
     ${var.ssh_key}
   EOT
 
   nameserver = var.nameserver
-  network {
-    name   = "eth0"
-    bridge = "vmbr0"
-    ip     = var.ip
-    ip6    = "auto"
-    gw     = var.gateway
-  }
+  ipconfig0  = "ip=${var.ip},gw=${var.gateway}"
 }

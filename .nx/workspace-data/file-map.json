@@ -11,260 +11,268 @@
   "fileMap": {
     "nonProjectFiles": [
       {
-        "file": ".yarn/releases/yarn-4.5.1.cjs",
-        "hash": "16742520712716398537"
-      },
-      {
-        "file": "scripts/powershell/setup_ansible_windows.ps1",
-        "hash": "14979816250700227051"
-      },
-      {
-        "file": "docs/apps/mqtt/index.md",
-        "hash": "10527047260187038018"
-      },
-      {
-        "file": "docs/installation/kubernetes.md",
-        "hash": "7270970338717506582"
-      },
-      {
-        "file": ".github/workflows/manual-deploy.yml",
-        "hash": "5469638823632112313"
-      },
-      {
-        "file": ".github/workflows/update-docker-runner.yml",
-        "hash": "11350497967047481556"
-      },
-      {
         "file": ".yarn/sdks/integrations.yml",
         "hash": "5703335058684100671"
-      },
-      {
-        "file": "docs/apps/captive-portal/index.md",
-        "hash": "12672349010965375788"
-      },
-      {
-        "file": "docs/installation/github-actions.md",
-        "hash": "11514853331734613129"
-      },
-      {
-        "file": ".yarn/sdks/typescript/lib/tsserverlibrary.js",
-        "hash": "1451277444867543573"
-      },
-      {
-        "file": "nx.json",
-        "hash": "11659814541521722723"
-      },
-      {
-        "file": "docs/apps/captive-portal/captive-portal-web-ui.png",
-        "hash": "7376978927141901007"
-      },
-      {
-        "file": "docs/installation/metrics.md",
-        "hash": "5155641289422600303"
-      },
-      {
-        "file": ".yarn/sdks/prettier/bin-prettier.js",
-        "hash": "16724932570228132781"
-      },
-      {
-        "file": "docs/overview/code-layout.md",
-        "hash": "745971122583130431"
-      },
-      {
-        "file": ".yarn/sdks/typescript/bin/tsc",
-        "hash": "13885846455737793067"
-      },
-      {
-        "file": ".devcontainer/devcontainer.json",
-        "hash": "11722885101317423870"
-      },
-      {
-        "file": "jsonnetfile.lock.json",
-        "hash": "17492398541401036016"
       },
       {
         "file": "docs/apps/home-assistant/index.md",
         "hash": "9369565506930221836"
       },
       {
-        "file": ".yarn/sdks/typescript/lib/typescript.js",
-        "hash": "2824640601725886217"
+        "file": "scripts/bin/create-service-principal.sh",
+        "hash": "10905357570256861530"
       },
       {
-        "file": "yarn.lock",
-        "hash": "7179584352193530456"
+        "file": ".yarn/patches/@elastic-ecs-winston-format-npm-1.3.1-8fc543f859.patch",
+        "hash": "14065675064569241452"
       },
       {
-        "file": "README.md",
-        "hash": "10117024072187238945"
+        "file": "nx.json",
+        "hash": "11659814541521722723"
       },
       {
-        "file": "jsonnetfile.json",
-        "hash": "12432102984242415572"
+        "file": ".devcontainer/Dockerfile",
+        "hash": "15434328749137355408"
+      },
+      {
+        "file": ".github/workflows/manual-deploy.yml",
+        "hash": "5469638823632112313"
       },
       {
         "file": ".github/workflows/pull-request-master.yml",
         "hash": "17673726543976370917"
       },
       {
-        "file": "docs/kubernetes-backup-and-restore.md",
-        "hash": "15896379508264949923"
-      },
-      {
-        "file": ".yarn/sdks/typescript/lib/tsc.js",
-        "hash": "2839614163630542371"
-      },
-      {
-        "file": "docs/installation/proxmox.md",
-        "hash": "5346627314333287591"
-      },
-      {
-        "file": "docs/installation/lets-encrypt.md",
-        "hash": "2211422594363292146"
-      },
-      {
-        "file": "docs/installation/inlets.md",
-        "hash": "3745998553278332588"
-      },
-      {
-        "file": ".nxignore",
-        "hash": "1562304312859586681"
-      },
-      {
-        "file": "docs/installation-guide.md",
-        "hash": "6144636987284948374"
-      },
-      {
-        "file": ".nvmrc",
-        "hash": "7824695543967742201"
-      },
-      {
-        "file": "tsconfig.base.json",
-        "hash": "4059354322647048624"
-      },
-      {
-        "file": "babel.config.js",
-        "hash": "5830117674199030825"
-      },
-      {
-        "file": ".yarn/sdks/typescript/package.json",
-        "hash": "2721460657103157791"
-      },
-      {
-        "file": ".vscode/extensions.json",
-        "hash": "17497492937227628205"
-      },
-      {
-        "file": "docs/installation/pihole.md",
-        "hash": "1908384587365066661"
-      },
-      {
-        "file": "scripts/bin/stop.sh",
-        "hash": "6339156918703164828"
-      },
-      {
-        "file": "docs/installation/before-you-begin.md",
-        "hash": "305301584093572482"
-      },
-      {
-        "file": ".gitignore",
-        "hash": "10805058130715305918"
-      },
-      {
-        "file": ".github/dependabot.yml",
-        "hash": "4980129448623652308"
-      },
-      {
-        "file": ".devcontainer/post-create.sh",
-        "hash": "3325888022755893838"
-      },
-      {
         "file": "docs/installation/docker-registry.md",
         "hash": "3417234077787747553"
-      },
-      {
-        "file": ".pnp.cjs",
-        "hash": "15176992750804058088"
-      },
-      {
-        "file": "ansible.sh",
-        "hash": "4188352560053837076"
-      },
-      {
-        "file": ".yarn/sdks/prettier/package.json",
-        "hash": "609662558166936355"
-      },
-      {
-        "file": "tsconfig.test.json",
-        "hash": "2800722939297128053"
-      },
-      {
-        "file": "docs/apps/guest-pin-codes/index.md",
-        "hash": "15698320071033473208"
-      },
-      {
-        "file": "set_gaming_pc_secrets.sh",
-        "hash": "18167343000113730324"
-      },
-      {
-        "file": "docs/apps/guest-wifi-renewal/index.md",
-        "hash": "13635157243434226377"
-      },
-      {
-        "file": ".github/workflows/commit-main.yml",
-        "hash": "1617734547108636048"
-      },
-      {
-        "file": "LICENSE",
-        "hash": "17262288976634365980"
-      },
-      {
-        "file": "docs/testing-apps-locally.md",
-        "hash": "13630097629527810948"
       },
       {
         "file": "scripts/bin/burn-image.sh",
         "hash": "2644045512827954294"
       },
       {
-        "file": ".yarn/sdks/typescript/lib/tsserver.js",
-        "hash": "1301760797202983736"
+        "file": ".devcontainer/bash_profile_setup.sh",
+        "hash": "9450870231478623295"
+      },
+      {
+        "file": "docs/apps/guest-pin-codes/index.md",
+        "hash": "15698320071033473208"
       },
       {
         "file": "jest.config.js",
         "hash": "17338174862897398454"
       },
       {
-        "file": ".vscode/settings.json",
-        "hash": "4487103634366238361"
+        "file": "docs/installation/before-you-begin.md",
+        "hash": "305301584093572482"
       },
       {
-        "file": "scripts/bin/remove-evicted-pods.sh",
-        "hash": "12320379842189458399"
+        "file": ".github/workflows/commit-main.yml",
+        "hash": "1617734547108636048"
       },
       {
-        "file": "docs/overview.md",
-        "hash": "11098907156372107571"
+        "file": "docs/overview/deployment-topology-diagram.md",
+        "hash": "13857211694573219395"
       },
       {
-        "file": ".prettierrc",
-        "hash": "12737970294891460729"
+        "file": "set_gaming_pc_secrets.sh",
+        "hash": "18167343000113730324"
       },
       {
-        "file": "docs/installation/velero.md",
-        "hash": "12362617853654976905"
+        "file": "docs/installation/applications.md",
+        "hash": "7342679492194189989"
+      },
+      {
+        "file": "docs/installation/github-actions.md",
+        "hash": "11514853331734613129"
+      },
+      {
+        "file": ".yarn/sdks/typescript/lib/typescript.js",
+        "hash": "2824640601725886217"
       },
       {
         "file": "docs/installation/openvpn-as.md",
         "hash": "1972814329948794451"
       },
       {
-        "file": ".devcontainer/start-telepresence.sh",
-        "hash": "2208684631087560011"
+        "file": ".yarnrc.yml",
+        "hash": "2011385725337294967"
+      },
+      {
+        "file": "docs/apps/mqtt/index.md",
+        "hash": "10527047260187038018"
+      },
+      {
+        "file": ".yarn/sdks/typescript/bin/tsc",
+        "hash": "13885846455737793067"
+      },
+      {
+        "file": "babel.config.js",
+        "hash": "5830117674199030825"
       },
       {
         "file": ".yarn/sdks/prettier/index.js",
         "hash": "3393616046143878484"
+      },
+      {
+        "file": "docs/installation/proxmox.md",
+        "hash": "5346627314333287591"
+      },
+      {
+        "file": ".yarn/sdks/typescript/bin/tsserver",
+        "hash": "6819096246728401411"
+      },
+      {
+        "file": ".yarn/sdks/typescript/lib/tsserver.js",
+        "hash": "1301760797202983736"
+      },
+      {
+        "file": ".yarn/sdks/prettier/bin-prettier.js",
+        "hash": "16724932570228132781"
+      },
+      {
+        "file": ".prettierrc",
+        "hash": "12737970294891460729"
+      },
+      {
+        "file": "scripts/bin/remove-evicted-pods.sh",
+        "hash": "12320379842189458399"
+      },
+      {
+        "file": ".vscode/settings.json",
+        "hash": "4487103634366238361"
+      },
+      {
+        "file": "docs/testing-apps-locally.md",
+        "hash": "13630097629527810948"
+      },
+      {
+        "file": "package.json",
+        "hash": "7988976166794988776"
+      },
+      {
+        "file": ".vscode/extensions.json",
+        "hash": "17497492937227628205"
+      },
+      {
+        "file": "scripts/powershell/setup_ansible_windows.ps1",
+        "hash": "14979816250700227051"
+      },
+      {
+        "file": "docs/apps/captive-portal/captive-portal-web-ui.png",
+        "hash": "7376978927141901007"
+      },
+      {
+        "file": "jsonnetfile.json",
+        "hash": "12432102984242415572"
+      },
+      {
+        "file": "tsconfig.base.json",
+        "hash": "4059354322647048624"
+      },
+      {
+        "file": "docs/installation/velero.md",
+        "hash": "12362617853654976905"
+      },
+      {
+        "file": "docs/installation/inlets.md",
+        "hash": "3745998553278332588"
+      },
+      {
+        "file": "docs/installation/metrics.md",
+        "hash": "5155641289422600303"
+      },
+      {
+        "file": "scripts/bin/stop.sh",
+        "hash": "6339156918703164828"
+      },
+      {
+        "file": ".nxignore",
+        "hash": "1562304312859586681"
+      },
+      {
+        "file": "docs/overview.md",
+        "hash": "11098907156372107571"
+      },
+      {
+        "file": ".devcontainer/devcontainer.json",
+        "hash": "11722885101317423870"
+      },
+      {
+        "file": ".github/dependabot.yml",
+        "hash": "4980129448623652308"
+      },
+      {
+        "file": ".nvmrc",
+        "hash": "7824695543967742201"
+      },
+      {
+        "file": "docs/installation/pihole.md",
+        "hash": "1908384587365066661"
+      },
+      {
+        "file": ".yarn/sdks/typescript/lib/tsserverlibrary.js",
+        "hash": "1451277444867543573"
+      },
+      {
+        "file": ".yarn/releases/yarn-4.5.1.cjs",
+        "hash": "16742520712716398537"
+      },
+      {
+        "file": "README.md",
+        "hash": "10117024072187238945"
+      },
+      {
+        "file": "docs/installation-guide.md",
+        "hash": "6144636987284948374"
+      },
+      {
+        "file": "docs/installation/kubernetes.md",
+        "hash": "7270970338717506582"
+      },
+      {
+        "file": ".github/workflows/update-docker-runner.yml",
+        "hash": "11350497967047481556"
+      },
+      {
+        "file": "docs/overview/code-layout.md",
+        "hash": "745971122583130431"
+      },
+      {
+        "file": "ansible.sh",
+        "hash": "4188352560053837076"
+      },
+      {
+        "file": "tsconfig.test.json",
+        "hash": "2800722939297128053"
+      },
+      {
+        "file": "LICENSE",
+        "hash": "17262288976634365980"
+      },
+      {
+        "file": ".devcontainer/start-telepresence.sh",
+        "hash": "2208684631087560011"
+      },
+      {
+        "file": "example.secrets.env",
+        "hash": "4590602854464447715"
+      },
+      {
+        "file": "docs/installation/lets-encrypt.md",
+        "hash": "2211422594363292146"
+      },
+      {
+        "file": ".devcontainer/post-create.sh",
+        "hash": "3325888022755893838"
+      },
+      {
+        "file": ".yarn/sdks/typescript/package.json",
+        "hash": "2721460657103157791"
+      },
+      {
+        "file": ".yarn/sdks/prettier/package.json",
+        "hash": "609662558166936355"
       },
       {
         "file": ".pnp.loader.mjs",
@@ -275,44 +283,40 @@
         "hash": "16894814031921621465"
       },
       {
-        "file": "scripts/bin/create-service-principal.sh",
-        "hash": "10905357570256861530"
+        "file": "apps/ubuntu-server-cloud-image/scripts/provision.ts",
+        "hash": "18042201463242130632"
       },
       {
-        "file": "docs/installation/applications.md",
-        "hash": "7342679492194189989"
+        "file": ".gitignore",
+        "hash": "10805058130715305918"
       },
       {
-        "file": ".yarn/patches/@elastic-ecs-winston-format-npm-1.3.1-8fc543f859.patch",
-        "hash": "14065675064569241452"
+        "file": "jsonnetfile.lock.json",
+        "hash": "17492398541401036016"
       },
       {
-        "file": ".devcontainer/bash_profile_setup.sh",
-        "hash": "9450870231478623295"
+        "file": "docs/apps/captive-portal/index.md",
+        "hash": "12672349010965375788"
       },
       {
-        "file": "example.secrets.env",
-        "hash": "4590602854464447715"
+        "file": "docs/apps/guest-wifi-renewal/index.md",
+        "hash": "13635157243434226377"
       },
       {
-        "file": ".yarnrc.yml",
-        "hash": "2011385725337294967"
+        "file": "docs/kubernetes-backup-and-restore.md",
+        "hash": "15896379508264949923"
       },
       {
-        "file": ".yarn/sdks/typescript/bin/tsserver",
-        "hash": "6819096246728401411"
+        "file": ".pnp.cjs",
+        "hash": "15176992750804058088"
       },
       {
-        "file": "docs/overview/deployment-topology-diagram.md",
-        "hash": "13857211694573219395"
+        "file": ".yarn/sdks/typescript/lib/tsc.js",
+        "hash": "2839614163630542371"
       },
       {
-        "file": ".devcontainer/Dockerfile",
-        "hash": "15434328749137355408"
-      },
-      {
-        "file": "package.json",
-        "hash": "7988976166794988776"
+        "file": "yarn.lock",
+        "hash": "7179584352193530456"
       }
     ],
     "projectFileMap": {
