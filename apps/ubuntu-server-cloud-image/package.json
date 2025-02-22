@@ -1,5 +1,5 @@
 {
-  "name": "@ha/infrastructure-debian-cloudinit",
+  "name": "@ha/ubuntu-server-template",
   "devDependencies": {
     "@ha/configuration-api": "workspace:^0.0.1",
     "@ha/configuration-workspace": "workspace:^0.0.1",

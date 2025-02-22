@@ -1,4 +1,5 @@
 {
+  "name": "ubnuntu-server-template",
   "root": "apps/infrastructure-debian-cloudinit",
   "sourceRoot": "apps/infrastructure-debian-cloudinit",
   "projectType": "application",

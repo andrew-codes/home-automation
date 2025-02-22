@@ -39,7 +39,7 @@
       become_user: root
       become_method: ansible.builtin.sudo
       become: yes
-      shell: pihole -a -p "{{ pihole_password }}"
+      shell: pihole setpassword "{{ pihole_password }}"
 
     - name: Set authorized key taken from file
       authorized_key:

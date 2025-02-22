@@ -21,10 +21,8 @@ const run = async (
 
     sh.mkdir(".secrets", { recursive: true })
     await fs.writeFile(
-      path.join(__dirname, "..", ".secrets", "users.env"),
-      `
----
-pihole_password: "${password.value}"`,
+      path.join(__dirname, "..", ".secrets", "ansible-secrets.yml"),
+      `pihole_password: "${password.value}"`,
       "utf8",
     )
     const hostsPath = path.join(__dirname, "..", ".secrets", "hosts.yml")
