@@ -22,11 +22,12 @@
           - qemu-guest-agent
         state: present
 
-    - name: Install pihole
-      become_user: root
-      become_method: ansible.builtin.sudo
-      become: yes
-      shell: curl -sSL https://install.pi-hole.net | bash /dev/stdin --unattended
+    # This does not run unattended; here for documentation purposes only.
+    # - name: Install pihole
+    #   become_user: root
+    #   become_method: ansible.builtin.sudo
+    #   become: yes
+    #   shell: curl -sSL https://install.pi-hole.net | bash /dev/stdin --unattended
 
     - name: Update pihole
       become_user: root
