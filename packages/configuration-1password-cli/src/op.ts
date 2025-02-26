@@ -1,0 +1,52 @@
+import { configurationApi as EnvSecretsConfiguration } from "@ha/configuration-env-secrets"
+import sh from "shelljs"
+
+type Item = {
+  id: string
+  title: string
+  fields: { label: string; value: string; id: string }[]
+}
+
+const op = async () => {
+  sh.env["OP_API_TOKEN"] =
+    await EnvSecretsConfiguration.get("onepassword/token")
+  const vaultId = await EnvSecretsConfiguration.get("onepassword/vault-id")
+
+  return {
+    getItemByTitle: async (itemTitle: string): Promise<Item | null> => {
+      try {
+        const item = JSON.parse(
+          sh.exec(
+            `op item get "${itemTitle}" --vault "${vaultId}" --format json`,
+            {
+              silent: true,
+            },
+          ).stdout,
+        )
+
+        return item as Item
+      } catch (error) {
+        return null
+      }
+    },
+    updateItemByTitle: async (itemTitle: string, value: string) => {
+      const { stderr, code } = sh.exec(
+        `op item edit "${itemTitle}" "secret-value"="${value}""`,
+      )
+      if (code !== 0) {
+        throw new Error(stderr)
+      }
+    },
+    createItem: async (name: string, value: string) => {
+      const { stderr, code } = sh.exec(
+        `op item create --category "API Credential" --title "${name}" --vault "${vaultId}" 'secret-value=${value}'`,
+      )
+      if (code !== 0) {
+        throw new Error(stderr)
+      }
+    },
+  }
+}
+
+export { op }
+export type { Item }

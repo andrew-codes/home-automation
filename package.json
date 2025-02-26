@@ -46,7 +46,6 @@
     "@apollo/rover": "^0.10.0",
     "@ha/configure-jest": "workspace:^0.0.1",
     "@ha/nx-executors": "workspace:^0.1.0",
-    "@nx-dotnet/core": "^1.18.0",
     "@nx/workspace": "^20.4.6",
     "@types/jest": "^29.5.14",
     "@types/node": "^18.19.76",
@@ -57,7 +56,7 @@
     "nx": "^20.4.6",
     "prettier": "^3.5.2",
     "ts-jest": "^29.2.5",
-    "typescript": "^4.9.5"
+    "typescript": "^5.7.3"
   },
   "packageManager": "yarn@4.5.1",
   "dependenciesMeta": {

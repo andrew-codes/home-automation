@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "name": "@ha/pihole-service",
+  "version": "0.0.1",
+  "dependencies": {
+    "@ha/k8s": "workspace:^0.0.1",
+    "@ha/pihole": "workspace:^0.0.1"
+  },
+  "devDependencies": {
+    "@ha/configuration-api": "workspace:^0.0.1",
+    "@ha/configuration-workspace": "workspace:^0.0.1",
+    "@ha/jsonnet": "workspace:*",
+    "@ha/kubectl": "workspace:*",
+    "@ha/logger": "workspace:^0.0.1",
+    "@ha/nx-executors": "workspace:^0.1.0",
+    "@ha/shell-utils": "workspace:^1.0.0",
+    "@ha/terraform": "workspace:^0.0.1",
+    "nx": "^20.4.6",
+    "shelljs": "^0.8.5"
+  }
+}

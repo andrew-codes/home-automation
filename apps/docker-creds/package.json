@@ -6,6 +6,12 @@
     "@ha/configuration-workspace": "workspace:^0.0.1",
     "@ha/nx-executors": "workspace:^0.1.0",
     "@ha/shell-utils": "workspace:^1.0.0",
+    "nx": "^20.4.6",
     "shelljs": "^0.8.5"
+  },
+  "dependencies": {
+    "@ha/docker-registry": "workspace:^0.0.1",
+    "@ha/k8s": "workspace:^0.0.1",
+    "@ha/secrets": "workspace:^0.0.1"
   }
 }

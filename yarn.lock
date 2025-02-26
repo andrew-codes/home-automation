@@ -44,7 +44,6 @@ __metadata:
     "@apollo/rover": "npm:^0.10.0"
     "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
-    "@nx-dotnet/core": "npm:^1.18.0"
     "@nx/workspace": "npm:^20.4.6"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^18.19.76"
@@ -55,7 +54,7 @@ __metadata:
     nx: "npm:^20.4.6"
     prettier: "npm:^3.5.2"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   dependenciesMeta:
     binary-install@1.0.6:
       unplugged: true
@@ -3608,23 +3607,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/eslintrc@npm:^1.3.1":
-  version: 1.4.1
-  resolution: "@eslint/eslintrc@npm:1.4.1"
-  dependencies:
-    ajv: "npm:^6.12.4"
-    debug: "npm:^4.3.2"
-    espree: "npm:^9.4.0"
-    globals: "npm:^13.19.0"
-    ignore: "npm:^5.2.0"
-    import-fresh: "npm:^3.2.1"
-    js-yaml: "npm:^4.1.0"
-    minimatch: "npm:^3.1.2"
-    strip-json-comments: "npm:^3.1.1"
-  checksum: 10/e587923ba913d90865eae73308e77750da8b85de941f8df990e0efeec3cc188d2f66c0c5085fdb50748b2e43d11bf7c0cae9f2e743369b3d3a36e14a7704a2b1
-  languageName: node
-  linkType: hard
-
 "@eslint/eslintrc@npm:^2.1.4":
   version: 2.1.4
   resolution: "@eslint/eslintrc@npm:2.1.4"
@@ -3666,6 +3648,22 @@ __metadata:
     "@ha/jsonnet": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/nx-executors": "workspace:^0.1.0"
+    nx: "npm:^20.4.6"
+  languageName: unknown
+  linkType: soft
+
+"@ha/ansible@workspace:^0.0.1, @ha/ansible@workspace:packages/ansible":
+  version: 0.0.0-use.local
+  resolution: "@ha/ansible@workspace:packages/ansible"
+  dependencies:
+    "@ha/logger": "workspace:^0.0.1"
+    "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    "@types/shelljs": "npm:^0.8.15"
+    lodash: "npm:^4.17.21"
+    nx: "npm:^20.4.6"
+    shelljs: "npm:^0.8.5"
+    yaml: "npm:^2.7.0"
   languageName: unknown
   linkType: soft
 
@@ -3681,8 +3679,9 @@ __metadata:
     esbuild: "npm:^0.25.0"
     jest: "npm:^29.7.0"
     lodash: "npm:^4.17.21"
+    nx: "npm:^20.4.6"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
@@ -3701,11 +3700,16 @@ __metadata:
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/docker": "workspace:^0.0.1"
+    "@ha/docker-creds": "workspace:^0.0.1"
+    "@ha/docker-registry": "workspace:^0.0.1"
     "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/k8s": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/logger": "workspace:^0.0.1"
     "@ha/mqtt-client": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/pihole": "workspace:^0.0.1"
+    "@ha/secrets": "workspace:^0.0.1"
     "@ha/shell-utils": "workspace:^1.0.0"
     "@ha/themes-slate": "workspace:^0.0.1"
     "@ha/unifi-client": "workspace:^0.1.0"
@@ -3725,6 +3729,7 @@ __metadata:
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
     lodash: "npm:^4.17.21"
+    nx: "npm:^20.4.6"
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
     react-is: "npm:18.3.1"
@@ -3732,7 +3737,7 @@ __metadata:
     styled-components: "npm:^5.3.11"
     ts-jest: "npm:^29.2.5"
     tsc: "npm:^2.0.4"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
@@ -3745,6 +3750,7 @@ __metadata:
     "@ha/jsonnet": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/nx-executors": "workspace:^0.1.0"
+    nx: "npm:^20.4.6"
   languageName: unknown
   linkType: soft
 
@@ -3758,12 +3764,13 @@ __metadata:
     "@types/node": "npm:^18.19.76"
     jest: "npm:^29.7.0"
     lodash: "npm:^4.17.21"
+    nx: "npm:^20.4.6"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
-"@ha/cloudflared@workspace:apps/cloudflared":
+"@ha/cloudflared@workspace:^0.0.1, @ha/cloudflared@workspace:apps/cloudflared":
   version: 0.0.0-use.local
   resolution: "@ha/cloudflared@workspace:apps/cloudflared"
   dependencies:
@@ -3771,8 +3778,12 @@ __metadata:
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/docker": "workspace:^0.0.1"
     "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/k8s": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/pihole": "workspace:^0.0.1"
+    "@ha/secrets": "workspace:^0.0.1"
+    nx: "npm:^20.4.6"
   languageName: unknown
   linkType: soft
 
@@ -3787,7 +3798,32 @@ __metadata:
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/nx-executors": "workspace:^0.1.0"
     "@types/shelljs": "npm:^0.8.15"
+    nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
+  languageName: unknown
+  linkType: soft
+
+"@ha/configuration-1password-cli@workspace:^0.0.1, @ha/configuration-1password-cli@workspace:packages/configuration-1password-cli":
+  version: 0.0.0-use.local
+  resolution: "@ha/configuration-1password-cli@workspace:packages/configuration-1password-cli"
+  dependencies:
+    "@1password/connect": "npm:^1.4.1"
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-env-secrets": "workspace:^0.0.1"
+    "@ha/configure-jest": "workspace:^0.0.1"
+    "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/secret-utils": "workspace:^0.0.1"
+    "@types/jest": "npm:^29.5.14"
+    "@types/lodash": "npm:^4.17.15"
+    "@types/node": "npm:^18.19.76"
+    "@types/shelljs": "npm:^0.8.15"
+    jest: "npm:^29.7.0"
+    jest-when: "npm:^3.7.0"
+    lodash: "npm:^4.17.21"
+    nx: "npm:^20.4.6"
+    shelljs: "npm:^0.8.5"
+    ts-jest: "npm:^29.2.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
@@ -3806,14 +3842,17 @@ __metadata:
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
     lodash: "npm:^4.17.21"
+    nx: "npm:^20.4.6"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
 "@ha/configuration-api@workspace:^0.0.1, @ha/configuration-api@workspace:packages/configuration-api":
   version: 0.0.0-use.local
   resolution: "@ha/configuration-api@workspace:packages/configuration-api"
+  dependencies:
+    nx: "npm:^20.4.6"
   languageName: unknown
   linkType: soft
 
@@ -3831,8 +3870,9 @@ __metadata:
     dotenv: "npm:^16.4.7"
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
+    nx: "npm:^20.4.6"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
@@ -3841,18 +3881,20 @@ __metadata:
   resolution: "@ha/configuration-workspace@workspace:packages/configuration-workspace"
   dependencies:
     "@ha/configuration-1password": "workspace:^0.0.1"
+    "@ha/configuration-1password-cli": "workspace:^0.0.1"
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-env-secrets": "workspace:^0.0.1"
     "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
     "@types/jest": "npm:^29.5.14"
+    "@types/lodash": "npm:^4.17.15"
     "@types/node": "npm:^18.19.76"
-    debug: "npm:^4.4.0"
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
     lodash: "npm:^4.17.21"
+    nx: "npm:^20.4.6"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
@@ -3866,14 +3908,15 @@ __metadata:
     jest: "npm:^29.7.0"
     jest-config: "npm:^29.7.0"
     lodash: "npm:^4.17.21"
+    nx: "npm:^20.4.6"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   peerDependencies:
     "@types/jest": ^29.2.5
     "@types/node": ^18.11.18
     jest: ^29.3.1
     ts-jest: ^29.0.5
-    typescript: ^4.9.4
+    typescript: ^5.7.3
   languageName: unknown
   linkType: soft
 
@@ -3887,24 +3930,37 @@ __metadata:
     "@types/node": "npm:^18.19.76"
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
+    nx: "npm:^20.4.6"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
-"@ha/docker-creds@workspace:apps/docker-creds":
+"@ha/deployment-utils@workspace:packages/deployment-utils":
+  version: 0.0.0-use.local
+  resolution: "@ha/deployment-utils@workspace:packages/deployment-utils"
+  dependencies:
+    nx: "npm:^20.4.6"
+  languageName: unknown
+  linkType: soft
+
+"@ha/docker-creds@workspace:^0.0.1, @ha/docker-creds@workspace:apps/docker-creds":
   version: 0.0.0-use.local
   resolution: "@ha/docker-creds@workspace:apps/docker-creds"
   dependencies:
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/docker-registry": "workspace:^0.0.1"
+    "@ha/k8s": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/secrets": "workspace:^0.0.1"
     "@ha/shell-utils": "workspace:^1.0.0"
+    nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
   languageName: unknown
   linkType: soft
 
-"@ha/docker-registry@workspace:apps/docker-registry":
+"@ha/docker-registry@workspace:^0.0.1, @ha/docker-registry@workspace:apps/docker-registry":
   version: 0.0.0-use.local
   resolution: "@ha/docker-registry@workspace:apps/docker-registry"
   dependencies:
@@ -3913,7 +3969,9 @@ __metadata:
     "@ha/jsonnet": "workspace:*"
     "@ha/kubectl": "workspace:*"
     "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/pihole": "workspace:^0.0.1"
     "@ha/shell-utils": "workspace:^1.0.0"
+    nx: "npm:^20.4.6"
   languageName: unknown
   linkType: soft
 
@@ -3930,9 +3988,10 @@ __metadata:
     "@types/node": "npm:^18.19.76"
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
+    nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
@@ -3946,6 +4005,7 @@ __metadata:
     "@ha/jsonnet": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/nx-executors": "workspace:^0.1.0"
+    nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
   languageName: unknown
   linkType: soft
@@ -3961,8 +4021,9 @@ __metadata:
     detect-node: "npm:^2.1.0"
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
+    nx: "npm:^20.4.6"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
@@ -3976,32 +4037,8 @@ __metadata:
     "@ha/jsonnet": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/nx-executors": "workspace:^0.1.0"
+    nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
-  languageName: unknown
-  linkType: soft
-
-"@ha/game-library-updater@workspace:apps/playnite-web-game-db-updater":
-  version: 0.0.0-use.local
-  resolution: "@ha/game-library-updater@workspace:apps/playnite-web-game-db-updater"
-  dependencies:
-    "@ha/build-ts": "workspace:^1.0.0"
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/configure-jest": "workspace:^0.0.1"
-    "@ha/docker": "workspace:^0.0.1"
-    "@ha/jest-utils": "workspace:^0.0.1"
-    "@ha/jsonnet": "workspace:^0.0.1"
-    "@ha/kubectl": "workspace:^1.0.0"
-    "@ha/nx-executors": "workspace:^0.1.0"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:^18.19.76"
-    esbuild: "npm:^0.25.0"
-    esbuild-register: "npm:^3.6.0"
-    jest: "npm:^29.7.0"
-    jest-when: "npm:^3.7.0"
-    nodemon: "npm:^2.0.22"
-    ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
   languageName: unknown
   linkType: soft
 
@@ -4013,6 +4050,7 @@ __metadata:
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
     "@ha/shell-utils": "workspace:^1.0.0"
+    nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
   languageName: unknown
   linkType: soft
@@ -4029,6 +4067,7 @@ __metadata:
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/nx-executors": "workspace:^0.1.0"
     "@ha/shell-utils": "workspace:^1.0.0"
+    nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
   languageName: unknown
   linkType: soft
@@ -4049,9 +4088,10 @@ __metadata:
     jest-when: "npm:^3.7.0"
     libsodium-wrappers: "npm:^0.7.15"
     lodash: "npm:^4.17.21"
+    nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   bin:
     seal-github-secret: dist/seal.js
   languageName: unknown
@@ -4067,6 +4107,7 @@ __metadata:
     "@ha/jsonnet": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/nx-executors": "workspace:^0.1.0"
+    nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
   languageName: unknown
   linkType: soft
@@ -4078,9 +4119,15 @@ __metadata:
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/docker": "workspace:^0.0.1"
+    "@ha/docker-creds": "workspace:^0.0.1"
+    "@ha/docker-registry": "workspace:^0.0.1"
     "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/k8s": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/pihole": "workspace:^0.0.1"
+    "@ha/secrets": "workspace:^0.0.1"
+    nx: "npm:^20.4.6"
   languageName: unknown
   linkType: soft
 
@@ -4094,12 +4141,17 @@ __metadata:
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/docker": "workspace:^0.0.1"
+    "@ha/docker-creds": "workspace:^0.0.1"
+    "@ha/docker-registry": "workspace:^0.0.1"
     "@ha/http-heartbeat": "workspace:^0.0.1"
     "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/k8s": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/logger": "workspace:^0.0.1"
     "@ha/mqtt-client": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/pihole": "workspace:^0.0.1"
+    "@ha/secrets": "workspace:^0.0.1"
     "@ha/unifi-client": "workspace:^0.1.0"
     "@microsoft/microsoft-graph-client": "npm:^3.0.7"
     "@redux-saga/is": "npm:^1.1.3"
@@ -4120,12 +4172,13 @@ __metadata:
     lodash: "npm:^4.17.21"
     mongodb: "npm:~4.6.0"
     nodemon: "npm:^2.0.22"
+    nx: "npm:^20.4.6"
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
     redux-saga: "npm:^1.3.0"
     redux-saga-test-plan: "npm:^4.0.6"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
@@ -4138,13 +4191,18 @@ __metadata:
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/docker": "workspace:^0.0.1"
+    "@ha/docker-creds": "workspace:^0.0.1"
+    "@ha/docker-registry": "workspace:^0.0.1"
     "@ha/ha-entity-utils": "workspace:^0.0.1"
     "@ha/http-heartbeat": "workspace:^0.0.1"
     "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/k8s": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/logger": "workspace:^0.0.1"
     "@ha/mqtt-client": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/pihole": "workspace:^0.0.1"
+    "@ha/secrets": "workspace:^0.0.1"
     "@ha/unifi-client": "workspace:^0.1.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^18.19.76"
@@ -4155,11 +4213,12 @@ __metadata:
     jest-when: "npm:^3.7.0"
     lodash: "npm:^4.17.21"
     nodemon: "npm:^2.0.22"
+    nx: "npm:^20.4.6"
     redux: "npm:^4.2.1"
     redux-saga: "npm:^1.3.0"
     reselect: "npm:^4.1.8"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
@@ -4172,12 +4231,17 @@ __metadata:
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/docker": "workspace:^0.0.1"
+    "@ha/docker-creds": "workspace:^0.0.1"
+    "@ha/docker-registry": "workspace:^0.0.1"
     "@ha/http-heartbeat": "workspace:^0.0.1"
     "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/k8s": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/logger": "workspace:^0.0.1"
     "@ha/mqtt-client": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/pihole": "workspace:^0.0.1"
+    "@ha/secrets": "workspace:^0.0.1"
     "@ha/unifi-client": "workspace:^0.1.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^18.19.76"
@@ -4187,8 +4251,9 @@ __metadata:
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
     nodemon: "npm:^2.0.22"
+    nx: "npm:^20.4.6"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
@@ -4203,8 +4268,9 @@ __metadata:
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
     lodash: "npm:^4.17.21"
+    nx: "npm:^20.4.6"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
@@ -4216,8 +4282,13 @@ __metadata:
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/docker": "workspace:^0.0.1"
     "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/k8s": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/nfs-provisioner": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/pihole": "workspace:^0.0.1"
+    "@ha/secrets": "workspace:^0.0.1"
+    nx: "npm:^20.4.6"
   languageName: unknown
   linkType: soft
 
@@ -4233,8 +4304,9 @@ __metadata:
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
     lodash: "npm:^4.17.21"
+    nx: "npm:^20.4.6"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
@@ -4245,21 +4317,16 @@ __metadata:
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/docker": "workspace:^0.0.1"
+    "@ha/docker-creds": "workspace:^0.0.1"
+    "@ha/docker-registry": "workspace:^0.0.1"
     "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/k8s": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/nfs-provisioner": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
-    shelljs: "npm:^0.8.5"
-  languageName: unknown
-  linkType: soft
-
-"@ha/infrastructure-debian-cloudinit@workspace:apps/infrastructure-debian-cloudinit":
-  version: 0.0.0-use.local
-  resolution: "@ha/infrastructure-debian-cloudinit@workspace:apps/infrastructure-debian-cloudinit"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/nx-executors": "workspace:^0.1.0"
-    "@ha/shell-utils": "workspace:^1.0.0"
+    "@ha/pihole": "workspace:^0.0.1"
+    "@ha/secrets": "workspace:^0.0.1"
+    nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
   languageName: unknown
   linkType: soft
@@ -4288,43 +4355,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/infrastructure-k8s@workspace:apps/infrastructure-k8s":
-  version: 0.0.0-use.local
-  resolution: "@ha/infrastructure-k8s@workspace:apps/infrastructure-k8s"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/nx-executors": "workspace:^0.1.0"
-    "@ha/shell-utils": "workspace:^1.0.0"
-    shelljs: "npm:^0.8.5"
-  languageName: unknown
-  linkType: soft
-
-"@ha/infrastructure-remote-codespaces@workspace:apps/infrastructure-remote-codespaces":
-  version: 0.0.0-use.local
-  resolution: "@ha/infrastructure-remote-codespaces@workspace:apps/infrastructure-remote-codespaces"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/nx-executors": "workspace:^0.1.0"
-    "@ha/shell-utils": "workspace:^1.0.0"
-    shelljs: "npm:^0.8.5"
-  languageName: unknown
-  linkType: soft
-
-"@ha/internal-proxy@workspace:apps/internal-proxy":
-  version: 0.0.0-use.local
-  resolution: "@ha/internal-proxy@workspace:apps/internal-proxy"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/nx-executors": "workspace:^0.1.0"
-    "@ha/shell-utils": "workspace:^1.0.0"
-    nx: "npm:^20.4.6"
-    shelljs: "npm:^0.8.5"
-  languageName: unknown
-  linkType: soft
-
 "@ha/jest-utils@workspace:^0.0.1, @ha/jest-utils@workspace:packages/jest-utils":
   version: 0.0.0-use.local
   resolution: "@ha/jest-utils@workspace:packages/jest-utils"
@@ -4335,8 +4365,9 @@ __metadata:
     "@types/node": "npm:^18.19.76"
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
+    nx: "npm:^20.4.6"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
@@ -4352,21 +4383,29 @@ __metadata:
     "@types/node": "npm:^18.19.76"
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
+    nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
-"@ha/k8s@workspace:apps/k8s":
+"@ha/k8s@workspace:^0.0.1, @ha/k8s@workspace:apps/k8s":
   version: 0.0.0-use.local
   resolution: "@ha/k8s@workspace:apps/k8s"
   dependencies:
+    "@ha/ansible": "workspace:^0.0.1"
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/github-secrets": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
     "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/pihole": "workspace:^0.0.1"
     "@ha/shell-utils": "workspace:^1.0.0"
+    "@ha/terraform": "workspace:^0.0.1"
+    "@nrwl/devkit": "npm:^19.8.4"
+    "@types/shelljs": "npm:^0.8.15"
+    nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
   languageName: unknown
   linkType: soft
@@ -4377,15 +4416,18 @@ __metadata:
   dependencies:
     "@ha/cli-utils": "workspace:^0.0.1"
     "@ha/configure-jest": "workspace:^0.0.1"
+    "@ha/logger": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
     "@ha/shell-utils": "workspace:^1.0.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^18.19.76"
+    "@types/shelljs": "npm:^0.8.15"
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
+    nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
     uuid: "npm:^9.0.1"
   languageName: unknown
   linkType: soft
@@ -4401,8 +4443,9 @@ __metadata:
     "@types/node": "npm:^18.19.76"
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
+    nx: "npm:^20.4.6"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
     winston: "npm:^3.17.0"
   languageName: unknown
   linkType: soft
@@ -4421,8 +4464,9 @@ __metadata:
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
     lodash: "npm:^4.17.21"
+    nx: "npm:^20.4.6"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
@@ -4432,8 +4476,12 @@ __metadata:
   dependencies:
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/k8s": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/pihole": "workspace:^0.0.1"
+    "@ha/secrets": "workspace:^0.0.1"
     "@ha/shell-utils": "workspace:^1.0.0"
+    nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
   languageName: unknown
   linkType: soft
@@ -4449,8 +4497,9 @@ __metadata:
     async-mqtt: "npm:^2.6.3"
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
+    nx: "npm:^20.4.6"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   peerDependencies:
     async-mqtt: ^2.6.3
   languageName: unknown
@@ -4475,11 +4524,12 @@ __metadata:
     debug: "npm:^4.4.0"
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
+    nx: "npm:^20.4.6"
     redux: "npm:^4.2.1"
     redux-saga: "npm:^1.3.0"
     redux-saga-test-plan: "npm:^4.0.6"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
@@ -4490,21 +4540,32 @@ __metadata:
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/docker": "workspace:^0.0.1"
+    "@ha/docker-creds": "workspace:^0.0.1"
+    "@ha/docker-registry": "workspace:^0.0.1"
     "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/k8s": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/nfs-provisioner": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/pihole": "workspace:^0.0.1"
+    "@ha/secrets": "workspace:^0.0.1"
+    nx: "npm:^20.4.6"
   languageName: unknown
   linkType: soft
 
-"@ha/nfs-provisioner@workspace:apps/nfs-provisioner":
+"@ha/nfs-provisioner@workspace:^0.0.1, @ha/nfs-provisioner@workspace:apps/nfs-provisioner":
   version: 0.0.0-use.local
   resolution: "@ha/nfs-provisioner@workspace:apps/nfs-provisioner"
   dependencies:
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/k8s": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/pihole": "workspace:^0.0.1"
+    "@ha/secrets": "workspace:^0.0.1"
     "@ha/shell-utils": "workspace:^1.0.0"
     "@types/shelljs": "npm:^0.8.15"
+    nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
   languageName: unknown
   linkType: soft
@@ -4518,6 +4579,7 @@ __metadata:
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/env-utils": "workspace:^0.0.1"
+    "@ha/logger": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
     "@ha/shell-utils": "workspace:^1.0.0"
     "@nrwl/devkit": "npm:19.8.4"
@@ -4531,33 +4593,7 @@ __metadata:
     nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
-  languageName: unknown
-  linkType: soft
-
-"@ha/obsidian-livesync@workspace:apps/obsidian-livesync":
-  version: 0.0.0-use.local
-  resolution: "@ha/obsidian-livesync@workspace:apps/obsidian-livesync"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/docker": "workspace:^0.0.1"
-    "@ha/jsonnet": "workspace:^0.0.1"
-    "@ha/kubectl": "workspace:^1.0.0"
-    "@ha/nx-executors": "workspace:^0.1.0"
-  languageName: unknown
-  linkType: soft
-
-"@ha/openvpn@workspace:apps/openvpn":
-  version: 0.0.0-use.local
-  resolution: "@ha/openvpn@workspace:apps/openvpn"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/github-secrets": "workspace:^0.0.1"
-    "@ha/nx-executors": "workspace:^0.1.0"
-    "@ha/shell-utils": "workspace:^1.0.0"
-    shelljs: "npm:^0.8.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
@@ -4571,6 +4607,7 @@ __metadata:
     "@ha/jsonnet": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/nx-executors": "workspace:^0.1.0"
+    nx: "npm:^20.4.6"
   languageName: unknown
   linkType: soft
 
@@ -4592,22 +4629,43 @@ __metadata:
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
     lodash: "npm:^4.17.21"
+    nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
-"@ha/pihole@workspace:apps/pihole":
+"@ha/pihole-service@workspace:apps/pihole-service":
   version: 0.0.0-use.local
-  resolution: "@ha/pihole@workspace:apps/pihole"
+  resolution: "@ha/pihole-service@workspace:apps/pihole-service"
   dependencies:
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/jsonnet": "workspace:*"
+    "@ha/k8s": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:*"
+    "@ha/logger": "workspace:^0.0.1"
+    "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/pihole": "workspace:^0.0.1"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    "@ha/terraform": "workspace:^0.0.1"
+    nx: "npm:^20.4.6"
+    shelljs: "npm:^0.8.5"
+  languageName: unknown
+  linkType: soft
+
+"@ha/pihole@workspace:^0.0.1, @ha/pihole@workspace:apps/pihole":
+  version: 0.0.0-use.local
+  resolution: "@ha/pihole@workspace:apps/pihole"
+  dependencies:
+    "@ha/ansible": "workspace:^0.0.1"
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/logger": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
     "@ha/shell-utils": "workspace:^1.0.0"
+    "@ha/terraform": "workspace:^0.0.1"
     nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
   languageName: unknown
@@ -4624,8 +4682,12 @@ __metadata:
     "@ha/docker": "workspace:^0.0.1"
     "@ha/jest-utils": "workspace:^0.0.1"
     "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/k8s": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/nfs-provisioner": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/pihole": "workspace:^0.0.1"
+    "@ha/secrets": "workspace:^0.0.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^18.19.76"
     esbuild: "npm:^0.25.0"
@@ -4633,21 +4695,26 @@ __metadata:
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
     nodemon: "npm:^2.0.22"
+    nx: "npm:^20.4.6"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
-"@ha/proxmox@workspace:apps/proxmox":
+"@ha/proxmox@workspace:apps/pve-service":
   version: 0.0.0-use.local
-  resolution: "@ha/proxmox@workspace:apps/proxmox"
+  resolution: "@ha/proxmox@workspace:apps/pve-service"
   dependencies:
+    "@ha/cloudflared": "workspace:^0.0.1"
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/jsonnet": "workspace:*"
+    "@ha/k8s": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:*"
     "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/secrets": "workspace:^0.0.1"
     "@ha/shell-utils": "workspace:^1.0.0"
+    nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
   languageName: unknown
   linkType: soft
@@ -4662,38 +4729,23 @@ __metadata:
     "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/docker": "workspace:^0.0.1"
     "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/k8s": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
-    "@ha/logger": "workspace:^0.0.1"
-    "@ha/mqtt-client": "workspace:^0.0.1"
-    "@ha/mqtt-heartbeat": "workspace:^0.0.1"
+    "@ha/nfs-provisioner": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
-    "@reduxjs/toolkit": "npm:^2.5.1"
+    "@ha/pihole": "workspace:^0.0.1"
+    "@ha/secrets": "workspace:^0.0.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^18.19.76"
-    async-mqtt: "npm:^2.6.3"
     esbuild: "npm:^0.25.0"
     esbuild-register: "npm:^3.6.0"
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
-    lodash: "npm:^4.17.21"
     nodemon: "npm:^2.0.22"
-    playactor: "npm:^0.4.1"
-    redux-saga: "npm:^1.3.0"
+    nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
-  languageName: unknown
-  linkType: soft
-
-"@ha/remote-codespaces@workspace:apps/remote-codespaces":
-  version: 0.0.0-use.local
-  resolution: "@ha/remote-codespaces@workspace:apps/remote-codespaces"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/nx-executors": "workspace:^0.1.0"
-    "@ha/shell-utils": "workspace:^1.0.0"
-    shelljs: "npm:^0.8.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
@@ -4707,12 +4759,13 @@ __metadata:
     "@types/node": "npm:^18.19.76"
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
+    nx: "npm:^20.4.6"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
-"@ha/secrets@workspace:apps/secrets":
+"@ha/secrets@workspace:^0.0.1, @ha/secrets@workspace:apps/secrets":
   version: 0.0.0-use.local
   resolution: "@ha/secrets@workspace:apps/secrets"
   dependencies:
@@ -4720,7 +4773,10 @@ __metadata:
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/k8s": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/logger": "workspace:^0.0.1"
+    "@ha/nx-executors": "workspace:^0.1.0"
     "@ha/secret-utils": "workspace:^0.0.1"
     "@ha/shell-utils": "workspace:^1.0.0"
     "@types/jest": "npm:^29.5.14"
@@ -4728,9 +4784,10 @@ __metadata:
     "@types/shelljs": "npm:^0.8.15"
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
+    nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
@@ -4744,11 +4801,11 @@ __metadata:
     "@ha/nx-executors": "workspace:^0.1.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^18.19.76"
-    debug: "npm:^4.4.0"
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
+    nx: "npm:^20.4.6"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
@@ -4763,14 +4820,49 @@ __metadata:
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
     lodash: "npm:^4.17.21"
+    nx: "npm:^20.4.6"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
+  languageName: unknown
+  linkType: soft
+
+"@ha/tailscale@workspace:apps/tailscale":
+  version: 0.0.0-use.local
+  resolution: "@ha/tailscale@workspace:apps/tailscale"
+  dependencies:
+    "@ha/ansible": "workspace:^0.0.1"
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:*"
+    "@ha/kubectl": "workspace:*"
+    "@ha/logger": "workspace:^0.0.1"
+    "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/pihole": "workspace:^0.0.1"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    "@ha/terraform": "workspace:^0.0.1"
+    nx: "npm:^20.4.6"
+    shelljs: "npm:^0.8.5"
+  languageName: unknown
+  linkType: soft
+
+"@ha/terraform@workspace:^0.0.1, @ha/terraform@workspace:packages/terraform":
+  version: 0.0.0-use.local
+  resolution: "@ha/terraform@workspace:packages/terraform"
+  dependencies:
+    "@ha/logger": "workspace:^0.0.1"
+    "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    "@types/shelljs": "npm:^0.8.15"
+    nx: "npm:^20.4.6"
+    shelljs: "npm:^0.8.5"
   languageName: unknown
   linkType: soft
 
 "@ha/themes-definition@workspace:^0.0.1, @ha/themes-definition@workspace:packages/themes/definition":
   version: 0.0.0-use.local
   resolution: "@ha/themes-definition@workspace:packages/themes/definition"
+  dependencies:
+    nx: "npm:^20.4.6"
   languageName: unknown
   linkType: soft
 
@@ -4779,6 +4871,22 @@ __metadata:
   resolution: "@ha/themes-slate@workspace:packages/themes/slate"
   dependencies:
     "@ha/themes-definition": "workspace:^0.0.1"
+    nx: "npm:^20.4.6"
+  languageName: unknown
+  linkType: soft
+
+"@ha/ubuntu-cloud-template@workspace:apps/ubuntu-cloud-template":
+  version: 0.0.0-use.local
+  resolution: "@ha/ubuntu-cloud-template@workspace:apps/ubuntu-cloud-template"
+  dependencies:
+    "@ha/ansible": "workspace:^0.0.1"
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    "@types/shelljs": "npm:^0.8.15"
+    nx: "npm:^20.4.6"
+    shelljs: "npm:^0.8.5"
   languageName: unknown
   linkType: soft
 
@@ -4792,8 +4900,9 @@ __metadata:
     "@types/node": "npm:^18.19.76"
     jest: "npm:^29.7.0"
     jest-when: "npm:^3.7.0"
+    nx: "npm:^20.4.6"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
@@ -4806,6 +4915,7 @@ __metadata:
     "@ha/jsonnet": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/nx-executors": "workspace:^0.1.0"
+    nx: "npm:^20.4.6"
   languageName: unknown
   linkType: soft
 
@@ -4818,12 +4928,17 @@ __metadata:
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/docker": "workspace:^0.0.1"
+    "@ha/docker-creds": "workspace:^0.0.1"
+    "@ha/docker-registry": "workspace:^0.0.1"
     "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/k8s": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/logger": "workspace:^0.0.1"
     "@ha/mqtt-client": "workspace:^0.0.1"
     "@ha/mqtt-heartbeat": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/pihole": "workspace:^0.0.1"
+    "@ha/secrets": "workspace:^0.0.1"
     "@ha/shell-utils": "workspace:^1.0.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^18.19.76"
@@ -4833,9 +4948,10 @@ __metadata:
     jest: "npm:^29.7.0"
     lodash: "npm:^4.17.21"
     nodemon: "npm:^2.0.22"
+    nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
     ts-jest: "npm:^29.2.5"
-    typescript: "npm:^4.9.5"
+    typescript: "npm:^5.7.3"
     wakeonlan: "npm:^0.1.0"
   languageName: unknown
   linkType: soft
@@ -4847,21 +4963,15 @@ __metadata:
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/k8s": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/nfs-provisioner": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/pihole": "workspace:^0.0.1"
+    "@ha/secrets": "workspace:^0.0.1"
+    nx: "npm:^20.4.6"
   languageName: unknown
   linkType: soft
-
-"@humanwhocodes/config-array@npm:^0.10.4":
-  version: 0.10.7
-  resolution: "@humanwhocodes/config-array@npm:0.10.7"
-  dependencies:
-    "@humanwhocodes/object-schema": "npm:^1.2.1"
-    debug: "npm:^4.1.1"
-    minimatch: "npm:^3.0.4"
-  checksum: 10/3f1e3ff818eb5d1d8ab841a8204f555cb65e19e8efeadd7f816eec7d05b6b176b139f6d4a9144f231e391fd0d4e615a8956c13812a0893a3c93839e823f35a03
-  languageName: node
-  linkType: hard
 
 "@humanwhocodes/config-array@npm:^0.13.0":
   version: 0.13.0
@@ -4874,24 +4984,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@humanwhocodes/gitignore-to-minimatch@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "@humanwhocodes/gitignore-to-minimatch@npm:1.0.2"
-  checksum: 10/012feb4bb622633fff044e378c47e5779feea7cbf28b2d026ea17ed47f40107032bfab39e7f66ffd8e94800a685d52c285515bc40c68b63e48d4a9678f188508
-  languageName: node
-  linkType: hard
-
 "@humanwhocodes/module-importer@npm:^1.0.1":
   version: 1.0.1
   resolution: "@humanwhocodes/module-importer@npm:1.0.1"
   checksum: 10/e993950e346331e5a32eefb27948ecdee2a2c4ab3f072b8f566cd213ef485dd50a3ca497050608db91006f5479e43f91a439aef68d2a313bd3ded06909c7c5b3
-  languageName: node
-  linkType: hard
-
-"@humanwhocodes/object-schema@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "@humanwhocodes/object-schema@npm:1.2.1"
-  checksum: 10/b48a8f87fcd5fdc4ac60a31a8bf710d19cc64556050575e6a35a4a48a8543cf8cde1598a65640ff2cdfbfd165b38f9db4fa3782bea7848eb585cc3db824002e6
   languageName: node
   linkType: hard
 
@@ -5431,18 +5527,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/devkit@npm:*":
-  version: 15.5.1
-  resolution: "@nrwl/devkit@npm:15.5.1"
+"@nrwl/devkit@npm:19.8.14, @nrwl/devkit@npm:^19.8.4":
+  version: 19.8.14
+  resolution: "@nrwl/devkit@npm:19.8.14"
   dependencies:
-    "@phenomnomnominal/tsquery": "npm:4.1.1"
-    ejs: "npm:^3.1.7"
-    ignore: "npm:^5.0.4"
-    semver: "npm:7.3.4"
-    tslib: "npm:^2.3.0"
-  peerDependencies:
-    nx: ">= 14 <= 16"
-  checksum: 10/e69d5056390d6d07c1607a54640c54fa46e9ad47de8c2163c6d5888d577d1822079bee062a4282311745e60a6ab7b5579e00e6ac3fc9916dace36b6b25a1e4a3
+    "@nx/devkit": "npm:19.8.14"
+  checksum: 10/821ef76ebda0df08204d6ec61481fb17d0ef311cb5b02d49848fb270aefb832f08f2be1f5cbbd2770b583d75ff2be0f9773d0a1660501bceb578ee0b58d20061
   languageName: node
   linkType: hard
 
@@ -5455,47 +5545,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nx-dotnet/core@npm:^1.18.0":
-  version: 1.18.0
-  resolution: "@nx-dotnet/core@npm:1.18.0"
+"@nx/devkit@npm:19.8.14":
+  version: 19.8.14
+  resolution: "@nx/devkit@npm:19.8.14"
   dependencies:
-    "@nx-dotnet/dotnet": "npm:1.18.0"
-    "@nx-dotnet/utils": "npm:1.18.0"
-    eslint: "npm:8.23.0"
-    fast-glob: "npm:3.2.11"
-    inquirer: "npm:8.2.2"
-    rimraf: "npm:3.0.2"
-    semver: "npm:7.3.7"
-    xmldoc: "npm:1.1.2"
+    "@nrwl/devkit": "npm:19.8.14"
+    ejs: "npm:^3.1.7"
+    enquirer: "npm:~2.3.6"
+    ignore: "npm:^5.0.4"
+    minimatch: "npm:9.0.3"
+    semver: "npm:^7.5.3"
+    tmp: "npm:~0.2.1"
+    tslib: "npm:^2.3.0"
+    yargs-parser: "npm:21.1.1"
   peerDependencies:
-    "@nrwl/devkit": ">14.0.0-beta.1"
-    "@nrwl/workspace": ">14.0.0-beta.1"
-    nx: ">14.0.0-beta.1"
-  checksum: 10/9e916a96c86869893b4acbfeb34716b5b83185c2f1980ab7eab9a8e44c8591cf2ca60dab8450f9d1202c48132f8504ecf918fd6f1f56eb3181e83f4e122633e6
-  languageName: node
-  linkType: hard
-
-"@nx-dotnet/dotnet@npm:1.18.0":
-  version: 1.18.0
-  resolution: "@nx-dotnet/dotnet@npm:1.18.0"
-  peerDependencies:
-    "@nx-dotnet/utils": 1.18.0
-    fast-glob: 3.2.11
-    rimraf: 3.0.2
-    semver: 7.3.7
-    xmldoc: 1.1.2
-  checksum: 10/ab7bdca860f67c569d1ebf65cdb0681b127bdfe72b75c9af0ebe5abcfd89f146eb7b9c066e99d27d76a20ca0f1af947b52e4892516f5833abe9b38d72b5e1379
-  languageName: node
-  linkType: hard
-
-"@nx-dotnet/utils@npm:1.18.0":
-  version: 1.18.0
-  resolution: "@nx-dotnet/utils@npm:1.18.0"
-  peerDependencies:
-    fast-glob: 3.2.11
-    rimraf: 3.0.2
-    xmldoc: 1.1.2
-  checksum: 10/5558fe284f269d3c18237f5fd8e8e78d7d00cc641c2d1db72c94428dd6598d4f34265c65aec2694046145e1607cf69c0dbd520b606e26ac6aa1d123420f2e7a5
+    nx: ">= 19 <= 21"
+  checksum: 10/979295085b9c44b62c6bc58bb4874791003028613880511d6d7758833badb43ea55a22b970a9bac51f664ec041425be6997920d47f3107ac78ef2f1865056c6b
   languageName: node
   linkType: hard
 
@@ -5720,17 +5785,6 @@ __metadata:
   dependencies:
     "@octokit/openapi-types": "npm:^18.0.0"
   checksum: 10/4bcd18850d5397e5835f5686be88ad95e5d7c23e7d53f898b82a8ca5fc1f6a7b53816ef6f9f3b7a06799c0b030d259bf2bd50a258a1656df2dc7f3e533e334f8
-  languageName: node
-  linkType: hard
-
-"@phenomnomnominal/tsquery@npm:4.1.1":
-  version: 4.1.1
-  resolution: "@phenomnomnominal/tsquery@npm:4.1.1"
-  dependencies:
-    esquery: "npm:^1.0.1"
-  peerDependencies:
-    typescript: ^3 || ^4
-  checksum: 10/50e669889039557cee6af07c6fd08c5162f7f654a5d402d11a8c6bf85712af0ac0882a12760851ab1bd7765ab88e9ff92fe8d35cdd94b64d84e17927471dd59e
   languageName: node
   linkType: hard
 
@@ -6568,13 +6622,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^13.7.4":
-  version: 13.13.52
-  resolution: "@types/node@npm:13.13.52"
-  checksum: 10/a1fbd080dd2462f6f0d0c10cb8328ee6b22e59941fb6beb8bca907f96e00798ce85e94320ccab3bf04f87d6c5443535a62e6896ac59c34c79a286821223e56cd
-  languageName: node
-  linkType: hard
-
 "@types/node@npm:^18.19.76":
   version: 18.19.76
   resolution: "@types/node@npm:18.19.76"
@@ -7046,15 +7093,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:^8.8.0":
-  version: 8.8.1
-  resolution: "acorn@npm:8.8.1"
-  bin:
-    acorn: bin/acorn
-  checksum: 10/c77a64b3b695f9e5f0164794462ce7c1909acc1f7d39dcb3f9fce99e82163190e73dab689076ff9eea200505985cbd95f114c4ce1466055baf86a368d5e28bde
-  languageName: node
-  linkType: hard
-
 "agent-base@npm:6, agent-base@npm:^6.0.2":
   version: 6.0.2
   resolution: "agent-base@npm:6.0.2"
@@ -7092,7 +7130,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ajv@npm:^6.10.0, ajv@npm:^6.12.4":
+"ajv@npm:^6.12.4":
   version: 6.12.6
   resolution: "ajv@npm:6.12.6"
   dependencies:
@@ -7131,13 +7169,6 @@ __metadata:
   version: 2.1.1
   resolution: "ansi-regex@npm:2.1.1"
   checksum: 10/190abd03e4ff86794f338a31795d262c1dfe8c91f7e01d04f13f646f1dcb16c5800818f886047876f1272f065570ab86b24b99089f8b68a0e11ff19aed4ca8f1
-  languageName: node
-  linkType: hard
-
-"ansi-regex@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "ansi-regex@npm:3.0.0"
-  checksum: 10/2ad11c416f81c39f5c65eafc88cf1d71aa91d76a2f766e75e457c2a3c43e8a003aadbf2966b61c497aa6a6940a36412486c975b3270cdfc3f413b69826189ec3
   languageName: node
   linkType: hard
 
@@ -7368,15 +7399,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"asn1@npm:^0.2.4":
-  version: 0.2.6
-  resolution: "asn1@npm:0.2.6"
-  dependencies:
-    safer-buffer: "npm:~2.1.0"
-  checksum: 10/cf629291fee6c1a6f530549939433ebf32200d7849f38b810ff26ee74235e845c0c12b2ed0f1607ac17383d19b219b69cefa009b920dab57924c5c544e495078
-  languageName: node
-  linkType: hard
-
 "ast-types-flow@npm:^0.0.8":
   version: 0.0.8
   resolution: "ast-types-flow@npm:0.0.8"
@@ -7445,13 +7467,6 @@ __metadata:
   version: 0.4.0
   resolution: "asynckit@npm:0.4.0"
   checksum: 10/3ce727cbc78f69d6a4722517a58ee926c8c21083633b1d3fdf66fd688f6c127a53a592141bd4866f9b63240a86e9d8e974b13919450bd17fa33c2d22c4558ad8
-  languageName: node
-  linkType: hard
-
-"at-least-node@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "at-least-node@npm:1.0.0"
-  checksum: 10/463e2f8e43384f1afb54bc68485c436d7622acec08b6fad269b421cb1d29cebb5af751426793d0961ed243146fe4dc983402f6d5a51b720b277818dbf6f2e49e
   languageName: node
   linkType: hard
 
@@ -8115,7 +8130,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^2.0.0, chalk@npm:^2.1.0":
+"chalk@npm:^2.0.0":
   version: 2.4.2
   resolution: "chalk@npm:2.4.2"
   dependencies:
@@ -8259,21 +8274,6 @@ __metadata:
   version: 3.0.0
   resolution: "cli-width@npm:3.0.0"
   checksum: 10/8730848b04fb189666ab037a35888d191c8f05b630b1d770b0b0e4c920b47bb5cc14bddf6b8ffe5bfc66cee97c8211d4d18e756c1ffcc75d7dbe7e1186cd7826
-  languageName: node
-  linkType: hard
-
-"clime@npm:^0.5.14":
-  version: 0.5.14
-  resolution: "clime@npm:0.5.14"
-  dependencies:
-    chalk: "npm:^2.1.0"
-    extendable-error: "npm:^0.1.5"
-    hyphenate: "npm:^0.2.1"
-    parse-messy-time: "npm:^2.1.0"
-    reflect-metadata: "npm:^0.1.10"
-    strip-ansi: "npm:^4.0.0"
-    villa: "npm:^0.2.11"
-  checksum: 10/aa89af8dfe64f20494785934490746be897683fdda5a44c60bb1203e3ae7a2394b671e3fcb0f9456cb9b3c8a23ca6bce8183e6316671a8389b37518424911e56
   languageName: node
   linkType: hard
 
@@ -8779,7 +8779,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:4, debug@npm:^4.0.0, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.2.0, debug@npm:^4.3.2, debug@npm:^4.3.3, debug@npm:^4.3.4":
+"debug@npm:4, debug@npm:^4.0.0, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.2, debug@npm:^4.3.3, debug@npm:^4.3.4":
   version: 4.3.4
   resolution: "debug@npm:4.3.4"
   dependencies:
@@ -10180,16 +10180,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-scope@npm:^7.1.1":
-  version: 7.1.1
-  resolution: "eslint-scope@npm:7.1.1"
-  dependencies:
-    esrecurse: "npm:^4.3.0"
-    estraverse: "npm:^5.2.0"
-  checksum: 10/5bc6f6bdfd815202471077108e76af1c8c648a16e4f60d71d9f98db0dd2b2ba9596fa1d427974f6fc7a2cfea728870b9f2f06048cd426f0f2d3d2375f51f67a9
-  languageName: node
-  linkType: hard
-
 "eslint-scope@npm:^7.2.2":
   version: 7.2.2
   resolution: "eslint-scope@npm:7.2.2"
@@ -10248,55 +10238,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:8.23.0":
-  version: 8.23.0
-  resolution: "eslint@npm:8.23.0"
-  dependencies:
-    "@eslint/eslintrc": "npm:^1.3.1"
-    "@humanwhocodes/config-array": "npm:^0.10.4"
-    "@humanwhocodes/gitignore-to-minimatch": "npm:^1.0.2"
-    "@humanwhocodes/module-importer": "npm:^1.0.1"
-    ajv: "npm:^6.10.0"
-    chalk: "npm:^4.0.0"
-    cross-spawn: "npm:^7.0.2"
-    debug: "npm:^4.3.2"
-    doctrine: "npm:^3.0.0"
-    escape-string-regexp: "npm:^4.0.0"
-    eslint-scope: "npm:^7.1.1"
-    eslint-utils: "npm:^3.0.0"
-    eslint-visitor-keys: "npm:^3.3.0"
-    espree: "npm:^9.4.0"
-    esquery: "npm:^1.4.0"
-    esutils: "npm:^2.0.2"
-    fast-deep-equal: "npm:^3.1.3"
-    file-entry-cache: "npm:^6.0.1"
-    find-up: "npm:^5.0.0"
-    functional-red-black-tree: "npm:^1.0.1"
-    glob-parent: "npm:^6.0.1"
-    globals: "npm:^13.15.0"
-    globby: "npm:^11.1.0"
-    grapheme-splitter: "npm:^1.0.4"
-    ignore: "npm:^5.2.0"
-    import-fresh: "npm:^3.0.0"
-    imurmurhash: "npm:^0.1.4"
-    is-glob: "npm:^4.0.0"
-    js-yaml: "npm:^4.1.0"
-    json-stable-stringify-without-jsonify: "npm:^1.0.1"
-    levn: "npm:^0.4.1"
-    lodash.merge: "npm:^4.6.2"
-    minimatch: "npm:^3.1.2"
-    natural-compare: "npm:^1.4.0"
-    optionator: "npm:^0.9.1"
-    regexpp: "npm:^3.2.0"
-    strip-ansi: "npm:^6.0.1"
-    strip-json-comments: "npm:^3.1.0"
-    text-table: "npm:^0.2.0"
-  bin:
-    eslint: bin/eslint.js
-  checksum: 10/7a53f8c8ee0775bdf0cca41d4c032b7c62c70fb0c27573769fe5e1d20e7df202690c727e93134a6d70a9a5c7a3387c5bff6a3eaaed17f039aacfc6e3f1d3df8e
-  languageName: node
-  linkType: hard
-
 "eslint@npm:^8.57.1":
   version: 8.57.1
   resolution: "eslint@npm:8.57.1"
@@ -10345,17 +10286,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"espree@npm:^9.4.0":
-  version: 9.4.1
-  resolution: "espree@npm:9.4.1"
-  dependencies:
-    acorn: "npm:^8.8.0"
-    acorn-jsx: "npm:^5.3.2"
-    eslint-visitor-keys: "npm:^3.3.0"
-  checksum: 10/94435066c4c9a76af0680199b5e29475f4ee44a5a1cf88ed9068988662a126541a913f053a78e95637aa825fb187407807c870e6964c78b677b71a2bbf3aa493
-  languageName: node
-  linkType: hard
-
 "espree@npm:^9.6.0, espree@npm:^9.6.1":
   version: 9.6.1
   resolution: "espree@npm:9.6.1"
@@ -10384,15 +10314,6 @@ __metadata:
     esparse: ./bin/esparse.js
     esvalidate: ./bin/esvalidate.js
   checksum: 10/f1d3c622ad992421362294f7acf866aa9409fbad4eb2e8fa230bd33944ce371d32279667b242d8b8907ec2b6ad7353a717f3c0e60e748873a34a7905174bc0eb
-  languageName: node
-  linkType: hard
-
-"esquery@npm:^1.0.1, esquery@npm:^1.4.0":
-  version: 1.4.0
-  resolution: "esquery@npm:1.4.0"
-  dependencies:
-    estraverse: "npm:^5.1.0"
-  checksum: 10/25b571ec54f186521819be48cd12643f9f5bdef6be9679161a48dec9cfd478764970a77ef563a516cf1f0f05e7e490e3ff2d514715b86cb8d03329cbb56ae4a8
   languageName: node
   linkType: hard
 
@@ -10646,13 +10567,6 @@ __metadata:
   version: 3.0.2
   resolution: "extend@npm:3.0.2"
   checksum: 10/59e89e2dc798ec0f54b36d82f32a27d5f6472c53974f61ca098db5d4648430b725387b53449a34df38fd0392045434426b012f302b3cc049a6500ccf82877e4e
-  languageName: node
-  linkType: hard
-
-"extendable-error@npm:^0.1.5":
-  version: 0.1.7
-  resolution: "extendable-error@npm:0.1.7"
-  checksum: 10/80478be7429a1675d2085f701239796bab3230ed6f2fb1b138fbabec24bea6516b7c5ceb6e9c209efcc9c089948d93715703845653535f8e8a49655066a9255e
   languageName: node
   linkType: hard
 
@@ -11001,18 +10915,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fs-extra@npm:^9.1.0":
-  version: 9.1.0
-  resolution: "fs-extra@npm:9.1.0"
-  dependencies:
-    at-least-node: "npm:^1.0.0"
-    graceful-fs: "npm:^4.2.0"
-    jsonfile: "npm:^6.0.1"
-    universalify: "npm:^2.0.0"
-  checksum: 10/08600da1b49552ed23dfac598c8fc909c66776dd130fea54fbcad22e330f7fcc13488bb995f6bc9ce5651aa35b65702faf616fe76370ee56f1aade55da982dca
-  languageName: node
-  linkType: hard
-
 "fs-minipass@npm:^2.0.0, fs-minipass@npm:^2.1.0":
   version: 2.1.0
   resolution: "fs-minipass@npm:2.1.0"
@@ -11111,13 +11013,6 @@ __metadata:
     hasown: "npm:^2.0.2"
     is-callable: "npm:^1.2.7"
   checksum: 10/25b9e5bea936732a6f0c0c08db58cc0d609ac1ed458c6a07ead46b32e7b9bf3fe5887796c3f83d35994efbc4fdde81c08ac64135b2c399b8f2113968d44082bc
-  languageName: node
-  linkType: hard
-
-"functional-red-black-tree@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "functional-red-black-tree@npm:1.0.1"
-  checksum: 10/debe73e92204341d1fa5f89614e44284d3add26dee660722978d8c50829170f87d1c74768f68c251d215ae461c11db7bac13101c77f4146ff051da75466f7a12
   languageName: node
   linkType: hard
 
@@ -11311,7 +11206,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob-parent@npm:^6.0.1, glob-parent@npm:^6.0.2":
+"glob-parent@npm:^6.0.2":
   version: 6.0.2
   resolution: "glob-parent@npm:6.0.2"
   dependencies:
@@ -11381,7 +11276,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globals@npm:^13.15.0, globals@npm:^13.19.0":
+"globals@npm:^13.19.0":
   version: 13.19.0
   resolution: "globals@npm:13.19.0"
   dependencies:
@@ -11456,25 +11351,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"got@npm:^11.8.2":
-  version: 11.8.3
-  resolution: "got@npm:11.8.3"
-  dependencies:
-    "@sindresorhus/is": "npm:^4.0.0"
-    "@szmarczak/http-timer": "npm:^4.0.5"
-    "@types/cacheable-request": "npm:^6.0.1"
-    "@types/responselike": "npm:^1.0.0"
-    cacheable-lookup: "npm:^5.0.3"
-    cacheable-request: "npm:^7.0.2"
-    decompress-response: "npm:^6.0.0"
-    http2-wrapper: "npm:^1.0.0-beta.5.2"
-    lowercase-keys: "npm:^2.0.0"
-    p-cancelable: "npm:^2.0.0"
-    responselike: "npm:^2.0.0"
-  checksum: 10/eae5373c3523fdc8abd2eee438e008cbcd2802abda847bb70ee288510dbe0f268127ae51351f03e914ac9c26514c68fbfd831f377d0790e95bfdb5444dc223cd
-  languageName: node
-  linkType: hard
-
 "graceful-fs@npm:^4.1.2, graceful-fs@npm:^4.1.6, graceful-fs@npm:^4.2.0, graceful-fs@npm:^4.2.4, graceful-fs@npm:^4.2.9":
   version: 4.2.9
   resolution: "graceful-fs@npm:4.2.9"
@@ -11486,13 +11362,6 @@ __metadata:
   version: 4.2.10
   resolution: "graceful-fs@npm:4.2.10"
   checksum: 10/0c83c52b62c68a944dcfb9d66b0f9f10f7d6e3d081e8067b9bfdc9e5f3a8896584d576036f82915773189eec1eba599397fc620e75c03c0610fb3d67c6713c1a
-  languageName: node
-  linkType: hard
-
-"grapheme-splitter@npm:^1.0.4":
-  version: 1.0.4
-  resolution: "grapheme-splitter@npm:1.0.4"
-  checksum: 10/fdb2f51fd430ce881e18e44c4934ad30e59736e46213f7ad35ea5970a9ebdf7d0fe56150d15cc98230d55d2fd48c73dc6781494c38d8cf2405718366c36adb88
   languageName: node
   linkType: hard
 
@@ -11806,13 +11675,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hyphenate@npm:^0.2.1":
-  version: 0.2.5
-  resolution: "hyphenate@npm:0.2.5"
-  checksum: 10/37f0e5aed389643c5e781c60a2dfd74473daa97dc5dce20327ac1fc109b17cf5fd4656368e04b99e5cc76535c836137fb4a9c5e3bad2579c9b83d9fda021eebf
-  languageName: node
-  linkType: hard
-
 "iconv-lite@npm:0.4.24, iconv-lite@npm:^0.4.24":
   version: 0.4.24
   resolution: "iconv-lite@npm:0.4.24"
@@ -11868,7 +11730,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"import-fresh@npm:^3.0.0, import-fresh@npm:^3.2.1":
+"import-fresh@npm:^3.2.1":
   version: 3.3.0
   resolution: "import-fresh@npm:3.3.0"
   dependencies:
@@ -11932,28 +11794,6 @@ __metadata:
   version: 0.1.1
   resolution: "inline-style-parser@npm:0.1.1"
   checksum: 10/e661f4fb6824a41076c4d23358e8b581fd3410fbfb9baea4cb542a85448b487691c3b9bbb58ad73a95613041ca616f059595f19cadd0c22476a1fffa79842b48
-  languageName: node
-  linkType: hard
-
-"inquirer@npm:8.2.2":
-  version: 8.2.2
-  resolution: "inquirer@npm:8.2.2"
-  dependencies:
-    ansi-escapes: "npm:^4.2.1"
-    chalk: "npm:^4.1.1"
-    cli-cursor: "npm:^3.1.0"
-    cli-width: "npm:^3.0.0"
-    external-editor: "npm:^3.0.3"
-    figures: "npm:^3.0.0"
-    lodash: "npm:^4.17.21"
-    mute-stream: "npm:0.0.8"
-    ora: "npm:^5.4.1"
-    run-async: "npm:^2.4.0"
-    rxjs: "npm:^7.5.5"
-    string-width: "npm:^4.1.0"
-    strip-ansi: "npm:^6.0.0"
-    through: "npm:^2.3.6"
-  checksum: 10/1f36989370f79c9260b1eb84d7c7ce6decd7a616542443713d8ca7d4578c8f26169202824ae593509cfd8548140e6e32dfd11fcedebb026d828722e926af961c
   languageName: node
   linkType: hard
 
@@ -12770,16 +12610,6 @@ __metadata:
     has-symbols: "npm:^1.1.0"
     set-function-name: "npm:^2.0.2"
   checksum: 10/352bcf333f42189e65cc8cb2dcb94a5c47cf0a9110ce12aba788d405a980b5f5f3a06c79bf915377e1d480647169babd842ded0d898bed181bf6686e8e6823f6
-  languageName: node
-  linkType: hard
-
-"ix@npm:^4.3.1":
-  version: 4.5.2
-  resolution: "ix@npm:4.5.2"
-  dependencies:
-    "@types/node": "npm:^13.7.4"
-    tslib: "npm:^2.3.0"
-  checksum: 10/7cfc3bffbcb4449ef537d0ef429e68b36a0d3ce6eec1447780b8ff8d2de0aeccbd79eafe9de76f112c4931097adb4b20f88ed4891f1a69b82d0867b8b84affb6
   languageName: node
   linkType: hard
 
@@ -15019,15 +14849,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-rsa@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "node-rsa@npm:1.1.1"
-  dependencies:
-    asn1: "npm:^0.2.4"
-  checksum: 10/310187a9b25952b4c39371313e906894209aee5e7ee3e984b27bef44f867e5b8a78f4171f232edca22f30c3ea80e585e39e160f9912d632d179416852b8b62c1
-  languageName: node
-  linkType: hard
-
 "nodemon@npm:^2.0.22":
   version: 2.0.22
   resolution: "nodemon@npm:2.0.22"
@@ -15390,7 +15211,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"open@npm:^8.0.8, open@npm:^8.4.0":
+"open@npm:^8.4.0":
   version: 8.4.0
   resolution: "open@npm:8.4.0"
   dependencies:
@@ -15412,20 +15233,6 @@ __metadata:
     type-check: "npm:~0.3.2"
     word-wrap: "npm:~1.2.3"
   checksum: 10/6fa3c841b520f10aec45563962922215180e8cfbc59fde3ecd4ba2644ad66ca96bd19ad0e853f22fefcb7fc10e7612a5215b412cc66c5588f9a3138b38f6b5ff
-  languageName: node
-  linkType: hard
-
-"optionator@npm:^0.9.1":
-  version: 0.9.1
-  resolution: "optionator@npm:0.9.1"
-  dependencies:
-    deep-is: "npm:^0.1.3"
-    fast-levenshtein: "npm:^2.0.6"
-    levn: "npm:^0.4.1"
-    prelude-ls: "npm:^1.2.1"
-    type-check: "npm:^0.4.0"
-    word-wrap: "npm:^1.2.3"
-  checksum: 10/19cfb625ba3cafd99c204744595a8b5111491632d379be341a8286c53a0101adac6f7ca9be4319ccecaaf5d43a55e65dde8b434620726032472833d958d43698
   languageName: node
   linkType: hard
 
@@ -15648,13 +15455,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"parse-messy-time@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "parse-messy-time@npm:2.1.0"
-  checksum: 10/11ea3e1101d0bc973e07a89eeaa3bae87a4c9e0d84176b5cd20043e7ea87fc4895bde7cc48286e29743a7208e7da5ed20b6bd5535c191d5a24f6a2c0d510118a
-  languageName: node
-  linkType: hard
-
 "parse-ms@npm:^2.1.0":
   version: 2.1.0
   resolution: "parse-ms@npm:2.1.0"
@@ -15857,24 +15657,6 @@ __metadata:
     mlly: "npm:^1.7.4"
     pathe: "npm:^2.0.1"
   checksum: 10/6d491f2244597b24fb59a50e3c258f27da3839555d2a4e112b31bcf536e9359fc4edc98639cd74d2cf16fcd4269e5a09d99fc05d89e2acc896a2f027c2f6ec44
-  languageName: node
-  linkType: hard
-
-"playactor@npm:^0.4.1":
-  version: 0.4.1
-  resolution: "playactor@npm:0.4.1"
-  dependencies:
-    chalk: "npm:^4.1.1"
-    clime: "npm:^0.5.14"
-    debug: "npm:^4.2.0"
-    fs-extra: "npm:^9.1.0"
-    got: "npm:^11.8.2"
-    ix: "npm:^4.3.1"
-    node-rsa: "npm:^1.1.1"
-    open: "npm:^8.0.8"
-  bin:
-    playactor: dist/cli/index.js
-  checksum: 10/f629b915b71f0c0b3a77249ab65a72d502dd233a6f916dffb17607afd12cad764ba07695a368bddc3fb4b7ea5348b78e0b86629244e52010bc8efeba0e41c0a8
   languageName: node
   linkType: hard
 
@@ -16519,13 +16301,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"reflect-metadata@npm:^0.1.10":
-  version: 0.1.13
-  resolution: "reflect-metadata@npm:0.1.13"
-  checksum: 10/732570da35d2d96f8fdd5aac60fb263aa92f6512eaded5962b052bd9e90f22a9dec5aaf0d7ff4bfe97646c9530e8444e8435c2d80b24d0bdf938b5d47f6f5b83
-  languageName: node
-  linkType: hard
-
 "reflect.getprototypeof@npm:^1.0.6, reflect.getprototypeof@npm:^1.0.9":
   version: 1.0.10
   resolution: "reflect.getprototypeof@npm:1.0.10"
@@ -16615,7 +16390,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"regexpp@npm:^3.0.0, regexpp@npm:^3.2.0":
+"regexpp@npm:^3.0.0":
   version: 3.2.0
   resolution: "regexpp@npm:3.2.0"
   checksum: 10/3310010895a906873262f4b494fc99bcef1e71ef6720a0532c5999ca586498cbd4a284c8e3c2423f9d1d37512fd08d6064b7564e0e59508cf938f76dd15ace84
@@ -17024,7 +16799,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rimraf@npm:3.0.2, rimraf@npm:^3.0.0, rimraf@npm:^3.0.2":
+"rimraf@npm:^3.0.0, rimraf@npm:^3.0.2":
   version: 3.0.2
   resolution: "rimraf@npm:3.0.2"
   dependencies:
@@ -17214,7 +16989,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"safer-buffer@npm:>= 2.1.2 < 3, safer-buffer@npm:>= 2.1.2 < 3.0.0, safer-buffer@npm:~2.1.0":
+"safer-buffer@npm:>= 2.1.2 < 3, safer-buffer@npm:>= 2.1.2 < 3.0.0":
   version: 2.1.2
   resolution: "safer-buffer@npm:2.1.2"
   checksum: 10/7eaf7a0cf37cc27b42fb3ef6a9b1df6e93a1c6d98c6c6702b02fe262d5fcbd89db63320793b99b21cb5348097d0a53de81bd5f4e8b86e20cc9412e3f1cfb4e83
@@ -17227,13 +17002,6 @@ __metadata:
   dependencies:
     sparse-bitfield: "npm:^3.0.3"
   checksum: 10/d6cae5f0adc960f355b7a78c25616c2aea31e7eeb6322eb2d553f09f1db249594651c1e5d54910e9a47b1dc6131beda82db13ffafbceea92f2a673d69c839982
-  languageName: node
-  linkType: hard
-
-"sax@npm:^1.2.1":
-  version: 1.2.4
-  resolution: "sax@npm:1.2.4"
-  checksum: 10/09b79ff6dc09689a24323352117c94593c69db348997b2af0edbd82fa08aba47d778055bf9616b57285bb73d25d790900c044bf631a8f10c8252412e3f3fe5dd
   languageName: node
   linkType: hard
 
@@ -17255,28 +17023,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:7.3.4":
-  version: 7.3.4
-  resolution: "semver@npm:7.3.4"
-  dependencies:
-    lru-cache: "npm:^6.0.0"
-  bin:
-    semver: bin/semver.js
-  checksum: 10/64fb7172e328da80a46cf36c87ec0072feb218cb63b0d0ecebfaf1e35ee77580f6edc112a5f094fbaec8748d66b6e4cdc76809bdcbe4bac03cd31a690ef1a0f9
-  languageName: node
-  linkType: hard
-
-"semver@npm:7.3.7, semver@npm:^7.3.5":
-  version: 7.3.7
-  resolution: "semver@npm:7.3.7"
-  dependencies:
-    lru-cache: "npm:^6.0.0"
-  bin:
-    semver: bin/semver.js
-  checksum: 10/6f60700810ef4879eb0af1d8d0626e5a2d11ba57ca7889e041d88155cb4b45629d1efebb8c6d381ecac4f87870ecb4e1b27760019d017ed1bf74a5083f4eeeb8
-  languageName: node
-  linkType: hard
-
 "semver@npm:^6.0.0, semver@npm:^6.1.0, semver@npm:^6.3.0":
   version: 6.3.0
   resolution: "semver@npm:6.3.0"
@@ -17292,6 +17038,17 @@ __metadata:
   bin:
     semver: bin/semver.js
   checksum: 10/1ef3a85bd02a760c6ef76a45b8c1ce18226de40831e02a00bad78485390b98b6ccaa31046245fc63bba4a47a6a592b6c7eedc65cc47126e60489f9cc1ce3ed7e
+  languageName: node
+  linkType: hard
+
+"semver@npm:^7.3.5":
+  version: 7.3.7
+  resolution: "semver@npm:7.3.7"
+  dependencies:
+    lru-cache: "npm:^6.0.0"
+  bin:
+    semver: bin/semver.js
+  checksum: 10/6f60700810ef4879eb0af1d8d0626e5a2d11ba57ca7889e041d88155cb4b45629d1efebb8c6d381ecac4f87870ecb4e1b27760019d017ed1bf74a5083f4eeeb8
   languageName: node
   linkType: hard
 
@@ -18026,15 +17783,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"strip-ansi@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "strip-ansi@npm:4.0.0"
-  dependencies:
-    ansi-regex: "npm:^3.0.0"
-  checksum: 10/d9186e6c0cf78f25274f6750ee5e4a5725fb91b70fdd79aa5fe648eab092a0ec5b9621b22d69d4534a56319f75d8944efbd84e3afa8d4ad1b9a9491f12c84eca
-  languageName: node
-  linkType: hard
-
 "strip-ansi@npm:^6.0.0, strip-ansi@npm:^6.0.1":
   version: 6.0.1
   resolution: "strip-ansi@npm:6.0.1"
@@ -18074,7 +17822,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"strip-json-comments@npm:^3.1.0, strip-json-comments@npm:^3.1.1":
+"strip-json-comments@npm:^3.1.1":
   version: 3.1.1
   resolution: "strip-json-comments@npm:3.1.1"
   checksum: 10/492f73e27268f9b1c122733f28ecb0e7e8d8a531a6662efbd08e22cccb3f9475e90a1b82cab06a392f6afae6d2de636f977e231296400d0ec5304ba70f166443
@@ -18474,13 +18222,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:*":
-  version: 2.4.1
-  resolution: "tslib@npm:2.4.1"
-  checksum: 10/e14311d5392ec0e3519feb9afdb54483d7f3aa2d3def6f1a1a30bd3deca5dfeadd106e80bee9ba880bce86a2e50854c9fe5958572cd188d7ac6f8625101a6a8f
-  languageName: node
-  linkType: hard
-
 "tslib@npm:^1.8.1":
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
@@ -18661,23 +18402,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.9.5":
-  version: 4.9.5
-  resolution: "typescript@npm:4.9.5"
+"typescript@npm:^5.7.3":
+  version: 5.7.3
+  resolution: "typescript@npm:5.7.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10/458f7220ab11e0fc191514cc41be1707645ec9a8c2d609448a448e18c522cef9646f58728f6811185a4c35613dacdf6c98cf8965c88b3541d0288c47291e4300
+  checksum: 10/6a7e556de91db3d34dc51cd2600e8e91f4c312acd8e52792f243c7818dfadb27bae677175fad6947f9c81efb6c57eb6b2d0c736f196a6ee2f1f7d57b74fc92fa
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^4.9.5#optional!builtin<compat/typescript>":
-  version: 4.9.5
-  resolution: "typescript@patch:typescript@npm%3A4.9.5#optional!builtin<compat/typescript>::version=4.9.5&hash=289587"
+"typescript@patch:typescript@npm%3A^5.7.3#optional!builtin<compat/typescript>":
+  version: 5.7.3
+  resolution: "typescript@patch:typescript@npm%3A5.7.3#optional!builtin<compat/typescript>::version=5.7.3&hash=cef18b"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10/5659316360b5cc2d6f5931b346401fa534107b68b60179cf14970e27978f0936c1d5c46f4b5b8175f8cba0430f522b3ce355b4b724c0ea36ce6c0347fab25afd
+  checksum: 10/3ac7b7e3e899273d2fbdce6e24b93d4d53a705ad7a7e4cc83b4c57bcb6d25948abcd2a21994f6b9c73ab03960f395aae95f0458de292a66ce0134233261714c3
   languageName: node
   linkType: hard
 
@@ -19078,13 +18819,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"villa@npm:^0.2.11":
-  version: 0.2.11
-  resolution: "villa@npm:0.2.11"
-  checksum: 10/3bad275553f7bbcc46c93b8b1eb19a6bf69827fe332d4a54c318c8f837d3e5982a8af8965799a6fd34cc9b329fef43ba36372af1381f534fdb228ba4d21d8562
-  languageName: node
-  linkType: hard
-
 "vite-node@npm:^1.2.0":
   version: 1.6.1
   resolution: "vite-node@npm:1.6.1"
@@ -19416,17 +19150,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"word-wrap@npm:^1.2.3, word-wrap@npm:~1.2.3":
-  version: 1.2.3
-  resolution: "word-wrap@npm:1.2.3"
-  checksum: 10/08a677e1578b9cc367a03d52bc51b6869fec06303f68d29439e4ed647257411f857469990c31066c1874678937dac737c9f8f20d3fd59918fb86b7d926a76b15
-  languageName: node
-  linkType: hard
-
 "word-wrap@npm:^1.2.5":
   version: 1.2.5
   resolution: "word-wrap@npm:1.2.5"
   checksum: 10/1ec6f6089f205f83037be10d0c4b34c9183b0b63fca0834a5b3cee55dd321429d73d40bb44c8fc8471b5203d6e8f8275717f49a8ff4b2b0ab41d7e1b563e0854
+  languageName: node
+  linkType: hard
+
+"word-wrap@npm:~1.2.3":
+  version: 1.2.3
+  resolution: "word-wrap@npm:1.2.3"
+  checksum: 10/08a677e1578b9cc367a03d52bc51b6869fec06303f68d29439e4ed647257411f857469990c31066c1874678937dac737c9f8f20d3fd59918fb86b7d926a76b15
   languageName: node
   linkType: hard
 
@@ -19523,15 +19257,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"xmldoc@npm:1.1.2":
-  version: 1.1.2
-  resolution: "xmldoc@npm:1.1.2"
-  dependencies:
-    sax: "npm:^1.2.1"
-  checksum: 10/b3f13582cb00cb2149b2dca6e6cb6ec7de9c78b783294850ee3fc61f76b7b59c4c5213bc88e1a8708bdd52c90c0e25f999b51eaae3ab2b6aa462d8c7ecffb2d8
-  languageName: node
-  linkType: hard
-
 "xtend@npm:^4.0.2, xtend@npm:~4.0.1":
   version: 4.0.2
   resolution: "xtend@npm:4.0.2"
@@ -19574,7 +19299,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:^2.3.4, yaml@npm:^2.6.0":
+"yaml@npm:^2.3.4, yaml@npm:^2.6.0, yaml@npm:^2.7.0":
   version: 2.7.0
   resolution: "yaml@npm:2.7.0"
   bin:

@@ -1,27 +1,28 @@
+import { createConfigApi as createOnepasswordConfiguration } from "@ha/configuration-1password"
+import { createConfigApi as createOnePasswordCliConfiguration } from "@ha/configuration-1password-cli"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import { configurationApi as envConfiguration } from "@ha/configuration-env-secrets"
-import { createConfigApi as createOnepasswordConfiguration } from "@ha/configuration-1password"
 import { uniq } from "lodash"
 import type { Configuration } from "./Configuration.types"
-import createDebugger from "debug"
-
-const debug = createDebugger("@ha/configuration-workspace/index")
 
 const createConfigurationApi = async (
   providers: ConfigurationApi<any>[] = [envConfiguration],
 ): Promise<ConfigurationApi<Configuration>> => {
   const onepasswordConfiguration = await createOnepasswordConfiguration()
-  const configurationProviders = providers.concat(onepasswordConfiguration)
+  const onePasswordCliConfiguration = await createOnePasswordCliConfiguration()
+  const configurationProviders = providers.concat(
+    onepasswordConfiguration,
+    onePasswordCliConfiguration,
+  )
 
   return {
     get: async (name) => {
       for (const configurationProvider of configurationProviders) {
         try {
           const value = await configurationProvider.get(name)
+
           return value
-        } catch (error) {
-          debug(error)
-        }
+        } catch (error) {}
       }
       throw new Error(`Configuration value not found, ${name}.`)
     },
@@ -37,10 +38,17 @@ const createConfigurationApi = async (
       return uniq(allConfiguration) as (keyof Configuration)[]
     },
     set: async (name, value) => {
-      await Promise.all(
-        configurationProviders
-          .filter((provider) => provider.getNames().includes(name))
-          .map((provider) => provider.set(name, value)),
+      for (const configurationProvider of configurationProviders.filter(
+        (provider) => provider.getNames().includes(name),
+      )) {
+        try {
+          await configurationProvider.set(name, value)
+          return
+        } catch (error) {}
+      }
+
+      throw new Error(
+        `No configuration provider found to set value for ${name}.`,
       )
     },
   }

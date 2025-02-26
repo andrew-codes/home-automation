@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "name": "@ha/deployment-utils",
+  "version": "0.0.1",
+  "devDependencies": {
+    "nx": "^20.4.6"
+  }
+}

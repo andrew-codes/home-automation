@@ -1,9 +1,7 @@
+import { safeCliStringWithDoubleQuotes } from "@ha/cli-utils"
+import { logger } from "@ha/logger"
 import path from "path"
 import sh from "shelljs"
-import { safeCliString, safeCliStringWithDoubleQuotes } from "@ha/cli-utils"
-import { createLogger } from "@ha/logger"
-
-const logger = createLogger()
 
 const jsonnet = {
   eval: async (

@@ -11,8 +11,12 @@ const run = async (
     path.join(__dirname, "..", "deployment", "certs.yml"),
     {},
   )
-  await kubectl.applyToCluster(certs)
-  await kubectl.rolloutDeployment("restart", "cloudflared")
+
+  const kubeConfig = (await configurationApi.get("k8s/config")).value
+  const kube = kubectl(kubeConfig)
+
+  await kube.applyToCluster(certs)
+  await kube.rolloutDeployment("restart", "cloudflared")
 }
 
 export default run

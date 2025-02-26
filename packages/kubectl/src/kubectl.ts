@@ -1,4 +1,6 @@
+import { logger } from "@ha/logger"
 import { throwIfError } from "@ha/shell-utils"
+import { writeFileSync } from "fs"
 import fs from "fs/promises"
 import path from "path"
 import sh from "shelljs"
@@ -9,50 +11,73 @@ type DeploymentOptions = {
 }
 type DeploymentCommand = "restart"
 
-const kubectl = {
-  applyToCluster: async (content: string): Promise<void> => {
-    const fileName = uuidv4()
-    try {
-      await fs.mkdir("/tmp")
-    } catch (e) {}
-    console.log(fileName)
-    await fs.writeFile(path.join("/tmp", fileName), content)
-    await throwIfError(
-      sh.exec(`kubectl apply --namespace default -f /tmp/${fileName};`, {
-        shell: "/bin/bash",
-        silent: false,
-      }),
-    )
-    await fs.unlink(path.join("/tmp", fileName))
-  },
-  patch: async (
-    name: string,
-    resourceType: string,
-    namespace: string,
-    content: string,
-  ): Promise<void> => {
-    await throwIfError(
-      sh.exec(
-        `kubectl patch ${resourceType} --namespace ${namespace} ${name} --patch="$(echo -n '${content}' | sed 's/"/\\"/g')";`,
-        {
-          shell: "/bin/bash",
-          silent: true,
-        },
-      ),
-    )
-  },
-  rolloutDeployment: async (
-    command: DeploymentCommand,
-    deploymentName: string,
-    options: DeploymentOptions = { namespace: "default" },
-  ): Promise<void> => {
-    await throwIfError(
-      sh.exec(
-        `kubectl -n ${options.namespace} rollout ${command} deployment ${deploymentName};`,
-        { silent: true },
-      ),
-    )
-  },
+const kubectl = (kubeConfig: string) => {
+  let kubeConfigPath = path.join(__dirname, "..", ".secrets")
+  sh.mkdir("-p", kubeConfigPath)
+  kubeConfigPath = path.join(kubeConfigPath, "config")
+  writeFileSync(kubeConfigPath, kubeConfig.replace(/\\n/g, "\n"))
+
+  return {
+    applyToCluster: async (content: string): Promise<void> => {
+      const fileName = uuidv4()
+      try {
+        await fs.mkdir("/tmp")
+      } catch (e) {}
+      await fs.writeFile(path.join("/tmp", fileName), content)
+      sh.env["KUBECONFIG"] = kubeConfigPath
+      await throwIfError(
+        sh.exec(
+          `KUBECONFIG=${kubeConfigPath} kubectl apply --namespace default -f /tmp/${fileName};`,
+          {
+            shell: "/bin/bash",
+            silent: false,
+          },
+        ),
+      )
+      await fs.unlink(path.join("/tmp", fileName))
+    },
+    patch: async (
+      name: string,
+      resourceType: string,
+      namespace: string,
+      content: string,
+    ): Promise<void> => {
+      sh.env["KUBECONFIG"] = kubeConfigPath
+      await throwIfError(
+        sh.exec(
+          `KUBECONFIG=${kubeConfigPath} kubectl patch ${resourceType} --namespace ${namespace} ${name} --patch="$(echo -n '${content}' | sed 's/"/\\"/g')";`,
+          {
+            shell: "/bin/bash",
+            silent: true,
+          },
+        ),
+      )
+    },
+    rolloutDeployment: async (
+      command: DeploymentCommand,
+      deploymentName: string,
+      options: DeploymentOptions = { namespace: "default" },
+    ): Promise<void> => {
+      sh.env["KUBECONFIG"] = kubeConfigPath
+      await throwIfError(
+        sh.exec(
+          `KUBECONFIG=${kubeConfigPath} kubectl -n ${options.namespace} rollout ${command} deployment ${deploymentName};`,
+          { silent: true },
+        ),
+      )
+    },
+    exec: async (command: string): Promise<void> => {
+      sh.env["KUBECONFIG"] = kubeConfigPath
+      await throwIfError(
+        sh.exec(`KUBECONFIG=${kubeConfigPath} ${command}`, { silent: true }),
+      )
+    },
+    [Symbol.dispose]: () => {
+      logger.debug(`Cleaning up kubeconfig`)
+      sh.rm(kubeConfigPath)
+      sh.env["KUBECONFIG"] = ""
+    },
+  }
 }
 
 export default kubectl

@@ -1,0 +1,72 @@
+---
+- name: Setup Kubernetes
+  hosts: all
+  become: true
+  become_method: ansible.builtin.sudo
+  become_user: root
+  gather_facts: true
+  connection: ssh
+  remote_user: root
+
+  tasks:
+    - name: Initializing kubernetes cluster
+      changed_when: false
+      command: "{{ item }}"
+      with_items:
+        - kubeadm init --pod-network-cidr="{{ pod_network_cidr }}"
+
+    - name: Create directory for kube config
+      file:
+        path: /root/.kube
+        state: directory
+        owner: "root"
+        group: "root"
+        mode: "0755"
+
+    - name: Copy /etc/kubernetes/admin.conf to user's home directory /root/.kube/config.
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: /root/.kube/config
+        remote_src: true
+        owner: "root"
+        group: "root"
+        mode: "0600"
+
+    - name: Remove the cache directory
+      file:
+        path: /root/.kube/cache
+        state: absent
+
+    - name: Create pod network
+      changed_when: false
+      shell: "{{ item }}"
+      with_items:
+        - KUBECONFIG=/root/.kube/config kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+
+    - name: Pause
+      pause: seconds=60
+
+    - name: Get the token for joining the nodes with Kubernetes master
+      changed_when: false
+      shell: KUBECONFIG=/root/.kube/config kubeadm token create  --print-join-command
+      register: kubernetes_join_command
+
+    - name: Print join command
+      debug:
+        msg: "{{ kubernetes_join_command.stdout }}"
+
+    - name: Copy join command to local file
+      local_action: copy content="{{ kubernetes_join_command.stdout_lines[0] }}" dest="{{ playbook_dir }}/../../../.secrets/kubernetes_join_command" mode=0777
+
+    - name: Fetch kubeconfig to repo secrets
+      fetch:
+        dest: "{{ playbook_dir }}/../../../.secrets/.kube/config"
+        flat: true
+        src: "/root/.kube/config"
+
+    - name: Remove taints
+      changed_when: false
+      command: "{{ item }}"
+      with_items:
+        - KUBECONFIG=/root/.kube/config kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+        - KUBECONFIG=/root/.kube/config kubectl taint nodes --all node-role.kubernetes.io/master-

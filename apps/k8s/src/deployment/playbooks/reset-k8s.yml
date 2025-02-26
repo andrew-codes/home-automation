@@ -1,0 +1,31 @@
+---
+- name: Reset Kubernetes
+  hosts: all
+  become: true
+  become_method: ansible.builtin.sudo
+  become_user: root
+  gather_facts: true
+  connection: ssh
+  remote_user: root
+
+  tasks:
+    - name: Reset cluster
+      changed_when: false
+      command: kubeadm reset --force
+
+    - name: Restart kubelet
+      service:
+        name: kubelet
+        state: restarted
+
+    - name: Remove networking CNI config
+      changed_when: false
+      shell: rm -rf /var/lib/cni/
+
+    - name: Remove kubelet data
+      changed_when: false
+      shell: rm -rf /var/lib/kubelet/*
+
+    - name: Remove CNI configuration
+      changed_when: false
+      shell: rm -rf /etc/cni

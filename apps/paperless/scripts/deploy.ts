@@ -1,8 +1,8 @@
-import path from "path"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
+import path from "path"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
@@ -28,13 +28,15 @@ const run = async (
     },
   )
   const resourceJson = JSON.parse(resources)
+  const kubeConfig = (await configurationApi.get("k8s/config")).value
+  const kube = kubectl(kubeConfig)
   await Promise.all(
     resourceJson.map((resource) =>
-      kubectl.applyToCluster(JSON.stringify(resource)),
+      kube.applyToCluster(JSON.stringify(resource)),
     ),
   )
 
-  await kubectl.rolloutDeployment("restart", "paperless")
+  await kube.rolloutDeployment("restart", "paperless")
 }
 
 export default run

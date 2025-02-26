@@ -1,5 +1,5 @@
 import { createHeartbeat } from "@ha/http-heartbeat"
-import { createLogger } from "@ha/logger"
+import { logger } from "@ha/logger"
 import { createMqtt } from "@ha/mqtt-client"
 import { applyMiddleware, createStore } from "redux"
 import createSagaMiddleware from "redux-saga"
@@ -10,8 +10,6 @@ import reducer, {
   setGuestWifiPassPhrase,
 } from "./redux"
 import { getNetworks } from "./redux/selectors"
-
-const logger = createLogger()
 
 async function run() {
   logger.info("Started")

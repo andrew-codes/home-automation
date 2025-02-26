@@ -1,0 +1,120 @@
+---
+- hosts: all
+  become: yes
+  become_method: ansible.builtin.sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+  remote_user: root
+
+  tasks:
+    - name: Gather service facts
+      ansible.builtin.service_facts:
+
+    - name: Disable password SSH access
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "PasswordAuthentication .*"
+        line: "PasswordAuthentication no"
+        state: present
+
+    - name: Update APT package cache
+      ansible.builtin.apt:
+        update_cache: yes
+        upgrade: full
+
+    - name: Install packages
+      apt:
+        name:
+          - curl
+          - qemu-guest-agent
+          - sqlite3
+          - net-tools
+          - git
+        state: present
+
+    - name: Stop and disable the pi-hole service if it exists
+      ansible.builtin.systemd:
+        name: pihole-FTL
+        state: stopped
+        enabled: no
+      when: "'pihole-FTL.service' in ansible_facts.services"
+
+    - name: Clone pihole
+      ansible.builtin.git:
+        repo: "https://github.com/pi-hole/pi-hole.git"
+        dest: /etc/pi-hole
+        version: v6.0.4
+        update: yes
+        force: yes
+
+    - name: Ensure /etc/pihole directory is present
+      become_user: root
+      become_method: ansible.builtin.sudo
+      become: yes
+      ansible.builtin.file:
+        path: /etc/pihole
+        state: directory
+
+    - name: Pihole configuration file
+      become_user: root
+      become_method: ansible.builtin.sudo
+      become: yes
+      ansible.builtin.copy:
+        dest: "/etc/pihole/setupVars.conf"
+        content: |-
+          WEBSERVER_PORT=80
+          DNS_DOMAIN={{ domain }}
+          NTP_SYNC_ACTIVE=false
+          NTP_IPV4_ACTIVE=false
+          PIHOLE_INTERFACE=eth0
+          IPV4_ADDRESS={{ ansible_host }}/8
+          IPV6_ADDRESS=
+          QUERY_LOGGING=true
+          INSTALL_WEB_SERVER=true
+          INSTALL_WEB_INTERFACE=true
+          PIHOLE_DNS_1=1.1.1.1
+          PIHOLE_DNS_2=1.0.0.1
+        owner: root
+        mode: "0644"
+
+    - name: Install pihole
+      become_user: root
+      become_method: ansible.builtin.sudo
+      become: yes
+      shell: ./basic-install.sh --unattended
+      args:
+        chdir: "/etc/pi-hole/automated\ install"
+
+    - name: Reconfigure pihole
+      become_user: root
+      become_method: ansible.builtin.sudo
+      become: yes
+      shell: ./basic-install.sh --unattended --reconfigure
+      args:
+        chdir: "/etc/pi-hole/automated\ install"
+
+    - name: Set password
+      become_user: root
+      become_method: ansible.builtin.sudo
+      become: yes
+      shell: pihole setpassword "{{ pihole_password }}"
+
+    - name: Restart and enable the pi-hole service if it exists
+      ansible.builtin.systemd:
+        name: pihole-FTL
+        state: started
+        enabled: yes
+      when: "'pihole-FTL.service' in ansible_facts.services"
+
+    - name: Restart pihole dns
+      become_user: root
+      become_method: ansible.builtin.sudo
+      become: yes
+      shell: pihole restartdns
+
+    - name: Wait for pihole to be up
+      wait_for:
+        port: 80
+        delay: 10
+        timeout: 300

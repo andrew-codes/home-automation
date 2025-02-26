@@ -6,6 +6,9 @@ import sh from "shelljs"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
+  const kubeConfig = (await configurationApi.get("k8s/config")).value
+  sh.env["KUBECONFIG"] = kubeConfig
+
   // https://github.com/AliyunContainerService/gpushare-scheduler-extender/blob/master/docs/install.md
   sh.exec(
     `kubectl create -f ${path.join(

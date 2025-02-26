@@ -1,79 +1,39 @@
+import { runPlaybook } from "@ha/ansible"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
-import { jsonnet } from "@ha/jsonnet"
-import { kubectl } from "@ha/kubectl"
-import { throwIfError } from "@ha/shell-utils"
-import fs from "fs/promises"
+import { logger } from "@ha/logger"
 import path from "path"
-import sh from "shelljs"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const ip = await configurationApi.get("pihole/ip")
-  const ip2 = await configurationApi.get("pihole2/ip")
-  const password = await configurationApi.get("pihole/password")
+  logger.info("Deploying Pi-hole")
+  const ip = (await configurationApi.get("pihole/ip")).value
+  const ip2 = (await configurationApi.get("pihole2/ip")).value
+  const password = (await configurationApi.get("pihole/password")).value
+  const domain = (await configurationApi.get("pihole/domain")).value
 
-  try {
-    const sshPublicKey = await configurationApi.get(
-      "home-assistant/ssh-key/public",
-    )
+  const deploymentPath = path.join(__dirname, "..", "src", "deployment")
+  await runPlaybook(path.join(deploymentPath, "index.yml"), [ip, ip2], {
+    pihole_password: password,
+    domain,
+  })
 
-    sh.mkdir(".secrets", { recursive: true })
-    await fs.writeFile(
-      path.join(__dirname, "..", ".secrets", "ansible-secrets.yml"),
-      `pihole_password: "${password.value}"`,
-      "utf8",
-    )
-    const hostsPath = path.join(__dirname, "..", ".secrets", "hosts.yml")
-    await fs.writeFile(
-      hostsPath,
-      `
-all:
-  vars:
-    ansible_user: hl
-  hosts:
-    ${ip.value}:
-     ${ip2.value}:`,
-      "utf8",
-    )
-    await fs.writeFile(
-      path.join(__dirname, "..", ".secrets", "ha.pub"),
-      `${sshPublicKey.value}`,
-      "utf8",
-    )
-    sh.env["ANSIBLE_HOST_KEY_CHECKING"] = "False"
-    sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
-    await throwIfError(
-      sh.exec(
-        `ansible-playbook ${path.join(
-          __dirname,
-          "..",
-          "deployment",
-          "index.yml",
-        )} -i ${hostsPath};`,
-        {
-          silent: false,
-        },
-      ),
-    )
-  } catch (error) {
-    console.error(error)
-  }
-
-  const resources = await jsonnet.eval(
-    path.join(__dirname, "..", "deployment", "service.jsonnet"),
-    {
-      ip1: ip.value,
-      ip2: await (await configurationApi.get("pihole2/ip")).value,
-    },
-  )
-  const resourceJson = JSON.parse(resources)
-  await Promise.all(
-    resourceJson.map((resource) =>
-      kubectl.applyToCluster(JSON.stringify(resource)),
-    ),
-  )
+  // const resources = await jsonnet.eval(
+  //   path.join(deploymentPath, "service.jsonnet"),
+  //   {
+  //     ip1: ip,
+  //     ip2: ip2,
+  //   },
+  // )
+  // const resourceJson = JSON.parse(resources)
+  // const kubeConfig = (await configurationApi.get("k8s/config")).value
+  // const kube = kubectl(kubeConfig)
+  // await Promise.all(
+  //   resourceJson.map((resource) =>
+  //     kube.applyToCluster(JSON.stringify(resource)),
+  //   ),
+  // )
 }
 
 export default run

@@ -1,16 +1,16 @@
 jest.mock("process", () => ({ chdir: jest.fn() }))
 jest.mock("esbuild-register/dist/node")
 jest.mock("@ha/configuration-workspace")
-import executor from "../impl"
-import { ExecutorContext } from "@nrwl/devkit"
-import { register } from "esbuild-register/dist/node"
+import type { ConfigurationApi } from "@ha/configuration-api"
 import {
   Configuration,
   createConfigurationApi,
 } from "@ha/configuration-workspace"
-import type { ConfigurationApi } from "@ha/configuration-api"
+import { ExecutorContext } from "@nrwl/devkit"
+import { register } from "esbuild-register/dist/node"
 import path from "path"
 import process from "process"
+import executor from "../impl"
 
 let ctx: ExecutorContext
 beforeEach(() => {
@@ -23,7 +23,7 @@ beforeEach(() => {
     isVerbose: false,
     root: path.join(__dirname, "..", "..", "..", "..", ".."),
     workspace: { version: 2, projects: {} },
-  }
+  } as unknown as ExecutorContext
 })
 
 test("Can require TS modules via esbuild-register.", async () => {

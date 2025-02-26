@@ -1,11 +1,9 @@
-import fs from "fs/promises"
-import path from "path"
-import sh from "shelljs"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
-import { throwIfError } from "@ha/shell-utils"
+import fs from "fs/promises"
+import path from "path"
 import { name } from "./config"
 
 const run = async (
@@ -15,6 +13,8 @@ const run = async (
   const port = await configurationApi.get("captive-portal/port/external")
   const unifiIp = await configurationApi.get("unifi/ip")
   const host = await configurationApi.get("captive-portal/host")
+  const kubeConfig = (await configurationApi.get("k8s/config")).value
+  const kube = kubectl(kubeConfig)
 
   const unifiCaptivePortal = `<!DOCTYPE html>
   <html>
@@ -59,11 +59,11 @@ const run = async (
   const resourceJson = JSON.parse(resources)
   await Promise.all(
     resourceJson.map((resource) =>
-      kubectl.applyToCluster(JSON.stringify(resource)),
+      kube.applyToCluster(JSON.stringify(resource)),
     ),
   )
 
-  await kubectl.rolloutDeployment("restart", name)
+  await kube.rolloutDeployment("restart", name)
 }
 
 export default run

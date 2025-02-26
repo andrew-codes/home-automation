@@ -1,11 +1,9 @@
-import { createLogger } from "@ha/logger"
+import { logger } from "@ha/logger"
 import type { AsyncMqttClient } from "@ha/mqtt-client"
 import { createMqtt } from "@ha/mqtt-client"
 import { QoS } from "async-mqtt"
 import { call } from "redux-saga/effects"
 import type { UpdateHomeAssistantAction } from "../types"
-
-const logger = createLogger()
 
 function* updateHomeAssistant(action: UpdateHomeAssistantAction) {
   logger.info(action.payload)

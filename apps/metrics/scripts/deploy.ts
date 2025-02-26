@@ -10,6 +10,9 @@ const run = async (
   try {
     await unlink("/tmp/kube-prometheus")
   } catch (e) {}
+
+  const kubeConfig = (await configurationApi.get("k8s/config")).value
+  sh.env["KUBECONFIG"] = kubeConfig
   throwIfError(
     sh.exec(
       `git clone https://github.com/prometheus-operator/kube-prometheus.git /tmp/kube-prometheus;`,

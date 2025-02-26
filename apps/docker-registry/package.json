@@ -9,6 +9,10 @@
     "@ha/jsonnet": "workspace:*",
     "@ha/kubectl": "workspace:*",
     "@ha/nx-executors": "workspace:^0.1.0",
-    "@ha/shell-utils": "workspace:^1.0.0"
+    "@ha/shell-utils": "workspace:^1.0.0",
+    "nx": "^20.4.6"
+  },
+  "dependencies": {
+    "@ha/pihole": "workspace:^0.0.1"
   }
 }

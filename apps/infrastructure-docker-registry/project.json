@@ -1,5 +1,4 @@
 {
-  "root": "apps/infrastructure-docker-registry",
   "sourceRoot": "apps/infrastructure-docker-registry",
   "projectType": "application",
   "targets": {

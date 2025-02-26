@@ -12,8 +12,13 @@
     "@atlaskit/side-navigation": "^1.10.4",
     "@atlaskit/textfield": "^5.6.8",
     "@atlaskit/toggle": "^12.6.11",
+    "@ha/docker-creds": "workspace:^0.0.1",
+    "@ha/docker-registry": "workspace:^0.0.1",
+    "@ha/k8s": "workspace:^0.0.1",
     "@ha/logger": "workspace:^0.0.1",
     "@ha/mqtt-client": "workspace:^0.0.1",
+    "@ha/pihole": "workspace:^0.0.1",
+    "@ha/secrets": "workspace:^0.0.1",
     "@ha/themes-slate": "workspace:^0.0.1",
     "@ha/unifi-client": "workspace:^0.1.0",
     "@remix-run/node": "^1.19.3",
@@ -47,9 +52,10 @@
     "jest": "^29.7.0",
     "jest-when": "^3.7.0",
     "lodash": "^4.17.21",
+    "nx": "^20.4.6",
     "shelljs": "^0.8.5",
     "ts-jest": "^29.2.5",
     "tsc": "^2.0.4",
-    "typescript": "^4.9.5"
+    "typescript": "^5.7.3"
   }
 }

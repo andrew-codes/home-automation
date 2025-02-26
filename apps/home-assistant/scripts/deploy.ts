@@ -12,8 +12,6 @@ const run = async (
   const repositoryOwner = await configurationApi.get("repository/owner")
   const repositoryName = await configurationApi.get("repository/name")
   const port = await configurationApi.get("home-assistant/port/external")
-  const nfsUsername = await configurationApi.get("nfs/username")
-  const nfsPassword = await configurationApi.get("nfs/password")
   const nfsIp = await configurationApi.get("nfs/ip")
   const webrtcPort = await configurationApi.get(
     "home-assistant/webrtc/api/port",
@@ -30,19 +28,19 @@ const run = async (
       port: parseInt(port.value),
       "webrtc-port": parseInt(webrtcPort.value),
       secrets,
-      nfsPassword: nfsPassword.value,
-      nfsUsername: nfsUsername.value,
       nfsIp: nfsIp.value,
     },
   )
   const resourceJson = JSON.parse(resources)
+  const kubeConfig = (await configurationApi.get("k8s/config")).value
+  const kube = kubectl(kubeConfig)
   await Promise.all(
     resourceJson.map((resource) =>
-      kubectl.applyToCluster(JSON.stringify(resource)),
+      kube.applyToCluster(JSON.stringify(resource)),
     ),
   )
 
-  await kubectl.rolloutDeployment("restart", name)
+  await kube.rolloutDeployment("restart", name)
 }
 
 export default run

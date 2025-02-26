@@ -11,6 +11,9 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   const githubToken = await configurationApi.get("github/token")
+  const kubeConfig = (await configurationApi.get("k8s/config")).value
+  sh.env["KUBECONFIG"] = kubeConfig
+
   sh.exec(`kubectl create namespace actions-runner-system;`, { silent: true })
   sh.exec(
     `kubectl delete secret controller-manager --namespace=actions-runner-system;`,
@@ -104,10 +107,11 @@ const run = async (
     )
   ).map((jsonnetOutput) => JSON.parse(jsonnetOutput))
 
+  const kube = kubectl(kubeConfig)
   await Promise.all(
     jsonnetOutputs.flatMap((resources) =>
       resources.map(async (resource) =>
-        kubectl.applyToCluster(JSON.stringify(resource)),
+        kube.applyToCluster(JSON.stringify(resource)),
       ),
     ),
   )
@@ -147,11 +151,11 @@ const run = async (
 
   await Promise.all(
     playniteWebJsonOutputs.flatMap((resource) =>
-      kubectl.applyToCluster(JSON.stringify(resource)),
+      kube.applyToCluster(JSON.stringify(resource)),
     ),
   )
 
-  await kubectl.rolloutDeployment("restart", "controller-manager", {
+  await kube.rolloutDeployment("restart", "controller-manager", {
     namespace: "actions-runner-system",
   })
 }

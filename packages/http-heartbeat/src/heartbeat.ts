@@ -1,8 +1,6 @@
+import { logger } from "@ha/logger"
 import type { RequestListener, Server } from "http"
-import { createLogger } from "@ha/logger"
 import { defaultTo } from "lodash"
-
-const logger = createLogger()
 
 interface HttpServer {}
 

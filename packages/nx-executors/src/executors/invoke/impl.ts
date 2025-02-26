@@ -1,8 +1,9 @@
+import { createConfigurationApi } from "@ha/configuration-workspace"
+import { logger } from "@ha/logger"
+import type { ExecutorContext } from "@nrwl/devkit"
+import { register } from "esbuild-register/dist/node"
 import path from "path"
 import process from "process"
-import type { ExecutorContext } from "@nrwl/devkit"
-import { createConfigurationApi } from "@ha/configuration-workspace"
-import { register } from "esbuild-register/dist/node"
 
 interface InvokeExecutorOptions {
   module: string
@@ -24,7 +25,12 @@ async function executor(
     const configApi = await createConfigurationApi()
     await loadedModule.default(configApi, context)
   } catch (error) {
-    console.log(error)
+    if (error instanceof Error) {
+      logger.error((error as Error).message)
+    } else {
+      logger.error(JSON.stringify(error))
+    }
+
     return { success: false }
   }
   return { success: true }

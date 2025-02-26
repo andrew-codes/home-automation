@@ -1,8 +1,6 @@
-import { createLogger } from "@ha/logger"
+import { logger } from "@ha/logger"
 import { call } from "redux-saga/effects"
 import type { UpdatePortersAction } from "../types"
-
-const logger = createLogger()
 
 function* updatePorters(action: UpdatePortersAction) {
   try {

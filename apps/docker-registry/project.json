@@ -1,6 +1,7 @@
 {
   "name": "docker-registry",
-  "root": "apps/docker-registry",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+
   "sourceRoot": "apps/docker-registry",
   "projectType": "application",
   "targets": {

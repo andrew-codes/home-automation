@@ -1,13 +1,11 @@
-import type { AsyncMqttClient, ISubscriptionGrant } from "@ha/mqtt-client"
-import { createLogger } from "@ha/logger"
-import { call, put, select } from "redux-saga/effects"
+import { logger } from "@ha/logger"
+import type { AsyncMqttClient } from "@ha/mqtt-client"
 import { createMqtt } from "@ha/mqtt-client"
-import type { RegisterWithHomeAssistantAction } from "../types"
+import { QoS } from "async-mqtt"
+import { call, put, select } from "redux-saga/effects"
 import { addGuestWifiNetwork } from "../actionCreators"
 import { getNetworkDictionary } from "../selectors"
-import { QoS } from "async-mqtt"
-
-const logger = createLogger()
+import type { RegisterWithHomeAssistantAction } from "../types"
 
 function* registerWithHomeAssistant(action: RegisterWithHomeAssistantAction) {
   logger.info(action.payload)

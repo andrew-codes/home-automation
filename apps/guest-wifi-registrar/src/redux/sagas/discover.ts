@@ -1,4 +1,4 @@
-import { createLogger } from "@ha/logger"
+import { logger } from "@ha/logger"
 import type { Controller } from "@ha/unifi-client"
 import { createUnifi } from "@ha/unifi-client"
 import { call, put } from "redux-saga/effects"
@@ -7,8 +7,6 @@ import {
   updateHomeAssistant,
 } from "../actionCreators"
 import { DiscoverAction } from "../types"
-
-const logger = createLogger()
 
 function* pollDiscovery(action: DiscoverAction) {
   try {

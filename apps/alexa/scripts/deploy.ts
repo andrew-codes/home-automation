@@ -7,10 +7,10 @@ import path from "path"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const nfsUsername = await configurationApi.get("nfs/username")
-  const nfsPassword = await configurationApi.get("nfs/password")
   const nfsIp = await configurationApi.get("nfs/ip")
   const registry = await configurationApi.get("docker-registry/hostname")
+  const kubeConfig = (await configurationApi.get("k8s/config")).value
+  const kube = kubectl(kubeConfig)
 
   const secrets: Array<keyof Configuration> = []
   const resources = await jsonnet.eval(
@@ -18,21 +18,19 @@ const run = async (
     {
       whisperImage: `${registry.value}/whisper:latest`,
       secrets,
-      nfsPassword: nfsPassword.value,
-      nfsUsername: nfsUsername.value,
       nfsIp: nfsIp.value,
     },
   )
   const resourceJson = JSON.parse(resources)
   await Promise.all(
     resourceJson.map((resource) =>
-      kubectl.applyToCluster(JSON.stringify(resource)),
+      kube.applyToCluster(JSON.stringify(resource)),
     ),
   )
 
-  await kubectl.rolloutDeployment("restart", "piper")
-  await kubectl.rolloutDeployment("restart", "whisper")
-  await kubectl.rolloutDeployment("restart", "open-wake-word")
+  await kube.rolloutDeployment("restart", "piper")
+  await kube.rolloutDeployment("restart", "whisper")
+  await kube.rolloutDeployment("restart", "open-wake-word")
 }
 
 export default run

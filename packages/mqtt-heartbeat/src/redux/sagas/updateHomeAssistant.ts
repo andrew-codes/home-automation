@@ -1,9 +1,7 @@
+import { logger } from "@ha/logger"
 import { createMqtt } from "@ha/mqtt-client"
 import { call } from "redux-saga/effects"
 import { UpdateHomeAssistantAction } from "../actions.types"
-import { createLogger } from "@ha/logger"
-
-const logger = createLogger()
 
 function* updateHomeAssistant(action: UpdateHomeAssistantAction) {
   const mqtt = yield call(createMqtt)

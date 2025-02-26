@@ -1,47 +1,46 @@
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
-import { throwIfError } from "@ha/shell-utils"
-import sh from "shelljs"
+import { logger } from "@ha/logger"
+import * as terraform from "@ha/terraform"
+import path from "path"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  console.log("Provisioning Piholes with Terraform")
-  let TF_VAR_ip = await configurationApi.get("pihole/ip")
-  let ip2 = await configurationApi.get("pihole2/ip")
-  const TF_VAR_gateway = await configurationApi.get("unifi/ip")
-  const pveHost = await configurationApi.get("proxmox/host/pve")
-  const TF_VAR_pm_username = await configurationApi.get("proxmox/username")
-  const TF_VAR_pm_password = await configurationApi.get("proxmox/password")
-  const TF_VAR_hostname = await configurationApi.get("pihole/hostname")
-  const TF_VAR_ssh_key = await configurationApi.get("proxmox/ssh-key/public")
+  logger.info("Provisioning Pi-hole")
+  const ip1 = (await configurationApi.get("pihole/ip")).value
+  const ip2 = (await configurationApi.get("pihole2/ip")).value
+  const gateway = (await configurationApi.get("unifi/ip")).value
+  const pveHost = (await configurationApi.get("proxmox/host/pve")).value
+  const pm_username = (await configurationApi.get("proxmox/username")).value
+  const pm_password = (await configurationApi.get("proxmox/password")).value
+  const hostname = (await configurationApi.get("pihole/hostname")).value
 
-  sh.env["TF_VAR_ip"] = `${TF_VAR_ip.value}/8`
-  sh.env["TF_VAR_ip2"] = `${ip2.value}/8`
-  sh.env["TF_VAR_gateway"] = TF_VAR_gateway.value
-  sh.env["TF_VAR_pm_api_url"] = `https://${pveHost.value}/api2/json`
-  sh.env["TF_VAR_pm_password"] = TF_VAR_pm_password.value
-  sh.env["TF_VAR_pm_username"] = TF_VAR_pm_username.value
-  sh.env["TF_VAR_hostname"] = TF_VAR_hostname.value
-  sh.env["TF_VAR_hostname2"] = `${TF_VAR_hostname.value}2`
-  sh.env["TF_VAR_ssh_key"] = TF_VAR_ssh_key.value
-  sh.env["TF_VAR_nameserver"] = "1.1.1.1"
+  const proxmoxSshKey = (await configurationApi.get("proxmox/ssh-key/public"))
+    .value
+  const devSshKey = (await configurationApi.get("dev/ssh-key/public")).value
+  const haSshKey = (await configurationApi.get("home-assistant/ssh-key/public"))
+    .value
+  const sshKey = [proxmoxSshKey, devSshKey, haSshKey].join("\n")
 
-  const terraformProcess = sh.exec(
-    `terraform init --upgrade && terraform plan --out=tfplan && terraform apply "tfplan"`,
-    { silent: false },
+  var vars = {
+    ip: `${ip1}/8`,
+    ip2: `${ip2}/8`,
+    gateway,
+    pm_api_url: `https://${pveHost}/api2/json`,
+    pm_username,
+    pm_password,
+    sshKey,
+    hostname: `${hostname}1`,
+    hostname2: `${hostname}2`,
+    nameserver: "1.1.1.1",
+  }
+
+  await terraform.apply(
+    vars,
+    path.join(__dirname, "..", "src"),
+    path.join(__dirname, "..", ".terraform"),
   )
-  await throwIfError(terraformProcess)
-
-  TF_VAR_ip = await configurationApi.get("pihole2/ip")
-
-  sh.env["TF_VAR_ip"] = `${TF_VAR_ip.value}/8`
-
-  const terraformProcess2 = sh.exec(
-    `terraform init --upgrade && terraform plan --out=tfplan && terraform apply "tfplan"`,
-    { silent: false },
-  )
-  await throwIfError(terraformProcess2)
 }
 
 export default run

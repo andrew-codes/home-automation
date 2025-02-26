@@ -1,5 +1,6 @@
 import { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
+import { logger } from "@ha/logger"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
@@ -10,18 +11,22 @@ const run = async (
 
   try {
     secretsSetFromTemplate = (await import(
-      "../.secrets/template.secrets.js"
+      "../src/.secrets/template.secrets.js"
     )) as unknown as {
       default: { name: keyof Configuration; value: string }[]
     }
   } catch (error) {
     throw new Error(
-      "'../.secrets/template.secrets' file not found. Please run `yarn nx run secrets:template` first.",
+      "'../src/.secrets/template.secrets' file not found. Please run `yarn nx run secrets:template` first.",
     )
   }
 
   for (const item of secretsSetFromTemplate.default) {
-    await configurationApi.set(item.name, item.value.replace(/\n/g, "\\n"))
+    try {
+      await configurationApi.set(item.name, item.value.replace(/\n/g, "\\n"))
+    } catch (error) {
+      logger.error(error?.message)
+    }
   }
 }
 

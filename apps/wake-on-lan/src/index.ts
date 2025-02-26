@@ -1,9 +1,7 @@
-import { createLogger } from "@ha/logger"
-import wol from "wakeonlan"
-import { createHeartbeat } from "@ha/mqtt-heartbeat"
+import { logger } from "@ha/logger"
 import { createMqtt } from "@ha/mqtt-client"
-
-const logger = createLogger()
+import { createHeartbeat } from "@ha/mqtt-heartbeat"
+import wol from "wakeonlan"
 
 async function run() {
   logger.info("Started")

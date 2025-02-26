@@ -1,13 +1,15 @@
-import path from "path"
-import sh from "shelljs"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
+import path from "path"
+import sh from "shelljs"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
+  const kubeConfig = (await configurationApi.get("k8s/config")).value
+  sh.env["KUBECONFIG"] = kubeConfig
   sh.exec(
     `kubectl create -f https://download.elastic.co/downloads/eck/2.9.0/crds.yaml;`,
   )
@@ -43,9 +45,10 @@ const run = async (
     },
   )
   const resourceJson = JSON.parse(resources)
+  const kube = kubectl(kubeConfig)
   await Promise.all(
     resourceJson.map((resource) =>
-      kubectl.applyToCluster(JSON.stringify(resource)),
+      kube.applyToCluster(JSON.stringify(resource)),
     ),
   )
 }

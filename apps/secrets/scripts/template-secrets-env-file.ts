@@ -6,7 +6,10 @@ import path from "path"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  await fs.mkdir(path.join(__dirname, "..", ".secrets"), { recursive: true })
+  const secretsPath = path.join(__dirname, "..", "src", ".secrets")
+  await fs.mkdir(secretsPath, {
+    recursive: true,
+  })
   const secretNames = configurationApi.getNames()
   const secretsValues = await Promise.all(
     secretNames.map(async (name) => {
@@ -37,7 +40,7 @@ module.exports = secrets
 `
 
   await fs.writeFile(
-    path.join(__dirname, "..", ".secrets", "template.secrets.js"),
+    path.join(secretsPath, "template.secrets.js"),
     secretTemplate,
     "utf8",
   )

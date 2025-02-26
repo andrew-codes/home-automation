@@ -12,12 +12,7 @@ provider "proxmox" {
   pm_api_token_id     = var.pm_username
   pm_api_token_secret = var.pm_password
   pm_tls_insecure     = true
-  pm_log_enable       = true
-  pm_log_file         = "terraform-plugin-proxmox.log"
-  pm_log_levels = {
-    _default    = "debug"
-    _capturelog = ""
-  }
+  pm_log_enable       = false
 }
 
 variable "pm_api_url" {
@@ -52,10 +47,10 @@ variable "hostname" {
   }
 }
 
-variable "ssh_key" {
+variable "sshKey" {
   type = string
   validation {
-    condition     = length(var.ssh_key) > 0
+    condition     = length(var.sshKey) > 0
     error_message = "Public SSH key is required."
   }
 }
@@ -96,7 +91,7 @@ resource "proxmox_vm_qemu" "docker-registry" {
   os_type     = "cloud-init"
   scsihw      = "virtio-scsi-pci"
 
-  clone      = "ubuntu-cloud-template"
+  clone      = "ubuntu-noble-cloud-template"
   full_clone = true
 
   disks {
@@ -124,7 +119,7 @@ resource "proxmox_vm_qemu" "docker-registry" {
   }
 
   sshkeys = <<-EOT
-    ${var.ssh_key}
+    ${var.sshKey}
   EOT
 
   nameserver = var.nameserver

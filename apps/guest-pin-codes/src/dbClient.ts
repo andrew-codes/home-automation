@@ -1,8 +1,7 @@
+import { logger } from "@ha/logger"
 import { MongoClient } from "mongodb"
-import { createLogger } from "@ha/logger"
 
-let client: MongoClient
-const logger = createLogger()
+let client: MongoClient()
 
 const getClient = async () => {
   logger.info("Getting DB client")

@@ -1,0 +1,88 @@
+---
+- hosts: all
+  become: yes
+  become_method: ansible.builtin.sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+  remote_user: root
+
+  tasks:
+    - name: Gather service facts
+      ansible.builtin.service_facts:
+
+    - name: Disable password SSH access
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "PasswordAuthentication .*"
+        line: "PasswordAuthentication no"
+        state: present
+
+    - name: Ensure the directory for keyrings exists
+      ansible.builtin.file:
+        path: /usr/share/keyrings
+        state: directory
+        mode: "0755"
+
+    - name: Download the Tailscale GPG key
+      ansible.builtin.get_url:
+        url: https://pkgs.tailscale.com/stable/ubuntu/noble.noarmor.gpg
+        dest: /usr/share/keyrings/tailscale-archive-keyring.gpg
+        mode: "0644"
+
+    - name: Add the Tailscale repository using deb822_repository
+      ansible.builtin.deb822_repository:
+        repo:
+          types: ["deb"]
+          uris: ["https://pkgs.tailscale.com/stable/ubuntu"]
+          suites: ["noble"]
+          components: ["main"]
+          signed-by: ["/usr/share/keyrings/tailscale-archive-keyring.gpg"]
+        state: present
+
+    - name: Update APT package cache
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Upgrade apt packages
+      become_user: root
+      become_method: ansible.builtin.sudo
+      become: yes
+      shell: apt-get -y upgrade
+
+    - name: Install packages
+      apt:
+        name:
+          - curl
+          - qemu-guest-agent
+          - net-tools
+          - tailscale
+        state: present
+
+    - name: Apply Tailscale sysctl settings
+      ansible.posix.sysctl:
+        name: "{{ item.key }}"
+        value: "{{ item.value }}"
+        state: present
+        sysctl_file: /etc/sysctl.d/99-tailscale.conf
+        reload: yes
+      with_dict:
+        net.ipv4.ip_forward: "1"
+        net.ipv6.conf.all.forwarding: "1"
+
+    - name: Stop tailscale
+      shell: tailscale down
+
+    - name: Apply tailscale settings
+      become_user: root
+      become_method: ansible.builtin.sudo
+      become: yes
+      shell: tailscale set --hostname="{{ hostname }}" --exit-node-allow-lan-access --auto-update --advertise-routes="{{ subnetRoutes }}" --exit-node-allow-lan-access --advertise-exit-node --accept-routes
+
+    - name: Start tailscale
+      shell: tailscale up --auth-key="{{ authKey }}"
+    - name: Wait for tailscale to be up
+      wait_for:
+        port: 443
+        delay: 10
+        timeout: 300

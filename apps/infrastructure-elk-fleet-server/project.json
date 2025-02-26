@@ -1,5 +1,4 @@
 {
-  "root": "apps/infrastructure-elk-fleet-server",
   "sourceRoot": "apps/infrastructure-elk-fleet-server",
   "projectType": "application",
   "targets": {

@@ -1,10 +1,6 @@
 import { doIf } from "@ha/env-utils"
-import { createLogger } from "@ha/logger"
+import { logger } from "@ha/logger"
 import { ChildProcess } from "child_process"
-import createDebugger from "debug"
-
-const logger = createLogger()
-const debug = createDebugger("cli")
 
 const throwIfError = async (
   child:
@@ -21,32 +17,28 @@ const throwIfError = async (
         let output = ``
         let error = ``
         child?.stdout?.on("data", function (data) {
-          debug(data)
           output += data
+          logger.info(data)
         })
         child?.stderr?.on("data", function (data) {
-          debug(data)
           error += data
         })
         child.on("close", (exitCode) => {
           doIf(() => exitCode !== 0)(() => {
-            logger.info(error)
             reject(new Error(error))
           })
-          logger.info(output)
-          resolve(output)
+          resolve(output.toString())
         })
       } else {
         doIf(() => child.code !== 0)(() => {
-          logger.info(child.stderr.toString())
           reject(new Error(child.stderr.toString()))
         })
 
-        resolve(child.stdout)
+        logger.info(child.stdout.toString())
+        resolve(child.stdout.toString())
       }
     } catch (error) {
-      logger.info(error)
-      reject(error)
+      reject((error as Error).toString())
     }
   })
 

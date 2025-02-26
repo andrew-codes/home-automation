@@ -34,13 +34,15 @@ const run = async (
     },
   )
   const resourceJson = JSON.parse(resources)
+  const kubeConfig = (await configurationApi.get("k8s/config")).value
+  const kube = kubectl(kubeConfig)
   await Promise.all(
     resourceJson.map((resource) =>
-      kubectl.applyToCluster(JSON.stringify(resource)),
+      kube.applyToCluster(JSON.stringify(resource)),
     ),
   )
 
-  await kubectl.rolloutDeployment("restart", name)
+  await kube.rolloutDeployment("restart", name)
 }
 
 export default run

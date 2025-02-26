@@ -8,6 +8,9 @@ import sh from "shelljs"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
+  const kubeConfig = (await configurationApi.get("k8s/config")).value
+  sh.env["KUBECONFIG"] = kubeConfig
+
   const nfsIp = await configurationApi.get("nfs/ip")
 
   const resources = await jsonnet.eval(
@@ -17,9 +20,11 @@ const run = async (
     },
   )
   const resourceJson = JSON.parse(resources)
+
+  const kube = kubectl(kubeConfig)
   await Promise.all(
     resourceJson.map(async (resource) => {
-      await kubectl.applyToCluster(JSON.stringify(resource))
+      await kube.applyToCluster(JSON.stringify(resource))
     }),
   )
 
@@ -36,7 +41,7 @@ const run = async (
   const patchJson = JSON.parse(patch)
   sh.exec(`kubectl patch deployment frigate -p '${JSON.stringify(patchJson)}'`)
 
-  await kubectl.rolloutDeployment("restart", "frigate")
+  await kube.rolloutDeployment("restart", "frigate")
 }
 
 export default run

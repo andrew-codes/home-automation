@@ -1,8 +1,8 @@
 {
   "name": "pihole",
-  "root": "apps/pihole",
+
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/pihole",
+  "sourceRoot": "{projectRoot}/src",
   "projectType": "application",
   "targets": {
     "deploy": {
@@ -12,24 +12,10 @@
         "module": "scripts/deploy.ts"
       }
     },
-    "update": {
-      "executor": "@ha/nx-executors:invoke",
-      "options": {
-        "cwd": "{projectRoot}",
-        "module": "scripts/update.ts"
-      }
-    },
     "clean/provision": {
       "executor": "nx:run-commands",
-      "outputs": [
-        "{projectRoot}/.terraform",
-        "{projectRoot}/.terraform.lock.hcl",
-        "{projectRoot}/.terraform.tfstate.lock.info",
-        "{projectRoot}/terraform.tfstate",
-        "{projectRoot}/tfplan"
-      ],
       "options": {
-        "command": "rm -rf .terraform .terraform.lock.hcl .terraform.tfstate.lock.info terraform.tfstate tfplan",
+        "command": "rm -rf .terraform src/.terraform* src/terraform* tfplan ",
         "cwd": "{projectRoot}"
       }
     },
@@ -42,5 +28,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["secrets"]
+  "implicitDependencies": []
 }

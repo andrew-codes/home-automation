@@ -1,7 +1,7 @@
-import path from "path"
 import { ConfigurationApi } from "@ha/configuration-api"
-import { config } from "dotenv"
 import { toEnvName } from "@ha/secret-utils"
+import { config } from "dotenv"
+import path from "path"
 
 const configurationNames = [
   "onepassword/server-url",
@@ -18,7 +18,7 @@ const configurationApi: ConfigurationApi<Configuration> = {
     const { parsed } = config({
       path: path.join(__dirname, "..", "..", "..", ".secrets.env"),
     })
-    const value = ({ ...process.env, ...parsed } as unknown as Configuration)[
+    const value = ({ ...parsed, ...process.env } as unknown as Configuration)[
       toEnvName(name)
     ]
     if (!value) {
@@ -28,7 +28,9 @@ const configurationApi: ConfigurationApi<Configuration> = {
     return value
   },
   getNames: () => configurationNames as ReadonlyArray<keyof Configuration>,
-  set: async () => {},
+  set: async () => {
+    throw new Error("Not implemented")
+  },
 }
 
 export type { Configuration }

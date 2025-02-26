@@ -9,7 +9,9 @@
           "lint",
           "prepare",
           "prestart",
-          "test"
+          "test",
+          "deploy",
+          "provision"
         ]
       }
     }
@@ -29,7 +31,18 @@
       "dependsOn": ["^prepare", "prepare", "^generate", "generate", "^compile"]
     },
     "deploy": {
-      "dependsOn": ["^prepare", "prepare", "compile", "image/push"]
+      "dependsOn": [
+        "^prepare",
+        "prepare",
+        "compile",
+        "image/push",
+        "^provision",
+        "^deploy",
+        "provision"
+      ]
+    },
+    "provision": {
+      "dependsOn": ["^prepare", "prepare", "^provision", "^deploy"]
     },
     "generate": {
       "dependsOn": ["^prepare", "prepare", "^generate"]

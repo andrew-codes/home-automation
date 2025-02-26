@@ -1,13 +1,34 @@
 {
-  "root": "apps/k8s",
-  "sourceRoot": "apps/k8s",
+  "name": "k8s",
+  "sourceRoot": "{projectRoot}/src",
   "projectType": "application",
   "targets": {
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
-        "cwd": "apps/k8s",
+        "cwd": "{projectRoot}",
         "module": "scripts/deploy.ts"
+      }
+    },
+    "reset": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "{projectRoot}",
+        "module": "scripts/reset.ts"
+      }
+    },
+    "clean/provision": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rm -rf .terraform src/.terraform* src/terraform* tfplan",
+        "cwd": "{projectRoot}"
+      }
+    },
+    "provision": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "module": "scripts/provision.ts",
+        "cwd": "{projectRoot}"
       }
     }
   },

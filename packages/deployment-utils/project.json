@@ -2,6 +2,7 @@
   "name": "deployment-utils",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/deployment-utils/src",
+
   "projectType": "library",
   "targets": {},
   "tags": [],

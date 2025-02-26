@@ -1,5 +1,8 @@
 {
   "name": "@ha/themes-definition",
   "version": "0.0.1",
-  "main": "src/index.ts"
+  "main": "src/index.ts",
+  "devDependencies": {
+    "nx": "^20.4.6"
+  }
 }

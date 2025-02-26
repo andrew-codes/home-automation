@@ -1,9 +1,7 @@
 import { createHeartbeat } from "@ha/http-heartbeat"
-import { createLogger } from "@ha/logger"
+import { logger } from "@ha/logger"
 import { createMqtt } from "@ha/mqtt-client"
 import { createUnifi } from "@ha/unifi-client"
-
-const logger = createLogger()
 
 const run = async (): Promise<void> => {
   await createHeartbeat()

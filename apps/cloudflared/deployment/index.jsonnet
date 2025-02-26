@@ -1,24 +1,24 @@
-local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
-local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
+local lib = import "../../../packages/deployment-utils/dist/index.libsonnet";
+local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet";
 
-local deployment = k.apps.v1.deployment.new('cloudflared', containers=[{
-                     name: 'cloudflared',
-                     image: 'cloudflare/cloudflared:2024.6.1',
+local deployment = k.apps.v1.deployment.new("cloudflared", containers=[{
+                     name: "cloudflared",
+                     image: "cloudflare/cloudflared:2024.6.1",
                      args: [
-                       'tunnel',
-                       '--config',
-                       '/etc/cloudflared/config/config.yaml',
-                       'run',
+                       "tunnel",
+                       "--config",
+                       "/etc/cloudflared/config/config.yaml",
+                       "run",
                      ],
                      volumeMounts: [
                        {
-                         name: 'config',
-                         mountPath: '/etc/cloudflared/config',
+                         name: "config",
+                         mountPath: "/etc/cloudflared/config",
                          readOnly: true,
                        },
                        {
-                         name: 'creds',
-                         mountPath: '/etc/cloudflared/creds',
+                         name: "creds",
+                         mountPath: "/etc/cloudflared/creds",
                          readOnly: true,
                        },
                      ],
@@ -29,19 +29,19 @@ local deployment = k.apps.v1.deployment.new('cloudflared', containers=[{
                          spec+: {
                            volumes+: [
                              {
-                               name: 'creds',
+                               name: "creds",
                                secret: {
-                                 secretName: 'tunnel-credentials',
+                                 secretName: "tunnel-credentials",
                                },
                              },
                              {
-                               name: 'config',
+                               name: "config",
                                configMap: {
-                                 name: 'cloudflared',
+                                 name: "cloudflared",
                                  items: [
                                    {
-                                     key: 'config.yaml',
-                                     path: 'config.yaml',
+                                     key: "config.yaml",
+                                     path: "config.yaml",
                                    },
                                  ],
                                },
@@ -53,8 +53,8 @@ local deployment = k.apps.v1.deployment.new('cloudflared', containers=[{
                    }
 ;
 
-local configMap = k.core.v1.configMap.new('cloudflared', {
-  'config.yaml': std.extVar('config'),
+local configMap = k.core.v1.configMap.new("cloudflared", {
+  "config.yaml": std.extVar("config"),
 });
 
 []

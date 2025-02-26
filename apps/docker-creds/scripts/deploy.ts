@@ -11,6 +11,8 @@ const run = async (
   const hostname = await configurationApi.get("docker-registry/hostname")
   const username = await configurationApi.get("docker-registry/username")
   const password = await configurationApi.get("docker-registry/password")
+  const kubeConfig = (await configurationApi.get("k8s/config")).value
+  sh.env["KUBECONFIG"] = kubeConfig
 
   const deleteOldCreds = sh.exec(
     `kubectl delete secret --namespace default regcred || true;`,

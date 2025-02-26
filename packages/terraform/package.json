@@ -1,0 +1,16 @@
+{
+  "name": "@ha/terraform",
+  "version": "0.0.1",
+  "main": "src/index.ts",
+  "private": true,
+  "dependencies": {
+    "@ha/logger": "workspace:^0.0.1",
+    "@ha/shell-utils": "workspace:^1.0.0",
+    "@types/shelljs": "^0.8.15",
+    "shelljs": "^0.8.5"
+  },
+  "devDependencies": {
+    "@ha/nx-executors": "workspace:^0.1.0",
+    "nx": "^20.4.6"
+  }
+}

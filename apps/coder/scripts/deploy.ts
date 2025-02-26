@@ -12,6 +12,9 @@ const run = async (
     .value
   const coderDbPassword = (await configurationApi.get("coder/db/password"))
     .value
+  const kubeConfig = (await configurationApi.get("k8s/config")).value
+  sh.env["KUBECONFIG"] = kubeConfig
+
   sh.exec(
     `kubectl create secret generic coder-db-url --from-literal=url="postgres://${coderDbUsername}:${coderDbPassword}@coder-postgres:5432/coder?sslmode=disable"`,
   )
@@ -33,9 +36,10 @@ const run = async (
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
   )
   const resourceJson = JSON.parse(resources)
+  const kube = kubectl(kubeConfig)
   await Promise.all(
     resourceJson.map((resource) =>
-      kubectl.applyToCluster(JSON.stringify(resource)),
+      kube.applyToCluster(JSON.stringify(resource)),
     ),
   )
 }
