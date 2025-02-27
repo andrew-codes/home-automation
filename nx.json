@@ -37,9 +37,15 @@
         "compile",
         "^provision",
         "^deploy",
-        "image/push",
+        "publish",
         "provision"
       ]
+    },
+    "package": {
+      "dependsOn": ["^compile"]
+    },
+    "publish": {
+      "dependsOn": ["^package", "package"]
     },
     "provision": {
       "dependsOn": ["^prepare", "prepare", "^provision", "^deploy"]

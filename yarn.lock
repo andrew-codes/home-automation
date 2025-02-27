@@ -3678,18 +3678,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/infrastructure-docker-registry@workspace:apps/infrastructure-docker-registry":
-  version: 0.0.0-use.local
-  resolution: "@ha/infrastructure-docker-registry@workspace:apps/infrastructure-docker-registry"
-  dependencies:
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/nx-executors": "workspace:^0.1.0"
-    "@ha/shell-utils": "workspace:^1.0.0"
-    shelljs: "npm:^0.8.5"
-  languageName: unknown
-  linkType: soft
-
 "@ha/infrastructure-elk-fleet-server@workspace:apps/infrastructure-elk-fleet-server":
   version: 0.0.0-use.local
   resolution: "@ha/infrastructure-elk-fleet-server@workspace:apps/infrastructure-elk-fleet-server"
@@ -3887,6 +3875,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ha/mqtt@workspace:apps/mqtt"
   dependencies:
+    "@ha/cloudflared": "workspace:^0.0.1"
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/docker": "workspace:^0.0.1"

@@ -184,6 +184,20 @@
       when: hostvars[item].ansible_host is defined
       with_items: "{{ groups.all }}"
 
+    - name: Ensure IP forwarding
+      sysctl:
+        name: net.ipv4.ip_forward
+        value: 1
+        state: present
+        reload: yes
+
+    - name: Ensure iptables are not being overridden
+      sysctl:
+        name: net.bridge.bridge-nf-call-iptables
+        value: 1
+        state: present
+        reload: yes
+
     - name: Enable service kubelet, and enable persistently
       service:
         name: kubelet

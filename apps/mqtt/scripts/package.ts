@@ -11,7 +11,6 @@ const run = async (
     dockerFile: "clients.Dockerfile",
     context: "src",
   })
-  await docker.pushImage(`${name}:latest`)
 }
 
 export default run

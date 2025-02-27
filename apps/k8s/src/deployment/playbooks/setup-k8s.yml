@@ -15,7 +15,7 @@
       register: kubeadm_init_check
 
     - name: Initializing kubernetes cluster
-      shell: kubeadm init --pod-network-cidr="{{ pod_network_cidr }}"
+      shell: kubeadm init --pod-network-cidr="{{ podNetwork  }}"
       when: not kubeadm_init_check.stat.exists
 
     - name: Create directory for kube config
@@ -45,6 +45,20 @@
     - name: Create pod network
       shell: kubectl apply -f https://github.com/flannel-io/flannel/releases/download/v0.26.4/kube-flannel.yml
       when: not kubeadm_init_check.stat.exists
+
+    - name: Ensure /run/flannel directory exists
+      file:
+        path: /run/flannel
+        state: directory
+
+    - name: Create /run/flannel/subnet.env
+      copy:
+        content: |
+          FLANNEL_NETWORK={{ podNetwork }}
+          FLANNEL_SUBNET={{ podNetworkSubnet}}
+          FLANNEL_MTU=1450
+          FLANNEL_IPMASQ=true
+        dest: /run/flannel/subnet.env
 
     - name: Pause
       pause: seconds=60

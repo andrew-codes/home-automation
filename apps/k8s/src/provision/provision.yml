@@ -25,6 +25,7 @@
         - br_netfilter
         - ip_vs
         - nf_nat
+        - vxlan
         - xt_conntrack
 
     - name: Ensure kernel modules are loaded
@@ -35,6 +36,7 @@
         - br_netfilter
         - ip_vs
         - nf_nat
+        - vxlan
         - xt_conntrack
       changed_when: false
 
@@ -88,7 +90,10 @@
         - "lxc.apparmor.profile: unconfined"
         - "lxc.cgroup2.devices.allow: a"
         - "lxc.cap.drop:"
-        - 'lxc.mount.auto: "proc:rw sys:rw"'
+        # - 'lxc.mount.auto: "proc:rw sys:rw"'
+        - "lxc.mount.auto: cgroup:rw"
+        - "lxc.cgroup.devices.allow: a"
+        - "lxc.mount.entry: /dev/kmsg dev/kmsg none defaults,bind,optional,create=file"
 
     - name: Ensure LXC container is started
       command: pct start {{ vmId }}

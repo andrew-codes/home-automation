@@ -11,10 +11,17 @@
         "module": "scripts/deploy.ts"
       }
     },
-    "image/push": {
+    "package": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
-        "module": "scripts/image-push.ts",
+        "module": "scripts/package.ts",
+        "cwd": "{projectRoot}"
+      }
+    },
+    "publish": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "module": "scripts/publish.ts",
         "cwd": "{projectRoot}"
       }
     }

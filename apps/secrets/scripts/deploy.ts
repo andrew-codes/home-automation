@@ -11,6 +11,22 @@ const run = async (
   const kubeConfig = (await configurationApi.get("k8s/config")).value
   const kube = await kubectl(kubeConfig)
 
+  const secretsPath = path.join(__dirname, "..", ".secrets")
+  await fs.mkdir(secretsPath, { recursive: true })
+  const credentials = (await configurationApi.get("onepassword/credentials"))
+    .value
+  await fs.writeFile(
+    path.join(__dirname, "..", ".secrets", "1password-credentials.json"),
+    credentials.replace(/\\n/g, "\n"),
+    "utf8",
+  )
+
+  const token = (await configurationApi.get("onepassword/token/connect")).value
+
+  await kube.exec(
+    `helm install connect 1password/connect --set-file connect.credentials=.secrets/1password-credentials.json --set operator.create=true --set operator.token.value=${token}`,
+  )
+
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "dist", "index.jsonnet"),
   )
@@ -21,9 +37,6 @@ const run = async (
       kube.applyToCluster(JSON.stringify(resource)),
     ),
   )
-
-  const secretsPath = path.join(__dirname, "..", ".secrets")
-  await fs.mkdir(secretsPath, { recursive: true })
 
   const sshPrivateKey = await configurationApi.get(
     "home-assistant/ssh-key/private",
@@ -37,13 +50,14 @@ const run = async (
 
   await fs.writeFile(
     path.join(secretsPath, "config"),
-    `Host * \
+    `
+Host *
   StrictHostKeyChecking no
   UserKnownHostsFile=/dev/null`,
     "utf8",
   )
 
-  await kube.exec(`kubectl delete secret ssh;`, { silent: true })
+  await kube.exec(`kubectl delete secret ssh;`)
   await kube.exec(
     `kubectl create secret generic ssh --from-file=${path.join(
       __dirname,

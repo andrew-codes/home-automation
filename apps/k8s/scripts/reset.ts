@@ -1,6 +1,7 @@
 import { runPlaybook } from "@ha/ansible"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
+import fs from "fs/promises"
 import path from "path"
 
 const run = async (
@@ -21,6 +22,10 @@ const run = async (
     [ip],
     vars,
   )
+
+  try {
+    await fs.unlink(path.join(__dirname, "..", ".secrets"), { recursive: true })
+  } catch (e) {}
 }
 
 export default run

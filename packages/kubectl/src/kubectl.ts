@@ -15,7 +15,7 @@ const kubectl = (kubeConfig: string) => {
   let kubeConfigPath = path.join(__dirname, "..", ".secrets")
   sh.mkdir("-p", kubeConfigPath)
   kubeConfigPath = path.join(kubeConfigPath, "config")
-  writeFileSync(kubeConfigPath, kubeConfig.replace(/\\n/g, "\n"))
+  writeFileSync(kubeConfigPath, kubeConfig.replace(/\\n/g, "\n"), "utf8")
 
   return {
     applyToCluster: async (content: string): Promise<void> => {
@@ -62,14 +62,17 @@ const kubectl = (kubeConfig: string) => {
       await throwIfError(
         sh.exec(
           `KUBECONFIG=${kubeConfigPath} kubectl -n ${options.namespace} rollout ${command} deployment ${deploymentName};`,
-          { silent: true },
+          { shell: "/bin/bash", silent: true },
         ),
       )
     },
     exec: async (command: string): Promise<void> => {
       sh.env["KUBECONFIG"] = kubeConfigPath
       await throwIfError(
-        sh.exec(`KUBECONFIG=${kubeConfigPath} ${command}`, { silent: true }),
+        sh.exec(`KUBECONFIG=${kubeConfigPath} ${command}`, {
+          shell: "/bin/bash",
+          silent: true,
+        }),
       )
     },
     [Symbol.dispose]: () => {

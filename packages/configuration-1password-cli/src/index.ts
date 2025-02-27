@@ -116,6 +116,8 @@ const configurationNames = [
   "mqtt/username",
   "nfs/ip",
   "nfs/share-path",
+  "onepassword/credentials",
+  "onepassword/token/connect",
   "paperless/admin/mail",
   "paperless/admin/password",
   "paperless/admin/user",

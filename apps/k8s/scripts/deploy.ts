@@ -20,7 +20,8 @@ const run = async (
     path.join(__dirname, "..", "src", "deployment", "deploy.yml"),
     [ip],
     {
-      pod_network_cidr: networkCIDR,
+      podNetwork: networkCIDR,
+      podNetworkSubnet: `${networkCIDR.split("/")[0]}/24`,
       hostname,
     },
   )

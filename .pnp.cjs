@@ -91,10 +91,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:apps/influxdb"\
     },\
     {\
-      "name": "@ha/infrastructure-docker-registry",\
-      "reference": "workspace:apps/infrastructure-docker-registry"\
-    },\
-    {\
       "name": "@ha/infrastructure-elk-fleet-server",\
       "reference": "workspace:apps/infrastructure-elk-fleet-server"\
     },\
@@ -330,7 +326,6 @@ const RAW_RUNTIME_STATE =
     ["@ha/home-assistant", ["workspace:apps/home-assistant"]],\
     ["@ha/http-heartbeat", ["workspace:packages/http-heartbeat"]],\
     ["@ha/influxdb", ["workspace:apps/influxdb"]],\
-    ["@ha/infrastructure-docker-registry", ["workspace:apps/infrastructure-docker-registry"]],\
     ["@ha/infrastructure-elk-fleet-server", ["workspace:apps/infrastructure-elk-fleet-server"]],\
     ["@ha/jest-utils", ["workspace:packages/jest-utils"]],\
     ["@ha/jsonnet", ["workspace:packages/jsonnet"]],\
@@ -5998,20 +5993,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@ha/infrastructure-docker-registry", [\
-      ["workspace:apps/infrastructure-docker-registry", {\
-        "packageLocation": "./apps/infrastructure-docker-registry/",\
-        "packageDependencies": [\
-          ["@ha/infrastructure-docker-registry", "workspace:apps/infrastructure-docker-registry"],\
-          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
-          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
-          ["@ha/nx-executors", "workspace:packages/nx-executors"],\
-          ["@ha/shell-utils", "workspace:packages/shell-utils"],\
-          ["shelljs", "npm:0.8.5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@ha/infrastructure-elk-fleet-server", [\
       ["workspace:apps/infrastructure-elk-fleet-server", {\
         "packageLocation": "./apps/infrastructure-elk-fleet-server/",\
@@ -6179,6 +6160,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./apps/mqtt/",\
         "packageDependencies": [\
           ["@ha/mqtt", "workspace:apps/mqtt"],\
+          ["@ha/cloudflared", "workspace:apps/cloudflared"],\
           ["@ha/configuration-api", "workspace:packages/configuration-api"],\
           ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
           ["@ha/docker", "workspace:packages/docker"],\
