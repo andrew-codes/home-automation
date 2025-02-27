@@ -3,14 +3,12 @@ import type { Configuration } from "@ha/configuration-workspace"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
 import path from "path"
-import sh from "shelljs"
 import { name } from "./config"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   const kubeConfig = (await configurationApi.get("k8s/config")).value
-  sh.env["KUBECONFIG"] = kubeConfig
 
   const registry = await configurationApi.get("docker-registry/hostname")
   const secrets: Array<keyof Configuration> = ["mqtt/password", "mqtt/username"]
@@ -24,7 +22,7 @@ const run = async (
     },
   )
   const kube = kubectl(kubeConfig)
-  sh.exec(`kubectl delete deployment ${name}`)
+  await kube.exec(`kubectl delete deployment ${name}`)
   const resourceJson = JSON.parse(resources)
   await Promise.all(
     resourceJson.map((resource) =>

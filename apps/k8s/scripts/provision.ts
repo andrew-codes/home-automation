@@ -11,7 +11,7 @@ const run = async (
   const gateway = (await configurationApi.get("unifi/ip")).value
   const pveHost = (await configurationApi.get("proxmox/host/pve")).value
   const pmUsername = (await configurationApi.get("proxmox/username")).value
-  const pmPassword = (await configurationApi.get("proxmox/password/root")).value
+  const pmPassword = (await configurationApi.get("proxmox/password")).value
   const hostname = (await configurationApi.get("k8s/name")).value
   const proxmoxSshKey = (await configurationApi.get("proxmox/ssh-key/public"))
     .value
@@ -20,26 +20,26 @@ const run = async (
   const proxmoxIp = (await configurationApi.get("proxmox/ip")).value
   const nameserver = (await configurationApi.get("proxmox/nameserver")).value
 
-  const vmId = 144
+  const vmId = ip.split(".").slice(1).join("")
 
   await terraform.apply(
     {
       ip: `${ip}/8`,
       gateway,
       pmApiUrl: `https://${pveHost}/api2/json`,
-      pmUsername: pmUsername.split("!")[0],
+      pmUsername: pmUsername,
       pmPassword,
       hostname,
       sshKey,
       nameserver,
       vmId,
     },
-    "src",
+    path.join(__dirname, "..", "src", "provision"),
     path.join(__dirname, "..", ".terraform"),
   )
 
   await runPlaybook(
-    path.join(__dirname, "..", "src", "deployment", "proxmox.yml"),
+    path.join(__dirname, "..", "src", "provision", "provision.yml"),
     [proxmoxIp],
     {
       vmId,

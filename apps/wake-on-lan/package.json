@@ -15,7 +15,6 @@
     "@ha/mqtt-client": "workspace:^0.0.1",
     "@ha/mqtt-heartbeat": "workspace:^0.0.1",
     "@ha/nx-executors": "workspace:^0.1.0",
-    "@ha/shell-utils": "workspace:^1.0.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^18.19.76",
     "async-mqtt": "^2.6.3",
@@ -25,7 +24,6 @@
     "lodash": "^4.17.21",
     "nodemon": "^2.0.22",
     "nx": "^20.4.6",
-    "shelljs": "^0.8.5",
     "ts-jest": "^29.2.5",
     "typescript": "^5.7.3",
     "wakeonlan": "^0.1.0"

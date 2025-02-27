@@ -1,22 +1,28 @@
 {
   "name": "docker-registry",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-
-  "sourceRoot": "apps/docker-registry",
+  "sourceRoot": "{projectRoot}/src",
   "projectType": "application",
   "targets": {
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
         "module": "scripts/deploy.ts",
-        "cwd": "apps/docker-registry"
+        "cwd": "{projectRoot}"
       }
     },
-    "setup": {
+    "provision": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
-        "module": "scripts/setup.ts",
-        "cwd": "apps/docker-registry"
+        "module": "scripts/provision.ts",
+        "cwd": "{projectRoot}"
+      }
+    },
+    "clean/provision": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rm -rf .terraform src/.terraform* src/provision/terraform* src/provision/.terraform* src/provision/terraform.plan",
+        "cwd": "{projectRoot}"
       }
     }
   },

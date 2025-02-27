@@ -4,14 +4,14 @@
   "devDependencies": {
     "@ha/configuration-api": "workspace:^0.0.1",
     "@ha/configuration-workspace": "workspace:^0.0.1",
+    "@ha/kubectl": "workspace:^1.0.0",
+    "@ha/logger": "workspace:^0.0.1",
     "@ha/nx-executors": "workspace:^0.1.0",
-    "@ha/shell-utils": "workspace:^1.0.0",
-    "nx": "^20.4.6",
-    "shelljs": "^0.8.5"
+    "nx": "^20.4.6"
   },
   "dependencies": {
     "@ha/docker-registry": "workspace:^0.0.1",
-    "@ha/k8s": "workspace:^0.0.1",
-    "@ha/secrets": "workspace:^0.0.1"
+    "@ha/docker-registry-service": "workspace:^0.0.1",
+    "@ha/k8s": "workspace:^0.0.1"
   }
 }

@@ -12,8 +12,7 @@ const run = async (
   const pveHost = (await configurationApi.get("proxmox/host/pve")).value
   const pveUsername = (await configurationApi.get("proxmox/username")).value
   const pvePassword = (await configurationApi.get("proxmox/password")).value
-  const becomePassword = (await configurationApi.get("proxmox/password/root"))
-    .value
+  const becomePassword = (await configurationApi.get("proxmox/password")).value
 
   throwIfError(sh.exec(`ansible-galaxy collection install community.general`))
 

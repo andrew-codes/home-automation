@@ -3,7 +3,6 @@ import type { Configuration } from "@ha/configuration-workspace"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
 import path from "path"
-import sh from "shelljs"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
@@ -13,19 +12,19 @@ const run = async (
   const coderDbPassword = (await configurationApi.get("coder/db/password"))
     .value
   const kubeConfig = (await configurationApi.get("k8s/config")).value
-  sh.env["KUBECONFIG"] = kubeConfig
+  const kube = kubectl(kubeConfig)
 
-  sh.exec(
+  await kube.exec(
     `kubectl create secret generic coder-db-url --from-literal=url="postgres://${coderDbUsername}:${coderDbPassword}@coder-postgres:5432/coder?sslmode=disable"`,
   )
-  sh.exec(`helm repo add coder-v2 https://helm.coder.com/v2`)
-  sh.exec(
+  await kube.exec(`helm repo add coder-v2 https://helm.coder.com/v2`)
+  await kube.exec(
     `helm install coder coder-v2/coder --values ${path.join(
       __dirname,
       "values.yaml",
     )} --version 2.16.1`,
   )
-  sh.exec(
+  await kube.exec(
     `helm upgrade coder coder-v2/coder -f ${path.join(
       __dirname,
       "values.yaml",
@@ -36,7 +35,6 @@ const run = async (
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
   )
   const resourceJson = JSON.parse(resources)
-  const kube = kubectl(kubeConfig)
   await Promise.all(
     resourceJson.map((resource) =>
       kube.applyToCluster(JSON.stringify(resource)),

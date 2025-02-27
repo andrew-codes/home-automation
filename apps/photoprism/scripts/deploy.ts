@@ -3,7 +3,6 @@ import type { Configuration } from "@ha/configuration-workspace"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
 import path from "path"
-import sh from "shelljs"
 import { name } from "./config"
 
 const run = async (
@@ -12,7 +11,7 @@ const run = async (
   const externalPort = await configurationApi.get("photoprism/port/external")
 
   const kubeConfig = (await configurationApi.get("k8s/config")).value
-  sh.env["KUBECONFIG"] = kubeConfig
+  const kube = kubectl(kubeConfig)
 
   const secrets: Array<keyof Configuration> = []
   const resources = await jsonnet.eval(
@@ -26,9 +25,8 @@ const run = async (
     },
   )
 
-  sh.exec(`kubectl delete deployment ${name}`)
+  await kube.exec(`kubectl delete deployment ${name}`)
   const resourceJson = JSON.parse(resources)
-  const kube = kubectl(kubeConfig)
   await Promise.all(
     resourceJson.map((resource) =>
       kube.applyToCluster(JSON.stringify(resource)),

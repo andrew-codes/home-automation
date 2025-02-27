@@ -18,7 +18,7 @@ const run = async (
   )
   const secrets: Array<keyof Configuration> = []
   const resources = await jsonnet.eval(
-    path.join(__dirname, "..", "deployment", "index.jsonnet"),
+    path.join(__dirname, "..", "src", "deployment", "index.jsonnet"),
     {
       image: "homeassistant/home-assistant:2025.1",
       name,

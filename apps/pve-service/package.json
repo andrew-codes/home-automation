@@ -1,12 +1,13 @@
 {
-  "name": "@ha/proxmox",
+  "private": true,
+  "name": "@ha/pve-service",
+  "version": "0.0.1",
   "devDependencies": {
     "@ha/configuration-api": "workspace:^0.0.1",
     "@ha/configuration-workspace": "workspace:^0.0.1",
     "@ha/jsonnet": "workspace:*",
     "@ha/kubectl": "workspace:*",
     "@ha/nx-executors": "workspace:^0.1.0",
-    "@ha/shell-utils": "workspace:^1.0.0",
     "nx": "^20.4.6",
     "shelljs": "^0.8.5"
   },

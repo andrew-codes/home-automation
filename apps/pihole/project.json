@@ -15,7 +15,7 @@
     "clean/provision": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "rm -rf .terraform src/.terraform* src/terraform* tfplan ",
+        "command": "rm -rf .terraform src/.terraform* src/provision/terraform* src/provision/.terraform* src/provision/terraform.plan ",
         "cwd": "{projectRoot}"
       }
     },

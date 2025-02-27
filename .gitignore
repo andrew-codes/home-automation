@@ -36,5 +36,5 @@ cookies.txt
 
 .devcontainer/.devpod-internal/
 
-tfplan
+terraform.plan
 .nx

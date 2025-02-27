@@ -11,11 +11,14 @@ const run = async (
   const ip = (await configurationApi.get("tailscale/ip")).value
   const hostname = (await configurationApi.get("tailscale/hostname")).value
   const authKey = (await configurationApi.get("tailscale/auth-key")).value
+  const subnetRoutes = (
+    await configurationApi.get("tailscale/subnet-routes")
+  ).value.split(",")
 
   const deploymentPath = path.join(__dirname, "..", "src", "deployment")
   await runPlaybook(path.join(deploymentPath, "index.yml"), [ip], {
     hostname,
-    subnetRoutes: [].join(","),
+    subnetRoutes: subnetRoutes.join(","),
     authKey,
   })
 }

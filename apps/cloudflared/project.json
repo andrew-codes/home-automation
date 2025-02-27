@@ -1,13 +1,13 @@
 {
   "name": "cloudflared",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/cloudflared/src",
+  "sourceRoot": "{projectRoot}/src",
   "projectType": "application",
   "targets": {
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
-        "cwd": "apps/cloudflared",
+        "cwd": "{projectRoot}",
         "module": "scripts/deploy.ts"
       }
     }

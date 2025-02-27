@@ -1,22 +1,15 @@
 ---
 - hosts: all
   remote_user: root
-  become: yes
+  become: true
   become_method: ansible.builtin.sudo
   become_user: root
-  gather_facts: yes
+  gather_facts: true
   connection: ssh
-  remote_user: root
 
   tasks:
-    - name: Copy join command to worker nodes.
-      copy:
-        src: "{{ playbook_dir }}/kubernetes_join_command"
-        dest: /tmp/kubernetes_join_command
-        mode: 0777
-
     - name: Join the Worker nodes with the master.
-      command: sh /tmp/kubernetes_join_command
+      shell: " {{ joinCommmand }}"
       register: joined_or_not
 
     - debug:

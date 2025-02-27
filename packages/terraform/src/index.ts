@@ -15,7 +15,7 @@ const apply = async (
   logger.info("Applying terraform")
   await throwIfError(
     sh.exec(
-      `terraform init --upgrade && terraform plan --out=tfplan && terraform apply "tfplan"`,
+      `terraform init --upgrade && terraform plan --out=terraform.plan && terraform apply "terraform.plan"`,
       { async: true, silent: true, cwd: cwd ?? process.cwd() },
     ),
   )

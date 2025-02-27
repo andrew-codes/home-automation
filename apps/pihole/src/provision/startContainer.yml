@@ -1,0 +1,21 @@
+---
+- name: Start container
+  hosts: all
+  become: yes
+  become_method: ansible.builtin.sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+  remote_user: root
+  tasks:
+    - name: Check if LXC container is running
+      shell: "pct status {{ vmId }} | grep -q 'status: running'"
+      register: container_status
+      ignore_errors: true
+      changed_when: false
+
+    - name: Ensure LXC container is started
+      command: pct start {{ vmId }}
+      register: start_container
+      when: container_status.rc != 0
+      changed_when: start_container.rc == 0

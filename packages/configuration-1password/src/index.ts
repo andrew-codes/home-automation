@@ -146,7 +146,6 @@ const configurationNames = [
   "proxmox/ip",
   "proxmox/nameserver",
   "proxmox/password",
-  "proxmox/password/root",
   "proxmox/provision/ssh-key/public",
   "proxmox/ssh-key/private",
   "proxmox/ssh-key/public",
@@ -240,5 +239,5 @@ const createConfigApi = async (): Promise<
   }
 }
 
+export { configurationNames, createConfigApi }
 export type { OnePasswordConfiguration as Configuration }
-export { createConfigApi, configurationNames }

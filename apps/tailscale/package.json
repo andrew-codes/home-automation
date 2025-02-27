@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "@ha/tailscale",
   "version": "0.0.1",
   "devDependencies": {

@@ -43,7 +43,6 @@
     ]
   },
   "devDependencies": {
-    "@apollo/rover": "^0.10.0",
     "@ha/configure-jest": "workspace:^0.0.1",
     "@ha/nx-executors": "workspace:^0.1.0",
     "@nx/workspace": "^20.4.6",

@@ -1,13 +1,13 @@
 {
   "name": "mqtt",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/mqtt",
+  "sourceRoot": "{projectRoot}/src",
   "projectType": "application",
   "targets": {
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
-        "cwd": "apps/mqtt",
+        "cwd": "{projectRoot}",
         "module": "scripts/deploy.ts"
       },
       "dependsOn": [
@@ -21,7 +21,7 @@
       "executor": "@ha/nx-executors:invoke",
       "options": {
         "module": "scripts/image-push.ts",
-        "cwd": "apps/mqtt"
+        "cwd": "{projectRoot}"
       }
     }
   },

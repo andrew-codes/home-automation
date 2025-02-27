@@ -18,22 +18,6 @@ const run = async (
     pihole_password: password,
     domain,
   })
-
-  // const resources = await jsonnet.eval(
-  //   path.join(deploymentPath, "service.jsonnet"),
-  //   {
-  //     ip1: ip,
-  //     ip2: ip2,
-  //   },
-  // )
-  // const resourceJson = JSON.parse(resources)
-  // const kubeConfig = (await configurationApi.get("k8s/config")).value
-  // const kube = kubectl(kubeConfig)
-  // await Promise.all(
-  //   resourceJson.map((resource) =>
-  //     kube.applyToCluster(JSON.stringify(resource)),
-  //   ),
-  // )
 }
 
 export default run

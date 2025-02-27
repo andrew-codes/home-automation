@@ -14,6 +14,7 @@
   "dependencies": {
     "@ha/k8s": "workspace:^0.0.1",
     "@ha/pihole": "workspace:^0.0.1",
-    "@ha/secrets": "workspace:^0.0.1"
+    "@ha/pihole-service": "workspace:^0.0.1",
+    "@ha/pve-service": "workspace:^0.0.1"
   }
 }

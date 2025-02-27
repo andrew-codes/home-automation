@@ -1,3 +1,4 @@
+import { runPlaybook } from "@ha/ansible"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { logger } from "@ha/logger"
@@ -12,8 +13,8 @@ const run = async (
   const ip2 = (await configurationApi.get("pihole2/ip")).value
   const gateway = (await configurationApi.get("unifi/ip")).value
   const pveHost = (await configurationApi.get("proxmox/host/pve")).value
-  const pm_username = (await configurationApi.get("proxmox/username")).value
-  const pm_password = (await configurationApi.get("proxmox/password")).value
+  const pmUsername = (await configurationApi.get("proxmox/username")).value
+  const pmPassword = (await configurationApi.get("proxmox/password")).value
   const hostname = (await configurationApi.get("pihole/hostname")).value
 
   const proxmoxSshKey = (await configurationApi.get("proxmox/ssh-key/public"))
@@ -23,23 +24,44 @@ const run = async (
     .value
   const sshKey = [proxmoxSshKey, devSshKey, haSshKey].join("\n")
 
+  const vmId = ip1.split(".").slice(1).join("")
+  const vmId2 = ip2.split(".").slice(1).join("")
+
   var vars = {
     ip: `${ip1}/8`,
     ip2: `${ip2}/8`,
     gateway,
-    pm_api_url: `https://${pveHost}/api2/json`,
-    pm_username,
-    pm_password,
+    pmApiUrl: `https://${pveHost}/api2/json`,
+    pmUsername,
+    pmPassword,
     sshKey,
     hostname: `${hostname}1`,
     hostname2: `${hostname}2`,
     nameserver: "1.1.1.1",
+    vmId,
+    vmId2,
   }
 
   await terraform.apply(
     vars,
-    path.join(__dirname, "..", "src"),
+    path.join(__dirname, "..", "src", "provision"),
     path.join(__dirname, "..", ".terraform"),
+  )
+
+  const proxmoxIp = (await configurationApi.get("proxmox/ip")).value
+  await runPlaybook(
+    path.join(__dirname, "..", "src", "provision", "startContainer.yml"),
+    [proxmoxIp],
+    {
+      vmId,
+    },
+  )
+  await runPlaybook(
+    path.join(__dirname, "..", "src", "provision", "startContainer.yml"),
+    [proxmoxIp],
+    {
+      vmId: vmId2,
+    },
   )
 }
 

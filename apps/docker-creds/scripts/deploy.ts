@@ -1,48 +1,38 @@
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
-import { throwIfError } from "@ha/shell-utils"
-import sh from "shelljs"
+import { kubectl } from "@ha/kubectl"
+import { logger } from "@ha/logger"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  sh.env["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
-
-  const hostname = await configurationApi.get("docker-registry/hostname")
-  const username = await configurationApi.get("docker-registry/username")
-  const password = await configurationApi.get("docker-registry/password")
+  const hostname = (await configurationApi.get("docker-registry/name")).value
+  const username = (await configurationApi.get("docker-registry/username"))
+    .value
+  const password = (await configurationApi.get("docker-registry/password"))
+    .value
   const kubeConfig = (await configurationApi.get("k8s/config")).value
-  sh.env["KUBECONFIG"] = kubeConfig
+  const kube = kubectl(kubeConfig)
 
-  const deleteOldCreds = sh.exec(
-    `kubectl delete secret --namespace default regcred || true;`,
-    {
-      silent: true,
-    },
+  try {
+    await kube.exec(`kubectl delete secret --namespace default regcred`)
+  } catch (e) {
+    logger.warn("regcred secret may already exist.")
+  }
+  await kube.exec(
+    `kubectl create secret docker-registry regcred --namespace default --docker-username="${username}" --docker-password="${password}" --docker-server="${hostname}";`,
   )
-  await throwIfError(deleteOldCreds)
 
-  const createCreds = sh.exec(
-    `kubectl create secret docker-registry regcred --namespace default --docker-username="${username.value}" --docker-password="${password.value}" --docker-server="${hostname.value}";`,
-    { silent: true },
+  const githubEmail = (await configurationApi.get("github/email")).value
+  const githubCrToken = (await configurationApi.get("github/cr/token")).value
+  try {
+    await kube.exec(`kubectl delete secret --namespace default ghcr`)
+  } catch (e) {
+    logger.warn("ghcr secret may already exist.")
+  }
+  await kube.exec(
+    `kubectl create secret docker-registry ghcr --namespace default --docker-username="${githubEmail}" --docker-password="${githubCrToken}" --docker-email="${githubEmail}" --docker-server="ghcr.io";`,
   )
-  await throwIfError(createCreds)
-
-  const githubEmail = await configurationApi.get("github/email")
-  const githubCrToken = await configurationApi.get("github/cr/token")
-  const deleteOldGhcrio = sh.exec(
-    `kubectl delete secret --namespace default ghcr || true;`,
-    {
-      silent: true,
-    },
-  )
-  await throwIfError(deleteOldGhcrio)
-
-  const createGhcrioCreds = sh.exec(
-    `kubectl create secret docker-registry ghcr --namespace default --docker-username="${githubEmail.value}" --docker-password="${githubCrToken.value}" --docker-email="${githubEmail.value}" --docker-server="ghcr.io";`,
-    { silent: true },
-  )
-  await throwIfError(createGhcrioCreds)
 }
 
 export default run

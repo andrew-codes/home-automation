@@ -1,24 +1,14 @@
 {
   "name": "home-assistant",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/home-assistant/src",
+  "sourceRoot": "{projectRoot}/src",
   "projectType": "application",
   "targets": {
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
-        "cwd": "apps/home-assistant",
+        "cwd": "{projectRoot}",
         "module": "scripts/deploy.ts"
-      }
-    },
-    "serve": {
-      "executor": "@ha/nx-executors:telepresence",
-      "options": {
-        "fromPort": 8123,
-        "toPort": 8123,
-        "image": "docker-registry.smith-simms.family/home-assistant:latest",
-        "envOverrides": ["HOME_ASSISTANT_SERVER=http://localhost:8123"],
-        "volumes": ["apps/home-assistant/src:/home-assistant-src"]
       }
     }
   },

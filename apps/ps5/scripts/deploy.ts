@@ -3,7 +3,6 @@ import type { Configuration } from "@ha/configuration-workspace"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
 import path from "path"
-import sh from "shelljs"
 import { name } from "./config"
 
 const run = async (
@@ -15,7 +14,6 @@ const run = async (
   const nfsIp = await configurationApi.get("nfs/ip")
 
   const kubeConfig = (await configurationApi.get("k8s/config")).value
-  sh.env["KUBECONFIG"] = kubeConfig
 
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
@@ -30,7 +28,7 @@ const run = async (
   )
 
   const kube = kubectl(kubeConfig)
-  sh.exec(`kubectl delete deployment ${name}`)
+  await kube.exec(`kubectl delete deployment ${name}`)
   const resourceJson = JSON.parse(resources)
   await Promise.all(
     resourceJson.map((resource) =>

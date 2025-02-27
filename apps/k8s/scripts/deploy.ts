@@ -1,6 +1,8 @@
+import { runPlaybook } from "@ha/ansible"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import { kubectl } from "@ha/kubectl"
+import { logger } from "@ha/logger"
 import fs from "fs/promises"
 import path from "path"
 
@@ -27,7 +29,12 @@ const run = async (
   const kubeConfig = await fs.readFile(kubeConfigPath, "utf8")
   configurationApi.set("k8s/config", kubeConfig)
   const kube = kubectl(kubeConfig)
-  await kube.exec(`kubectl create sa app;`)
+  try {
+    await kube.exec(`kubectl create sa app;`)
+  } catch (e) {
+    logger.warn("app service account may already exist.")
+    logger.error(e)
+  }
 }
 
 export default run

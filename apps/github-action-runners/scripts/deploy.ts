@@ -4,7 +4,6 @@ import { createSeal } from "@ha/github-secrets"
 import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
 import path from "path"
-import sh from "shelljs"
 import { name } from "./config"
 
 const run = async (
@@ -12,25 +11,27 @@ const run = async (
 ): Promise<void> => {
   const githubToken = await configurationApi.get("github/token")
   const kubeConfig = (await configurationApi.get("k8s/config")).value
-  sh.env["KUBECONFIG"] = kubeConfig
+  const kube = kubectl(kubeConfig)
 
-  sh.exec(`kubectl create namespace actions-runner-system;`, { silent: true })
-  sh.exec(
+  await kube.exec(`kubectl create namespace actions-runner-system;`, {
+    silent: true,
+  })
+  await kube.exec(
     `kubectl delete secret controller-manager --namespace=actions-runner-system;`,
     { silent: true },
   )
 
-  sh.exec(
+  await kube.exec(
     `kubectl create secret generic controller-manager --namespace=actions-runner-system --from-literal=github_token="${githubToken.value}";`,
     { silent: true },
   )
 
-  sh.exec(
+  await kube.exec(
     `kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.8.0/cert-manager.yaml;`,
     { silent: true },
   )
 
-  sh.exec(
+  await kube.exec(
     `kubectl create -f https://github.com/actions-runner-controller/actions-runner-controller/releases/download/v0.27.6/actions-runner-controller.yaml;`,
     { silent: true },
   )
@@ -107,7 +108,6 @@ const run = async (
     )
   ).map((jsonnetOutput) => JSON.parse(jsonnetOutput))
 
-  const kube = kubectl(kubeConfig)
   await Promise.all(
     jsonnetOutputs.flatMap((resources) =>
       resources.map(async (resource) =>

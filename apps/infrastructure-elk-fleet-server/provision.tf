@@ -87,7 +87,6 @@ resource "proxmox_lxc" "fleet-server" {
   unprivileged = true
   start        = true
   onboot       = true
-  startup      = "2"
   cores        = 2
   memory       = 4096
 

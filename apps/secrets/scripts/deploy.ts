@@ -4,7 +4,6 @@ import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
 import fs from "fs/promises"
 import path from "path"
-import sh from "shelljs"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
@@ -44,7 +43,7 @@ const run = async (
     "utf8",
   )
 
-  sh.exec(`kubectl delete secret ssh;`, { silent: true })
+  await kube.exec(`kubectl delete secret ssh;`, { silent: true })
   await kube.exec(
     `kubectl create secret generic ssh --from-file=${path.join(
       __dirname,

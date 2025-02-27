@@ -1,13 +1,13 @@
 {
   "name": "docker-creds",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/docker-creds",
+  "sourceRoot": "{projectRoot}",
   "projectType": "application",
   "targets": {
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
-        "cwd": "apps/docker-creds",
+        "cwd": "{projectRoot}",
         "module": "scripts/deploy.ts"
       }
     }
