@@ -35,9 +35,9 @@
         "^prepare",
         "prepare",
         "compile",
-        "image/push",
         "^provision",
         "^deploy",
+        "image/push",
         "provision"
       ]
     },

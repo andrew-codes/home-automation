@@ -6,7 +6,8 @@ import { logger } from "@ha/logger"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const hostname = (await configurationApi.get("docker-registry/name")).value
+  const hostname = (await configurationApi.get("docker-registry/hostname"))
+    .value
   const username = (await configurationApi.get("docker-registry/username"))
     .value
   const password = (await configurationApi.get("docker-registry/password"))

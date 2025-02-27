@@ -3274,6 +3274,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ha/docker-creds@workspace:apps/docker-creds"
   dependencies:
+    "@ha/cloudflared": "workspace:^0.0.1"
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/docker-registry": "workspace:^0.0.1"
@@ -4083,7 +4084,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ha/pve-service@workspace:apps/pve-service"
   dependencies:
-    "@ha/cloudflared": "workspace:^0.0.1"
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/jsonnet": "workspace:*"

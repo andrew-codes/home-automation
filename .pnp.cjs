@@ -5582,6 +5582,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./apps/docker-creds/",\
         "packageDependencies": [\
           ["@ha/docker-creds", "workspace:apps/docker-creds"],\
+          ["@ha/cloudflared", "workspace:apps/cloudflared"],\
           ["@ha/configuration-api", "workspace:packages/configuration-api"],\
           ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
           ["@ha/docker-registry", "workspace:apps/docker-registry-service"],\
@@ -6463,7 +6464,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./apps/pve-service/",\
         "packageDependencies": [\
           ["@ha/pve-service", "workspace:apps/pve-service"],\
-          ["@ha/cloudflared", "workspace:apps/cloudflared"],\
           ["@ha/configuration-api", "workspace:packages/configuration-api"],\
           ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
           ["@ha/jsonnet", "workspace:packages/jsonnet"],\
