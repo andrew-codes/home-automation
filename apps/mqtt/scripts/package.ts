@@ -1,6 +1,7 @@
 import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import createClient from "@ha/docker"
+import path from "path"
 import { name } from "./config"
 
 const run = async (
@@ -8,7 +9,7 @@ const run = async (
 ): Promise<void> => {
   const docker = await createClient(configurationApi)
   await docker.build(`${name}:latest`, {
-    dockerFile: "clients.Dockerfile",
+    dockerFile: path.join("src", "clients.Dockerfile"),
     context: "src",
   })
 }
