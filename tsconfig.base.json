@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "checkJs": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -14,6 +14,17 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "target": "esnext"
+    "target": "esnext",
+    "types": [
+      "node",
+      "jest"
+    ],
+    "paths": {
+      "*": [
+        ".yarn/__virtual__/*",
+        ".yarn/*",
+        "node_modules/*"
+      ]
+    }
   }
 }

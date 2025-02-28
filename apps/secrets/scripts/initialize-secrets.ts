@@ -11,20 +11,20 @@ const run = async (
 
   try {
     secretsSetFromTemplate = (await import(
-      "../src/.secrets/template.secrets.js"
+      "../.secrets/template.secrets.js"
     )) as unknown as {
       default: { name: keyof Configuration; value: string }[]
     }
   } catch (error) {
     throw new Error(
-      "'../src/.secrets/template.secrets' file not found. Please run `yarn nx run secrets:template` first.",
+      "'../.secrets/template.secrets' file not found. Please run `yarn nx run secrets:template` first.",
     )
   }
 
   for (const item of secretsSetFromTemplate.default) {
     try {
       await configurationApi.set(item.name, item.value.replace(/\n/g, "\\n"))
-    } catch (error) {
+    } catch (error: any) {
       logger.error(error?.message)
     }
   }

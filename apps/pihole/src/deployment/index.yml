@@ -65,8 +65,6 @@
         content: |-
           WEBSERVER_PORT=80
           DNS_DOMAIN={{ domain }}
-          NTP_SYNC_ACTIVE=false
-          NTP_IPV4_ACTIVE=false
           PIHOLE_INTERFACE=eth0
           IPV4_ADDRESS={{ ansible_host }}/8
           IPV6_ADDRESS=
@@ -100,6 +98,30 @@
       become: yes
       shell: pihole setpassword "{{ pihole_password }}"
 
+    - name: Ensure dnsmasq entries are enabled
+      shell: pihole-FTL --config misc.etc_dnsmasq_d true
+
+    - name: Ensure custom DNS entries
+      shell: "pihole-FTL --config misc.dnsmasq_lines '{{dnsEntries}}'"
+
+    - name: Domain for pihole
+      shell: "pihole-FTL --config dns.domain '{{ domain }}'"
+
+    - name: Ensure ntp sync configuration
+      shell: "pihole-FTL --config ntp.sync.active false"
+
+    - name: Set Conditional Forwarding in Pi-hole
+      lineinfile:
+        path: /etc/pihole/setupVars.conf
+        regexp: "^#?PIHOLE_DNS_"
+        line: |
+          CONDITIONAL_FORWARDING=true
+          CONDITIONAL_FORWARDING_IP={{ dhcpIp }}
+          CONDITIONAL_FORWARDING_DOMAIN={{ domain }}
+          CONDITIONAL_FORWARDING_REVERSE={{ cidr }}
+        create: yes
+        state: present
+
     - name: Restart and enable the pi-hole service if it exists
       ansible.builtin.systemd:
         name: pihole-FTL
@@ -107,14 +129,5 @@
         enabled: yes
       when: "'pihole-FTL.service' in ansible_facts.services"
 
-    - name: Restart pihole dns
-      become_user: root
-      become_method: ansible.builtin.sudo
-      become: yes
-      shell: pihole restartdns
-
-    - name: Wait for pihole to be up
-      wait_for:
-        port: 80
-        delay: 10
-        timeout: 300
+    - name: Restart Pi-hole DNS resolver
+      shell: pihole reloaddns

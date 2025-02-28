@@ -8,10 +8,12 @@ import type { Configuration } from "./Configuration.types"
 const createConfigurationApi = async (
   providers: ConfigurationApi<any>[] = [envConfiguration],
 ): Promise<ConfigurationApi<Configuration>> => {
-  const onepasswordConfiguration = await createOnepasswordConfiguration()
   const onePasswordCliConfiguration = await createOnePasswordCliConfiguration()
+  const onePasswordConfiguration = await createOnepasswordConfiguration(
+    onePasswordCliConfiguration,
+  )
   const configurationProviders = providers.concat(
-    onepasswordConfiguration,
+    onePasswordConfiguration,
     onePasswordCliConfiguration,
   )
 

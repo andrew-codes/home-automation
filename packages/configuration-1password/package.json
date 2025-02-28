@@ -6,6 +6,7 @@
   "main": "src/index.ts",
   "dependencies": {
     "@1password/connect": "^1.4.1",
+    "@ha/configuration-1password-cli": "workspace:^0.0.1",
     "lodash": "^4.17.21"
   },
   "devDependencies": {

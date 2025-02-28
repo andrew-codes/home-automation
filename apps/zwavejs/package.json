@@ -1,5 +1,7 @@
 {
+  "private": true,
   "name": "@ha/zwavejs",
+  "version": "0.0.1",
   "devDependencies": {
     "@ha/configuration-api": "workspace:^0.0.1",
     "@ha/configuration-workspace": "workspace:^0.0.1",
@@ -9,6 +11,7 @@
     "nx": "^20.4.6"
   },
   "dependencies": {
+    "@ha/cloudflared": "workspace:^0.0.1",
     "@ha/k8s": "workspace:^0.0.1",
     "@ha/nfs-provisioner": "workspace:^0.0.1",
     "@ha/pihole": "workspace:^0.0.1",

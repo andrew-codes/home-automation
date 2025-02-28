@@ -12,11 +12,18 @@ const run = async (
   const ip2 = (await configurationApi.get("pihole2/ip")).value
   const password = (await configurationApi.get("pihole/password")).value
   const domain = (await configurationApi.get("pihole/domain")).value
+  const dhcpIp = (await configurationApi.get("unifi/ip")).value
+  const cidr = (await configurationApi.get("tailscale/subnet-routes")).value
+
+  const dnsEntries = []
 
   const deploymentPath = path.join(__dirname, "..", "src", "deployment")
   await runPlaybook(path.join(deploymentPath, "index.yml"), [ip, ip2], {
     pihole_password: password,
     domain,
+    dhcpIp,
+    cidr,
+    dnsEntries: JSON.stringify(dnsEntries),
   })
 }
 

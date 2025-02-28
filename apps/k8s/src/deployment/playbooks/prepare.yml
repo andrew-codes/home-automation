@@ -49,13 +49,6 @@
     - name: Forward IP4v4
       shell: . /tmp/forward-ipv4.sh
 
-    - name: Reboot all the kubernetes nodes
-      reboot:
-        post_reboot_delay: 10
-        reboot_timeout: 90
-        connect_timeout: 60
-        test_command: uptime
-
     - name: Upgrade and update apt
       apt:
         update_cache: true
@@ -248,7 +241,7 @@
 
     - name: Reboot all the kubernetes nodes
       reboot:
-        post_reboot_delay: 10
+        post_reboot_delay: 20
         reboot_timeout: 90
         connect_timeout: 60
         test_command: uptime

@@ -66,9 +66,9 @@ const kubectl = (kubeConfig: string) => {
         ),
       )
     },
-    exec: async (command: string): Promise<void> => {
+    exec: async (command: string): Promise<string> => {
       sh.env["KUBECONFIG"] = kubeConfigPath
-      await throwIfError(
+      return throwIfError(
         sh.exec(`KUBECONFIG=${kubeConfigPath} ${command}`, {
           shell: "/bin/bash",
           silent: true,

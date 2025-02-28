@@ -44,7 +44,6 @@
 
     - name: Create pod network
       shell: kubectl apply -f https://github.com/flannel-io/flannel/releases/download/v0.26.4/kube-flannel.yml
-      when: not kubeadm_init_check.stat.exists
 
     - name: Ensure /run/flannel directory exists
       file:
@@ -59,6 +58,42 @@
           FLANNEL_MTU=1450
           FLANNEL_IPMASQ=true
         dest: /run/flannel/subnet.env
+
+    - name: Deploy script to recreate /run/flannel/subnet.env
+      copy:
+        dest: /usr/local/bin/create-flannel-subnet-env.sh
+        content: |
+          #!/bin/bash
+          mkdir -p /run/flannel
+          cat <<EOF > /run/flannel/subnet.env
+          FLANNEL_NETWORK={{ podNetwork }}
+          FLANNEL_SUBNET={{ podNetworkSubnet }}
+          FLANNEL_MTU=1450
+          FLANNEL_IPMASQ=true
+          EOF
+        mode: "0755"
+
+    - name: Deploy systemd service to recreate /run/flannel/subnet.env on boot
+      copy:
+        dest: /etc/systemd/system/create-flannel-subnet-env.service
+        content: |
+          [Unit]
+          Description=Create Flannel Subnet Environment File
+          After=network.target
+
+          [Service]
+          Type=oneshot
+          ExecStart=/usr/local/bin/create-flannel-subnet-env.sh
+          RemainAfterExit=yes
+
+          [Install]
+          WantedBy=multi-user.target
+
+    - name: Enable and start the create-flannel-subnet-env service
+      systemd:
+        name: create-flannel-subnet-env
+        enabled: yes
+        state: started
 
     - name: Pause
       pause: seconds=60

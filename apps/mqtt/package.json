@@ -12,7 +12,6 @@
     "nx": "^20.4.6"
   },
   "dependencies": {
-    "@ha/cloudflared": "workspace:^0.0.1",
     "@ha/docker-creds": "workspace:^0.0.1",
     "@ha/docker-registry": "workspace:^0.0.1",
     "@ha/docker-registry-service": "workspace:^0.0.1",

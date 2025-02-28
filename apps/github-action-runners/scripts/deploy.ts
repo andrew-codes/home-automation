@@ -13,27 +13,21 @@ const run = async (
   const kubeConfig = (await configurationApi.get("k8s/config")).value
   const kube = kubectl(kubeConfig)
 
-  await kube.exec(`kubectl create namespace actions-runner-system;`, {
-    silent: true,
-  })
+  await kube.exec(`kubectl create namespace actions-runner-system;`)
   await kube.exec(
     `kubectl delete secret controller-manager --namespace=actions-runner-system;`,
-    { silent: true },
   )
 
   await kube.exec(
     `kubectl create secret generic controller-manager --namespace=actions-runner-system --from-literal=github_token="${githubToken.value}";`,
-    { silent: true },
   )
 
   await kube.exec(
     `kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.8.0/cert-manager.yaml;`,
-    { silent: true },
   )
 
   await kube.exec(
     `kubectl create -f https://github.com/actions-runner-controller/actions-runner-controller/releases/download/v0.27.6/actions-runner-controller.yaml;`,
-    { silent: true },
   )
   const seal = createSeal(githubToken.value)
 

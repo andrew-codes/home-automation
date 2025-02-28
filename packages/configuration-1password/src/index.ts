@@ -1,4 +1,10 @@
-import { FullItem, ItemBuilder, OnePasswordConnect } from "@1password/connect"
+import {
+  FullItem,
+  ItemBuilder,
+  OnePasswordConnect,
+  OPConnect,
+} from "@1password/connect"
+import { Configuration as OnePasswordCliConfiguration } from "@ha/configuration-1password-cli"
 import { ConfigurationApi } from "@ha/configuration-api"
 import { configurationApi as EnvSecretsConfiguration } from "@ha/configuration-env-secrets"
 
@@ -6,6 +12,7 @@ const configurationNames = [
   "captive-portal/host",
   "captive-portal/port/external",
   "cloudflared/config",
+  "cloudflared/credentials",
   "coder/db/username",
   "coder/db/password",
   "crowdsec/elastic/password",
@@ -183,26 +190,34 @@ type OnePasswordConfiguration = Record<
   { id: string; value: string }
 >
 
-const createConfigApi = async (): Promise<
-  ConfigurationApi<OnePasswordConfiguration>
-> => {
-  const serverURL = await EnvSecretsConfiguration.get("onepassword/server-url")
-  const token = await EnvSecretsConfiguration.get("onepassword/token")
+const createConfigApi = async (
+  onePasswordCliConfiguration?: ConfigurationApi<OnePasswordCliConfiguration>,
+): Promise<ConfigurationApi<OnePasswordConfiguration>> => {
+  let serverUrl: string | undefined
+  try {
+    serverUrl =
+      (await onePasswordCliConfiguration?.get("onepassword/server-url"))
+        ?.value ?? (await EnvSecretsConfiguration.get("onepassword/server-url"))
+  } catch (error) {}
+  let op: OPConnect | null = null
+  if (!!serverUrl) {
+    const token = await EnvSecretsConfiguration.get("onepassword/token")
+    op = OnePasswordConnect({
+      serverURL: serverUrl,
+      token,
+      keepAlive: true,
+    })
+  }
   const vaultId = await EnvSecretsConfiguration.get("onepassword/vault-id")
-  const op = OnePasswordConnect({
-    serverURL,
-    token,
-    keepAlive: true,
-  })
 
   return {
     get: async (name) => {
       const itemTitle = name
       const itemFieldName = "secret-value"
-      const item = await op.getItemByTitle(vaultId, itemTitle)
-      const field = item.fields?.find((f) => f.label === itemFieldName)
+      const item = await op?.getItemByTitle(vaultId, itemTitle)
+      const field = item?.fields?.find((f) => f.label === itemFieldName)
 
-      if (!item.id || !field?.value) {
+      if (!item?.id || !field?.value) {
         throw new Error(`Configuration value not found, ${name}.`)
       }
 
@@ -215,16 +230,16 @@ const createConfigApi = async (): Promise<
     set: async (name, value) => {
       const itemTitle = name
       const itemFieldName = "secret-value"
-      const items = await op.listItems(vaultId)
-      const existingItem = items.find((i) => i.title === itemTitle)
-      let item: FullItem
+      const items = await op?.listItems(vaultId)
+      const existingItem = items?.find((i) => i.title === itemTitle)
+      let item: FullItem | undefined
       if (!!existingItem?.id) {
-        item = await op.getItemById(vaultId, existingItem.id)
+        item = await op?.getItemById(vaultId, existingItem.id)
         if (!!item?.fields) {
           const index = item.fields.findIndex((f) => f.label === itemFieldName)
           item.fields[index].value = value
 
-          await op.updateItem(vaultId, item)
+          await op?.updateItem(vaultId, item)
         }
       } else {
         const newItem = new ItemBuilder()
@@ -235,7 +250,7 @@ const createConfigApi = async (): Promise<
             value,
           })
           .build()
-        await op.createItem(vaultId, newItem)
+        await op?.createItem(vaultId, newItem)
       }
     },
   }

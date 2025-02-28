@@ -1,35 +1,35 @@
-local secrets = import '../../../apps/secrets/dist/secrets.jsonnet';
-local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
+local secrets = import "../../../apps/secrets/src/secrets.jsonnet";
+local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet";
 
 {
   deployment+: {
-    new(name, image, secretNames=[], externalPort='', containerPort='', disablePortEnv=false)::
-      local exPort = if (containerPort != '') then { name: 'http', port: std.parseInt(containerPort), targetPort: 'http' }
-                                                   + if (externalPort != '') then k.core.v1.servicePort.withNodePort(std.parseInt(externalPort)) else {} else {};
-      local secretNamesCollection = std.split(secretNames, ',');
+    new(name, image, secretNames=[], externalPort="", containerPort="", disablePortEnv=false)::
+      local exPort = if (containerPort != "") then { name: "http", port: std.parseInt(containerPort), targetPort: "http" }
+                                                   + if (externalPort != "") then k.core.v1.servicePort.withNodePort(std.parseInt(externalPort)) else {} else {};
+      local secretNamesCollection = std.split(secretNames, ",");
       local envSecrets = if (std.length(secretNames) > 0) then [
         secrets[secretName]
         for secretName in secretNamesCollection
       ] else [];
-      local portEnv = if (containerPort != '' && !disablePortEnv) then [{ name: 'PORT', value: containerPort }] else [];
-      local service = if (containerPort != '') then k.core.v1.service.new(name, { name: name }, [exPort])
-                                                    + if (externalPort != '') then k.core.v1.service.spec.withType('NodePort',) else {} else {};
+      local portEnv = if (containerPort != "" && !disablePortEnv) then [{ name: "PORT", value: containerPort }] else [];
+      local service = if (containerPort != "") then k.core.v1.service.new(name, { name: name }, [exPort])
+                                                    + if (externalPort != "") then k.core.v1.service.spec.withType("NodePort",) else {} else {};
 
       local appContainer = k.core.v1.container.new(name=name, image=image)
-                           + k.core.v1.container.withImagePullPolicy('Always')
+                           + k.core.v1.container.withImagePullPolicy("Always")
                            + k.core.v1.container.withEnv(envSecrets + portEnv)
-                           + if (containerPort != '') then k.core.v1.container.withPorts({
-                             name: 'http',
+                           + if (containerPort != "") then k.core.v1.container.withPorts({
+                             name: "http",
                              containerPort: std.parseInt(containerPort),
                            }) else {};
 
       local deployment = {
         deployment: k.apps.v1.deployment.new(name=name, containers=[appContainer])
-                    + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: 'regcred' },)
-                    + k.apps.v1.deployment.spec.template.spec.withServiceAccount('app',),
+                    + k.apps.v1.deployment.spec.template.spec.withImagePullSecrets({ name: "regcred" },)
+                    + k.apps.v1.deployment.spec.template.spec.withServiceAccount("app",),
       };
 
-      local output = if (containerPort != '') then
+      local output = if (containerPort != "") then
         deployment {
           service: service,
         } else deployment;
@@ -38,7 +38,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
 
     withContainer(name, image, properties={},)::
       local container = k.core.v1.container.new(name=name, image=image)
-                        + k.core.v1.container.withImagePullPolicy('Always')
+                        + k.core.v1.container.withImagePullPolicy("Always")
                         + properties;
       {
         deployment+: {
@@ -61,21 +61,21 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
             template+: {
               spec+: {
                 hostNetwork: true,
-                dnsPolicy: 'ClusterFirstWithHostNet',
+                dnsPolicy: "ClusterFirstWithHostNet",
               },
             },
           },
         },
       },
 
-    withProbe(containerIndex, path, portName='http')::
+    withProbe(containerIndex, path, portName="http")::
       local augmentation = {
         livenessProbe: {
           httpGet:
             {
               path: path,
               port: portName,
-              scheme: 'HTTP',
+              scheme: "HTTP",
             },
           initialDelaySeconds: 60,
           failureThreshold: 5,
@@ -86,7 +86,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
             {
               path: path,
               port: portName,
-              scheme: 'HTTP',
+              scheme: "HTTP",
             },
           initialDelaySeconds: 60,
           failureThreshold: 5,
@@ -97,7 +97,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
             {
               path: path,
               port: portName,
-              scheme: 'HTTP',
+              scheme: "HTTP",
             },
           failureThreshold: 30,
           periodSeconds: 10,
@@ -142,9 +142,9 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
         },
       },
 
-    withPort(containerIndex, appName, name, containerPort, externalPort='')::
+    withPort(containerIndex, appName, name, containerPort, externalPort="")::
       local servicePort = { name: name, port: containerPort, targetPort: name }
-                          + if (externalPort != '') then k.core.v1.servicePort.withNodePort(std.parseInt(externalPort)) else {};
+                          + if (externalPort != "") then k.core.v1.servicePort.withNodePort(std.parseInt(externalPort)) else {};
 
       {
         deployment+: {
@@ -156,8 +156,8 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
             },
           },
         },
-        ['service' + name]: k.core.v1.service.new(name, { name: appName }, [servicePort])
-                            + if (externalPort != '') then k.core.v1.service.spec.withType('NodePort',) else {},
+        ["service" + name]: k.core.v1.service.new(name, { name: appName }, [servicePort])
+                            + if (externalPort != "") then k.core.v1.service.spec.withType("NodePort",) else {},
       },
 
     withSecurityContext(containerIndex, securityContext)::
@@ -179,7 +179,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
           spec+: {
             template+: {
               spec+: {
-                initContainers+: [{ name: name, image: image, imagePullPolicy: 'Always' } + containerProperties],
+                initContainers+: [{ name: name, image: image, imagePullPolicy: "Always" } + containerProperties],
               },
             },
           },
@@ -270,7 +270,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
             template+: {
               spec+: {
                 volumes+: [
-                  k.core.v1.volume.fromPersistentVolumeClaim(name, name + '-pvc'),
+                  k.core.v1.volume.fromPersistentVolumeClaim(name, name + "-pvc"),
                 ],
               },
             },
@@ -290,16 +290,16 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
     persistentVolume+: {
       new(name, capacity)::
         [
-          k.core.v1.persistentVolume.new(name + '-pv')
-          + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
-          + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
-          + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
+          k.core.v1.persistentVolume.new(name + "-pv")
+          + k.core.v1.persistentVolume.metadata.withLabels({ type: "local" })
+          + k.core.v1.persistentVolume.spec.withAccessModes("ReadWriteMany")
+          + k.core.v1.persistentVolume.spec.withStorageClassName("manual")
           + k.core.v1.persistentVolume.spec.withCapacity({ storage: capacity })
-          + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/' + name),
+          + k.core.v1.persistentVolume.spec.hostPath.withPath("/mnt/data/" + name),
 
-          k.core.v1.persistentVolumeClaim.new(name + '-pvc')
-          + k.core.v1.persistentVolumeClaim.spec.withAccessModes('ReadWriteMany')
-          + k.core.v1.persistentVolumeClaim.spec.withStorageClassName('manual')
+          k.core.v1.persistentVolumeClaim.new(name + "-pvc")
+          + k.core.v1.persistentVolumeClaim.spec.withAccessModes("ReadWriteMany")
+          + k.core.v1.persistentVolumeClaim.spec.withStorageClassName("manual")
           + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: capacity }),
         ],
     },
@@ -307,20 +307,20 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
     persistentNfsVolume+: {
       new(name, capacity, ip)::
         [
-          k.core.v1.persistentVolume.new(name + '-pv')
-          + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
-          + k.core.v1.persistentVolume.spec.withStorageClassName('nfs')
+          k.core.v1.persistentVolume.new(name + "-pv")
+          + k.core.v1.persistentVolume.spec.withAccessModes("ReadWriteMany")
+          + k.core.v1.persistentVolume.spec.withStorageClassName("nfs")
           + k.core.v1.persistentVolume.spec.withCapacity({ storage: capacity })
-          + k.core.v1.persistentVolume.spec.nfs.withPath('/volume1/k8s-data/' + name)
+          + k.core.v1.persistentVolume.spec.nfs.withPath("/volume1/k8s-data/" + name)
           + k.core.v1.persistentVolume.spec.nfs.withServer(ip)
           + k.core.v1.persistentVolume.spec.nfs.withReadOnly(false)
-          + k.core.v1.persistentVolume.spec.withMountOptions(['nfsvers=4.1'])
-          + k.core.v1.persistentVolume.spec.withVolumeMode('Filesystem')
-          + k.core.v1.persistentVolume.spec.withPersistentVolumeReclaimPolicy('Recycle'),
+          + k.core.v1.persistentVolume.spec.withMountOptions(["nfsvers=4.1"])
+          + k.core.v1.persistentVolume.spec.withVolumeMode("Filesystem")
+          + k.core.v1.persistentVolume.spec.withPersistentVolumeReclaimPolicy("Recycle"),
 
-          k.core.v1.persistentVolumeClaim.new(name + '-pvc')
-          + k.core.v1.persistentVolumeClaim.spec.withAccessModes('ReadWriteMany')
-          + k.core.v1.persistentVolumeClaim.spec.withStorageClassName('nfs')
+          k.core.v1.persistentVolumeClaim.new(name + "-pvc")
+          + k.core.v1.persistentVolumeClaim.spec.withAccessModes("ReadWriteMany")
+          + k.core.v1.persistentVolumeClaim.spec.withStorageClassName("nfs")
           + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: capacity }),
         ],
     },
@@ -329,13 +329,13 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
   onePasswordSecrets+: {
     new(vaultId, k8sName, name)::
       {
-        apiVersion: 'onepassword.com/v1',
-        kind: 'OnePasswordItem',
+        apiVersion: "onepassword.com/v1",
+        kind: "OnePasswordItem",
         metadata: {
           name: k8sName,
         },
         spec: {
-          itemPath: 'vaults/' + vaultId + '/items/' + name,
+          itemPath: "vaults/" + vaultId + "/items/" + name,
         },
       },
   },

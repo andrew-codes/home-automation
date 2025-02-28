@@ -6,7 +6,7 @@ import path from "path"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const secretsPath = path.join(__dirname, "..", "src", ".secrets")
+  const secretsPath = path.join(__dirname, "..", ".secrets")
   await fs.mkdir(secretsPath, {
     recursive: true,
   })

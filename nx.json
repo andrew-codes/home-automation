@@ -10,6 +10,8 @@
           "prepare",
           "prestart",
           "test",
+          "package",
+          "publish",
           "deploy",
           "provision"
         ]
@@ -37,8 +39,8 @@
         "compile",
         "^provision",
         "^deploy",
-        "publish",
-        "provision"
+        "provision",
+        "publish"
       ]
     },
     "package": {

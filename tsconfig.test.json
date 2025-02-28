@@ -1,9 +1,15 @@
 {
   "extends": "./tsconfig.base.json",
-  "include": ["**/src/**/*.{tj}s", "**/scripts/**/*.{tj}s"],
+  "include": [
+    "**/src/**/*.{tj}s",
+    "**/scripts/**/*.{tj}s"
+  ],
   "exclude": [],
   "compilerOptions": {
     "jsx": "react",
-    "types": ["@types/node", "@types/jest"]
-  }
+    "types": [
+      "@types/node",
+      "@types/jest"
+    ]
+  },
 }

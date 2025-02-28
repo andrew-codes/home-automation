@@ -1,5 +1,7 @@
 {
+  "private": true,
   "name": "@ha/metrics",
+  "version": "0.0.1",
   "devDependencies": {
     "@ha/configuration-api": "workspace:^0.0.1",
     "@ha/configuration-workspace": "workspace:^0.0.1",
@@ -10,6 +12,7 @@
     "shelljs": "^0.8.5"
   },
   "dependencies": {
+    "@ha/cloudflared": "workspace:^0.0.1",
     "@ha/k8s": "workspace:^0.0.1",
     "@ha/pihole": "workspace:^0.0.1",
     "@ha/secrets": "workspace:^0.0.1"

@@ -3,7 +3,7 @@ local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet";
 
 local deployment = k.apps.v1.deployment.new("cloudflared", containers=[{
                      name: "cloudflared",
-                     image: "cloudflare/cloudflared:2024.6.1",
+                     image: "cloudflare/cloudflared:2025.2.1",
                      args: [
                        "tunnel",
                        "--config",

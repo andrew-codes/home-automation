@@ -36,6 +36,17 @@ const run = async (
     logger.warn("app service account may already exist.")
     logger.error(e)
   }
+
+  const configMap = JSON.parse(
+    await kube.exec(
+      `kubectl get cm kube-proxy -o json --namespace kube-system;`,
+    ),
+  )
+  configMap.data["config.conf"] = configMap.data["config.conf"].replace(
+    /maxPerCore: null/g,
+    "maxPerCore: 0",
+  )
+  await kube.patch("kube-proxy", "cm", "kube-system", JSON.stringify(configMap))
 }
 
 export default run

@@ -1,15 +1,15 @@
-local secrets = import '../../../apps/secrets/dist/secrets.jsonnet';
-local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
-local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
+local secrets = import "../../../apps/secrets/src/secrets.jsonnet";
+local lib = import "../../../packages/deployment-utils/dist/index.libsonnet";
+local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet";
 
-local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), std.extVar('secrets'), std.extVar('port'), '8000', true)
+local deployment = lib.deployment.new(std.extVar("name"), std.extVar("image"), std.extVar("secrets"), std.extVar("port"), "8000", true)
                    + lib.deployment.withEnvVars(0, [
-                     { name: 'PAPERLESS_PORT', value: '8000' },
-                     { name: 'PAPERLESS_DBHOST', value: 'localhost' },
-                     { name: 'PAPERLESS_REDIS', value: 'redis://localhost:6379' },
-                     { name: 'PAPERLESS_TIKA_ENABLED', value: 'true' },
-                     k.core.v1.envVar.fromSecretRef('PAPERLESS_DBUSER', 'paperless-postgres-user', 'secret-value'),
-                     k.core.v1.envVar.fromSecretRef('PAPERLESS_DBPASS', 'paperless-postgres-password', 'secret-value'),
+                     { name: "PAPERLESS_PORT", value: "8000" },
+                     { name: "PAPERLESS_DBHOST", value: "localhost" },
+                     { name: "PAPERLESS_REDIS", value: "redis://localhost:6379" },
+                     { name: "PAPERLESS_TIKA_ENABLED", value: "true" },
+                     k.core.v1.envVar.fromSecretRef("PAPERLESS_DBUSER", "paperless-postgres-user", "secret-value"),
+                     k.core.v1.envVar.fromSecretRef("PAPERLESS_DBPASS", "paperless-postgres-password", "secret-value"),
                    ])
                    + {
                      deployment+: {
@@ -24,20 +24,20 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                        },
                      },
                    }
-                   + lib.deployment.withPersistentVolume('paperless-data')
-                   + lib.deployment.withPersistentVolume('paperless-media')
-                   + lib.deployment.withPersistentVolume('paperless-export')
-                   + lib.deployment.withPersistentVolume('paperless-consume')
-                   + lib.deployment.withPersistentVolume('paperless-postgres-db')
-                   + lib.deployment.withPersistentVolume('paperless-redis')
-                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('paperless-data', '/usr/src/paperless/data',))
-                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('paperless-media', '/usr/src/paperless/media',))
-                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('paperless-export', '/usr/src/paperless/export',))
-                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new('paperless-consume', '/usr/src/paperless/consume',))
-                   + lib.deployment.withProbe(0, '/')
+                   + lib.deployment.withPersistentVolume("paperless-data")
+                   + lib.deployment.withPersistentVolume("paperless-media")
+                   + lib.deployment.withPersistentVolume("paperless-export")
+                   + lib.deployment.withPersistentVolume("paperless-consume")
+                   + lib.deployment.withPersistentVolume("paperless-postgres-db")
+                   + lib.deployment.withPersistentVolume("paperless-redis")
+                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new("paperless-data", "/usr/src/paperless/data",))
+                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new("paperless-media", "/usr/src/paperless/media",))
+                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new("paperless-export", "/usr/src/paperless/export",))
+                   + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new("paperless-consume", "/usr/src/paperless/consume",))
+                   + lib.deployment.withProbe(0, "/")
 
                    //    Postgres
-                   + lib.deployment.withContainer('db', 'docker.io/library/postgres:15', {
+                   + lib.deployment.withContainer("db", "docker.io/library/postgres:15", {
                                                                                            livenessProbe: {
                                                                                              tcpSocket: {
                                                                                                port: 5432,
@@ -66,22 +66,22 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                                                                                              periodSeconds: 10,
                                                                                            },
                                                                                          }
-                                                                                         + k.core.v1.container.withImagePullPolicy('Always')
+                                                                                         + k.core.v1.container.withImagePullPolicy("Always")
                                                                                          + k.core.v1.container.withPorts({
-                                                                                           name: 'db',
+                                                                                           name: "db",
                                                                                            containerPort: 5432,
-                                                                                           protocol: 'TCP',
+                                                                                           protocol: "TCP",
                                                                                          },)
-                                                                                         + { volumeMounts: [k.core.v1.volumeMount.new('paperless-postgres-db', '/var/lib/postgresql/data')] }
+                                                                                         + { volumeMounts: [k.core.v1.volumeMount.new("paperless-postgres-db", "/var/lib/postgresql/data")] }
                                                                                          + { env: [
-                                                                                           k.core.v1.envVar.fromSecretRef('POSTGRES_DB', 'paperless-postgres-db', 'secret-value'),
-                                                                                           k.core.v1.envVar.fromSecretRef('POSTGRES_USER', 'paperless-postgres-user', 'secret-value'),
-                                                                                           k.core.v1.envVar.fromSecretRef('POSTGRES_PASSWORD', 'paperless-postgres-password', 'secret-value'),
+                                                                                           k.core.v1.envVar.fromSecretRef("POSTGRES_DB", "paperless-postgres-db", "secret-value"),
+                                                                                           k.core.v1.envVar.fromSecretRef("POSTGRES_USER", "paperless-postgres-user", "secret-value"),
+                                                                                           k.core.v1.envVar.fromSecretRef("POSTGRES_PASSWORD", "paperless-postgres-password", "secret-value"),
                                                                                          ] }
                                                   ,)
 
                    // Redis
-                   + lib.deployment.withContainer('redis', 'docker.io/library/redis:7', {
+                   + lib.deployment.withContainer("redis", "docker.io/library/redis:7", {
 
                                                                                           livenessProbe: {
                                                                                             tcpSocket: {
@@ -111,21 +111,21 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                                                                                             periodSeconds: 10,
                                                                                           },
                                                                                         }
-                                                                                        + k.core.v1.container.withImagePullPolicy('Always')
+                                                                                        + k.core.v1.container.withImagePullPolicy("Always")
                                                                                         + k.core.v1.container.withPorts({
-                                                                                          name: 'redis',
+                                                                                          name: "redis",
                                                                                           containerPort: 6379,
-                                                                                          protocol: 'TCP',
+                                                                                          protocol: "TCP",
                                                                                         },)
-                                                                                        + { volumeMounts: [k.core.v1.volumeMount.new('paperless-redis', '/data')] }
+                                                                                        + { volumeMounts: [k.core.v1.volumeMount.new("paperless-redis", "/data")] }
                                                                                         + { env: [
-                                                                                          k.core.v1.envVar.fromSecretRef('POSTGRES_DB', 'paperless-postgres-db', 'secret-value'),
-                                                                                          k.core.v1.envVar.fromSecretRef('POSTGRES_USER', 'paperless-postgres-user', 'secret-value'),
-                                                                                          k.core.v1.envVar.fromSecretRef('POSTGRES_PASSWORD', 'paperless-postgres-password', 'secret-value'),
+                                                                                          k.core.v1.envVar.fromSecretRef("POSTGRES_DB", "paperless-postgres-db", "secret-value"),
+                                                                                          k.core.v1.envVar.fromSecretRef("POSTGRES_USER", "paperless-postgres-user", "secret-value"),
+                                                                                          k.core.v1.envVar.fromSecretRef("POSTGRES_PASSWORD", "paperless-postgres-password", "secret-value"),
                                                                                         ] }
                                                   ,)
                    // Tika
-                   + lib.deployment.withContainer('tika', 'ghcr.io/paperless-ngx/tika:latest', {
+                   + lib.deployment.withContainer("tika", "ghcr.io/paperless-ngx/tika:latest", {
 
                                                                                                  livenessProbe: {
                                                                                                    tcpSocket: {
@@ -155,17 +155,17 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                                                                                                    periodSeconds: 10,
                                                                                                  },
                                                                                                }
-                                                                                               + k.core.v1.container.withImagePullPolicy('Always')
+                                                                                               + k.core.v1.container.withImagePullPolicy("Always")
                                                                                                + k.core.v1.container.withPorts({
-                                                                                                 name: 'redis',
+                                                                                                 name: "redis",
                                                                                                  containerPort: 3000,
-                                                                                                 protocol: 'TCP',
+                                                                                                 protocol: "TCP",
                                                                                                },)
                                                   ,)
                    // Gotenberg
-                   + lib.deployment.withContainer('gotenberg', 'docker.io/gotenberg/gotenberg:7.8', {
-                                                                                                      command: ['sh'],
-                                                                                                      args: ['-c', 'gotenberg --chromium-disable-javascript=true --chromium-allow-list=file:///tmp/.*'],
+                   + lib.deployment.withContainer("gotenberg", "docker.io/gotenberg/gotenberg:7.8", {
+                                                                                                      command: ["sh"],
+                                                                                                      args: ["-c", "gotenberg --chromium-disable-javascript=true --chromium-allow-list=file:///tmp/.*"],
 
 
                                                                                                       livenessProbe: {
@@ -196,47 +196,47 @@ local deployment = lib.deployment.new(std.extVar('name'), std.extVar('image'), s
                                                                                                         periodSeconds: 10,
                                                                                                       },
                                                                                                     }
-                                                                                                    + k.core.v1.container.withImagePullPolicy('Always')
+                                                                                                    + k.core.v1.container.withImagePullPolicy("Always")
                                                                                                     + k.core.v1.container.withPorts({
-                                                                                                      name: 'redis',
+                                                                                                      name: "redis",
                                                                                                       containerPort: 9998,
-                                                                                                      protocol: 'TCP',
+                                                                                                      protocol: "TCP",
                                                                                                     },)
                                                   ,)
 ;
 
-local paperlessPvc = lib.volume.persistentVolume.new('paperless-data', '300Gi');
-local paperlessMediaPvc = lib.volume.persistentVolume.new('paperless-media', '400Gi');
-local exportPvc = lib.volume.persistentVolume.new('paperless-export', '100Gi');
-local consumePvc = lib.volume.persistentVolume.new('paperless-consume', '100Gi');
+local paperlessPvc = lib.volume.persistentVolume.new("paperless-data", "300Gi");
+local paperlessMediaPvc = lib.volume.persistentVolume.new("paperless-media", "400Gi");
+local exportPvc = lib.volume.persistentVolume.new("paperless-export", "100Gi");
+local consumePvc = lib.volume.persistentVolume.new("paperless-consume", "100Gi");
 
 local dbDataPvc = [
-  k.core.v1.persistentVolume.new('paperless-postgres-db-pv')
-  + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
-  + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
-  + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
-  + k.core.v1.persistentVolume.spec.withCapacity({ storage: '200Gi' })
-  + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/paperless-db'),
+  k.core.v1.persistentVolume.new("paperless-postgres-db-pv")
+  + k.core.v1.persistentVolume.metadata.withLabels({ type: "local" })
+  + k.core.v1.persistentVolume.spec.withAccessModes("ReadWriteMany")
+  + k.core.v1.persistentVolume.spec.withStorageClassName("manual")
+  + k.core.v1.persistentVolume.spec.withCapacity({ storage: "200Gi" })
+  + k.core.v1.persistentVolume.spec.hostPath.withPath("/mnt/data/paperless-db"),
 
-  k.core.v1.persistentVolumeClaim.new('paperless-postgres-db-pvc')
-  + k.core.v1.persistentVolumeClaim.spec.withAccessModes('ReadWriteMany')
-  + k.core.v1.persistentVolumeClaim.spec.withStorageClassName('manual')
-  + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: '200Gi' }),
+  k.core.v1.persistentVolumeClaim.new("paperless-postgres-db-pvc")
+  + k.core.v1.persistentVolumeClaim.spec.withAccessModes("ReadWriteMany")
+  + k.core.v1.persistentVolumeClaim.spec.withStorageClassName("manual")
+  + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: "200Gi" }),
 ]
 ;
 
 local redisDataPvc = [
-  k.core.v1.persistentVolume.new('paperless-redis-pv')
-  + k.core.v1.persistentVolume.metadata.withLabels({ type: 'local' })
-  + k.core.v1.persistentVolume.spec.withAccessModes('ReadWriteMany')
-  + k.core.v1.persistentVolume.spec.withStorageClassName('manual')
-  + k.core.v1.persistentVolume.spec.withCapacity({ storage: '80Gi' })
-  + k.core.v1.persistentVolume.spec.hostPath.withPath('/mnt/data/paperless-redis'),
+  k.core.v1.persistentVolume.new("paperless-redis-pv")
+  + k.core.v1.persistentVolume.metadata.withLabels({ type: "local" })
+  + k.core.v1.persistentVolume.spec.withAccessModes("ReadWriteMany")
+  + k.core.v1.persistentVolume.spec.withStorageClassName("manual")
+  + k.core.v1.persistentVolume.spec.withCapacity({ storage: "80Gi" })
+  + k.core.v1.persistentVolume.spec.hostPath.withPath("/mnt/data/paperless-redis"),
 
-  k.core.v1.persistentVolumeClaim.new('paperless-redis-pvc')
-  + k.core.v1.persistentVolumeClaim.spec.withAccessModes('ReadWriteMany')
-  + k.core.v1.persistentVolumeClaim.spec.withStorageClassName('manual')
-  + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: '80Gi' }),
+  k.core.v1.persistentVolumeClaim.new("paperless-redis-pvc")
+  + k.core.v1.persistentVolumeClaim.spec.withAccessModes("ReadWriteMany")
+  + k.core.v1.persistentVolumeClaim.spec.withStorageClassName("manual")
+  + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: "80Gi" }),
 ]
 ;
 
