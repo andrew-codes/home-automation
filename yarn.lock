@@ -3468,6 +3468,7 @@ __metadata:
   resolution: "@ha/grafana@workspace:apps/grafana"
   dependencies:
     "@ha/ansible": "workspace:^0.0.1"
+    "@ha/cloudflared": "workspace:^0.0.1"
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/jsonnet": "workspace:^0.0.1"
@@ -3907,6 +3908,7 @@ __metadata:
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/k8s": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/logger": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
     "@ha/pihole": "workspace:^0.0.1"
     "@ha/secrets": "workspace:^0.0.1"

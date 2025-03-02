@@ -15,9 +15,9 @@
     "yaml": "^2.7.0"
   },
   "dependencies": {
+    "@ha/cloudflared": "workspace:^0.0.1",
     "@ha/k8s": "workspace:^0.0.1",
     "@ha/metrics": "workspace:^0.0.1",
-    "@ha/pihole": "workspace:^0.0.1",
-    "@ha/cloudflared": "workspace:^0.0.1"
+    "@ha/pihole": "workspace:^0.0.1"
   }
 }

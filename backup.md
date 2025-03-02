@@ -20,7 +20,7 @@
 - [x] k8s
 - [ ] manual-deployment
 - [x] metrics
-- [ ] mqtt
+- [x] mqtt
 - [x] nfs-provisioner
 - [ ] paperless
 - [ ] photoprism
@@ -38,12 +38,14 @@
 
 ## Notes on What's Next
 
-- [x] k8s cluster should not delete `/run/flannel/subnet.env` on restart of container
+- [ ] move deployment and provision scripts back out of src. These should not impact the caching of compile, package, and publish.
+- [ ] nfs pvc creation does not require an IP, remove from libsonnet function API
 - [ ] automate pihole conditional forwarding
+- [ ] enable onepassword connect to be favored over CLI
+- [x] k8s cluster should not delete `/run/flannel/subnet.env` on restart of container
 - [x] cloudflared should not error and be able to resolve requests.
 - [x] cloudflared should automatically add dns entries to cloudflare dns
 - [x] cloudflared should create tunnel if no tunnel id exists.
-- [ ] enable onepassword connect to be favored over CLI
 - [x] observability app
 - [x] configure grafana username and password when deploying
 - [x] configure grafana proxmox dashboard auto generation on deployment

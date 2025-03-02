@@ -5768,6 +5768,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@ha/grafana", "workspace:apps/grafana"],\
           ["@ha/ansible", "workspace:packages/ansible"],\
+          ["@ha/cloudflared", "workspace:apps/cloudflared"],\
           ["@ha/configuration-api", "workspace:packages/configuration-api"],\
           ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
           ["@ha/jsonnet", "workspace:packages/jsonnet"],\
@@ -6265,6 +6266,7 @@ const RAW_RUNTIME_STATE =
           ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
           ["@ha/k8s", "workspace:apps/k8s"],\
           ["@ha/kubectl", "workspace:packages/kubectl"],\
+          ["@ha/logger", "workspace:packages/logger"],\
           ["@ha/nx-executors", "workspace:packages/nx-executors"],\
           ["@ha/pihole", "workspace:apps/pihole"],\
           ["@ha/secrets", "workspace:apps/secrets"],\

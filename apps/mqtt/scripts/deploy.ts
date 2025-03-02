@@ -11,7 +11,7 @@ const run = async (
   const nfsIp = await configurationApi.get("nfs/ip")
   const secrets: Array<keyof Configuration> = ["mqtt/password", "mqtt/username"]
   const resources = await jsonnet.eval(
-    path.join(__dirname, "..", "src", "deployment", "index.jsonnet"),
+    path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
       image: `eclipse-mosquitto:latest`,
       name: "mqtt",
