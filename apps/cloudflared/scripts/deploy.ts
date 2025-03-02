@@ -6,7 +6,7 @@ import { logger } from "@ha/logger"
 import { throwIfError } from "@ha/shell-utils"
 import fs from "fs/promises"
 import path from "path"
-import { sh } from "shelljs"
+import sh from "shelljs"
 import yaml from "yaml"
 
 const run = async (
@@ -53,7 +53,9 @@ ingress: []`
 
     credentials = await fs.readFile(credentialsFilePath, "utf8")
 
-    config = config.replace(/tunnel: .*/, `tunnel: ${tunnelId}`)
+    config = config
+      .replace(/tunnel: .*/, `tunnel: ${tunnelId}`)
+      .replace(/\n/g, "\\n")
     configurationApi.set("cloudflared/config", config)
     configurationApi.set("tunnel-proxy/auth", credentials)
   }
@@ -70,13 +72,14 @@ ingress: []`
     `kubectl create secret generic tunnel-credentials --from-literal=credentials.json='${credentials}';`,
   )
 
+  config = config.replace(/\\n/g, "\n")
   const secrets: Array<keyof Configuration> = []
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "src", "deployment", "index.jsonnet"),
     {
       secrets,
       nfsIp: nfsIp,
-      config: config.replace(/\\n/g, "\n"),
+      config: config,
     },
   )
   const resourceJson = JSON.parse(resources)
@@ -98,12 +101,16 @@ ingress: []`
     const proxiedDomains =
       parsedConfig?.ingress
         ?.map(({ hostname }) => hostname)
-        .filter((hostname) => !hostname) ?? []
+        .filter((hostname) => !!hostname)
+        .map((hostname) => hostname?.split(".")[0]) || []
 
     for (const hostname of proxiedDomains) {
+      logger.info(
+        `Proxying domain: ${hostname} for tunnel ${parsedConfig.tunnel}`,
+      )
       await throwIfError(
         sh.exec(
-          `cloudflared tunnel route dns ${parsedConfig.tunnel} ${hostname} --overwrite-dns`,
+          `cloudflared tunnel route dns ${parsedConfig.tunnel} ${hostname}`,
         ),
       )
     }

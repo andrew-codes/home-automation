@@ -3463,6 +3463,26 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ha/grafana@workspace:apps/grafana":
+  version: 0.0.0-use.local
+  resolution: "@ha/grafana@workspace:apps/grafana"
+  dependencies:
+    "@ha/ansible": "workspace:^0.0.1"
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/k8s": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/logger": "workspace:^0.0.1"
+    "@ha/metrics": "workspace:^0.0.1"
+    "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/pihole": "workspace:^0.0.1"
+    nx: "npm:^20.4.6"
+    shelljs: "npm:^0.8.5"
+    yaml: "npm:^2.7.0"
+  languageName: unknown
+  linkType: soft
+
 "@ha/guest-db@workspace:apps/guest-db":
   version: 0.0.0-use.local
   resolution: "@ha/guest-db@workspace:apps/guest-db"
@@ -3663,28 +3683,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/influxdb@workspace:apps/influxdb":
-  version: 0.0.0-use.local
-  resolution: "@ha/influxdb@workspace:apps/influxdb"
-  dependencies:
-    "@ha/cloudflared": "workspace:^0.0.1"
-    "@ha/configuration-api": "workspace:^0.0.1"
-    "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/docker": "workspace:^0.0.1"
-    "@ha/docker-creds": "workspace:^0.0.1"
-    "@ha/docker-registry": "workspace:^0.0.1"
-    "@ha/jsonnet": "workspace:^0.0.1"
-    "@ha/k8s": "workspace:^0.0.1"
-    "@ha/kubectl": "workspace:^1.0.0"
-    "@ha/nfs-provisioner": "workspace:^0.0.1"
-    "@ha/nx-executors": "workspace:^0.1.0"
-    "@ha/pihole": "workspace:^0.0.1"
-    "@ha/secrets": "workspace:^0.0.1"
-    nx: "npm:^20.4.6"
-    shelljs: "npm:^0.8.5"
-  languageName: unknown
-  linkType: soft
-
 "@ha/infrastructure-elk-fleet-server@workspace:apps/infrastructure-elk-fleet-server":
   version: 0.0.0-use.local
   resolution: "@ha/infrastructure-elk-fleet-server@workspace:apps/infrastructure-elk-fleet-server"
@@ -3814,21 +3812,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/metrics@workspace:apps/metrics":
+"@ha/metrics@workspace:^0.0.1, @ha/metrics@workspace:apps/metrics":
   version: 0.0.0-use.local
   resolution: "@ha/metrics@workspace:apps/metrics"
   dependencies:
-    "@ha/cloudflared": "workspace:^0.0.1"
+    "@ha/ansible": "workspace:^0.0.1"
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
     "@ha/k8s": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/logger": "workspace:^0.0.1"
+    "@ha/nfs-provisioner": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
     "@ha/pihole": "workspace:^0.0.1"
-    "@ha/secrets": "workspace:^0.0.1"
-    "@ha/shell-utils": "workspace:^1.0.0"
     nx: "npm:^20.4.6"
-    shelljs: "npm:^0.8.5"
+    yaml: "npm:^2.7.0"
   languageName: unknown
   linkType: soft
 

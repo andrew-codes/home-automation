@@ -3,3 +3,5 @@ apps/game-library-updater
 apps/infrastructure*
 apps/paperless
 apps/photoprism
+apps/elk-stack
+apps/infrastructure-elk-fleet-server

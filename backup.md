@@ -8,7 +8,6 @@
 - [x] docker-creds
 - [x] docker-registry-service
 - [x] docker-registry
-- [ ] elk-stack
 - [ ] frigate
 - [ ] gaming-pc
 - [ ] github-action-runners
@@ -18,11 +17,9 @@
 - [ ] guest-wifi-registrar
 - [ ] guest-wifi-renewal
 - [ ] home-assistant
-- [ ] influxdb
-- [ ] infrastructure-elk-fleet-server
 - [x] k8s
 - [ ] manual-deployment
-- [ ] metrics
+- [x] metrics
 - [ ] mqtt
 - [x] nfs-provisioner
 - [ ] paperless
@@ -46,5 +43,7 @@
 - [x] cloudflared should not error and be able to resolve requests.
 - [x] cloudflared should automatically add dns entries to cloudflare dns
 - [x] cloudflared should create tunnel if no tunnel id exists.
-- [ ] enable publishing to docker-registry; use mqtt app project as an example
-- [x] enable onepassword connect to be favored over CLI
+- [ ] enable onepassword connect to be favored over CLI
+- [x] observability app
+- [x] configure grafana username and password when deploying
+- [x] configure grafana proxmox dashboard auto generation on deployment

@@ -67,6 +67,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:apps/gpu-scheduler"\
     },\
     {\
+      "name": "@ha/grafana",\
+      "reference": "workspace:apps/grafana"\
+    },\
+    {\
       "name": "@ha/guest-db",\
       "reference": "workspace:apps/guest-db"\
     },\
@@ -85,10 +89,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@ha/home-assistant",\
       "reference": "workspace:apps/home-assistant"\
-    },\
-    {\
-      "name": "@ha/influxdb",\
-      "reference": "workspace:apps/influxdb"\
     },\
     {\
       "name": "@ha/infrastructure-elk-fleet-server",\
@@ -318,6 +318,7 @@ const RAW_RUNTIME_STATE =
     ["@ha/github-action-runners", ["workspace:apps/github-action-runners"]],\
     ["@ha/github-secrets", ["workspace:packages/github-secrets"]],\
     ["@ha/gpu-scheduler", ["workspace:apps/gpu-scheduler"]],\
+    ["@ha/grafana", ["workspace:apps/grafana"]],\
     ["@ha/guest-db", ["workspace:apps/guest-db"]],\
     ["@ha/guest-pin-codes", ["workspace:apps/guest-pin-codes"]],\
     ["@ha/guest-wifi-registrar", ["workspace:apps/guest-wifi-registrar"]],\
@@ -325,7 +326,6 @@ const RAW_RUNTIME_STATE =
     ["@ha/ha-entity-utils", ["workspace:packages/ha-entity-utils"]],\
     ["@ha/home-assistant", ["workspace:apps/home-assistant"]],\
     ["@ha/http-heartbeat", ["workspace:packages/http-heartbeat"]],\
-    ["@ha/influxdb", ["workspace:apps/influxdb"]],\
     ["@ha/infrastructure-elk-fleet-server", ["workspace:apps/infrastructure-elk-fleet-server"]],\
     ["@ha/jest-utils", ["workspace:packages/jest-utils"]],\
     ["@ha/jsonnet", ["workspace:packages/jsonnet"]],\
@@ -5762,6 +5762,28 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@ha/grafana", [\
+      ["workspace:apps/grafana", {\
+        "packageLocation": "./apps/grafana/",\
+        "packageDependencies": [\
+          ["@ha/grafana", "workspace:apps/grafana"],\
+          ["@ha/ansible", "workspace:packages/ansible"],\
+          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
+          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
+          ["@ha/k8s", "workspace:apps/k8s"],\
+          ["@ha/kubectl", "workspace:packages/kubectl"],\
+          ["@ha/logger", "workspace:packages/logger"],\
+          ["@ha/metrics", "workspace:apps/metrics"],\
+          ["@ha/nx-executors", "workspace:packages/nx-executors"],\
+          ["@ha/pihole", "workspace:apps/pihole"],\
+          ["nx", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:20.4.6"],\
+          ["shelljs", "npm:0.8.5"],\
+          ["yaml", "npm:2.7.0"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@ha/guest-db", [\
       ["workspace:apps/guest-db", {\
         "packageLocation": "./apps/guest-db/",\
@@ -5976,30 +5998,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@ha/influxdb", [\
-      ["workspace:apps/influxdb", {\
-        "packageLocation": "./apps/influxdb/",\
-        "packageDependencies": [\
-          ["@ha/influxdb", "workspace:apps/influxdb"],\
-          ["@ha/cloudflared", "workspace:apps/cloudflared"],\
-          ["@ha/configuration-api", "workspace:packages/configuration-api"],\
-          ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
-          ["@ha/docker", "workspace:packages/docker"],\
-          ["@ha/docker-creds", "workspace:apps/docker-creds"],\
-          ["@ha/docker-registry", "workspace:apps/docker-registry-service"],\
-          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
-          ["@ha/k8s", "workspace:apps/k8s"],\
-          ["@ha/kubectl", "workspace:packages/kubectl"],\
-          ["@ha/nfs-provisioner", "workspace:apps/nfs-provisioner"],\
-          ["@ha/nx-executors", "workspace:packages/nx-executors"],\
-          ["@ha/pihole", "workspace:apps/pihole"],\
-          ["@ha/secrets", "workspace:apps/secrets"],\
-          ["nx", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:20.4.6"],\
-          ["shelljs", "npm:0.8.5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@ha/infrastructure-elk-fleet-server", [\
       ["workspace:apps/infrastructure-elk-fleet-server", {\
         "packageLocation": "./apps/infrastructure-elk-fleet-server/",\
@@ -6148,17 +6146,18 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./apps/metrics/",\
         "packageDependencies": [\
           ["@ha/metrics", "workspace:apps/metrics"],\
-          ["@ha/cloudflared", "workspace:apps/cloudflared"],\
+          ["@ha/ansible", "workspace:packages/ansible"],\
           ["@ha/configuration-api", "workspace:packages/configuration-api"],\
           ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
+          ["@ha/jsonnet", "workspace:packages/jsonnet"],\
           ["@ha/k8s", "workspace:apps/k8s"],\
           ["@ha/kubectl", "workspace:packages/kubectl"],\
+          ["@ha/logger", "workspace:packages/logger"],\
+          ["@ha/nfs-provisioner", "workspace:apps/nfs-provisioner"],\
           ["@ha/nx-executors", "workspace:packages/nx-executors"],\
           ["@ha/pihole", "workspace:apps/pihole"],\
-          ["@ha/secrets", "workspace:apps/secrets"],\
-          ["@ha/shell-utils", "workspace:packages/shell-utils"],\
           ["nx", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:20.4.6"],\
-          ["shelljs", "npm:0.8.5"]\
+          ["yaml", "npm:2.7.0"]\
         ],\
         "linkType": "SOFT"\
       }]\

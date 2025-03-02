@@ -15,7 +15,10 @@ const kubectl = (kubeConfig: string) => {
   let kubeConfigPath = path.join(__dirname, "..", ".secrets")
   sh.mkdir("-p", kubeConfigPath)
   kubeConfigPath = path.join(kubeConfigPath, "config")
-  writeFileSync(kubeConfigPath, kubeConfig.replace(/\\n/g, "\n"), "utf8")
+  writeFileSync(kubeConfigPath, kubeConfig.replace(/\\n/g, "\n"), {
+    encoding: "utf8",
+    mode: 0o600,
+  })
 
   return {
     applyToCluster: async (content: string): Promise<void> => {
