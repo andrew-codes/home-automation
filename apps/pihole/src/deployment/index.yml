@@ -105,7 +105,7 @@
       shell: "pihole-FTL --config misc.dnsmasq_lines '{{dnsEntries}}'"
 
     - name: Domain for pihole
-      shell: "pihole-FTL --config dns.domain '{{ domain }}'"
+      shell: "pihole-FTL --config dns.domain ''"
 
     - name: Ensure ntp sync configuration
       shell: "pihole-FTL --config ntp.sync.active false"

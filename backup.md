@@ -38,7 +38,7 @@
 
 ## Notes on What's Next
 
-- [ ] tunnel services do not work with piholes enabled
+- [x] tunnel services do not work with piholes enabled
 - [ ] move deployment and provision scripts back out of src. These should not impact the caching of compile, package, and publish.
 - [ ] nfs pvc creation does not require an IP, remove from libsonnet function API
 - [ ] nfs pvc creation name excludes pvc suffix
