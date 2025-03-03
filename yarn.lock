@@ -3094,6 +3094,8 @@ __metadata:
     "@ha/pihole-service": "workspace:^0.0.1"
     "@ha/pve-service": "workspace:^0.0.1"
     "@ha/shell-utils": "workspace:^1.0.0"
+    "@ha/terraform": "workspace:^0.0.1"
+    lodash: "npm:4.17.21"
     nx: "npm:^20.4.6"
     shelljs: "npm:^0.8.5"
     yaml: "npm:^2.7.0"

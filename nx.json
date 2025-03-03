@@ -29,6 +29,15 @@
   },
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
+    "clean/deploy": {
+      "dependsOn": [
+        "^prepare",
+        "prepare",
+        "^clean/deploy",
+        "^clean/provision",
+        "clean/provision"
+      ]
+    },
     "compile": {
       "dependsOn": ["^prepare", "prepare", "^generate", "generate", "^compile"]
     },

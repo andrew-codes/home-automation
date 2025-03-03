@@ -4,7 +4,9 @@ import { jsonnet } from "@ha/jsonnet"
 import { kubectl } from "@ha/kubectl"
 import { logger } from "@ha/logger"
 import { throwIfError } from "@ha/shell-utils"
+import * as terraform from "@ha/terraform"
 import fs from "fs/promises"
+import { isEmpty } from "lodash"
 import path from "path"
 import sh from "shelljs"
 import yaml from "yaml"
@@ -16,7 +18,7 @@ const run = async (
   let config = (await configurationApi.get("cloudflared/config")).value
   let credentials = (await configurationApi.get("tunnel-proxy/auth")).value
 
-  if (!config) {
+  if (!config || config === "") {
     config = `tunnel: id
 credentials-file: "/etc/cloudflared/creds/credentials.json"
 ingress: []`
@@ -48,9 +50,9 @@ ingress: []`
     const credentialsFilePath = credentialsFilePathMatch[1]
     const tunnelId = tunnelIdMatch[1]
 
-    logger.debug(`Tunnel ID: ${tunnelId}`)
-    logger.debug(`Credentials File Path: ${credentialsFilePath}`)
-
+    logger.debug(
+      `Tunnel ID: ${tunnelId}, Credentials File Path: ${credentialsFilePath}`,
+    )
     credentials = await fs.readFile(credentialsFilePath, "utf8")
 
     config = config
@@ -95,25 +97,40 @@ ingress: []`
     ingress?: Array<{ hostname?: string }>
   } = yaml.parse(config)
 
-  if (parsedConfig?.tunnel) {
+  if (!!parsedConfig?.tunnel) {
+    logger.debug(
+      `Cloudflared tunnel, ${parsedConfig.tunnel} found, applying terraform.`,
+    )
     const proxiedDomains =
       parsedConfig?.ingress
         ?.map(({ hostname }) => hostname)
         .filter((hostname) => !!hostname)
         .map((hostname) => hostname?.split(".")[0]) || []
 
-    for (const hostname of proxiedDomains) {
-      logger.info(
-        `Proxying domain: ${hostname} for tunnel ${parsedConfig.tunnel}`,
-      )
-      try {
-        await throwIfError(
-          sh.exec(
-            `cloudflared tunnel route dns ${parsedConfig.tunnel} ${hostname}`,
-          ),
+    if (!isEmpty(proxiedDomains)) {
+      logger.debug(`Domains to proxy: ${proxiedDomains.join(", ")}`)
+      const zoneId = (await configurationApi.get("cloudflare/zone-id")).value
+      const cloudflareEmail = (await configurationApi.get("cloudflare/email"))
+        .value
+      const cloudflareApiToken = (
+        await configurationApi.get("cloudflare/token")
+      ).value
+
+      for (const hostname of proxiedDomains) {
+        logger.info(
+          `Proxying domain: ${hostname} for tunnel ${parsedConfig.tunnel}`,
         )
-      } catch (e) {
-        logger.error(`Failed to update DNS to proxy domain: ${hostname}`)
+        await terraform.apply(
+          {
+            tunnelId: parsedConfig.tunnel,
+            domain: hostname,
+            zoneId,
+            cloudflareEmail,
+            cloudflareApiToken,
+          },
+          path.join(__dirname, "..", "src", "deployment"),
+          path.join(__dirname, "..", ".terraform"),
+        )
       }
     }
   }

@@ -5304,6 +5304,8 @@ const RAW_RUNTIME_STATE =
           ["@ha/pihole-service", "workspace:apps/pihole-service"],\
           ["@ha/pve-service", "workspace:apps/pve-service"],\
           ["@ha/shell-utils", "workspace:packages/shell-utils"],\
+          ["@ha/terraform", "workspace:packages/terraform"],\
+          ["lodash", "npm:4.17.21"],\
           ["nx", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:20.4.6"],\
           ["shelljs", "npm:0.8.5"],\
           ["yaml", "npm:2.7.0"]\

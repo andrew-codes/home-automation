@@ -9,6 +9,13 @@
         "cwd": "{projectRoot}",
         "module": "scripts/deploy.ts"
       }
+    },
+    "clean/deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "{projectRoot}",
+        "module": "rm -rf .terraform src/.terraform* src/provision/terraform* src/provision/.terraform* src/provision/terraform.plan"
+      }
     }
   },
   "tags": [],

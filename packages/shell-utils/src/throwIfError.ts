@@ -1,5 +1,4 @@
 import { doIf } from "@ha/env-utils"
-import { logger } from "@ha/logger"
 import { ChildProcess } from "child_process"
 
 const throwIfError = async (
@@ -18,7 +17,6 @@ const throwIfError = async (
         let error = ``
         child?.stdout?.on("data", function (data) {
           output += data
-          logger.info(data)
         })
         child?.stderr?.on("data", function (data) {
           error += data
@@ -34,7 +32,6 @@ const throwIfError = async (
           reject(new Error(child.stderr.toString()))
         })
 
-        logger.info(child.stdout.toString())
         resolve(child.stdout.toString())
       }
     } catch (error) {

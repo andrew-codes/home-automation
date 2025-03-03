@@ -4,6 +4,9 @@ import { op as createOp } from "./op"
 const configurationNames = [
   "captive-portal/host",
   "captive-portal/port/external",
+  "cloudflare/email",
+  "cloudflare/token",
+  "cloudflare/zone-id",
   "cloudflared/config",
   "cloudflared/credentials",
   "coder/db/username",

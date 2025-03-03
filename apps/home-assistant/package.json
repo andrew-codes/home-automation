@@ -21,6 +21,7 @@
     "@ha/ps5": "workspace:^0.0.1",
     "@ha/secrets": "workspace:^0.0.1",
     "@ha/wake-on-lan": "workspace:^0.0.1",
-    "@ha/zwavejs": "workspace:^0.0.1"
+    "@ha/zwavejs": "workspace:^0.0.1",
+    "@ha/metrics": "workspace:^0.0.1"
   }
 }
