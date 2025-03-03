@@ -39,9 +39,8 @@
 ## Notes on What's Next
 
 - [x] tunnel services do not work with piholes enabled
-- [ ] move deployment and provision scripts back out of src. These should not impact the caching of compile, package, and publish.
-- [ ] nfs pvc creation does not require an IP, remove from libsonnet function API
-- [ ] nfs pvc creation name excludes pvc suffix
+- [x] nfs pvc creation does not require an IP, remove from libsonnet function API
+- [x] nfs pvc creation name excludes pvc suffix
 - [ ] automate pihole conditional forwarding
 - [ ] enable onepassword connect to be favored over CLI
 - [x] k8s cluster should not delete `/run/flannel/subnet.env` on restart of container

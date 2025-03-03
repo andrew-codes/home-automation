@@ -13,9 +13,7 @@ const run = async (
 
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
-    {
-      nfsIp: nfsIp.value,
-    },
+    {},
   )
   const resourceJson = JSON.parse(resources)
 

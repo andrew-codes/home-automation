@@ -25,9 +25,9 @@ local deployment = lib.deployment.new(std.extVar("name"), std.extVar("image"), s
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new("ps5-config", "/config",))
 ;
 
-local configVolume = lib.volume.persistentNfsVolume.new("ps5-config", "1Gi", std.extVar("nfsIp"))
+local configVolume = lib.volume.persistentNfsVolume.new("ps5-config", "1Gi")
 ;
 
 []
-+ std.objectValues(deployment)
 + configVolume
++ std.objectValues(deployment)

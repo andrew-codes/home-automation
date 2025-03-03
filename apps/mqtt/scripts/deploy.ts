@@ -17,7 +17,6 @@ const run = async (
       name: "mqtt",
       secrets,
       port: parseInt(port_external.value),
-      nfsIp: nfsIp.value,
     },
   )
   const resourceJson = JSON.parse(resources)

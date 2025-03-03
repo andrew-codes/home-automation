@@ -18,7 +18,6 @@ const run = async (
     {
       whisperImage: `${registry.value}/whisper:latest`,
       secrets,
-      nfsIp: nfsIp.value,
     },
   )
   const resourceJson = JSON.parse(resources)

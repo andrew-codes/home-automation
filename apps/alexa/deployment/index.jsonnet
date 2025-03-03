@@ -1,7 +1,7 @@
 local lib = import "../../../packages/deployment-utils/dist/index.libsonnet";
 local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet";
 
-local ttsVolume = lib.volume.persistentNfsVolume.new("piper-data", "40Gi", std.extVar("nfsIp"))
+local ttsVolume = lib.volume.persistentNfsVolume.new("piper-data", "40Gi")
 ;
 local ttsContainer = k.core.v1.container.new(name="piper", image="rhasspy/wyoming-piper")
                      + k.core.v1.container.withImagePullPolicy("Always")
@@ -29,7 +29,7 @@ local ttsService = k.core.v1.service.new("piper", { name: "piper" }, [{
 }],);
 
 
-local sttVolume = lib.volume.persistentNfsVolume.new("whisper-data", "80Gi", std.extVar("nfsIp"))
+local sttVolume = lib.volume.persistentNfsVolume.new("whisper-data", "80Gi")
 ;
 local sttContainer = k.core.v1.container.new(name="whisper", image=std.extVar("whisperImage")) + k.core.v1.container.withImagePullPolicy("Always")
                      + k.core.v1.container.withPorts({
@@ -91,9 +91,9 @@ local sttService = k.core.v1.service.new("whisper", { name: "whisper" }, [{
   targetPort: "whisper",
 }],);
 
-local wakeWordVolumeData = lib.volume.persistentNfsVolume.new("open-wake-word-data", "40Gi", std.extVar("nfsIp"))
+local wakeWordVolumeData = lib.volume.persistentNfsVolume.new("open-wake-word-data", "40Gi")
 ;
-local wakeWordVolumeCustom = lib.volume.persistentNfsVolume.new("open-wake-word-custom", "40Gi", std.extVar("nfsIp"))
+local wakeWordVolumeCustom = lib.volume.persistentNfsVolume.new("open-wake-word-custom", "40Gi")
 ;
 local wakeWordContainer = k.core.v1.container.new(name="open-wake-word", image="rhasspy/wyoming-openwakeword")
                           + k.core.v1.container.withImagePullPolicy("Always")

@@ -15,7 +15,7 @@
     replicaCount: 1,
     retentionPeriod: 12,
     persistentVolume: {
-      name: "victoria-metrics-pv",
+      name: "victoria-metrics",
       enabled: true,
       storageClassName: "nfs",
       size: "200Gi",

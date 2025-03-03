@@ -50,7 +50,7 @@ local deployment = lib.deployment.new(std.extVar("name"), std.extVar("image"), s
                      },
                    }
 ;
-local haVolume = lib.volume.persistentNfsVolume.new("home-assistant-config", "10Gi", std.extVar("nfsIp"))
+local haVolume = lib.volume.persistentNfsVolume.new("home-assistant-config", "10Gi")
 ;
 
 

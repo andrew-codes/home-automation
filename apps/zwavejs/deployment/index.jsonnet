@@ -15,7 +15,7 @@ local deployment = lib.deployment.new(std.extVar("name"), std.extVar("image"), s
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new("zwave", "/usr/src/app/store",))
 ;
 
-local pvc = lib.volume.persistentNfsVolume.new("zwave", "5Gi", std.extVar("nfsIp"))
+local pvc = lib.volume.persistentNfsVolume.new("zwave", "5Gi")
 ;
 
 pvc + std.objectValues(deployment)

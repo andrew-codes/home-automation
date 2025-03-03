@@ -270,7 +270,7 @@ local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet";
             template+: {
               spec+: {
                 volumes+: [
-                  k.core.v1.volume.fromPersistentVolumeClaim(name, name + "-pvc"),
+                  k.core.v1.volume.fromPersistentVolumeClaim(name, name),
                 ],
               },
             },
@@ -290,14 +290,14 @@ local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet";
     persistentVolume+: {
       new(name, capacity)::
         [
-          k.core.v1.persistentVolume.new(name + "-pv")
+          k.core.v1.persistentVolume.new(name)
           + k.core.v1.persistentVolume.metadata.withLabels({ type: "local" })
           + k.core.v1.persistentVolume.spec.withAccessModes("ReadWriteMany")
           + k.core.v1.persistentVolume.spec.withStorageClassName("manual")
           + k.core.v1.persistentVolume.spec.withCapacity({ storage: capacity })
           + k.core.v1.persistentVolume.spec.hostPath.withPath("/mnt/data/" + name),
 
-          k.core.v1.persistentVolumeClaim.new(name + "-pvc")
+          k.core.v1.persistentVolumeClaim.new(name)
           + k.core.v1.persistentVolumeClaim.spec.withAccessModes("ReadWriteMany")
           + k.core.v1.persistentVolumeClaim.spec.withStorageClassName("manual")
           + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: capacity }),
@@ -305,9 +305,9 @@ local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet";
     },
 
     persistentNfsVolume+: {
-      new(name, capacity, ip)::
+      new(name, capacity)::
         [
-          k.core.v1.persistentVolumeClaim.new(name + "-pvc")
+          k.core.v1.persistentVolumeClaim.new(name)
           + k.core.v1.persistentVolumeClaim.spec.withAccessModes("ReadWriteMany")
           + k.core.v1.persistentVolumeClaim.spec.withStorageClassName("nfs")
           + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: capacity })

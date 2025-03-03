@@ -28,7 +28,6 @@ const run = async (
       port: parseInt(port.value),
       "webrtc-port": parseInt(webrtcPort.value),
       secrets,
-      nfsIp: nfsIp.value,
     },
   )
   const resourceJson = JSON.parse(resources)

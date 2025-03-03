@@ -22,7 +22,6 @@ const run = async (
       port: parseInt(port_external.value),
       registryHostname: registry.value,
       wsPort: parseInt(wsPort.value),
-      nfsIp: nfsIp.value,
     },
   )
   const resourceJson = JSON.parse(resources)

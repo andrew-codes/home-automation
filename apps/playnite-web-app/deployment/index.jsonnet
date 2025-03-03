@@ -31,7 +31,7 @@ local dbVolumes = [
 ]
 ;
 
-local assetVolume = lib.volume.persistentNfsVolume.new(std.extVar("name") + "-assets", "40Gi", std.extVar("nfsIp"))
+local assetVolume = lib.volume.persistentNfsVolume.new(std.extVar("name") + "-assets", "40Gi")
 ;
 
 local deployment = lib.deployment.new(std.extVar("name"), std.extVar("image"), std.extVar("secrets"), std.extVar("port"), "3000")

@@ -20,7 +20,6 @@ const run = async (
     {
       image: `ghcr.io/funkeyflo/ps5-mqtt/amd64:latest`,
       name,
-      nfsIp: nfsIp.value,
       psnAccounts: psnAccounts.value,
       registryHostname: registry.value,
       secrets,

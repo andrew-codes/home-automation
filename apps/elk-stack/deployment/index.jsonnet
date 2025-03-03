@@ -1,14 +1,14 @@
-local lib = import '../../../packages/deployment-utils/dist/index.libsonnet';
-local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet';
+local lib = import "../../../packages/deployment-utils/dist/index.libsonnet";
+local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet";
 
 local elasticSearch = {
-  apiVersion: 'elasticsearch.k8s.elastic.co/v1',
-  kind: 'Elasticsearch',
+  apiVersion: "elasticsearch.k8s.elastic.co/v1",
+  kind: "Elasticsearch",
   metadata: {
-    name: 'elk-stack',
+    name: "elk-stack",
   },
   spec: {
-    version: '8.9.0',
+    version: "8.9.0",
     http: {
       tls: {
         selfSignedCertificate: {
@@ -18,73 +18,73 @@ local elasticSearch = {
     },
     nodeSets: [
       {
-        name: 'default',
+        name: "default",
         count: 1,
         config: {
-          'node.roles': ['master'],
-          'xpack.ml.enabled': true,
+          "node.roles": ["master"],
+          "xpack.ml.enabled": true,
         },
         volumeClaimTemplates: [{
           metadata: {
-            name: 'elasticsearch-data',
+            name: "elasticsearch-data",
           },
           spec: {
             accessModes: [
-              'ReadWriteMany',
+              "ReadWriteMany",
             ],
             resources: {
               requests: {
-                storage: '350Gi',
+                storage: "350Gi",
               },
             },
-            storageClassName: 'nfs-client',
+            storageClassName: "nfs-client",
           },
         }],
         podTemplate: {
           spec: {
             initContainers: [{
-              name: 'sysctl',
+              name: "sysctl",
               securityContext: {
                 privileged: true,
                 runAsUser: 0,
               },
-              command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144'],
+              command: ["sh", "-c", "sysctl -w vm.max_map_count=262144"],
             }],
           },
         },
       },
       {
-        name: 'data',
+        name: "data",
         count: 1,
         config: {
-          'node.roles': ['data', 'ingest', 'ml', 'transform'],
-          'xpack.ml.enabled': true,
+          "node.roles": ["data", "ingest", "ml", "transform"],
+          "xpack.ml.enabled": true,
         },
         volumeClaimTemplates: [{
           metadata: {
-            name: 'elasticsearch-data',
+            name: "elasticsearch-data",
           },
           spec: {
             accessModes: [
-              'ReadWriteMany',
+              "ReadWriteMany",
             ],
             resources: {
               requests: {
-                storage: '350Gi',
+                storage: "350Gi",
               },
             },
-            storageClassName: 'nfs-client',
+            storageClassName: "nfs-client",
           },
         }],
         podTemplate: {
           spec: {
             initContainers: [{
-              name: 'sysctl',
+              name: "sysctl",
               securityContext: {
                 privileged: true,
                 runAsUser: 0,
               },
-              command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144'],
+              command: ["sh", "-c", "sysctl -w vm.max_map_count=262144"],
             }],
           },
         },
@@ -94,43 +94,43 @@ local elasticSearch = {
 }
 ;
 
-local kibanaNodePort = { name: 'elasticsearch-kb-http', port: 5601, targetPort: 5601 } +
+local kibanaNodePort = { name: "elasticsearch-kb-http", port: 5601, targetPort: 5601 } +
                        k.core.v1.servicePort.withNodePort(std.parseInt(
-                         std.extVar('kibanaPort')
+                         std.extVar("kibanaPort")
                        ))
 ;
-local kibanaService = k.core.v1.service.new('kibana', {
-                        'common.k8s.elastic.co/type': 'kibana',
-                        'kibana.k8s.elastic.co/name': 'elk-stack',
+local kibanaService = k.core.v1.service.new("kibana", {
+                        "common.k8s.elastic.co/type": "kibana",
+                        "kibana.k8s.elastic.co/name": "elk-stack",
                       }, [kibanaNodePort]) +
-                      k.core.v1.service.spec.withType('NodePort',)
+                      k.core.v1.service.spec.withType("NodePort",)
 ;
 
-local elasticNodePort = { name: 'elasticsearch-es-http', port: 9200, targetPort: 'http' } +
+local elasticNodePort = { name: "elasticsearch-es-http", port: 9200, targetPort: "http" } +
                         k.core.v1.servicePort.withNodePort(std.parseInt(
-                          std.extVar('elasticPort')
+                          std.extVar("elasticPort")
                         ))
 ;
-local elasticSearchService = k.core.v1.service.new('elastic-search', {
+local elasticSearchService = k.core.v1.service.new("elastic-search", {
 
-                               'common.k8s.elastic.co/type': 'elasticsearch',
-                               'elasticsearch.k8s.elastic.co/cluster-name': 'elk-stack',
+                               "common.k8s.elastic.co/type": "elasticsearch",
+                               "elasticsearch.k8s.elastic.co/cluster-name": "elk-stack",
                              }, [elasticNodePort]) +
-                             k.core.v1.service.spec.withType('NodePort',)
+                             k.core.v1.service.spec.withType("NodePort",)
 ;
 
 local kibana = {
-  apiVersion: 'kibana.k8s.elastic.co/v1',
-  kind: 'Kibana',
+  apiVersion: "kibana.k8s.elastic.co/v1",
+  kind: "Kibana",
   metadata: {
-    name: 'elk-stack',
+    name: "elk-stack",
   },
   spec: {
-    version: '8.9.0',
+    version: "8.9.0",
     count: 1,
     config: {
-      'server.publicBaseUrl': 'https://kibana.smith-simms.family',
-      'elasticsearch.requestTimeout': 300000,
+      "server.publicBaseUrl": "https://kibana.smith-simms.family",
+      "elasticsearch.requestTimeout": 300000,
     },
     http: {
       tls: {
@@ -140,111 +140,111 @@ local kibana = {
       },
     },
     elasticsearchRef: {
-      name: 'elk-stack',
+      name: "elk-stack",
     },
   },
 }
 ;
 
 local logStash = {
-  apiVersion: 'apps/v1',
-  kind: 'Deployment',
+  apiVersion: "apps/v1",
+  kind: "Deployment",
   metadata: {
-    name: 'logstash',
-    namespace: 'default',
+    name: "logstash",
+    namespace: "default",
   },
   spec: {
     replicas: 1,
     selector: {
       matchLabels: {
-        app: 'logstash',
+        app: "logstash",
       },
     },
     template: {
       metadata: {
         labels: {
-          app: 'logstash',
+          app: "logstash",
         },
       },
       spec: {
         containers: [
           {
-            name: 'logstash',
+            name: "logstash",
             env: [
               // k.core.v1.envVar.fromSecretRef('LOGSTASH_PW', 'elk-stack-logstash-password', 'secret-value'),
             ],
-            image: 'docker.elastic.co/logstash/logstash-oss:8.9.0',
+            image: "docker.elastic.co/logstash/logstash-oss:8.9.0",
             ports: [
               {
                 containerPort: 5044,
-                name: 'elastic-agent',
-                protocol: 'TCP',
+                name: "elastic-agent",
+                protocol: "TCP",
               },
               {
-                name: 'api',
+                name: "api",
                 containerPort: 9600,
-                protocol: 'TCP',
+                protocol: "TCP",
               },
             ],
             volumeMounts: [
               {
-                name: 'config-volume',
-                mountPath: '/usr/share/logstash/config',
+                name: "config-volume",
+                mountPath: "/usr/share/logstash/config",
               },
               {
-                name: 'logstash-pipeline-volume',
-                mountPath: '/usr/share/logstash/pipeline',
+                name: "logstash-pipeline-volume",
+                mountPath: "/usr/share/logstash/pipeline",
               },
               {
-                name: 'logstash-output',
-                mountPath: '/logstash/output',
+                name: "logstash-output",
+                mountPath: "/logstash/output",
               },
             ],
           },
         ],
         volumes: [
           {
-            name: 'config-volume',
+            name: "config-volume",
             configMap: {
-              name: 'logstash-configmap',
+              name: "logstash-configmap",
               items: [
                 {
-                  key: 'logstash.yml',
-                  path: 'logstash.yml',
+                  key: "logstash.yml",
+                  path: "logstash.yml",
                 },
               ],
             },
           },
           {
-            name: 'logstash-pipeline-volume',
+            name: "logstash-pipeline-volume",
             configMap: {
-              name: 'logstash-configmap',
+              name: "logstash-configmap",
               items: [
                 {
-                  key: 'logstash.conf',
-                  path: 'logstash.conf',
+                  key: "logstash.conf",
+                  path: "logstash.conf",
                 },
               ],
             },
           },
-          k.core.v1.volume.fromPersistentVolumeClaim('logstash-output', 'elk-stack-logstash-output-pvc'),
+          k.core.v1.volume.fromPersistentVolumeClaim("logstash-output", "elk-stack-logstash-output"),
         ],
       },
     },
   },
 }
 ;
-local logStashNodePort = { name: 'logstash-http', port: 5044, targetPort: 5044 } +
+local logStashNodePort = { name: "logstash-http", port: 5044, targetPort: 5044 } +
                          k.core.v1.servicePort.withNodePort(std.parseInt(
-                           std.extVar('logStashPort')
+                           std.extVar("logStashPort")
                          ))
 ;
-local logStashService = k.core.v1.service.new('logstash', {
-                          app: 'logstash',
+local logStashService = k.core.v1.service.new("logstash", {
+                          app: "logstash",
                         }, [logStashNodePort]) +
-                        k.core.v1.service.spec.withType('NodePort',)
+                        k.core.v1.service.spec.withType("NodePort",)
 ;
-local logStashVolume = lib.volume.persistentVolume.new('elk-stack-logstash-output', '100Gi')
+local logStashVolume = lib.volume.persistentVolume.new("elk-stack-logstash-output", "100Gi")
 ;
 
 local config = |||
@@ -272,11 +272,11 @@ local config = |||
     }
   }
 ||| % [
-  '%{+YYYY-MM-dd}',
-  std.extVar('k8sIp'),
-  std.extVar('elasticPort'),
-  std.extVar('elasticUser'),
-  std.extVar('elasticPassword'),
+  "%{+YYYY-MM-dd}",
+  std.extVar("k8sIp"),
+  std.extVar("elasticPort"),
+  std.extVar("elasticUser"),
+  std.extVar("elasticPassword"),
 ]
 ;
 
@@ -289,15 +289,15 @@ local ymlConfig = |||
 ;
 
 local logStashConfigMap = {
-  apiVersion: 'v1',
-  kind: 'ConfigMap',
+  apiVersion: "v1",
+  kind: "ConfigMap",
   metadata: {
-    name: 'logstash-configmap',
-    namespace: 'default',
+    name: "logstash-configmap",
+    namespace: "default",
   },
   data: {
-    'logstash.yml': ymlConfig,
-    'logstash.conf': config,
+    "logstash.yml": ymlConfig,
+    "logstash.conf": config,
   },
 }
 ;
@@ -347,9 +347,9 @@ local logStashConfigMap = {
 // }
 // ;
 
-local volume1 = lib.volume.persistentVolume.new('elk-stack-1', '350Gi')
+local volume1 = lib.volume.persistentVolume.new("elk-stack-1", "350Gi")
 ;
-local volume2 = lib.volume.persistentVolume.new('elk-stack-2', '350Gi')
+local volume2 = lib.volume.persistentVolume.new("elk-stack-2", "350Gi")
 ;
 
 

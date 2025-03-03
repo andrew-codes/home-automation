@@ -209,36 +209,15 @@ local paperlessPvc = lib.volume.persistentVolume.new("paperless-data", "300Gi");
 local paperlessMediaPvc = lib.volume.persistentVolume.new("paperless-media", "400Gi");
 local exportPvc = lib.volume.persistentVolume.new("paperless-export", "100Gi");
 local consumePvc = lib.volume.persistentVolume.new("paperless-consume", "100Gi");
-
-local dbDataPvc = [
-  k.core.v1.persistentVolume.new("paperless-postgres-db-pv")
-  + k.core.v1.persistentVolume.metadata.withLabels({ type: "local" })
-  + k.core.v1.persistentVolume.spec.withAccessModes("ReadWriteMany")
-  + k.core.v1.persistentVolume.spec.withStorageClassName("manual")
-  + k.core.v1.persistentVolume.spec.withCapacity({ storage: "200Gi" })
-  + k.core.v1.persistentVolume.spec.hostPath.withPath("/mnt/data/paperless-db"),
-
-  k.core.v1.persistentVolumeClaim.new("paperless-postgres-db-pvc")
-  + k.core.v1.persistentVolumeClaim.spec.withAccessModes("ReadWriteMany")
-  + k.core.v1.persistentVolumeClaim.spec.withStorageClassName("manual")
-  + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: "200Gi" }),
-]
-;
-
-local redisDataPvc = [
-  k.core.v1.persistentVolume.new("paperless-redis-pv")
-  + k.core.v1.persistentVolume.metadata.withLabels({ type: "local" })
-  + k.core.v1.persistentVolume.spec.withAccessModes("ReadWriteMany")
-  + k.core.v1.persistentVolume.spec.withStorageClassName("manual")
-  + k.core.v1.persistentVolume.spec.withCapacity({ storage: "80Gi" })
-  + k.core.v1.persistentVolume.spec.hostPath.withPath("/mnt/data/paperless-redis"),
-
-  k.core.v1.persistentVolumeClaim.new("paperless-redis-pvc")
-  + k.core.v1.persistentVolumeClaim.spec.withAccessModes("ReadWriteMany")
-  + k.core.v1.persistentVolumeClaim.spec.withStorageClassName("manual")
-  + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: "80Gi" }),
-]
-;
+local dbDataPvc = lib.volume.persistentVolume.new("paperless-postgres-db", "50Gi");
+local redisDataPvc = lib.volume.persistentVolume.new("paperless-redis", "80Gi");
 
 
-paperlessPvc + paperlessMediaPvc + exportPvc + consumePvc + dbDataPvc + redisDataPvc + std.objectValues(deployment)
+[]
++ paperlessPvc
++ paperlessMediaPvc
++ exportPvc
++ consumePvc
++ dbDataPvc
++ redisDataPvc
++ std.objectValues(deployment)
