@@ -1,13 +1,12 @@
 {
   "name": "ps5",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/ps5/src",
+  "sourceRoot": "{projectRoot}/src",
   "projectType": "application",
   "targets": {
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
-        "cwd": "apps/ps5",
+        "cwd": "{projectRoot}",
         "module": "scripts/deploy.ts"
       }
     }

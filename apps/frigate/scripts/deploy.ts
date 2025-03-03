@@ -9,8 +9,6 @@ const run = async (
 ): Promise<void> => {
   const kubeConfig = (await configurationApi.get("k8s/config")).value
 
-  const nfsIp = await configurationApi.get("nfs/ip")
-
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {},

@@ -3,6 +3,8 @@ import { createMqtt } from "@ha/mqtt-client"
 import { createHeartbeat } from "@ha/mqtt-heartbeat"
 import wol from "wakeonlan"
 
+logger.info("Starting wake-on-lan app")
+
 async function run() {
   logger.info("Started")
   try {
@@ -13,15 +15,15 @@ async function run() {
 
     const topicRegEx = /^homeassistant\/wake-on-lan/
     mqtt.on("message", async (topic, payload) => {
-      logger.info(`Message received for ${topic}`)
+      logger.info(`Message received for ${topic}.`)
       logger.debug(payload.toString())
       if (topicRegEx.test(topic)) {
         const matches = topicRegEx.exec(topic)
         if (!matches) {
           return
         }
-        logger.info("Topic matched")
-        logger.info("Sending wake on lan")
+
+        logger.info("Topic matched. Sending wake on lan.")
         const data = payload.toString()
         await wol(data)
       }

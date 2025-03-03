@@ -11,12 +11,11 @@ const run = async (
   const registry = await configurationApi.get("docker-registry/hostname")
   const port_external = await configurationApi.get("zwavejs/port/external")
   const wsPort = await configurationApi.get("zwavejs/port/external/web-socket")
-  const nfsIp = await configurationApi.get("nfs/ip")
   const secrets: Array<keyof Configuration> = []
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {
-      image: `zwavejs/zwave-js-ui:9.29.0`,
+      image: `zwavejs/zwave-js-ui:9.31.0`,
       name,
       secrets,
       port: parseInt(port_external.value),

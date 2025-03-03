@@ -8,8 +8,6 @@ import { name } from "./config"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const kubeConfig = (await configurationApi.get("k8s/config")).value
-
   const registry = await configurationApi.get("docker-registry/hostname")
   const secrets: Array<keyof Configuration> = ["mqtt/password", "mqtt/username"]
   const resources = await jsonnet.eval(
@@ -21,8 +19,12 @@ const run = async (
       secrets,
     },
   )
+
+  const kubeConfig = (await configurationApi.get("k8s/config")).value
   const kube = kubectl(kubeConfig)
-  await kube.exec(`kubectl delete deployment ${name}`)
+  try {
+    await kube.exec(`kubectl delete deployment ${name}`)
+  } catch (error) {}
   const resourceJson = JSON.parse(resources)
   await Promise.all(
     resourceJson.map((resource) =>

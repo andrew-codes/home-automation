@@ -1,7 +1,6 @@
 {
   "name": "wake-on-lan",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/wake-on-lan/src",
+  "sourceRoot": "{projectRoot}/src",
   "projectType": "application",
   "targets": {
     "clean": {
@@ -9,7 +8,7 @@
       "outputs": ["{projectRoot}/dist", "{projectRoot}/.test-runs"],
       "options": {
         "command": "rm -rf dist .test-runs",
-        "cwd": "apps/wake-on-lan"
+        "cwd": "{projectRoot}"
       }
     },
     "compile": {
@@ -17,27 +16,31 @@
       "outputs": ["{projectRoot}/dist"],
       "options": {
         "module": "scripts/compile.ts",
-        "cwd": "apps/wake-on-lan"
+        "cwd": "{projectRoot}",
+        "env": {
+          "NODE_ENV": "production"
+        }
       }
     },
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
-        "cwd": "apps/wake-on-lan",
+        "cwd": "{projectRoot}",
         "module": "scripts/deploy.ts"
       }
     },
-    "image/push": {
+    "package": {
       "executor": "@ha/nx-executors:invoke",
-      "dependsOn": [
-        {
-          "target": "compile",
-          "projects": "self"
-        }
-      ],
       "options": {
-        "module": "scripts/image-push.ts",
-        "cwd": "apps/wake-on-lan"
+        "module": "scripts/package.ts",
+        "cwd": "{projectRoot}"
+      }
+    },
+    "publish": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "module": "scripts/publish.ts",
+        "cwd": "{projectRoot}"
       }
     },
     "test": {
@@ -45,20 +48,20 @@
       "outputs": ["{projectRoot}/.test-runs/unit"],
       "options": {
         "command": "jest",
-        "cwd": "apps/wake-on-lan"
+        "cwd": "{projectRoot}"
       }
     },
     "code-coverage": {
       "executor": "@ha/nx-executors:upload-codecov",
       "options": {
-        "coverageFilePath": "apps/wake-on-lan/.test-runs/unit/lcov.info"
+        "coverageFilePath": "{projectRoot}/.test-runs/unit/lcov.info"
       }
     },
     "serve": {
       "executor": "nx:run-commands",
       "options": {
         "command": "yarn nodemon src/index.ts --inspect=0.0.0.0:9233",
-        "cwd": "apps/wake-on-lan"
+        "cwd": "{projectRoot}"
       }
     }
   },

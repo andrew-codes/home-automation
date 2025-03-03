@@ -13,7 +13,10 @@ const run = async (
     `helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/`,
   )
 
-  kube.exec(`helm uninstall nfs-subdir-external-provisioner`)
+  const output = await kube.exec(`helm list -q -n default`)
+  if (output.includes("nfs-subdir-external-provisioner")) {
+    kube.exec(`helm uninstall nfs-subdir-external-provisioner`)
+  }
 
   const nfsIp = await configurationApi.get("nfs/ip")
   const nfsSharePath = await configurationApi.get("nfs/share-path")

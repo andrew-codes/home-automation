@@ -7,7 +7,6 @@ import path from "path"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const nfsIp = await configurationApi.get("nfs/ip")
   const registry = await configurationApi.get("docker-registry/hostname")
   const kubeConfig = (await configurationApi.get("k8s/config")).value
   const kube = kubectl(kubeConfig)

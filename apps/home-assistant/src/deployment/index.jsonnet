@@ -1,5 +1,5 @@
-local secrets = import "../../../apps/secrets/src/secrets.jsonnet";
-local lib = import "../../../packages/deployment-utils/dist/index.libsonnet";
+local lib = import "../../../../packages/deployment-utils/dist/index.libsonnet";
+local secrets = import "../../../secrets/src/secrets.jsonnet";
 local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet";
 
 local deployment = lib.deployment.new(std.extVar("name"), std.extVar("image"), std.extVar("secrets"), "", "8123")
@@ -8,7 +8,6 @@ local deployment = lib.deployment.new(std.extVar("name"), std.extVar("image"), s
                      { name: "MQTT_HOST", value: "mqtt" },
                      { name: "MQTT_PORT", value: "1883" },
                    ])
-                   + lib.deployment.withInitContainer("mqtt-is-ready", std.extVar("registryHostname") + "/mqtt-client:latest", { env: [secrets["mqtt/username"], secrets["mqtt/password"]], command: ["sh"], args: ["-c", 'timeout 10 sub -h mqtt -t "\\$SYS/#" -C 1 -u $MQTT_USERNAME -P $MQTT_PASSWORD | grep -v Error || exit 1'] })
                    + lib.deployment.withPersistentVolume("home-assistant-config")
                    + lib.deployment.withProbe(0, "/")
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new("home-assistant-config", "/config",))

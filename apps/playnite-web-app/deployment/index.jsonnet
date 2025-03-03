@@ -15,21 +15,7 @@ local db = lib.deployment.new(std.extVar("name") + "-db", "mongo:focal", "", "",
              },
            },)
 ;
-
-local dbVolumes = [
-  k.core.v1.persistentVolume.new(std.extVar("name") + "-db-pv")
-  + k.core.v1.persistentVolume.metadata.withLabels({ type: "local" })
-  + k.core.v1.persistentVolume.spec.withAccessModes("ReadWriteMany")
-  + k.core.v1.persistentVolume.spec.withStorageClassName("manual")
-  + k.core.v1.persistentVolume.spec.withCapacity({ storage: "60Gi" })
-  + k.core.v1.persistentVolume.spec.hostPath.withPath("/mnt/data/" + std.extVar("name") + "-db"),
-
-  k.core.v1.persistentVolumeClaim.new(std.extVar("name") + "-db-pvc")
-  + k.core.v1.persistentVolumeClaim.spec.withAccessModes("ReadWriteMany")
-  + k.core.v1.persistentVolumeClaim.spec.withStorageClassName("manual")
-  + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: "60Gi" }),
-]
-;
+local dbVolume = lib.volume.persistentVolume.new(std.extVar("name") + "-db", "10Gi");
 
 local assetVolume = lib.volume.persistentNfsVolume.new(std.extVar("name") + "-assets", "40Gi")
 ;
@@ -49,20 +35,11 @@ local deployment = lib.deployment.new(std.extVar("name"), std.extVar("image"), s
                      { name: "HOST", value: std.extVar("host") },
                    ])
                    + lib.deployment.withProbe(0, "/")
-                   //  + lib.deployment.withAffinity({
-                   //    nodeAffinity: {
-                   //      requiredDuringSchedulingIgnoredDuringExecution: {
-                   //        nodeSelectorTerms: [
-                   //          { matchExpressions: [{ key: "kubernetes.io/hostname", operator: "In", values: ["k8s-node-3"] }] },
-                   //        ],
-                   //      },
-                   //    },
-                   //  },)
 ;
 
 
 []
-+ dbVolumes
++ dbVolume
 + std.objectValues(db)
 + assetVolume
 + std.objectValues(deployment)

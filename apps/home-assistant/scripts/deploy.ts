@@ -12,7 +12,6 @@ const run = async (
   const repositoryOwner = await configurationApi.get("repository/owner")
   const repositoryName = await configurationApi.get("repository/name")
   const port = await configurationApi.get("home-assistant/port/external")
-  const nfsIp = await configurationApi.get("nfs/ip")
   const webrtcPort = await configurationApi.get(
     "home-assistant/webrtc/api/port",
   )

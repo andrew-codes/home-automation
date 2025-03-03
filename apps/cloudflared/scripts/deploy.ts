@@ -60,7 +60,6 @@ ingress: []`
     configurationApi.set("tunnel-proxy/auth", credentials)
   }
 
-  const nfsIp = (await configurationApi.get("nfs/ip")).value
   const kubeConfig = (await configurationApi.get("k8s/config")).value
   const kube = kubectl(kubeConfig)
   try {
@@ -78,7 +77,6 @@ ingress: []`
     path.join(__dirname, "..", "src", "deployment", "index.jsonnet"),
     {
       secrets,
-      nfsIp: nfsIp,
       config: config,
     },
   )

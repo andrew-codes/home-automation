@@ -1,13 +1,13 @@
 {
   "name": "zwavejs",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/zwavejs",
+  "sourceRoot": "{projectRoot}/src",
   "projectType": "application",
   "targets": {
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
       "options": {
-        "cwd": "apps/zwavejs",
+        "cwd": "{projectRoot}",
         "module": "scripts/deploy.ts"
       }
     }

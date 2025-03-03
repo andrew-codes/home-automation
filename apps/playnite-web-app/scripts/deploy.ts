@@ -14,7 +14,6 @@ const run = async (
   const username = await configurationApi.get("playnite-web/username")
   const password = await configurationApi.get("playnite-web/password")
   const secret = await configurationApi.get("playnite-web/secret")
-  const nfsIp = await configurationApi.get("nfs/ip")
   const resources = await jsonnet.eval(
     path.join(__dirname, "..", "deployment", "index.jsonnet"),
     {

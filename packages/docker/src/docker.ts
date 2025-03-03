@@ -25,7 +25,7 @@ const createClient = async (
     build: async (name, options = {}) => {
       await throwIfError(
         sh.exec(
-          `docker build -t ${registry.value}/${name} ${
+          `docker buildx build --load --platform linux/amd64 -t ${registry.value}/${name} ${
             options.context ?? process.cwd()
           } -f ${options.dockerFile ?? "Dockerfile"};`,
           { async: true, silent: false },

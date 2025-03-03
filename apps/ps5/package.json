@@ -8,7 +8,8 @@
     "@ha/k8s": "workspace:^0.0.1",
     "@ha/nfs-provisioner": "workspace:^0.0.1",
     "@ha/pihole": "workspace:^0.0.1",
-    "@ha/secrets": "workspace:^0.0.1"
+    "@ha/secrets": "workspace:^0.0.1",
+    "@ha/mqtt": "workspace:^0.0.1"
   },
   "devDependencies": {
     "@ha/build-ts": "workspace:^1.0.0",

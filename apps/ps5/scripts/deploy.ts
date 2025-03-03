@@ -11,7 +11,6 @@ const run = async (
   const registry = await configurationApi.get("docker-registry/hostname")
   const secrets: Array<keyof Configuration> = ["mqtt/password", "mqtt/username"]
   const psnAccounts = await configurationApi.get("psn-accounts")
-  const nfsIp = await configurationApi.get("nfs/ip")
 
   const kubeConfig = (await configurationApi.get("k8s/config")).value
 
@@ -27,7 +26,9 @@ const run = async (
   )
 
   const kube = kubectl(kubeConfig)
-  await kube.exec(`kubectl delete deployment ${name}`)
+  try {
+    await kube.exec(`kubectl delete deployment ${name}`)
+  } catch (error) {}
   const resourceJson = JSON.parse(resources)
   await Promise.all(
     resourceJson.map((resource) =>

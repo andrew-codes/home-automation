@@ -25,13 +25,13 @@ const run = async (
     },
   )
 
-  await kube.exec(`kubectl delete deployment ${name}`)
   const resourceJson = JSON.parse(resources)
   await Promise.all(
     resourceJson.map((resource) =>
       kube.applyToCluster(JSON.stringify(resource)),
     ),
   )
+  await kube.rolloutDeployment("restart", name)
 }
 
 export default run

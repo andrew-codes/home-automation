@@ -16,7 +16,7 @@
 - [ ] guest-pin-codes
 - [ ] guest-wifi-registrar
 - [ ] guest-wifi-renewal
-- [ ] home-assistant
+- [x] home-assistant
 - [x] k8s
 - [ ] manual-deployment
 - [x] metrics
@@ -26,18 +26,20 @@
 - [ ] photoprism
 - [x] pihole-service
 - [x] pihole
-- [ ] playnite-web-app
-- [ ] ps5
+- [x] playnite-web-app
+- [x] ps5
 - [x] pve-service
 - [x] secrets
 - [x] tailscale
 - [x] ubuntu-cloud-template
 - [ ] uptime-kuma
-- [ ] wake-on-lan
-- [ ] zwavejs
+- [x] wake-on-lan
+- [x] zwavejs
 
 ## Notes on What's Next
 
+- [x] enable cross-platform building of docker images
+- [ ] document or automate the setup of multi-platform docker builders for dev machine
 - [x] tunnel services do not work with piholes enabled
 - [x] nfs pvc creation does not require an IP, remove from libsonnet function API
 - [x] nfs pvc creation name excludes pvc suffix
