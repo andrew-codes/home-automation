@@ -97,7 +97,7 @@ resource "proxmox_lxc" "k8s-main-node" {
   start        = false
   onboot       = true
   cores        = 16
-  memory       = 8192 // 96256
+  memory       = 65536
   swap         = 0
   nameserver   = var.nameserver
   startup      = "order=3"

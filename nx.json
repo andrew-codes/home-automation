@@ -47,7 +47,7 @@
       "dependsOn": ["^compile"]
     },
     "publish": {
-      "dependsOn": ["^package", "package"]
+      "dependsOn": ["^package", "package", "^publish", "^provision", "^deploy"]
     },
     "provision": {
       "dependsOn": ["^prepare", "prepare", "^provision", "^deploy"]

@@ -3661,7 +3661,11 @@ __metadata:
     "@ha/nfs-provisioner": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
     "@ha/pihole": "workspace:^0.0.1"
+    "@ha/playnite-web-app": "workspace:^0.0.1"
+    "@ha/ps5": "workspace:^0.0.1"
     "@ha/secrets": "workspace:^0.0.1"
+    "@ha/wake-on-lan": "workspace:^0.0.1"
+    "@ha/zwavejs": "workspace:^0.0.1"
     nx: "npm:^20.4.6"
   languageName: unknown
   linkType: soft
@@ -3885,10 +3889,6 @@ __metadata:
   dependencies:
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
-    "@ha/docker": "workspace:^0.0.1"
-    "@ha/docker-creds": "workspace:^0.0.1"
-    "@ha/docker-registry": "workspace:^0.0.1"
-    "@ha/docker-registry-service": "workspace:^0.0.1"
     "@ha/jsonnet": "workspace:^0.0.1"
     "@ha/k8s": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
@@ -4018,7 +4018,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/playnite-web-app@workspace:apps/playnite-web-app":
+"@ha/playnite-web-app@workspace:^0.0.1, @ha/playnite-web-app@workspace:apps/playnite-web-app":
   version: 0.0.0-use.local
   resolution: "@ha/playnite-web-app@workspace:apps/playnite-web-app"
   dependencies:
@@ -4032,6 +4032,7 @@ __metadata:
     "@ha/jsonnet": "workspace:^0.0.1"
     "@ha/k8s": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/mqtt": "workspace:^0.0.1"
     "@ha/nfs-provisioner": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
     "@ha/pihole": "workspace:^0.0.1"
@@ -4049,7 +4050,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/ps5@workspace:apps/ps5":
+"@ha/ps5@workspace:^0.0.1, @ha/ps5@workspace:apps/ps5":
   version: 0.0.0-use.local
   resolution: "@ha/ps5@workspace:apps/ps5"
   dependencies:
@@ -4062,6 +4063,7 @@ __metadata:
     "@ha/jsonnet": "workspace:^0.0.1"
     "@ha/k8s": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/mqtt": "workspace:^0.0.1"
     "@ha/nfs-provisioner": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
     "@ha/pihole": "workspace:^0.0.1"
@@ -4262,21 +4264,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/wake-on-lan@workspace:apps/wake-on-lan":
+"@ha/wake-on-lan@workspace:^0.0.1, @ha/wake-on-lan@workspace:apps/wake-on-lan":
   version: 0.0.0-use.local
   resolution: "@ha/wake-on-lan@workspace:apps/wake-on-lan"
   dependencies:
     "@ha/build-ts": "workspace:^1.0.0"
+    "@ha/cloudflared": "workspace:^0.0.1"
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/docker": "workspace:^0.0.1"
     "@ha/docker-creds": "workspace:^0.0.1"
     "@ha/docker-registry": "workspace:^0.0.1"
+    "@ha/docker-registry-service": "workspace:^0.0.1"
     "@ha/jsonnet": "workspace:^0.0.1"
     "@ha/k8s": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/logger": "workspace:^0.0.1"
+    "@ha/mqtt": "workspace:^0.0.1"
     "@ha/mqtt-client": "workspace:^0.0.1"
     "@ha/mqtt-heartbeat": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
@@ -4297,7 +4302,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ha/zwavejs@workspace:apps/zwavejs":
+"@ha/zwavejs@workspace:^0.0.1, @ha/zwavejs@workspace:apps/zwavejs":
   version: 0.0.0-use.local
   resolution: "@ha/zwavejs@workspace:apps/zwavejs"
   dependencies:

@@ -10,20 +10,6 @@
         "cwd": "{projectRoot}",
         "module": "scripts/deploy.ts"
       }
-    },
-    "package": {
-      "executor": "@ha/nx-executors:invoke",
-      "options": {
-        "module": "scripts/package.ts",
-        "cwd": "{projectRoot}"
-      }
-    },
-    "publish": {
-      "executor": "@ha/nx-executors:invoke",
-      "options": {
-        "module": "scripts/publish.ts",
-        "cwd": "{projectRoot}"
-      }
     }
   },
   "tags": [],

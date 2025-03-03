@@ -5973,7 +5973,11 @@ const RAW_RUNTIME_STATE =
           ["@ha/nfs-provisioner", "workspace:apps/nfs-provisioner"],\
           ["@ha/nx-executors", "workspace:packages/nx-executors"],\
           ["@ha/pihole", "workspace:apps/pihole"],\
+          ["@ha/playnite-web-app", "workspace:apps/playnite-web-app"],\
+          ["@ha/ps5", "workspace:apps/ps5"],\
           ["@ha/secrets", "workspace:apps/secrets"],\
+          ["@ha/wake-on-lan", "workspace:apps/wake-on-lan"],\
+          ["@ha/zwavejs", "workspace:apps/zwavejs"],\
           ["nx", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#npm:20.4.6"]\
         ],\
         "linkType": "SOFT"\
@@ -6170,10 +6174,6 @@ const RAW_RUNTIME_STATE =
           ["@ha/mqtt", "workspace:apps/mqtt"],\
           ["@ha/configuration-api", "workspace:packages/configuration-api"],\
           ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
-          ["@ha/docker", "workspace:packages/docker"],\
-          ["@ha/docker-creds", "workspace:apps/docker-creds"],\
-          ["@ha/docker-registry", "workspace:apps/docker-registry-service"],\
-          ["@ha/docker-registry-service", "workspace:apps/docker-registry"],\
           ["@ha/jsonnet", "workspace:packages/jsonnet"],\
           ["@ha/k8s", "workspace:apps/k8s"],\
           ["@ha/kubectl", "workspace:packages/kubectl"],\
@@ -6401,6 +6401,7 @@ const RAW_RUNTIME_STATE =
           ["@ha/jsonnet", "workspace:packages/jsonnet"],\
           ["@ha/k8s", "workspace:apps/k8s"],\
           ["@ha/kubectl", "workspace:packages/kubectl"],\
+          ["@ha/mqtt", "workspace:apps/mqtt"],\
           ["@ha/nfs-provisioner", "workspace:apps/nfs-provisioner"],\
           ["@ha/nx-executors", "workspace:packages/nx-executors"],\
           ["@ha/pihole", "workspace:apps/pihole"],\
@@ -6433,6 +6434,7 @@ const RAW_RUNTIME_STATE =
           ["@ha/jsonnet", "workspace:packages/jsonnet"],\
           ["@ha/k8s", "workspace:apps/k8s"],\
           ["@ha/kubectl", "workspace:packages/kubectl"],\
+          ["@ha/mqtt", "workspace:apps/mqtt"],\
           ["@ha/nfs-provisioner", "workspace:apps/nfs-provisioner"],\
           ["@ha/nx-executors", "workspace:packages/nx-executors"],\
           ["@ha/pihole", "workspace:apps/pihole"],\
@@ -6664,16 +6666,19 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@ha/wake-on-lan", "workspace:apps/wake-on-lan"],\
           ["@ha/build-ts", "workspace:packages/build-ts"],\
+          ["@ha/cloudflared", "workspace:apps/cloudflared"],\
           ["@ha/configuration-api", "workspace:packages/configuration-api"],\
           ["@ha/configuration-workspace", "workspace:packages/configuration-workspace"],\
           ["@ha/configure-jest", "virtual:49f38a7372be0ac8a1c5bcc44167bf748eeed16615268d9b06faec423ae875931c8ddec3dcdf5ed01fdf407b103da0e8a675d7b32146322fca7ea300ac61f368#workspace:packages/configure-jest"],\
           ["@ha/docker", "workspace:packages/docker"],\
           ["@ha/docker-creds", "workspace:apps/docker-creds"],\
           ["@ha/docker-registry", "workspace:apps/docker-registry-service"],\
+          ["@ha/docker-registry-service", "workspace:apps/docker-registry"],\
           ["@ha/jsonnet", "workspace:packages/jsonnet"],\
           ["@ha/k8s", "workspace:apps/k8s"],\
           ["@ha/kubectl", "workspace:packages/kubectl"],\
           ["@ha/logger", "workspace:packages/logger"],\
+          ["@ha/mqtt", "workspace:apps/mqtt"],\
           ["@ha/mqtt-client", "virtual:9fac141d185268f36972525af283566cd75e494de29fde8754899f2ceff7d0843bff93829a18050e0bee8e312aa154cd4170d0fca8c0c1abe17a6a8ca52e2210#workspace:packages/mqtt-client"],\
           ["@ha/mqtt-heartbeat", "workspace:packages/mqtt-heartbeat"],\
           ["@ha/nx-executors", "workspace:packages/nx-executors"],\

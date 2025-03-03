@@ -29,11 +29,13 @@
     "wakeonlan": "^0.1.0"
   },
   "dependencies": {
+    "@ha/cloudflared": "workspace:^0.0.1",
     "@ha/docker-creds": "workspace:^0.0.1",
     "@ha/docker-registry": "workspace:^0.0.1",
+    "@ha/docker-registry-service": "workspace:^0.0.1",
     "@ha/k8s": "workspace:^0.0.1",
+    "@ha/mqtt": "workspace:^0.0.1",
     "@ha/pihole": "workspace:^0.0.1",
-    "@ha/secrets": "workspace:^0.0.1",
-    "@ha/mqtt": "workspace:^0.0.1"
+    "@ha/secrets": "workspace:^0.0.1"
   }
 }

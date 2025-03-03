@@ -106,11 +106,15 @@ ingress: []`
       logger.info(
         `Proxying domain: ${hostname} for tunnel ${parsedConfig.tunnel}`,
       )
-      await throwIfError(
-        sh.exec(
-          `cloudflared tunnel route dns ${parsedConfig.tunnel} ${hostname}`,
-        ),
-      )
+      try {
+        await throwIfError(
+          sh.exec(
+            `cloudflared tunnel route dns ${parsedConfig.tunnel} ${hostname}`,
+          ),
+        )
+      } catch (e) {
+        logger.error(`Failed to update DNS to proxy domain: ${hostname}`)
+      }
     }
   }
 }
