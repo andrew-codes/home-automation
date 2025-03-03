@@ -56,7 +56,6 @@
 
     - name: Installing prerequisite packages
       apt:
-        update_cache: true
         name:
           - apt-transport-https
           - conntrack
@@ -109,7 +108,6 @@
 
     - name: Install helm, container runtime
       apt:
-        update_cache: true
         name:
           - helm
           - containerd
@@ -145,7 +143,6 @@
 
     - name: Install kubernetes packages
       apt:
-        update_cache: true
         allow_downgrade: true
         name:
           - kubeadm
