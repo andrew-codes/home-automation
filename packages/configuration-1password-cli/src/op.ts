@@ -1,4 +1,5 @@
 import { configurationApi as EnvSecretsConfiguration } from "@ha/configuration-env-secrets"
+import { logger } from "@ha/logger"
 import sh from "shelljs"
 
 type Item = {
@@ -26,14 +27,20 @@ const op = async () => {
 
         return item as Item
       } catch (error) {
+        logger.debug(
+          `CLI: Get item named ${itemTitle} failed. Error: ${error}.`,
+        )
         return null
       }
     },
     updateItemByTitle: async (itemTitle: string, value: string) => {
       const { stderr, code } = sh.exec(
-        `op item edit "${itemTitle}" "secret-value"="${value}""`,
+        `op item edit "${itemTitle}" "secret-value=${value}" --vault "${vaultId}"`,
       )
       if (code !== 0) {
+        logger.debug(
+          `CLI: Update item named ${itemTitle} failed. Exit code: ${code}. stderr: ${stderr}.`,
+        )
         throw new Error(stderr)
       }
     },
@@ -42,6 +49,9 @@ const op = async () => {
         `op item create --category "API Credential" --title "${name}" --vault "${vaultId}" 'secret-value=${value}'`,
       )
       if (code !== 0) {
+        logger.debug(
+          `CLI: item creation for item named ${name} failed. Exit code: ${code}. stderr: ${stderr}.`,
+        )
         throw new Error(stderr)
       }
     },

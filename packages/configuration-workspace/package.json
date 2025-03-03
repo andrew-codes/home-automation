@@ -9,6 +9,7 @@
     "@ha/configuration-1password-cli": "workspace:^0.0.1",
     "@ha/configuration-api": "workspace:^0.0.1",
     "@ha/configuration-env-secrets": "workspace:^0.0.1",
+    "@ha/logger": "workspace:^0.0.1",
     "lodash": "^4.17.21"
   },
   "devDependencies": {

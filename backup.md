@@ -38,12 +38,12 @@
 
 ## Notes on What's Next
 
+- [ ] automate pihole conditional forwarding
 - [x] enable cross-platform building of docker images
 - [ ] document or automate the setup of multi-platform docker builders for dev machine
 - [x] tunnel services do not work with piholes enabled
 - [x] nfs pvc creation does not require an IP, remove from libsonnet function API
 - [x] nfs pvc creation name excludes pvc suffix
-- [ ] automate pihole conditional forwarding
 - [ ] enable onepassword connect to be favored over CLI
 - [x] k8s cluster should not delete `/run/flannel/subnet.env` on restart of container
 - [x] cloudflared should not error and be able to resolve requests.

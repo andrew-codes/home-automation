@@ -2,6 +2,7 @@ import { createConfigApi as createOnepasswordConfiguration } from "@ha/configura
 import { createConfigApi as createOnePasswordCliConfiguration } from "@ha/configuration-1password-cli"
 import type { ConfigurationApi } from "@ha/configuration-api"
 import { configurationApi as envConfiguration } from "@ha/configuration-env-secrets"
+import { logger } from "@ha/logger"
 import { uniq } from "lodash"
 import type { Configuration } from "./Configuration.types"
 
@@ -40,13 +41,18 @@ const createConfigurationApi = async (
       return uniq(allConfiguration) as (keyof Configuration)[]
     },
     set: async (name, value) => {
-      for (const configurationProvider of configurationProviders.filter(
-        (provider) => provider.getNames().includes(name),
-      )) {
+      const providers = configurationProviders.filter((provider) =>
+        provider.getNames().includes(name),
+      )
+      for (const configurationProvider of providers) {
         try {
           await configurationProvider.set(name, value)
           return
-        } catch (error) {}
+        } catch (error) {
+          logger.debug(
+            `Configuration: Error setting value for ${name}: ${error?.message}. ConfigurationApi index: ${providers.indexOf(configurationProvider)}`,
+          )
+        }
       }
 
       throw new Error(

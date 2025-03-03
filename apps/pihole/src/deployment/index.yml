@@ -1,4 +1,4 @@
-sy---
+---
 - hosts: all
   become: yes
   become_method: ansible.builtin.sudo
@@ -109,18 +109,6 @@ sy---
     - name: Ensure ntp sync configuration
       shell: "pihole-FTL --config ntp.sync.active false"
 
-    - name: Set Conditional Forwarding in Pi-hole
-      lineinfile:
-        path: /etc/pihole/setupVars.conf
-        regexp: "^#?PIHOLE_DNS_"
-        line: |
-          CONDITIONAL_FORWARDING=true
-          CONDITIONAL_FORWARDING_IP={{ dhcpIp }}
-          CONDITIONAL_FORWARDING_DOMAIN={{ domain }}
-          CONDITIONAL_FORWARDING_REVERSE={{ cidr }}
-        create: yes
-        state: present
-
     - name: Restart and enable the pi-hole service if it exists
       ansible.builtin.systemd:
         name: pihole-FTL
@@ -128,5 +116,17 @@ sy---
         enabled: yes
       when: "'pihole-FTL.service' in ansible_facts.services"
 
-    - name: Restart Pi-hole DNS resolver
+    - name: Restart pihole DNS resolver
       shell: pihole reloaddns
+
+    - name: Wait for pihole web UI to be available
+      wait_for:
+        port: 80
+        delay: 10
+        timeout: 300
+
+    - name: Wait for pihole DNS server to be available
+      wait_for:
+        port: 53
+        delay: 10
+        timeout: 300

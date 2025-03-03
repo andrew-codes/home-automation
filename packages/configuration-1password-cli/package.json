@@ -8,6 +8,7 @@
     "@1password/connect": "^1.4.1",
     "@ha/configuration-api": "workspace:^0.0.1",
     "@ha/configuration-env-secrets": "workspace:^0.0.1",
+    "@ha/logger": "workspace:^0.0.1",
     "lodash": "^4.17.21",
     "shelljs": "^0.8.5"
   },

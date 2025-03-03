@@ -5360,6 +5360,7 @@ const RAW_RUNTIME_STATE =
           ["@ha/configuration-api", "workspace:packages/configuration-api"],\
           ["@ha/configuration-env-secrets", "workspace:packages/configuration-env-secrets"],\
           ["@ha/configure-jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#workspace:packages/configure-jest"],\
+          ["@ha/logger", "workspace:packages/logger"],\
           ["@ha/nx-executors", "workspace:packages/nx-executors"],\
           ["@ha/secret-utils", "workspace:packages/secret-utils"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -5383,6 +5384,7 @@ const RAW_RUNTIME_STATE =
           ["@ha/configuration-api", "workspace:packages/configuration-api"],\
           ["@ha/configuration-env-secrets", "workspace:packages/configuration-env-secrets"],\
           ["@ha/configure-jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#workspace:packages/configure-jest"],\
+          ["@ha/logger", "workspace:packages/logger"],\
           ["@ha/nx-executors", "workspace:packages/nx-executors"],\
           ["@ha/secret-utils", "workspace:packages/secret-utils"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -5441,6 +5443,7 @@ const RAW_RUNTIME_STATE =
           ["@ha/configuration-api", "workspace:packages/configuration-api"],\
           ["@ha/configuration-env-secrets", "workspace:packages/configuration-env-secrets"],\
           ["@ha/configure-jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#workspace:packages/configure-jest"],\
+          ["@ha/logger", "workspace:packages/logger"],\
           ["@ha/nx-executors", "workspace:packages/nx-executors"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/lodash", "npm:4.17.15"],\

@@ -90,7 +90,7 @@
         - "lxc.apparmor.profile: unconfined"
         - "lxc.cgroup2.devices.allow: a"
         - "lxc.cap.drop:"
-        # - 'lxc.mount.auto: "proc:rw sys:rw"'
+        - 'lxc.mount.auto: "proc:rw sys:rw"'
         - "lxc.mount.auto: cgroup:rw"
         - "lxc.cgroup.devices.allow: a"
         - "lxc.mount.entry: /dev/kmsg dev/kmsg none defaults,bind,optional,create=file"

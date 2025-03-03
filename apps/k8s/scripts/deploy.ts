@@ -28,7 +28,7 @@ const run = async (
 
   const kubeConfigPath = path.join(secretsPath, ".kube", "config")
   const kubeConfig = await fs.readFile(kubeConfigPath, "utf8")
-  configurationApi.set("k8s/config", kubeConfig)
+  await configurationApi.set("k8s/config", kubeConfig.replace(/\n/g, "\\n"))
   const kube = kubectl(kubeConfig)
   try {
     await kube.exec(`kubectl create sa app;`)

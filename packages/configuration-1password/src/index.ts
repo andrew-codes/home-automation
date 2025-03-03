@@ -7,6 +7,7 @@ import {
 import { Configuration as OnePasswordCliConfiguration } from "@ha/configuration-1password-cli"
 import { ConfigurationApi } from "@ha/configuration-api"
 import { configurationApi as EnvSecretsConfiguration } from "@ha/configuration-env-secrets"
+import { logger } from "@ha/logger"
 
 const configurationNames = [
   "captive-portal/host",
@@ -198,7 +199,9 @@ const createConfigApi = async (
     serverUrl =
       (await onePasswordCliConfiguration?.get("onepassword/server-url"))
         ?.value ?? (await EnvSecretsConfiguration.get("onepassword/server-url"))
-  } catch (error) {}
+  } catch (error) {
+    logger.debug(`Connect: Error getting server url: ${error?.message}`)
+  }
   let op: OPConnect | null = null
   if (!!serverUrl) {
     const token = await EnvSecretsConfiguration.get("onepassword/token")

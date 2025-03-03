@@ -313,7 +313,6 @@ local k = import "github.com/jsonnet-libs/k8s-libsonnet/1.29/main.libsonnet";
           + k.core.v1.persistentVolumeClaim.spec.resources.withRequests({ storage: capacity })
           + k.core.v1.persistentVolumeClaim.metadata.withAnnotations(
             {
-              "volume.beta.kubernetes.io/storage-class": "nfs",
               "volume.beta.kubernetes.io/storage-provisioner": "cluster.local/nfs-subdir-external-provisioner",
               "volume.kubernetes.io/storage-provisioner": "cluster.local/nfs-subdir-external-provisioner",
             },
