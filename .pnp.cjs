@@ -4163,28 +4163,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@elastic/ecs-helpers", [\
-      ["npm:2.1.1", {\
-        "packageLocation": "./.yarn/cache/@elastic-ecs-helpers-npm-2.1.1-fb74491ac7-6c4fd509e2.zip/node_modules/@elastic/ecs-helpers/",\
-        "packageDependencies": [\
-          ["@elastic/ecs-helpers", "npm:2.1.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@elastic/ecs-winston-format", [\
-      ["npm:1.5.3", {\
-        "packageLocation": "./.yarn/cache/@elastic-ecs-winston-format-npm-1.5.3-67d8db26d9-19efeefe8b.zip/node_modules/@elastic/ecs-winston-format/",\
-        "packageDependencies": [\
-          ["@elastic/ecs-winston-format", "npm:1.5.3"],\
-          ["@elastic/ecs-helpers", "npm:2.1.1"],\
-          ["safe-stable-stringify", "npm:2.5.0"],\
-          ["triple-beam", "npm:1.4.1"],\
-          ["winston", "npm:3.17.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@emnapi/core", [\
       ["npm:1.3.1", {\
         "packageLocation": "./.yarn/cache/@emnapi-core-npm-1.3.1-58f907a31d-00dbc2ae1b.zip/node_modules/@emnapi/core/",\
@@ -6112,7 +6090,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/logger/",\
         "packageDependencies": [\
           ["@ha/logger", "workspace:packages/logger"],\
-          ["@elastic/ecs-winston-format", "npm:1.5.3"],\
           ["@ha/configure-jest", "virtual:20ff1ee6d460bc472214d17cf0dbfd8e47709999cadc35cfcd9ec31857f0d87b67470e30028e3941501d0584989f441772b2ab14cd332863ce20e8d439b12cde#workspace:packages/configure-jest"],\
           ["@ha/nx-executors", "workspace:packages/nx-executors"],\
           ["@types/jest", "npm:29.5.14"],\

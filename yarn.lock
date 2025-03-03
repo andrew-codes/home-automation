@@ -2078,24 +2078,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@elastic/ecs-helpers@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "@elastic/ecs-helpers@npm:2.1.1"
-  checksum: 10/6c4fd509e2b3b88f0366481b24c7d6ac1c3d835bfe3c37fada2386ca817684467dc6b2b7e22549ff59e77feefa8fc8385b66e55121ad721b8ee22456483dbfc3
-  languageName: node
-  linkType: hard
-
-"@elastic/ecs-winston-format@npm:^1.5.3":
-  version: 1.5.3
-  resolution: "@elastic/ecs-winston-format@npm:1.5.3"
-  dependencies:
-    "@elastic/ecs-helpers": "npm:^2.1.1"
-    safe-stable-stringify: "npm:^2.4.3"
-    triple-beam: "npm:>=1.1.0"
-  checksum: 10/19efeefe8b9b2172324215db4cccd55a9fc483185862f24feaeb4ee70f16a5a7f74f1aa7555731af71b60b91dde4c4ead3000e196ded075d05cc427dc6c8aa50
-  languageName: node
-  linkType: hard
-
 "@emnapi/core@npm:^1.1.0":
   version: 1.3.1
   resolution: "@emnapi/core@npm:1.3.1"
@@ -3786,7 +3768,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ha/logger@workspace:packages/logger"
   dependencies:
-    "@elastic/ecs-winston-format": "npm:^1.5.3"
     "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
     "@types/jest": "npm:^29.5.14"
@@ -15190,7 +15171,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"safe-stable-stringify@npm:^2.3.1, safe-stable-stringify@npm:^2.4.3":
+"safe-stable-stringify@npm:^2.3.1":
   version: 2.5.0
   resolution: "safe-stable-stringify@npm:2.5.0"
   checksum: 10/2697fa186c17c38c3ca5309637b4ac6de2f1c3d282da27cd5e1e3c88eca0fb1f9aea568a6aabdf284111592c8782b94ee07176f17126031be72ab1313ed46c5c
@@ -16263,7 +16244,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"triple-beam@npm:>=1.1.0, triple-beam@npm:^1.3.0":
+"triple-beam@npm:^1.3.0":
   version: 1.4.1
   resolution: "triple-beam@npm:1.4.1"
   checksum: 10/2e881a3e8e076b6f2b85b9ec9dd4a900d3f5016e6d21183ed98e78f9abcc0149e7d54d79a3f432b23afde46b0885bdcdcbff789f39bc75de796316961ec07f61
@@ -17158,7 +17139,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"winston@npm:^3.17.0, winston@npm:^3.8.2":
+"winston@npm:^3.17.0":
   version: 3.17.0
   resolution: "winston@npm:3.17.0"
   dependencies:
