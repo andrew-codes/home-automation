@@ -104,3 +104,10 @@
       shell: pct push {{ vmId }} "/boot/config-$(uname -r)" "/boot/config-$(uname -r)"
       register: push_kernel_config
       changed_when: push_kernel_config.rc == 0
+
+    - name: Wait for LXC container to be reachable
+      wait_for:
+        host: "{{ ansible_host }}"
+        port: 22
+        delay: 10
+        timeout: 300
