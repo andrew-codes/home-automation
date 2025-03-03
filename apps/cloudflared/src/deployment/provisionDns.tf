@@ -34,13 +34,6 @@ variable "zoneId" {
     error_message = "Cloudflare zone ID is required."
   }
 }
-variable "subdomain" {
-  type = string
-  validation {
-    condition     = length(var.subdomain) > 0
-    error_message = "Cloudflare domain is required."
-  }
-}
 
 variable "tunnelId" {
   type = string
@@ -50,10 +43,91 @@ variable "tunnelId" {
   }
 }
 
-resource "cloudflare_record" "dns_record" {
+resource "cloudflare_dns_record" "docker-registry" {
   zone_id = var.zoneId
-  name    = var.subdomain
-  value   = var.tunnelId
+  name    = "docker-registry"
+  content = var.tunnelId
+  type    = "CNAME"
+  proxied = true
+  ttl     = 1
+}
+
+resource "cloudflare_dns_record" "pve" {
+  zone_id = var.zoneId
+  name    = "pve"
+  content = var.tunnelId
+  type    = "CNAME"
+  proxied = true
+  ttl     = 1
+}
+
+resource "cloudflare_dns_record" "pihole1" {
+  zone_id = var.zoneId
+  name    = "pihole1"
+  content = var.tunnelId
+  type    = "CNAME"
+  proxied = true
+  ttl     = 1
+}
+
+resource "cloudflare_dns_record" "pihole2" {
+  zone_id = var.zoneId
+  name    = "pihole2"
+  content = var.tunnelId
+  type    = "CNAME"
+  proxied = true
+  ttl     = 1
+}
+
+resource "cloudflare_dns_record" "nas" {
+  zone_id = var.zoneId
+  name    = "nas"
+  content = var.tunnelId
+  type    = "CNAME"
+  proxied = true
+  ttl     = 1
+}
+
+resource "cloudflare_dns_record" "games" {
+  zone_id = var.zoneId
+  name    = "games"
+  content = var.tunnelId
+  type    = "CNAME"
+  proxied = true
+  ttl     = 1
+}
+
+resource "cloudflare_dns_record" "games-staging" {
+  zone_id = var.zoneId
+  name    = "games-staging"
+  content = var.tunnelId
+  type    = "CNAME"
+  proxied = true
+  ttl     = 1
+}
+
+resource "cloudflare_dns_record" "grafana" {
+  zone_id = var.zoneId
+  name    = "grafana"
+  content = var.tunnelId
+  type    = "CNAME"
+  proxied = true
+  ttl     = 1
+}
+
+resource "cloudflare_dns_record" "ps" {
+  zone_id = var.zoneId
+  name    = "ps"
+  content = var.tunnelId
+  type    = "CNAME"
+  proxied = true
+  ttl     = 1
+}
+
+resource "cloudflare_dns_record" "zwave" {
+  zone_id = var.zoneId
+  name    = "zwave"
+  content = var.tunnelId
   type    = "CNAME"
   proxied = true
   ttl     = 1

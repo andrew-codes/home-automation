@@ -11,10 +11,10 @@
       }
     },
     "clean/deploy": {
-      "executor": "@ha/nx-executors:invoke",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "{projectRoot}",
-        "module": "rm -rf .terraform src/.terraform* src/provision/terraform* src/provision/.terraform* src/provision/terraform.plan"
+        "command": "rm -rf .terraform src/.terraform* src/deployment/terraform* src/deployment/.terraform* src/deployment/terraform.plan"
       }
     }
   },

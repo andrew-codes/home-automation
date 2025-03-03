@@ -116,22 +116,16 @@ ingress: []`
         await configurationApi.get("cloudflare/token")
       ).value
 
-      for (const hostname of proxiedDomains) {
-        logger.info(
-          `Proxying domain: ${hostname} for tunnel ${parsedConfig.tunnel}`,
-        )
-        await terraform.apply(
-          {
-            tunnelId: parsedConfig.tunnel,
-            domain: hostname,
-            zoneId,
-            cloudflareEmail,
-            cloudflareApiToken,
-          },
-          path.join(__dirname, "..", "src", "deployment"),
-          path.join(__dirname, "..", ".terraform"),
-        )
-      }
+      await terraform.apply(
+        {
+          tunnelId: `${parsedConfig.tunnel}.cfargotunnel.com`,
+          zoneId,
+          cloudflareEmail,
+          cloudflareApiToken,
+        },
+        path.join(__dirname, "..", "src", "deployment"),
+        path.join(__dirname, "..", ".terraform"),
+      )
     }
   }
 }
