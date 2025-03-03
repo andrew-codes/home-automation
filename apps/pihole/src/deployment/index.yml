@@ -1,4 +1,4 @@
----
+sy---
 - hosts: all
   become: yes
   become_method: ansible.builtin.sudo
@@ -64,7 +64,6 @@
         dest: "/etc/pihole/setupVars.conf"
         content: |-
           WEBSERVER_PORT=80
-          DNS_DOMAIN={{ domain }}
           PIHOLE_INTERFACE=eth0
           IPV4_ADDRESS={{ ansible_host }}/8
           IPV6_ADDRESS=
