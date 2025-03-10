@@ -13,5 +13,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": []
+  "implicitDependencies": ["k8s"]
 }

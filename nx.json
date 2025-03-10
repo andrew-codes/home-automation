@@ -53,7 +53,7 @@
       ]
     },
     "package": {
-      "dependsOn": ["^compile"]
+      "dependsOn": ["compile"]
     },
     "publish": {
       "dependsOn": ["^package", "package", "^publish", "^provision", "^deploy"]
@@ -72,6 +72,9 @@
     },
     "prepare": {
       "dependsOn": ["^prepare"]
+    },
+    "start": {
+      "dependsOn": ["^prepare", "prepare", "^generate", "generate", "prestart"]
     },
     "serve": {
       "dependsOn": ["^prepare", "prepare", "^generate", "generate", "prestart"]

@@ -12,5 +12,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": []
+  "implicitDependencies": ["cloudflared", "k8s", "metrics", "pihole"]
 }

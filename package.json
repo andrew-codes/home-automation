@@ -6,8 +6,8 @@
   "author": "Andrew Smith <andrew@andrew.codes>",
   "license": "MIT",
   "engines": {
-    "node": "^20.15.0",
-    "yarn": "4.5.1"
+    "node": "22.14.0",
+    "yarn": "4.6.0"
   },
   "scripts": {
     "clean": "nx run-many --target=clean --parallel --projects",

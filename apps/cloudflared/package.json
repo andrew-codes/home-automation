@@ -16,11 +16,5 @@
     "nx": "^20.4.6",
     "shelljs": "^0.8.5",
     "yaml": "^2.7.0"
-  },
-  "dependencies": {
-    "@ha/k8s": "workspace:^0.0.1",
-    "@ha/pihole": "workspace:^0.0.1",
-    "@ha/pihole-service": "workspace:^0.0.1",
-    "@ha/pve-service": "workspace:^0.0.1"
   }
 }

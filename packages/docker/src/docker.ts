@@ -17,15 +17,21 @@ interface DockerClient {
 const createClient = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<DockerClient> => {
-  const registry = await configurationApi.get("docker-registry/hostname")
-  const username = await configurationApi.get("docker-registry/username")
-  const password = await configurationApi.get("docker-registry/password")
+  const registry = (await configurationApi.get("docker-registry/hostname"))
+    .value
+  const username = (await configurationApi.get("docker-registry/username"))
+    .value
+  const password = (await configurationApi.get("docker-registry/password"))
+    .value
+  const registryScope = (await configurationApi.get("docker-registry/name"))
+    .value
+  const repo = (await configurationApi.get("repository/name")).value
 
   return {
     build: async (name, options = {}) => {
       await throwIfError(
         sh.exec(
-          `docker buildx build --load --platform linux/amd64 -t ${registry.value}/${name} ${
+          `docker buildx build --build-arg OWNER=${username} --build-arg REPO=${repo} --load --platform linux/amd64 -t ${registryScope}/${name} ${
             options.context ?? process.cwd()
           } -f ${options.dockerFile ?? "Dockerfile"};`,
           { async: true, silent: false },
@@ -35,12 +41,15 @@ const createClient = async (
     pushImage: async (name) => {
       await throwIfError(
         sh.exec(
-          `docker login ${registry.value} --username ${username.value} --password ${password.value}`,
-          { async: true, silent: true },
+          `docker login ${registry} --username ${username} --password ${password}`,
+          {
+            async: true,
+            silent: true,
+          },
         ),
       )
       await throwIfError(
-        sh.exec(`docker push ${registry.value}/${name};`, {
+        sh.exec(`docker push ${registryScope}/${name};`, {
           async: true,
           silent: true,
         }),

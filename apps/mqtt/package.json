@@ -9,11 +9,5 @@
     "@ha/kubectl": "workspace:^1.0.0",
     "@ha/nx-executors": "workspace:^0.1.0",
     "nx": "^20.4.6"
-  },
-  "dependencies": {
-    "@ha/k8s": "workspace:^0.0.1",
-    "@ha/nfs-provisioner": "workspace:^0.0.1",
-    "@ha/pihole": "workspace:^0.0.1",
-    "@ha/secrets": "workspace:^0.0.1"
   }
 }

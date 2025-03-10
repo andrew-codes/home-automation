@@ -1,5 +1,6 @@
 import { logger } from "@ha/logger"
 import { throwIfError } from "@ha/shell-utils"
+import path from "path"
 import sh from "shelljs"
 
 const apply = async (
@@ -10,7 +11,8 @@ const apply = async (
   for (const [key, value] of Object.entries(vars ?? {})) {
     sh.env[`TF_VAR_${key}`] = value.toString()
   }
-  sh.env["TF_DATA_DIR"] = dataDir ?? ".terraform"
+  const terraformDataDir = path.resolve(dataDir)
+  sh.env["TF_DATA_DIR"] = path.join(terraformDataDir, ".terraform")
 
   logger.info("Applying terraform")
   await throwIfError(

@@ -8,7 +8,6 @@ import { name } from "./config"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const registry = await configurationApi.get("docker-registry/hostname")
   const secrets: Array<keyof Configuration> = ["mqtt/username", "mqtt/password"]
   const port = await configurationApi.get("playnite-web/port/external")
   const username = await configurationApi.get("playnite-web/username")
@@ -21,7 +20,6 @@ const run = async (
       image: `ghcr.io/andrew-codes/playnite-web-app:11-latest`,
       name,
       port: parseInt(port.value),
-      registryHostname: registry.value,
       secrets,
       username: username.value,
       password: password.value,
@@ -49,7 +47,6 @@ const run = async (
       image: `ghcr.io/andrew-codes/playnite-web-app:dev`,
       name: `${name}-staging`,
       port: parseInt(stagingPort.value),
-      registryHostname: registry.value,
       secrets,
       username: username.value,
       password: password.value,

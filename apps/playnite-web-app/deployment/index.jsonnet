@@ -37,7 +37,6 @@ local deployment = lib.deployment.new(std.extVar("name"), std.extVar("image"), s
                    + lib.deployment.withProbe(0, "/")
 ;
 
-
 []
 + dbVolume
 + std.objectValues(db)

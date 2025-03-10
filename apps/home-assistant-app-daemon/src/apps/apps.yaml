@@ -1,0 +1,3 @@
+rename_entities:
+  module: rename_entities
+  class: RenameDeviceEntities

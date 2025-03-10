@@ -33,5 +33,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": []
+  "implicitDependencies": ["pihole"]
 }

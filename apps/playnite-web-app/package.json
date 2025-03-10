@@ -23,13 +23,5 @@
     "nx": "^20.4.6",
     "ts-jest": "^29.2.5",
     "typescript": "^5.7.3"
-  },
-  "dependencies": {
-    "@ha/cloudflared": "workspace:^0.0.1",
-    "@ha/k8s": "workspace:^0.0.1",
-    "@ha/mqtt": "workspace:^0.0.1",
-    "@ha/nfs-provisioner": "workspace:^0.0.1",
-    "@ha/pihole": "workspace:^0.0.1",
-    "@ha/secrets": "workspace:^0.0.1"
   }
 }

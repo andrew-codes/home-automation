@@ -17,8 +17,5 @@
     "lodash": "^4.17.21",
     "nx": "^20.4.6",
     "shelljs": "^0.8.5"
-  },
-  "dependencies": {
-    "@ha/pihole": "workspace:^0.0.1"
   }
 }

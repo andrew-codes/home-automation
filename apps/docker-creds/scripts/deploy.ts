@@ -6,13 +6,16 @@ import { logger } from "@ha/logger"
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
-  const hostname = (await configurationApi.get("docker-registry/hostname"))
-    .value
+  const hostname = `${
+    (await configurationApi.get("docker-registry/hostname")).value
+  }`
   const username = (await configurationApi.get("docker-registry/username"))
     .value
   const password = (await configurationApi.get("docker-registry/password"))
     .value
   const kubeConfig = (await configurationApi.get("k8s/config")).value
+  const githubEmail = (await configurationApi.get("github/email")).value
+
   const kube = kubectl(kubeConfig)
 
   try {
@@ -21,18 +24,7 @@ const run = async (
     logger.warn("regcred secret may already exist.")
   }
   await kube.exec(
-    `kubectl create secret docker-registry regcred --namespace default --docker-username="${username}" --docker-password="${password}" --docker-server="${hostname}";`,
-  )
-
-  const githubEmail = (await configurationApi.get("github/email")).value
-  const githubCrToken = (await configurationApi.get("github/cr/token")).value
-  try {
-    await kube.exec(`kubectl delete secret --namespace default ghcr`)
-  } catch (e) {
-    logger.warn("ghcr secret may already exist.")
-  }
-  await kube.exec(
-    `kubectl create secret docker-registry ghcr --namespace default --docker-username="${githubEmail}" --docker-password="${githubCrToken}" --docker-email="${githubEmail}" --docker-server="ghcr.io";`,
+    `kubectl create secret docker-registry regcred --namespace default --docker-username="${username}" --docker-password="${password}" --docker-server="${hostname}" --docker-email="${githubEmail}";`,
   )
 }
 

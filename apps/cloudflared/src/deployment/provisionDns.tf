@@ -43,24 +43,6 @@ variable "tunnelId" {
   }
 }
 
-resource "cloudflare_dns_record" "docker-registry" {
-  zone_id = var.zoneId
-  name    = "docker-registry"
-  content = var.tunnelId
-  type    = "CNAME"
-  proxied = true
-  ttl     = 1
-}
-
-resource "cloudflare_dns_record" "pve" {
-  zone_id = var.zoneId
-  name    = "pve"
-  content = var.tunnelId
-  type    = "CNAME"
-  proxied = true
-  ttl     = 1
-}
-
 resource "cloudflare_dns_record" "pihole1" {
   zone_id = var.zoneId
   name    = "pihole1"

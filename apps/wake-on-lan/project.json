@@ -66,5 +66,12 @@
     }
   },
   "tags": [],
-  "implicitDependencies": []
+  "implicitDependencies": [
+    "cloudflared",
+    "docker-creds",
+    "k8s",
+    "mqtt",
+    "pihole",
+    "secrets"
+  ]
 }

@@ -20,5 +20,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["secrets", "github-secrets", "docker-creds"]
+  "implicitDependencies": ["secrets", "github-secrets"]
 }

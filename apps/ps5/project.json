@@ -12,5 +12,12 @@
     }
   },
   "tags": [],
-  "implicitDependencies": []
+  "implicitDependencies": [
+    "cloudflared",
+    "k8s",
+    "mqtt",
+    "nfs-provisioner",
+    "pihole",
+    "secrets"
+  ]
 }

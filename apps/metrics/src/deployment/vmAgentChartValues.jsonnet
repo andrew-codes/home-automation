@@ -10,6 +10,18 @@
     },
     scrape_configs: [
       {
+        job_name: "hass",
+        scrape_interval: "60s",
+        metrics_path: "/api/prometheus",
+        bearer_token: std.extVar("haToken"),
+        scheme: "http",
+        static_configs: [
+          {
+            targets: ["home-assistant:8123"],
+          },
+        ],
+      },
+      {
         job_name: "vmagent",
         static_configs: [
           {

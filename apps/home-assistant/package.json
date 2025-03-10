@@ -13,7 +13,9 @@
   },
   "dependencies": {
     "@ha/cloudflared": "workspace:^0.0.1",
+    "@ha/home-assistant-app-daemon": "workspace:^0.0.1",
     "@ha/k8s": "workspace:^0.0.1",
+    "@ha/metrics": "workspace:^0.0.1",
     "@ha/mqtt": "workspace:^0.0.1",
     "@ha/nfs-provisioner": "workspace:^0.0.1",
     "@ha/pihole": "workspace:^0.0.1",
@@ -21,7 +23,6 @@
     "@ha/ps5": "workspace:^0.0.1",
     "@ha/secrets": "workspace:^0.0.1",
     "@ha/wake-on-lan": "workspace:^0.0.1",
-    "@ha/zwavejs": "workspace:^0.0.1",
-    "@ha/metrics": "workspace:^0.0.1"
+    "@ha/zwavejs": "workspace:^0.0.1"
   }
 }

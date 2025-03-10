@@ -7,7 +7,7 @@ const run = async (
   configurationApi: ConfigurationApi<Configuration>,
 ): Promise<void> => {
   const docker = await createClient(configurationApi)
-  await docker.pushImage(`${name}:latest`)
+  await docker.pushImage(`home-automation-${name}:latest`)
 }
 
 export default run

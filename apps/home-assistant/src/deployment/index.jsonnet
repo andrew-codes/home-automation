@@ -9,11 +9,11 @@ local deployment = lib.deployment.new(std.extVar("name"), std.extVar("image"), s
                      { name: "MQTT_PORT", value: "1883" },
                    ])
                    + lib.deployment.withPersistentVolume("home-assistant-config")
-                   + lib.deployment.withProbe(0, "/")
                    + lib.deployment.withVolumeMount(0, k.core.v1.volumeMount.new("home-assistant-config", "/config",))
                    + lib.deployment.withSecurityContext(0, { privileged: true, allowPrivilegeEscalation: true },)
                    + lib.deployment.withEnvVars(0, [secrets["home-assistant/token"], secrets["home-assistant/server"]],)
                    + lib.deployment.withSecurityContext(0, { privileged: true, allowPrivilegeEscalation: true },)
+                   + lib.deployment.withProbe(0, "/")
                    + {
                      deployment+: {
                        spec+: {

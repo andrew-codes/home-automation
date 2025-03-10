@@ -1,6 +1,7 @@
 {
   "private": true,
   "name": "@ha/pihole",
+  "description": "Local DNS server, network-wide ad blocker. Deploys two instances for redundant locaL DNS.S",
   "version": "0.0.1",
   "devDependencies": {
     "@ha/ansible": "workspace:^0.0.1",
