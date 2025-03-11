@@ -16,6 +16,9 @@ const forcedNavOrder = config.sidebar.forcedNavOrder
 
 const MDXRuntimeTest = ({ data, children, ...rest }) => {
   if (!data) {
+    console.warn(
+      "MDXRuntimeTest: No data passed to MDXRuntimeTest. This is likely due to a missing GraphQL query.",
+    )
     return (
       <>
         <Helmet>
@@ -35,6 +38,7 @@ const MDXRuntimeTest = ({ data, children, ...rest }) => {
   } = data
 
   const navItems = allMdx.edges
+    .filter(({ node }) => !node.fields.draft)
     .map(({ node }) => node.fields.slug)
     .sort()
     .reduce(
@@ -45,7 +49,7 @@ const MDXRuntimeTest = ({ data, children, ...rest }) => {
 
         let prefix = cur.split("/")[1]
 
-        if (config.gatsby && config.gatsby.trailingSlash) {
+        if (config.gatsby?.trailingSlash) {
           prefix = prefix + "/"
         }
 
@@ -68,9 +72,12 @@ const MDXRuntimeTest = ({ data, children, ...rest }) => {
         const { node } = allMdx.edges.find(
           ({ node }) => node.fields.slug === slug,
         )
-
-        return { title: node.fields.title, url: node.fields.slug }
+        if (!node.fields.draft) {
+          return { title: node.fields.title, url: node.fields.slug }
+        }
       }
+
+      return null
     })
     .filter(Boolean)
 
@@ -156,6 +163,7 @@ const pageQuery = graphql`
       edges {
         node {
           fields {
+            draft
             slug
             title
           }

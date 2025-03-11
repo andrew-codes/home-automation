@@ -2,6 +2,10 @@ import { ConfigurationApi } from "@ha/configuration-api"
 import { op as createOp } from "./op"
 
 const configurationNames = [
+  "backup/config",
+  "backup/nas/ssh-key/private",
+  "backup/ssh-key/private",
+  "backup/ssh-key/public",
   "captive-portal/host",
   "captive-portal/port/external",
   "cloudflare/email",

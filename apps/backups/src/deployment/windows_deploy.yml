@@ -1,0 +1,113 @@
+---
+- hosts: all
+  gather_facts: yes
+  connection: winrm
+
+  tasks:
+    - name: Ensure Chocolatey is installed
+      win_shell: Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+    - name: Enable WSL Feature
+      win_shell: |
+        Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -All -NoRestart
+
+    - name: Is WSL installed
+      win_shell: |
+        wsl --list --verbose
+      register: wsl_installed
+      ignore_errors: yes
+
+    - name: Ensure WSL is installed
+      win_shell: |
+        wsl --install
+      when: wsl_installed.rc != 0
+
+    - name: Ensure Git is installed
+      win_chocolatey:
+        name: git
+        package_params: /GitAndUnixToolsOnPath /NoShellIntegration
+        state: present
+
+    - name: Ensure .ssh directory exists
+      win_shell: |
+        New-Item -Force -Path "C:\Users\{{ profileName }}\.ssh" -ItemType Directory
+      vars:
+        ansible_become_user: "{{ ansible_user }}"
+        ansible_become_password: "{{ ansible_password }}"
+
+    - name: Copy ssh key
+      win_copy:
+        src: "{{ playbook_dir }}/../../.secrets/nas_rsa"
+        dest: C:\Users\{{ profileName }}\.ssh\nas_rsa
+        mode: 0600
+      vars:
+        ansible_become_user: "{{ ansible_user}}"
+        ansible_become_password: "{{ ansible_password }}"
+
+    - name: Copy SSH key to WSL
+      win_shell: |
+        wsl --exec bash -c 'mkdir -p ~/.ssh'
+        wsl --exec bash -c 'cp /mnt/c/Users/{{ profileName }}/.ssh/nas_rsa ~/.ssh/nas_rsa'
+        wsl --exec bash -c 'chmod 600 ~/.ssh/nas_rsa'
+      vars:
+        ansible_become_user: "{{ ansible_user }}"
+        ansible_become_password: "{{ ansible_password }}"
+        ansible_remote_tmp: 'C:\tmp'
+
+    - name: Ensure backup directory exists
+      win_shell: |
+        New-Item -Force -Path "C:\Users\{{ profileName }}\backup" -ItemType Directory
+      vars:
+        ansible_become_user: "{{ ansible_user }}"
+        ansible_become_password: "{{ ansible_password }}"
+
+    - name: Clone time machine repo and use latest master
+      win_shell: |
+        cd "C:\Users\{{ profileName }}\backup"
+        try {
+          git clone https://github.com/laurent22/rsync-time-backup.git time-machine
+        }
+        catch { }
+        cd time-machine
+        git fetch --all
+        git reset --hard origin/master
+      vars:
+        ansible_become_user: "{{ ansible_user }}"
+        ansible_become_password: "{{ ansible_password }}"
+
+    - name: Copy excludes
+      win_copy:
+        src: "{{ playbook_dir }}/../excludes-windows.txt"
+        dest: C:\Users\{{ profileName }}\backup\excludes.txt
+        mode: 0600
+
+    - name: Copy backup scripts
+      copy:
+        src: "{{ playbook_dir }}/../../.secrets/{{ ansible_host }}/{{ ansible_user }}/backup.sh"
+        dest: C:\Users\{{ profileName }}\backup\backup.sh
+        mode: 0700
+
+    - name: Copy backup scripts
+      copy:
+        src: "{{ playbook_dir }}/../../.secrets/{{ ansible_host }}/{{ ansible_user }}/backup.bat"
+        dest: C:\Users\{{ profileName }}\backup\backup.bat
+        mode: 0700
+
+    - name: Run backup.sh as scheduled tasks
+      community.windows.win_scheduled_task:
+        name: "Backup {{ ansible_user }}"
+        description: "Backup {{ ansible_user }} using rsync"
+        actions:
+          - path: c:\Users\{{ profileName }}\backup\backup.bat
+            working_directory: c:\Users\{{ profileName }}\backup
+        triggers:
+          - type: boot
+          - type: time
+            start_boundary: "2025-03-11T00:00:00"
+            repetition:
+              interval: "PT1H"
+        username: "{{ ansible_user }}"
+        password: "{{ ansible_password }}"
+        run_level: highest
+        state: present
+        enabled: yes

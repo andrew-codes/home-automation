@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+import { merge } from "lodash-es"
+import React, { useMemo, useState } from "react"
 import config from "../../../config.mjs"
 import TreeNode from "./treeNode.mjs"
 
@@ -26,28 +27,22 @@ const calculateTreeData = (edges) => {
 
       let { items: prevItems } = accu
 
-      const slicedParts =
-        config.gatsby && config.gatsby.trailingSlash
-          ? parts.slice(1, -2)
-          : parts.slice(1, -1)
+      const slicedParts = parts.slice(1, -1)
 
       for (const part of slicedParts) {
         let tmp = prevItems && prevItems.find(({ label }) => label == part)
-
         if (tmp) {
           if (!tmp.items) {
             tmp.items = []
           }
         } else {
-          tmp = { label: part, items: [] }
+          tmp = { label: part, items: [], url: slug, title }
           prevItems.push(tmp)
+          return accu
         }
         prevItems = tmp.items
       }
-      const slicedLength =
-        config.gatsby && config.gatsby.trailingSlash
-          ? parts.length - 2
-          : parts.length - 1
+      const slicedLength = parts.length - 1
 
       const existingItem = prevItems.find(
         ({ label }) => label === parts[slicedLength],
@@ -75,18 +70,13 @@ const calculateTreeData = (edges) => {
 
   const tmp = [...forcedNavOrder]
 
-  if (config.gatsby && config.gatsby.trailingSlash) {
-  }
   tmp.reverse()
-  return tmp.reduce((accu, slug) => {
+  const orderedTree = tmp.reduce((accu, slug) => {
     const parts = slug.split("/")
 
     let { items: prevItems } = accu
 
-    const slicedParts =
-      config.gatsby && config.gatsby.trailingSlash
-        ? parts.slice(1, -2)
-        : parts.slice(1, -1)
+    const slicedParts = parts.slice(1, -1)
 
     for (const part of slicedParts) {
       let tmp = prevItems.find((item) => item && item.label == part)
@@ -111,10 +101,12 @@ const calculateTreeData = (edges) => {
         return 0
       })
     })
-    const slicedLength =
+    const slicedLength = Math.max(
       config.gatsby && config.gatsby.trailingSlash
         ? parts.length - 2
-        : parts.length - 1
+        : parts.length - 1,
+      0,
+    )
 
     const index = prevItems.findIndex(
       ({ label }) => label === parts[slicedLength],
@@ -123,8 +115,33 @@ const calculateTreeData = (edges) => {
     if (prevItems.length) {
       accu.items.unshift(prevItems.splice(index, 1)[0])
     }
+
     return accu
   }, tree)
+
+  return orderedTree
+}
+
+function computeCollapsedNav(location, items, collapsed) {
+  if (!items) {
+    return collapsed
+  }
+  return items.reduce((acc, item) => {
+    const parts = item.url.split("/")
+    if (item.url) {
+      acc[item.url] =
+        location?.pathname?.startsWith(item.url) ||
+        config.sidebar.defaultExpanded.includes(item.url) ||
+        parts.reduce((accu, part, index, list) => {
+          return (
+            acc &&
+            location?.pathname?.startsWith(list.slice(0, index + 1)?.join("/"))
+          )
+        }, false)
+    }
+
+    return merge({}, acc, computeCollapsedNav(location, item.items, acc))
+  }, collapsed)
 }
 
 const Tree = ({ edges }) => {
@@ -132,32 +149,27 @@ const Tree = ({ edges }) => {
     return calculateTreeData(edges)
   })
 
-  const defaultCollapsed = {}
+  let location
+  if (typeof document != "undefined") {
+    location = document.location
+  }
 
-  treeData.items.forEach((item) => {
-    if (
-      config.sidebar.collapsedNav &&
-      config.sidebar.collapsedNav.includes(item.url)
-    ) {
-      defaultCollapsed[item.url] = true
-    } else {
-      defaultCollapsed[item.url] = false
-    }
-  })
-  const [collapsed, setCollapsed] = useState(defaultCollapsed)
-
+  const expandedItems = useMemo(() => {
+    return computeCollapsedNav(location, treeData.items, {})
+  }, [treeData.items])
+  const [expanded, setExpanded] = useState(expandedItems)
   const toggle = (url) => {
-    setCollapsed({
-      ...collapsed,
-      [url]: !collapsed[url],
+    setExpanded({
+      ...expanded,
+      [url]: !expanded[url],
     })
   }
 
   return (
     <TreeNode
       className={`${config.sidebar.frontLine ? "showFrontLine" : "hideFrontLine"} firstLevel`}
-      setCollapsed={toggle}
-      collapsed={collapsed}
+      toggleExpansion={toggle}
+      expanded={expanded}
       {...treeData}
     />
   )

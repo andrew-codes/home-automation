@@ -1,0 +1,29 @@
+{
+  "name": "backups",
+  "sourceRoot": "{projectRoot}",
+  "projectType": "application",
+  "targets": {
+    "init": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "{projectRoot}",
+        "module": "scripts/init.ts"
+      }
+    },
+    "deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "{projectRoot}",
+        "module": "scripts/deploy.ts"
+      },
+      "dependsOn": [
+        {
+          "target": "init",
+          "projects": "self"
+        }
+      ]
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

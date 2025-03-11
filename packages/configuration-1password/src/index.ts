@@ -10,6 +10,10 @@ import { configurationApi as EnvSecretsConfiguration } from "@ha/configuration-e
 import { logger } from "@ha/logger"
 
 const configurationNames = [
+  "backup/config",
+  "backup/nas/ssh-key/private",
+  "backup/ssh-key/private",
+  "backup/ssh-key/public",
   "captive-portal/host",
   "captive-portal/port/external",
   "cloudflare/email",

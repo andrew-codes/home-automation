@@ -437,21 +437,12 @@ export const baseStyles = css`
     background: transparent;
     border: none;
     outline: none;
-    position: absolute;
-    right: 20px;
-    z-index: 1;
     cursor: pointer;
   }
 
   .hideFrontLine .active > a {
     background-color: #1ed3c6;
     color: #fff !important;
-  }
-  .firstLevel ul li .collapser svg path {
-    fill: #fff !important;
-  }
-  .active .collapser > svg > path {
-    fill: #001933 !important;
   }
 
   .firstLevel ul .item ul .item {

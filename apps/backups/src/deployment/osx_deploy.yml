@@ -1,0 +1,76 @@
+---
+- hosts: all
+  gather_facts: yes
+  become_method: ansible.builtin.sudo
+  become_user: root
+  connection: ssh
+  remote_user: "{{ ansibleUser }}"
+
+  tasks:
+    - name: SSH directory
+      file:
+        path: /Users/{{ ansibleUser }}/.ssh
+        state: directory
+
+    - name: Copy SSH key
+      copy:
+        src: "{{ playbook_dir }}/../../.secrets/nas_rsa"
+        dest: /Users/{{ ansibleUser }}/.ssh/nas_rsa
+        mode: 0600
+
+    - name: Ensure Homebrew is installed
+      command: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      args:
+        creates: /usr/local/bin/brew
+
+    - name: Install rsync using Homebrew
+      homebrew:
+        name: rsync
+        state: present
+
+    - name: Ensure backup directory exists
+      file:
+        path: /Users/{{ ansibleUser }}/backup
+        state: directory
+        mode: 0700
+
+    - name: Clone rsync backup time-machine
+      git:
+        repo: "https://github.com/laurent22/rsync-time-backup.git"
+        dest: /Users/{{ ansibleUser }}/backup/time-machine
+        version: master
+        update: yes
+        force: yes
+
+    - name: Copy excludes
+      copy:
+        src: "{{ playbook_dir }}/../excludes.txt"
+        dest: /Users/{{ ansibleUser }}/backup/excludes.txt
+        mode: 0600
+
+    - name: Copy backup scripts
+      copy:
+        src: "{{ playbook_dir }}/../../.secrets/{{ ansible_host}}/{{ ansibleUser }}/backup.sh"
+        dest: /Users/{{ ansibleUser }}/backup/backup.sh
+        mode: 0700
+
+    - name: Ensure Library backup directory exists
+      file:
+        path: /Users/{{ ansibleUser }}/Library/LaunchAgents
+        state: directory
+
+    - name: Copy launchctl definition
+      copy:
+        src: "{{ playbook_dir }}/../../.secrets/{{ ansible_host}}/{{ ansibleUser }}/com.user.backup.plist"
+        dest: /Users/{{ ansibleUser }}/Library/LaunchAgents/com.user.backup.plist
+        mode: 0700
+
+    - name: Load launchctl definition
+      shell: launchctl load /Users/{{ ansibleUser }}/Library/LaunchAgents/com.user.backup.plist
+      register: load_result
+
+    - name: Notify user to grant full disk access to Terminal
+      debug:
+        msg: >
+          Please grant Full Disk Access to the Terminal application in
+          System Preferences > Security & Privacy > Privacy > Full Disk Access.

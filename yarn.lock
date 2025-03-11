@@ -3846,6 +3846,32 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ha/backups@workspace:apps/backups":
+  version: 0.0.0-use.local
+  resolution: "@ha/backups@workspace:apps/backups"
+  dependencies:
+    "@emotion/react": "npm:^11.14.0"
+    "@emotion/styled": "npm:^11.14.0"
+    "@emotion/styled-base": "npm:^11.0.0"
+    "@ha/ansible": "workspace:^0.0.1"
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/logger": "workspace:^0.0.1"
+    "@ha/nx-executors": "workspace:^0.1.0"
+    "@ha/shell-utils": "workspace:^1.0.0"
+    "@mdx-js/loader": "npm:^3.1.0"
+    "@mdx-js/mdx": "npm:^3.1.0"
+    "@mdx-js/react": "npm:^3.1.0"
+    emotion: "npm:^11.0.0"
+    emotion-server: "npm:^11.0.0"
+    handlebars: "npm:4.7.8"
+    nx: "npm:^20.4.6"
+    prism-react-renderer: "npm:^2.4.1"
+    react: "npm:^18.3.1"
+    shelljs: "npm:^0.8.5"
+  languageName: unknown
+  linkType: soft
+
 "@ha/build-ts@workspace:^1.0.0, @ha/build-ts@workspace:packages/build-ts":
   version: 0.0.0-use.local
   resolution: "@ha/build-ts@workspace:packages/build-ts"
@@ -3875,6 +3901,9 @@ __metadata:
     "@atlaskit/side-navigation": "npm:^1.10.4"
     "@atlaskit/textfield": "npm:^5.6.8"
     "@atlaskit/toggle": "npm:^12.6.11"
+    "@emotion/react": "npm:^11.14.0"
+    "@emotion/styled": "npm:^11.14.0"
+    "@emotion/styled-base": "npm:^11.0.0"
     "@ha/configuration-api": "workspace:^0.0.1"
     "@ha/configuration-workspace": "workspace:^0.0.1"
     "@ha/configure-jest": "workspace:^0.0.1"
@@ -3892,6 +3921,9 @@ __metadata:
     "@ha/shell-utils": "workspace:^1.0.0"
     "@ha/themes-slate": "workspace:^0.0.1"
     "@ha/unifi-client": "workspace:^0.1.0"
+    "@mdx-js/loader": "npm:^3.1.0"
+    "@mdx-js/mdx": "npm:^3.1.0"
+    "@mdx-js/react": "npm:^3.1.0"
     "@remix-run/dev": "npm:^1.19.3"
     "@remix-run/eslint-config": "npm:^1.19.3"
     "@remix-run/node": "npm:^1.19.3"
@@ -3902,6 +3934,8 @@ __metadata:
     "@types/react": "npm:^18.3.18"
     "@types/react-dom": "npm:^18.3.5"
     async-mqtt: "npm:^2.6.3"
+    emotion: "npm:^11.0.0"
+    emotion-server: "npm:^11.0.0"
     esbuild: "npm:^0.25.0"
     esbuild-register: "npm:^3.6.0"
     eslint: "npm:^8.57.1"
@@ -15913,7 +15947,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"handlebars@npm:^4.0.1":
+"handlebars@npm:4.7.8, handlebars@npm:^4.0.1":
   version: 4.7.8
   resolution: "handlebars@npm:4.7.8"
   dependencies:

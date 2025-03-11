@@ -3,7 +3,7 @@ const config = {
     pathPrefix: "/",
     siteUrl: "https://docs.smith-simms.family",
     gaTrackingId: null,
-    trailingSlash: false,
+    trailingSlash: true,
   },
   header: {
     logo: "",
@@ -23,8 +23,8 @@ const config = {
     },
   },
   sidebar: {
-    forcedNavOrder: ["/", "/getting-started", "/codeblock"],
-    collapsedNav: ["/codeblock"],
+    forcedNavOrder: ["/", "getting-started", "apps"],
+    defaultExpanded: ["/getting-started/"],
     links: [],
     frontLine: false,
     ignoreIndex: false,

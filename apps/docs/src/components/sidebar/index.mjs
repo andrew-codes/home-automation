@@ -93,12 +93,14 @@ const Divider = styled((props) => (
 const SidebarLayout = ({ location }) => {
   const data = useStaticQuery(graphql`
     query {
-      allMdx {
+      allMdx(sort: { fields: { slug: ASC } }) {
         edges {
           node {
             fields {
+              appName
               slug
               title
+              draft
             }
           }
         }
@@ -115,7 +117,9 @@ const SidebarLayout = ({ location }) => {
         />
       ) : null}
       <ul className={"sideBarUL"}>
-        <Tree edges={data.allMdx.edges} />
+        <Tree
+          edges={data.allMdx.edges.filter(({ node }) => !node.fields.draft)}
+        />
         {config.sidebar.links && config.sidebar.links.length > 0 && <Divider />}
         {config.sidebar.links.map((link, key) => {
           if (link.link !== "" && link.text !== "") {

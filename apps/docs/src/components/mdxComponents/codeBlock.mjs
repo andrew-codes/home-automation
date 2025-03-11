@@ -110,7 +110,6 @@ const CodeBlock = ({ children: exampleCode, ...props }) => {
                   <div {...lineProps} key={line + i}>
                     {line.map((token, key) => {
                       if (isDiff) {
-                        console.debug("isDiff")
                         if (
                           (key === 0 || key === 1) &&
                           (token.content.charAt(0) === "+" ||

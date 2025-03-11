@@ -1,28 +1,51 @@
+import styled from "@emotion/styled"
 import * as React from "react"
 import config from "../../../config.mjs"
 import ClosedSvg from "../images/closed.mjs"
 import OpenedSvg from "../images/opened.mjs"
 import Link from "../Link.mjs"
 
+const ListItem = styled("li")`
+  > div {
+    align-items: center;
+    display: flex;
+    width: 100%;
+  }
+
+  > div a {
+    flex: 1;
+    position: relative;
+  }
+
+  > div button {
+    height: 48px;
+    width: 48px;
+  }
+
+  > div button svg path {
+    fill: ${({ theme }) => theme.colors.text};
+  }
+`
+
 const TreeNode = ({
   className = "",
-  setCollapsed,
-  collapsed,
+  toggleExpansion,
+  expanded,
   url,
   title,
   items,
-  ...rest
 }) => {
-  const isCollapsed = collapsed[url]
+  const isExpanded = expanded[url]
 
-  const collapse = () => {
-    setCollapsed(url)
+  const toggle = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    toggleExpansion(url)
   }
 
   const hasChildren = items.length !== 0
 
   let location
-
   if (typeof document != "undefined") {
     location = document.location
   }
@@ -34,35 +57,35 @@ const TreeNode = ({
   const calculatedClassName = `${className} item ${active ? "active" : ""}`
 
   return (
-    <li className={calculatedClassName}>
+    <ListItem className={calculatedClassName}>
       {title && (
-        <Link to={url}>
-          {title}
-          {!config.sidebar.frontLine && title && hasChildren ? (
+        <div>
+          <Link to={url}>{title}</Link>
+          {title && hasChildren ? (
             <button
-              onClick={collapse}
+              onClick={toggle}
               aria-label="collapse"
               className="collapser"
             >
-              {!isCollapsed ? <OpenedSvg /> : <ClosedSvg />}
+              {isExpanded ? <OpenedSvg /> : <ClosedSvg />}
             </button>
           ) : null}
-        </Link>
+        </div>
       )}
 
-      {!isCollapsed && hasChildren ? (
+      {!title || (isExpanded && hasChildren) ? (
         <ul>
           {items.map((item, index) => (
             <TreeNode
               key={item.url + index.toString()}
-              setCollapsed={setCollapsed}
-              collapsed={collapsed}
+              toggleExpansion={toggleExpansion}
+              expanded={expanded}
               {...item}
             />
           ))}
         </ul>
       ) : null}
-    </li>
+    </ListItem>
   )
 }
 
