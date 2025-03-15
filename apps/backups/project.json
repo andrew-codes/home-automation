@@ -1,6 +1,6 @@
 {
   "name": "backups",
-  "sourceRoot": "{projectRoot}",
+  "sourceRoot": "{projectRoot}/src",
   "projectType": "application",
   "targets": {
     "init": {
@@ -8,6 +8,26 @@
       "options": {
         "cwd": "{projectRoot}",
         "module": "scripts/init.ts"
+      },
+      "dependsOn": [
+        {
+          "target": "prepare",
+          "projects": "dependencies"
+        }
+      ]
+    },
+    "compile": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "{projectRoot}",
+        "module": "scripts/compile.ts"
+      }
+    },
+    "package": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "{projectRoot}",
+        "module": "scripts/package.ts"
       }
     },
     "deploy": {
@@ -20,8 +40,19 @@
         {
           "target": "init",
           "projects": "self"
+        },
+        {
+          "target": "package",
+          "projects": "self"
         }
       ]
+    },
+    "post-deploy": {
+      "executor": "@ha/nx-executors:invoke",
+      "options": {
+        "cwd": "{projectRoot}",
+        "module": "scripts/post-deploy.ts"
+      },
     }
   },
   "tags": [],

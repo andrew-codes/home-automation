@@ -6,6 +6,7 @@ kubernetes_join_command
 *.log
 *.ignored
 dist
+._*/
 image.tar
 coverage/
 .terraform/

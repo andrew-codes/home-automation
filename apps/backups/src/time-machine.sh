@@ -1,10 +1,5 @@
 #!/bin/bash
 
-NAME=$(scutil --get ComputerName | sed "s/[ ']/-/g")
-ssh -p 22 -i ./nas_rsa hl@10.5.113.53 "mkdir -p -- '/volume1/backup/$NAME/{{ ansibleUser }}'; touch '/volume1/backup/$NAME/{{ ansibleUser }}/backup.marker'"
-
-#!/bin/bash
-
 APPNAME=$(basename "$0" | sed "s/\.sh$//")
 
 # -----------------------------------------------------------------------------
@@ -273,17 +268,80 @@ SSH_CMD=""
 SSH_DEST_FOLDER_PREFIX=""
 SSH_SRC_FOLDER_PREFIX=""
 SSH_PORT="22"
-ID_RSA="./nas_rsa"
+ID_RSA=""
 
-SRC_FOLDER="/Users/{{ ansibleUser }}"
-DEST_FOLDER="hl@10.5.113.53:/volume1/backup/$NAME/{{ ansibleUser }}"
+SRC_FOLDER=""
+DEST_FOLDER=""
 EXCLUSION_FILE=""
-LOG_DIR="logs"
+LOG_DIR="$HOME/.$APPNAME"
 AUTO_DELETE_LOG="1"
 EXPIRATION_STRATEGY="1:1 30:7 365:30"
 AUTO_EXPIRE="1"
 
-RSYNC_FLAGS="-D --numeric-ids --links --hard-links --one-file-system --itemize-changes --times --recursive --perms --owner --group --stats --human-readable --exclude-from excludes.txt --no-perms --no-group"
+RSYNC_FLAGS="-D --numeric-ids --links --hard-links --one-file-system --itemize-changes --times --recursive --perms --owner --group --stats --human-readable"
+
+while :; do
+    case $1 in
+    -h | -\? | --help)
+        fn_display_usage
+        exit
+        ;;
+    -p | --port)
+        shift
+        SSH_PORT=$1
+        ;;
+    -i | --id_rsa)
+        shift
+        ID_RSA="$1"
+        ;;
+    --rsync-get-flags)
+        shift
+        echo "$RSYNC_FLAGS"
+        exit
+        ;;
+    --rsync-set-flags)
+        shift
+        RSYNC_FLAGS="$1"
+        ;;
+    --rsync-append-flags)
+        shift
+        RSYNC_FLAGS="$RSYNC_FLAGS $1"
+        ;;
+    --strategy)
+        shift
+        EXPIRATION_STRATEGY="$1"
+        ;;
+    --log-dir)
+        shift
+        LOG_DIR="$1"
+        AUTO_DELETE_LOG="0"
+        ;;
+    --no-auto-expire)
+        AUTO_EXPIRE="0"
+        ;;
+    --)
+        shift
+        SRC_FOLDER="$1"
+        DEST_FOLDER="$2"
+        EXCLUSION_FILE="$3"
+        break
+        ;;
+    -*)
+        fn_log_error "Unknown option: \"$1\""
+        fn_log_info ""
+        fn_display_usage
+        exit 1
+        ;;
+    *)
+        SRC_FOLDER="$1"
+        DEST_FOLDER="$2"
+        EXCLUSION_FILE="$3"
+        break
+        ;;
+    esac
+
+    shift
+done
 
 # Display usage information if required arguments are not passed
 if [[ -z "$SRC_FOLDER" || -z "$DEST_FOLDER" ]]; then
@@ -382,7 +440,7 @@ MYPID="$$"
 
 if [ ! -d "$LOG_DIR" ]; then
     fn_log_info "Creating log folder in '$LOG_DIR'..."
-    mkdir -p "$LOG_DIR"
+    mkdir -- "$LOG_DIR"
 fi
 
 # -----------------------------------------------------------------------------
@@ -478,7 +536,6 @@ while :; do
     # -----------------------------------------------------------------------------
 
     LOG_FILE="$LOG_DIR/$(date +"%Y-%m-%d-%H%M%S").log"
-    touch "$LOG_FILE"
 
     fn_log_info "Starting backup..."
     fn_log_info "From: $SSH_SRC_FOLDER_PREFIX$SRC_FOLDER/"
@@ -564,12 +621,7 @@ while :; do
 
         # Remove .inprogress file only when rsync succeeded
         fn_rm_file "$INPROGRESS_FILE"
-    else
-        # If rsync failed, we don't want to remove the .inprogress file
-        # so that we can resume the backup later.
-        terminal-notifier -group 'com.user.backup' -title 'Backup' -subtitle 'Failed' -message 'Please notify your administrator. Click to see and provide the error log.' -activate "open $LOGFILE"
     fi
 
-    osascript -e 'tell application "Backup" to quit'
     exit $EXIT_CODE
 done

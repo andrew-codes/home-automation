@@ -15,5 +15,11 @@
 - /developer/repos/apps/**/.cache
 - /developer/repos/apps/**/dist
 - /developer/repos/apps/**/.dist
+- /developer/repos/apps/**/._*
+- /developer/repos/apps/**/._*/
+- /developer/repos/apps/**/_.*
+- /developer/repos/apps/**/_.*/
 - /developer/repos/apps/**/.secrets*
 - /developer/repos/apps/**/.secrets/
+- /OneDrive*
+- /Software Craftsmen LLC

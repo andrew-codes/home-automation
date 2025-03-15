@@ -13,8 +13,8 @@ Each object contains the following fields:
 
 - `username`: The username of the user on the family computer.
 - `ip`: The IP address of the family computer.
-- `isWindows`: (optional) A boolean indicating if the family computer is running Windows. Defaults to `false`.
-- `password`: (optional) The password for the user on the family computer. This is only required if `isWindows` is set to `true`.
+- `os`: The operating system of the family computer. Supported values are either `windows` or `macos`.
+- `password`: (optional) The password for the user on the family computer. This is only required if `os=windows`.
 - `profileName`: (optional) This is the user's profile name on the family machine; if different from the username.
 
 Here is a complete example of a `backup/config` secret for two family computers; one with one user and one with two users.
@@ -24,19 +24,19 @@ Here is a complete example of a `backup/config` secret for two family computers;
   {
     "username": "john",
     "ip": "192.168.1.124",
-    "isWindows": true,
+    "os": "windows",
     "password": "password123"
   },
   {
     "username": "jane",
     "ip": "192.168.1.124",
-    "isWindows": true,
+    "os": "windows",
     "password": "password123"
   },
   {
     "username": "john",
     "ip": "192.168.1.245",
-    "isWindows": false,
+    "os": "macos",
     "profileName": "john-doe"
   }
 ]
@@ -116,7 +116,6 @@ If the family computer is running Windows, the following steps are required to p
 If the family computer is running MacOS, the following steps are required to prepare it for the backup process:
 
 1. **Enable access via SSH**: See this guide for instructions on how to enable SSH on MacOS: [Enable SSH](https://support.apple.com/guide/mac-help/allow-a-remote-computer-to-access-your-mac-mchlp1066/mac).
-1. **Full Disk Access to Terminal**: Ensure that the Terminal app has full disk access. This is required to allow the backup process to access all files on the family computer. To do this, go to System Preferences > Security & Privacy > Privacy > Full Disk Access and add the Terminal app to the list of apps with full disk access.
 1. **Copy SSH public keys**: Use the following command to copy the public SSH key to the family computer:
 
    ```bash
@@ -131,9 +130,51 @@ Once the secrets are configured and the family computers are prepared, the backu
 yarn nx run backups:deploy
 ```
 
-## Verification
+## MacOS
+
+These steps must be performed after deployment on MacOS machines.
+
+1. **Full Disk Access**: Ensure the following applications have full disk access on the family computer:
+
+   - `~/Applications/Backup.app`
+
+   This is required for the backup process to run correctly. To grant full disk access, follow these steps:
+
+   1. Open System Preferences.
+   2. Click on Security & Privacy.
+   3. Click on the Privacy tab.
+   4. Select Full Disk Access from the list on the left.
+   5. Click the lock icon in the bottom left corner to make changes.
+   6. Enter your password when prompted.
+   7. Click the add (plus icon) button to bring up Finder.
+   8. Navigate to the application or use `CMD + SHIFT + G` and type applications's path
+   9. Grant access.
+
+1. Run the Backup app manually once. This ensures permissions are set correctly and the app is allowed to run in the background. To do this, follow these steps:
+
+   1. Open Finder.
+   2. Navigate to `~/Applications`.
+   3. Open the Backup app.
+   4. Follow any prompts to allow the app to run.
+
+# Verification
 
 After the deployment process is complete, it is important to verify that the backup process is working correctly. This can be done by checking the following:
 
 - **Scheduled Tasks**: Verify that the scheduled tasks or launchd jobs have been created on the family computers.
+
+  - For Windows, check the Task Scheduler and manually run the task to Ensure it runs correctly.
+  - For MacOS, check the launchd jobs using the following command:
+
+    ```bash
+    launchctl start com.user.backup
+    ```
+
 - **Backup Files**: Verify that the backup files are being created on the NAS and that they contain the expected data.
+- **Logs**: Check the logs for any errors or warnings that may indicate a problem with the backup process. The logs can be found in the following locations:
+  - For MacOS: `~/Applications/Backup.app/Contents/Resources/logs/*.log`
+- **Incremental backups**: Verify that the incremental backups are being created correctly.
+
+## Backup Failures
+
+On MacOS, if the backup fails, then you will receive a notification in the notification center. You will only receive a notification if the backup fails, so ensure the notification is allowed. Click the notification will open the error logs. This can be used to troubleshoot the failure.

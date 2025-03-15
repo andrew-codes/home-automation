@@ -203,11 +203,14 @@ const createConfigApi = async (
 ): Promise<ConfigurationApi<OnePasswordConfiguration>> => {
   let serverUrl: string | undefined
   try {
-    serverUrl =
-      (await onePasswordCliConfiguration?.get("onepassword/server-url"))
-        ?.value ?? (await EnvSecretsConfiguration.get("onepassword/server-url"))
-  } catch (error) {
-    logger.debug(`Connect: Error getting server url: ${error?.message}`)
+    serverUrl = await EnvSecretsConfiguration.get("onepassword/server-url")
+  } catch (error) {}
+  if (!serverUrl) {
+    try {
+      serverUrl = (
+        await onePasswordCliConfiguration?.get("onepassword/server-url")
+      )?.value
+    } catch (error) {}
   }
   let op: OPConnect | null = null
   if (!!serverUrl) {
@@ -217,6 +220,10 @@ const createConfigApi = async (
       token,
       keepAlive: true,
     })
+  } else {
+    logger.warn(
+      "OnePassword server URL not found. OnePassword configuration will not be available.",
+    )
   }
   const vaultId = await EnvSecretsConfiguration.get("onepassword/vault-id")
 

@@ -1,6 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
-cd /mnt/c/Users/{{ ansibleUser }}/backup
-NAME=$(hostname)
+cd "$(dirname "${BASH_SOURCE[0]}")"
+NAME="$(hostname)"
 ssh -p 22 -i ~/.ssh/nas_rsa hl@10.5.113.53 "mkdir -p -- '/volume1/backup/$NAME/{{ ansibleUser }}'; touch '/volume1/backup/$NAME/{{ ansibleUser }}/backup.marker'"
-./time-machine/rsync_tmbackup.sh --id_rsa ~/.ssh/nas_rsa --rsync-append-flags "--exclude-from excludes.txt --no-perms --no-group" ../ "hl@10.5.113.53:/volume1/backup/$NAME/{{ ansibleUser }}"
+./time-machine.sh --id_rsa ~/.ssh/nas_rsa --rsync-append-flags "--exclude-from excludes.txt --no-perms --no-group" ../ "hl@10.5.113.53:/volume1/backup/$NAME/{{ ansibleUser }}"
+exit $?

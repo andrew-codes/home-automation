@@ -22,7 +22,8 @@
       "options": {
         "cwd": "{projectRoot}",
         "command": "yarn gatsby build"
-      }
+      },
+      "cache": false
     },
     "package": {
       "executor": "@ha/nx-executors:invoke",

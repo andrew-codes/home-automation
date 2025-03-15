@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-    <key>Label</key>
-    <string>com.user.backup</string>
+    <dict>
+        <key>Label</key>
+        <string>com.user.backup</string>
 
-    <key>ProgramArguments</key>
-    <array>
-        <string>/Users/{{ ansibleUser }}/backup/backup.sh</string>
-    </array>
+        <key>Program</key>
+        <string>/Users/{{ ansibleUser }}/Applications/Backup.app/Contents/MacOS/Backup</string>
 
-    <key>StartInterval</key>
-    <integer>3600</integer>  <!-- Run every 3600 seconds (1 hour) -->
+        <key>StartInterval</key>
+        <integer>3600</integer>  <!-- Run every 3600 seconds (1 hour) -->
 
-    <key>RunAtLoad</key>
-    <true/>
+        <key>RunAtLoad</key>
+        <true />
 
-    <key>StandardOutPath</key>
-    <string>/Users/{{ ansibleUser }}/backup/backup_log.txt</string>
+        <key>StandardOutPath</key>
+        <string>/Users/{{ ansibleUser }}/backup/backup.log</string>
 
-    <key>StandardErrorPath</key>
-    <string>/Users/{{ ansibleUser }}/backup/backup_error_log.txt</string>
-</dict>
+        <key>StandardErrorPath</key>
+        <string>/Users/{{ ansibleUser }}/backup/error.log</string>
+    </dict>
 </plist>

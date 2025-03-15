@@ -22,12 +22,6 @@
         wsl --install
       when: wsl_installed.rc != 0
 
-    - name: Ensure Git is installed
-      win_chocolatey:
-        name: git
-        package_params: /GitAndUnixToolsOnPath /NoShellIntegration
-        state: present
-
     - name: Ensure .ssh directory exists
       win_shell: |
         New-Item -Force -Path "C:\Users\{{ profileName }}\.ssh" -ItemType Directory
@@ -61,16 +55,11 @@
         ansible_become_user: "{{ ansible_user }}"
         ansible_become_password: "{{ ansible_password }}"
 
-    - name: Clone time machine repo and use latest master
-      win_shell: |
-        cd "C:\Users\{{ profileName }}\backup"
-        try {
-          git clone https://github.com/laurent22/rsync-time-backup.git time-machine
-        }
-        catch { }
-        cd time-machine
-        git fetch --all
-        git reset --hard origin/master
+    - name: Copy time-machine.sh file
+      win_copy:
+        src: "{{ playbook_dir }}/../time-machine.sh"
+        dest: C:\Users\{{ profileName }}\backup\time-machine.sh
+        mode: 0700
       vars:
         ansible_become_user: "{{ ansible_user }}"
         ansible_become_password: "{{ ansible_password }}"
@@ -83,13 +72,13 @@
 
     - name: Copy backup scripts
       copy:
-        src: "{{ playbook_dir }}/../../.secrets/{{ ansible_host }}/{{ ansible_user }}/backup.sh"
+        src: "{{ playbook_dir }}/../../._packaged/{{ ansible_host }}/{{ ansible_user }}/backup.sh"
         dest: C:\Users\{{ profileName }}\backup\backup.sh
         mode: 0700
 
-    - name: Copy backup scripts
+    - name: Copy backup.bat
       copy:
-        src: "{{ playbook_dir }}/../../.secrets/{{ ansible_host }}/{{ ansible_user }}/backup.bat"
+        src: "{{ playbook_dir }}/../../._packaged/{{ ansible_host }}/{{ ansible_user }}/backup.bat"
         dest: C:\Users\{{ profileName }}\backup\backup.bat
         mode: 0700
 

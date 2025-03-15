@@ -3,10 +3,19 @@
   gather_facts: yes
   become_method: ansible.builtin.sudo
   become_user: root
+  become: true
   connection: ssh
   remote_user: "{{ ansibleUser }}"
 
   tasks:
+    - name: Ensure passwordless sudo for the user
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: "^{{ ansibleUser }} ALL=.*"
+        line: "{{ ansibleUser }} ALL=(ALL) NOPASSWD:ALL"
+        validate: "visudo -cf %s"
+
     - name: SSH directory
       file:
         path: /Users/{{ ansibleUser }}/.ssh
@@ -27,50 +36,70 @@
       homebrew:
         name: rsync
         state: present
+      become: false
 
-    - name: Ensure backup directory exists
-      file:
-        path: /Users/{{ ansibleUser }}/backup
-        state: directory
-        mode: 0700
+    - name: Install terminal-notifier using Homebrew
+      homebrew:
+        name: terminal-notifier
+        state: present
+      become: false
 
-    - name: Clone rsync backup time-machine
-      git:
-        repo: "https://github.com/laurent22/rsync-time-backup.git"
-        dest: /Users/{{ ansibleUser }}/backup/time-machine
-        version: master
-        update: yes
-        force: yes
+    - name: Stop Backup.app if it is running
+      shell: |
+        if pgrep -f "/Users/{{ ansibleUser }}/Applications/Backup.app"; then
+          pkill -f "/Users/{{ ansibleUser }}/Applications/Backup.app"
+        fi
+      ignore_errors: true
 
-    - name: Copy excludes
-      copy:
-        src: "{{ playbook_dir }}/../excludes.txt"
-        dest: /Users/{{ ansibleUser }}/backup/excludes.txt
-        mode: 0600
-
-    - name: Copy backup scripts
-      copy:
-        src: "{{ playbook_dir }}/../../.secrets/{{ ansible_host}}/{{ ansibleUser }}/backup.sh"
-        dest: /Users/{{ ansibleUser }}/backup/backup.sh
-        mode: 0700
-
-    - name: Ensure Library backup directory exists
+    - name: Ensure Library launch agents directory exists
       file:
         path: /Users/{{ ansibleUser }}/Library/LaunchAgents
         state: directory
 
+    - name: Unload launchctl definition
+      shell: launchctl unload /Users/{{ ansibleUser }}/Library/LaunchAgents/com.user.backup.plist
+      ignore_errors: true
+
+    - name: Ensure user applications directory exists
+      file:
+        path: /Users/{{ ansibleUser }}/Applications
+        state: directory
+        mode: 0755
+        owner: "{{ ansibleUser }}"
+
+    - name: Ensure app does not exist in system directory
+      file:
+        path: /Applications/Backup.app
+        state: absent
+
+    - name: Ensure user app does not exist in system directory
+      file:
+        path: /Users/{{ ansibleUser }}/Applications/Backup.app
+        state: absent
+
+    - name: Install Backup user application
+      copy:
+        src: "{{ playbook_dir }}/../../._packaged/{{ ansible_host }}/{{ ansibleUser }}/Backup.app"
+        dest: /Users/{{ ansibleUser }}/Applications
+        remote_src: false
+        mode: preserve
+      become: false
+
     - name: Copy launchctl definition
       copy:
-        src: "{{ playbook_dir }}/../../.secrets/{{ ansible_host}}/{{ ansibleUser }}/com.user.backup.plist"
+        src: "{{ playbook_dir }}/../../._packaged/{{ ansible_host}}/{{ ansibleUser }}/com.user.backup.plist"
         dest: /Users/{{ ansibleUser }}/Library/LaunchAgents/com.user.backup.plist
         mode: 0700
-
-    - name: Load launchctl definition
-      shell: launchctl load /Users/{{ ansibleUser }}/Library/LaunchAgents/com.user.backup.plist
-      register: load_result
 
     - name: Notify user to grant full disk access to Terminal
       debug:
         msg: >
-          Please grant Full Disk Access to the Terminal application in
-          System Preferences > Security & Privacy > Privacy > Full Disk Access.
+          Please grant Full Disk Access as well as access to other directories to the Backup application in
+          System Preferences > Security & Privacy > Privacy.
+
+    - name: Load launchctl definition
+      shell: launchctl load /Users/{{ ansibleUser }}/Library/LaunchAgents/com.user.backup.plist
+
+    - name: Start first backup
+      shell: launchctl start com.user.backup
+      ignore_errors: true
