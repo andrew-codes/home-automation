@@ -3,30 +3,11 @@
   gather_facts: yes
   become_method: ansible.builtin.sudo
   become_user: root
-  become: true
+  become: false
   connection: ssh
   remote_user: "{{ ansibleUser }}"
 
   tasks:
-    - name: Ensure passwordless sudo for the user
-      lineinfile:
-        path: /etc/sudoers
-        state: present
-        regexp: "^{{ ansibleUser }} ALL=.*"
-        line: "{{ ansibleUser }} ALL=(ALL) NOPASSWD:ALL"
-        validate: "visudo -cf %s"
-
-    - name: SSH directory
-      file:
-        path: /Users/{{ ansibleUser }}/.ssh
-        state: directory
-
-    - name: Copy SSH key
-      copy:
-        src: "{{ playbook_dir }}/../../.secrets/nas_rsa"
-        dest: /Users/{{ ansibleUser }}/.ssh/nas_rsa
-        mode: 0600
-
     - name: Ensure Homebrew is installed
       command: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
       args:
@@ -44,6 +25,21 @@
         state: present
       become: false
 
+    - name: Ensure user bin directory
+      file:
+        path: /Users/{{ ansibleUser }}/bin
+        state: directory
+        mode: 0755
+
+    - name: Install lock watcher
+      shell: |
+        curl --fail-with-body -L -O https://github.com/coolaj86/run-on-macos-screen-unlock/releases/download/v1.0.1/run-on-macos-screen-unlock-v1.0.1.tar.gz
+        tar xvf ./run-on-macos-screen-unlock-v1.0.1.tar.gz
+        xattr -r -d com.apple.quarantine ./run-on-macos-screen-unlock
+        mv ./run-on-macos-screen-unlock ~/bin/
+        rm -rf ./run-on-macos-screen-unlock-v1.0.1.tar.gz
+        rm -rf run-on-macos-screen-unlock
+
     - name: Stop Backup.app if it is running
       shell: |
         if pgrep -f "/Users/{{ ansibleUser }}/Applications/Backup.app"; then
@@ -56,8 +52,10 @@
         path: /Users/{{ ansibleUser }}/Library/LaunchAgents
         state: directory
 
-    - name: Unload launchctl definition
-      shell: launchctl unload /Users/{{ ansibleUser }}/Library/LaunchAgents/com.user.backup.plist
+    - name: Unload launchctl definitions
+      shell: |
+        launchctl unload /Users/{{ ansibleUser }}/Library/LaunchAgents/com.user.backup.plist
+        launchctl unload /Users/{{ ansibleUser }}/Library/LaunchAgents/com.user.backup.onwake.plist
       ignore_errors: true
 
     - name: Ensure user applications directory exists
@@ -66,11 +64,6 @@
         state: directory
         mode: 0755
         owner: "{{ ansibleUser }}"
-
-    - name: Ensure app does not exist in system directory
-      file:
-        path: /Applications/Backup.app
-        state: absent
 
     - name: Ensure user app does not exist in system directory
       file:
@@ -91,15 +84,25 @@
         dest: /Users/{{ ansibleUser }}/Library/LaunchAgents/com.user.backup.plist
         mode: 0700
 
+    - name: Copy launchctl definition for on wake
+      copy:
+        src: "{{ playbook_dir }}/../../._packaged/{{ ansible_host}}/{{ ansibleUser }}/com.user.backup.onwake.plist"
+        dest: /Users/{{ ansibleUser }}/Library/LaunchAgents/com.user.backup.onwake.plist
+        mode: 0700
+
     - name: Notify user to grant full disk access to Terminal
       debug:
         msg: >
           Please grant Full Disk Access as well as access to other directories to the Backup application in
           System Preferences > Security & Privacy > Privacy.
 
-    - name: Load launchctl definition
-      shell: launchctl load /Users/{{ ansibleUser }}/Library/LaunchAgents/com.user.backup.plist
+    - name: Load launchctl definitions
+      shell: |
+        launchctl load /Users/{{ ansibleUser }}/Library/LaunchAgents/com.user.backup.plist
+        launchctl load /Users/{{ ansibleUser }}/Library/LaunchAgents/com.user.backup.onwake.plist
 
     - name: Start first backup
-      shell: launchctl start com.user.backup
+      shell: |
+        launchctl start com.user.backup
+        launchctl start com.user.backup.onwake
       ignore_errors: true

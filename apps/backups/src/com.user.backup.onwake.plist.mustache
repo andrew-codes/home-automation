@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated for serviceman. Edit as you wish, but leave this line. -->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>Label</key>
+        <string>com.user.backup.onwake</string>
+
+        <key>ProgramArguments</key>
+        <array>
+            <string>/Users/{{ ansibleUser }}/bin/run-on-macos-screen-unlock</string>
+            <string>/Users/{{ ansibleUser }}/Applications/Backup.app/Contents/MacOS/Backup</string>
+        </array>
+
+        <key>RunAtLoad</key>
+        <true />
+
+        <key>KeepAlive</key>
+        <true />
+
+        <key>StandardErrorPath</key>
+        <string>/Users/{{ ansibleUser }}/backup/unlock.log</string>
+        <key>StandardOutPath</key>
+        <string>/Users/{{ ansibleUser }}/backup/unlock.error.log</string>
+    </dict>
+</plist>

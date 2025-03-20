@@ -28,7 +28,6 @@ const run = async (
         "utf8",
       )
       const backupShTemplate = Handlebars.compile(backupShTemplateContents)
-
       const backupSh = backupShTemplate({
         ansibleUser: profileName ?? username,
       })
@@ -36,6 +35,7 @@ const run = async (
         encoding: "utf8",
         mode: 0o755,
       })
+
       const plistTemplateContents = await fs.readFile(
         path.join(__dirname, "..", "src", "com.user.backup.plist.mustache"),
         "utf8",
@@ -47,6 +47,26 @@ const run = async (
       await fs.writeFile(
         path.join(userBuildPath, "com.user.backup.plist"),
         plist,
+        "utf8",
+      )
+      const onWakeplistTemplateContents = await fs.readFile(
+        path.join(
+          __dirname,
+          "..",
+          "src",
+          "com.user.backup.onwake.plist.mustache",
+        ),
+        "utf8",
+      )
+      const onWakepListTemplate = Handlebars.compile(
+        onWakeplistTemplateContents,
+      )
+      const onwakepList = onWakepListTemplate({
+        ansibleUser: username,
+      })
+      await fs.writeFile(
+        path.join(userBuildPath, "com.user.backup.onwake.plist"),
+        onwakepList,
         "utf8",
       )
     } else if (os.toLowerCase() === "windows") {

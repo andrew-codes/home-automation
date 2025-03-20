@@ -32,9 +32,16 @@ const run = async (
           force: true,
         },
       )
+      await fs.cp(
+        path.join(userDistPath, "com.user.backup.onwake.plist"),
+        path.join(userPackagedPath, "com.user.backup.onwake.plist"),
+        {
+          force: true,
+        },
+      )
       await throwIfError(
         sh.exec(
-          `platypus -y -a "Backup" -o "None" -i "${path.join(__dirname, "../src/icon.icns")}" -I "com.user.backup" -V "1.0" -u "Smith-Simms.family" -p "/bin/bash" --bundled-file "${path.join(__dirname, "../src/excludes.txt")}|${path.join(__dirname, "../.secrets/nas_rsa")}" "${userDistPath}/backup.sh" "${userPackagedPath}/Backup.app"`,
+          `platypus -y -a "Backup" -B -o "None" -i "${path.join(__dirname, "../src/icon.icns")}" -I "com.user.backup" -V "1.0" -u "Smith-Simms.family" -p "/bin/bash" --bundled-file "${path.join(__dirname, "../src/excludes.txt")}|${path.join(__dirname, "../.secrets/nas_rsa")}" "${userDistPath}/backup.sh" "${userPackagedPath}/Backup.app"`,
         ),
       )
     } else if (os.toLowerCase() === "windows") {

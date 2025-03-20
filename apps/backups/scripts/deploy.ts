@@ -26,7 +26,6 @@ const run = async (
     }
 
     const artifactPath = path.join(artifactsPath, ip, username)
-    const backupPath = path.join(secretsPath, ip, username)
 
     if (os.toLowerCase() === "macos") {
       let playbookPath = path.join(

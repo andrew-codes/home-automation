@@ -22,6 +22,12 @@ fn_log_info_cmd() {
     fi
 }
 
+# Check if the Mac is running on battery
+if pmset -g batt | grep -q "Battery Power"; then
+    fn_log_info "Running on battery power. Please connect to power before running the backup."
+    exit 1
+fi
+
 # -----------------------------------------------------------------------------
 # Make sure everything really stops when CTRL+C is pressed
 # -----------------------------------------------------------------------------
