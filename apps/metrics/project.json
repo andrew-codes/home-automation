@@ -12,5 +12,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["k8s", "nfs-provisioner", "pihole"]
+  "implicitDependencies": ["k8s", "nfs-provisioner", "pihole-service"]
 }

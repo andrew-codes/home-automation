@@ -52,7 +52,7 @@
       "options": {
         "cwd": "{projectRoot}",
         "module": "scripts/post-deploy.ts"
-      },
+      }
     }
   },
   "tags": [],

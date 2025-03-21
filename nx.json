@@ -10,10 +10,7 @@
           "prepare",
           "prestart",
           "test",
-          "package",
-          "publish",
-          "deploy",
-          "provision"
+          "package"
         ]
       }
     }

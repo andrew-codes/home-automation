@@ -12,5 +12,16 @@
     }
   },
   "tags": [],
-  "implicitDependencies": []
+  "implicitDependencies": [
+    "cloudflared",
+    "home-assistant-app-daemon",
+    "k8s",
+    "metrics",
+    "mqtt",
+    "nfs-provisioner",
+    "pihole-service",
+    "playnite-web-app",
+    "ps5",
+    "zwavejs"
+  ]
 }

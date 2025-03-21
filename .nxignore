@@ -6,3 +6,4 @@ apps/infrastructure-elk-fleet-server
 apps/wake-on-lan
 apps/docker-registry
 apps/docker-registry-service
+apps/pve-service

@@ -17,7 +17,6 @@
     "k8s",
     "mqtt",
     "nfs-provisioner",
-    "pihole",
     "secrets"
   ]
 }

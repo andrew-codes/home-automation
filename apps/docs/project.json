@@ -48,5 +48,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": []
+  "implicitDependencies": ["backups", "k8s", "docker-creds", "cloudflared"]
 }
