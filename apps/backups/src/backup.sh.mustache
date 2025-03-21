@@ -25,6 +25,7 @@ fn_log_info_cmd() {
 # Check if the Mac is running on battery
 if pmset -g batt | grep -q "Battery Power"; then
     fn_log_info "Running on battery power. Please connect to power before running the backup."
+    osascript -e 'tell application "Backup" to quit'
     exit 1
 fi
 
@@ -34,6 +35,7 @@ fi
 
 fn_terminate_script() {
     fn_log_info "SIGINT caught."
+    osascript -e 'tell application "Backup" to quit'
     exit 1
 }
 
@@ -99,6 +101,7 @@ fn_expire_backup() {
     # sure we're deleting the right folder
     if [ -z "$(fn_find_backup_marker "$(dirname -- "$1")")" ]; then
         fn_log_error "$1 is not on a backup destination - aborting."
+        osascript -e 'tell application "Backup" to quit'
         exit 1
     fi
 
@@ -294,6 +297,7 @@ RSYNC_FLAGS="-D --numeric-ids --links --hard-links --one-file-system --itemize-c
 # Display usage information if required arguments are not passed
 if [[ -z "$SRC_FOLDER" || -z "$DEST_FOLDER" ]]; then
     fn_display_usage
+    osascript -e 'tell application "Backup" to quit'
     exit 1
 fi
 
@@ -319,6 +323,7 @@ fi
 # Exit if source folder does not exist.
 if ! fn_test_file_exists_src "${SRC_FOLDER}"; then
     fn_log_error "Source folder \"${SRC_FOLDER}\" does not exist - aborting."
+    osascript -e 'tell application "Backup" to quit'
     exit 1
 fi
 
@@ -328,6 +333,7 @@ SRC_FOLDER="${SRC_FOLDER%/}"
 for ARG in "$SRC_FOLDER" "$DEST_FOLDER" "$EXCLUSION_FILE"; do
     if [[ "$ARG" == *"'"* ]]; then
         fn_log_error 'Source and destination directories may not contain single quote characters.'
+        osascript -e 'tell application "Backup" to quit'
         exit 1
     fi
 done
@@ -347,6 +353,7 @@ if [ -z "$(fn_find_backup_marker "$DEST_FOLDER")" ]; then
     fn_log_info ""
     fn_log_info_cmd "mkdir -p -- \"$DEST_FOLDER\" ; touch \"$(fn_backup_marker_path "$DEST_FOLDER")\""
     fn_log_info ""
+    osascript -e 'tell application "Backup" to quit'
     exit 1
 fi
 
@@ -409,18 +416,21 @@ if [ -n "$(fn_find "$INPROGRESS_FILE")" ]; then
         # 4. if found, assume backup is still running
         if [ "$GREPCODE" = 0 ]; then
             fn_log_error "Previous backup task is still active - aborting (command: $RUNNINGCMD)."
+            osascript -e 'tell application "Backup" to quit'
             exit 1
         fi
     elif [[ "$OSTYPE" == "netbsd"* ]]; then
         RUNNINGPID="$(fn_run_cmd "cat $INPROGRESS_FILE")"
         if ps -axp "$RUNNINGPID" -o "command" | grep "$APPNAME" >/dev/null; then
             fn_log_error "Previous backup task is still active - aborting."
+            osascript -e 'tell application "Backup" to quit'
             exit 1
         fi
     else
         RUNNINGPID="$(fn_run_cmd "cat $INPROGRESS_FILE")"
         if ps -p "$RUNNINGPID" -o command | grep "$APPNAME"; then
             fn_log_error "Previous backup task is still active - aborting."
+            osascript -e 'tell application "Backup" to quit'
             exit 1
         fi
     fi
@@ -525,6 +535,7 @@ while :; do
 
         if [[ $AUTO_EXPIRE == "0" ]]; then
             fn_log_error "No space left on device, and automatic purging of old backups is disabled."
+            osascript -e 'tell application "Backup" to quit'
             exit 1
         fi
 
@@ -532,6 +543,7 @@ while :; do
 
         if [[ "$(fn_find_backups | wc -l)" -lt "2" ]]; then
             fn_log_error "No space left on device, and no old backup to delete."
+            osascript -e 'tell application "Backup" to quit'
             exit 1
         fi
 
