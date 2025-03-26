@@ -1,5 +1,5 @@
 {
-  "name": "Home Automation",
+  "name": "Home Ops",
   "dockerFile": "Dockerfile",
   "privileged": true,
   "features": {

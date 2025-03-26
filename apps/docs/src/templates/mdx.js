@@ -118,7 +118,7 @@ const Head = ({ data }) => {
 
   const metaDescription =
     mdx?.fields?.description ??
-    "Documentation on engineering and development of my home automation."
+    "Documentation on engineering and development of my home lab."
 
   return (
     <>

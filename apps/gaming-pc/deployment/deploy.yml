@@ -155,7 +155,7 @@
         ansible_become_user: "{{ user }}"
         ansible_become_password: "{{ ansible_password }}"
 
-    - name: Clone and update Home Automation Repo
+    - name: Clone and update Home Ops Repo
       win_shell: |
         cd "C:\Users\{{ user }}\developer\repos"
         try {

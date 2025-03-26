@@ -8,7 +8,7 @@ const config = {
   header: {
     logo: "",
     logoLink: "",
-    title: "Home Automation - Andrew Smith",
+    title: "Home Ops - Andrew Smith",
     githubUrl: "https://github.com/andrew-codes/home-automation",
     helpUrl: "",
     tweetText: "",
@@ -31,7 +31,7 @@ const config = {
     title: "",
   },
   siteMetadata: {
-    title: "Technical Documentation | Andrew Smith's Home Automation",
+    title: "Technical Documentation | Andrew Smith's Home Ops",
     description: "",
     ogImage: null,
     docsLocation:
