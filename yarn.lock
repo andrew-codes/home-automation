@@ -328,9 +328,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@andrew-codes/home-automation@workspace:.":
+"@andrew-codes/home-ops@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@andrew-codes/home-automation@workspace:."
+  resolution: "@andrew-codes/home-ops@workspace:."
   dependencies:
     "@ha/configure-jest": "workspace:^0.0.1"
     "@ha/nx-executors": "workspace:^0.1.0"
@@ -3906,6 +3906,7 @@ __metadata:
     "@mdx-js/loader": "npm:^3.1.0"
     "@mdx-js/mdx": "npm:^3.1.0"
     "@mdx-js/react": "npm:^3.1.0"
+    "@types/react": "npm:^18.0.28"
     emotion: "npm:^11.0.0"
     emotion-server: "npm:^11.0.0"
     handlebars: "npm:4.7.8"
@@ -4285,6 +4286,7 @@ __metadata:
     "@styled-icons/fa-brands": "npm:^10.47.0"
     "@styled-icons/fa-solid": "npm:^10.47.0"
     "@svgr/webpack": "npm:^8.1.0"
+    "@types/react": "npm:^18.0.28"
     algoliasearch: "npm:^5.20.4"
     emotion: "npm:^11.0.0"
     emotion-server: "npm:^11.0.0"
@@ -4645,6 +4647,21 @@ __metadata:
     "@ha/jsonnet": "workspace:^0.0.1"
     "@ha/kubectl": "workspace:^1.0.0"
     "@ha/nx-executors": "workspace:^0.1.0"
+    nx: "npm:^20.4.6"
+  languageName: unknown
+  linkType: soft
+
+"@ha/home-ops-docs-adr@workspace:apps/docs-adr":
+  version: 0.0.0-use.local
+  resolution: "@ha/home-ops-docs-adr@workspace:apps/docs-adr"
+  dependencies:
+    "@ha/configuration-api": "workspace:^0.0.1"
+    "@ha/configuration-workspace": "workspace:^0.0.1"
+    "@ha/docker": "workspace:^0.0.1"
+    "@ha/jsonnet": "workspace:^0.0.1"
+    "@ha/kubectl": "workspace:^1.0.0"
+    "@ha/nx-executors": "workspace:^0.1.0"
+    log4brains: "npm:^1.1.0"
     nx: "npm:^20.4.6"
   languageName: unknown
   linkType: soft
@@ -8575,6 +8592,16 @@ __metadata:
     "@types/scheduler": "npm:*"
     csstype: "npm:^3.0.2"
   checksum: 10/391334a29b1fa33403e6104dbe5c242911d01821b97393887e6976497edc41f2f323e2c27dc6564d0f263e98cf36d552162414084df3cfff30e370d231b0bd22
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^18.0.28":
+  version: 18.3.20
+  resolution: "@types/react@npm:18.3.20"
+  dependencies:
+    "@types/prop-types": "npm:*"
+    csstype: "npm:^3.0.2"
+  checksum: 10/020c51e63b60862e6d772f0cdea0b9441182eedab6289dabd8add0708ded62003834c4e7c6f23a1ccd3ca9486b46296057c3f881c34261a0483765351f8d0bc3
   languageName: node
   linkType: hard
 
@@ -20573,7 +20600,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"log4brains@npm:1.1.0":
+"log4brains@npm:1.1.0, log4brains@npm:^1.1.0":
   version: 1.1.0
   resolution: "log4brains@npm:1.1.0"
   dependencies:
