@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@andrew-codes/home-automation",
+  "name": "@andrew-codes/home-ops",
   "version": "0.0.1",
   "repository": "git@github.com:andrew-codes/home-automation.git",
   "author": "Andrew Smith <andrew@andrew.codes>",
@@ -52,6 +52,7 @@
     "istanbul-merge": "^1.1.1",
     "jest": "^29.7.0",
     "jest-when": "^3.7.0",
+    "log4brains": "patch:log4brains@npm%3A1.1.0#~/.yarn/patches/log4brains-npm-1.1.0-a7df121b2c.patch",
     "nx": "^20.4.6",
     "prettier": "^3.5.2",
     "ts-jest": "^29.2.5",
