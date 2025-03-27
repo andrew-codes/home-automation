@@ -1,6 +1,6 @@
 # Provisioning Infrastructure Includes Software
 
-- Status: draft
+- Status: proposed
 - Deciders: Andrew Smith
 - Date: 2025-03-27
 - Tags: devops
