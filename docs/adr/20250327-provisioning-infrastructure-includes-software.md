@@ -1,4 +1,4 @@
-# Infrastructure as Apps
+# Provisioning Infrastructure Includes Software
 
 - Status: draft
 - Deciders: Andrew Smith
