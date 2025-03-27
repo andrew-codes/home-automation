@@ -1,7 +1,7 @@
 {
   "name": "docs-adr",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "{projectRoot}/src",
+  "sourceRoot": "docs/adr",
   "projectType": "application",
   "targets": {
     "compile": {
