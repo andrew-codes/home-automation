@@ -39,21 +39,13 @@
       "dependsOn": ["^prepare", "prepare", "^generate", "generate", "^compile"]
     },
     "deploy": {
-      "dependsOn": [
-        "^prepare",
-        "prepare",
-        "compile",
-        "^provision",
-        "^deploy",
-        "provision",
-        "publish"
-      ]
+      "dependsOn": ["^prepare", "prepare", "compile", "^deploy", "publish"]
     },
     "package": {
       "dependsOn": ["compile"]
     },
     "publish": {
-      "dependsOn": ["^package", "package", "^publish", "^provision", "^deploy"]
+      "dependsOn": ["^package", "package", "^publish", "^deploy"]
     },
     "provision": {
       "dependsOn": ["^prepare", "prepare", "^provision", "^deploy"]

@@ -1,72 +1,57 @@
 # Break Deploy and Provision Dependency
 
-- Status: draft
+- Status: accepted
 - Deciders: Andrew Smith
 - Date: 2025-03-27
 - Tags: devops
 
-Technical Story: [description | ticket/issue URL] <!-- optional -->
-
 ## Context and Problem Statement
 
-The provisioning or application resources is not always idempotent and can have intermittent failures due to failed connections to target machines. This can block the deployment of applications even if the resources are already provisioned.
+Deployments automatically attempt to provision resources for the respective application. Failures to provision will prevent all deployments from being completed. Provisioning failures can easily occur due to the Terraform provisioned state being out of sync with the actual resources.
+
+There are several ways for this state to become stale or out of sync:
+
+- Attempting to deploy from two different local environments; Terraform state is not shared
+- CI agents (different environments from the original deployment); Terraform state is not shared
+- Deploying, then removing the local Terraform state
 
 Should applications' deployments automatically provision their needed resources?
 
-## Decision Drivers <!-- optional -->
+## Decision Drivers
 
-- Failed deployments due to intermittent provision errors despite resources already existing/provisioned.
-- Difficulties when automating deployments with source changes.
+- Failed deployments due to provision errors despite resources already existing/provisioned.
+- Difficulties automating deployments due to lack of shared Terraform state with CI agents.
+- Terraform state may be sensitive and should not be committed to the repo.
 
 ## Considered Options
 
-- Keep dependency of targets; persist Terraform provisioning state in a central location accessible by both dev and CI.
-- Provision is a separate activity that must be done prior to deployments.
+1. Keep dependency as-is
+1. Provision is a separate activity
 
 ## Decision Outcome
 
-Chosen option: "[option 1]", because [justification. e.g., only option, which meets k.o. criterion decision driver | which resolves force force | … | comes out best (see below)].
+Chosen option: "option 2: Provision is a separate activity", because it addresses all three decision drivers while also reducing the initial setup effort.
 
-### Positive Consequences <!-- optional -->
+### Positive Consequences
 
-- [e.g., improvement of quality attribute satisfaction, follow-up decisions required, …]
-- …
+- Reduced effort and instructions for getting started with a new home lab; requiring fewer manual steps and less setup work.
+- Enables the possibility of using deployment tooling, e.g. [ArgoCD](https://argo-cd.readthedocs.io/en/stable/).
 
-### Negative Consequences <!-- optional -->
+## Pros and Cons of the Options
 
-- [e.g., compromising quality attribute, follow-up decisions required, …]
-- …
+### Option 1: Keep as-is
 
-## Pros and Cons of the Options <!-- optional -->
+Share Terraform state between all environments; local, CI or otherwise. This ensures the state is in sync and re-running provision targets become idempotent.
 
-### [option 1]
+- Good, because it removes a manual step required on first deploy of applications.
+- Bad, because it requires a dedicated shared space; requiring additional manual setup of shared directory.
+- Bad, because the setup required to get started is more involved and with additional nuance/caveats/special cases that must be communicated.
 
-[example | description | pointer to more information | …] <!-- optional -->
+### Option 2: Provision is a separate activity
 
-- Good, because [argument a]
-- Good, because [argument b]
-- Bad, because [argument c]
-- … <!-- numbers of pros and cons can vary -->
+Provisioning applications becomes a manual step that occurs only once, prior to any deployments.
 
-### [option 2]
-
-[example | description | pointer to more information | …] <!-- optional -->
-
-- Good, because [argument a]
-- Good, because [argument b]
-- Bad, because [argument c]
-- … <!-- numbers of pros and cons can vary -->
-
-### [option 3]
-
-[example | description | pointer to more information | …] <!-- optional -->
-
-- Good, because [argument a]
-- Good, because [argument b]
-- Bad, because [argument c]
-- … <!-- numbers of pros and cons can vary -->
-
-## Links <!-- optional -->
-
-- [Link type](link to adr) <!-- example: Refined by [xxx](yyyymmdd-xxx.md) -->
-- … <!-- numbers of links can vary -->
+- Good, because this does not require any additional, manual setup steps of configuring a shared directory.
+- Good, because the complexity of configuring automated deployments is reduced
+- Good, because CI agents do not need access to a local, shared directory; allowing them to be run in the Cloud.
+- Bad, because it is possible to attempt deployments without having first provisioned resources.
