@@ -10,6 +10,7 @@
     "yarn": "4.6.0"
   },
   "scripts": {
+    "adr": "log4brains adr --",
     "clean": "nx run-many --target=clean --parallel --projects",
     "clean/all": "nx run-many --target=clean --parallel --all",
     "clean/cache": "nx clear-cache",
