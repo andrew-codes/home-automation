@@ -1,6 +1,6 @@
 # Architecture Decision Records
 
-ADRs are automatically published to our Log4brains architecture knowledge base:
+ADRs are published to our architecture knowledge base:
 
 🔗 **https://adr.smith-simms.family**
 
@@ -9,7 +9,7 @@ Please use this link to browse them.
 To preview the knowledge base locally, run:
 
 ```bash
-yarn log4brains preview
+yarn nx run docs-adr:start
 ```
 
 In preview mode, the Hot Reload feature is enabled: any change you make to a markdown file is applied live in the UI.
@@ -17,7 +17,7 @@ In preview mode, the Hot Reload feature is enabled: any change you make to a mar
 To create a new ADR interactively, run:
 
 ```bash
-yarn log4brains adr new
+yarn adr new
 ```
 
 ## More information
