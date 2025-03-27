@@ -4,6 +4,13 @@
   "sourceRoot": "{projectRoot}/src",
   "projectType": "application",
   "targets": {
+    "compile": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "",
+        "command": "docker run --rm -t -v $(pwd):/workdir thomvaill/log4brains build --out {projectRoot}/._dist"
+      }
+    },
     "deploy": {
       "executor": "@ha/nx-executors:invoke",
       "options": {

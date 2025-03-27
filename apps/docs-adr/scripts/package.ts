@@ -8,7 +8,7 @@ const run = async (
 ): Promise<void> => {
   const docker = await createClient(configurationApi)
   await docker.build(`home-ops-docs-adr:latest`, {
-    context: path.join(__dirname, "../../.."),
+    context: path.join(__dirname, "../"),
     dockerFile: path.join("src", "Dockerfile"),
   })
 }
