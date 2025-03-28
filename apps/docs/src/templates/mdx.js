@@ -1,4 +1,5 @@
 import { graphql } from "gatsby"
+import { isEmpty } from "lodash-es"
 import React from "react"
 import Helmet from "react-helmet"
 import config from "../../config.mjs"
@@ -6,6 +7,7 @@ import githubIcon from "../components/images/github.svg"
 import Layout from "../components/Layout.mjs"
 import Link from "../components/Link.mjs"
 import NextPrevious from "../components/NextPrevious.mjs"
+import { calculateTreeData } from "../components/sidebar/tree.mjs"
 import {
   Edit,
   StyledHeading,
@@ -13,6 +15,29 @@ import {
 } from "../components/styles/Docs.mjs"
 
 const forcedNavOrder = config.sidebar.forcedNavOrder
+
+const flattenTree = (acc, node) => {
+  if (!node) {
+    return acc
+  }
+  if (node.title && node.url) {
+    acc.push({
+      title: node.title,
+      url: node.url,
+    })
+  }
+
+  if (!isEmpty(node.items)) {
+    node.items.forEach((child) => {
+      if (!child) {
+        return
+      }
+      acc = flattenTree(acc, child)
+    })
+  }
+
+  return acc
+}
 
 const MDXRuntimeTest = ({ data, children, ...rest }) => {
   if (!data) {
@@ -37,49 +62,14 @@ const MDXRuntimeTest = ({ data, children, ...rest }) => {
     },
   } = data
 
-  const navItems = allMdx.edges
-    .filter(({ node }) => !node.fields.draft)
-    .map(({ node }) => node.fields.slug)
-    .sort()
-    .reduce(
-      (acc, cur) => {
-        if (forcedNavOrder.find((url) => url === cur)) {
-          return { ...acc, [cur]: [cur] }
-        }
-
-        let prefix = cur.split("/")[1]
-
-        if (config.gatsby?.trailingSlash) {
-          prefix = prefix + "/"
-        }
-
-        if (prefix && forcedNavOrder.find((url) => url === `/${prefix}`)) {
-          return { ...acc, [`/${prefix}`]: [...acc[`/${prefix}`], cur] }
-        } else {
-          return { ...acc, items: [...acc.items, cur] }
-        }
-      },
-      { items: [] },
-    )
-
-  const nav = forcedNavOrder
-    .reduce((acc, cur) => {
-      return acc.concat(navItems[cur])
-    }, [])
-    .concat(navItems.items)
-    .map((slug) => {
-      if (slug) {
-        const { node } = allMdx.edges.find(
-          ({ node }) => node.fields.slug === slug,
-        )
-        if (!node.fields.draft) {
-          return { title: node.fields.title, url: node.fields.slug }
-        }
-      }
-
-      return null
-    })
-    .filter(Boolean)
+  const nav = flattenTree(
+    [],
+    calculateTreeData(
+      allMdx.edges
+        .filter(({ node }) => !node.fields.draft)
+        .filter(({ node }) => !node.fields.slug.startsWith("/adr")),
+    ),
+  )
 
   return (
     <>
@@ -159,7 +149,7 @@ const pageQuery = graphql`
         description
       }
     }
-    allMdx {
+    allMdx(sort: { fields: { slug: ASC } }) {
       edges {
         node {
           fields {

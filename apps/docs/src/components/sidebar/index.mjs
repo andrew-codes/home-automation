@@ -97,7 +97,6 @@ const SidebarLayout = ({ location }) => {
         edges {
           node {
             fields {
-              appName
               slug
               title
               draft
@@ -118,7 +117,9 @@ const SidebarLayout = ({ location }) => {
       ) : null}
       <ul className={"sideBarUL"}>
         <Tree
-          edges={data.allMdx.edges.filter(({ node }) => !node.fields.draft)}
+          edges={data.allMdx.edges
+            .filter(({ node }) => !node.fields.draft)
+            .filter(({ node }) => !node.fields.slug.startsWith("/adr"))}
         />
         {config.sidebar.links && config.sidebar.links.length > 0 && <Divider />}
         {config.sidebar.links.map((link, key) => {

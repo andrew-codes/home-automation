@@ -5,6 +5,8 @@
 - Date: 2025-03-27
 - Tags: docs
 
+Technical Story: [#1009](https://github.com/andrew-codes/home-ops/issues/1009)
+
 ## Context and Problem Statement
 
 Documentation source is hard to find when cloning the repo. There is a need for cross-project documentation that exists in `./docs` or the docs docs app (the documentation website). Documentation related directly a single app or package is stored alongside the respective project.

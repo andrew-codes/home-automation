@@ -23,25 +23,9 @@ const plugins = [
     resolve: "gatsby-source-filesystem",
     options: {
       name: "docs",
-      path: path.resolve("./src/content/"),
+      path: path.resolve("../../docs"),
     },
     __key: "docs",
-  },
-  {
-    resolve: "gatsby-source-filesystem",
-    options: {
-      name: "backups",
-      path: path.resolve("../backups/docs"),
-    },
-    __key: "backups",
-  },
-  {
-    resolve: "gatsby-source-filesystem",
-    options: {
-      name: "captive-portal",
-      path: path.resolve("../captive-portal/docs"),
-    },
-    __key: "captive-portal",
   },
   // {
   //   resolve: "gatsby-source-filesystem",

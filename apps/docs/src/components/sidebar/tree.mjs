@@ -176,3 +176,4 @@ const Tree = ({ edges }) => {
 }
 
 export default Tree
+export { calculateTreeData }
