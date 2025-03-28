@@ -16,7 +16,7 @@ const plugins = [
       mdxOptions: {
         remarkPlugins: [remarkGfm],
       },
-      extensions: [".mdx", ".md"],
+      extensions: [".mdx"],
     },
   },
   {

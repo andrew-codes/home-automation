@@ -1,5 +1,3 @@
-<!-- This file is the homepage of your Log4brains knowledge base. You are free to edit it as you want -->
-
 # Architecture knowledge base
 
 Welcome 👋 to the architecture knowledge base of @andrew-codes/home-ops.
