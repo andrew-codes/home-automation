@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Deciders: Andrew Smith
-- Date: 2025-03-27
+- Date: 2025-03-28
 - Tags: devops
 
 Technical Story: [#1010](https://github.com/andrew-codes/home-ops/issues/1010)

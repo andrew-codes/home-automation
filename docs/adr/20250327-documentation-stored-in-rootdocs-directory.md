@@ -1,8 +1,8 @@
 # Documentation stored in root/docs directory
 
-- Status: proposed
+- Status: accepted
 - Deciders: Andrew Smith
-- Date: 2025-03-27
+- Date: 2025-03-28
 - Tags: docs
 
 Technical Story: [#1009](https://github.com/andrew-codes/home-ops/issues/1009)
