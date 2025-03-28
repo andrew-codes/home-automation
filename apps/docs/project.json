@@ -22,8 +22,7 @@
       "options": {
         "cwd": "{projectRoot}",
         "command": "yarn gatsby build"
-      },
-      "cache": false
+      }
     },
     "package": {
       "executor": "@ha/nx-executors:invoke",
@@ -48,5 +47,10 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["k8s", "docker-creds", "cloudflared"]
+  "implicitDependencies": [
+    "documentation-source",
+    "k8s",
+    "docker-creds",
+    "cloudflared"
+  ]
 }

@@ -1,0 +1,7 @@
+{
+  "name": "documentation-source",
+  "sourceRoot": "{projectRoot}",
+  "projectType": "library",
+  "targets": {},
+  "tags": []
+}
