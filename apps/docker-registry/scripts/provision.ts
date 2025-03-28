@@ -3,6 +3,7 @@ import type { ConfigurationApi } from "@ha/configuration-api"
 import type { Configuration } from "@ha/configuration-workspace"
 import * as terraform from "@ha/terraform"
 import path from "path"
+import deploy from "./deploy"
 
 const run = async (
   configurationApi: ConfigurationApi<Configuration>,
@@ -45,6 +46,8 @@ const run = async (
       vmId,
     },
   )
+
+  await deploy(configurationApi)
 }
 
 export default run

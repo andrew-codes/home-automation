@@ -4,13 +4,6 @@
   "sourceRoot": "{projectRoot}/src",
   "projectType": "application",
   "targets": {
-    "deploy": {
-      "executor": "@ha/nx-executors:invoke",
-      "options": {
-        "cwd": "{projectRoot}",
-        "module": "scripts/deploy.ts"
-      }
-    },
     "clean/provision": {
       "executor": "nx:run-commands",
       "options": {
