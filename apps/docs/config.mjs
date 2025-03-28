@@ -23,7 +23,7 @@ const config = {
     },
   },
   sidebar: {
-    forcedNavOrder: ["/", "getting-started", "apps"],
+    forcedNavOrder: ["/", "getting-started", "architecture-overview", "apps"],
     defaultExpanded: ["/getting-started/"],
     links: [],
     frontLine: false,
