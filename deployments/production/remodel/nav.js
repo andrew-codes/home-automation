@@ -8,12 +8,17 @@
       [
         "Couch colours",
         "/couch-colors/",
-        /^\/couch-colors(\/(?!couch-layouts)|$)/,
+        /^\/couch-colors(\/(?!couch-layouts|rug-colors)|$)/,
       ],
       [
         "Couch layouts",
         "/couch-colors/couch-layouts/",
         /^\/couch-colors\/couch-layouts(\/|$)/,
+      ],
+      [
+        "Rug colours",
+        "/couch-colors/rug-colors/",
+        /^\/couch-colors\/rug-colors(\/|$)/,
       ],
       ["Gallery", "/gallery/", /^\/gallery(\/|$)/],
     ]
